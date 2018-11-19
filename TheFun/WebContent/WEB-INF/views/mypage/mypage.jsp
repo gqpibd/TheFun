@@ -9,7 +9,7 @@
 <body>
 
 <div id="mypage">
-	 
+	
 </div>
 
 </body>

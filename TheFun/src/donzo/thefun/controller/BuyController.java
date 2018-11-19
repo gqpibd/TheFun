@@ -20,12 +20,12 @@ public class BuyController {
 	@Autowired
 	BuyService buyService;
 	
-	
+	/*
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String hahaha() {
 		logger.info("BuyController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
 	}
-
+*/
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
 
 
@@ -20,12 +21,20 @@ public class MemberController {
 	@Autowired
 	MemberService memberService; //주석 풀어서 쓰길...
 	
+	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public MemberDto getMypage() {
+		logger.info("MemberController getMypage " + new Date());
+		
+		//return "getMypage.tiles";
+		return null;
+	}
 	
+	/*
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String hahaha() {
 		logger.info("MemberController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
 	}
-
+*/
 }

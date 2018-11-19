@@ -6,4 +6,19 @@
 <!-- 멤버 -->  
 <mapper namespace="FunMember">
 
+<!-- 내 정보 보기 -->
+<select id="getMyinfo" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+	SELECT ID, PWD, NICKNAME, PHONE, EMAIL, ADDRESS, INFO, POINT
+	FROM FUN_MEMBER
+	WHERE ID=#{id}
+</select>
+
+<!-- 마이페이지 -->
+<select id="getMypage" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+	SELECT ID, NICKNAME, POINT
+	FROM FUN_MEMBER
+	WHERE ID=#{id}
+</select>
+
+
 </mapper>
