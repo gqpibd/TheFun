@@ -1,24 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>The Fun_´õ ¾Æ¸§´Ù¿î ¼¼»óÀ» À§ÇÑ ÆÝµù È¸¿ø°¡ÀÔ</title>
+<title>The Fun_ë” ì•„ë¦„ë‹¤ìš´ ì„¸ìƒì„ ìœ„í•œ íŽ€ë”© íšŒì›ê°€ìž…</title>
 </head>
 <body>
 
 <img src="image/login/accountImg1.PNG" align="right">
-<h2>È¸¿ø°¡ÀÔ</h2>
-<p>¼¼»óÀ» ¸¸µì´Ï´Ù.</p>
-<p>Life is better. Àç¹ÌÀÖ°í ÀÌ·Î¿î ÇÃ·§Æû ´õ ÆÝ</p>
-<img src="image/login/accountImg1.PNG"> ¶Ç´Â <img src="image/login/regulerBtn.jpg"> 
+<h2>íšŒì›ê°€ìž…</h2>
+<p>ì„¸ìƒì„ ë§Œë“­ë‹ˆë‹¤.</p>
+<p>Life is better. ìž¬ë¯¸ìžˆê³  ì´ë¡œìš´ í”Œëž«í¼ ë” íŽ€</p>
+<img src="image/login/accountImg1.PNG"> ë˜ëŠ” <img src="image/login/regulerBtn.jpg"> 
 <br><br><br><br><br><br>
-´õÆÝ(ÁÖ) | ´ëÇ¥ÀÌ»ç ±è»Ð»Ð
-¼­¿ïÆ¯º°½Ã »Ð»Ð±¸ »Ð»Ðµ¿ »Ð»Ð123-88
-<p>´õÆÝ ´ëÇ¥ °í°´¼¾ÅÍ 0000-1234</p>
-±¤°í¹®ÀÇ 02-8888-8888 | thefun@thefun.com
-ÆÄÆ®³Ê Á¦ÈÞ¹®ÀÇ 02-8888-8888 | thefun@thefun.com
+ë”íŽ€(ì£¼) | ëŒ€í‘œì´ì‚¬ ê¹€ë¿…ë¿…
+ì„œìš¸íŠ¹ë³„ì‹œ ë¿…ë¿…êµ¬ ë¿…ë¿…ë™ ë¿…ë¿…123-88
+<p>ë”íŽ€ ëŒ€í‘œ ê³ ê°ì„¼í„° 0000-1234</p>
+ê´‘ê³ ë¬¸ì˜ 02-8888-8888 | thefun@thefun.com
+íŒŒíŠ¸ë„ˆ ì œíœ´ë¬¸ì˜ 02-8888-8888 | thefun@thefun.com
 
 </body>
 </html>
