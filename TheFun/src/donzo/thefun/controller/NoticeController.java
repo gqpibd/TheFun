@@ -20,11 +20,11 @@ public class NoticeController {
 	NoticeService noticeService; //주석 풀어서 쓰길...
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
+	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String four() {
 		logger.info("NoticeController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
-	}
+	}*/
 
 }

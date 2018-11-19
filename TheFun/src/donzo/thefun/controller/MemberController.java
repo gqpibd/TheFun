@@ -21,11 +21,11 @@ public class MemberController {
 	MemberService memberService; //주석 풀어서 쓰길...
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
+	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String three() {
 		logger.info("MemberController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
-	}
+	}*/
 
 }

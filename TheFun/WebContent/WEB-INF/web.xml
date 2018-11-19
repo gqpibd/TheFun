@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>sample02</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 기본적인 Spring 설정 맵핑 -->
+  <servlet>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<servlet-class>
+  		org.springframework.web.servlet.DispatcherServlet
+  	</servlet-class>
+  	
+  	<init-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>
+  			/WEB-INF/spring/servlet-context.xml
+  			/WEB-INF/spring/aop-context.xml
+  		</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+	  <context-param>
+	  	<param-name>contextConfigLocation</param-name>
+	  	<param-value>/WEB-INF/spring/applicationContext.xml</param-value>
+	  </context-param>
+	  <!-- 이것도 위에 init-param안에 같이 적어줘도 되고, 이렇게 따로 적어줄수도 있다. -->
+  
+	  <!-- 리스너 : DB와 연결할때 반드시 켜줘야 한다 -->
+	  <listener>
+	  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	  </listener>
+  
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>*.do</url-pattern>	<!-- controller 명칭을 설정하는 규칙 (*.do : 무조건 컨트롤러로 간다! do는 컨트롤러를 지칭하는 것. 여길 /로 하면 모든 영역을 아우름. 컨트롤러의 hello 부분을 실행할 수 있다.) -->		
+  </servlet-mapping>
+  
+  
+  <!-- 한글설정 -->
+  <!-- filter : 특정부분에 들어오면 무조건 읽는다? 한글설정이 편리(/*로 모든것에 다 적용되도록. 딱 한번만 설정하면 끝남) -->
+  <filter>
+  	<filter-name>encodingFilter</filter-name>
+  	<filter-class>
+  		org.springframework.web.filter.CharacterEncodingFilter
+  	</filter-class>
+  	
+  	<init-param>
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>forceEncoding</param-name>
+  		<param-value>true</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+</web-app>

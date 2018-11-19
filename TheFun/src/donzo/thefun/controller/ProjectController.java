@@ -18,13 +18,13 @@ public class ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
-	ProjectService projectService; //주석 풀어서 쓰길...
+	ProjectService projectService;
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("ProjectController 어쩌구 메소드 " + new Date());
+	@RequestMapping(value="newProject.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String newProject() {
+		logger.info("ProjectController newProject 들어옴 " + new Date());
 		
-		return "뭔.tiles";
+		return "project/newProject";
 	}
 }

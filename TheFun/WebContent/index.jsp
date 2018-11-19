@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:requestEncoding value="utf-8"/>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +44,7 @@
         <a href="#"><img src="image/main/done.jpg" width="50px"></a> <!-- 기부 -->
         <a href="#"><img src="image/main/funding.jpg" width="55px"></a> <!-- 펀딩 -->
         <a href="#"><img src="image/main/history.jpg" width="90px"></a> <!-- 히스토리 (종료된 프로젝트) -->
-        <a href="#"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
+        <a href="newProject.do"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -122,8 +127,8 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+	<script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 </body>
