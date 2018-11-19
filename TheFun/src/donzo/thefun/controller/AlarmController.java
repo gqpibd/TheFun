@@ -15,7 +15,7 @@ public class AlarmController {
 	private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 	
 	@Autowired
-	// AlarmService alarmService; 주석 풀어서 쓰길...
+	//AlarmService alarmService; 
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

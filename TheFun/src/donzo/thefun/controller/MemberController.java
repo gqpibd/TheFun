@@ -16,7 +16,7 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	// MemberService memberService; 주석 풀어서 쓰길...
+	// MemberService memberService; //주석 풀어서 쓰길...
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

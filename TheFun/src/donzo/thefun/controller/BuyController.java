@@ -16,7 +16,7 @@ public class BuyController {
 	private static final Logger logger = LoggerFactory.getLogger(BuyController.class);
 	
 	@Autowired
-	// BuyService buyService; 주석 풀어서 쓰길...
+	//BuyService buyService;
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

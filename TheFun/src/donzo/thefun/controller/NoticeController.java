@@ -15,7 +15,7 @@ public class NoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(NoticeController.class);
 	
 	@Autowired
-	// NoticeService noticeService; 주석 풀어서 쓰길...
+	// NoticeService noticeService; //주석 풀어서 쓰길...
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

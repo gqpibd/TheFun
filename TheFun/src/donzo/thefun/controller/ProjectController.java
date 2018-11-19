@@ -16,7 +16,7 @@ public class ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
-	// ProjectService projectService; 주석 풀어서 쓰길...
+	// ProjectService projectService; //주석 풀어서 쓰길...
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

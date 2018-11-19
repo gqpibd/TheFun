@@ -15,7 +15,7 @@ public class OptionController {
 	private static final Logger logger = LoggerFactory.getLogger(OptionController.class);
 	
 	@Autowired
-	// OptionService optionService; 주석 풀어서 쓰길...
+	// OptionService optionService; //주석 풀어서 쓰길...
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
