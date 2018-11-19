@@ -1,7 +1,7 @@
 package donzo.thefun.service.impl;
 
-import donzo.thefun.service.AlarmService;
+import donzo.thefun.service.FunAlarmService;
 
-public class AlarmServiceImpl implements AlarmService {
+public class FunAlarmServiceImpl implements FunAlarmService {
 
 }

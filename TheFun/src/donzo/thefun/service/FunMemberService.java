@@ -1,5 +1,5 @@
 package donzo.thefun.service;
 
-public interface MemberService {
+public interface FunMemberService {
 
 }

@@ -1,7 +1,7 @@
 package donzo.thefun.service.impl;
 
-import donzo.thefun.service.ProjectService;
+import donzo.thefun.service.FunProjectService;
 
-public class ProjectServiceImpl implements ProjectService {
+public class FunProjectServiceImpl implements FunProjectService {
 
 }
