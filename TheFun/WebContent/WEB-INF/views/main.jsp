@@ -1,5 +1,14 @@
+<%@page import="donzo.thefun.model.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:requestEncoding value="UTF-8"/>
+<%
+	MemberDto login = (MemberDto) session.getAttribute("login");
+	System.out.println(login);
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +41,7 @@
 </head>
 <body>
 
+
  <!-- Navigation 헤더 -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container" style="background-color: white;">
@@ -46,7 +56,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->
+            <c:if test="${login eq null}">
+            	<a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
+			</c:if>
+			<c:if test="${login ne null}">
+            	${login.nickname} <!-- 로그인됨 -->				
+			</c:if>
+              
             </li>
             <li class="nav-item">
               <a class="nav-link" href="regiMain.do"><img src="image/main/mainRegi.jpg"  height="20px"></a> <!-- 회원가입 -->
@@ -124,7 +140,6 @@
     <!-- Bootstrap core JavaScript -->
     <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
     <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 </html>

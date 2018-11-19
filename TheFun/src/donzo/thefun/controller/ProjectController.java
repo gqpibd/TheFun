@@ -21,10 +21,10 @@ public class ProjectController {
 	ProjectService projectService; //주석 풀어서 쓰길...
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String hahaha() {
 		logger.info("ProjectController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
-	}
+	}*/
 }
