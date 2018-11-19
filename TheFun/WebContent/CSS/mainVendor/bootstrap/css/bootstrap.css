@@ -480,6 +480,7 @@ mark,
 .img-fluid {
   max-width: 100%;
   height: auto;
+  align-content: center;
 }
 
 .img-thumbnail {
@@ -4286,19 +4287,19 @@ input[type="button"].btn-block {
   color: #fff;
 }
 
-.navbar-dark .navbar-brand:hover, .navbar-dark .navbar-brand:focus {
+.navbar-brand:hover, .navbar-dark .navbar-brand:focus {/* .navbar-dark */
   color: #fff;
 }
 
-.navbar-dark .navbar-nav .nav-link {
+.navbar-nav .nav-link {/* .navbar-dark */
   color: rgba(255, 255, 255, 0.5);
 }
 
-.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+.navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {/* .navbar-dark */
   color: rgba(255, 255, 255, 0.75);
 }
 
-.navbar-dark .navbar-nav .nav-link.disabled {
+.navbar-nav .nav-link.disabled {/* .navbar-dark */
   color: rgba(255, 255, 255, 0.25);
 }
 
@@ -6093,9 +6094,9 @@ button.bg-light:focus {
   background-color: #dae0e5 !important;
 }
 
-.bg-dark {
+ /* .bg-dark {
   background-color: #343a40 !important;
-}
+}  */
 
 a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
@@ -8800,9 +8801,9 @@ button.bg-dark:focus {
   font-style: italic !important;
 }
 
-.text-white {
+/* .text-white {
   color: #fff !important;
-}
+} */
 
 .text-primary {
   color: #007bff !important;

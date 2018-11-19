@@ -18,32 +18,34 @@
  <!-- Custom styles for this template -->
  <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
  <!-- mainCSS 설정 끝 -->
- 
+ <style type="text/css">
+ .pTitle{
+ 	font-weight: bold;
+ 	color: black;
+ 	font-size: large;
+ }
+ .pName{
+ 	color: gray;
+ 	font-size: small;
+ }
+ </style>
 </head>
 <body>
 
  <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">배너자리 </a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container" style="background-color: white;">
+        <a class="navbar-brand" href="#"><img src="image/banner.jpg" width="130px">  </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><img src="image/mainLogin.jpg" height="20px"></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
+              <a class="nav-link" href="#"><img src="image/mainRegi.jpg"  height="20px"></a>
             </li>
           </ul>
         </div>
@@ -53,72 +55,64 @@
  <!-- Page Content -->
     <div class="container">
 
-      <!-- Portfolio Item Heading -->
-      <h1 class="my-4">Page Heading
-        <small>Secondary Text</small>
-      </h1>
+      <!-- 메인첫시작점 -->
+		<br><br>
 
-      <!-- Portfolio Item Row -->
-      <div class="row">
-
-        <div class="col-md-8">
-          <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+      <!-- 메인 사진 -->
+      <div class="row" align="center">
+        <div align="center">
+          <img class="img-fluid" src="image/mainImg1.PNG">
         </div>
-
-        <div class="col-md-4">
-          <h3 class="my-3">Project Description</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-          <h3 class="my-3">Project Details</h3>
-          <ul>
-            <li>Lorem Ipsum</li>
-            <li>Dolor Sit Amet</li>
-            <li>Consectetur</li>
-            <li>Adipiscing Elit</li>
-          </ul>
-        </div>
-
       </div>
       <!-- /.row -->
 
-      <!-- Related Projects Row -->
-      <h3 class="my-4">Related Projects</h3>
+      <!-- 리스트 -->
+      <h3 class="my-4">HOT 프로젝트</h3>
 
       <div class="row">
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
+            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+          </a><br>
+          <p class="pTitle">프로젝트 타이틀</p>
+          <p class="pName">카테고리 | 회사이름</p>
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
+            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+          </a><br>
+          <p class="pTitle">프로젝트 타이틀</p>
+          <p class="pName">카테고리 | 회사이름</p>
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
+            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+          </a><br>
+           <p class="pTitle">프로젝트 타이틀</p>
+          <p class="pName">카테고리 | 회사이름</p>
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-          </a>
+            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+          </a><br>
+          <p class="pTitle">프로젝트 타이틀</p>
+          <p class="pName">카테고리 | 회사이름</p>
         </div>
 
       </div>
-      <!-- /.row -->
+      <!-- /.row 리스트끝-->
 
     </div>
-    <!-- /.container -->
+    <!-- /.container 메인컨테이너 끝-->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+        <p class="m-0 text-center">더펀(주) | 서울특별시 뿅뿅구 뿅뿅동 123-88</p>
       </div>
       <!-- /.container -->
     </footer>
