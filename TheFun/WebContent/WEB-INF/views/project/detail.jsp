@@ -40,8 +40,36 @@
  .liteGray{
 	 color: #c4c4c4;
  }
- 
+ .jbMenu {
+  background-color:#ffffff;
+  text-align: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+}
+.jbFixed {
+   position: fixed;
+   top: 0px;
+ }
+
  </style>
+ 
+<script>
+  $( document ).ready( function() {
+    var jbOffset = $( '.jbMenu' ).offset();
+    $( window ).scroll( function() {
+      if ( $( document ).scrollTop() > jbOffset.top ) {
+        $( '.jbMenu' ).addClass( 'jbFixed' );
+      }
+      else {
+        $( '.jbMenu' ).removeClass( 'jbFixed' );
+      }
+    });
+  } );
+</script>
+ 
 </head>
 <body>
 
@@ -75,36 +103,51 @@
    	<div align="center">
    		<p><b class="pupple">카테고리명  </b>&nbsp;&nbsp;&nbsp;<font class="strongGray">#태그명</font></p>
    
-		<table border="1" style="width: 100%">
-		<tr>
+		<table style="width: 100%;">
+		
+		<tr height="50">
 			<td rowspan="5" style="width: 50%">이미지</td>
 			<td class="strongGray" align="left" style="width: 50%"><b>n일 남음</b></td>
 		</tr>
-		<tr >
+		<tr height="50">
 			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>%달성
 		</tr>
-		<tr>
+		<tr height="50">
 			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>원 펀딩
 		</tr>
-		<tr>
-			<td class="strongGray"align="left"  style="width: 50%"S><b>n</b>명의 서포터
+		<tr height="50">
+			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>명의 서포터
 		</tr>
-		<tr>
-			<td> <img src="image/detail/fundBtn.jpg"> </td>
+		<tr height="50">
+			<td> <img src="image/detail/fundBtn.jpg" height="50px"> </td>
 		</tr>
-		
+		<tr height="50">
+			<td>한줄설명</td>
+			<td><a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>카카오톡 공유 </td>
+		</tr>
+		</table>
+
+		<!-- 메뉴바 -->
+		<div style="background-color: white;">
+		<div class="jbMenu">
+		<hr>
+		<table style="width: 100%; background-color: white;">
+		<tr>
+			<td align="center">스토리</td><td align="center">새소식</td><td align="center">피드백</td>
+		</tr>
 		</table>
 		<hr>
-		<!-- 메뉴바 -->
-		
-		<hr>
+		</div>
+	    </div>
 	 </div>
+      
       <div class="row">
 
         <!-- 스토리, 댓글, 새소식-->
         <div class="col-lg-8">
 			<h1>스토리~~</h1>
-
+<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
+<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
         </div>
 
         <!-- Sidebar 회사명-->
@@ -132,7 +175,6 @@
 
     </div>
     <!-- /.container -->
-
 
 
 
