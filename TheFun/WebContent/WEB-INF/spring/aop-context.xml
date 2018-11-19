@@ -17,6 +17,6 @@
 	<!-- AOP(log설정) -->
 	<aop:aspectj-autoproxy/>
 	
-	<bean id="testAspect" class="kh.com.c.aop.LogAOP"/>
+	<bean id="testAspect" class="donzo.thefun.aop.LogAOP"/>
 	
 </beans>
