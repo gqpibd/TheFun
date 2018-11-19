@@ -13,7 +13,7 @@
 <tr>
 <td>
   <a href="detail.do?seq=1">
-    <img class="img-fluid" src="image/thumbnail/1.PNG" alt="프로젝트 썸네일">
+    <img class="img-fluid" src="image/thumbnail/1.png" alt="프로젝트 썸네일">
   </a>
 <td>
 </tr>
@@ -24,7 +24,7 @@
 </tr>
 <tr>
 <td>
-	<p class="pName">카테고리 | 회사이름</p>
+	<p class="pName">카테고리 | 진행자 이름</p>
 </td>
 </tr>
 </table>
