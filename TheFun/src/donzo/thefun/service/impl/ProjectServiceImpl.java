@@ -12,4 +12,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectDao ProjectDao;
 	
+	@Autowired
+	ProjectDao OptionDao;
+	
 }
