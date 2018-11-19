@@ -35,17 +35,21 @@
  <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container" style="background-color: white;">
-        <a class="navbar-brand" href="#"><img src="image/banner.jpg" width="130px">  </a>
+        <a class="navbar-brand" href="#"><img src="image/main/banner.jpg" width="130px"></a>
+        <a href="#"><img src="image/main/done.jpg" width="50px"></a>
+        <a href="#"><img src="image/main/funding.jpg" width="55px"></a>
+        <a href="#"><img src="image/main/history.jpg" width="90px"></a>
+        <a href="#"><img src="image/main/newproject.jpg" width="90px"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#"><img src="image/mainLogin.jpg" height="20px"></a>
+              <a class="nav-link" href="/WEB-INF/views/login/login.jsp"><img src="image/main/mainLogin.jpg" height="20px"></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><img src="image/mainRegi.jpg"  height="20px"></a>
+              <a class="nav-link" href="/WEB-INF/views/login/regiMain.jsp"><img src="image/main/mainRegi.jpg"  height="20px"></a>
             </li>
           </ul>
         </div>
@@ -61,7 +65,7 @@
       <!-- 메인 사진 -->
       <div class="row" align="center">
         <div align="center">
-          <img class="img-fluid" src="image/mainImg1.PNG">
+          <img class="img-fluid" src="image/main/mainImg1.PNG">
         </div>
       </div>
       <!-- /.row -->
@@ -73,7 +77,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
           <p class="pName">카테고리 | 회사이름</p>
@@ -81,7 +85,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
           <p class="pName">카테고리 | 회사이름</p>
@@ -89,7 +93,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
            <p class="pTitle">프로젝트 타이틀</p>
           <p class="pName">카테고리 | 회사이름</p>
@@ -97,7 +101,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="#">
-            <img class="img-fluid" src="image/mainImg7.PNG" alt="">
+            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
           <p class="pName">카테고리 | 회사이름</p>
