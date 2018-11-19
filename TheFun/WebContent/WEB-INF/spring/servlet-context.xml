@@ -32,24 +32,15 @@
 	</bean>
 		
 	<!-- 인터셉터 객체 생성 -->
-    <bean id="authenticationInterceptor" class="kh.com.c.interceptor.AuthenticationInterceptor"/>
+    <bean id="authenticationInterceptor" class="donzo.thefun.interceptor.AuthenticationInterceptor"/>
     
 	<!-- Interceptor 설정 -->
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 	    <mvc:interceptor>
-	        <mvc:mapping path="/bbswrite.do"/>
-	        <mvc:mapping path="/bbswriteAf.do"/>
-	        <mvc:mapping path="/bbsReply.do"/>
-	        <mvc:mapping path="/bbsReplyAf.do"/>
-	        <mvc:mapping path="/bbsupdate.do"/>
-	        <mvc:mapping path="/calendar.do"/>
-	        <mvc:mapping path="/calwriteAf.do"/>
-	        <mvc:mapping path="/pdswrite.do"/>
-	        <mvc:mapping path="/pdsupload.do"/>
 	        <mvc:mapping path="/polllist.do"/>
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	
 	<!-- java 공통 package 설정 -->
 	<context:component-scan base-package="kh.com.c"/>
@@ -69,13 +60,13 @@
 	</bean>
 	
 	<!-- 파일 다운로드 설정 -->
-	<bean id="downloadView" class="kh.com.c.util.DownloadView"/>
+	<!-- <bean id="downloadView" class="kh.com.c.util.DownloadView"/>
 	
 	<bean id="downloadViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order">
 			<value>0</value>
 		</property>
-	</bean>
+	</bean> -->
 	
 	
 	
