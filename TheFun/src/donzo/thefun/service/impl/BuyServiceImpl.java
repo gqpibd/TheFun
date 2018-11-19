@@ -13,3 +13,4 @@ public class BuyServiceImpl implements BuyService {
 	BuyDao BuyDao;  
 		
 }
+
