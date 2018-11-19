@@ -1,5 +1,5 @@
 package donzo.thefun.service;
 
-public interface FunMemberService {
+public interface QnaService {
 
 }

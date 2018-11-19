@@ -1,5 +1,5 @@
 package donzo.thefun.service;
 
-public interface FunQnaService {
+public interface AlarmService {
 
 }

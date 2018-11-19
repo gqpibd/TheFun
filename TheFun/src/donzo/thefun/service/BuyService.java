@@ -1,5 +1,5 @@
 package donzo.thefun.service;
 
-public interface FunBuyService {
+public interface BuyService {
 
 }
