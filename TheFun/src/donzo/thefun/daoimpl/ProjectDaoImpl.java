@@ -10,5 +10,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	String ns = "FunProject.";
+	String ns = "Project.";
+	
+	
 }

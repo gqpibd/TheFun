@@ -10,5 +10,5 @@ public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	String ns = "FunMember.";
+	String ns = "Member.";
 }

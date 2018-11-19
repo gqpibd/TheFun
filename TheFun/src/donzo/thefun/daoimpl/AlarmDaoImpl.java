@@ -10,5 +10,5 @@ public class AlarmDaoImpl implements AlarmDao {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	String ns = "FunAlarm.";
+	String ns = "Alarm.";
 }
