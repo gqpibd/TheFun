@@ -44,11 +44,11 @@ public class QnaDto implements Serializable {
 	public static final String DELETE = "delete";
 		
 	int seq;
-	int projectseq;
+	int projectseq; 
 	String id;
-	int refseq;
-	String content;
-	int status;
+	int refseq; // 참조하는 댓글. 없으면 나
+	String content; // 내용
+	int status; // 일반, 비밀, 삭제
 	String regdate;
 	
 	public QnaDto() { }

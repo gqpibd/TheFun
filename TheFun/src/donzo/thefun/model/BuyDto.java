@@ -85,8 +85,8 @@ CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRIC
 AS
 SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE, B.SCORE, B.BCOMMENT,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
-    (SELECT TITLE FROM FUN_OPTION WHERE PROJECTSEQ = B.PROJECTSEQ),
-    (SELECT CONTENT FROM FUN_OPTION WHERE PROJECTSEQ = B.PROJECTSEQ)
+    (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ)
 FROM FUN_BUY B;
 
 -------------- VIEW : 장바구니
@@ -94,24 +94,24 @@ CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, P
 AS
 SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
-    (SELECT TITLE FROM FUN_OPTION WHERE PROJECTSEQ = B.PROJECTSEQ),
-    (SELECT CONTENT FROM FUN_OPTION WHERE PROJECTSEQ = B.PROJECTSEQ)
+    (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ)
 FROM FUN_BASKET B;*/
 
 public class BuyDto implements Serializable {
 
 	int seq;
 	String id;
-	int projectseq;
-	int optionseq;
-	int count;
-	int price;
+	int projectseq; // 프로젝트 번호
+	int optionseq; // 옵션 번호
+	int count; // 구매수량
+	int price; // 단가
 	String regdate;
-	int score;
-	String bcomment;
-	String ptitle;
-	String otitle;
-	String ocontent;	
+	int score; // 점수
+	String bcomment; // 후기
+	String ptitle; // 프로젝트 이름 -- view에서 가져옴
+	String otitle; // 옵션 이름 -- view에서 가져옴
+	String ocontent; // 옵션 내용 -- view에서 가져옴
 	
 	public BuyDto() {}
 	

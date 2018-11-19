@@ -41,11 +41,11 @@ public class OptionDto implements Serializable {
 	int seq;
 	int projectseq;
 	String title;
-	String[] content;
+	String[] content; 
 	int price;
-	int stock;
+	int stock; // 재고
 	
-	int buycount;
+	int buycount; // 구매 수량
 	
 	public OptionDto() {}
 

@@ -1,4 +1,4 @@
-package donzo.thefun.daoimpl;
+package donzo.thefun.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

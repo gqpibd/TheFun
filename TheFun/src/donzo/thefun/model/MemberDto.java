@@ -20,7 +20,7 @@ CREATE TABLE FUN_MEMBER(
 public class MemberDto implements Serializable {
 
 	public static final int MEMBER = 1;
-	public static final int MANAGER = 2;
+	public static final int MANAGER = 3;
 	
 	String id;
 	String pwd;
@@ -28,9 +28,9 @@ public class MemberDto implements Serializable {
 	String phone;
 	String email;
 	String address;
-	String info;
+	String info; // 소개글
 	int point;
-	int auth;
+	int auth; // 1: 일반회원 3: 관리자
 	
 	public MemberDto() {}
 

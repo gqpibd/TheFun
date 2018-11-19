@@ -9,13 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import donzo.thefun.service.AlarmService;
+
 @Controller
 public class AlarmController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 	
 	@Autowired
-	//AlarmService alarmService; 
+	AlarmService alarmService; 
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

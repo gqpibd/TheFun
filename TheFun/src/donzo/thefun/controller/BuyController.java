@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import donzo.thefun.service.BuyService;
+
 
 @Controller
 public class BuyController {
@@ -16,7 +18,7 @@ public class BuyController {
 	private static final Logger logger = LoggerFactory.getLogger(BuyController.class);
 	
 	@Autowired
-	//BuyService buyService;
+	BuyService buyService;
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 

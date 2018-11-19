@@ -1,16 +1,16 @@
-package donzo.thefun.daoimpl;
+package donzo.thefun.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import donzo.thefun.dao.AlarmDao;
+import donzo.thefun.dao.QnaDao;
 
 @Repository
-public class AlarmDaoImpl implements AlarmDao {
+public class QnaDaoImpl implements QnaDao {
 
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
-	String ns = "Alarm.";
+	String ns = "Qna.";
 }

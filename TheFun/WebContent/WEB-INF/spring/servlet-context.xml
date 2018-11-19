@@ -35,7 +35,7 @@
     <bean id="authenticationInterceptor" class="donzo.thefun.interceptor.AuthenticationInterceptor"/>
     
 	<!-- Interceptor 설정 -->
-	<!-- <mvc:interceptors>
+	 <!-- <mvc:interceptors>
 	    <mvc:interceptor>
 	        <mvc:mapping path="/polllist.do"/>
 	        <ref bean="authenticationInterceptor"/>
@@ -43,7 +43,7 @@
 	</mvc:interceptors> -->
 	
 	<!-- java 공통 package 설정 -->
-	<context:component-scan base-package="kh.com.c"/>
+	<context:component-scan base-package="donzo.thefun"/>
 	
 	<!-- 주석문의 사용 허가 -->
 	<mvc:annotation-driven/>
@@ -60,7 +60,7 @@
 	</bean>
 	
 	<!-- 파일 다운로드 설정 -->
-	<!-- <bean id="downloadView" class="kh.com.c.util.DownloadView"/>
+	<!-- <bean id="downloadView" class="donzo.thefun.util.DownloadView"/>
 	
 	<bean id="downloadViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order">
