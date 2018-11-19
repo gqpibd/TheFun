@@ -20,12 +20,18 @@ public class MemberController {
 	@Autowired
 	MemberService memberService; //주석 풀어서 쓰길...
 	
-	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("MemberController 어쩌구 메소드 " + new Date());
+	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String login() throws Exception{
+		logger.info("MemberController login.do " + new Date());
 		
-		return "뭔.tiles";
+		return "login/login";
+	}
+	
+	@RequestMapping(value="regi.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String regi() throws Exception{
+		logger.info("MemberController regi.do " + new Date());
+		
+		return "login/regi";
 	}
 
 }

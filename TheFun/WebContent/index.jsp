@@ -18,6 +18,8 @@
  <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
  <!-- mainCSS 설정 끝 -->
  
+
+ 
  <style type="text/css">
  .pTitle{
  	font-weight: bold;
@@ -46,10 +48,10 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/WEB-INF/views/login/login.jsp"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->
+              <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/WEB-INF/views/login/regiMain.jsp"><img src="image/main/mainRegi.jpg"  height="20px"></a> <!-- 회원가입 -->
+              <a class="nav-link" href="regi.do"><img src="image/main/mainRegi.jpg"  height="20px"></a> <!-- 회원가입 -->
             </li>
           </ul>
         </div>
@@ -73,39 +75,11 @@
       <!-- 리스트 -->
       <h3 class="my-4">HOT 프로젝트</h3>
 
-      <div class="row">
+     <div class="row">
 
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-           <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
+        <jsp:include page="WEB-INF/views/include/projectOne.jsp">
+			<jsp:param name="seq" value="1" />
+		</jsp:include>
 
       </div>
       <!-- /.row 리스트끝-->
@@ -122,8 +96,8 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+	<script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 </body>

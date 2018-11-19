@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -21,10 +22,11 @@ public class ProjectController {
 	ProjectService projectService; //주석 풀어서 쓰길...
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("ProjectController 어쩌구 메소드 " + new Date());
+	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String detail(Model model, int seq) {
+		logger.info("ProjectController detail " + new Date());
 		
-		return "뭔.tiles";
+		return "project/detail";
 	}
+	
 }
