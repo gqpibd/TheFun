@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-public class BuyController {
+public class ProjectController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(BuyController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
-	// BuyService buyService; 주석 풀어서 쓰길...
+	// ProjectService projectService; 주석 풀어서 쓰길...
 	
 	
 	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String hahaha() {
-		logger.info("BuyController 어쩌구 메소드 " + new Date());
+		logger.info("ProjectController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
 	}
-
 }

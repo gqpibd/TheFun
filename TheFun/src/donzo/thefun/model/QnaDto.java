@@ -51,7 +51,7 @@ public class QnaDto implements Serializable {
 	int status;
 	String regdate;
 	
-	public QnaDto() {	}
+	public QnaDto() { }
 
 	public QnaDto(int seq, int projectseq, String id, int refseq, String content, int status,
 			String regdate) {
