@@ -1,9 +1,27 @@
 package donzo.thefun.model;
 
 import java.io.Serializable;
-
+//-- 멤버 테이블
+//
+//DROP TABLE FUN_MEMBER
+//CASCADE CONSTRAINTS; -- S추가
+// 
+//CREATE TABLE FUN_MEMBER(
+//   ID VARCHAR2(50) PRIMARY KEY,
+//   PWD VARCHAR2(50) NOT NULL,
+//   NICKNAME VARCHAR2(50) NOT NULL,
+//   PHONE VARCHAR2(50) NOT NULL,
+//   EMAIL VARCHAR2(50) NOT NULL,
+//   ADDRESS VARCHAR2(100) NOT NULL,
+//   INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
+//   POINT NUMBER(15),
+//   AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
+//);
 public class MemberDto implements Serializable {
 
+	public static final int MEMBER = 1;
+	public static final int MANAGER = 2;
+	
 	String id;
 	String pwd;
 	String nickname;
