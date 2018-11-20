@@ -21,6 +21,11 @@
  <!-- mainCSS 설정 끝 -->
  
 <style type="text/css">
+ .pupple{
+ 	color:#8152f0;
+ 	font-weight: bold;
+ 	font-family: "Nanum Gothic", sans-serif;
+ }
  .strongGray{
  font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
@@ -70,7 +75,7 @@
           <p class="strongGray" style="font-size: 25px">프로젝트명</p>
           
           <!-- 옵션테이블 -->
-			<table>
+			<table style="width: 70%">
 			<tr>
 				<td colspan="2" class="pupple" align="left">옵션 title</td>
 			</tr>
@@ -80,9 +85,9 @@
 			</tr>
 			</table>
 			<hr color="#818181">
-         	
+         	<br>
          <!-- 최종결제정보 테이블 -->
-         	<table>
+         	<table style="width: 70%">
          	<tr>
          		<td class="liteGray" align="left">배송비</td>
          		<td class="liteGray" align="right">n원</td>
@@ -96,15 +101,19 @@
          		<td class="pupple" align="right">n원</td>
          	</tr>	
          	</table>
-         	
+         	<br><br>
          	<!-- 결제정보입력 테이블 -->
-			<table style="width: 80%">
+			<table style="width: 70%">
 			<tr>
 				<td class="strongGray" align="left" colspan="2">신용(체크)카드번호</td>
 			</tr>
 			<tr>
-				<td><input type="text" name="card1"> <input type="text" name="card2"> </td>
-				<td><input type="text" name="card1"> <input type="text" name="card2"> </td>
+				<td colspan="2">
+				<input type="text" name="card1"> 
+				<input type="text" name="card2">
+				<input type="text" name="card3"> 
+				<input type="text" name="card4"> 
+				</td>
 			</tr>
 			<tr>
 				<td align="left" width="50%" class="strongGray">유효기간 </td>
@@ -121,7 +130,18 @@
 				<td colspan="2"><input type="text" name="birth"></td>
 			</tr>
 			</table>
-			
+			<br><br>
+			<div style="width: 70%" align="left">
+				<p class="strongGray" align="left">결제 예약시 유의사항</p>
+				<ul class="liteGray" >
+				<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
+				<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
+				<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
+				<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
+				</ul>
+			</div>
+			<br><br>
+			 <a href="order.do"><img src="image/detail/orderBtn.jpg" width="120px"></a>
         </div>
       </div>
       <!-- /.row -->

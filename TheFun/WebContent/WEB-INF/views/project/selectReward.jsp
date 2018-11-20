@@ -100,8 +100,8 @@ table{
           	</td>
           </table>
           <br>
-          
-            <a href="goOrder.do"><img src="image/detail/next.jpg"></a>
+          <br>
+            <a href="goOrder.do"><img src="image/detail/next.jpg" width="120px"></a>
           
         </div>
       </div>
