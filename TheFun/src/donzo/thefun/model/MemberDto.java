@@ -10,9 +10,9 @@ CREATE TABLE FUN_MEMBER(
    ID VARCHAR2(50) PRIMARY KEY,
    PWD VARCHAR2(50) NOT NULL,
    NICKNAME VARCHAR2(50) NOT NULL,
-   PHONE VARCHAR2(50) NOT NULL,
+   PHONE VARCHAR2(50),
    EMAIL VARCHAR2(50) NOT NULL,
-   ADDRESS VARCHAR2(100) NOT NULL,
+   ADDRESS VARCHAR2(100),
    INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
    AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
@@ -32,11 +32,13 @@ public class MemberDto implements Serializable {
 	int point;
 	int auth; // 1: 일반회원 3: 관리자
 	
-	public MemberDto() {}
+	public MemberDto() {
+		point = 0;
+		auth = MEMBER;
+	}
 
 	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info,
 			int point, int auth) {
-		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.nickname = nickname;

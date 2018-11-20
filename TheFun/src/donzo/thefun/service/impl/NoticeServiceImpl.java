@@ -10,6 +10,6 @@ import donzo.thefun.service.NoticeService;
 public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired
-	NoticeDao NoticeDao;
+	NoticeDao noticeDao;
 	
 }

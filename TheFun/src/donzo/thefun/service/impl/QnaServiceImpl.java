@@ -10,6 +10,6 @@ import donzo.thefun.service.QnaService;
 public class QnaServiceImpl implements QnaService {
 
 	@Autowired
-	QnaDao QnaDao; 
+	QnaDao qnaDao; 
 	
 }
