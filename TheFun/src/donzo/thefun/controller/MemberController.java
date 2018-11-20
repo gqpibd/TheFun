@@ -27,18 +27,19 @@ public class MemberController {
 		return "main.tiles";
 	}
 	
-	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String login() throws Exception{
 		logger.info("MemberController login.do " + new Date());
 		
-		return "login/login";
+		return "login.tiles";
 	}
 	
 	@RequestMapping(value="regi.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String regi() throws Exception{
 		logger.info("MemberController regi.do " + new Date());
 		
-		return "login/regi";
+		return "regi.tiles";
 	}
+	
 
 }

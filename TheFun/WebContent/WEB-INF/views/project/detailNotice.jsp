@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>The Fun_더 아름다운 세상을 위한 펀딩</title>
 </head>
 <body>
 

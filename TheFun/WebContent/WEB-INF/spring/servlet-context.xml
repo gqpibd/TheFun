@@ -21,7 +21,6 @@
 	
 	<!-- tiles 설정 -->
 	<!-- bean : 객체를 생성하는 것!! -->
-	
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">
 			<list>

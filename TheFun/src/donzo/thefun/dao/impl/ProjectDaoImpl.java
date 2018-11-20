@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.ProjectParam;
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {
@@ -18,8 +19,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	String ns = "Project.";
 
 	@Override
-	public List<ProjectDto> getProjectDetail(int seq) {
-		return null;
+	public List<ProjectDto> getProjectList(ProjectParam pParam) {
+		
+		return sqlSession.selectList(ns + "getProjectList", pParam);
 	}
 	
 	
