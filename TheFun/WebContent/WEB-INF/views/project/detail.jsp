@@ -69,7 +69,7 @@
  }
 
  </style>
- 
+<!--  
 <script>
   $( document ).ready( function() {
     var jbOffset = $( '.jbMenu' ).offset();
@@ -83,7 +83,7 @@
     });
   } );
 </script>
- 
+  -->
 </head>
 <body>
 
@@ -110,7 +110,7 @@
         </div>
       </div>
     </nav>
-    
+ 
  <!-- 프로젝트명 부분-->
     <div class="container">
    	<br>
@@ -133,7 +133,7 @@
 			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>명의 서포터
 		</tr>
 		<tr height="50">
-			<td> <img src="image/detail/fundBtn.jpg" height="50px"> </td>
+			<td> <a href="goOrderReward.do"><img src="image/detail/fundBtn.jpg" height="50px"></a> </td>
 		</tr>
 		<tr height="50">
 			<td align="right" class="strongGray">한줄설명 &nbsp;&nbsp; </td>
@@ -148,8 +148,8 @@
 		<table style="width: 100%; background-color: white;">
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식</font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백</font></td>
+			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>n</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>n</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -157,34 +157,52 @@
 	    </div>
 	 </div>
 <script type="text/javascript">
+$(document).ready(function () {
+	$("#feedbackContent").hide();
+	$("#noticeContent").hide();
+});
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	
 	$(this).css("cursor","pointer");
 }); 
 
-//ajax부분 
+//
 $(function () {
 	$("#story").click(function () {
-		alert("스토리 클릭");	
-
+		//alert("스토리 클릭");
+		$("#storyContent").show();
+		$("#noticeContent").hide();
+		$("#feedbackContent").hide();
 	});
 	$("#notice").click(function () {
-		alert("새소식 클릭");	
+		//alert("새소식 클릭");	
+		$("#storyContent").hide();
+		$("#noticeContent").show();
+		$("#feedbackContent").hide();
 	});
 	$("#feedback").click(function () {
-		alert("피드백 클릭");	
+		//alert("피드백 클릭");	
+		$("#storyContent").hide();
+		$("#noticeContent").hide();
+		$("#feedbackContent").show();
 	});
 });
 
 </script>
       <div class="row">
 
-        <!-- 스토리, 댓글, 새소식-->
-        <div class="col-lg-8">
-			<h1>스토리~~</h1>
-			<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
-			<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
+        <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
+        <div class="col-lg-8" id="storyContent">
+			<jsp:include page="detailStory.jsp"/>
+        </div>
+        
+         <div class="col-lg-8" id="feedbackContent">
+			<jsp:include page="detailFeedback.jsp"/>
+        </div>
+        
+         <div class="col-lg-8" id="noticeContent">
+			<jsp:include page="detailNotice.jsp"/>
         </div>
 
         <!-- Sidebar 전체-->

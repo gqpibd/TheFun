@@ -21,11 +21,15 @@ public class BuyController {
 	BuyService buyService;
 	
 	
-/*	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("BuyController 어쩌구 메소드 " + new Date());
-		
-		return "뭔.tiles";
+	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderReward() {
+		logger.info("BuyController goOrderReward 메소드 " + new Date());
+		return "project/selectReward";
 	}
-*/
+	
+		@RequestMapping(value="goOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrder() {
+		logger.info("BuyController goOrderReward 메소드 " + new Date());
+		return "project/orderReward";
+	}
 }
