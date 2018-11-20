@@ -34,6 +34,8 @@ public class MemberDto implements Serializable {
 	
 	public MemberDto() {
 		point = 0;
+		nickname = "";
+		info = "";
 		auth = MEMBER;
 	}
 

@@ -67,7 +67,17 @@
 			<value>0</value>
 		</property>
 	</bean> -->
-	
+	<!-- 구글 api -->
+	<bean id = "googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<constructor-arg value="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"/>
+	<constructor-arg value="fiTxL5KFg9TPiYGEY8QsVWjH"/>    
+	</bean>
+	 
+	<bean id = "googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+	<property name="scope" value="https://www.googleapis.com/auth/plus.login"></property>
+	<property name="redirectUri" value="http://localhost:8090/TheFun/main.do"/>
+ 
+</bean>
 	
 	
 </beans>

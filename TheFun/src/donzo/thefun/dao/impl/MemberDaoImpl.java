@@ -32,4 +32,9 @@ public class MemberDaoImpl implements MemberDao {
 		int n = sqlSession.insert(ns+"addAccount",dto);
 		return  (n>0)?true:false;
 	}
+
+	@Override
+	public MemberDto tryLogin(MemberDto dto) {
+		return sqlSession.selectOne(ns+"tryLogin",dto);
+	}
 }
