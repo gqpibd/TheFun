@@ -142,6 +142,7 @@
 			</div>
 			<br><br>
 			 <a href="order.do"><img src="image/detail/orderBtn.jpg" width="120px"></a>
+			
         </div>
       </div>
       <!-- /.row -->
