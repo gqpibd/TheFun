@@ -10,12 +10,15 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+<!-- 폰트설정 -->
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+
 <!-- main CSS설정 -->
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <meta name="description" content="">
  <meta name="author" content="">
  
-<title>The Fun_디테일</title>
+<title>The Fun_상세페이지</title>
 
  <!-- Bootstrap core CSS -->
  <link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,14 +33,20 @@
 <!-- 디테일설정끝 -->
  
  <style type="text/css">
+ p {
+   font-family: "Nanum Gothic", sans-serif;
+}
  .pupple{
  	color:#8152f0;
+ 	font-family: "Nanum Gothic", sans-serif;
  }
  .strongGray{
+ font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
   
  }
  .liteGray{
+ font-family: "Nanum Gothic", sans-serif;
 	 color: #c4c4c4;
  }
  .jbMenu {
@@ -50,6 +59,11 @@
   width: 100%;
 }
 .jbFixed {
+  text-align: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
    position: fixed;
    top: 0px;
  }
@@ -106,7 +120,7 @@
 		<table style="width: 100%;">
 		
 		<tr height="50">
-			<td rowspan="5" style="width: 50%">이미지</td>
+			<td rowspan="5" style="width: 50%" align="right"> 이미지&nbsp;&nbsp;</td>
 			<td class="strongGray" align="left" style="width: 50%"><b>n일 남음</b></td>
 		</tr>
 		<tr height="50">
@@ -122,7 +136,7 @@
 			<td> <img src="image/detail/fundBtn.jpg" height="50px"> </td>
 		</tr>
 		<tr height="50">
-			<td>한줄설명</td>
+			<td align="right" class="strongGray">한줄설명 &nbsp;&nbsp; </td>
 			<td><a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>카카오톡 공유 </td>
 		</tr>
 		</table>
@@ -133,52 +147,100 @@
 		<hr>
 		<table style="width: 100%; background-color: white;">
 		<tr>
-			<td align="center">스토리</td><td align="center">새소식</td><td align="center">피드백</td>
+			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
+			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식</font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백</font></td>
 		</tr>
 		</table>
 		<hr>
 		</div>
 	    </div>
 	 </div>
-      
+<script type="text/javascript">
+
+//마우스커서 모양변환
+$(".menubar").mouseover(function () {	
+	$(this).css("cursor","pointer");
+}); 
+
+//ajax부분 
+$(function () {
+	$("#story").click(function () {
+		alert("스토리 클릭");	
+
+	});
+	$("#notice").click(function () {
+		alert("새소식 클릭");	
+	});
+	$("#feedback").click(function () {
+		alert("피드백 클릭");	
+	});
+});
+
+</script>
       <div class="row">
 
         <!-- 스토리, 댓글, 새소식-->
         <div class="col-lg-8">
 			<h1>스토리~~</h1>
-<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
-<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
+			<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
+			<h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1><h1>스토리~~</h1>
         </div>
 
-        <!-- Sidebar 회사명-->
+        <!-- Sidebar 전체-->
         <div class="col-md-4">
-          <!-- Categories Widget -->
+        
+          <!--side 회사정보-->
+          <p class="strongGray"><b>메이커정보</b></p>
           <div class="card my-4">
-            <h5 class="card-header">회사명</h5>
             <div class="card-body">   
-					회사디테일
+			<table style="width: 100%">
+			<tr>
+				<td rowspan="2" align="left" class="strongGray">회사이미지 </td>
+				<td align="right" class="strongGray"> 회사명 </td>
+			</tr>
+			<tr><td align="right" class="strongGray">회사이메일</td> </tr>
+			</table>
             </div>
           </div>
 
           <!-- Side 옵션 -->
+          <p class="strongGray"><b>리워드선택</b></p>
           <div class="card my-4">
-            <h5 class="card-header">옵션타이틀</h5>
             <div class="card-body">
-              <p>옵션콘텐츠</p>
+              <p>옵션 title</p>
+              <p class="liteGray">배송비</p>
+              <p>2500원</p>
+              <p class="liteGray">리워드 발송 시작일</p>
+              <p class="strongGray"> n월n일</p>
+              <p class="pupple">제한수량 n개  <b>현재 n개 남음!</b></p>
+              <p class="strongGray"><b>총 n개 펀딩완료</b></p>
             </div>
           </div>
-
-        </div>
+		<!-- side옵션 끝 -->
+		
+		<!-- Side 옵션 -->
+          <div class="card my-4">
+            <div class="card-body">
+              <p>옵션 title</p>
+              <p class="liteGray">배송비</p>
+              <p>2500원</p>
+              <p class="liteGray">리워드 발송 시작일</p>
+              <p class="strongGray"> n월n일</p>
+              <p class="pupple">제한수량 n개<b>현재 n개 남음!</b></p>
+              <p class="strongGray"><b>총 n개 펀딩완료</b></p>
+            </div>
+          </div>
+		<!-- side옵션 끝 -->
+		
+     	 </div>
+     	<!-- sidebar 끝 -->
 
       </div>
       <!-- /.row -->
 
     </div>
     <!-- /.container -->
-
-
-
-
 
 
  <!-- Footer -->
