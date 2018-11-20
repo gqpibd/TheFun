@@ -6,4 +6,21 @@
 <!-- 프로젝트 -->  
 <mapper namespace="FunProject">
 
+<!-- 캘린더 테스트 중 :: 쿼리문 실행 확인 -->
+<select id="mycalendar" parameterType="donzo.thefun.model.ProjectDto" resultType="donzo.thefun.model.ProjectDto">
+SELECT SEQ, ID, TITLE, CONTENT, REGDATE 
+FROM (SELECT ROW_NUMBER() OVER(PARTITION BY SUBSTR(REGDATE , 1, 8) ORDER BY REGDATE  ASC) RN,
+		 SEQ, ID, TITLE, CONTENT, REGDATE 
+	  FROM FUN_PROJECT
+	  WHERE ID=#{id} AND SUBSTR(REGDATE , 1, 6)=#{regdate})
+WHERE RN BETWEEN 1 AND 5
+</select>
+
+<!-- 달력에서 보여질 일정들 :: 쿼리문 실행 확인 -->
+<select id="mycalendarinfo" parameterType="donzo.thefun.model.ProjectDto" resultType="donzo.thefun.model.ProjectDto"><!-- 캘린더 속에 들어갈 내용(일정) -->
+SELECT SEQ, ID, FUNDTYPE, TITLE, SDATE, EDATE, PDATE, SHIPDATE
+FROM FUN_PROJECT
+WHERE ID=#{id};
+</select>
+
 </mapper>
