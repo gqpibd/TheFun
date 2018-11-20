@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,11 +21,16 @@ public class QnaController {
 	QnaService qnaService; //주석 풀어서 쓰길...
 	
 	
-	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("QnaController 어쩌구 메소드 " + new Date());
+	@RequestMapping(value="0000.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String qnaAfList(Model model) {
+		logger.info("QnaController 0000" + new Date());
 		
-		return "뭔.tiles";
+		
+		
+		
+		
+		
+		return "0000.tiles";
 	}
 
 }

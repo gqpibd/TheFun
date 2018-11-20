@@ -10,9 +10,9 @@ import donzo.thefun.service.ProjectService;
 public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
-	ProjectDao ProjectDao;
+	ProjectDao qrojectDao;
 	
 	@Autowired
-	ProjectDao OptionDao;
+	ProjectDao optionDao;
 	
 }
