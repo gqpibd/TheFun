@@ -91,15 +91,4 @@ public class MemberController {
 		logger.info("MemberController login " + new Date());		
 		return "account/login";
 	}
-	
-	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String main() {
-		logger.info("MemberController main " + new Date());		
-		return "main";
-	}
-	
-	 
-	
-
-
 }

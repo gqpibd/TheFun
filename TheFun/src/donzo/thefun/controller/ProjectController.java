@@ -31,7 +31,7 @@ public class ProjectController {
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
-		return "index";
+		return "main";
 	}
 	
 }

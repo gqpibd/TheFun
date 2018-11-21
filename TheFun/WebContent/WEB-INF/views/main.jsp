@@ -145,5 +145,14 @@ orderBtn.jpg
     <!-- Bootstrap core JavaScript -->
     <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
     <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+		function logout() {
+			console.log("로그아웃")
+			//gapi.auth2.getAuthInstance().signOut();
+			//navigator.credentials.requireUserMediation();
+			location.href="logout.do";
+			
+		}
+	</script>
 </body>
 </html>
