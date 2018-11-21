@@ -77,6 +77,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="detail.do">
+          <input type="hidden" name="seq"value="1"> <!-- seq가라로 넣음 -->
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
@@ -85,6 +86,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <a href="detail.do">
+          
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
@@ -110,7 +112,7 @@
       </div>
       <!-- /.row 리스트끝-->
 
-orderBtn.jpg
+
     </div>
     <!-- /.container 메인컨테이너 끝-->
 

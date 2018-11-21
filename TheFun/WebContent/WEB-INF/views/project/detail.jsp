@@ -1,3 +1,4 @@
+<%@page import="donzo.thefun.model.ProjectDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -110,7 +111,9 @@
         </div>
       </div>
     </nav>
- 
+<%
+
+%>
  <!-- 프로젝트명 부분-->
     <div class="container">
    	<br>
