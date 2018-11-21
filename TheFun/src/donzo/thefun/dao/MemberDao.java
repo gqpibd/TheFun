@@ -10,4 +10,5 @@ public interface MemberDao {
 
 	boolean addAccount(MemberDto dto);
 
+	MemberDto tryLogin(MemberDto dto);
 }

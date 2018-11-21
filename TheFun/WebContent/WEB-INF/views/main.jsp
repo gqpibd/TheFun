@@ -7,12 +7,13 @@
 <%
 	MemberDto login = (MemberDto) session.getAttribute("login");
 	System.out.println(login);
-
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="google-signin-client_id" content="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"> <!-- 구글 api사용 -->
+<script src="https://apis.google.com/js/platform.js" async defer></script> <!-- 구글 아이디로 로그인 -->
 
 <!-- main CSS설정 -->
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -60,7 +61,10 @@
             	<a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-            	${login.nickname} <!-- 로그인됨 -->				
+            	${login.nickname} <!-- 로그인됨 -->			
+            	${login.id} <!-- 로그인됨 -->					
+            	${login.email} <!-- 로그인됨 -->					
+				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->
 			</c:if>
               
             </li>
@@ -140,6 +144,14 @@
     <!-- Bootstrap core JavaScript -->
     <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
     <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<script type="text/javascript">
+function logout() {
+	console.log("로그아웃")
+	//gapi.auth2.getAuthInstance().signOut();
+	//navigator.credentials.requireUserMediation();
+	location.href="logout.do";
+	
+}
+</script>
 </body>
 </html>

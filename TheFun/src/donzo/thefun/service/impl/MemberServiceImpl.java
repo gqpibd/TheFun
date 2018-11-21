@@ -27,5 +27,9 @@ public class MemberServiceImpl implements MemberService {
 	public boolean addAccount(MemberDto dto) {
 		return memberDao.addAccount(dto);
 	}
-	
+
+	@Override
+	public MemberDto tryLogin(MemberDto dto) {		
+		return memberDao.tryLogin(dto);
+	}	
 }

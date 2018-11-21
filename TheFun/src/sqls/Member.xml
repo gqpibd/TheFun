@@ -32,8 +32,34 @@
 	</select>
 	 
 	<!-- 회원가입 -->
-	<select id="addAccount" parameterType="donzo.thefun.model.MemberDto">
-		INSERT INTO FUN_MEMBER (ID, PWD, NICKNAME, EMAIL, INFO, AUTH) 
-		VALUES (#{id},#{pwd},#{nickname},#{email},#{info},${auth})
-	</select>
+	<insert id="addAccount" parameterType="donzo.thefun.model.MemberDto">
+		<choose>			
+			<when test="pwd == null and email == null"> <!-- 계정 연동 회원가입. 이메일 없는 경우 -->
+				INSERT INTO FUN_MEMBER (ID, NICKNAME, INFO,POINT, AUTH) 
+				VALUES (#{id},#{nickname},#{info},0,${auth})
+			</when>
+			<when test="pwd == null and email != null"> <!-- 계정 연동 회원가입 -->
+				INSERT INTO FUN_MEMBER (ID, NICKNAME, EMAIL, INFO,POINT, AUTH) 
+				VALUES (#{id},#{nickname},#{email},#{info},0,${auth})
+			</when>			
+			<otherwise> <!-- 일반 회원 가입 -->
+				INSERT INTO FUN_MEMBER (ID, PWD, NICKNAME, EMAIL, INFO,POINT, AUTH) 
+				VALUES (#{id},#{pwd},#{nickname},#{email},#{info},0,${auth})
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="tryLogin" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+		SELECT * 
+		FROM FUN_MEMBER 
+		<choose>			
+			<when test="pwd != null"> <!-- 일반 로그인 -->
+				WHERE ID = #{id} AND PWD = #{pwd}
+			</when>
+			<otherwise> <!-- 계정 연동 로그인 -->
+				WHERE ID = #{id}	
+			</otherwise>
+		</choose>					
+	</select>	
 </mapper>
