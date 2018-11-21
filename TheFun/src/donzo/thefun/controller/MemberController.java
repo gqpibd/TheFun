@@ -46,6 +46,7 @@ public class MemberController {
 				return "redirect:/login.do?message=retry";
 			}
 		}else if(loginType.equals("externalAccount")){ // 계정 연동 로그인인 경우
+			logger.info("로그인 결과:" + dto);
 			dto = memberService.tryLogin(dto);
 		}
 		req.getSession().setAttribute("login", dto);
@@ -59,6 +60,7 @@ public class MemberController {
 		PrintWriter out;
 		try {
 			out = resp.getWriter();
+		
 		
 			String clientId = "vb6UHNxUFoBsi487fDmI";// 애플리케이션 클라이언트 아이디값";
 			String clientSecret = "nQ5HvM2rRQ";// 애플리케이션 클라이언트 시크릿값";

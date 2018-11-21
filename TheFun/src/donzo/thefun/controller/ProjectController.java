@@ -34,4 +34,10 @@ public class ProjectController {
 		return "main";
 	}
 	
+	@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String feedBack() {
+		logger.info("ProjectController feedBack " + new Date());	
+		return "project/detailFeedback";
+	}
+	
 }

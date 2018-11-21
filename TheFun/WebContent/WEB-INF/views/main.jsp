@@ -65,7 +65,11 @@
             	${login.id} <!-- 로그인됨 -->					
             	${login.email} <!-- 로그인됨 -->					
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->
+				<c:if test="${login.auth eq MemberDto.MANAGER}">
+					<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+				</c:if>
 			</c:if>
+			<button type="button" onclick="location.href='feedBack.do'">피드백</button>
               
             </li>
             <li class="nav-item">
