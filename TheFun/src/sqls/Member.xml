@@ -61,5 +61,5 @@
 				WHERE ID = #{id}	
 			</otherwise>
 		</choose>					
-	</select>	
+	</select>
 </mapper>

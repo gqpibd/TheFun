@@ -9,7 +9,9 @@
 </head>
 <body>
 <script type="text/javascript">
-	location.href="main.do";
+	location.href="main.do";	
 </script>
+
 </body>
 </html>
+

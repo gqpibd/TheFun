@@ -1,7 +1,11 @@
+<%@page import="org.springframework.expression.spel.ast.OpInc"%>
+<%@page import="java.util.List"%>
+<%@page import="donzo.thefun.model.OptionDto"%>
 <%@page import="donzo.thefun.model.ProjectDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
@@ -112,14 +116,20 @@
       </div>
     </nav>
 <%
-
+	ProjectDto projectdto = (ProjectDto)request.getAttribute("projectdto");
+	
 %>
  <!-- 프로젝트명 부분-->
     <div class="container">
    	<br>
    	<div align="center">
-   		<p><b class="pupple">카테고리명  </b>&nbsp;&nbsp;&nbsp;<font class="strongGray">#태그명</font></p>
-   
+   		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;
+   		<font class="strongGray">	
+   		 <c:forEach items="${projectdto.tags }" var="tags">
+   		 	#${tags }
+   		 </c:forEach>
+   		 </font></p>
+   		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 		<table style="width: 100%;">
 		
 		<tr height="50">
@@ -130,16 +140,16 @@
 			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>%달성
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>원 펀딩
+			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>%nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>명의 서포터
+			<td class="strongGray"align="left"  style="width: 50%"><b>${howmanyBuy}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<td> <a href="goOrderReward.do"><img src="image/detail/fundBtn.jpg" height="50px"></a> </td>
 		</tr>
 		<tr height="50">
-			<td align="right" class="strongGray">한줄설명 &nbsp;&nbsp; </td>
+			<td align="right" class="strongGray">${projectdto.summary } &nbsp;&nbsp; </td>
 			<td><a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>카카오톡 공유 </td>
 		</tr>
 		</table>
@@ -218,41 +228,42 @@ $(function () {
 			<table style="width: 100%">
 			<tr>
 				<td rowspan="2" align="left" class="strongGray">회사이미지 </td>
-				<td align="right" class="strongGray"> 회사명 </td>
+				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
-			<tr><td align="right" class="strongGray">회사이메일</td> </tr>
+			<tr>
+				<td align="right" class="strongGray" style="font-size: 15px">${writer.email } </td> 
+			</tr>
 			</table>
             </div>
           </div>
-
-          <!-- Side 옵션 -->
+          
           <p class="strongGray"><b>리워드선택</b></p>
+          
+          <!-- Side 옵션 -->
+          
+          <c:forEach items="${optionList}" var="option"> 
           <div class="card my-4">
             <div class="card-body">
-              <p>옵션 title</p>
-              <p class="liteGray">배송비</p>
-              <p>2500원</p>
-              <p class="liteGray">리워드 발송 시작일</p>
-              <p class="strongGray"> n월n일</p>
-              <p class="pupple">제한수량 n개  <b>현재 n개 남음!</b></p>
-              <p class="strongGray"><b>총 n개 펀딩완료</b></p>
+           	 <p class="strongGray"> 
+           	 	<strong  style="font-weight: bold; font-size: 20px">${option.price }원</strong> 
+           	 	<font class="liteGray" style="font-size: 15px">(배송비 포함)</font> 
+           	 </p>
+             <p class="strongGray">${option.title }</p> 
+              <ul>             	
+             <c:forEach items="${option.content}" var="item">
+			   <li class="liteGray">${item}</li>
+			 </c:forEach>
+				</ul>
+              <p class="liteGray" style="font-size: 15px">예상전달일 :${projectdto.shipdate}</p>
+              <p class="pupple">제한수량 ${option.stock } 개  <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+              <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>
           </div>
+          </c:forEach>
+          
 		<!-- side옵션 끝 -->
 		
-		<!-- Side 옵션 -->
-          <div class="card my-4">
-            <div class="card-body">
-              <p>옵션 title</p>
-              <p class="liteGray">배송비</p>
-              <p>2500원</p>
-              <p class="liteGray">리워드 발송 시작일</p>
-              <p class="strongGray"> n월n일</p>
-              <p class="pupple">제한수량 n개<b>현재 n개 남음!</b></p>
-              <p class="strongGray"><b>총 n개 펀딩완료</b></p>
-            </div>
-          </div>
-		<!-- side옵션 끝 -->
+
 		
      	 </div>
      	<!-- sidebar 끝 -->

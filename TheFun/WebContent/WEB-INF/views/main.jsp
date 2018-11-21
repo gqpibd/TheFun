@@ -96,41 +96,30 @@
       <div class="row">
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <a href="detail.do">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
+          <form action="detail.do"  id="gotoDetail">
+          <input type="hidden" name="seq" value="1">	<!-- //가짜 정보 -->
+          <input type="hidden" name="id" value="blueja3629">
+            <img class="img-fluid" src="image/main/mainImg7.PNG" onclick="godetail()"id="img">
           <p class="pTitle">프로젝트 타이틀</p>
           <p class="pName">카테고리 | 회사이름</p>
+           </form>       
+           <script type="text/javascript">
+           $("#img").mouseover(function () {	
+        		$(this).css("cursor","pointer");
+        	}); 
+
+           function godetail() {
+        	   $("#gotoDetail").attr("action","detail.do").submit();
+		}
+           </script>
         </div>
 
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="detail.do">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
 
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="detail.do">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-           <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
 
-        <div class="col-md-3 col-sm-6 mb-4">
-          <a href="detail.do">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
-          </a><br>
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
-        </div>
 
       </div>
       <!-- /.row 리스트끝-->
 
-orderBtn.jpg
     </div>
     <!-- /.container 메인컨테이너 끝-->
 

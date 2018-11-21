@@ -50,6 +50,7 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
     NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
 FROM FUN_PROJECT P;*/
+import java.util.List;
 
 public class ProjectDto implements Serializable {
 	
@@ -136,11 +137,182 @@ public class ProjectDto implements Serializable {
 		this.shipdate = shipdate;
 	}
 
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getFundtype() {
+		return fundtype;
+	}
+
+	public void setFundtype(String fundtype) {
+		this.fundtype = fundtype;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	
+	public String[] getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		//content split
+		String realTags[]=tags.split("/");
+		this.tags = realTags;
+	}
+
+	public String getBank() {
+		return bank;
+	}
+
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+
+	public int getGoalfund() {
+		return goalfund;
+	}
+
+	public void setGoalfund(int goalfund) {
+		this.goalfund = goalfund;
+	}
+
+	public String getSdate() {
+		return sdate;
+	}
+
+	public void setSdate(String sdate) {
+		this.sdate = sdate;
+	}
+
+	public String getEdate() {
+		return edate;
+	}
+
+	public void setEdate(String edate) {
+		this.edate = edate;
+	}
+
+	public String getPdate() {
+		return pdate;
+	}
+
+	public void setPdate(String pdate) {
+		this.pdate = pdate;
+	}
+
+	public String getShipdate() {
+		return shipdate;
+	}
+
+	public void setShipdate(String shipdate) {
+		this.shipdate = shipdate;
+	}
+
+	public String getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getQnacount() {
+		return qnacount;
+	}
+
+	public void setQnacount(int qnacount) {
+		this.qnacount = qnacount;
+	}
+
+	public int getBuycount() {
+		return buycount;
+	}
+
+	public void setBuycount(int buycount) {
+		this.buycount = buycount;
+	}
+
+	public int getNoticecount() {
+		return noticecount;
+	}
+
+	public void setNoticecount(int noticecount) {
+		this.noticecount = noticecount;
+	}
+
+	public int getLikecount() {
+		return likecount;
+	}
+
+	public void setLikecount(int likecount) {
+		this.likecount = likecount;
+	}
+
+	public int getFundachived() {
+		return fundachived;
+	}
+
+	public void setFundachived(int fundachived) {
+		this.fundachived = fundachived;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
 				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
-				+ Arrays.toString(tags) + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
+				+ tags + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
 				+ edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate + ", status=" + status
 				+ ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount=" + noticecount + ", likecount="
 				+ likecount + ", fundachived=" + fundachived + "]";

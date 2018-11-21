@@ -3,7 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 프로젝트 -->  
+<!-- 프로젝트 가져오기 -->  
 <mapper namespace="Project">
+
+<select id="getProject" parameterType="java.lang.Integer" resultType="donzo.thefun.model.ProjectDto">
+	SELECT * FROM FUN_PROJECTALL WHERE SEQ=#{seq}
+</select>
+
+<!-- detail 회사 정보 가져오기 -->
+<select id="getWriter" parameterType="java.lang.Integer" resultType="donzo.thefun.model.MemberDto">
+	SELECT * FROM FUN_MEMBER WHERE ID=(SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
+</select>
+
+<!-- 옵션 가져오기 -->
+<select id="getOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto">
+	SELECT * FROM FUN_OPTION_VIEW WHERE PROJECTSEQ=#{seq} ORDER BY SEQ ASC
+</select>
+
+<!-- 몇명이 샀는가 -->
+<select id="howmanyBuy" parameterType="Integer" resultType="Integer"> 
+	SELECT COUNT(*)FROM FUN_BUY WHERE PROJECTSEQ=#{seq}
+</select>
+
 
 </mapper>
