@@ -14,8 +14,8 @@ public class MemberServiceImpl implements MemberService {
 	MemberDao MemberDao;
 
 	@Override
-	public MemberDto getMypage(String id) {
-		return MemberDao.getMypage(id);
+	public MemberDto getMypage(MemberDto mem) throws Exception{
+		return MemberDao.getMypage(mem);
 	}
 	
 	

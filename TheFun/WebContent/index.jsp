@@ -32,6 +32,8 @@
 </head>
 <body>
 
+<% response.sendRedirect("getMypage.do?id=testJY"); %>
+
  <!-- Navigation 헤더 -->
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container" style="background-color: white;">

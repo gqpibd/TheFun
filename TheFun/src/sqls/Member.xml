@@ -6,4 +6,10 @@
 <!-- 멤버 -->  
 <mapper namespace="Member">
 
+<!-- 마이페이지 : 쿼리문 실행 확인 -->
+<select id="getMypage" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+	SELECT ID, PWD, NICKNAME, PHONE, EMAIL, ADDRESS, INFO, POINT, AUTH
+	FROM FUN_MEMBER
+	WHERE ID=#{id}
+</select>
 </mapper>

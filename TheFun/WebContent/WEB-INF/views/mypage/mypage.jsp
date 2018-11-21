@@ -7,27 +7,34 @@
 <title>My Page</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+ 
+ 
+<style type="text/css">/* a tag 링크 시에 밑줄 및 색상 변경 제거 */
+	a:link { color: black; text-decoration: none;}
+	a:visited { color: black; text-decoration: none;}
+	a:hover { color: black; text-decoration: none;}
+	a:active { color: black; text-decoration: none;}
+</style>
+ 
 </head>
 <body>
 
 
 
 <div class="mypage">
-<form action="" class="mypageForm" id="_mypageForm" method="post">
+<form class="mypageForm" id="_mypageForm" method="post" action="getMypage.do">
 <table>
-
 <tr>
-	<td>프로필사진&nbsp;&nbsp;</td>
-	<td>닉네임&nbsp;&nbsp;</td>
-	<td>포인트</td>
+	<td><img alt="프로필" src="./image/test.jpg">&nbsp;&nbsp;</td>
+	<td>${myp.nickname } &nbsp;&nbsp;</td>
+	<td>${myp.point } </td>
 </tr>
 
 <tr style="text-align: center;">
-	<td class="menubar">내 정보&nbsp;&nbsp;</td>
+	<td class="menubar"><a href="myInfo.do?id=testWJ">내 정보</a>&nbsp;&nbsp;</td>
 	<td class="menubar">나의 후원내역&nbsp;&nbsp;</td>
 	<td class="menubar">내 프로젝트&nbsp;&nbsp;</td>
-	<td class="menubar">캘린더</td>
+	<td class="menubar"><a href="myCalendar.do?id=testJY">캘린더</a></td>
 </tr>
 
 <!-- 노 계획
@@ -42,7 +49,7 @@
 </div>
 
 <script type="text/javascript">
-$(function name() {
+$(function name() {		// 마우스 커서 모양 변경
 	$(".menubar").mouseover(function () {   
 		   $(this).css("cursor","pointer");
 		}); 

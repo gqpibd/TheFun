@@ -5,6 +5,6 @@ import donzo.thefun.model.MemberDto;
 public interface MemberDao {
 
 	/*getMypage*/
-	public MemberDto getMypage(String id);
+	public MemberDto getMypage(MemberDto mem) throws Exception;
 	
 }
