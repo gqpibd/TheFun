@@ -1,5 +1,14 @@
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.SecureRandom"%>
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String message = (String) request.getAttribute("message");
+	if(message != null && message.equals("retry")){
+		out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,108 +23,9 @@
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> <!-- 구글 로그인 커스텀 버튼 -->
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 
-<style type="text/css">
-/* Form */
-.form {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 300px;
-  margin: 0 auto 100px;
-  padding: 30px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  text-align: center;
-}
-.form input {
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-.form button {
-  outline: 0;
-  background: #8152f0;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  color: #FFFFFF;
-  font-size: 14px;
-  transition: all 0.3 ease;
-  cursor: pointer;
-}
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
-}
-.form .message a {
-  color: #EF3B3A;
-  text-decoration: none;
-}
-.form .register-form {
-  display: none;
-}
-body {
-  background: #ccc;
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-body:before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  background: rgba(255, 255, 255, 0.8);
-  width: 100%;
-  height: 100%;
-} 
-
-h6.background {
-  font: 26px;
-  margin-top: 10px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-h6.background:before {
-  border-top: 2px solid #dfdfdf;
-  content: "";
-  margin: 0 auto;
-  /* this centers the line to the full width specified */
-  position: absolute;
-  /* positioning must be absolute here, and relative positioning must be applied to the parent */
-  top: 50%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 95%;
-  z-index: -1;
-}
-h6.background span {
-  /* to hide the lines from behind the text, you have to set the background color the same as the container */
-  background: #fff;
-  padding: 0 15px;
-}​
-</style>
-
+<link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
 </head>
 <body>
 
@@ -124,26 +34,38 @@ h6.background span {
 	<img src="image/main/banner.jpg" width="100%"><br>	
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
+		<h6 class="background"><span>필수 항목</span></h6>
 		<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="text" name="id" id="newId" placeholder="아이디" maxlength="12" onblur="idCheck()" />
 		<span id="nicknameCheckMessage" style="color:red; font-size:11px;"></span> 
-		<input type="text" id="newNickname" name="nickname" placeholder="이름" onblur="nicknameCheck()" maxlength="15"/> 
+		<input type="text" id="newNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15"/> 
 		<span id="pwdCheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="pwdCheck()" />
 		<input type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="pwdCheck()" />
 		<span id="emailCheckMessage" style="color:red; font-size:11px;"></span> 
-		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="15" onblur="emailCheck()"  />
-		<span id="infoCheckMessage" style="color:red; font-size:11px;"></span> 
-		<input type="text" id="newInfo" name="info" maxlength="30" onblur="infoCheck()" placeholder="소개글"/>
+		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()"  />
+		
+		<h6 class="background" style="cursor: pointer;" onclick="$('#option').slideToggle()"><span>선택 항목</span></h6>
+		<div id="option">		
+			<span id="phoneCheckMessage" style="color:red; font-size:11px;"></span> 
+			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()">
+			<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
+			<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
+			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
+			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소">
+			
+			<span id="infoCheckMessage" style="color:red; font-size:11px;"></span>		
+			<input type="text" id="newInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글"/>
+		</div>		
 		<button id="regiBtn" disabled="disabled" style="background: #E2E2E2; cursor: default;">회원가입</button>
-		<h6 class="background"><span>또는</span></h6>
+		<!-- <h6 class="background"><span>또는</span></h6> -->
 
 		<p class="message">
 			이미 계정이 있으신가요? <a href="#" style="color:#8152f0">로그인</a>
 		</p>
 	</form>
 	<!-- 로그인 폼 -->
-	<form class="login-form" action="login.do" method="post">
+	<form class="login-form" action="loginAf.do" method="post">
 		<input type="hidden" name="loginType" value="normal">
 		<input type="text" id="loginId" name="id" onkeyup="loginCheck(this)" maxlength="12" placeholder="아이디" />
 		<!-- <span><input type="checkbox" >아이디 저장</span> -->
@@ -151,14 +73,17 @@ h6.background span {
 		<button style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
 		<div style="margin: auto">
-			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn"></div> <!-- 구글 아이디로 로그인 -->
+			<!-- 구글 아이디로 로그인 -->
+			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn"></div> 
 			<br>
-			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;"> <!-- 카카오 아이디로 로그인 -->
+			<!-- 카카오 아이디로 로그인 -->
+			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;"> 
 				<img src="image/login/kakao_account_login_btn_medium_narrow.png"
 				onmouseover="this.src='image/login/kakao_account_login_btn_medium_narrow_ov.png'"
 				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_narrow.png'"/><!-- width="217.31px" -->
 			</a>			
-			<div id="naverIdLogin"></div> <!-- 네이버 아이디로 로그인 -->
+			<!-- 네이버 아이디로 로그인 -->
+			<div id="naverIdLogin" onclick="tryLoginWithNaver()"></div>
 		</div>
 		<div>
 			<p class="message">
@@ -170,6 +95,9 @@ h6.background span {
 </div>
 <!-- 회원가입 -->
 <script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function(){
+	$("#option").hide();	
+});
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -202,9 +130,10 @@ $('.message a').click(function(){
 								if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴		
 									location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
 								}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-									//alert("등록되지 않은 계정입니다. 회원가입해 주세요.");
-									//location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-									location.href="regiAf.do?id=" + id +"&nickname=" + nickname;
+									var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
+									if (check) {
+										location.href="regiAf.do?id=" + id +"&nickname=" + nickname;
+									}
 								}
 							}
 						});	
@@ -223,46 +152,52 @@ $('.message a').click(function(){
 	var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "vb6UHNxUFoBsi487fDmI",
-			callbackUrl: "http://localhost:8090/TheFun/login.do",
+			//callbackUrl: "http://localhost:8090/TheFun/naverLogin.do",
+			callbackUrl: "http://localhost:8090/TheFun/",
 			isPopup: false, /* 팝업을 통한 연동처리 여부 */
-			callbackHandle: false,
+			callbackHandle: true,
 			loginButton: {color: "green", type: 3, height: 47} /* 로그인 버튼의 타입을 지정 */
 		}
 	);
-	
+	//버튼 클릭 -> tryLoginWithNaver() -> callbackurl로 이동....
 	/* 설정정보를 초기화하고 연동을 준비 */
 	naverLogin.init();
 	naverLogin.logout(); // 자동 로그인 방지
-	
-	naverLogin.getLoginStatus(function (status) {
-		if (status) {
-			var email = naverLogin.user.getEmail();
-			var nickname = naverLogin.user.getNickName();
-			var profileImage = naverLogin.user.getProfileImage();						
-			var id = naverLogin.user.getId();				
-			console.log(email);
-			console.log(name);
-			console.log(profileImage);				
-			console.log(id);
-			$.ajax({
-				type:"get",
-				url:"idCheck.do",
-				data:"id=" + id,
-				
-				success:function(data){						
-					if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴		
-						location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
-					}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-						//alert("등록되지 않은 계정입니다. 회원가입해 주세요.");
-						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-						//location.href="regiAf.do?id=" + id +"&nickname=" + nickname;
+	function tryLoginWithNaver(){
+		naverLogin.getLoginStatus(function (status) {
+			if (status) {
+				var email = naverLogin.user.getEmail();
+				var nickname = naverLogin.user.getNickName();
+				var profileImage = naverLogin.user.getProfileImage();						
+				var id = naverLogin.user.getId();				
+				console.log(email);
+				console.log(name);
+				console.log(profileImage);				
+				console.log(id);
+				$.ajax({
+					type:"get",
+					url:"idCheck.do",
+					data:"id=" + id,
+					
+					success:function(data){						
+						if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
+							window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");
+							//location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
+						}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
+							//var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
+							window.location.replace("regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email);
+							/* if (check) {
+								//location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
+							} */
+						}
 					}
-				}
-			});	
-		}  else {
-			//console.log("AccessToken이 올바르지 않습니다.");
-		} 
-	});
+				});	
+			}  else {
+				//console.log("AccessToken이 올바르지 않습니다.");
+			} 
+		
+		});
+	}
 </script>
 
 <!-- 구글 아이디로 로그인 -->
@@ -292,9 +227,10 @@ function onSignIn(googleUser) {
 			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴		
 				location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-				//alert("등록되지 않은 계정입니다. 회원가입해 주세요.");
-				location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-				//location.href="regiAf.do?id=" + id +"&nickname=" + nickname;
+				var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
+				if (check) {
+					location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
+				}
 			}
 		}
 	});	
@@ -305,11 +241,12 @@ function onSignIn(googleUser) {
 var idOk = false;
 var pwdOk = false;
 var emailOk = false;
-var nicknameOk = true;
+var nicknameOk = false;
 var infoOk = true;
+var phoneOk = true;
 
 function checkSubmitActivation(){
-	if(idOk && pwdOk && emailOk && nicknameOk && infoOk){
+	if(idOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 		document.getElementById("regiBtn").disabled = false;
 		document.getElementById("regiBtn").style.background = "#8152f0";
 		document.getElementById("regiBtn").style.cursor =  "pointer";
@@ -371,10 +308,10 @@ function pwdCheck() {
 }
 
 function nicknameCheck() { // 15글자 이내
-	console.log("nicknameCheck");
+	//console.log("nicknameCheck");
 	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	if(regExp.test($("#newNickname").val())){	    
-		$("#nicknameCheckMessage").text("한글 또는 영어로만 15자 이내로 적어주세요");
+	if(regExp.test($("#newNickname").val()) || $("#newNickname").val().length < 2 ){	    
+		$("#nicknameCheckMessage").text("한글 또는 영어로만 2~15자 이내로 적어주세요");
 		$("#newNickname").focus();
 		nicknameOk = false;
 		checkSubmitActivation();
@@ -386,19 +323,44 @@ function nicknameCheck() { // 15글자 이내
 }
 
 function infoCheck() { // 30글자 이내
-	console.log("infoCheck");
 	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	if(regExp.test($("#newInfo").val())){	    
+	if(regExp.test($("#newInfo").val()) && $("#newInfo").val().length != 0){	    
 		$("#infoCheckMessage").text("한글 또는 영어로만 30자 이내로 적어주세요");
 		$("#newInfo").focus();
 		infoOk = false;
 		checkSubmitActivation();
 	}else{
-		 $("#infoCheckMessage").text("");
+		$("#infoCheckMessage").text("");
 	    infoOk = true;
 		checkSubmitActivation();
 	}
 }
+/* 상세 주소 */
+function detailAddressCheck() {
+	console.log("detailAddressCheck");
+	var text = $("#detailAddress").val();
+	//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+	text = text.replace(/[<(+>]/g, '');
+	//console.log(text);
+	$("#detailAddress").val(text);	
+}
+function phoneCheck(){
+	//colsole.log()
+	var text = $("#newPhone").val();
+	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+	//text = text.replace(/[^0-9]/g, '');
+	//$("#newPhone").val(text);
+	if (!text.match(regExp) && $("#newPhone").val().length != 0) {
+		$("#phoneCheckMessage").text("전화번호 형식:XXX-XXXX-XXXX");
+		phoneOk = false;
+		checkSubmitActivation();
+	}else{
+		$("#phoneCheckMessage").text("");
+		phoneOk = true;
+		checkSubmitActivation();
+	}
+}
+
 function emailCheck() {
 	var emailVal = $("#newEmail").val();
 	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	
@@ -432,6 +394,7 @@ function emailCheck() {
 }
 /* 로그인 검사 */
 function loginCheck() {
+	//detailAddressCheck();
 	if($("#loginId").val()=="" || $("#loginPwd").val()==""){
 		document.getElementById("loginBtn").disabled = true;
 		document.getElementById("loginBtn").style.background = "#E2E2E2";		
@@ -442,9 +405,58 @@ function loginCheck() {
 		document.getElementById("loginBtn").style.cursor =  "pointer";
 	}
 }
+/* 주소검색 */
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                extraRoadAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if(data.buildingName !== '' && data.apartment === 'Y'){
+               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if(extraRoadAddr !== ''){
+                extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+            if(fullRoadAddr !== ''){
+                fullRoadAddr += extraRoadAddr;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('roadAddress').value = fullRoadAddr;
+           // document.getElementById('jibunAddress').value = data.jibunAddress;
+
+            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+            /* if(data.autoRoadAddress) {
+                //예상되는 도로명 주소에 조합형 주소를 추가한다.
+                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                //document.getElementById('guide').innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+
+            }  else if(data.autoJibunAddress) {
+                var expJibunAddr = data.autoJibunAddress;
+                document.getElementById('guide').innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+
+            }  else {
+                document.getElementById('guide').innerHTML = '';
+            } */
+        }
+    }).open();
+}
 
 </script>
-
 
 </body>
 </html>
