@@ -11,14 +11,14 @@
 	<context:annotation-config/>
 	
 	<!-- viewResolver 설정 : 사용자 view의 위치, 확장자명 설정 -->	
-	 <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"/> 
 		<property name="suffix" value=".jsp"/>
 	</bean> 
-<!-- 	
-	tiles 설정
-	bean : 객체를 생성하는 것!!
-	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+	
+	<!-- tiles 설정 -->
+	<!-- bean : 객체를 생성하는 것!! -->
+	<!-- <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/views/layouts.xml</value>
@@ -29,9 +29,8 @@
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="requestContextAttribute" value="requestContext"/>
 		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
-	</bean>
- -->		
- 
+	</bean> -->
+		
 	<!-- 인터셉터 객체 생성 -->
     <bean id="authenticationInterceptor" class="donzo.thefun.interceptor.AuthenticationInterceptor"/>
     
@@ -68,7 +67,18 @@
 			<value>0</value>
 		</property>
 	</bean> -->
+	<!-- 구글 api -->
+	<bean id = "googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<constructor-arg value="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"/>
+	<constructor-arg value="fiTxL5KFg9TPiYGEY8QsVWjH"/>    
+	</bean>
+	 
+	<bean id = "googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+	<property name="scope" value="https://www.googleapis.com/auth/plus.login"></property>
+	<property name="redirectUri" value="http://localhost:8090/TheFun/main.do"/>
+ 
+</bean>
 	
-	
+	 
 	
 </beans>

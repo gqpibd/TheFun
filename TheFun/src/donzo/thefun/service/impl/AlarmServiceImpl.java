@@ -10,6 +10,6 @@ import donzo.thefun.service.AlarmService;
 public class AlarmServiceImpl implements AlarmService {
 
 	@Autowired
-	AlarmDao AlarmDao; 
+	AlarmDao alarmDao; 
 	
 }

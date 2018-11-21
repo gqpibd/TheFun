@@ -17,14 +17,6 @@ public class QnaController {
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
 	
 	@Autowired
-	QnaService qnaService; //주석 풀어서 쓰길...
+	QnaService qnaService; 	
 	
-	
-/*	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("QnaController 어쩌구 메소드 " + new Date());
-		
-		return "뭔.tiles";
-	}
-*/
 }

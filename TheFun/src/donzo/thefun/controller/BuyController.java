@@ -20,7 +20,6 @@ public class BuyController {
 	@Autowired
 	BuyService buyService;
 	
-	
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward() {
 		logger.info("BuyController goOrderReward 메소드 " + new Date());

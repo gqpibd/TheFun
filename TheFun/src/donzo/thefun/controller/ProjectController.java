@@ -21,6 +21,7 @@ public class ProjectController {
 	ProjectService projectService; //주석 풀어서 쓰길...
 	
 	
+
 	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String detail() {
 		logger.info("ProjectController detail 메소드 " + new Date());	
@@ -30,7 +31,7 @@ public class ProjectController {
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
-		return "index";
+		return "main";
 	}
 	
 }

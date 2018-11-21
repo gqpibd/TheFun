@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
-  <display-name>sample02</display-name>
+  <display-name>TheFun</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -22,27 +22,23 @@
   			/WEB-INF/spring/servlet-context.xml
   			/WEB-INF/spring/aop-context.xml
   		</param-value>
-  	</init-param>  	
-  	
-  	<load-on-startup>1</load-on-startup>
-  
+  	</init-param>  	  	
+  	<load-on-startup>1</load-on-startup>  	
   </servlet>
   
   <context-param>
   	<param-name>contextConfigLocation</param-name>
   	<param-value>/WEB-INF/spring/applicationContext.xml</param-value>
   </context-param>
-  
-  
-  <!-- listener -->
+    
+  <!-- Listener -->
   <listener>
-  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
   </listener>
-
-
+  
   <servlet-mapping>
-    <servlet-name>dispatcherServlet</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <servlet-name>dispatcherServlet</servlet-name>    		
+    <url-pattern>*.do</url-pattern>	<!-- controller 명칭을 설정하는 규칙 -->
   </servlet-mapping>
   
   <!-- 한글 설정 -->
@@ -71,6 +67,6 @@
   
   
 </web-app>
-
+ 
 
 
