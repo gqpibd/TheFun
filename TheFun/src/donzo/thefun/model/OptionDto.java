@@ -40,8 +40,8 @@ public class OptionDto implements Serializable {
 
 	int seq;
 	int projectseq;
-	String title;
-	String[] content; 
+	String op_title;
+	String[] op_content;
 	int price;
 	int stock; // 재고
 	
@@ -49,23 +49,16 @@ public class OptionDto implements Serializable {
 	
 	public OptionDto() {}
 
-	public OptionDto(int seq, int projectseq, String title, String[] content, int price, int stock, int buycount) {
+	public OptionDto(int seq, int projectseq, String op_title, String[] op_content, int price, int stock,
+			int buycount) {
+		super();
 		this.seq = seq;
 		this.projectseq = projectseq;
-		this.title = title;
-		this.content = content;
+		this.op_title = op_title;
+		this.op_content = op_content;
 		this.price = price;
 		this.stock = stock;
 		this.buycount = buycount;
-	}
-
-	public OptionDto(int seq, int projectseq, String title, String[] content, int price, int stock) {
-		this.seq = seq;
-		this.projectseq = projectseq;
-		this.title = title;
-		this.content = content;
-		this.price = price;
-		this.stock = stock;
 	}
 
 	public int getSeq() {
@@ -84,20 +77,20 @@ public class OptionDto implements Serializable {
 		this.projectseq = projectseq;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getOp_title() {
+		return op_title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setOp_title(String op_title) {
+		this.op_title = op_title;
 	}
 
-	public String[] getContent() {
-		return content;
+	public String[] getOp_content() {
+		return op_content;
 	}
 
-	public void setContent(String[] content) {
-		this.content = content;
+	public void setOp_content(String[] op_content) {
+		this.op_content = op_content;
 	}
 
 	public int getPrice() {
@@ -126,8 +119,10 @@ public class OptionDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", title=" + title + ", content="
-				+ Arrays.toString(content) + ", price=" + price + ", stock=" + stock + ", buycount=" + buycount + "]";
+		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", op_title=" + op_title + ", op_content="
+				+ Arrays.toString(op_content) + ", price=" + price + ", stock=" + stock + ", buycount=" + buycount
+				+ "]";
 	}
+	
 	
 }

@@ -5,11 +5,14 @@
 <%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %>
 <fmt:requestEncoding value="UTF-8"/>
 
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+
 
 <!-- 패널 접었다 폈다 할 수 있는 기능(https://www.w3schools.com/bootstrap/bootstrap_collapse.asp 참고) -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,20 +28,29 @@
  -->
 
 <!-- 썸머노트(반응형 스마트 에디터) -->
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<!-- 위에서 이미 jquery선언해줘서 이건 주석처리함 -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
-
-<!-- 구글 웹폰트 -->
+<!-- 구글 웹폰트 : family다음부분부터 서로 조합해서 사용가능한 폰트 목록들. 앞 목록 + 뒤 크기 원하는대로 조합하기. -->
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Do+Hyeon|Jua|Noto+Sans+KR|Noto+Serif+KR:400,500,600,700,900" rel="stylesheet">
 
+
+<!-- datepicker 구동용 -->
+	<!-- [1] JQuery UI 버전 -->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+	<!-- [2] JQuery 버전 : 위에서 이미 jquery선언 해줘서 주석처리함. -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<!-- [3] JQuery UI 버전 -->
+<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
 <style type="text/css">
-/* h2{ */
+/* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
 	/* font-family: 'Noto Sans KR', sans-serif;*/
 	/* font-family: 'Do Hyeon', sans-serif; */
 	/* font-family: 'Jua', sans-serif;  */
@@ -57,7 +69,9 @@ tr, td, input{
 /* #accordion{
 	font-size: 5%;
 } */
+
 </style>
+
 
 
 
@@ -65,6 +79,149 @@ tr, td, input{
 	// 썸머노트 설정
 	$(document).ready(function() {
 		  $('#summernote').summernote();
+		  
+		  
+		  /* 리워드 각 탭 아래 나오는거 일단 비활성화 */
+		  $(".changedOption").hide();
+		  
+		  
+		  /* datepicker 설정 */
+		  // 일단 시작일 빼고 전부 비활성화
+		  $("#date2").attr("disabled", true);
+		  $("#date3").attr("disabled", true);
+		  $("#date4").attr("disabled", true);
+		  
+			// 시작일
+			$("#date1").datepicker({
+				minDate : 0,
+				dateFormat:"yy/mm/dd",
+				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				onSelect:function( d ){
+					// 연,월,일 구하기
+//					alert(d + "선택됐습니다");
+					var arr = d.split("/");
+					$("#date1").text(arr[0]);
+					$("#date1").append(arr[1]);
+					$("#date1").append(arr[2]);
+							
+					// 요일 구하기
+					var date = new Date( $("#date1").datepicker({dateFormat:'yy/mm/dd'}).val() );
+			//		alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
+							
+					var week = new Array("일", "월", "화", "수", "목", "금", "토");
+					$("#date1").append( week[ date.getDay() ] );
+				},
+				onClose : function (selectedDate) {
+					if( selectedDate != "" ) {
+						// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+						var curDate = $("#date1").datepicker("getDate");  // Date return
+						curDate.setDate( curDate.getDate() + 1 );
+						$("#date2").datepicker("option", "minDate", curDate);
+						// 체크아웃 태그 활성화
+						$("#date2").attr("disabled", false);
+					}
+				}
+			});
+			// 종료일
+			$("#date2").datepicker({
+				dateFormat:"yy/mm/dd",
+				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				onSelect:function( d ){
+					// 연,월,일 구하기
+//					alert(d + "선택됐습니다");
+					var arr = d.split("/");
+					$("#date2").text(arr[0]);
+					$("#date2").append(arr[1]);
+					$("#date2").append(arr[2]);
+					
+					// 요일 구하기
+					var date = new Date( $("#date2").datepicker({dateFormat:'yy/mm/dd'}).val() );
+//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+					
+					var week = new Array("일", "월", "화", "수", "목", "금", "토");
+					$("#date2").append( week[ date.getDay() ] );
+				},
+				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+		            if( selectedDate != "" ) {
+		                // xxx의 maxDate를 yyy의 날짜로 설정
+		                $("#date1").datepicker("option", "maxDate", selectedDate);
+		                
+		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+						var curDate = $("#date2").datepicker("getDate");  // Date return
+						curDate.setDate( curDate.getDate() + 1 );
+						$("#date3").datepicker("option", "minDate", curDate);
+						// 체크아웃 태그 활성화
+						$("#date3").attr("disabled", false);
+		            }
+		        }
+
+			});
+			// 정산일
+			$("#date3").datepicker({
+				dateFormat:"yy/mm/dd",
+				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				onSelect:function( d ){
+					// 연,월,일 구하기
+//					alert(d + "선택됐습니다");
+					var arr = d.split("/");
+					$("#date3").text(arr[0]);
+					$("#date3").append(arr[1]);
+					$("#date3").append(arr[2]);
+					
+					// 요일 구하기
+					var date = new Date( $("#date3").datepicker({dateFormat:'yy/mm/dd'}).val() );
+//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+					
+					var week = new Array("일", "월", "화", "수", "목", "금", "토");
+					$("#date3").append( week[ date.getDay() ] );
+				},
+				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+		            if( selectedDate != "" ) {
+		                // xxx의 maxDate를 yyy의 날짜로 설정
+		                $("#date2").datepicker("option", "maxDate", selectedDate);
+		                
+		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+						var curDate = $("#date3").datepicker("getDate");  // Date return
+						curDate.setDate( curDate.getDate() + 1 );
+						$("#date4").datepicker("option", "minDate", curDate);
+						// 체크아웃 태그 활성화
+						$("#date4").attr("disabled", false);
+		            }
+		        }
+
+			});
+			// 정산일
+			$("#date4").datepicker({
+				dateFormat:"yy/mm/dd",
+				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				onSelect:function( d ){
+					// 연,월,일 구하기
+//					alert(d + "선택됐습니다");
+					var arr = d.split("/");
+					$("#date4").text(arr[0]);
+					$("#date4").append(arr[1]);
+					$("#date4").append(arr[2]);
+					
+					// 요일 구하기
+					var date = new Date( $("#date4").datepicker({dateFormat:'yy/mm/dd'}).val() );
+//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+					
+					var week = new Array("일", "월", "화", "수", "목", "금", "토");
+					$("#date4").append( week[ date.getDay() ] );
+				},
+				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+		            if( selectedDate != "" ) {
+		                // xxx의 maxDate를 yyy의 날짜로 설정
+		                $("#date3").datepicker("option", "maxDate", selectedDate);
+		                
+		            }
+		        }
+
+			});
 	});
 	$('#summernote').summernote({
 	  placeholder: 'Hello bootstrap 4',
@@ -74,6 +231,10 @@ tr, td, input{
 	  maxHeight: null,             // set maximum height of editor
 	  focus: true     
 	});
+	
+	
+	
+	
 </script>
 
 </head>
@@ -94,7 +255,7 @@ tr, td, input{
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#home" style="font-size: 2em">프로젝트 개요</a></li>
   <li><a data-toggle="tab" href="#menu1" style="font-size: 2em">스토리텔링</a></li>
-  <li><a data-toggle="tab" href="#menu2" style="font-size: 2em">Menu 2</a></li>
+  <li><a data-toggle="tab" href="#menu2" style="font-size: 2em">리워드 등록</a></li>
 </ul>
 
 <!-- 탭 하단 내용 -->
@@ -211,7 +372,7 @@ tr, td, input{
 					<td colspan="2">
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
-						  <textarea class="form-control" rows="5" id="comment"></textarea>
+						  <textarea class="form-control" rows="5" id="content" name="summary"></textarea>
 						</div>
 					</td>
 				</tr>
@@ -253,8 +414,8 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">Project Purpose(택 1):</label>
-							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em">Reward (상품)</button>
-							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em">Donation (기부)</button>
+							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em" name="functype">Reward (상품)</button>
+							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em" name="functype">Donation (기부)</button>
 						</div>
 					</td>
 				</tr>
@@ -262,7 +423,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">Project Category(택 1):</label>
-						  <select class="form-control" id="sel1" style="font-size: 1em; height: 10%">
+						  <select class="form-control" id="sel1" name="category" style="font-size: 1em; height: 10%">
 						    <option>Food</option>
 						    <option>Animal</option>
 						    <option>IT</option>
@@ -312,7 +473,7 @@ tr, td, input{
 				<tr>
 					<td>
 						<form method="post">
-							<textarea id="summernote" name="editordata"></textarea>
+							<textarea id="summernote" name="content"></textarea>
 						</form>
 					</td>
 				</tr>
@@ -340,7 +501,7 @@ tr, td, input{
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
+						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tags" name="tags" size="100%">
 					</td>
 				</tr>
 			</table>
@@ -392,7 +553,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">거래은행</label>
-						  <select class="form-control" id="sel1" style="font-size: 1em; height: 10%">
+						  <select class="form-control" id="sel1" name="banking" style="font-size: 1em; height: 10%">
 						    <option>은행을 선택하세요</option>
 						    <option>IBK기업은행</option>
 						    <option>KB국민은행</option>
@@ -413,7 +574,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">계좌 번호</label>
-						  <input type="text" class="form-control" id="bank" name="bank" size="100%">
+						  <input type="text" class="form-control" id="bank" name="bank" placeholder="중간바(-)는 빼고 숫자만 입력해주세요" style="font-size: 15px" size="100%">
 						</div>
 					</td>
 				</tr>
@@ -421,49 +582,56 @@ tr, td, input{
         </div>
       </div>
     </div>
-    <!-- [9] 데이트 -->
+    <!-- [9] 각종 날짜(시작일 / 종료일  / 결제일(정산일) / 배송일) -->
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse8" id="col_bank">프로젝트 진행 스케줄</a>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse9" id="col_date">프로젝트 진행 스케줄</a>
         </h4>
       </div>
-      <div id="collapse8" class="panel-collapse collapse">
+      <div id="collapse9" class="panel-collapse collapse">
         <div class="panel-body">
         	<table style="width: 100%">
 				<tr>
 					<td>
 						<div class="form-group">
-						  <label for="sel1">후원금을 수령할 은행계좌를 등록해주세요</label>
+						  <!-- <label for="sel1"> -->
+						  <div class="desc projectimg">
+						  	프로젝트의 시작일, 종료일 , 정산일, 배송일을 각각 선택해주세요.<br>
+						  </div>
+						  <!-- </label> -->
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-						  <label for="sel1">거래은행</label>
-						  <select class="form-control" id="sel1" style="font-size: 1em; height: 10%">
-						    <option>은행을 선택하세요</option>
-						    <option>IBK기업은행</option>
-						    <option>KB국민은행</option>
-						    <option>NH농협</option>
-						    <option>KEB하나은행</option>
-						    <option>신한은행</option>
-						    <option>씨티은행</option>
-						    <option>카카오뱅크</option>
-						    <option>새마을은행</option>
-						    <option>우리은행</option>
-						    <option>우체국</option>
-						    <option>기타</option>
-						  </select>
+						  <label for="sel1">프로젝트 시작일</label>
+						  <input type="text" class="date" id="date1" placeholder="오늘부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-						  <label for="sel1">계좌 번호</label>
-						  <input type="text" class="form-control" id="bank" name="bank" size="100%">
+						  <label for="sel1">프로젝트 종료일</label>
+						  <input type="text" class="date" id="date2" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 정산일·결제일</label>
+						  <input type="text" class="date" id="date3" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 배송일(기부 프로젝트일 경우, 이 칸을 비워두세요)</label>
+						  <input type="text" class="date" id="date4" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
@@ -478,12 +646,125 @@ tr, td, input{
 
 <!-- (3) 세번째 탭 -->
 <div id="menu2" class="tab-pane fade">
-  <h3>Menu 2</h3>
-  <p>Some content in menu 2.</p>
+  <br>
+<!-- 큰 테두리 -->
+<div class="container">
+  <h1>리워드 등록</h1>
+  	<div class="panel-group" id="accordion">
+  		<!-- [10] 옵션 개수 선택 -->
+	    <div class="panel panel-default">
+	      <div class="panel-heading">
+	        <h4 class="panel-title">
+	          <a data-toggle="collapse" data-parent="#accordion" href="#collapse10" id="col_content">옵션 개수 선택</a>
+	        </h4>
+	      </div>
+	      <div id="collapse10" class="panel-collapse collapse">
+	        <div class="panel-body">
+	        	<table style="width: 100%">
+					<tr>
+						<td>
+							<div class="desc projectimg">
+								후원자 분들에게 어떤 선물을 드릴까요?
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+							  <label for="sel1">옵션 총 개수</label>
+							  <select class="form-control" id="sel1" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
+							    <%
+								for(int i=1; i <= 10; i++){
+									%>
+									<option <%=(2+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
+									<%
+								}
+								%>
+							  </select>
+							</div>
+						</td>
+					</tr>
+				</table>
+	        </div>
+	      </div>
+	    </div>
+	    <!-- [11] 리워드 등록 -->
+	    <%
+		for(int i=1; i <= 10; i++){
+			%>
+	    <div id="_option<%=(i+10 + "")%>">
+	    
+	    
+	    <div class="panel panel-default">
+	      <div class="panel-heading">
+	        <h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapse10" class="notChangedOption"><%=(i + "") %>번째 선물</a>
+
+	          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" class="changedOption"><%=(i + "") %>번째 선물</a>
+
+	        </h4>
+	      </div>
+	      <div id="collapse<%=(i+10 + "")%>" class="panel-collapse collapse">
+	        <div class="panel-body">
+	        	<table style="width: 100%">
+					<tr>
+						<td colspan="2">
+							<div class="desc projectimg">
+								후원자 분들에게 드릴 선물 내용을 입력해주세요
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div class="form-group">
+							  <label for="sel1">옵션 제목</label>
+							  <input type="text" class="form-control" id="title" name="title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div class="form-group">
+							  <label for="sel1">아이템</label>
+							  <textarea class="form-control" rows="5" id="content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="form-group">
+							  <label for="sel1">후원 금액</label>
+							  <input type="text" class="form-control" id="price" name="price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+							  <label for="sel1">보유 수량</label>
+							  <input type="text" class="form-control" id="stock" name="stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
+							</div>
+						</td>
+					</tr>
+				</table>
+	        </div>
+	      </div>
+	    </div>
+	    
+	    
+	    </div>
+	    	<%
+		}
+		%>
+	    
+	    
+	    
+	    
+	    
+  	</div>
 </div>
 </div>
 
 
+
+
+</div>
 
 </div>
 
@@ -497,6 +778,30 @@ tr, td, input{
  --%>
 
 
+
+
+
+<script type="text/javascript">
+
+/* 리워드옵션의 갯수를 선택한만큼 갱신하는 함수 */ 
+function optionChange( me ) {
+	
+	$(".notChangedOption").hide();
+	$(".changedOption").show();
+	
+	var num = me.options[me.selectedIndex].value;
+	alert(num + "개");
+	
+	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
+		$("#_option" + (i+10)).val("");
+		$("#_option" + (i+10)).hide();
+	}
+	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
+		$("#_option" + (i+10)).show();
+	}
+	
+}
+</script>
 
 
 </body>
