@@ -76,7 +76,7 @@
       <div class="row">
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
+          <a href="detail.do">
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
+          <a href="detail.do">
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
@@ -92,7 +92,7 @@
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
+          <a href="detail.do">
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
            <p class="pTitle">프로젝트 타이틀</p>
@@ -100,7 +100,7 @@
         </div>
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <a href="#">
+          <a href="detail.do">
             <img class="img-fluid" src="image/main/mainImg7.PNG" alt="">
           </a><br>
           <p class="pTitle">프로젝트 타이틀</p>
@@ -110,6 +110,7 @@
       </div>
       <!-- /.row 리스트끝-->
 
+orderBtn.jpg
     </div>
     <!-- /.container 메인컨테이너 끝-->
 
@@ -124,7 +125,5 @@
     <!-- Bootstrap core JavaScript -->
     <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
     <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
 </body>
 </html>

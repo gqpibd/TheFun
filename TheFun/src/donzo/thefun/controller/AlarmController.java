@@ -17,14 +17,6 @@ public class AlarmController {
 	private static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
 	
 	@Autowired
-	AlarmService alarmService; 
-	
-	
-	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String hahaha() {
-		logger.info("AlarmController 어쩌구 메소드 " + new Date());
-		
-		return "뭔.tiles";
-	}*/
+	AlarmService alarmService; 	
 
 }
