@@ -10,13 +10,12 @@ public class ProjectParam implements Serializable {
 	private String s_keyword;	// 검색어
 	
 	// --------- paging
-	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
+	private int recordCountPerPage = 4; 	// 한 페이지에 표현할 글 수
 	private int pageNumber = 0;				// 페이지 넘버
 	
 	private int start = 1;
 	private int end = 10;
 
-	
 	
 	public ProjectParam() {	}
 	
@@ -75,6 +74,14 @@ public class ProjectParam implements Serializable {
 
 	public void setEnd(int end) {
 		this.end = end;
+	}
+
+	@Override
+	public String toString() {
+		return "ProjectParam [" + (s_type != null ? "s_type=" + s_type + ", " : "")
+				+ (s_category != null ? "s_category=" + s_category + ", " : "")
+				+ (s_keyword != null ? "s_keyword=" + s_keyword + ", " : "") + "recordCountPerPage="
+				+ recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
 	}
 
 	

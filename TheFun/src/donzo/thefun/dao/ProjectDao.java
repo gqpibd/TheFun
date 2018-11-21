@@ -7,6 +7,6 @@ import donzo.thefun.model.ProjectParam;
 
 public interface ProjectDao {
 
-	List<ProjectDto> getProjectList(ProjectParam pParam);
+	List<ProjectDto> getAllProjectList(ProjectParam pParam);
 	
 }

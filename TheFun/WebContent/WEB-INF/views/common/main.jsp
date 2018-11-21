@@ -29,13 +29,25 @@
 	    
 	<!-- 카테고리 -->
 	<div align="center">
-	<table style="text-align: center;">
-	<col width="200px"><col width="200px"><col width="200px"><col width="200px">
+	<table style="text-align: center;" border="1">
+	<col width="150px"><col width="150px"><col width="150px"><col width="150px">
 	<tr>
-	<td><a href="#">리워드 전체</a></td>
-	<td><a href="#">음식</a></td>
-	<td><a href="#">IT</a></td>
-	<td><a href="#">동물</a></td>
+	<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_REWARD%>">리워드 전체</a></td>
+	<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_FOOD%>">음식</a></td>
+	<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_IT%>">IT</a></td>
+	<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_ANIMAL%>">동물-리워드</a></td>
+	</tr>
+	<tr>
+	<td style="text-align: center;" colspan="4">
+		<table border="1">
+		<col width="150px"><col width="150px"><col width="150px">
+		<tr>
+		<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_DONATION%>">기부 전체</a></td>
+		<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_DONATION%>&s_category=<%=ProjectDto.CATEGORY_HUMAN%>">인권</a></td>
+		<td><a href="getAllProject.do?s_type=<%=ProjectDto.TYPE_DONATION%>&s_category=<%=ProjectDto.CATEGORY_ANIMAL%>">동물-기부</a></td>
+		</tr>
+		</table>
+	</td>
 	</tr>
 	</table>
 	</div>
@@ -44,6 +56,7 @@
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트</h3>
 	
+	<%--
 	<c:forEach items="${hotList}" var="attribute" varStatus="status">	<!-- 리스트(object)를 jsp:param 으로 보낼 때  -->
 	<c:set var="attribute" value="${attribute}" scope="request"/>
 	
@@ -58,7 +71,7 @@
 	</tr>
 	</table>
 	</c:forEach>
-
+ --%>
 </div>
 
 </body>

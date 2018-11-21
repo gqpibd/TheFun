@@ -20,8 +20,8 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectDao optionDao;
 
 	@Override
-	public List<ProjectDto> getProjectList(ProjectParam pParam) {
-		return projectDao.getProjectList(pParam);
+	public List<ProjectDto> getAllProjectList(ProjectParam pParam) {
+		return projectDao.getAllProjectList(pParam);
 	}
 	
 	

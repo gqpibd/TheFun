@@ -6,30 +6,41 @@
 <!-- 프로젝트 -->  
 <mapper namespace="Project">
 
-<select id="getProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">
+
+<!-- s_type != '' and s_type != null and s_category != '' and s_category != null and // 잠시 놔둠-->
+
+<select id="getAllProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED
 	FROM (SELECT ROW_NUMBER() OVER(ORDER BY BUYCOUNT DESC, FUNDACHIVED DESC) AS RNUM, 
 				 SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED                                               
-		  FROM FUN_PROJECTALL                                                        
-		  WHERE 1=1
-		  <if test="s_type != '' and s_type != null and s_category != '' and s_category != null and s_keyword != '' and s_keyword != null">
-		  AND (TITLE LIKE '%'||#{s_keyword}||'%' OR CONTENT LIKE '%'||#{s_keyword}||'%' OR TAGS LIKE '%'||#{s_keyword}||'%' OR CATEGORY LIKE '%'||#{s_keyword}||'%')
-		  	<if test="s_category == 'food'">
-		  		AND CATEGORY = 'food'
-		  	</if>
-		  	<if test="s_category == 'it'">
-		  		AND CATEGORY = 'it'
-		  	</if>
-		  	<if test="s_category == 'animal'">
-		  		AND CATEGORY = 'animal'
-		  	</if>
-		  	<if test="s_category == 'human'">
-		  		AND CATEGORY = 'human'
-		  	</if>
-		  </if>) A
-	WHERE RNUM BETWEEN ${start} AND ${end}                                       
+		  FROM FUN_PROJECTALL
+		  WHERE FUNDTYPE=#{s_type}
+		  <if test="s_category != null or s_category != ''">
+		  AND CATEGORY=#{s_category}
+		  </if>
+		  ) A
+	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
 
+
+
+<!-- WHERE 1=1
+			  <if test="s_type != '' and s_type != null and s_category != '' and s_category != null and s_keyword != '' and s_keyword != null">
+			  AND (TITLE LIKE '%'||#{s_keyword}||'%' OR CONTENT LIKE '%'||#{s_keyword}||'%' OR TAGS LIKE '%'||#{s_keyword}||'%' OR CATEGORY LIKE '%'||#{s_keyword}||'%')
+			  	<if test="s_category == 'food'">
+			  		AND CATEGORY = 'food'
+			  	</if>
+			  	<if test="s_category == 'it'">
+			  		AND CATEGORY = 'it'
+			  	</if>
+			  	<if test="s_category == 'animal'">
+			  		AND CATEGORY = 'animal'
+			  	</if>
+			  	<if test="s_category == 'human'">
+			  		AND CATEGORY = 'human'
+			  	</if>
+			  </if>) A
+			   -->
 <!--
 <select id="getBbsPagingList" parameterType="kh.com.c.model.BbsParam" resultType="kh.com.c.model.BbsDto">
   	SELECT 	SEQ, ID, REF, STEP, DEPTH, TITLE, CONTENT, WDATE, PARENT, DEL, READCOUNT
