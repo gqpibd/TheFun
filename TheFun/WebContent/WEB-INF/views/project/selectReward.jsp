@@ -90,7 +90,7 @@ td{
            <table>
           <tr>
           	<td class="strongGray" rowspan="3">
-          	 <p> <input type="checkbox" value="${option.seq }" name="check">&nbsp; ${option.price } 원 펀딩합니다</p>
+          	 <p> <input type="checkbox" value="${option.seq }" name="check">&nbsp; ${option.price } 원 펀딩합니다 <font size="5px">(${option.stock-option.buycount }개 남음) </font> </p>
 			 <p class="liteGray">&nbsp; ${option.title }</p>
 			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
