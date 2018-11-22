@@ -3,7 +3,63 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- CREATE TABLE FUN_MEMBER(
+   ID VARCHAR2(50) PRIMARY KEY,
+   PWD VARCHAR2(50) NOT NULL,
+   NICKNAME VARCHAR2(50) NOT NULL,
+   PHONE VARCHAR2(50),
+   EMAIL VARCHAR2(50) NOT NULL,
+   ADDRESS VARCHAR2(100),
+   INFO VARCHAR2(2000), //소개글 (NOT NULL 삭제)
+   POINT NUMBER(15),
+   AUTH NUMBER(1) NOT NULL //1: 일반회원 3: 관리자
+); -->
+ 
 <!-- 멤버 -->  
 <mapper namespace="Member">
-
+	<!-- 아이디 중복 검사 -->
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM FUN_MEMBER 
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 이메일 중복 검사 -->
+	<select id="emailCheck" parameterType="String" resultType="int">
+		SELECT COUNT(*) 
+		FROM FUN_MEMBER 
+		WHERE EMAIL = #{email}
+	</select>
+	 
+	<!-- 회원가입 -->
+	<insert id="addAccount" parameterType="donzo.thefun.model.MemberDto">
+		<choose>			
+			<when test="pwd == null and email == null"> <!-- 계정 연동 회원가입. 이메일 없는 경우 -->
+				INSERT INTO FUN_MEMBER (ID, NICKNAME, INFO,POINT, AUTH) 
+				VALUES (#{id},#{nickname},#{info},0,${auth})
+			</when>
+			<when test="pwd == null and email != null"> <!-- 계정 연동 회원가입 -->
+				INSERT INTO FUN_MEMBER (ID, NICKNAME, EMAIL, INFO,POINT, AUTH) 
+				VALUES (#{id},#{nickname},#{email},#{info},0,${auth})
+			</when>			
+			<otherwise> <!-- 일반 회원 가입 -->
+				INSERT INTO FUN_MEMBER (ID, PWD, NICKNAME, EMAIL, INFO,POINT, AUTH) 
+				VALUES (#{id},#{pwd},#{nickname},#{email},#{info},0,${auth})
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<!-- 로그인 -->
+	<select id="tryLogin" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+		SELECT * 
+		FROM FUN_MEMBER 
+		<choose>			
+			<when test="pwd != null"> <!-- 일반 로그인 -->
+				WHERE ID = #{id} AND PWD = #{pwd}
+			</when>
+			<otherwise> <!-- 계정 연동 로그인 -->
+				WHERE ID = #{id}	
+			</otherwise>
+		</choose>					
+	</select>	
 </mapper>

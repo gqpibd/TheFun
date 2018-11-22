@@ -20,17 +20,15 @@ public class QnaController {
 	@Autowired
 	QnaService qnaService; //주석 풀어서 쓰길...
 	
-	
-	@RequestMapping(value="0000.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String qnaAfList(Model model) {
-		logger.info("QnaController 0000" + new Date());
+
+	@RequestMapping(value="reply.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String reply(Model model) {
+		logger.info("QnaController reply " + new Date());
+
 		
 		
-		
-		
-		
-		
-		return "0000.tiles";
+		return "reply.tiles";
 	}
+
 
 }

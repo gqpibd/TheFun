@@ -3,10 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>My Page</title>
 </head>
 <body>
+
+<div id="mypage">
+	 
+</div>
 
 </body>
 </html>

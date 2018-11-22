@@ -17,13 +17,7 @@ public class QnaDaoImpl implements QnaDao {
 	
 	String ns = "Qna.";
 
-	@Override
-	public List<QnaDto> getQnaList(int seq) {
-		List<QnaDto> list = sqlSession.selectList(ns, "getQnaList");
-		return list;
-	}
 
-	
 	
 	
 	
