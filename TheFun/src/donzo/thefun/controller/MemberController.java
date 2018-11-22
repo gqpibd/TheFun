@@ -92,12 +92,6 @@ public class MemberController {
 		return "login.tiles";
 	}
 	
-	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String main() {
-		logger.info("MemberController main " + new Date());		
-		return "main";
-	}
-	
 	
 	
 

@@ -30,6 +30,7 @@
 	 		<put-attribute name="main" value="/WEB-INF/views/account/login.jsp"/>
 	 	</definition>
 	 	
+	 	
 	 	<!-- <definition name="search.tiles" extends="main.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
 	 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
 	 	</definition> -->
