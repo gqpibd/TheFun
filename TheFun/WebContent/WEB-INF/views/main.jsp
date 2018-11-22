@@ -27,7 +27,10 @@
  <!-- Custom styles for this template -->
  <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
  <!-- mainCSS 설정 끝 -->
- 
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script><!-- 네이버 아이디로 로그인 -->
+<!-- Bootstrap core JavaScript -->
+<script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+<script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
  <style type="text/css">
  .pTitle{
  	font-weight: bold;
@@ -61,9 +64,7 @@
             	<a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-            	${login.nickname} <!-- 로그인됨 -->			
-            	${login.id} <!-- 로그인됨 -->					
-            	${login.email} <!-- 로그인됨 -->					
+				<span id="profile"></span>			
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->
 				<button type="button" onclick="location.href='feedBack.do'">피드백</button>
 				<button type="button" onclick="location.href='getMypage.do?id=${login.id}'">마이페이지</button>					
@@ -147,17 +148,28 @@ orderBtn.jpg
       <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
-    <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
-		function logout() {
-			console.log("로그아웃")
-			//gapi.auth2.getAuthInstance().signOut();
-			//navigator.credentials.requireUserMediation();
-			location.href="logout.do";
-			
-		}
+		
+    var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	window.addEventListener('load', function () {
+		naverLogin.getLoginStatus(function (status) {
+			if (status) {
+				/* 로그인 상태가 "true" 인 경우  */
+				setLoginStatus();
+			}
+		});
+	});
+	function setLoginStatus() {
+		var profileImage = naverLogin.user.getProfileImage();
+		var nickName = naverLogin.user.getNickName();
+		$("#profile").html('<img src="' + profileImage + '" height=50 />' + nickName + '님 반갑습니다.');		
+	}
+	function logout() {
+		naverLogin.logout();
+		location.href="logout.do";
+	}
 	</script>
 </body>
 </html>

@@ -17,14 +17,13 @@
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <meta name="google-signin-client_id" content="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"> <!-- 구글 api사용 -->
 <title>The Fun_더 아름다운 세상을 위한 펀딩 로그인</title>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인  -->
-<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script><!-- 네이버 아이디로 로그인 -->
-<script src="https://apis.google.com/js/platform.js" async defer></script> <!-- 구글 아이디로 로그인 -->
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script> <!-- 구글 로그인 커스텀 버튼 -->
-<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script><!-- 구글 아이디로 로그인 -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인  -->
+<!-- <script src="js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script> --><!-- 네이버 아이디로 로그인 -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
-
+<!-- <script src="js/postcode/postcode.v2.js"></script>
+<script src="js/postcode/180928.js"></script> -->
 <link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
 <style type="text/css">
 
@@ -79,17 +78,20 @@
 		<button style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
 		<div style="margin: auto">
-			<!-- 구글 아이디로 로그인 -->
-			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn"></div> 
-			<br>
+			
 			<!-- 카카오 아이디로 로그인 -->
 			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;"> 
-				<img src="image/login/kakao_account_login_btn_medium_narrow.png"
-				onmouseover="this.src='image/login/kakao_account_login_btn_medium_narrow_ov.png'"
-				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_narrow.png'"/><!-- width="217.31px" -->
-			</a>			
+				<img src="image/login/kakao_account_login_btn_medium_wide.png"
+				onmouseover="this.src='image/login/kakao_account_login_btn_medium_wide_ov.png'"
+				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_wide.png'"/><!-- width="217.31px" -->
+			</a>
 			<!-- 네이버 아이디로 로그인 -->
-			<div id="naverIdLogin" onclick="tryLoginWithNaver()"></div>
+			<!-- <div id="naverIdLogin"></div> -->
+			<!-- 페이스북아이디로로그인 -->
+			<div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+			<!-- 구글 아이디로 로그인 -->
+			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn" style="margin-top: 5px"></div> 
+			
 		</div>
 		<div>
 			<p class="message">
@@ -123,26 +125,9 @@ $('.message a').click(function(){
 					success : function(res) {
 						var id = res.id;
 						var email = res.kaccount_email;
-						var nickname = res.properties['nickname']; // res.properties.nickname으로도 접근 가능  
-						//location.href="loginAf.do?id=" + res.id +"&nickname=" + res.properties['nickname']"&nickname=" + ;
-						
+						var nickname = res.properties['nickname']; // res.properties.nickname으로도 접근 가능
 						//console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
-						$.ajax({
-							type:"get",
-							url:"idCheck.do",
-							data:"id=" + id,
-							
-							success:function(data){						
-								if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴		
-									location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
-								}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-									var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
-									if (check) {
-										location.href="regiAf.do?id=" + id +"&nickname=" + nickname;
-									}
-								}
-							}
-						});	
+						willYouSignUp(id,nickname,email);	
 						
 					}
 				})
@@ -153,59 +138,55 @@ $('.message a').click(function(){
 		});
 	};
 </script>
+
 <!-- 네이버아디디로로그인 Script -->
 <script type="text/javascript">
-	var naverLogin = new naver.LoginWithNaverId(
+	/* var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "vb6UHNxUFoBsi487fDmI",
 			//callbackUrl: "http://localhost:8090/TheFun/naverLogin.do",
-			callbackUrl: "http://localhost:8090/TheFun/",
-			isPopup: false, /* 팝업을 통한 연동처리 여부 */
-			callbackHandle: true,
-			loginButton: {color: "green", type: 3, height: 47} /* 로그인 버튼의 타입을 지정 */
+			callbackUrl: "https://localhost:8443/TheFun/login.do",
+			//isPopup: false, // 팝업을 통한 연동처리 여부 
+			//callbackHandle: true,
+			loginButton: {color: "green", type: 3, height: 47} // 로그인 버튼의 타입을 지정
 		}
 	);
-	//버튼 클릭 -> tryLoginWithNaver() -> callbackurl로 이동....
-	/* 설정정보를 초기화하고 연동을 준비 */
+	//설정정보를 초기화하고 연동을 준비 
 	naverLogin.init();
-	naverLogin.logout(); // 자동 로그인 방지
-	function tryLoginWithNaver(){
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
-				var email = naverLogin.user.getEmail();
-				var nickname = naverLogin.user.getNickName();
-				var profileImage = naverLogin.user.getProfileImage();						
-				var id = naverLogin.user.getId();				
-				console.log(email);
-				console.log(name);
-				console.log(profileImage);				
-				console.log(id);
-				$.ajax({
-					type:"get",
-					url:"idCheck.do",
-					data:"id=" + id,
-					
-					success:function(data){						
-						if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-							window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");
-							//location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
-						}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-							//var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
-							window.location.replace("regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email);
-							/* if (check) {
-								//location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-							} */
-						}
-					}
-				});	
-			}  else {
-				//console.log("AccessToken이 올바르지 않습니다.");
-			} 
-		
+	// (5) 현재 로그인 상태를 확인 
+	window.addEventListener('load', function () {
+	
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			var email = naverLogin.user.getEmail();
+			var nickname = naverLogin.user.getNickName();
+			var profileImage = naverLogin.user.getProfileImage();						
+			var id = naverLogin.user.getId();	
+			willYouSignUp(id,nickname,email);	
+		}
 		});
-	}
+	}); */
+function willYouSignUp(id,nickname,email){
+	/* $.noConflict(); */
+	$.ajax({
+		type:"get",
+		url:"idCheck.do",
+		data:"id=" + id,
+		
+		success:function(data){						
+			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
+				window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");
+				//location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
+			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴							
+				if (confirm("등록되지 않은 계정입니다.  회원가입 하시겠습니까?")) {
+					//window.location.replace("regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email);
+					location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
+				}
+			}
+		}
+	});	
+}
 </script>
-
 <!-- 구글 아이디로 로그인 -->
 
 <script type="text/javascript">
@@ -224,24 +205,43 @@ function onSignIn(googleUser) {
 	//console.log('Image URL: ' + profile.getImageUrl());
 	var email = profile.getEmail();
 	console.log("id:"+profile.getId());
-	$.ajax({
-		type:"get",
-		url:"idCheck.do",
-		data:"id=" + id,
-		
-		success:function(data){						
-			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴		
-				location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
-			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴	
-				var check = confirm("등록되지 않은 계정입니다. 회원가입 하시겠습니까?");			
-				if (check) {
-					location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-				}
-			}
-		}
-	});	
+
+	willYouSignUp(id,nickname,email);	
 }
 </script>
+
+<!-- 페이스북아이디로 로그인  -->
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{2123794117640622}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{3.2}'
+    });
+      
+    FB.AppEvents.logPageView();   
+    
+    FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+        console.log("abc")
+    });
+      
+  };
+  <!-- 페이스북 아이디로 로그인 -->
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.2&appId=2123794117640622&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  
+</script>
+
+
 <script type="text/javascript">
 /* 회원가입 유효성 검사 */
 var idOk = false;
