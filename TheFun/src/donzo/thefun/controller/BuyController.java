@@ -31,4 +31,4 @@ public class BuyController {
 		logger.info("BuyController goOrderReward 메소드 " + new Date());
 		return "project/orderReward";
 	}
-}
+} 

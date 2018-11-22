@@ -39,5 +39,5 @@ public class ProjectController {
 		logger.info("ProjectController feedBack " + new Date());	
 		return "project/detailFeedback";
 	}
-	
+	   
 }

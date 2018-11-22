@@ -37,4 +37,16 @@ public class MemberDaoImpl implements MemberDao {
 	public MemberDto tryLogin(MemberDto dto) {
 		return sqlSession.selectOne(ns+"tryLogin",dto);
 	}
+
+	@Override
+	public MemberDto getMypage(MemberDto mem) throws Exception{
+		System.out.println("MemberDaoImpl mem.toString()" + mem.toString());
+		
+		MemberDto dto = sqlSession.selectOne(ns + "getMypage", mem);
+		System.out.println("MemberDaoImpl 에서 출력된 dto : " + dto.toString());
+		return dto;
+	}
+	
+	
+	
 }

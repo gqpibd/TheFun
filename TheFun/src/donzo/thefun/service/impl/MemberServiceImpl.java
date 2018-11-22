@@ -32,4 +32,12 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDto tryLogin(MemberDto dto) {		
 		return memberDao.tryLogin(dto);
 	}	
+
+	@Override
+	public MemberDto getMypage(MemberDto mem) throws Exception{
+		return memberDao.getMypage(mem);
+	}
+	
+	
+	
 }

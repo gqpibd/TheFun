@@ -19,4 +19,4 @@ public class QnaController {
 	@Autowired
 	QnaService qnaService; 	
 	
-}
+}  

@@ -53,6 +53,60 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
+	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getMypage(MemberDto mem, Model model) throws Exception{
+		logger.info("MemberController getMypage " + new Date());
+		
+		/*String id ="testJY";
+		mem.setId(id);*/
+		logger.info("getMypage mem" + mem.toString());
+		MemberDto mypage = memberService.getMypage(mem);
+		
+		model.addAttribute("myp", mypage);
+		
+		//return "getMypage.tiles";
+		return "mypage/mypage";
+	}
+	
+	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getMyinfo(MemberDto mem, Model model) throws Exception{
+		logger.info("MemberController myInfo " + new Date());
+		
+		/*String id ="testJY";
+		mem.setId(id);*/
+		logger.info("myInfo mem" + mem.toString());
+		MemberDto myinfo = memberService.getMypage(mem);
+		
+		
+		
+		int n = 1;
+		if(myinfo != null && !myinfo.getId().equals("")) {//null 값 혹은 0 으로 들어 왔을때 의미 없는 걸로 세팅해줌..	
+			if(myinfo.getNickname()==null || myinfo.getNickname().equals("")) {
+				myinfo.setNickname("별명"+ (n++));
+			}
+			if(myinfo.getPhone()==null || myinfo.getPhone().equals("")) {
+				myinfo.setPhone("연락처를 적어주세요");
+			}
+			if(myinfo.getEmail()==null || myinfo.getEmail().equals("")) {
+				myinfo.setEmail("이메일을 적어주세요");
+			}
+			if(myinfo.getAddress()==null || myinfo.getAddress().equals("")) {
+				myinfo.setAddress("주소를 설정해 주세요");
+			}
+			if(myinfo.getInfo()==null || myinfo.getInfo().equals("")) {
+				myinfo.setInfo("자신을 소개해보세요");
+			}
+			if(myinfo.getAuth()==0) {
+				myinfo.setAuth(1);
+			}
+			model.addAttribute("myi", myinfo);
+		}
+		
+		//return "getMypage.tiles";
+		return "mypage/myInfo";	
+	}
+	
+	/*
 	// 네이버 로그인 처리
 	/*@RequestMapping(value = "naverLogin.do", method = { RequestMethod.GET, RequestMethod.POST })
 	public String naverLogin(HttpServletRequest request, HttpServletResponse resp, MemberDto dto, String loginType) {

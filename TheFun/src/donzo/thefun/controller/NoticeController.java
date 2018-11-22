@@ -26,5 +26,5 @@ public class NoticeController {
 		
 		return "뭔.tiles";
 	}
-*/
+*/   
 }
