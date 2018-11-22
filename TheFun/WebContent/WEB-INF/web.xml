@@ -40,7 +40,7 @@
   
   <servlet-mapping>
     <servlet-name>dispatcherServlet</servlet-name>
-    <url-pattern>*.do</url-pattern>	<!-- controller 명칭을 설정하는 규칙 (*.do : 무조건 컨트롤러로 간다! do는 컨트롤러를 지칭하는 것. 여길 /로 하면 모든 영역을 아우름. 컨트롤러의 hello 부분을 실행할 수 있다.) -->		
+    <url-pattern>*.do</url-pattern>	
   </servlet-mapping>
   
   

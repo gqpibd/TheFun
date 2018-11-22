@@ -8,5 +8,7 @@
 </head>
 <body>
 
+<h1>detail.jsp입니다</h1>
+
 </body>
 </html>

@@ -2,6 +2,7 @@ package donzo.thefun.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
+
 /*-- 프로젝트 테이블
 
 DROP TABLE FUN_PROJECT
@@ -51,76 +52,31 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
 FROM FUN_PROJECT P;*/
 
-public class ProjectDto implements Serializable {
+
+public class ProjectInputDto implements Serializable {
 	
-	public static final String TYPE_REWARD = "reward"; 
-	public static final String TYPE_DONATION = "donation"; 
-	public static final String CATEGORY_FOOD = "food"; //reward
-	public static final String CATEGORY_IT = "it";  // reward
-	public static final String CATEGORY_ANIMAL = "animal";  //reward | donation
-	public static final String CATEGORY_HUMAN = "human"; // donation
 	
-	public static final int WAITING = 1; // 승인대기 
-	public static final int PREPARING = 2; // 준비중
-	public static final int ONGOING = 3; // 진행중
-	public static final int COMPLETE_SUCCESS = 4; // 완료됨(성공)
-	public static final int COMPLETE_FAIL = 5; // 완료됨(실패)
-	public static final int DELETE = 6; // 삭제
-		
-	int seq;
 	String id; // 작성자
 	String fundtype; // REWARD | DONATION
 	String category; // FOOD, ANIMAL, IT | ANIMAL, HUMAN
 	String title; // 프로젝트 이름
 	String content; // 프로젝트 설명 + 이미지 포함해야 되는데....
 	String summary; // 프로젝트 요약 설명
-	String[] tags; // 태그
+	String tags; // 태그
 	String bank; // 계좌번호
 	int goalfund; // 목표 모금액
 	String sdate; // 시작일
 	String edate; // 종료일
 	String pdate; // 결제일
 	String shipdate; // 배송시작일
-	String regdate; // 등록일
-	int status; // 상테 준비중|승인대기|진행중|완료됨(성공)|완료됨(실패)|삭제
 	
-	int qnacount; // 댓글 갯수
-	int buycount; // 구매 갯수
-	int noticecount; // 공지 갯수
-	int likecount; // 좋아요 갯수
-	int fundachived; // 달성 모금액
 	
-	public ProjectDto() {}
+	public ProjectInputDto() {}
 
-	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
-			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
-			String shipdate, String regdate, int status, int qnacount, int buycount, int noticecount, int likecount,
-			int fundachived) {
-		this.seq = seq;
-		this.id = id;
-		this.fundtype = fundtype;
-		this.category = category;
-		this.title = title;
-		this.content = content;
-		this.summary = summary;
-		this.tags = tags;
-		this.bank = bank;
-		this.goalfund = goalfund;
-		this.sdate = sdate;
-		this.edate = edate;
-		this.pdate = pdate;
-		this.shipdate = shipdate;
-		this.regdate = regdate;
-		this.status = status;
-		this.qnacount = qnacount;
-		this.buycount = buycount;
-		this.noticecount = noticecount;
-		this.likecount = likecount;
-		this.fundachived = fundachived;
-	}
 
-	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
-			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+	public ProjectInputDto(String id, String fundtype, String category, String title, String content, String summary,
+			String tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+		super();
 		this.id = id;
 		this.fundtype = fundtype;
 		this.category = category;
@@ -135,134 +91,147 @@ public class ProjectDto implements Serializable {
 		this.pdate = pdate;
 		this.shipdate = shipdate;
 	}
+
 
 	public String getId() {
 		return id;
 	}
 
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 
 	public String getFundtype() {
 		return fundtype;
 	}
 
+
 	public void setFundtype(String fundtype) {
 		this.fundtype = fundtype;
 	}
+
 
 	public String getCategory() {
 		return category;
 	}
 
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
 
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 
 	public String getContent() {
 		return content;
 	}
 
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 
 	public String getSummary() {
 		return summary;
 	}
 
+
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-/*
-	public String[] getTags() {
+
+
+	public String getTags() {
 		return tags;
 	}
 
-	public void setTags(String[] tags) {
+
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
-*/
+
+
 	public String getBank() {
 		return bank;
 	}
+
 
 	public void setBank(String bank) {
 		this.bank = bank;
 	}
 
+
 	public int getGoalfund() {
 		return goalfund;
 	}
+
 
 	public void setGoalfund(int goalfund) {
 		this.goalfund = goalfund;
 	}
 
+
 	public String getSdate() {
 		return sdate;
 	}
+
 
 	public void setSdate(String sdate) {
 		this.sdate = sdate;
 	}
 
+
 	public String getEdate() {
 		return edate;
 	}
+
 
 	public void setEdate(String edate) {
 		this.edate = edate;
 	}
 
+
 	public String getPdate() {
 		return pdate;
 	}
+
 
 	public void setPdate(String pdate) {
 		this.pdate = pdate;
 	}
 
+
 	public String getShipdate() {
 		return shipdate;
 	}
+
 
 	public void setShipdate(String shipdate) {
 		this.shipdate = shipdate;
 	}
 
-	public String getRegdate() {
-		return regdate;
-	}
-
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 	@Override
 	public String toString() {
-		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
-				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
-				+ Arrays.toString(tags) + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
-				+ edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate + ", status=" + status
-				+ ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount=" + noticecount + ", likecount="
-				+ likecount + ", fundachived=" + fundachived + "]";
+		return "ProjectInputDto [id=" + id + ", fundtype=" + fundtype + ", category=" + category + ", title=" + title
+				+ ", content=" + content + ", summary=" + summary + ", tags=" + tags + ", bank=" + bank + ", goalfund="
+				+ goalfund + ", sdate=" + sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate
+				+ "]";
 	}
+
+	
+	
+	
 }

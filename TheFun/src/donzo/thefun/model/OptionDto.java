@@ -40,16 +40,17 @@ public class OptionDto implements Serializable {
 
 	int seq;
 	int projectseq;
-	String op_title;
+	String[] op_title;
 	String[] op_content;
-	int price;
-	int stock; // 재고
+	
+	int[] price;
+	int[] stock; // 재고
 	
 	int buycount; // 구매 수량
 	
 	public OptionDto() {}
 
-	public OptionDto(int seq, int projectseq, String op_title, String[] op_content, int price, int stock,
+	public OptionDto(int seq, int projectseq, String[] op_title, String[] op_content, int[] price, int[] stock,
 			int buycount) {
 		super();
 		this.seq = seq;
@@ -77,11 +78,11 @@ public class OptionDto implements Serializable {
 		this.projectseq = projectseq;
 	}
 
-	public String getOp_title() {
+	public String[] getOp_title() {
 		return op_title;
 	}
 
-	public void setOp_title(String op_title) {
+	public void setOp_title(String[] op_title) {
 		this.op_title = op_title;
 	}
 
@@ -93,19 +94,19 @@ public class OptionDto implements Serializable {
 		this.op_content = op_content;
 	}
 
-	public int getPrice() {
+	public int[] getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(int[] price) {
 		this.price = price;
 	}
 
-	public int getStock() {
+	public int[] getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(int[] stock) {
 		this.stock = stock;
 	}
 
@@ -119,10 +120,13 @@ public class OptionDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", op_title=" + op_title + ", op_content="
-				+ Arrays.toString(op_content) + ", price=" + price + ", stock=" + stock + ", buycount=" + buycount
-				+ "]";
+		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", op_title=" + Arrays.toString(op_title)
+				+ ", op_content=" + Arrays.toString(op_content) + ", price=" + Arrays.toString(price) + ", stock="
+				+ Arrays.toString(stock) + ", buycount=" + buycount + "]";
 	}
+
+	
+	
 	
 	
 }
