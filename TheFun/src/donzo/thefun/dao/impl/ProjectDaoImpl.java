@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 
@@ -37,6 +38,11 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Override
 	public int howmanyBuy(int seq) {
 		return sqlSession.selectOne(ns+"howmanyBuy",seq);
+	}
+
+	@Override
+	public List<NoticeDto> getNotice(int seq) {
+		return sqlSession.selectList(ns+"noticeInfo",seq);
 	}
 	
 	

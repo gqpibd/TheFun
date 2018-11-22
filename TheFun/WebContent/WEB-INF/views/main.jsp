@@ -97,7 +97,7 @@
 
         <div class="col-md-3 col-sm-6 mb-4">
           <form action="detail.do"  id="gotoDetail">
-          <input type="hidden" name="seq" value="1">	<!-- //가짜 정보 -->
+          <input type="hidden" name="seq" value="1">	<!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
           <input type="hidden" name="id" value="blueja3629">
             <img class="img-fluid" src="image/main/mainImg7.PNG" onclick="godetail()"id="img">
           <p class="pTitle">프로젝트 타이틀</p>

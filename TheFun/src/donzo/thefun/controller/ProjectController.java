@@ -38,9 +38,27 @@ public class ProjectController {
 		
 		//구매자 수
 		model.addAttribute("howmanyBuy",projectService.howmanyBuy(seq));
+		
+		//새소식 가져오기
+		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		return "project/detail";
 	}
 	
+	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderReward(int seq,Model model) {
+		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+	
+		//현재 선택한 프로젝트 정보
+		model.addAttribute("projectdto",projectService.getProject(seq));
+		
+		//옵션들
+		model.addAttribute("optionList",projectService.getOptions(seq));
+		System.out.println(projectService.getProject(seq).toString());
+		return "project/selectReward";
+		
+	}
+	
+		
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	

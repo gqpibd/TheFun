@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.ProjectService;
@@ -38,6 +39,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int howmanyBuy(int seq) {
 		return projectDao.howmanyBuy(seq);
+	}
+
+	@Override
+	public List<NoticeDto> getNotice(int seq) {
+		return projectDao.getNotice(seq);
 	}
 	
 }

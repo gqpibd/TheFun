@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="org.springframework.expression.spel.ast.OpInc"%>
 <%@page import="java.util.List"%>
 <%@page import="donzo.thefun.model.OptionDto"%>
@@ -35,7 +36,11 @@
 <link href="CSS/detailvendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
-<!-- 디테일설정끝 -->
+
+<!-- 카카오 공유하기 api 설정 -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+ <!-- 디테일설정끝 -->
  
  <style type="text/css">
  p {
@@ -74,8 +79,8 @@
  }
 
  </style>
-<!--  
-<script>
+<!-- 메뉴바 고정 설정...인데 css다 풀려서 보류 -->
+<!--  <script>
   $( document ).ready( function() {
     var jbOffset = $( '.jbMenu' ).offset();
     $( window ).scroll( function() {
@@ -91,6 +96,35 @@
   -->
 </head>
 <body>
+
+<!-- 카카오 링크 설정 -->
+<script> 
+var firstImg=$(".imageblock:first-of-type img"); 
+var contents=""; 
+if(firstImg.attr("src")){ 
+	var firstImgSrc=firstImg.attr("src"); 
+	var firstImgRatio = parseInt(firstImg.css("height"))/parseInt(firstImg.css("width")); 
+	if (firstImgRatio <=0.27) var firstImgRatio=0.27; 
+}else{
+	var firstImgSrc=location.origin+"/favicon.ico";
+	var firstImgRatio=1
+} 
+
+Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
+
+function sendLink() { 
+	Kakao.Link.sendTalkLink({ 
+		label: '[##_page_title_##]', // 공유할 메세지의 제목을 설정
+		image: { 
+			src: firstImgSrc, 
+			width: '300', 
+			height: parseInt(300*firstImgRatio)  // 이건 썸네일을 설정 하는 겁니다.
+		},
+		webButton: {text: 'TheFun_더 아름다운 세상을 위한 펀딩', 
+					url : "http://www.naver.com"  }
+	}); 
+} 
+</script>	
 
 <!-- Navigation 헤더 -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -115,10 +149,14 @@
         </div>
       </div>
     </nav>
-<%
-	ProjectDto projectdto = (ProjectDto)request.getAttribute("projectdto");
-	
-%>
+    
+<!-- 남은날짜계산 -->
+<jsp:useBean id="toDay" class="java.util.Date" />
+<fmt:formatDate value="${toDay}" pattern="yyyy-MM-dd HH:mm:ss" />
+<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+<fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+
  <!-- 프로젝트명 부분-->
     <div class="container">
    	<br>
@@ -134,26 +172,33 @@
 		
 		<tr height="50">
 			<td rowspan="5" style="width: 50%" align="right"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray" align="left" style="width: 50%"><b>n일 남음</b></td>
+			<td class="strongGray" align="left" style="width: 50%"><b>${endDate - strDate }일 남음</b></td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b>n</b>%달성
+			<td class="strongGray"align="left"  style="width: 50%"><b></b>${projectdto.fundachived div projectdto.goalfund }% 달성
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>%nbsp;원 펀딩
+			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
 			<td class="strongGray"align="left"  style="width: 50%"><b>${howmanyBuy}</b>명의 서포터
 		</tr>
 		<tr height="50">
-			<td> <a href="goOrderReward.do"><img src="image/detail/fundBtn.jpg" height="50px"></a> </td>
+			<td> 
+				<a href="goOrderReward.do?seq=${projectdto.seq }">
+					<img src="image/detail/fundBtn.jpg" height="50px">
+				</a> 
+			</td>
 		</tr>
 		<tr height="50">
 			<td align="right" class="strongGray">${projectdto.summary } &nbsp;&nbsp; </td>
-			<td><a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>카카오톡 공유 </td>
+			<td>
+				<a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>
+				<a id="kakao-link-btn" href="javascript:sendLink()"><img src="image/detail/cacaoLink.PNG" ></a> 
+			</td>
 		</tr>
 		</table>
-
+    
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
 		<div class="jbMenu">
@@ -255,7 +300,7 @@ $(function () {
 			 </c:forEach>
 				</ul>
               <p class="liteGray" style="font-size: 15px">예상전달일 :${projectdto.shipdate}</p>
-              <p class="pupple">제한수량 ${option.stock } 개  <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+              <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>
           </div>

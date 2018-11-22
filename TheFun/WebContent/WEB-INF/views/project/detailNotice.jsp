@@ -39,15 +39,19 @@
 </tr>
 </table>
 
+<!-- main content -->
+<fmt:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일"/>
+
 <br><br>
-<p class="strongGray"><font class="pupple" style="font-weight: bold;">#1</font> 작성자 타이틀</p>
-<p class="liteGray">작성자 내용</p>
-
-<br>
-
-<!-- 게시글 갯수만큼 -->
-<p class="strongGray"><font class="pupple" style="font-weight: bold;">#2</font> 작성자 타이틀</p>
-<p class="liteGray">작성자 내용</p>
+<c:forEach items="${noticeInfo }" var="notice" varStatus="status">
+	<p class="strongGray">
+		<font class="pupple" style="font-weight: bold;">#${status.count }</font> 
+		${notice.title }
+		<font class="liteGray" size="3px">${dateFmt }</font>
+	</p>
+	<p class="liteGray">${notice.content }</p>
+</c:forEach>
 <br>
 
 

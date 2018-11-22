@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:requestEncoding value="utf-8"/> 
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,6 +42,10 @@
 table{
 	width:70%;
 	border: 1px solid #818181;
+	padding: 20px;
+}
+td{
+	padding: 20px;
 }
 </style>
 </head>
@@ -71,37 +80,29 @@ table{
     <div class="container">
       <div class="my-4" align="center">
         <div align="center">
-          <p class="strongGray" style="font-size: 25px">프로젝트명</p>
+          <p class="strongGray" style="font-size: 25px">${projectdto.title }</p><br><br>
           <img src="image/detail/selectReword.jpg" width="120px"> <strong class="strongGray">펀딩해주시는 금액에 따라 감사의 의미로 리워드를 제공 해 드립니다.</strong>
           <br><br>
           
           <!-- 테이블 영역 -->
-           <table>
-           <tr>
-          	<td>  </td>
-          </tr>
-          <tr>
-          	<td class="strongGray" rowspan="3"><p> <input type="checkbox">&nbsp; n 원 펀딩합니다</p>
-			 <p class="liteGray">&nbsp;&nbsp;&nbsp; 옵션 title</p>
-			 <p class="liteGray">&nbsp;&nbsp;&nbsp; 옵션 content</p>        	
-          	</td>
-          </table>
-          <br>
           
-          <!-- 갯수만큼증가 -->
+          <c:forEach items="${optionList}" var="option"> 
            <table>
-           <tr>
-          	<td>  </td>
-          </tr>
           <tr>
-          	<td class="strongGray" rowspan="3"><p> <input type="checkbox">&nbsp; n 원 펀딩합니다</p>
-			 <p class="liteGray">&nbsp;&nbsp;&nbsp; 옵션 title</p>
-			 <p class="liteGray">&nbsp;&nbsp;&nbsp; 옵션 content</p>        	
+          	<td class="strongGray" rowspan="3"><p> <input type="checkbox">&nbsp; ${option.price } 원 펀딩합니다</p>
+			 <p class="liteGray">&nbsp; ${option.title }</p>
+			 <c:forEach items="${option.content}" var="item">
+			   <li class="liteGray">${item}</li>
+			 </c:forEach>     	
           	</td>
           </table>
           <br>
-          <br>
-            <a href="goOrder.do"><img src="image/detail/next.jpg" width="120px"></a>
+          </c:forEach>
+          <!-- 테이블 영역 끝 -->
+          
+          
+          <br><br><br>
+           <a href="goOrder.do"><img src="image/detail/next.jpg" width="120px"></a>
           
         </div>
       </div>

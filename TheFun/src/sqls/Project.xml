@@ -25,5 +25,9 @@
 	SELECT COUNT(*)FROM FUN_BUY WHERE PROJECTSEQ=#{seq}
 </select>
 
+<!-- 새소식 가져오기 -->
+<select id="noticeInfo" parameterType="Integer" resultType="donzo.thefun.model.NoticeDto"> 
+	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq}
+</select>
 
 </mapper>
