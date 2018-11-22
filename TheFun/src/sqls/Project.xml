@@ -27,7 +27,7 @@
 
 <!-- 새소식 가져오기 -->
 <select id="noticeInfo" parameterType="Integer" resultType="donzo.thefun.model.NoticeDto"> 
-	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq}
+	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq} ORDER BY SEQ DESC
 </select>
 
 </mapper>

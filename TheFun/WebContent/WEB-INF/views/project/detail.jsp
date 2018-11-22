@@ -175,7 +175,7 @@ function sendLink() {
 			<td class="strongGray" align="left" style="width: 50%"><b>${endDate - strDate }일 남음</b></td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b></b>${projectdto.fundachived div projectdto.goalfund }% 달성
+			<td class="strongGray"align="left"  style="width: 50%"><b></b>${(projectdto.fundachived div projectdto.goalfund)*100 }% 달성
 		</tr>
 		<tr height="50">
 			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
@@ -206,7 +206,7 @@ function sendLink() {
 		<table style="width: 100%; background-color: white;">
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>n</b></sup></font></td>
+			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${fn:length(noticeInfo)}</b></sup></font></td>
 			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>n</b></sup></font></td>
 		</tr>
 		</table>

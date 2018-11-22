@@ -41,6 +41,7 @@ public class ProjectController {
 		
 		//새소식 가져오기
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
+		System.out.println("새소식 : "+projectService.getNotice(seq));
 		return "project/detail";
 	}
 	

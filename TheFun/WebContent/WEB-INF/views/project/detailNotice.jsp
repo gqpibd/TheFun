@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
     
 <!DOCTYPE html>
 <html>
@@ -28,29 +29,47 @@
  font-family: "Nanum Gothic", sans-serif;
 	 color: #818181;
  }
+ .table{
+ 
+ }
 </style>
 </head>
 <body>
 <table style="width: 100%">
 <tr>
-	<td align="left" class="strongGray">새소식 <strong class="pupple">n</strong>건</td>
+	<td align="left" class="strongGray">새소식 <strong class="pupple">${fn:length(noticeInfo)}</strong>건</td>
+	
 	<!-- if 작성자라면 -->
 	<td align="right" class="pupple"> <img src="image/detail/writeBtn.jpg" width="100px"> </td>
+	<!-- if부분 -->
+
 </tr>
 </table>
 
-<!-- main content -->
-<fmt:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyy-MM-dd HH:mm:ss"/>
-<fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일"/>
+ <!-- main content -->
 
 <br><br>
 <c:forEach items="${noticeInfo }" var="notice" varStatus="status">
-	<p class="strongGray">
-		<font class="pupple" style="font-weight: bold;">#${status.count }</font> 
-		${notice.title }
-		<font class="liteGray" size="3px">${dateFmt }</font>
-	</p>
-	<p class="liteGray">${notice.content }</p>
+	<fmt:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyy-MM-dd HH:mm:ss"/>
+	
+	<table>
+	<tr>
+		<td class="strongGray">
+			<font class="pupple" style="font-weight: bold;">#${status.count }</font>&nbsp;${notice.title }
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font class="liteGray" size="2px">
+				작성일 : <fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일"/>
+			</font>
+		</td>
+	</tr>
+	<tr>
+		<td class="liteGray"><br>${notice.content }</td>
+	</tr>
+	</table>
+	
 </c:forEach>
 <br>
 
