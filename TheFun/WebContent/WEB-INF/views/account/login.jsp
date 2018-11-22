@@ -26,6 +26,12 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 
 <link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
+<style type="text/css">
+
+.form .register-form {
+  display: none;
+}
+</style>
 </head>
 <body>
 

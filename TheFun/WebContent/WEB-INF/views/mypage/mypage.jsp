@@ -31,10 +31,10 @@
 </tr>
 
 <tr style="text-align: center;">
-	<td class="menubar"><a href="myInfo.do?id=testWJ">내 정보</a>&nbsp;&nbsp;</td>
+	<td class="menubar"><a href="myInfo.do?id=${login.id}">내 정보</a>&nbsp;&nbsp;</td>
 	<td class="menubar">나의 후원내역&nbsp;&nbsp;</td>
 	<td class="menubar">내 프로젝트&nbsp;&nbsp;</td>
-	<td class="menubar"><a href="myCalendar.do?id=testJY">캘린더</a></td>
+	<td class="menubar"><a href="myCalendar.do?id=${login.id}">캘린더</a></td>
 </tr>
 
 <!-- 노 계획

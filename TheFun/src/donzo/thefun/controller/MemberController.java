@@ -53,12 +53,10 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
+	// 마이페이지로 이동
 	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMypage(MemberDto mem, Model model) throws Exception{
 		logger.info("MemberController getMypage " + new Date());
-		
-		/*String id ="testJY";
-		mem.setId(id);*/
 		logger.info("getMypage mem" + mem.toString());
 		MemberDto mypage = memberService.getMypage(mem);
 		
@@ -68,6 +66,7 @@ public class MemberController {
 		return "mypage/mypage";
 	}
 	
+	// 내 정보 불러오기(내정보 보기)
 	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMyinfo(MemberDto mem, Model model) throws Exception{
 		logger.info("MemberController myInfo " + new Date());
@@ -75,9 +74,7 @@ public class MemberController {
 		/*String id ="testJY";
 		mem.setId(id);*/
 		logger.info("myInfo mem" + mem.toString());
-		MemberDto myinfo = memberService.getMypage(mem);
-		
-		
+		MemberDto myinfo = memberService.getMypage(mem);		
 		
 		int n = 1;
 		if(myinfo != null && !myinfo.getId().equals("")) {//null 값 혹은 0 으로 들어 왔을때 의미 없는 걸로 세팅해줌..	
@@ -85,7 +82,7 @@ public class MemberController {
 				myinfo.setNickname("별명"+ (n++));
 			}
 			if(myinfo.getPhone()==null || myinfo.getPhone().equals("")) {
-				myinfo.setPhone("연락처를 적어주세요");
+				myinfo.setPhone("");
 			}
 			if(myinfo.getEmail()==null || myinfo.getEmail().equals("")) {
 				myinfo.setEmail("이메일을 적어주세요");
@@ -105,62 +102,6 @@ public class MemberController {
 		//return "getMypage.tiles";
 		return "mypage/myInfo";	
 	}
-	
-	/*
-	// 네이버 로그인 처리
-	/*@RequestMapping(value = "naverLogin.do", method = { RequestMethod.GET, RequestMethod.POST })
-	public String naverLogin(HttpServletRequest request, HttpServletResponse resp, MemberDto dto, String loginType) {
-		logger.info("MemberController loginAf " + new Date());
-		PrintWriter out;
-		try {
-			out = resp.getWriter();
-		
-		
-			String clientId = "vb6UHNxUFoBsi487fDmI";// 애플리케이션 클라이언트 아이디값";
-			String clientSecret = "nQ5HvM2rRQ";// 애플리케이션 클라이언트 시크릿값";
-			String code = request.getParameter("code");
-			String state = request.getParameter("state");
-			String redirectURI;
-			
-			redirectURI = URLEncoder.encode("http://localhost:8090/TheFun/naverLogin.do", "UTF-8");
-			
-			String apiURL;
-			apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
-			apiURL += "client_id=" + clientId;
-			apiURL += "&client_secret=" + clientSecret;
-			apiURL += "&redirect_uri=" + redirectURI;
-			apiURL += "&code=" + code;
-			apiURL += "&state=" + state;
-			//String access_token = "";
-			//String refresh_token = "";
-			System.out.println("apiURL=" + apiURL);
-		
-			URL url = new URL(apiURL);
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			con.setRequestMethod("GET");
-			int responseCode = con.getResponseCode();
-			BufferedReader br;
-			System.out.print("responseCode=" + responseCode);
-			if (responseCode == 200) { // 정상 호출
-				br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			} else { // 에러 발생
-				br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-			}
-			String inputLine;
-			StringBuffer res = new StringBuffer();
-			while ((inputLine = br.readLine()) != null) {
-				res.append(inputLine);
-			}
-			br.close();
-			if (responseCode == 200) {
-				out.println(res.toString());
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		request.getSession().setAttribute("login", dto);
-		return "redirect:/main.do";
-	}*/
 	
 	// 로그아웃 처리
 	@RequestMapping(value="logout.do", method= {RequestMethod.GET, RequestMethod.POST}) 
