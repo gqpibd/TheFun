@@ -27,10 +27,10 @@ public class ProjectController {
 	@RequestMapping(value="getAllProject.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getAllProject(Model model, ProjectParam pParam) throws Exception{
 		logger.info("ProjectController getAllProject.do " + new Date());
-		logger.info("ProjectController 로 들어온 pParam : " + pParam.toString());
+		logger.info("getAllProject.do 로 들어온 pParam : " + pParam.toString());
 		
 		if(pParam.getS_category() == null) {
-			
+			pParam.setS_category("");
 		}
 		
 		List<ProjectDto> list = projectService.getAllProjectList(pParam);
@@ -46,6 +46,13 @@ public class ProjectController {
 	}
 	
 	
+	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String detail(Model model, int seq) throws Exception{
+		logger.info("ProjectController detail.do " + new Date());
+		logger.info("detail.do 로 들어온 seq : " + seq);
+		
+		return "detail.tiles";
+	}
 	/*@RequestMapping(value="searchProject.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProject(Model model, ProjectParam pParam) throws Exception{
 		logger.info("ProjectController searchProject.do " + new Date());

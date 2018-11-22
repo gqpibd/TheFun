@@ -15,7 +15,7 @@
 				 SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED                                               
 		  FROM FUN_PROJECTALL
 		  WHERE FUNDTYPE=#{s_type}
-		  <if test="s_category != null or s_category != ''">
+		  <if test="s_category != ''">
 		  AND CATEGORY=#{s_category}
 		  </if>
 		  ) A

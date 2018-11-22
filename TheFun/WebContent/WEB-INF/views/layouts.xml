@@ -32,5 +32,9 @@
  		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
  	</definition>
  	
+ 	<definition name="detail.tiles" extends="main.tiles">
+ 		<put-attribute name="main" value="/WEB-INF/views/project/detail.jsp"/>
+ 	</definition>
+ 	
  	
 </tiles-definitions>

@@ -3,7 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- Navigation 헤더 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="z-index: 1">
       <div class="container" style="background-color: white;">
 		<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a> <!-- 배너  -->
         <a href="#"><img src="image/main/done.jpg" width="50px"></a> <!-- 기부 -->

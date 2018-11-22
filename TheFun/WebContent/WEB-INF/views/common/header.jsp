@@ -16,18 +16,19 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
- <!-- main CSS설정 -->
- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <meta name="description" content="">
- <meta name="author" content="">
+<!-- main CSS설정 -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
- <!-- Bootstrap core CSS -->
- <link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
- <!-- Custom styles for this template -->
- <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
- <!-- mainCSS 설정 끝 -->
+<!-- Bootstrap core CSS -->
+<link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
+<!-- mainCSS 설정 끝 -->
  
-
+<!-- 차트 css -->
+<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
  
  <style type="text/css">
  .pTitle{

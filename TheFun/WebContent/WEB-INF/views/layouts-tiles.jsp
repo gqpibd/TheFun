@@ -20,6 +20,7 @@
 .top {
   position: fixed;
   top: 0px;
+  z-index: 5;
 }
 
 </style>
