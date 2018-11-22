@@ -44,6 +44,12 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<NoticeDto> getNotice(int seq) {
 		return sqlSession.selectList(ns+"noticeInfo",seq);
 	}
+
+	@Override
+	public OptionDto getSelectOptions(int seq) {
+		return sqlSession.selectOne(ns+"selectOptions",seq);
+	}
+	
 	
 	
 }

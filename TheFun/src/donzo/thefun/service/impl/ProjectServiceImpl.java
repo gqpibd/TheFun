@@ -1,5 +1,6 @@
 package donzo.thefun.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,20 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<NoticeDto> getNotice(int seq) {
 		return projectDao.getNotice(seq);
 	}
+
+	@Override
+	public List<OptionDto> getSelectOptions(int[] seq) {
+		
+		//return할 리스트
+		List<OptionDto> optionList = new ArrayList<>();
+		
+		//입력된 seq 배열의 길이만큼 loop
+		for(int i=0; i<seq.length;i++) {
+			optionList.add(projectDao.getSelectOptions(seq[i]));
+		}
+		
+		return optionList;
+	}
+	
 	
 }

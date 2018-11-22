@@ -1,6 +1,7 @@
 package donzo.thefun.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; //주석 풀어서 쓰길...
-
 
 	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String detail(int seq,Model model) {
@@ -45,8 +45,8 @@ public class ProjectController {
 		return "project/detail";
 	}
 	
-	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int seq,Model model) {
+	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goSelectReward(int seq,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 	
 		//현재 선택한 프로젝트 정보
@@ -55,10 +55,26 @@ public class ProjectController {
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
 		System.out.println(projectService.getProject(seq).toString());
-		return "project/selectReward";
 		
+		return "project/selectReward";
 	}
 	
+	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderReward(int projectSeq, int[] check, Model model) {
+		logger.info("ProjectController goOrder 메소드 " + new Date());	
+
+		//로그인 정보
+		
+		//현재 선택한 프로젝트 정보
+		model.addAttribute("projectdto",projectService.getProject(projectSeq));
+		
+		//선택한 옵션정보
+		List<OptionDto> optionList = projectService.getSelectOptions(check);
+		model.addAttribute("selectOptions",optionList);
+		
+		return "project/orderReward";
+
+	}
 		
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {

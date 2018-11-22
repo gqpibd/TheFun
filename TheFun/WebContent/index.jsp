@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>The Fun_더 아름다운 세상을 위한 펀딩</title>
-
 </head>
 <body>
 <script type="text/javascript">

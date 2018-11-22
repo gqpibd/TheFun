@@ -20,8 +20,7 @@ font-family: "Nanum Gothic", sans-serif;
 </style>
 </head>
 <body>
-<h1>스토리입니다</h1>
-<img src="image/login/accountImg1.PNG">
+<p>${projectdto.content }</p>
 
 </body>
 </html>

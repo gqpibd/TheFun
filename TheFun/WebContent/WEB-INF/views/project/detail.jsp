@@ -154,10 +154,11 @@ function sendLink() {
 <jsp:useBean id="toDay" class="java.util.Date" />
 <fmt:formatDate value="${toDay}" pattern="yyyy-MM-dd HH:mm:ss" />
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 <fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
 
- <!-- 프로젝트명 부분-->
+ <!-- 카테고리 , 태그 -->
     <div class="container">
    	<br>
    	<div align="center">
@@ -168,14 +169,15 @@ function sendLink() {
    		 </c:forEach>
    		 </font></p>
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
+
+<!-- 프로젝트 타이틀 -->
 		<table style="width: 100%;">
-		
 		<tr height="50">
 			<td rowspan="5" style="width: 50%" align="right"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray" align="left" style="width: 50%"><b>${endDate - strDate }일 남음</b></td>
+			<td class="strongGray" align="left" style="width: 50%"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b></b>${(projectdto.fundachived div projectdto.goalfund)*100 }% 달성
+			<td class="strongGray"align="left"  style="width: 50%"><b>${(projectdto.fundachived div projectdto.goalfund)*100 }</b>% 달성
 		</tr>
 		<tr height="50">
 			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
@@ -185,7 +187,7 @@ function sendLink() {
 		</tr>
 		<tr height="50">
 			<td> 
-				<a href="goOrderReward.do?seq=${projectdto.seq }">
+				<a href="goSelectReward.do?seq=${projectdto.seq }">
 					<img src="image/detail/fundBtn.jpg" height="50px">
 				</a> 
 			</td>

@@ -13,4 +13,5 @@ public interface ProjectService {
 	public List<OptionDto> getOptions(int seq);
 	public int howmanyBuy(int seq);
 	public List<NoticeDto> getNotice(int seq);
+	public List<OptionDto> getSelectOptions(int[] seq); 
 }

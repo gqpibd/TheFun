@@ -85,11 +85,12 @@ td{
           <br><br>
           
           <!-- 테이블 영역 -->
-          
+          <form action="goOrderReward.do" method="post" id="goOrderFrm">
           <c:forEach items="${optionList}" var="option"> 
            <table>
           <tr>
-          	<td class="strongGray" rowspan="3"><p> <input type="checkbox">&nbsp; ${option.price } 원 펀딩합니다</p>
+          	<td class="strongGray" rowspan="3">
+          	 <p> <input type="checkbox" value="${option.seq }" name="check">&nbsp; ${option.price } 원 펀딩합니다</p>
 			 <p class="liteGray">&nbsp; ${option.title }</p>
 			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
@@ -102,8 +103,15 @@ td{
           
           
           <br><br><br>
-           <a href="goOrder.do"><img src="image/detail/next.jpg" width="120px"></a>
+          <input type="hidden" name="projectSeq" value="${projectdto.seq }">
+           <img src="image/detail/next.jpg" width="120px" onclick="goOrder()">
+          </form>
+          <script type="text/javascript">
+          function goOrder() {
+        	  $("#goOrderFrm").attr("action","goOrderReward.do").submit();
+		}
           
+          </script>
         </div>
       </div>
       <!-- /.row -->

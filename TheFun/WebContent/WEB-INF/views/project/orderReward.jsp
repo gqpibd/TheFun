@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:requestEncoding value="utf-8"/> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,33 +74,40 @@
  <!-- Page Content -->
     <div class="container">
       <div class="my-4" align="center">
-        <div align="center">
+        <div align="center" >
         
         <!-- 메인 -->
-          <p class="strongGray" style="font-size: 25px">프로젝트명</p>
+          <p class="strongGray" style="font-size: 25px">${projectdto.title }</p>
           
           <!-- 옵션테이블 -->
+          <c:forEach items="${selectOptions }" var="options">
 			<table style="width: 70%">
 			<tr>
-				<td colspan="2" class="pupple" align="left">옵션 title</td>
+				<td class="pupple" align="left">${options.title}</td>
 			</tr>
 			<tr>
-				<td class="liteGray" align="left">옵션 content</td>
-				<td class="liteGray" align="right">n원</td>
+				<td class="liteGray" align="left">
+				 <c:forEach items="${options.content}" var="item">
+			   		<li class="liteGray">${item}</li>
+			  	 </c:forEach>
+				</td>
+				<td class="liteGray" align="right">${options.price}원</td>
 			</tr>
 			</table>
-			<hr color="#818181">
+			<br>
+			</c:forEach>
          	<br>
          <!-- 최종결제정보 테이블 -->
          	<table style="width: 70%">
          	<tr>
-         		<td class="liteGray" align="left">배송비</td>
-         		<td class="liteGray" align="right">n원</td>
+         		<td class="liteGray" align="left"></td>
+         		<td class="liteGray" align="right">무료</td>
          	</tr>
-            <tr>
-         		<td class="liteGray" align="left">펀딩금액</td>
-         		<td class="liteGray" align="right">n원</td>
-         	</tr>         	
+         	<tr>
+         		<td>
+         		
+         		</td>
+         	</tr>
          	<tr>
          		<td class="liteGray" align="left">최종 결제금액</td>
          		<td class="pupple" align="right">n원</td>

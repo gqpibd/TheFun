@@ -15,7 +15,7 @@
 	SELECT * FROM FUN_MEMBER WHERE ID=(SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 </select>
 
-<!-- 옵션 가져오기 -->
+<!-- 옵션list 가져오기 -->
 <select id="getOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto">
 	SELECT * FROM FUN_OPTION_VIEW WHERE PROJECTSEQ=#{seq} ORDER BY SEQ ASC
 </select>
@@ -25,9 +25,13 @@
 	SELECT COUNT(*)FROM FUN_BUY WHERE PROJECTSEQ=#{seq}
 </select>
 
-<!-- 새소식 가져오기 -->
+<!-- 새소식list 가져오기 -->
 <select id="noticeInfo" parameterType="Integer" resultType="donzo.thefun.model.NoticeDto"> 
 	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq} ORDER BY SEQ DESC
 </select>
 
+<!-- 구매할 옵션list 가져오기-->
+<select id="selectOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto" >
+	SELECT * FROM FUN_OPTION_VIEW WHERE SEQ=#{seq}
+</select>
 </mapper>
