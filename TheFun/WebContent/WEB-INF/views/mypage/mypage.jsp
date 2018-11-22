@@ -4,61 +4,121 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>My Page</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- main CSS설정 -->
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <meta name="description" content="">
+ <meta name="author" content="">
+
+ <title>The Fun_더 아름다운 세상을 위한 펀딩</title>
+
+ <!-- Bootstrap core CSS -->
+ <link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ <!-- Custom styles for this template -->
+ <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
+ <!-- mainCSS 설정 끝 -->
  
- 
-<style type="text/css">/* a tag 링크 시에 밑줄 및 색상 변경 제거 */
-	a:link { color: black; text-decoration: none;}
+ <style type="text/css">
+ .pTitle{
+ 	font-weight: bold;
+ 	color: black;
+ 	font-size: large;
+ }
+ .pName{
+ 	color: gray;
+ 	font-size: small;
+ }
+ 	a:link { color: black; text-decoration: none;}
 	a:visited { color: black; text-decoration: none;}
 	a:hover { color: black; text-decoration: none;}
 	a:active { color: black; text-decoration: none;}
-</style>
- 
+ </style>
 </head>
 <body>
 
+ <!-- Navigation 헤더 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container" style="background-color: white;">
+        <a class="navbar-brand" href="#"><img src="image/main/banner.jpg" width="130px"></a> <!-- 배너 -->
+        <a href="#"><img src="image/main/done.jpg" width="50px"></a> <!-- 기부 -->
+        <a href="#"><img src="image/main/funding.jpg" width="55px"></a> <!-- 펀딩 -->
+        <a href="#"><img src="image/main/history.jpg" width="90px"></a> <!-- 히스토리 (종료된 프로젝트) -->
+        <a href="#"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="/WEB-INF/views/login/login.jsp"><img src="image/main/mainLogin.jpg" height="20px"></a> 로그인
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/WEB-INF/views/login/regiMain.jsp"><img src="image/main/mainRegi.jpg"  height="20px"></a> 회원가입
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
 
+ <!-- Page Content -->
+    <div class="container">
 
-<div class="mypage">
-<form class="mypageForm" id="_mypageForm" method="post" action="getMypage.do">
-<table>
-<tr>
-	<td><img alt="프로필" src="./image/test.jpg">&nbsp;&nbsp;</td>
-	<td>${myp.nickname } &nbsp;&nbsp;</td>
-	<td>${myp.point } </td>
-</tr>
+      <!-- 메인첫시작점 -->
+		<br><br>
 
-<tr style="text-align: center;">
-	<td class="menubar"><a href="myInfo.do?id=testWJ">내 정보</a>&nbsp;&nbsp;</td>
-	<td class="menubar">나의 후원내역&nbsp;&nbsp;</td>
-	<td class="menubar">내 프로젝트&nbsp;&nbsp;</td>
-	<td class="menubar"><a href="myCalendar.do?id=testJY">캘린더</a></td>
-</tr>
+      <!-- 메인 사진 -->
+      <div class="row" align="center">
+        <div align="center">
+        
+        <!-- 마이페이지 구간 -->
+        	<form class="mypageForm" id="_mypageForm" method="post" action="getMypage.do">
+			<table>
+			<tr>
+				<td><img alt="프로필" src="./image/test.jpg" style="border-radius: 50%;">&nbsp;&nbsp;</td>
+				<td>${myp.nickname } &nbsp;&nbsp;</td>
+				<td>${myp.point } Point </td>
+			</tr>
+			
+			
+        	</table>
+        	</form>
+        
+        </div>
+      </div>
+      <!-- /.row -->
+<!-- ------------------------------------------------------------ -->
+      <!-- 리스트 -->
 
-<!-- 노 계획
- <tr>
-	<td colspan="2">
-		<button type="button" onclick="memberOut">탈퇴하기</button>
-	</td>
-</tr>
- -->
-</table>
-</form>
-</div>
+      <div class="row">
 
-<script type="text/javascript">
-$(function name() {		// 마우스 커서 모양 변경
-	$(".menubar").mouseover(function () {   
-		   $(this).css("cursor","pointer");
-		}); 
-	
-	
-});
+        <div class="col-md-3 col-sm-6 mb-4">
+          
+          <!-- 탭구간 -->
+          <table>
+          <tr style="text-align: center;">
+				<td class="menubar"><a href="myInfo.do?id=testWJ">내정보</a>&nbsp;&nbsp;</td>
+				<td class="menubar"><a href="myReward.do?id=blueja3629">나의후원내역</a> &nbsp;&nbsp;</td>
+				<td class="menubar">내프로젝트&nbsp;&nbsp;</td>
+				<td class="menubar"><a href="myCalendar.do?id=testJY">캘린더</a></td>
+			</tr>          
+          </table>
+          
+        </div>		
+    </div>
+    <!-- /.container 메인컨테이너 끝-->
+	</div>
+    <!-- Footer -->
+    <footer class="py-5">
+      <div class="container">
+        <p class="m-0 text-center">더펀(주) | 서울특별시 뿅뿅구 뿅뿅동 123-88</p>
+      </div>
+      <!-- /.container -->
+    </footer>
 
+    <!-- Bootstrap core JavaScript -->
+    <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
+    <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-</script>
 
 </body>
 </html>

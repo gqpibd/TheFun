@@ -6,4 +6,11 @@
 <!-- 구매자 -->  
 <mapper namespace="Buy">
 
+<!-- 내 후원내역 -->
+<select id="myDonaList" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+		SELECT SEQ, ID, PROJECTSEQ, PRICE, REGDATE, PTITLE
+		FROM FUN_BUY_VIEW
+		WHERE ID=#{id}
+</select>
+
 </mapper>

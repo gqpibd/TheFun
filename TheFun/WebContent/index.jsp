@@ -8,8 +8,14 @@
 
 </head>
 <body>
+<%--
+response.sendRedirect("getMypage.do?id=buleja3629");
+--%>
+
 <script type="text/javascript">
-	location.href="main.do";
+//	location.href="main.do";
+	location.href="getMypage.do?id=blueja3629";
 </script>
+
 </body>
 </html>

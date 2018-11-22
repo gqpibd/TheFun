@@ -72,4 +72,7 @@
 	FROM FUN_MEMBER
 	WHERE ID=#{id}
 </select>
+
+
+
 </mapper>
