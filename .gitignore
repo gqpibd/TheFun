@@ -37,5 +37,5 @@ local.properties
 .factorypath
 .buildpath
 .target
-pom.properties
+*.properties
 /target/
