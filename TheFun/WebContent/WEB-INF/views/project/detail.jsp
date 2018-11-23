@@ -37,9 +37,10 @@
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
 
-<!-- 카카오 공유하기 api 설정 -->
+<!-- 공유하기 api 설정 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
  <!-- 디테일설정끝 -->
  
  <style type="text/css">
@@ -77,7 +78,16 @@
    position: fixed;
    top: 0px;
  }
-
+.imgTd{
+	text-align:right;
+	padding: 20px;
+	width: 70%;
+}
+.sTd{
+	text-align:left;
+	width: 30%;
+	padding: 25px;
+}
  </style>
 <!-- 메뉴바 고정 설정...인데 css다 풀려서 보류 -->
 <!--  <script>
@@ -171,19 +181,19 @@ function sendLink() {
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;">
+		<table style="width: 100%;" id="sTable">
 		<tr height="50">
-			<td rowspan="5" style="width: 50%" align="right"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray" align="left" style="width: 50%"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
+			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
+			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b>${(projectdto.fundachived div projectdto.goalfund)*100 }</b>% 달성
+			<td class="strongGray sTd"><b>${(projectdto.fundachived div projectdto.goalfund)*100 }</b>% 달성
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"style="width: 50%"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
+			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray"align="left"  style="width: 50%"><b>${howmanyBuy}</b>명의 서포터
+			<td class="strongGray sTd"><b>${howmanyBuy}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<td> 
@@ -193,14 +203,16 @@ function sendLink() {
 			</td>
 		</tr>
 		<tr height="50">
-			<td align="right" class="strongGray">${projectdto.summary } &nbsp;&nbsp; </td>
+			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<td>
-				<a href="#"><img src="image/detail/addcart.jpg" height="50px"></a>
-				<a id="kakao-link-btn" href="javascript:sendLink()"><img src="image/detail/cacaoLink.PNG" ></a> 
+				<img height="50" src="image/detail/addcart2.jpg"/>&nbsp;&nbsp;&nbsp; &nbsp;
+				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg" onclick="addTr()"/>
 			</td>
 		</tr>
 		</table>
-    
+
+   
+   
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
 		<div class="jbMenu">
