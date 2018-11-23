@@ -1,4 +1,5 @@
-﻿-- 멤버 테이블
+﻿// last update : 11/24 05:32
+-- 멤버 테이블
 
 DROP TABLE FUN_MEMBER
 CASCADE CONSTRAINTS;
