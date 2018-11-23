@@ -20,13 +20,6 @@ public class MemberController {
 	@Autowired
 	MemberService memberService; //주석 풀어서 쓰길...
 	
-	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String main() throws Exception{
-		logger.info("MemberController main.do " + new Date());
-		
-		return "main.tiles";
-	}
-	
 	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String login() throws Exception{
 		logger.info("MemberController login.do " + new Date());

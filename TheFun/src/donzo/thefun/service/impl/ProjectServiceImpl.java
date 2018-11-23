@@ -20,9 +20,15 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectDao optionDao;
 
 	@Override
-	public List<ProjectDto> getAllProjectList(ProjectParam pParam) {
-		return projectDao.getAllProjectList(pParam);
+	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
+		return projectDao.searchProjectList(pParam);
 	}
+
+	@Override
+	public int getProjectCount(ProjectParam pParam) throws Exception {
+		return projectDao.getProjectCount(pParam);
+	}
+	
 	
 	
 }

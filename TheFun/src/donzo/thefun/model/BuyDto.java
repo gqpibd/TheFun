@@ -112,12 +112,13 @@ public class BuyDto implements Serializable {
 	String ptitle; // 프로젝트 이름 -- view에서 가져옴
 	String otitle; // 옵션 이름 -- view에서 가져옴
 	String ocontent; // 옵션 내용 -- view에서 가져옴
+	int status;
 	
 	public BuyDto() {}
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
-			String bcomment, String ptitle, String otitle, String ocontent) {
+			String bcomment, String ptitle, String otitle, String ocontent, int status) {
 		this.seq = seq;
 		this.id = id;
 		this.projectseq = projectseq;
@@ -130,15 +131,17 @@ public class BuyDto implements Serializable {
 		this.ptitle = ptitle;
 		this.otitle = otitle;
 		this.ocontent = ocontent;
+		this.status = status;
 	}
 	
 	// 새 구매 또는 새 장바구니
-	public BuyDto(String id, int projectseq, int optionseq, int count, int price) {
+	public BuyDto(String id, int projectseq, int optionseq, int count, int price, int status) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
 		this.price = price;
+		this.status = status;
 	}
 
 	public int getSeq() {
@@ -237,10 +240,22 @@ public class BuyDto implements Serializable {
 		this.ocontent = ocontent;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
-				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
-				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + "]";
+		return "BuyDto [seq=" + seq + ", " + (id != null ? "id=" + id + ", " : "") + "projectseq=" + projectseq
+				+ ", optionseq=" + optionseq + ", count=" + count + ", price=" + price + ", "
+				+ (regdate != null ? "regdate=" + regdate + ", " : "") + "score=" + score + ", "
+				+ (bcomment != null ? "bcomment=" + bcomment + ", " : "")
+				+ (ptitle != null ? "ptitle=" + ptitle + ", " : "") + (otitle != null ? "otitle=" + otitle + ", " : "")
+				+ (ocontent != null ? "ocontent=" + ocontent + ", " : "") + "status=" + status + "]";
 	}
+
 }

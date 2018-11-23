@@ -19,13 +19,18 @@ public class ProjectDaoImpl implements ProjectDao {
 	String ns = "Project.";
 
 	@Override
-	public List<ProjectDto> getAllProjectList(ProjectParam pParam) {
+	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
 		
-		System.out.println("getAllProjectList로 들어가는 pParam :" + pParam.toString());
+		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
 		
-		return sqlSession.selectList(ns + "getAllProjectList", pParam);
+		return sqlSession.selectList(ns + "searchProjectList", pParam);
 	}
-	
-	
+
+	@Override
+	public int getProjectCount(ProjectParam pParam) throws Exception {
+		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
+		System.out.println("나온 숫자 : " + sqlSession.selectOne(ns + "getProjectCount", pParam));
+		return sqlSession.selectOne(ns + "getProjectCount", pParam);
+	}
 	
 }

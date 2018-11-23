@@ -7,6 +7,8 @@ import donzo.thefun.model.ProjectParam;
 
 public interface ProjectDao {
 
-	List<ProjectDto> getAllProjectList(ProjectParam pParam);
+	List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception;
+	
+	int getProjectCount(ProjectParam pParam) throws Exception;
 	
 }
