@@ -40,25 +40,37 @@ public class OptionDto implements Serializable {
 
 	int seq;
 	int projectseq;
+	String title;
+	String content;
+	
+	int price;
+	int stock; // 재고
+	
+	
+	// 옵션 입력용
 	String[] op_title;
 	String[] op_content;
 	
-	int[] price;
-	int[] stock; // 재고
+	String[] op_price;
+	String[] op_stock;
 	
 	int buycount; // 구매 수량
 	
 	public OptionDto() {}
 
-	public OptionDto(int seq, int projectseq, String[] op_title, String[] op_content, int[] price, int[] stock,
-			int buycount) {
+	public OptionDto(int seq, int projectseq, String title, String content, int price, int stock, String[] op_title,
+			String[] op_content, String[] op_price, String[] op_stock, int buycount) {
 		super();
 		this.seq = seq;
 		this.projectseq = projectseq;
-		this.op_title = op_title;
-		this.op_content = op_content;
+		this.title = title;
+		this.content = content;
 		this.price = price;
 		this.stock = stock;
+		this.op_title = op_title;
+		this.op_content = op_content;
+		this.op_price = op_price;
+		this.op_stock = op_stock;
 		this.buycount = buycount;
 	}
 
@@ -78,6 +90,38 @@ public class OptionDto implements Serializable {
 		this.projectseq = projectseq;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	public String[] getOp_title() {
 		return op_title;
 	}
@@ -94,20 +138,20 @@ public class OptionDto implements Serializable {
 		this.op_content = op_content;
 	}
 
-	public int[] getPrice() {
-		return price;
+	public String[] getOp_price() {
+		return op_price;
 	}
 
-	public void setPrice(int[] price) {
-		this.price = price;
+	public void setOp_price(String[] op_price) {
+		this.op_price = op_price;
 	}
 
-	public int[] getStock() {
-		return stock;
+	public String[] getOp_stock() {
+		return op_stock;
 	}
 
-	public void setStock(int[] stock) {
-		this.stock = stock;
+	public void setOp_stock(String[] op_stock) {
+		this.op_stock = op_stock;
 	}
 
 	public int getBuycount() {
@@ -120,13 +164,12 @@ public class OptionDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", op_title=" + Arrays.toString(op_title)
-				+ ", op_content=" + Arrays.toString(op_content) + ", price=" + Arrays.toString(price) + ", stock="
-				+ Arrays.toString(stock) + ", buycount=" + buycount + "]";
+		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", title=" + title + ", content=" + content
+				+ ", price=" + price + ", stock=" + stock + ", op_title=" + Arrays.toString(op_title) + ", op_content="
+				+ Arrays.toString(op_content) + ", op_price=" + Arrays.toString(op_price) + ", op_stock="
+				+ Arrays.toString(op_stock) + ", buycount=" + buycount + "]";
 	}
+	
 
-	
-	
-	
 	
 }

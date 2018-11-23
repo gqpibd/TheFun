@@ -6,4 +6,12 @@
 <!-- 프로젝트 -->  
 <mapper namespace="Project">
 
+<insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
+	INSERT INTO FUN_PROJECT
+	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
+		#{fundtype}, #{category}, #{title}, #{content}, #{summary}, #{tag}, #{bank}, ${goalfund},
+		TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
+		TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, '1')
+</insert>
+
 </mapper>

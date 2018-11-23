@@ -214,6 +214,10 @@ tr, td, input{
 		        }
 
 			});
+			
+			
+			
+			
 	});
 	$('#summernote').summernote({
 	  placeholder: 'Hello bootstrap 4',
@@ -243,6 +247,7 @@ tr, td, input{
 		}
 		
 	}
+	
 	
 </script>
 
@@ -508,7 +513,7 @@ tr, td, input{
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tags" name="tags" size="100%">
+						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
 					</td>
 				</tr>
 			</table>
@@ -694,7 +699,7 @@ tr, td, input{
 							    <%
 								for(int i=1; i <= 10; i++){
 									%>
-									<option <%=(2+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
+									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
 									<%
 								}
 								%>
@@ -707,6 +712,7 @@ tr, td, input{
 	      </div>
 	    </div>
 	    <!-- [11] 리워드 등록 -->
+	    <div id="newRewird">
 	    <%
 		for(int i=1; i <= 10; i++){
 			%>
@@ -716,6 +722,7 @@ tr, td, input{
 	    <div class="panel panel-default">
 	      <div class="panel-heading">
 	        <h4 class="panel-title">
+	        
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse10" class="notChangedOption"><%=(i + "") %>번째 선물</a>
 
 	          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" class="changedOption"><%=(i + "") %>번째 선물</a>
@@ -752,13 +759,13 @@ tr, td, input{
 						<td>
 							<div class="form-group">
 							  <label for="sel1">후원 금액</label>
-							  <input type="text" class="form-control" id="price<%=i %>" name="price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
+							  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
 							</div>
 						</td>
 						<td>
 							<div class="form-group">
 							  <label for="sel1">보유 수량</label>
-							  <input type="text" class="form-control" id="stock<%=i %>" name="stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
+							  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
 							</div>
 						</td>
 					</tr>
@@ -772,7 +779,7 @@ tr, td, input{
 	    	<%
 		}
 		%>
-	    
+	    </div>
 	    
 	    
 	    

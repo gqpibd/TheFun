@@ -1,6 +1,7 @@
 package donzo.thefun.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
-import donzo.thefun.model.ProjectInputDto;
 import donzo.thefun.service.ProjectService;
 
 
@@ -40,16 +40,36 @@ public class ProjectController {
 	@RequestMapping(value="newProjectAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String newProjectAf(/*String title, String summary, String fundtype, String category,
 							String content, String tags, int goalfund, String bank,
-							String sdate, String edate, String pdate, String shipdate,*/
-							@ModelAttribute ProjectInputDto inputDto,
+							String sdate, String edate, String pdate, String shipdate,*/ 
+							ProjectDto newProjectDto,
 							/*int option_total,
-							String[] op_title, String[] op_content, String[] price, String[] stock,*/
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,*/
+							/*OptionDto newOptionDto, */
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile mainImage) throws Exception {
 		
 		
 		logger.info("ProjectController newProjectAf 들어옴 " + new Date());
-		logger.info("결과값 : " + inputDto.toString());
+		
+		newProjectDto.setId("tmdwlfk");
+		logger.info("newProjectDto : " + newProjectDto.toString());
+		// Project 게시물 추가
+		projectService.projectWrite(newProjectDto);
+		
+		//logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
+		/*
+		for (int i = 0; i < option_total; i++) {
+			logger.info("op_title 값 : " + op_title[i] );
+			logger.info("op_content 값 : " + op_content[i] );
+			logger.info("op_price 값 : " + op_price[i] );
+			logger.info("op_stock 값 : " + op_stock[i] );
+		}
+		*/
+		
+		
+		
+		
+		
 		/*logger.info("title : " + title);
 		logger.info("summary : " + summary);
 		logger.info("fundtype : " + fundtype);
@@ -62,17 +82,13 @@ public class ProjectController {
 		logger.info("edate : " + edate);
 		logger.info("pdate : " + pdate);
 		logger.info("shipdate : " + shipdate);
-		//logger.info("projectDto : " + projectDto.toString());
-		*/
-		logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
+		 */
+		//logger.info("newOptionDto : " + newOptionDto.toString());
+				/*for (int i = 0; i < option_total; i++) {
+				logger.info("newOptionDto : " + list.get(i).toString());
+				}*/
 		
-		/*for (int i = 0; i < option_total; i++) {
-			logger.info("op_title 값 : " + op_title[i] );
-			logger.info("op_content 값 : " + op_content[i] );
-			logger.info("price 값 : " + price[i] );
-			logger.info("stock 값 : " + stock[i] );
-		}
-		*/
+		
 		
 		return "project/newProject";
 	}
