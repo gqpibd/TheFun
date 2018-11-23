@@ -37,6 +37,11 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDto getMypage(MemberDto mem) throws Exception{
 		return memberDao.getMypage(mem);
 	}
+
+	@Override
+	public boolean updateMember(MemberDto mem) {
+		return memberDao.updateMember(mem);
+	}
 	
 	
 	

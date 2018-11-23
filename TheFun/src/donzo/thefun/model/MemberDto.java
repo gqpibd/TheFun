@@ -25,6 +25,8 @@ public class MemberDto implements Serializable {
 	public static final int MEMBER = 1;
 	public static final int MANAGER = 3;
 	
+	public static final String DEFAULTIMGPATH = "image/profile/default.jpg";
+	
 	String id;
 	String pwd;
 	String nickname;
@@ -44,10 +46,12 @@ public class MemberDto implements Serializable {
 		nickname = "";
 		phone = "";
 		info = "";
+		email = "";
 		postcode = "";
 		roadaddress = "";
 		detailaddress = "";
 		auth = MEMBER;
+		address = DEFAULTIMGPATH;
 	}
 
 	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info,

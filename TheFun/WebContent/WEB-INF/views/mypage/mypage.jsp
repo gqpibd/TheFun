@@ -1,5 +1,9 @@
+<%@page import="donzo.thefun.model.MemberDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	MemberDto myp = (MemberDto) session.getAttribute("login");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +29,7 @@
 <form class="mypageForm" id="_mypageForm" method="post" action="getMypage.do">
 <table>
 <tr>
-	<td><img alt="프로필" src="./image/test.jpg">&nbsp;&nbsp;</td>
+	<td><img alt="프로필" src="./image/profile/default.jpg">&nbsp;&nbsp;</td>
 	<td>${myp.nickname } &nbsp;&nbsp;</td>
 	<td>${myp.point } </td>
 </tr>

@@ -229,7 +229,7 @@ function onSignIn(googleUser) {
     });
       
   };
-  <!-- 페이스북 아이디로 로그인 -->
+  /*  페이스북 아이디로 로그인 */ 
   (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;

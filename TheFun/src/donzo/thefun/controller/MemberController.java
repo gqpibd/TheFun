@@ -1,18 +1,13 @@
 package donzo.thefun.controller;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.util.FUpUtil;
 
 
 @Controller
@@ -53,51 +51,51 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
-	// 마이페이지로 이동
-	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getMypage(MemberDto mem, Model model) throws Exception{
-		logger.info("MemberController getMypage " + new Date());
-		logger.info("getMypage mem" + mem.toString());
-		MemberDto mypage = memberService.getMypage(mem);
+	// 내 정보 수정
+	@RequestMapping(value="updateInfo.do", method= RequestMethod.POST)
+	public String updateInfo(MemberDto mem, String imgPath, Model model, HttpServletRequest req,
+			  @RequestParam(value="fileload", required=false)MultipartFile fileload) throws Exception{
+		logger.info("updateInfo " + new Date());
+		logger.info("updateInfo mem : " + mem.toString());
 		
-		model.addAttribute("myp", mypage);
+		//pdsdto.setFilename(fileload.getOriginalFilename());
+		String fname = fileload.getOriginalFilename(); 
+		String fupload = req.getServletContext().getRealPath("/image/profile");
 		
-		//return "getMypage.tiles";
-		return "mypage/mypage";
-	}
+		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
+			if(imgPath.equals(MemberDto.DEFAULTIMGPATH)) { // 기본이 이미지인 경우 업로드가 필요 없다.
+				mem.setAddress(imgPath);
+			}else {
+				String f = fname;
+				String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
+				//pdsdto.setFilename(newFile);
+				//파일 업로드
+				try {
+					File file = new File(fupload + "/" + newFile);
+					logger.info(file.getPath());
+					// 파일 업로드 작업
+					FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
+					mem.setAddress("image/profile/"+newFile);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		memberService.updateMember(mem);
+		
+		req.getSession().invalidate();
+		req.getSession().setAttribute("login", mem);
+		return "redirect:/myInfo.do?id=" + mem.getId();
+	}	
 	
 	// 내 정보 불러오기(내정보 보기)
 	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMyinfo(MemberDto mem, Model model) throws Exception{
 		logger.info("MemberController myInfo " + new Date());
-		
-		/*String id ="testJY";
-		mem.setId(id);*/
 		logger.info("myInfo mem" + mem.toString());
 		MemberDto myinfo = memberService.getMypage(mem);		
-		
-		int n = 1;
-		if(myinfo != null && !myinfo.getId().equals("")) {//null 값 혹은 0 으로 들어 왔을때 의미 없는 걸로 세팅해줌..	
-			if(myinfo.getNickname()==null || myinfo.getNickname().equals("")) {
-				myinfo.setNickname("별명"+ (n++));
-			}
-			if(myinfo.getPhone()==null || myinfo.getPhone().equals("")) {
-				myinfo.setPhone("");
-			}
-			if(myinfo.getEmail()==null || myinfo.getEmail().equals("")) {
-				myinfo.setEmail("이메일을 적어주세요");
-			}
-			if(myinfo.getAddress()==null || myinfo.getAddress().equals("")) {
-				myinfo.setAddress("주소를 설정해 주세요");
-			}
-			if(myinfo.getInfo()==null || myinfo.getInfo().equals("")) {
-				myinfo.setInfo("자신을 소개해보세요");
-			}
-			if(myinfo.getAuth()==0) {
-				myinfo.setAuth(1);
-			}
-			model.addAttribute("myi", myinfo);
-		}
+				
+		model.addAttribute("myi", myinfo);
 		
 		//return "getMypage.tiles";
 		return "mypage/myInfo";	
@@ -137,7 +135,19 @@ public class MemberController {
 			result = "NOTOK";
 		}
 		return result;
-	}
+	}	
+	
+	// 비밀번호 검사 --> 회원정보 수정시
+	@ResponseBody
+	@RequestMapping(value="pwdCheck.do", method=RequestMethod.POST) 
+	public String pwdCheck(MemberDto dto) {
+		logger.info("MemberController pwdCheck " + new Date());
+		String result = "NOTOK";
+		if(memberService.tryLogin(dto)!=null) {
+			result = "OK";
+		}
+		return result;
+	}	
 	
 	// 이메일 중복 검사
 	@ResponseBody
@@ -159,5 +169,13 @@ public class MemberController {
 		
 		model.addAttribute("message",message);
 		return "account/login";
+	}
+	
+	// 마이페이지로 이동
+	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getMypage(HttpServletRequest req, Model model) throws Exception{
+		logger.info("MemberController getMypage " + new Date());		
+		
+		return "mypage/mypage";
 	}
 }

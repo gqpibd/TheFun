@@ -46,7 +46,10 @@ public class MemberDaoImpl implements MemberDao {
 		System.out.println("MemberDaoImpl 에서 출력된 dto : " + dto.toString());
 		return dto;
 	}
-	
-	
-	
+
+	@Override
+	public boolean updateMember(MemberDto mem) {
+		int n = sqlSession.update(ns+"updateMember",mem);
+		return  (n>0)?true:false;
+	}
 }

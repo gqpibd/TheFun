@@ -35,12 +35,13 @@
     <bean id="authenticationInterceptor" class="donzo.thefun.interceptor.AuthenticationInterceptor"/>
     
 	<!-- Interceptor 설정 -->
-	 <!-- <mvc:interceptors>
+	 <mvc:interceptors>
 	    <mvc:interceptor>
-	        <mvc:mapping path="/polllist.do"/>
+	        <mvc:mapping path="/getMypage.do"/>
+	        <mvc:mapping path="/myInfo.do"/>
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 	
 	<!-- java 공통 package 설정 -->
 	<context:component-scan base-package="donzo.thefun"/>

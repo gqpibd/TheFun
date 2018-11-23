@@ -12,9 +12,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+
 <meta name="google-signin-client_id" content="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"> <!-- 구글 api사용 -->
 <script src="https://apis.google.com/js/platform.js" async defer></script> <!-- 구글 아이디로 로그인 -->
-
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인  -->
 <!-- main CSS설정 -->
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <meta name="description" content="">
@@ -150,24 +153,26 @@ orderBtn.jpg
 
     <script type="text/javascript">
 		
-    var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
+    //var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
 	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	window.addEventListener('load', function () {
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
+	//naverLogin.init();	
+	//window.addEventListener('load', function () {
+	//	naverLogin.getLoginStatus(function (status) {
+	//		if (status) {
 				/* 로그인 상태가 "true" 인 경우  */
-				setLoginStatus();
-			}
-		});
-	});
+	//			setLoginStatus();
+	//		}
+	//	});
+	//});
+	Kakao.init('dd0c44a9e5b9f94ce480a440c3113d2d');
 	function setLoginStatus() {
 		var profileImage = naverLogin.user.getProfileImage();
 		var nickName = naverLogin.user.getNickName();
 		$("#profile").html('<img src="' + profileImage + '" height=50 />' + nickName + '님 반갑습니다.');		
 	}
 	function logout() {
-		naverLogin.logout();
+		//naverLogin.logout();
+		Kakao.Auth.logout();
 		location.href="logout.do";
 	}
 	</script>

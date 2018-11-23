@@ -13,5 +13,7 @@ public interface MemberService {
 	public MemberDto tryLogin(MemberDto dto);
 	
 	public MemberDto getMypage(MemberDto mem) throws Exception;
+
+	public boolean updateMember(MemberDto mem);
 	
 }
