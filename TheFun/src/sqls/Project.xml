@@ -34,4 +34,12 @@
 <select id="selectOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto" >
 	SELECT * FROM FUN_OPTION_VIEW WHERE SEQ=#{seq}
 </select>
+
+
+
+
+
+
+
+
 </mapper>

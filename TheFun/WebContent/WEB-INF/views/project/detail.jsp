@@ -164,7 +164,6 @@ function sendLink() {
 <jsp:useBean id="toDay" class="java.util.Date" />
 <fmt:formatDate value="${toDay}" pattern="yyyy-MM-dd HH:mm:ss" />
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
-
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 <fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
 
@@ -187,13 +186,17 @@ function sendLink() {
 			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b>${(projectdto.fundachived div projectdto.goalfund)*100 }</b>% 달성
+			<td class="strongGray sTd">
+				<b style="font-size: 20px"><fmt:formatNumber value="${(projectdto.fundachived div projectdto.goalfund)*100 }" pattern="0"/>
+				</b>% 달성
+			</td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.fundachived }</b>&nbsp;원 펀딩
+			<td class="strongGray sTd">
+			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b>${howmanyBuy}</b>명의 서포터
+			<td class="strongGray sTd"><b style="font-size: 20px">${howmanyBuy}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<td> 
@@ -319,7 +322,8 @@ $(function () {
 			   <li class="liteGray">${item}</li>
 			 </c:forEach>
 				</ul>
-              <p class="liteGray" style="font-size: 15px">예상전달일 :${projectdto.shipdate}</p>
+				<fmt:parseDate value="${projectdto.shipdate}" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
+              <p class="liteGray" style="font-size: 15px">예상전달일 :<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일"/></p>
               <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>

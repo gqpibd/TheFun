@@ -73,10 +73,22 @@ public class ProjectController {
 		return "project/orderReward";
 
 	}
+	
+	@RequestMapping(value="order.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String order(int projectSeq, int[] opSeq, int[] opCount, Model model) {
+		logger.info("ProjectController goOrder 메소드 " + new Date());	
+
+		//buy테이블에 add 
 		
+		//선택한옵션 seq[]랑 수량[]
+
+		return "main";
+
+	}	
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
+		
 		return "main";
 	}
 	

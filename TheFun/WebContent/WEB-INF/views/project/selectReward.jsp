@@ -98,7 +98,7 @@ td{
 			 </c:forEach> 	
           	</td>
           </tr>
- <!--          <tr>
+ <!--     <tr>
           	<td class="liteGray">수량 : <input type="text" name="count" size="5px" value="0"> </td>
           </tr> -->
           </table>
