@@ -96,12 +96,12 @@
       <div class="row">
 
         <div class="col-md-3 col-sm-6 mb-4">
-          <form action="detail.do"  id="gotoDetail">
+          <form action="detail.do"  id="gotoDetail"><!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
           <input type="hidden" name="seq" value="1">	<!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
-          <input type="hidden" name="id" value="blueja3629">
-            <img class="img-fluid" src="image/main/mainImg7.PNG" onclick="godetail()"id="img">
-          <p class="pTitle">프로젝트 타이틀</p>
-          <p class="pName">카테고리 | 회사이름</p>
+          <input type="hidden" name="id" value="blueja3629"><!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
+            <img class="img-fluid" src="image/main/mainImg7.PNG" onclick="godetail()"id="img"><!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
+          <p class="pTitle">프로젝트 타이틀</p><!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
+          <p class="pName">카테고리 | 회사이름</p><!-- //가짜 정보. 코드합칠때 main 전체는 합치지 말것-->
            </form>       
            <script type="text/javascript">
            $("#img").mouseover(function () {	
@@ -133,10 +133,7 @@
     <script type="text/javascript">
 		function logout() {
 			console.log("로그아웃")
-			//gapi.auth2.getAuthInstance().signOut();
-			//navigator.credentials.requireUserMediation();
 			location.href="logout.do";
-			
 		}
 	</script>
 </body>

@@ -79,7 +79,7 @@ td{
  <!-- Page Content -->
     <div class="container">
       <div class="my-4" align="center">
-        <div align="center">
+        <div align="center" id="optionsDiv">
           <p class="strongGray" style="font-size: 25px">${projectdto.title }</p><br><br>
           <img src="image/detail/selectReword.jpg" width="120px"> <strong class="strongGray">펀딩해주시는 금액에 따라 감사의 의미로 리워드를 제공 해 드립니다.</strong>
           <br><br>
@@ -90,7 +90,7 @@ td{
            <table>
           <tr>
           	<td class="strongGray" rowspan="3">
-          	 <p> <input type="checkbox" value="${option.seq }" name="check">&nbsp; ${option.price } 원 펀딩합니다 <font size="5px">(${option.stock-option.buycount }개 남음) </font> </p>
+          	 <p> <input type="checkbox" value="${option.seq }" name="check" id="">&nbsp;<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>  (${option.stock-option.buycount }개 남음)</p>
 			 <p class="liteGray">&nbsp; ${option.title }</p>
 			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
@@ -106,9 +106,42 @@ td{
           <input type="hidden" name="projectSeq" value="${projectdto.seq }">
            <img src="image/detail/next.jpg" width="120px" onclick="goOrder()">
           </form>
+          
           <script type="text/javascript">
+          
+       // 동적으로 추가된 체크박스 체크여부 확인
+          $("#optionsDiv").on("click", 'input:checkbox', function() {
+        	  $('input:checkbox[name="check"]').each(function() {
+                  if(this.checked){//체크 했을 때
+                    alert("선택한 옵션의 seq :"+this.value); 
+                  	
+
+                  }else{//체크 해지 했을 때
+                	  
+                  }
+
+             });
+        	  
+          });
+       
+
+          
           function goOrder() {
-        	  $("#goOrderFrm").attr("action","goOrderReward.do").submit();
+        	  //체크박스 하나라도 체크안한게 있는지 확인 
+              var isChecked = false;
+              var checkArr = document.getElementsByName("check");
+              for(var i=0;i<checkArr.length;i++){
+                  if(checkArr[i].checked == true) {
+                	  isChecked = true;
+                      break;
+                  }
+              }
+              if(!isChecked){
+                  alert("옵션을 한개 이상 선택해주세요.");
+                  return false;
+              }else{
+            	  $("#goOrderFrm").attr("action","goOrderReward.do").submit();
+              }
 		}
           
           </script>
@@ -117,6 +150,9 @@ td{
       <!-- /.row -->
     </div>
     <!-- /.container 메인컨테이너 끝-->
+
+
+
 
     <!-- Footer -->
     <footer class="py-5">
