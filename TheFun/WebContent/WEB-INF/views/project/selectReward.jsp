@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>The Fun_selectReward</title>
+<title>The Fun_${projectdto.title } 리워드 선택</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- 폰트설정 -->
@@ -89,13 +89,18 @@ td{
           <c:forEach items="${optionList}" var="option"> 
            <table>
           <tr>
-          	<td class="strongGray" rowspan="3">
-          	 <p> <input type="checkbox" value="${option.seq }" name="check" id="">&nbsp;<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>  (${option.stock-option.buycount }개 남음)</p>
+          	<td class="strongGray">
+          	 <p> <input type="checkbox" value="${option.seq }" name="check" onclick="boxCheck(this)">&nbsp;
+          	 <b style="font-size: 20px">${option.price } 원 펀딩합니다</b>  (${option.stock-option.buycount }개 남음)</p>
 			 <p class="liteGray">&nbsp; ${option.title }</p>
 			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
-			 </c:forEach>     	
+			 </c:forEach> 	
           	</td>
+          </tr>
+ <!--          <tr>
+          	<td class="liteGray">수량 : <input type="text" name="count" size="5px" value="0"> </td>
+          </tr> -->
           </table>
           <br>
           </c:forEach>
@@ -107,15 +112,21 @@ td{
            <img src="image/detail/next.jpg" width="120px" onclick="goOrder()">
           </form>
           
-          <script type="text/javascript">
-          
-       // 동적으로 추가된 체크박스 체크여부 확인
+ <script type="text/javascript">
+ /*
+ function boxCheck(e){
+     if ( e.checked == true ){
+     	alert("선택한 옵션의 seq : "+e.value);
+     }else{
+     	alert("선택 해제");
+     }
+ }
+ 
+/*        // 동적으로 추가된 체크박스 체크여부 확인
           $("#optionsDiv").on("click", 'input:checkbox', function() {
         	  $('input:checkbox[name="check"]').each(function() {
                   if(this.checked){//체크 했을 때
                     alert("선택한 옵션의 seq :"+this.value); 
-                  	
-
                   }else{//체크 해지 했을 때
                 	  
                   }
@@ -124,27 +135,28 @@ td{
         	  
           });
        
-
+ */
           
-          function goOrder() {
-        	  //체크박스 하나라도 체크안한게 있는지 확인 
-              var isChecked = false;
-              var checkArr = document.getElementsByName("check");
-              for(var i=0;i<checkArr.length;i++){
-                  if(checkArr[i].checked == true) {
-                	  isChecked = true;
-                      break;
-                  }
-              }
-              if(!isChecked){
-                  alert("옵션을 한개 이상 선택해주세요.");
-                  return false;
-              }else{
-            	  $("#goOrderFrm").attr("action","goOrderReward.do").submit();
-              }
-		}
-          
-          </script>
+ function goOrder() {
+  //체크박스 하나라도 체크안한게 있는지 확인 
+     var isChecked = false;
+     var checkArr = document.getElementsByName("check");
+     for(var i=0;i<checkArr.length;i++){
+         if(checkArr[i].checked == true) {
+       	  isChecked = true;
+             break;
+         }
+     }
+     if(!isChecked){
+         alert("옵션을 한개 이상 선택해주세요.");
+         return false;
+     }else{
+    	 
+   	  $("#goOrderFrm").attr("action","goOrderReward.do").submit();
+     }
+}
+        
+</script>
         </div>
       </div>
       <!-- /.row -->

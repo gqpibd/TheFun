@@ -206,12 +206,10 @@ function sendLink() {
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<td>
 				<img height="50" src="image/detail/addcart2.jpg"/>&nbsp;&nbsp;&nbsp; &nbsp;
-				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg" onclick="addTr()"/>
+				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/>
 			</td>
 		</tr>
 		</table>
-
-   
    
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
@@ -230,9 +228,17 @@ function sendLink() {
 	 </div>
 <script type="text/javascript">
 $(document).ready(function () {
+//	$("#shareBtn").show();
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
 });
+
+/* //공유하기
+$('#shareBtn').toggle(function() { 
+	alert('선택'); 
+	}, function() { 
+		alert('선택해제'); 
+		}); */
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	

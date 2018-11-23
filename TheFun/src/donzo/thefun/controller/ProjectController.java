@@ -41,7 +41,6 @@ public class ProjectController {
 		
 		//새소식 가져오기
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
-		System.out.println("새소식 : "+projectService.getNotice(seq));
 		return "project/detail";
 	}
 	
@@ -54,7 +53,6 @@ public class ProjectController {
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-		System.out.println(projectService.getProject(seq).toString());
 		
 		return "project/selectReward";
 	}
@@ -71,7 +69,7 @@ public class ProjectController {
 		//선택한 옵션정보
 		List<OptionDto> optionList = projectService.getSelectOptions(check);
 		model.addAttribute("selectOptions",optionList);
-		
+
 		return "project/orderReward";
 
 	}

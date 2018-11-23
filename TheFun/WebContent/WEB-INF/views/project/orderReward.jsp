@@ -29,6 +29,7 @@
  .pupple{
  	color:#8152f0;
  	font-weight: bold;
+ 	font-size:large;
  	font-family: "Nanum Gothic", sans-serif;
  }
  .strongGray{
@@ -41,7 +42,20 @@
  font-family: "Nanum Gothic", sans-serif;
 	 color: #818181;
  }
-
+.td1{
+	text-align:left;
+	padding: 10px;
+	width: 60%;
+}
+.td2{
+	text-align:right;
+	width: 10%;
+}
+.td3{
+	text-align:right;
+	width: 30%;
+	padding: 30px;
+}
 
 </style>
 
@@ -77,21 +91,22 @@
         <div align="center" >
         
         <!-- 메인 -->
-          <p class="strongGray" style="font-size: 25px">${projectdto.title }</p>
+          <p class="strongGray">${projectdto.title } </p>
           
           <!-- 옵션테이블 -->
           <c:forEach items="${selectOptions }" var="options">
 			<table style="width: 70%">
 			<tr>
-				<td class="pupple" align="left">${options.title}</td>
+				<td class="pupple" style="font-size: 10px;" align="left">${options.title}</td>
 			</tr>
 			<tr>
-				<td class="liteGray" align="left">
+				<td class="liteGray td1">
 				 <c:forEach items="${options.content}" var="item">
 			   		<li class="liteGray">${item}</li>
 			  	 </c:forEach>
 				</td>
-				<td class="liteGray" align="right">${options.price}원</td>
+				<td class="td2 liteGray"><input type="text" name="opCount" value="1" size="5">개</td>
+				<td class="liteGray td3">${options.price}원</td>
 			</tr>
 			</table>
 			<br>
