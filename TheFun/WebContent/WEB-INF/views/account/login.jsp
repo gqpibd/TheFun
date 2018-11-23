@@ -9,34 +9,89 @@
 		out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
 	}
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-<meta name="google-signin-client_id" content="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"> <!-- 구글 api사용 -->
-<title>The Fun_더 아름다운 세상을 위한 펀딩 로그인</title>
-<script src="CSS/mainVendor/jquery/jquery.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script><!-- 구글 아이디로 로그인 -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인  -->
-<!-- <script src="js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script> --><!-- 네이버 아이디로 로그인 -->
+
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <!-- <script src="js/postcode/postcode.v2.js"></script>
 <script src="js/postcode/180928.js"></script> -->
 <link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
-<style type="text/css">
 
+<style type="text/css">
 .form .register-form {
   display: none;
 }
 </style>
-</head>
-<body>
 
+<!-- 페이스북 로그인에 필요하 스크립트 -->
+<script type="text/javascript">
+/* id
+first_name
+last_name
+middle_name
+name
+name_format
+picture
+short_name */
+/* window.fbAsyncInit = function() {
+	FB.init({
+		appId : '2123794117640622',
+		cookie : true,
+		xfbml : true,
+		version : 'v3.2'
+	});	
+};
+(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {
+		return;
+	}
+	js = d.createElement(s);
+	js.id = id;
+	js.src = "https://connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk')); */
+
+function checkLoginState(){
+	FB.getLoginStatus(function(response) {
+		statusChangeCallback(response);
+	});
+}
+
+function statusChangeCallback(response) {
+	console.log('statusChangeCallback');
+	console.log(response);	
+	if (response.status === 'connected') {
+		var uid = response.authResponse.userID;
+	    var accessToken = response.authResponse.accessToken;
+		// Logged into your app and Facebook.
+		FB.api('/me',{fields: 'name,email,picture'}, function(res) {
+	      console.log('Successful login for: ' + res.name);		      
+	      console.log('response.authResponse.userID: ' + res.id);		      
+	      console.log('response.email: ' + res.email);			
+	      console.log('response.public_profile: ' + res.picture.data.url);	
+	      willYouSignUp(res.id,res.name,res.email);	
+	    });
+	} else {
+		console.log("페이스북 로그인 되어있지 않음")
+	}
+}
+
+/* 페이스북에 포스팅하는거 -- 필요하면 쓰기 */
+/* function posting() {
+    FB.api(
+           '/me/feed','post', {"message" : "안녕하세요?"}, 
+           function(response) {
+                console.log('facebook-response:', response);
+                if (response && !response.error) {
+                    alert("포스팅 성공!");
+                } else {
+                    console.log("포스팅 실패!");
+                }
+   });
+} */
+</script>
 <div>
 <div class="form">
-	<img src="image/main/banner.jpg" width="100%"><br>	
+	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
 		<h6 class="background"><span>필수 항목</span></h6>
@@ -69,6 +124,7 @@
 			이미 계정이 있으신가요? <a href="#" style="color:#8152f0">로그인</a>
 		</p>
 	</form>
+	
 	<!-- 로그인 폼 -->
 	<form class="login-form" action="loginAf.do" method="post">
 		<input type="hidden" name="loginType" value="normal">
@@ -77,18 +133,19 @@
 		<input type="password" id="loginPwd" name="pwd" onkeyup="loginCheck()" maxlength="12" placeholder="비밀번호" />
 		<button style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
-		<div style="margin: auto">
+		<div style="margin: auto; display: table-cell;">
 			
 			<!-- 카카오 아이디로 로그인 -->
 			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;"> 
-				<img src="image/login/kakao_account_login_btn_medium_wide.png"
+				<img style="margin-bottom: 10px;" src="image/login/kakao_account_login_btn_medium_wide.png"
 				onmouseover="this.src='image/login/kakao_account_login_btn_medium_wide_ov.png'"
 				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_wide.png'"/><!-- width="217.31px" -->
 			</a>
 			<!-- 네이버 아이디로 로그인 -->
 			<!-- <div id="naverIdLogin"></div> -->
 			<!-- 페이스북아이디로로그인 -->
-			<div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" >페이스북 계정으로 로그인
+			</fb:login-button>
 			<!-- 구글 아이디로 로그인 -->
 			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn" style="margin-top: 5px"></div> 
 			
@@ -213,32 +270,7 @@ function onSignIn(googleUser) {
 <!-- 페이스북아이디로 로그인  -->
 
 <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '{2123794117640622}',
-      cookie     : true,
-      xfbml      : true,
-      version    : '{3.2}'
-    });
-      
-    FB.AppEvents.logPageView();   
-    
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-        console.log("abc")
-    });
-      
-  };
-  /*  페이스북 아이디로 로그인 */ 
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.2&appId=2123794117640622&autoLogAppEvents=1';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
 
-  
 </script>
 
 
@@ -448,6 +480,3 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 </script>
-
-</body>
-</html>

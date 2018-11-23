@@ -18,20 +18,21 @@ public class ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
-	ProjectService projectService; //주석 풀어서 쓰길...
+	ProjectService projectService; 
 	
-	
-
+	/* 화면만 이동 */
+	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String detail() {
 		logger.info("ProjectController detail 메소드 " + new Date());	
-		return "project/detail";
+		return "detail.tiles";
 	}
 	
+	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
-		return "main";
+		return "mainView.tiles";
 	}
 	
 	@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 

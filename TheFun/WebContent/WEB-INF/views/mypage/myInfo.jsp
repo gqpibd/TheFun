@@ -4,22 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>
- 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-<meta name="google-signin-client_id" content="884451928834-qqlq8ck53ft5q6at5am0anhmkg43jq3b.apps.googleusercontent.com"> <!-- 구글 api사용 -->
 
-<title>Insert title here</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
-<script src="CSS/mainVendor/jquery/jquery.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script><!-- 구글 아이디로 로그인 -->
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인  -->
 <style type="text/css">
-input {
+.input {
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -103,9 +91,8 @@ input {
 } 
 
 </style>
-</head>
-<body onload="loadImageFile();">
 
+<div style="display: grid">
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${myi.pwd ne null}">
 <input type="hidden" id="imgPath" name="imgPath" value="${myi.address}">
@@ -130,7 +117,7 @@ input {
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input type="text" name="id" value="${myi.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -139,14 +126,14 @@ input {
 			<tr> <!-- 개인정보 수정하려면 현재 비밀번호를 입력해야됨  -->
 				<td style="text-align: left;">현재 비밀번호</td>
 				<td colspan="2">
-					<input type="password" id="myPwd" name="myPwd" maxlength="12" placeholder="현재 비밀번호" onblur="myPwdCheck()" />				
+					<input class="input" type="password" id="myPwd" name="myPwd" maxlength="12" placeholder="현재 비밀번호" onblur="myPwdCheck()" />				
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="myPwdCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
 			<tr>
 				<td style="text-align: left;">새 비밀번호</td>
 				<td colspan="2">
-					<input type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="myNewPwdCheck()" />
+					<input class="input" type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="myNewPwdCheck()" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="pwdCheckMessage" style="color:red; font-size:11px; margin: 0;" ></td></tr>
@@ -154,14 +141,14 @@ input {
 			<tr class="hideWhenRead"><!-- null 이면 readonly -->
 				<td style="text-align: left;">새 비밀번호 확인</td>
 				<td colspan="2">
-					<input type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="myNewPwdCheck()" />
+					<input class="input" type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="myNewPwdCheck()" />
 				</td>
 			</tr>
 			
 			<tr>
 				<td style="text-align: left;">별명</td>
 				<td colspan="2">
-					<input type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${myi.nickname }" />
+					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${myi.nickname }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -169,7 +156,7 @@ input {
 			<tr>
 				<td style="text-align: left;">이메일</td>
 				<td colspan="2">
-					<input type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${myi.email }" />
+					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${myi.email }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
@@ -181,12 +168,12 @@ input {
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input type="text" name="id" value="${myi.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
 			<tr>
-				<td>카카오 아이디로 로그인 중</td>
+				<td>다른 계정으로 로그인중 </td>
 			</tr>		 		
 		</table>
 	</c:otherwise>
@@ -199,7 +186,7 @@ input {
 		<tr>
 			<td style="text-align: left;">전화번호</td>
 			<td colspan="2">
-				<input type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${myi.phone }" />
+				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${myi.phone }" />
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -208,28 +195,28 @@ input {
 		<tr>
 			<td style="text-align: left;">주소</td>
 			<td >
-				<input type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${myi.postcode}" readonly="readonly">		
+				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${myi.postcode}" readonly="readonly">		
 			</td>
 			<td>
-				<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
+				<input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${myi.roadaddress}"  readonly="readonly">
+				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${myi.roadaddress}"  readonly="readonly">
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${myi.detailaddress}">
+				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${myi.detailaddress}">
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: left;">소개</td>
 			<td colspan="2">
-				<input type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${myi.info}"/>			
+				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${myi.info}"/>			
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -237,17 +224,18 @@ input {
 		<tr>
 			<td style="text-align: left;">포인트</td>
 			<td colspan="2">			
-				<input type="text" id="myPoint" name="point" value="${myi.point}" readonly="readonly"/>
+				<input class="input" type="text" id="myPoint" name="point" value="${myi.point}" readonly="readonly"/>
 			</td>
 		</tr>	
 	</table>
 	</div>
 		
 	<div class="right" style="width: 100%;" align="center">
-		<input type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
+		<input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
 	</div>	
 	</div>
 </form>
+</div>
 <!-- 유효성 검사 -->
 <script type="text/javascript">
 var pwdOk = false;
@@ -466,5 +454,3 @@ Kakao.API.request({
 });
  
 </script>
-</body>
-</html>

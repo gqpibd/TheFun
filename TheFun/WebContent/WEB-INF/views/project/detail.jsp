@@ -51,7 +51,7 @@
  }
  .jbMenu {
   background-color:#ffffff;
-  text-align: center;
+  text-align: center; 
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;

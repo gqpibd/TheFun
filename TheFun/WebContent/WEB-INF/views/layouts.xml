@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  
+<tiles-definitions>
+ 
+ 	<definition name="main.tiles" template="/WEB-INF/views/layouts-tiles.jsp">  <!-- layouts-tiles.jsp의 name이 main.tiles -->
+ 		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+ 		<put-attribute name="topbar" value="/WEB-INF/views/common/topbar.jsp"/>
+ 		<put-attribute name="main" value="/WEB-INF/views/common/main.jsp"/>
+ 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
+ 		<!-- 
+ 		<put-attribute name="common" value="/WEB-INF/views/common/common.jsp"/>
+ 		<put-attribute name="top_inc" value="/WEB-INF/views/common/top.jsp"/>
+ 		<put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
+ 		<put-attribute name="left_main" value="/WEB-INF/views/common/left_bbslist.jsp"/>
+ 		<put-attribute name="main" value="/WEB-INF/views/bbs/bbslist.jsp"/>
+ 		<put-attribute name="bottom_inc" value="/WEB-INF/views/common/bottom.jsp"/>
+ 		-->
+ 	</definition>
+ 	
+ 		<!-- 메인 뷰 -->
+	 	<definition name="mainView.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/mainView.jsp"/>
+	 	</definition>
+ 	
+ 		<!-- 로그인/회원가입 뷰 -->
+	 	<definition name="login.tiles" extends="main.tiles"> <!-- main.tiles에 연결한 views/account/login.jsp의 name이 login.tiles -->
+	 		<put-attribute name="topbar" value="/WEB-INF/views/account/top.jsp"/>
+	 		<put-attribute name="main" value="/WEB-INF/views/account/login.jsp"/>
+	 	</definition>
+	 	
+	 	<!-- 마이페이지 -->
+	 	<definition name="MyPage.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/mypage/mypage.jsp"/>
+	 	</definition>
+	 	
+	 	<!-- 개인정보수정 -->
+	 	<definition name="myInfo.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>
+	 	</definition>
+	 	
+	 	
+	 	<!-- <definition name="search.tiles" extends="main.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
+	 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
+	 	</definition> -->
+
+</tiles-definitions>

@@ -30,7 +30,7 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	MemberService memberService;	
+	MemberService memberService;	 
 	
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -98,7 +98,7 @@ public class MemberController {
 		model.addAttribute("myi", myinfo);
 		
 		//return "getMypage.tiles";
-		return "mypage/myInfo";	
+		return "myInfo.tiles";	
 	}
 	
 	// 로그아웃 처리
@@ -168,14 +168,14 @@ public class MemberController {
 		logger.info("MemberController login " + new Date());	
 		
 		model.addAttribute("message",message);
-		return "account/login";
+		return "login.tiles";
 	}
 	
 	// 마이페이지로 이동
-	@RequestMapping(value="getMypage.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="myPage.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMypage(HttpServletRequest req, Model model) throws Exception{
 		logger.info("MemberController getMypage " + new Date());		
 		
-		return "mypage/mypage";
+		return "MyPage.tiles";
 	}
 }

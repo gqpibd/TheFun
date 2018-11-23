@@ -16,7 +16,7 @@ import donzo.thefun.service.BuyService;
 public class BuyController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BuyController.class);
-	
+	 
 	@Autowired
 	BuyService buyService;
 	

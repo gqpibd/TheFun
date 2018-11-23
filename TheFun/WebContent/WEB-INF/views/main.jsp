@@ -9,7 +9,7 @@
 	System.out.println(login);
 %>
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -21,7 +21,7 @@
 <!-- main CSS설정 -->
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <meta name="description" content="">
- <meta name="author" content="">
+ <meta name="author" content=""> 
 
  <title>The Fun_더 아름다운 세상을 위한 펀딩</title>
 

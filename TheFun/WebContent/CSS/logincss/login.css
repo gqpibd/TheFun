@@ -11,6 +11,7 @@
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   text-align: center;
+  box-sizing: content-box;
 }
 .form input {
   outline: 0;
@@ -93,4 +94,7 @@ h6.background span {
   /* to hide the lines from behind the text, you have to set the background color the same as the container */
   background: #fff;
   padding: 0 15px;
+}
+.form .register-form {
+  display: none;
 }
