@@ -19,6 +19,11 @@
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- topbar css -->
+<link rel="stylesheet" href="CSS/topbar.css">
+
+<!-- mtPage css -->
+<link rel="stylesheet" href="CSS/mainCss/maPage.css">
 
  <!-- main CSS설정 -->
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,7 +41,7 @@
 <script src="CSS/mainVendor/jquery/jquery.min.js"></script>
 <script src="CSS/mainVendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-//////////////////////////////////////////////////////////////////////////////
+<!-- ////////////////////////////////////////////////////////////////////////////// -->
  
  <style type="text/css">
  .pTitle{
@@ -50,7 +55,7 @@
  }
  </style>
  
- //////////////////////////////////////////////////
+<!--  ////////////////////////////////////////////////// -->
  
 <script type="text/javascript">
 

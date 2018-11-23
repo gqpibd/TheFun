@@ -53,7 +53,7 @@
 
 
  <!-- Navigation 헤더 -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+ <%--    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container" style="background-color: white;">
         <a class="navbar-brand" href="#"><img src="image/main/banner.jpg" width="130px"></a> <!-- 배너 -->
         <a href="#"><img src="image/main/done.jpg" width="50px"></a> <!-- 기부 -->
@@ -84,7 +84,7 @@
         </div>
       </div>
     </nav>
-
+ --%>
  <!-- Page Content -->
     <div class="container">
 
@@ -143,7 +143,7 @@
     <!-- /.container 메인컨테이너 끝-->
 
 
-////////////////////////////////////
+<!-- //////////////////////////////////// -->
 <!--     Footer
     <footer class="py-5">
       <div class="container">

@@ -92,7 +92,11 @@ public class MemberController {
 		return "login.tiles";
 	}
 	
-	
+	@RequestMapping(value="MyPage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goMypage() {
+		logger.info("MemberController login " + new Date());		
+		return "MyPage.tiles";
+	}
 	
 
 

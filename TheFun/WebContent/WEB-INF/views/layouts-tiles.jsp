@@ -18,20 +18,13 @@
 
 <%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/style.css"> --%>
 
-<style type="text/css">
 
-.top { /* topbar를 고정하다. */
-  position: fixed;
-  top: 0px;
-}
-
-</style>
 </head>
 <body>
 
 
 <!-- 탑바 -->
-<div class="top">	<!-- 로고 검색 로그인 회원가입 -->
+<div>	<!-- 로고 검색 로그인 회원가입 -->
 	<tiles:insertAttribute name="topbar" /> 
 </div>
 

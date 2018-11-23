@@ -28,6 +28,12 @@
  		<!-- 로그인/회원가입 뷰 -->
 	 	<definition name="login.tiles" extends="main.tiles"> <!-- main.tiles에 연결한 views/account/login.jsp의 name이 login.tiles -->
 	 		<put-attribute name="main" value="/WEB-INF/views/account/login.jsp"/>
+	 		<put-attribute name="topbar" value="/WEB-INF/views/account/BG.jsp"/>
+	 	</definition>
+	 	
+	 	<!-- 마이페이지 -->
+	 	<definition name="MyPage.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/mypage/mypage.jsp"/>
 	 	</definition>
 	 	
 	 	

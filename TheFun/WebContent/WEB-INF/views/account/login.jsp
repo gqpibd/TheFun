@@ -121,7 +121,7 @@ h6.background span {
 
 <div>
 <div class="form">
-	<img src="image/main/banner.jpg" width="100%"><br>	
+	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
 		<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
