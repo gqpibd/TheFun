@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
 
 
@@ -41,7 +42,7 @@ public class BuyController {
 		
 		List<BuyDto> donalist = buyService.donaList(buy);
 		model.addAttribute("donalist", donalist);
-		
+
 		return "mypage/myReward";
 		
 		

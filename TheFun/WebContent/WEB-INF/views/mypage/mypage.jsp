@@ -74,7 +74,8 @@
         	<form class="mypageForm" id="_mypageForm" method="post" action="getMypage.do">
 			<table>
 			<tr>
-				<td><img alt="프로필" src="./image/test.jpg" style="border-radius: 50%;">&nbsp;&nbsp;</td>
+				<!-- 프로필 사진 넣는 방법은 따로 제작할 예정 -->
+				<td><img alt="프로필" src="./image/test1.jpg" style="border-radius: 50%;">&nbsp;&nbsp;</td>
 				<td>${myp.nickname } &nbsp;&nbsp;</td>
 				<td>${myp.point } Point </td>
 			</tr>
@@ -96,10 +97,10 @@
           <!-- 탭구간 -->
           <table>
           <tr style="text-align: center;">
-				<td class="menubar"><a href="myInfo.do?id=testWJ">내정보</a>&nbsp;&nbsp;</td>
+				<td class="menubar"><a href="myInfo.do?id=blueja3629">내정보</a>&nbsp;&nbsp;</td>
 				<td class="menubar"><a href="myReward.do?id=blueja3629">나의후원내역</a> &nbsp;&nbsp;</td>
 				<td class="menubar">내프로젝트&nbsp;&nbsp;</td>
-				<td class="menubar"><a href="myCalendar.do?id=testJY">캘린더</a></td>
+				<td class="menubar"><a href="myCalendar.do?id=blueja3629">캘린더</a></td>
 			</tr>          
           </table>
           

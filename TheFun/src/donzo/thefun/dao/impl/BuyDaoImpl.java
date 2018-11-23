@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectDto;
 
 @Repository
 public class BuyDaoImpl implements BuyDao {
@@ -22,7 +23,6 @@ public class BuyDaoImpl implements BuyDao {
 		List<BuyDto> list = sqlSession.selectList(ns + "myDonaList", buy);
 		return list;
 	}
-	
-	
+
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
 
 @Service
@@ -18,8 +19,10 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public List<BuyDto> donaList(BuyDto buy) {
 		return buyDao.donaList(buy);
-	}  
-		
+	}
+
+	
+	
 	
 }
 
