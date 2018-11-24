@@ -129,7 +129,15 @@
 	</a>
 
 </div>
-
+<script>
+/* 페이지 번호를 클릭했을 때 */
+function goPage(pageNumber) {
+	$("#_pageNumber").val(pageNumber);
+	$("#s_keywordTextField").val($("#s_keywordTextField").val());
+	/* alert(pageNumber); */
+	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do"}).submit();
+}
+</script>
 <!-- <script>
 $(document).ready(function () {
 	$("#search_Btn").click(function () {

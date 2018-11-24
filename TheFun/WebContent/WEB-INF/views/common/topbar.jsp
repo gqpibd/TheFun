@@ -50,12 +50,7 @@ function search_Enter() {	// 엔터 쳤을 때 검색
 	$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 }
 
-/* 페이지 번호를 클릭했을 때 */
-function goPage(pageNumber) {
-	$("#_pageNumber").val(pageNumber);
-	/* alert(pageNumber); */
-	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do"}).submit();
-}
+
 </script>
     
     
