@@ -37,6 +37,8 @@
 	        <mvc:mapping path="/goSelectReward.do"/>
 	        <mvc:mapping path="/goOrderReward.do"/>
 	        <mvc:mapping path="/order.do"/>
+	        <mvc:mapping path="/newProject.do"/>
+	        <mvc:mapping path="/newProjectAf.do"/>
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>
@@ -76,7 +78,7 @@
 	<property name="scope" value="https://www.googleapis.com/auth/plus.login"></property>
 	<property name="redirectUri" value="http://localhost:8090/TheFun/main.do"/>
  
-</bean>
+</bean> 
 	
 	 
 	

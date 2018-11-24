@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div align="center">
+
+<!-- myPage css -->
+<link rel="stylesheet" href="CSS/mainCss/maPage.css">
+
+<div align="center"> 
 	<div>
 		<form action="" method="post">
 			<table border="1">

@@ -16,7 +16,7 @@ import donzo.thefun.service.QnaService;
 public class QnaController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
-	
+	 
 	@Autowired
 	QnaService qnaService; 	
 	

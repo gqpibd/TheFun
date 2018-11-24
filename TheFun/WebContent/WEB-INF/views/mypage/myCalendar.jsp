@@ -1,7 +1,7 @@
 <%@page import="donzo.thefun.util.myCal"%>
 <%@page import="donzo.thefun.model.ProjectDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%> 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
@@ -54,7 +54,7 @@ background-color:#4D6BB3; color:#FFFFFF; line-height:1.7em; font-weight:normal;
 .innerTable {
     border: 0px ;
 }
-</style>
+</style> 
 
 <!----------------------------CSS 구간------------------->
 

@@ -12,5 +12,6 @@ public interface ProjectService {
 	public MemberDto getWriter(int seq);
 	public List<OptionDto> getOptions(int seq);
 	public List<NoticeDto> getNotice(int seq);
-	public List<OptionDto> getSelectOptions(int[] seq); 
+	public List<OptionDto> getSelectOptions(int[] seq);
+	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception; 
 }

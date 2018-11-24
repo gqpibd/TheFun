@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
+
+
 <script type="text/javascript">
 window.fbAsyncInit = function() {
 	FB.init({
@@ -40,7 +42,7 @@ window.fbAsyncInit = function() {
     <a href="#"><img src="image/main/done.jpg" width="50px"></a><!--  기부 -->
     <a href="#"><img src="image/main/funding.jpg" width="55px"></a><!--  펀딩 -->
     <a href="#"><img src="image/main/history.jpg" width="90px"></a> <!-- 히스토리 (종료된 프로젝트) -->
-    <a href="#"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
+    <a href="newProject.do"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
     &nbsp;&nbsp;&nbsp;
     
     <form id="frm_search">

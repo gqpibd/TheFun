@@ -27,7 +27,7 @@
 	 color: #818181;
 	 font-family: "Nanum Gothic", sans-serif;
  }
- 
+  
  /* 별점 + 후기 */
  .cont{
   width: 93%;

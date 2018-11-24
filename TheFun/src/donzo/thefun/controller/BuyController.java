@@ -34,7 +34,7 @@ public class BuyController {
 
 		return "myOrder.tiles";
 	}
-	
+	 
 	
 	/*-------------이 아래는 페이지 이동--------------*/
 	

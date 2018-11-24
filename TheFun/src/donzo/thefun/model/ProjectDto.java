@@ -49,6 +49,7 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
     NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
 FROM FUN_PROJECT P;*/
+import java.util.Arrays;
 
 public class ProjectDto implements Serializable {
 	
@@ -74,6 +75,7 @@ public class ProjectDto implements Serializable {
 	String content; // 프로젝트 설명 + 이미지 포함해야 되는데....
 	String summary; // 프로젝트 요약 설명
 	String[] tags; // 태그
+	String tag;		// 프로젝트 입력용 임시변수 
 	String bank; // 계좌번호
 	int goalfund; // 목표 모금액
 	String sdate; // 시작일
@@ -89,7 +91,10 @@ public class ProjectDto implements Serializable {
 	int likecount; // 좋아요 갯수
 	int fundachived; // 달성 모금액
 	
-	public ProjectDto() {}
+	public ProjectDto() {		
+		shipdate = "";
+		status = PREPARING;
+	}
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
 			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
@@ -117,7 +122,22 @@ public class ProjectDto implements Serializable {
 		this.likecount = likecount;
 		this.fundachived = fundachived;
 	}
-
+	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
+			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+		this.id = id;
+		this.fundtype = fundtype;
+		this.category = category;
+		this.title = title;
+		this.content = content;
+		this.summary = summary;
+		this.tag = tag;
+		this.bank = bank;
+		this.goalfund = goalfund;
+		this.sdate = sdate;
+		this.edate = edate;
+		this.pdate = pdate;
+		this.shipdate = shipdate;
+	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
 			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
 		this.id = id;
@@ -199,9 +219,7 @@ public class ProjectDto implements Serializable {
 		int startIndex = 1;
    	 	if(tags.charAt(0) != '#') {
    	 		startIndex = 0;
-   	 	}
-   	 	
-                       
+   	 	}  
 		//content split
 		//String realTags[]=tags.split("/");
 		this.tags = tags.substring(startIndex).split("#"); 
@@ -311,13 +329,27 @@ public class ProjectDto implements Serializable {
 		this.fundachived = fundachived;
 	}
 
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
 				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
-				+ tags + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
-				+ edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate + ", status=" + status
-				+ ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount=" + noticecount + ", likecount="
-				+ likecount + ", fundachived=" + fundachived + "]";
+				+ Arrays.toString(tags) + ", tag=" + tag + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate="
+				+ sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate
+				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount="
+				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + "]";
 	}
+
+	
 }

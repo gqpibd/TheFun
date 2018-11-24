@@ -40,6 +40,11 @@
 	 	
 	 	<!-- 프로젝트 -->
 	 	
+	 	<!-- 프로젝트 만들기-->
+	 	<definition name="newProject.tiles" extends="base.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/project/newProject.jsp"/>
+	 	</definition>
+	 	
 	 	<!-- 프로젝트 상세 정보 -->
 	 	<definition name="projectDetail.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>

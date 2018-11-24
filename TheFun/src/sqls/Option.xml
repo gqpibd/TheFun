@@ -16,4 +16,10 @@
 	SELECT * FROM FUN_OPTION_VIEW WHERE SEQ=#{seq}
 </select>
 
+<!-- 옵션 추가 -->
+<insert id="newWrite" parameterType="donzo.thefun.model.OptionDto">
+	INSERT INTO FUN_OPTION(SEQ, PROJECTSEQ, TITLE, CONTENT, PRICE, STOCK)
+	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
+</insert> 
+
 </mapper>

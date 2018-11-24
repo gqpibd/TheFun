@@ -120,7 +120,7 @@ public class MemberController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		} 
 		return "redirect:/login.do";
 	}
 
