@@ -10,14 +10,6 @@
  		<put-attribute name="topbar" value="/WEB-INF/views/common/topbar.jsp"/>
  		<put-attribute name="main" value="/WEB-INF/views/common/main.jsp"/>
  		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
- 		<!-- 
- 		<put-attribute name="common" value="/WEB-INF/views/common/common.jsp"/>
- 		<put-attribute name="top_inc" value="/WEB-INF/views/common/top.jsp"/>
- 		<put-attribute name="top_menu" value="/WEB-INF/views/common/top_menu.jsp"/>
- 		<put-attribute name="left_main" value="/WEB-INF/views/common/left_bbslist.jsp"/>
- 		<put-attribute name="main" value="/WEB-INF/views/bbs/bbslist.jsp"/>
- 		<put-attribute name="bottom_inc" value="/WEB-INF/views/common/bottom.jsp"/>
- 		-->
  	</definition>
  	
  		<!-- 메인 뷰 -->
@@ -41,6 +33,10 @@
 	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>
 	 	</definition>
 	 	
+	 	<!-- 나의 후원내역 -->
+	 	<definition name="myOrder.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
+	 	</definition>
 	 	
 	 	<!-- <definition name="search.tiles" extends="main.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
 	 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>

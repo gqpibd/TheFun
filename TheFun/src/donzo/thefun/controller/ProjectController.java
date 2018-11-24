@@ -35,6 +35,7 @@ public class ProjectController {
 		return "mainView.tiles";
 	}
 	
+	// 피드백
 	@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String feedBack() {
 		logger.info("ProjectController feedBack " + new Date());	

@@ -161,7 +161,7 @@ public class MemberController {
 		return result;
 	}		
 	
-	/*-------------이 아래는 페이지 이동만--------------*/
+	/*-------------이 아래는 페이지 이동--------------*/
 	// 로그인 페이지로 이동
 	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String login(Model model, String message) {		

@@ -81,12 +81,13 @@ REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; -- 종속 삭제
 
 -------------- VIEW : 구매
-CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT)
+CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS)
 AS
 SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE, B.SCORE, B.BCOMMENT,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
     (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
-    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ)
+    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),    
+    (SELECT STATUS FROM FUN_PROJECT WHERE SEQ= B.PROJECTSEQ)
 FROM FUN_BUY B;
 
 -------------- VIEW : 장바구니
@@ -112,12 +113,13 @@ public class BuyDto implements Serializable {
 	String ptitle; // 프로젝트 이름 -- view에서 가져옴
 	String otitle; // 옵션 이름 -- view에서 가져옴
 	String ocontent; // 옵션 내용 -- view에서 가져옴
+	String status;
 	
 	public BuyDto() {}
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
-			String bcomment, String ptitle, String otitle, String ocontent) {
+			String bcomment, String ptitle, String otitle, String ocontent, String status) {
 		this.seq = seq;
 		this.id = id;
 		this.projectseq = projectseq;
@@ -130,6 +132,7 @@ public class BuyDto implements Serializable {
 		this.ptitle = ptitle;
 		this.otitle = otitle;
 		this.ocontent = ocontent;
+		this.status = status;
 	}
 	
 	// 새 구매 또는 새 장바구니
@@ -139,6 +142,16 @@ public class BuyDto implements Serializable {
 		this.optionseq = optionseq;
 		this.count = count;
 		this.price = price;
+	}
+
+	
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public int getSeq() {
@@ -241,6 +254,9 @@ public class BuyDto implements Serializable {
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
 				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
-				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + "]";
+				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
+				+ status + "]";
 	}
+
+	
 }

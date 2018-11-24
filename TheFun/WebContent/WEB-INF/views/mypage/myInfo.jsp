@@ -92,7 +92,6 @@
 
 </style>
 
-<div style="display: grid">
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${myi.pwd ne null}">
 <input type="hidden" id="imgPath" name="imgPath" value="${myi.address}">
@@ -235,7 +234,6 @@
 	</div>	
 	</div>
 </form>
-</div>
 <!-- 유효성 검사 -->
 <script type="text/javascript">
 var pwdOk = false;

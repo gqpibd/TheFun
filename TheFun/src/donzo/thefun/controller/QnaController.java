@@ -20,13 +20,11 @@ public class QnaController {
 	@Autowired
 	QnaService qnaService; 	
 	
-
+	/*-------------이 아래는 페이지 이동만--------------*/
+	// 댓글창
 	@RequestMapping(value="reply.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String reply(Model model) {
 		logger.info("QnaController reply " + new Date());
-
-		
-		
 		return "reply.tiles";
 	}
 

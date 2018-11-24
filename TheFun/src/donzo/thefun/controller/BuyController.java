@@ -1,14 +1,18 @@
 package donzo.thefun.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
 
 
@@ -20,15 +24,33 @@ public class BuyController {
 	@Autowired
 	BuyService buyService;
 	
+	// 내 주문 내역 목록 (myOrderHistory)
+	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myOrderList(Model model, BuyDto buy) {
+		logger.info("BuyController myOrderList 메소드 " + new Date());
+		
+		List<BuyDto> orderlist = buyService.orderList(buy);
+		model.addAttribute("orderlist", orderlist);
+
+		return "myOrder.tiles";
+	}
+	
+	
+	/*-------------이 아래는 페이지 이동--------------*/
+	
+	// 리워드 주문으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward() {
 		logger.info("BuyController goOrderReward 메소드 " + new Date());
 		return "project/selectReward";
 	}
 	
-		@RequestMapping(value="goOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	
+	@RequestMapping(value="goOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrder() {
 		logger.info("BuyController goOrderReward 메소드 " + new Date());
 		return "project/orderReward";
 	}
+	
+	
 } 
