@@ -1,17 +1,16 @@
+
 <%@ page contentType="text/html; charset=UTF-8"%>
-  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%-- <%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %> --%>
 <fmt:requestEncoding value="UTF-8"/>
 
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
+<%-- 
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<fmt:requestEncoding value="utf-8"/>
+ --%>
 
 
 <!-- 패널 접었다 폈다 할 수 있는 기능(https://www.w3schools.com/bootstrap/bootstrap_collapse.asp 참고) -->
@@ -19,13 +18,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    
-<!-- 와디즈? --><!-- 
-<link rel="stylesheet" href="https://cdn.wadiz.kr/resources/assets/vendor.css?966a1957dbe0ea1e47a26794a40b2772">
-<link rel="stylesheet" href="https://cdn.wadiz.kr/resources/assets/common.css?d20d62524c900b9f022ca2a3a0587a50">
-<link rel="stylesheet" href="/resources/static/css/reset.css">
- -->
 
 <!-- 썸머노트(반응형 스마트 에디터) -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
@@ -94,19 +86,19 @@ tr, td, input{
 			// 시작일
 			$("#date1").datepicker({
 				minDate : 0,
-				dateFormat:"yy/mm/dd",
+				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
 				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				onSelect:function( d ){
 					// 연,월,일 구하기
 //					alert(d + "선택됐습니다");
-					var arr = d.split("/");
+					var arr = d.split("-");
 					$("#date1").text(arr[0]);
 					$("#date1").append(arr[1]);
 					$("#date1").append(arr[2]);
 							
 					// 요일 구하기
-					var date = new Date( $("#date1").datepicker({dateFormat:'yy/mm/dd'}).val() );
+					var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
 			//		alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
 							
 					var week = new Array("일", "월", "화", "수", "목", "금", "토");
@@ -125,19 +117,19 @@ tr, td, input{
 			});
 			// 종료일
 			$("#date2").datepicker({
-				dateFormat:"yy/mm/dd",
+				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
 				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				onSelect:function( d ){
 					// 연,월,일 구하기
 //					alert(d + "선택됐습니다");
-					var arr = d.split("/");
+					var arr = d.split("-");
 					$("#date2").text(arr[0]);
 					$("#date2").append(arr[1]);
 					$("#date2").append(arr[2]);
 					
 					// 요일 구하기
-					var date = new Date( $("#date2").datepicker({dateFormat:'yy/mm/dd'}).val() );
+					var date = new Date( $("#date2").datepicker({dateFormat:'yy-mm-dd'}).val() );
 //					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
 					
 					var week = new Array("일", "월", "화", "수", "목", "금", "토");
@@ -160,19 +152,19 @@ tr, td, input{
 			});
 			// 정산일
 			$("#date3").datepicker({
-				dateFormat:"yy/mm/dd",
+				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
 				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				onSelect:function( d ){
 					// 연,월,일 구하기
 //					alert(d + "선택됐습니다");
-					var arr = d.split("/");
+					var arr = d.split("-");
 					$("#date3").text(arr[0]);
 					$("#date3").append(arr[1]);
 					$("#date3").append(arr[2]);
 					
 					// 요일 구하기
-					var date = new Date( $("#date3").datepicker({dateFormat:'yy/mm/dd'}).val() );
+					var date = new Date( $("#date3").datepicker({dateFormat:'yy-mm-dd'}).val() );
 //					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
 					
 					var week = new Array("일", "월", "화", "수", "목", "금", "토");
@@ -195,19 +187,19 @@ tr, td, input{
 			});
 			// 정산일
 			$("#date4").datepicker({
-				dateFormat:"yy/mm/dd",
+				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
 				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				onSelect:function( d ){
 					// 연,월,일 구하기
 //					alert(d + "선택됐습니다");
-					var arr = d.split("/");
+					var arr = d.split("-");
 					$("#date4").text(arr[0]);
 					$("#date4").append(arr[1]);
 					$("#date4").append(arr[2]);
 					
 					// 요일 구하기
-					var date = new Date( $("#date4").datepicker({dateFormat:'yy/mm/dd'}).val() );
+					var date = new Date( $("#date4").datepicker({dateFormat:'yy-mm-dd'}).val() );
 //					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
 					
 					var week = new Array("일", "월", "화", "수", "목", "금", "토");
@@ -222,6 +214,10 @@ tr, td, input{
 		        }
 
 			});
+			
+			
+			
+			
 	});
 	$('#summernote').summernote({
 	  placeholder: 'Hello bootstrap 4',
@@ -233,20 +229,36 @@ tr, td, input{
 	});
 	
 	
+	/* 리워드옵션의 갯수를 선택한만큼 갱신하는 함수 */ 
+	function optionChange( me ) {
+		
+		$(".notChangedOption").hide();
+		$(".changedOption").show();
+		
+		var num = me.options[me.selectedIndex].value;
+		alert(num + "개");
+		
+		for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
+			$("#_option" + (i+10)).val("");
+			$("#_option" + (i+10)).hide();
+		}
+		for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
+			$("#_option" + (i+10)).show();
+		}
+		
+	}
 	
 	
 </script>
 
-</head>
-<body>
-<%-- 
-<div id="header">
-	<jsp:include page="/WEB-INF/views/common/header.jsp" flush="false">
-		<jsp:param value="${header }" name="header"/>
-	</jsp:include>
-</div>
-<br><br><br><br> --%>
 
+
+
+<!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
+<form id="createProjectFrom" method="post" action="newProjectAf.do" enctype="multipart/form-data">
+	<input type="hidden" id="bank" name="bank">
+
+<!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 70%; margin: 0 auto;">
 
 
@@ -258,10 +270,10 @@ tr, td, input{
   <li><a data-toggle="tab" href="#menu2" style="font-size: 2em">리워드 등록</a></li>
 </ul>
 
-<!-- 탭 하단 내용 -->
+<!-- 탭 하단에 나오는 내용 div -->
 <div class="tab-content">
 
-<!-- (1) 첫번째 탭 -->
+<!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade in active">
 <br>
 
@@ -328,14 +340,13 @@ tr, td, input{
       	<!-- 아래 -->
       <div id="collapse2" class="panel-collapse collapse">
         <div class="panel-body">
-        	<form name="frmForm" id="_frmForm" action="imgupload.do" method="post" 
-					enctype="multipart/form-data">
 	        	<table style="width: 100%">
 					<tr>
 						<td colspan="2">
 							<div class="desc projectimg">
 								메이커와 리워드가 함께 있거나, 프로젝트의 성격이 한눈에 드러나는 사진이 좋습니다.
 								<a href="#none" onclick="openImgGuide('2');">가이드</a>를 확인하세요.
+								<!-- 나중에 시간나면 openImgGuide()함수 만들어서 가이드가 모달창으로 뜨게 해주자 -->
 							</div>
 						</td>
 					</tr>
@@ -351,10 +362,11 @@ tr, td, input{
 						</td>
 						<td align="right" style="text-align: left">
 							<input type="file" name="fileload" style=" width : 400px;">
+							<!-- 이미지는 type이 file! -->
+							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
 					</tr>
 				</table>
-			</form>
         </div>
       </div>
     </div>
@@ -372,7 +384,7 @@ tr, td, input{
 					<td colspan="2">
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
-						  <textarea class="form-control" rows="5" id="content" name="summary"></textarea>
+						  <textarea class="form-control" rows="5" id="summary" name="summary"></textarea>
 						</div>
 					</td>
 				</tr>
@@ -385,6 +397,7 @@ tr, td, input{
 					<td align="right">
 						<a data-toggle="collapse" href="#col_summary">
 							<button style="color: #4B088A">취소하기</button>
+							<!-- 취소하기버튼 다 없애기. 아님 다른 기능으로 만들던가. -->
 						</a>
 					</td>
 				</tr>
@@ -412,18 +425,19 @@ tr, td, input{
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
-						<div class="form-group">
-						  <label for="sel1">Project Purpose(택 1):</label>
-							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em" name="functype">Reward (상품)</button>
-							<button type="button" class="btn btn-primary btn-block" style="font-size: 1em" name="functype">Donation (기부)</button>
-						</div>
+						<label class="btn btn-primary btn-block" style="font-size: 1em">
+						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
+						</label>
+						<label class="btn btn-primary btn-block" style="font-size: 1em">
+						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
 						  <label for="sel1">Project Category(택 1):</label>
-						  <select class="form-control" id="sel1" name="category" style="font-size: 1em; height: 10%">
+						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
 						    <option>Food</option>
 						    <option>Animal</option>
 						    <option>IT</option>
@@ -472,9 +486,7 @@ tr, td, input{
 				</tr>
 				<tr>
 					<td>
-						<form method="post">
 							<textarea id="summernote" name="content"></textarea>
-						</form>
 					</td>
 				</tr>
 			</table>
@@ -501,7 +513,7 @@ tr, td, input{
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tags" name="tags" size="100%">
+						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
 					</td>
 				</tr>
 			</table>
@@ -553,7 +565,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">거래은행</label>
-						  <select class="form-control" id="sel1" name="banking" style="font-size: 1em; height: 10%">
+						  <select class="form-control" id="bankname" style="font-size: 1em; height: 10%">
 						    <option>은행을 선택하세요</option>
 						    <option>IBK기업은행</option>
 						    <option>KB국민은행</option>
@@ -574,7 +586,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">계좌 번호</label>
-						  <input type="text" class="form-control" id="bank" name="bank" placeholder="중간바(-)는 빼고 숫자만 입력해주세요" style="font-size: 15px" size="100%">
+						  <input type="text" class="form-control" id="accountNumber" placeholder="중간바(-)는 빼고 숫자만 입력해주세요" style="font-size: 15px" size="100%">
 						</div>
 					</td>
 				</tr>
@@ -607,7 +619,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 시작일</label>
-						  <input type="text" class="date" id="date1" placeholder="오늘부터 선택 가능합니다" size="30%">
+						  <input type="text" class="date" id="date1" name="sdate" placeholder="오늘부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
@@ -615,7 +627,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 종료일</label>
-						  <input type="text" class="date" id="date2" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%">
+						  <input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
@@ -623,7 +635,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 정산일·결제일</label>
-						  <input type="text" class="date" id="date3" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%">
+						  <input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
@@ -631,7 +643,7 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 배송일(기부 프로젝트일 경우, 이 칸을 비워두세요)</label>
-						  <input type="text" class="date" id="date4" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%">
+						  <input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%">
 						</div>
 					</td>
 				</tr>
@@ -643,6 +655,19 @@ tr, td, input{
   </div>
 </div>
 </div>
+
+
+<input type="button" id="btn_submit" value="전송">
+
+<!-- 프로젝트 입력값을 컨트롤러로 전송하기 위한 가장 큰 form 끝. -->
+
+
+
+
+
+
+
+	
 
 <!-- (3) 세번째 탭 -->
 <div id="menu2" class="tab-pane fade">
@@ -670,11 +695,11 @@ tr, td, input{
 						<td>
 							<div class="form-group">
 							  <label for="sel1">옵션 총 개수</label>
-							  <select class="form-control" id="sel1" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
+							  <select class="form-control" id="sel1" name="option_total" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
 							    <%
 								for(int i=1; i <= 10; i++){
 									%>
-									<option <%=(2+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
+									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
 									<%
 								}
 								%>
@@ -687,6 +712,7 @@ tr, td, input{
 	      </div>
 	    </div>
 	    <!-- [11] 리워드 등록 -->
+	    <div id="newRewird">
 	    <%
 		for(int i=1; i <= 10; i++){
 			%>
@@ -696,6 +722,7 @@ tr, td, input{
 	    <div class="panel panel-default">
 	      <div class="panel-heading">
 	        <h4 class="panel-title">
+	        
 					<a data-toggle="collapse" data-parent="#accordion" href="#collapse10" class="notChangedOption"><%=(i + "") %>번째 선물</a>
 
 	          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" class="changedOption"><%=(i + "") %>번째 선물</a>
@@ -716,7 +743,7 @@ tr, td, input{
 						<td colspan="2">
 							<div class="form-group">
 							  <label for="sel1">옵션 제목</label>
-							  <input type="text" class="form-control" id="title" name="title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
+							  <input type="text" class="form-control" id="title<%=i %>" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
 							</div>
 						</td>
 					</tr>
@@ -724,7 +751,7 @@ tr, td, input{
 						<td colspan="2">
 							<div class="form-group">
 							  <label for="sel1">아이템</label>
-							  <textarea class="form-control" rows="5" id="content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+							  <textarea class="form-control" rows="5" id="op_content<%=i %>" name="op_content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
 							</div>
 						</td>
 					</tr>
@@ -732,13 +759,13 @@ tr, td, input{
 						<td>
 							<div class="form-group">
 							  <label for="sel1">후원 금액</label>
-							  <input type="text" class="form-control" id="price" name="price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
+							  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
 							</div>
 						</td>
 						<td>
 							<div class="form-group">
 							  <label for="sel1">보유 수량</label>
-							  <input type="text" class="form-control" id="stock" name="stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
+							  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
 							</div>
 						</td>
 					</tr>
@@ -752,7 +779,7 @@ tr, td, input{
 	    	<%
 		}
 		%>
-	    
+	    </div>
 	    
 	    
 	    
@@ -760,49 +787,35 @@ tr, td, input{
   	</div>
 </div>
 </div>
-
+<!-- 3번째 탭 내용 끝 -->
 
 
 
 </div>
-
 </div>
-
-<%-- 
-
-<div id="footer">
-	<jsp:include page="/WEB-INF/views/common/footer.jsp" flush="false">
-		<jsp:param value="${footer }" name="footer"/>
-	</jsp:include>
-</div>
- --%>
+</form>
 
 
 
-
-
-<script type="text/javascript">
-
-/* 리워드옵션의 갯수를 선택한만큼 갱신하는 함수 */ 
-function optionChange( me ) {
+<script>
+//전송버튼 눌렀을 때
+$("#btn_submit").click(function () {
+	alert("전송");
 	
-	$(".notChangedOption").hide();
-	$(".changedOption").show();
+	// 선택한 은행+계좌번호 가져와
+	var bankname = $("#bankname").val();
+	var accountNumber = $("#accountNumber").val();
 	
-	var num = me.options[me.selectedIndex].value;
-	alert(num + "개");
+	alert(bankname + accountNumber);
+	// hidden에 bank값 세팅
+	$("#bank").val(bankname + "/" + accountNumber);
 	
-	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
-		$("#_option" + (i+10)).val("");
-		$("#_option" + (i+10)).hide();
-	}
-	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
-		$("#_option" + (i+10)).show();
-	}
 	
-}
+	// form 실행! 컨트롤러로~
+	$("#createProjectFrom").submit();
+});
+
+
 </script>
 
 
-</body>
-</html>
