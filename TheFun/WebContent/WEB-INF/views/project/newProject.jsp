@@ -8,9 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- 썸머노트(반응형 스마트 에디터) -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> --> <!-- header에 v4.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> --> <!-- header에 v4.1.1 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 
@@ -21,7 +21,7 @@
 	/* font-family: 'Jua', sans-serif;  */
 	/* font-family: 'Noto Serif KR', sans-serif; */
 /* } */
-h1, tr, a{
+h1, h4, tr, a{
 	font-family: 'Jua', sans-serif;
 }
 a{
@@ -185,9 +185,6 @@ tr, td, input{
 
 			});
 			
-			
-			
-			
 	});
 	$('#summernote').summernote({
 	  placeholder: 'Hello bootstrap 4',
@@ -217,7 +214,6 @@ tr, td, input{
 		}		
 	}
 </script>
-
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="createProjectFrom" method="post" action="newProjectAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
@@ -226,28 +222,205 @@ tr, td, input{
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 70%; margin: 0 auto;">
 
-
-
 <!-- 상단 탭 모음 -->
-<ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#home" style="font-size: 2em">프로젝트 개요</a></li>
-  <li><a data-toggle="tab" href="#menu1" style="font-size: 2em">스토리텔링</a></li>
-  <li><a data-toggle="tab" href="#menu2" style="font-size: 2em">리워드 등록</a></li>
+<ul class="nav nav-tabs">  
+  <%-- <li class="active"> --%>
+  <li class="nav-item">
+  	<a class= "nav-link active" href="#home" id="home-tab" data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="home" aria-selected="true">프로젝트 개요</a>
+  </li>  
+  <li class="nav-item">
+  	<a class= "nav-link" href="#menu1" id="menu-tab1"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu1" aria-selected="false">스토리텔링</a>
+  </li>
+  <li class="nav-item">
+  	<a class= "nav-link" href="#menu2" id="menu-tab2"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu2" aria-selected="false">리워드 등록</a>
+  </li>
 </ul>
 
 <!-- 탭 하단에 나오는 내용 div -->
 <div class="tab-content">
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
-<div id="home" class="tab-pane fade in active">
+<div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
 <br>
 
 <!-- 큰 테두리 -->
 <div class="container">
   <h1>프로젝트 개요</h1>
-  <div class="panel-group" id="accordion">
-  
-  
+  카드샘플 1 -- 하나씩만 열림
+  <!-- card 샘플 시작 -->
+  <div class="accordion" id="accordionExample">
+	<div class="card border-secondary mb-3"   style="border: 1px solid rgba(0,0,0,.125);"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
+    <!-- 위 -->
+      <div class="card-header" id="headionOne">
+        <h4 class="mb-0">    				
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">프로젝트 제목</label>		
+        </h4>
+      </div>
+    <!-- 아래 -->
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div class="card-body">
+        	<table class="card-text" style="width: 100%">
+				<tr>
+					<td colspan="2">
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span style="color: #4B088A; margin-left: 2%;">
+							<span id="titleLen">30자 남았습니다.</span>
+						</span>
+						
+					</td>
+					<td align="right">
+						<a data-toggle="collapse" href="#col_title">
+							<button style="color: #4B088A">취소하기</button>
+						</a>
+					</td>
+				</tr>
+			</table>
+        </div>
+      </div>
+    </div>    
+    <div class="card border-secondary mb-3">
+    	<!-- 위 -->
+		<div class="card-header" id="headingTwo">        
+		  <h4 class="mb-0">
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="col_image">대표 이미지</label>          
+		  </h4>
+		</div>
+      	<!-- 아래 -->
+		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+        <div class="card-body">
+	        	<table  class="card-text" style="width: 100%">
+					<tr>
+						<td colspan="2">
+							<div class="desc projectimg">
+								메이커와 리워드가 함께 있거나, 프로젝트의 성격이 한눈에 드러나는 사진이 좋습니다.
+								<a href="#none" onclick="openImgGuide('2');">가이드</a>를 확인하세요.
+								<!-- 나중에 시간나면 openImgGuide()함수 만들어서 가이드가 모달창으로 뜨게 해주자 -->
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color: #4B088A; margin-left: 2%;">
+								<ul>
+						          <li>사이즈: 가로1200px  세로675px </li>
+						          <li>용량 : 3MB 미만</li>
+						          <li>텍스트 및 로고 삽입 금지 </li>
+						        </ul>
+							</span>
+						</td>
+						<td align="right" style="text-align: left">
+							<input type="file" name="fileload" style=" width : 400px;">
+							<!-- 이미지는 type이 file! -->
+							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
+						</td>
+					</tr>
+				</table>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+    <!-- 카드 샘플 끝 -->
+    
+  	카드샘플 2 -- 누르면 다 열림
+	<!-- 카드샘플 2 시작 -->
+	<div id="accordion">  
+  	<!-- [1] 제목 -->
+  	<div class="card bg-light">
+    	<!-- 위 -->
+      <div class="card-header">
+        <h4 class="card-title">
+        	<table style="width: 100%">
+        		<tr>
+        			<td>
+        				<span>
+	        				<a data-toggle="collapse" data-parent="#accordion" href="#collapse1" id="col_title">프로젝트 제목</a>
+        				</span>
+        			</td>
+        			<td align="right">
+        				<span>
+							미작성.
+						</span>
+        			</td>
+        		</tr>
+			</table>
+        </h4>
+      </div>
+      	<!-- 아래 -->
+      <div id="collapse1" class="card collapse in">
+        <div class="card-body">
+        	<table style="width: 100%">
+				<tr>
+					<td colspan="2">
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLength',30)">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span style="color: #4B088A; margin-left: 2%;">
+							<span id="titleLength">30자 남았습니다.</span>
+						</span>
+						
+					</td>
+					<td align="right">
+						<a data-toggle="collapse" href="#col_title">
+							<button style="color: #4B088A">취소하기</button>
+						</a>
+					</td>
+				</tr>
+			</table>
+        </div>
+      </div>
+    </div>
+    <!-- [2] 대표 이미지 -->
+    <div class="card bg-light">
+    	<!-- 위 -->
+      <div class="card-header">
+        <h4 class="card-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"  id="col_image">대표 이미지</a>
+        </h4>
+      </div>
+      	<!-- 아래 -->
+      <div id="collapse2" class="collapse">
+        <div class="card-body">
+	        	<table style="width: 100%">
+					<tr>
+						<td colspan="2">
+							<div class="desc projectimg">
+								메이커와 리워드가 함께 있거나, 프로젝트의 성격이 한눈에 드러나는 사진이 좋습니다.
+								<a href="#none" onclick="openImgGuide('2');">가이드</a>를 확인하세요.
+								<!-- 나중에 시간나면 openImgGuide()함수 만들어서 가이드가 모달창으로 뜨게 해주자 -->
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<span style="color: #4B088A; margin-left: 2%;">
+								<ul>
+						          <li>사이즈: 가로1200px  세로675px </li>
+						          <li>용량 : 3MB 미만</li>
+						          <li>텍스트 및 로고 삽입 금지 </li>
+						        </ul>
+							</span>
+						</td>
+						<td align="right" style="text-align: left">
+							<input type="file" name="fileload" style=" width : 400px;">
+							<!-- 이미지는 type이 file! -->
+							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
+						</td>
+					</tr>
+				</table>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- 카드샘플 2 끝 다 열림 -->
+	<br>원래 승지씨 코드 -- bootstrap 충돌 (ver4에서 패널 지원 끊김)
+  <div class="panel-group" id="accordion">  
   	<!-- [1] 제목 -->
     <div class="panel panel-default">
     	<!-- 위 -->
@@ -425,7 +598,7 @@ tr, td, input{
 
 
 <!-- (2) 두번째 탭 -->
-<div id="menu1" class="tab-pane fade">
+<div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
 <br>
 <!-- 큰 테두리 -->
 <div class="container">
@@ -636,7 +809,7 @@ tr, td, input{
 	
 
 <!-- (3) 세번째 탭 -->
-<div id="menu2" class="tab-pane fade">
+<div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
   <br>
 <!-- 큰 테두리 -->
 <div class="container">
