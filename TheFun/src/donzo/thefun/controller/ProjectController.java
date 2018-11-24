@@ -39,61 +39,37 @@ public class ProjectController {
 	
 	
 	@RequestMapping(value="newProjectAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String newProjectAf(/*String title, String summary, String fundtype, String category,
-							String content, String tags, int goalfund, String bank,
-							String sdate, String edate, String pdate, String shipdate,*/ 
-							ProjectDto newProjectDto,
+	public String newProjectAf(ProjectDto newProjectDto,
 							int option_total,
 							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
-							/*OptionDto newOptionDto, */
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile mainImage) throws Exception {
-		
+		/* 파라미터 해석ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+			- newProjectDto : 새로 만들 프로젝트의 입력값(id(이건 나중에..), fundtype, dategory, title, content, 
+												summary, tag, bank, goalfund, 
+												sdate, edate, pdate, shipdate)
+			- option_total : 생성할 옵션(리워드) 개수
+			- 배열값 4개 : 각 옵션의 제목, 내용, 가격, 재고
+			- mainImage : 메인이미지로 등록한 파일명
+		 */
 		
 		logger.info("ProjectController newProjectAf 들어옴 " + new Date());
 		
+		// 일단 id 내껄로 함.(로그인 페이지 되면 나중에 jsp에서 아예 받아오는걸로 바꿀것.)
 		newProjectDto.setId("tmdwlfk");
+		
 		logger.info("newProjectDto : " + newProjectDto.toString());
-		// Project 게시물 추가
-		projectService.projectWrite(newProjectDto);
+		logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
 		
-		//logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
-		
+		// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
+		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
 		for (int i = 0; i < option_total; i++) {
-			// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
-			List<OptionDto> newPotionDto = new ArrayList<OptionDto>();
-			newPotionDto.set(i, new OptionDto(0, op_title[i], op_content[i], 
+			newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
 								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
-			/*logger.info("op_title 값 : " + op_title[i] );
-			logger.info("op_content 값 : " + op_content[i] );
-			logger.info("op_price 값 : " + op_price[i] );
-			logger.info("op_stock 값 : " + op_stock[i] );*/
 		}
 		
-		
-		
-		
-		
-		
-		/*logger.info("title : " + title);
-		logger.info("summary : " + summary);
-		logger.info("fundtype : " + fundtype);
-		logger.info("category : " + category);
-		logger.info("content : " + content);
-		logger.info("tags : " + tags);
-		logger.info("goalfund : " + goalfund+"");
-		logger.info("bank : " + bank);
-		logger.info("sdate : " + sdate);
-		logger.info("edate : " + edate);
-		logger.info("pdate : " + pdate);
-		logger.info("shipdate : " + shipdate);
-		 */
-		//logger.info("newOptionDto : " + newOptionDto.toString());
-				/*for (int i = 0; i < option_total; i++) {
-				logger.info("newOptionDto : " + list.get(i).toString());
-				}*/
-		
-		
+		// DB에  프로젝트+옵션 추가!!
+		projectService.projectWrite(newProjectDto, newPotionlist);
 		
 		return "project/newProject";
 	}

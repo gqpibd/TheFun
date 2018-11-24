@@ -171,7 +171,7 @@ public class OptionDto implements Serializable {
 	public void setBuycount(int buycount) {
 		this.buycount = buycount;
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", title=" + title + ", content=" + content
@@ -180,6 +180,12 @@ public class OptionDto implements Serializable {
 				+ Arrays.toString(op_stock) + ", buycount=" + buycount + "]";
 	}
 	
+*/
 
+	@Override
+	public String toString() {
+		return "OptionDto [projectseq=" + projectseq + ", title=" + title + ", content=" + content + ", price=" + price
+				+ ", stock=" + stock + "]";
+	}
 	
 }
