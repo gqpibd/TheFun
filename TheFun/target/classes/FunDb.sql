@@ -357,3 +357,13 @@ SELECT A.SEQ, A.PROJECTSEQ, A.ID, A.ATYPE, A.BUYTYPE, A.REGDATE,
 FROM FUN_ALARM A;
 
 commit; 
+
+--------------임시 데이터
+insert into FUN_PROJECT
+values(SEQ_PROJECT.NEXTVAL, 'eee', 'REWARD', 'FOOD', '떡볶이', '가장 맛있는 떡볶이', '집에서 먹는 가장 맛있는 국물 떡볶이', '#매운#떡볶이#재구매','1111-2222-3333 우리은행',2000000,
+       '2018-11-25','2018-12-03','2018-12-04','2018-12-06',sysdate, 'preparing')
+
+insert into FUN_OPTION
+values(SEQ_OPTION.NEXTVAL, 1, '얼리버드', '5봉지/10000원', '10000', 50)
+insert into FUN_OPTION
+values(SEQ_OPTION.NEXTVAL, 1, '아무때나', '3봉지/10000원', '10000', 200)

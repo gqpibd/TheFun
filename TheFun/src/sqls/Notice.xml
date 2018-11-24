@@ -5,5 +5,9 @@
 
 <!-- 공지사항▤ -->  
 <mapper namespace="Notice">
+<!-- 새소식list 가져오기 -->
+<select id="noticeInfo" parameterType="Integer" resultType="donzo.thefun.model.NoticeDto"> 
+	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq} ORDER BY SEQ DESC
+</select>
 
 </mapper>

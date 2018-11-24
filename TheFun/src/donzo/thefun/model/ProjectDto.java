@@ -1,7 +1,6 @@
 package donzo.thefun.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
 /*-- 프로젝트 테이블
 
 DROP TABLE FUN_PROJECT
@@ -60,14 +59,14 @@ public class ProjectDto implements Serializable {
 	public static final String CATEGORY_ANIMAL = "animal";  //reward | donation
 	public static final String CATEGORY_HUMAN = "human"; // donation
 	
-	public static final int WAITING = 1; // 승인대기 
-	public static final int PREPARING = 2; // 준비중
-	public static final int ONGOING = 3; // 진행중
-	public static final int COMPLETE_SUCCESS = 4; // 완료됨(성공)
-	public static final int COMPLETE_FAIL = 5; // 완료됨(실패)
-	public static final int DELETE = 6; // 삭제
+	public static final String WAITING = "waiting"; // 승인대기 
+	public static final String PREPARING = "preparing"; // 준비중
+	public static final String ONGOING = "ongoing"; // 진행중
+	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
+	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
+	public static final String DELETE = "delete"; // 삭제
 		
-	int seq;
+	int seq;  
 	String id; // 작성자
 	String fundtype; // REWARD | DONATION
 	String category; // FOOD, ANIMAL, IT | ANIMAL, HUMAN
@@ -82,7 +81,7 @@ public class ProjectDto implements Serializable {
 	String pdate; // 결제일
 	String shipdate; // 배송시작일
 	String regdate; // 등록일
-	int status; // 상테 준비중|승인대기|진행중|완료됨(성공)|완료됨(실패)|삭제
+	String status; // 상테 준비중|승인대기|진행중|완료됨(성공)|완료됨(실패)|삭제
 	
 	int qnacount; // 댓글 갯수
 	int buycount; // 구매 갯수
@@ -94,7 +93,7 @@ public class ProjectDto implements Serializable {
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
 			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
-			String shipdate, String regdate, int status, int qnacount, int buycount, int noticecount, int likecount,
+			String shipdate, String regdate, String status, int qnacount, int buycount, int noticecount, int likecount,
 			int fundachived) {
 		this.seq = seq;
 		this.id = id;
@@ -196,8 +195,16 @@ public class ProjectDto implements Serializable {
 		return tags;
 	}
 
-	public void setTags(String[] tags) {
-		this.tags = tags;
+	public void setTags(String tags) {
+		int startIndex = 1;
+   	 	if(tags.charAt(0) != '#') {
+   	 		startIndex = 0;
+   	 	}
+   	 	
+                       
+		//content split
+		//String realTags[]=tags.split("/");
+		this.tags = tags.substring(startIndex).split("#"); 
 	}
 
 	public String getBank() {
@@ -256,11 +263,11 @@ public class ProjectDto implements Serializable {
 		this.regdate = regdate;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -308,7 +315,7 @@ public class ProjectDto implements Serializable {
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
 				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
-				+ Arrays.toString(tags) + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
+				+ tags + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate=" + sdate + ", edate="
 				+ edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate + ", status=" + status
 				+ ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount=" + noticecount + ", likecount="
 				+ likecount + ", fundachived=" + fundachived + "]";

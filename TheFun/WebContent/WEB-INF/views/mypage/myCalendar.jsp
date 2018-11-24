@@ -2,20 +2,15 @@
 <%@page import="donzo.thefun.model.ProjectDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Calendar</title>
-</head>
-<body>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Calendar"%>
 <%@ page contentType="text/html; charset=utf-8"%>
+
+<title>Calendar</title>
 <%request.setCharacterEncoding("utf-8") ;%>
 
-<style>
+<style type="text/css">
 table {
     border-collapse: collapse;    
 }
@@ -247,15 +242,3 @@ for(int i = 0;i < (7 - (dayOfWeek + lastDayOfMonth - 1)%7)%7; i++){
 </table>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>

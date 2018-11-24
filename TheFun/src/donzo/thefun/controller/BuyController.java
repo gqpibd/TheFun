@@ -38,19 +38,6 @@ public class BuyController {
 	
 	/*-------------이 아래는 페이지 이동--------------*/
 	
-	// 리워드 주문으로 이동 
-	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward() {
-		logger.info("BuyController goOrderReward 메소드 " + new Date());
-		return "project/selectReward";
-	}
+		
 	
-	
-	@RequestMapping(value="goOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrder() {
-		logger.info("BuyController goOrderReward 메소드 " + new Date());
-		return "project/orderReward";
-	}
-	
-	
-} 
+}  

@@ -34,6 +34,9 @@
 	    <mvc:interceptor>
 	        <mvc:mapping path="/myPage.do"/>
 	        <mvc:mapping path="/myInfo.do"/>
+	        <mvc:mapping path="/goSelectReward.do"/>
+	        <mvc:mapping path="/goOrderReward.do"/>
+	        <mvc:mapping path="/order.do"/>
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>

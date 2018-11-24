@@ -4,13 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="EUC-KR">
-<!-- 폰트설정 -->
-<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
-
 <title>디테일_피드백</title>
 <style type="text/css">
  .pupple{
@@ -119,15 +112,7 @@ input.star:checked ~ .rev-box{
   height: 125px;
   overflow: visible;
 }
-
-
-
-
-
- 
 </style>
-</head>
-<body>
 
 <p class="strongGray">피드백 <font class="pupple">n</font></p>
 <img src="image/detail/writeBtn.jpg" width="100px"> <br>
@@ -156,8 +141,6 @@ input.star:checked ~ .rev-box{
 </div>
 </div>
 
-
-
 <table style="width: 100%">
 <tr>
 	<td colspan="2" align="left" class="strongGray">댓글 title</td>
@@ -174,5 +157,3 @@ input.star:checked ~ .rev-box{
 	<td colspan="2"><hr> </td>
 </tr>
 </table>
-</body>
-</html>

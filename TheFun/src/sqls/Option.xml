@@ -6,4 +6,14 @@
 <!-- 옵션 -->  
 <mapper namespace="Option">
 
+<!-- 옵션list 가져오기 -->
+<select id="getOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto">
+	SELECT * FROM FUN_OPTION_VIEW WHERE PROJECTSEQ=#{seq} ORDER BY SEQ ASC
+</select>
+
+<!-- 구매할 옵션list 가져오기-->
+<select id="selectOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto" >
+	SELECT * FROM FUN_OPTION_VIEW WHERE SEQ=#{seq}
+</select>
+
 </mapper>

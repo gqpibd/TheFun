@@ -38,6 +38,23 @@
 	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	 	</definition>
 	 	
+	 	<!-- 프로젝트 -->
+	 	
+	 	<!-- 프로젝트 상세 정보 -->
+	 	<definition name="projectDetail.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>
+	 	</definition>
+	 	
+	 	<!-- 펀딩하기 - 옵션선택화면 -->
+	 	<definition name="selectReward.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/project/selectReward.jsp"/>
+	 	</definition>
+	 	
+	 	<!-- 펀딩하기 - 결제화면 -->
+	 	<definition name="orderReward.tiles" extends="main.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/project/orderReward.jsp"/>
+	 	</definition>
+	 	
 	 	<!-- <definition name="search.tiles" extends="main.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
 	 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
 	 	</definition> -->
