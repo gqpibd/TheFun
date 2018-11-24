@@ -83,7 +83,7 @@ public class ProjectController {
 		
 		//선택한옵션 seq[]랑 수량[]
 
-		return "mainView.tiles";
+		return "main.tiles";
 
 	}	
 	
@@ -92,7 +92,7 @@ public class ProjectController {
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain() {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
-		return "mainView.tiles";
+		return "main.tiles";
 	}
 	
 	// 피드백

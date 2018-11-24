@@ -20,10 +20,12 @@
 		<td colspan="3">구매 내역이 없습니다</td>
 	</tr>	
 	</c:if>
-	
+	<c:if test="${not empty orderlist }">
 	<tr>
 		<th> 번호 </th> <th colspan="2">프로젝트</th> <th>후원금액</th> <th>후원 날짜</th> <th>상태</th>
-	</tr>
+	</tr>	
+	</c:if>
+	
 	<c:forEach items="${orderlist }" var="order" varStatus="vs">
 	<tr class="_hover_tr"  style="text-align: center;">
 		<td>${vs.count }</td>

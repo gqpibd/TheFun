@@ -5,57 +5,57 @@
   
 <tiles-definitions>
  
- 	<definition name="main.tiles" template="/WEB-INF/views/layouts-tiles.jsp">  <!-- layouts-tiles.jsp의 name이 main.tiles -->
+ 	<definition name="base.tiles" template="/WEB-INF/views/layouts-tiles.jsp">  <!-- layouts-tiles.jsp의 name이 main.tiles -->
  		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
  		<put-attribute name="topbar" value="/WEB-INF/views/common/topbar.jsp"/>
- 		<put-attribute name="main" value="/WEB-INF/views/common/main.jsp"/>
+ 		<put-attribute name="main" value="/WEB-INF/views/common/emptymain.jsp"/>
  		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
  	</definition>
  	
  		<!-- 메인 뷰 -->
-	 	<definition name="mainView.tiles" extends="main.tiles">
-	 		<put-attribute name="main" value="/WEB-INF/views/mainView.jsp"/>
+	 	<definition name="main.tiles" extends="base.tiles">
+	 		<put-attribute name="main" value="/WEB-INF/views/main.jsp"/>
 	 	</definition>
  	
  		<!-- 로그인/회원가입 뷰 -->
-	 	<definition name="login.tiles" extends="main.tiles"> <!-- main.tiles에 연결한 views/account/login.jsp의 name이 login.tiles -->
+	 	<definition name="login.tiles" extends="base.tiles"> <!-- main.tiles에 연결한 views/account/login.jsp의 name이 login.tiles -->
 	 		<put-attribute name="topbar" value="/WEB-INF/views/account/top.jsp"/>
 	 		<put-attribute name="main" value="/WEB-INF/views/account/login.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 마이페이지 -->
-	 	<definition name="MyPage.tiles" extends="main.tiles">
+	 	<definition name="MyPage.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/mypage/mypage.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 개인정보수정 -->
-	 	<definition name="myInfo.tiles" extends="main.tiles">
+	 	<definition name="myInfo.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 나의 후원내역 -->
-	 	<definition name="myOrder.tiles" extends="main.tiles">
+	 	<definition name="myOrder.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 프로젝트 -->
 	 	
 	 	<!-- 프로젝트 상세 정보 -->
-	 	<definition name="projectDetail.tiles" extends="main.tiles">
+	 	<definition name="projectDetail.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 펀딩하기 - 옵션선택화면 -->
-	 	<definition name="selectReward.tiles" extends="main.tiles">
+	 	<definition name="selectReward.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/project/selectReward.jsp"/>
 	 	</definition>
 	 	
 	 	<!-- 펀딩하기 - 결제화면 -->
-	 	<definition name="orderReward.tiles" extends="main.tiles">
+	 	<definition name="orderReward.tiles" extends="base.tiles">
 	 		<put-attribute name="main" value="/WEB-INF/views/project/orderReward.jsp"/>
 	 	</definition>
 	 	
-	 	<!-- <definition name="search.tiles" extends="main.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
+	 	<!-- <definition name="search.tiles" extends="base.tiles"> main.tiles에 연결한 views/project/searchProject.jsp의 name이 search.tiles
 	 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
 	 	</definition> -->
 
