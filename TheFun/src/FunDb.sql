@@ -1,6 +1,6 @@
 ﻿// last update : 11/24 05:32
 -- 멤버 테이블
- 
+
 DROP TABLE FUN_MEMBER
 CASCADE CONSTRAINTS;
  
@@ -11,7 +11,7 @@ CREATE TABLE FUN_MEMBER(
    PHONE VARCHAR2(50),
    EMAIL VARCHAR2(50),
    ADDRESS VARCHAR2(100),
-   INFO VARCHAR2(2000), -- 소개글
+   INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
    AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
    POSTCODE VARCHAR2(10),
@@ -360,10 +360,23 @@ commit;
 
 --------------임시 데이터
 insert into FUN_PROJECT
-values(SEQ_PROJECT.NEXTVAL, 'eee', 'REWARD', 'FOOD', '떡볶이', '가장 맛있는 떡볶이', '집에서 먹는 가장 맛있는 국물 떡볶이', '#매운#떡볶이#재구매','1111-2222-3333 우리은행',2000000,
+values(SEQ_PROJECT.NEXTVAL, 'eee', 'reward', 'food', '떡볶이', '가장 맛있는 떡볶이', '집에서 먹는 가장 맛있는 국물 떡볶이', '#매운#떡볶이#재구매','1111-2222-3333 우리은행',2000000,
        '2018-11-25','2018-12-03','2018-12-04','2018-12-06',sysdate, 'preparing')
 
 insert into FUN_OPTION
 values(SEQ_OPTION.NEXTVAL, 1, '얼리버드', '5봉지/10000원', '10000', 50)
 insert into FUN_OPTION
 values(SEQ_OPTION.NEXTVAL, 1, '아무때나', '3봉지/10000원', '10000', 200)
+
+insert into FUN_NOTICE
+values(SEQ_NOTICE.NEXTVAL, 1, '프로젝트준비중', '쉽지 않군', SYSDATE);
+insert into FUN_NOTICE
+values(SEQ_NOTICE.NEXTVAL, 1, '프로젝트 시작', '많이 후훤해 주세요', '2018-11-25')
+
+insert into FUN_NOTICE
+values(SEQ_NOTICE.NEXTVAL, 1, '프로젝트준비중', '쉽지 않군', SYSDATE);
+insert into FUN_NOTICE
+values(SEQ_NOTICE.NEXTVAL, 1, '프로젝트 시작', '많이 후훤해 주세요', '2018-11-25')
+
+insert into FUN_BUY
+values(SEQ_BUY.NEXTVAL,'aaa',1,1,1,10000,'2018-11-25',null,null);

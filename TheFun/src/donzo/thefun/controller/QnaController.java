@@ -18,7 +18,7 @@ public class QnaController {
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
 	 
 	@Autowired
-	QnaService qnaService; 	
+	QnaService qnaService; 	 
 	
 	/*-------------이 아래는 페이지 이동만--------------*/
 	// 댓글창

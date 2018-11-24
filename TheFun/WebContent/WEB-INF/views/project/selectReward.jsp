@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>  
-   
+    
 <title>The Fun_${projectdto.title } 리워드 선택</title>
 
 <!-- Custom styles for this template -->

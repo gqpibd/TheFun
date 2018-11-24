@@ -123,7 +123,7 @@ public class MemberController {
 		} 
 		return "redirect:/login.do";
 	}
-
+ 
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사
 	@ResponseBody

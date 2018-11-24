@@ -8,7 +8,11 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 <h1>detail.jsp입니다</h1>
+=======
+<h1>디테일 뷰</h1>
+>>>>>>> refs/remotes/origin/KimSeungJae
 
 </body>
 </html>

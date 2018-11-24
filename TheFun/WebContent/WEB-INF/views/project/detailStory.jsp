@@ -7,4 +7,4 @@ h1 {
 	font-family: "Nanum Gothic", sans-serif;
 }
 </style>
-<p>${projectdto.content }</p>
+<p>${projectdto.content }</p> 

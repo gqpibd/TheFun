@@ -33,7 +33,7 @@ public class BuyController {
 		model.addAttribute("orderlist", orderlist);
 
 		return "myOrder.tiles";
-	}
+	} 
 	 
 	
 	/*-------------이 아래는 페이지 이동--------------*/

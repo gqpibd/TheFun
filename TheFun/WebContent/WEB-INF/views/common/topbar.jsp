@@ -43,12 +43,14 @@ window.fbAsyncInit = function() {
     <a href="#"><img src="image/main/funding.jpg" width="55px"></a><!--  펀딩 -->
     <a href="#"><img src="image/main/history.jpg" width="90px"></a> <!-- 히스토리 (종료된 프로젝트) -->
     <a href="newProject.do"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
-    &nbsp;&nbsp;&nbsp;
     
-    <form id="frm_search">
-     <input type="text" name="s_keyword" id="s_keywordTextField" style="width: 200px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
-     <a href="#none" id="search_Btn">검색</a>
-    </form>
+     <form id="_frmFormSearch" name="frmForm1">
+	 	<input type="text" value="${s_keyword }" name="s_keyword" id="s_keywordTextField" style="width: 200px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
+		<a href="#none" id="search_Btn">검색</a>
+		<!-- controller로 넘겨주기 위한 값 -->
+		<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
+		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
+	</form>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -84,13 +86,18 @@ window.fbAsyncInit = function() {
 		location.href="logout.do";		
 	}
 	
+	/* 검색버튼 */
     $(document).ready(function () {
     	$("#search_Btn").click(function () {
-    		$("#frm_search").attr("action","searchProject.do").submit();
+			$("#_pageNumber").val(0);
+			$("#s_keywordTextField").text($("#s_keywordTextField").text());
+			$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 		});
 	});
     
     function search_Enter() {	// 엔터 쳤을 때 검색
-    	$("#frm_search").attr("action","searchProject.do").submit();
+    	$("#_pageNumber").val(0);
+		$("#s_keywordTextField").text($("#s_keywordTextField").text());
+		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 	}
 </script>

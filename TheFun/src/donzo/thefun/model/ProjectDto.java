@@ -1,6 +1,7 @@
 package donzo.thefun.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 /*-- 프로젝트 테이블
 
 DROP TABLE FUN_PROJECT
@@ -49,7 +50,6 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
     NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
 FROM FUN_PROJECT P;*/
-import java.util.Arrays;
 
 public class ProjectDto implements Serializable {
 	
@@ -335,10 +335,6 @@ public class ProjectDto implements Serializable {
 
 	public void setTag(String tag) {
 		this.tag = tag;
-	}
-
-	public void setTags(String[] tags) {
-		this.tags = tags;
 	}
 
 	@Override

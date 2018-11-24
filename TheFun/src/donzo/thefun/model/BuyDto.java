@@ -136,12 +136,13 @@ public class BuyDto implements Serializable {
 	}
 	
 	// 새 구매 또는 새 장바구니
-	public BuyDto(String id, int projectseq, int optionseq, int count, int price) {
+	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String status) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
 		this.price = price;
+		this.status = status;
 	}
 
 	
@@ -257,6 +258,4 @@ public class BuyDto implements Serializable {
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
 				+ status + "]";
 	}
-
-	
 }

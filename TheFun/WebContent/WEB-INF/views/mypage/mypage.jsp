@@ -2,7 +2,7 @@
 
 <!-- myPage css -->
 <link rel="stylesheet" href="CSS/mainCss/maPage.css">
-
+ 
 <div align="center"> 
 	<div>
 		<form action="" method="post">

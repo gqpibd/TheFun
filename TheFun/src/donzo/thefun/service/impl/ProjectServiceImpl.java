@@ -13,6 +13,7 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -72,6 +73,16 @@ public class ProjectServiceImpl implements ProjectService {
 		System.out.println("찾아온 project seq : " + projectSeq);
 		// [3] 옵션 insert
 		optionDao.optionWrite(newPotionlist, projectSeq);
+	}
+	
+	@Override
+	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
+		return projectDao.searchProjectList(pParam);
+	}
+
+	@Override
+	public int getProjectCount(ProjectParam pParam) throws Exception {
+		return projectDao.getProjectCount(pParam);
 	}
 	
 }

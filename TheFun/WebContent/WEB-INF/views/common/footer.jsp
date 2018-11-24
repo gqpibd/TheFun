@@ -11,7 +11,6 @@
 	광고문의 02-8888-8888 | thefun@thefun.com
 	파트너 제휴문의 02-8888-8888 | thefun@thefun.com
   </div>
-  <!-- /.container -->
 </footer>
 
  

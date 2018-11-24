@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%-- <%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %> --%>
 <fmt:requestEncoding value="UTF-8"/>
-
+ 
 <!-- 패널 접었다 폈다 할 수 있는 기능(https://www.w3schools.com/bootstrap/bootstrap_collapse.asp 참고) -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 

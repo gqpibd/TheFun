@@ -11,7 +11,7 @@
 <%request.setCharacterEncoding("utf-8") ;%>
 
 <style type="text/css">
-table {
+table { 
     border-collapse: collapse;    
 }
 
