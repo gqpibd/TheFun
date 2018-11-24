@@ -73,6 +73,16 @@ public class OptionDto implements Serializable {
 		this.op_stock = op_stock;
 		this.buycount = buycount;
 	}
+	
+	// 새 옵션 입력용
+	public OptionDto(int projectseq, String title, String content, int price, int stock) {
+		super();
+		this.projectseq = projectseq;
+		this.title = title;
+		this.content = content;
+		this.price = price;
+		this.stock = stock;
+	}
 
 	public int getSeq() {
 		return seq;

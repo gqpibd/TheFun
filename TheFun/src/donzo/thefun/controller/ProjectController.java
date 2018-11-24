@@ -1,5 +1,6 @@
 package donzo.thefun.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class ProjectController {
 							String content, String tags, int goalfund, String bank,
 							String sdate, String edate, String pdate, String shipdate,*/ 
 							ProjectDto newProjectDto,
-							/*int option_total,
-							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,*/
+							int option_total,
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							/*OptionDto newOptionDto, */
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile mainImage) throws Exception {
@@ -57,14 +58,18 @@ public class ProjectController {
 		projectService.projectWrite(newProjectDto);
 		
 		//logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
-		/*
+		
 		for (int i = 0; i < option_total; i++) {
-			logger.info("op_title 값 : " + op_title[i] );
+			// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
+			List<OptionDto> newPotionDto = new ArrayList<OptionDto>();
+			newPotionDto.set(i, new OptionDto(0, op_title[i], op_content[i], 
+								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+			/*logger.info("op_title 값 : " + op_title[i] );
 			logger.info("op_content 값 : " + op_content[i] );
 			logger.info("op_price 값 : " + op_price[i] );
-			logger.info("op_stock 값 : " + op_stock[i] );
+			logger.info("op_stock 값 : " + op_stock[i] );*/
 		}
-		*/
+		
 		
 		
 		
