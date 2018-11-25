@@ -10,7 +10,7 @@ CREATE TABLE FUN_MEMBER(
    NICKNAME VARCHAR2(50) NOT NULL,
    PHONE VARCHAR2(50),
    EMAIL VARCHAR2(50),
-   ADDRESS VARCHAR2(100),
+   PROFILE VARCHAR2(100),
    INFO VARCHAR2(2000), // 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
    AUTH NUMBER(1) NOT NULL, // 1: 일반회원 3: 관리자
@@ -40,16 +40,16 @@ CREATE TABLE FUN_MEMBER(
 <insert id="addAccount" parameterType="donzo.thefun.model.MemberDto">
 	<choose>			
 		<when test="pwd == null and email == null"> <!-- 계정 연동 회원가입. 이메일 없는 경우 -->
-			INSERT INTO FUN_MEMBER (ID, NICKNAME, PHONE, INFO,POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
-			VALUES (#{id},#{nickname},#{phone},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
+			INSERT INTO FUN_MEMBER (ID, NICKNAME, PHONE, PROFILE, INFO,POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
+			VALUES (#{id},#{nickname},#{phone},#{profile},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
 		</when>
 		<when test="pwd == null and email != null"> <!-- 계정 연동 회원가입 -->
-			INSERT INTO FUN_MEMBER (ID, NICKNAME, PHONE, EMAIL, INFO,POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
-			VALUES (#{id},#{nickname},#{phone},#{email},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
+			INSERT INTO FUN_MEMBER (ID, NICKNAME, PHONE, EMAIL, PROFILE, INFO,POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
+			VALUES (#{id},#{nickname},#{phone},#{email},#{profile},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
 		</when>			
 		<otherwise> <!-- 일반 회원 가입 -->
-			INSERT INTO FUN_MEMBER (ID, PWD, NICKNAME, PHONE, EMAIL, INFO, POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
-			VALUES (#{id},#{pwd},#{nickname},#{phone},#{email},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
+			INSERT INTO FUN_MEMBER (ID, PWD, NICKNAME, PHONE, EMAIL, PROFILE, INFO, POINT, AUTH, POSTCODE, ROADADDRESS, DETAILADDRESS) 
+			VALUES (#{id},#{pwd},#{nickname},#{phone},#{email},#{profile},#{info},0,${auth},#{postcode},#{roadaddress},#{detailaddress})
 		</otherwise>
 	</choose>
 </insert>
@@ -78,7 +78,7 @@ CREATE TABLE FUN_MEMBER(
 <!-- 개인정보 수정 -->
 <update id="updateMember" parameterType="donzo.thefun.model.MemberDto" >	
 	UPDATE FUN_MEMBER
-	SET NICKNAME = #{nickname}, PHONE = #{phone}, EMAIL = #{email}, INFO = #{info}, POSTCODE = #{postcode}, ROADADDRESS=#{roadaddress},DETAILADDRESS=#{detailaddress}, ADDRESS = #{address}	
+	SET NICKNAME = #{nickname}, PHONE = #{phone}, EMAIL = #{email}, INFO = #{info}, POSTCODE = #{postcode}, ROADADDRESS=#{roadaddress},DETAILADDRESS=#{detailaddress}, PROFILE = #{profile}	
 	<if test="pwd != null and pwd != ''">  <!-- 계정 연동 로그인 -->
 		<!-- 일반 로그인 -->
 		, PWD = #{pwd}		

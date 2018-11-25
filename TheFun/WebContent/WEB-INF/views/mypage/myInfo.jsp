@@ -94,10 +94,10 @@
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${myi.pwd ne null}">
-<input type="hidden" id="imgPath" name="imgPath" value="${myi.address}">
+<input type="hidden" id="imgPath" name="imgPath" value="${myi.profile}">
 <div class="group" style="width: 100%;" align="center">	
 	<div class="imgbox" align="center">
-	<img id="editable-Img" src='${myi.address}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+	<img id="editable-Img" src='${myi.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
 	<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 	</div>
 	<br>

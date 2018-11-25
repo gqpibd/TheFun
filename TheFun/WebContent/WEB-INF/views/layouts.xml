@@ -40,6 +40,11 @@
 		<put-attribute name="main" value="/WEB-INF/views/project/newProject.jsp"/>
 	</definition>
 	
+	<!-- 프로젝트 관리-->
+	<definition name="projectManage.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/admin/projectManage.jsp"/>
+	</definition>
+	
 	<!-- 프로젝트 상세 정보 -->
 	<definition name="projectDetail.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>

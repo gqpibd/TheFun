@@ -8,7 +8,7 @@
 		<form action="" method="post">
 			<table border="1">
 				<tr>
-					<td><img class="profile_img" alt="프로필" src="${login.address}"></td>
+					<td><img class="profile_img" alt="프로필" src="${login.profile}"></td>
 					<td>${login.id}</td>
 				</tr>
 				<tr>

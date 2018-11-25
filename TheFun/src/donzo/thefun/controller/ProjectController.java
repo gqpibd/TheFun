@@ -48,6 +48,14 @@ public class ProjectController {
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		return "projectDetail.tiles";
 	}
+	
+	// 프로젝트 관리 창으로 이동	
+	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectManage(Model model) {
+		logger.info("ProjectController projectManage 메소드 " + new Date());
+		
+		return "projectManage.tiles";
+	}
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 

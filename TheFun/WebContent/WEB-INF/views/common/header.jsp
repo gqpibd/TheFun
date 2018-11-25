@@ -18,7 +18,7 @@
 <!-- 계정 연동 로그인 -->
 <script src="https://apis.google.com/js/platform.js" async defer></script> <!-- 구글 연동 로그인에 필요 --> 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 카카오로그인, 공유하기  -->
-<!-- <script src="js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script> --><!-- 네이버 아이디로 로그인 -->
+<script src="js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script><!-- 네이버 아이디로 로그인 -->
 
 <%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/CSS/initial.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/CSS/table.css">
@@ -31,7 +31,6 @@
 <!-- 구글 웹폰트 : family다음부분부터 서로 조합해서 사용가능한 폰트 목록들. 앞 목록 + 뒤 크기 원하는대로 조합하기. -->
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Do+Hyeon|Jua|Noto+Sans+KR|Noto+Serif+KR:400,500,600,700,900" rel="stylesheet">
-
 
 <!-- topbar css -->
 <link rel="stylesheet" href="CSS/topbar.css">

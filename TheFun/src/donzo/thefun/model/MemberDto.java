@@ -12,7 +12,7 @@ CREATE TABLE FUN_MEMBER(
    NICKNAME VARCHAR2(50) NOT NULL,
    PHONE VARCHAR2(50),
    EMAIL VARCHAR2(50),
-   ADDRESS VARCHAR2(100),
+   PROFILE VARCHAR2(100),
    INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
    AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
@@ -32,7 +32,7 @@ public class MemberDto implements Serializable {
 	String nickname;
 	String phone;
 	String email;
-	String address;
+	String profile;
 	String info; // 소개글
 	int point;
 	int auth; // 1: 일반회원 3: 관리자
@@ -51,17 +51,17 @@ public class MemberDto implements Serializable {
 		roadaddress = "";
 		detailaddress = "";
 		auth = MEMBER;
-		address = DEFAULTIMGPATH;
+		profile = DEFAULTIMGPATH;
 	}
 
-	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info,
+	public MemberDto(String id, String pwd, String nickname, String phone, String email, String profile, String info,
 			int point, int auth, String postcode, String roadaddress, String detailaddress) {
 		this.id = id;
 		this.pwd = pwd;
 		this.nickname = nickname;
 		this.phone = phone;
 		this.email = email;
-		this.address = address;
+		this.profile = profile;
 		this.info = info;
 		this.point = point;
 		this.auth = auth;
@@ -70,14 +70,14 @@ public class MemberDto implements Serializable {
 		this.detailaddress = detailaddress;
 	}
 	
-	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info) {
+	public MemberDto(String id, String pwd, String nickname, String phone, String email, String profile, String info) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.nickname = nickname;
 		this.phone = phone;
 		this.email = email;
-		this.address = address;
+		this.profile = profile;
 		this.info = info;
 	}
 
@@ -121,12 +121,12 @@ public class MemberDto implements Serializable {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getprofile() {
+		return profile;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	public String getInfo() {
@@ -181,11 +181,15 @@ public class MemberDto implements Serializable {
 		if(auth == MANAGER) return true;
 		else return false;
 	}
+	
+	public String getFullAddress() {
+		return postcode + " " + roadaddress + " " + detailaddress;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberDto [id=" + id + ", pwd=" + pwd + ", nickname=" + nickname + ", phone=" + phone + ", email="
-				+ email + ", address=" + address + ", info=" + info + ", point=" + point + ", auth=" + auth
+				+ email + ", profile=" + profile + ", info=" + info + ", point=" + point + ", auth=" + auth
 				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
 	}
 }

@@ -4,6 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
 
+<style type="text/css">
+.profile{   
+    float: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 33px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+</style>
 
 <script type="text/javascript">
 window.fbAsyncInit = function() {
@@ -16,7 +27,13 @@ window.fbAsyncInit = function() {
 	
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
-			//console.log("페이스북 로그인 되어있음")
+			FB.api('/me',{fields: 'name,email,picture'}, function(res) {			     
+				profile = res.picture.data.url;		
+				console.log("페이스북 로그인 되어있음");
+				console.log(profile);
+				//$("#profile").attr("src",profile);
+			});
+			
 		} else {
 			//console.log("페이스북 로그인 되어있지 않음")
 		}
@@ -60,16 +77,20 @@ window.fbAsyncInit = function() {
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">              
 			<c:if test="${login eq null}">
-			         	<a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
+			    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-				<span id="profile"></span>			
-				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->
-				<button type="button" onclick="location.href='feedBack.do'">피드백</button>
-				<button type="button" onclick="location.href='myPage.do?id=${login.id}'">마이페이지</button>					
-				<c:if test="${login.auth eq MemberDto.MANAGER}">
-					<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
-				</c:if>
+				<span id="profile"><img class="profile" src="${login.profile}"></span>
+				<span>${login.nickname}님</span>			
+				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
+				<c:choose>			
+					<c:when test="${login.isManager()}">
+						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" onclick="location.href='myPage.do?id=${login.id}'">마이페이지</button>		
+					</c:otherwise>
+				</c:choose>
 			</c:if>
         </li>
       </ul>
@@ -77,12 +98,32 @@ window.fbAsyncInit = function() {
   </div>
 </nav>
     
-<script type="text/javascript">	
+<script type="text/javascript">
+	var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
 	/* 로그아웃 */
 	function logout() {
 		console.log("로그아웃");
+		/* 네이버 로그아웃 */
+		naverLogin.getLoginStatus(function (status) {
+			if (status) {
+				/* 로그인 상태가 "true" 인 경우  */
+				naverLogin.logout();
+			}
+		});		
 		/* 페이스북 로그아웃 */
-		FB.logout(function(response) { /* user is now logged out */	}); 
+		FB.getLoginStatus(function(response) {
+  			if (response.status === 'connected') {
+				FB.logout(function(response) { /* user is now logged out */	}); 
+  			}
+		});
+		/* 카카오 로그아웃 */
+		Kakao.Auth.logout(function () {  alert("카카오로그아웃");});
+    
 		location.href="logout.do";		
 	}
 	

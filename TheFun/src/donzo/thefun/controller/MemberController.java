@@ -36,7 +36,7 @@ public class MemberController {
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType) {
 		logger.info("MemberController loginAf " + new Date());
-		logger.info(dto.toString());
+		
 		logger.info(loginType);
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			dto = memberService.tryLogin(dto);
@@ -47,6 +47,7 @@ public class MemberController {
 			logger.info("로그인 결과:" + dto);
 			dto = memberService.tryLogin(dto);
 		}
+		logger.info(dto.toString());
 		req.getSession().setAttribute("login", dto);
 		return "redirect:/main.do";
 	}
@@ -64,7 +65,7 @@ public class MemberController {
 		
 		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
 			if(imgPath.equals(MemberDto.DEFAULTIMGPATH)) { // 기본이 이미지인 경우 업로드가 필요 없다.
-				mem.setAddress(imgPath);
+				mem.setProfile(imgPath);
 			}else {
 				String f = fname;
 				String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
@@ -75,7 +76,7 @@ public class MemberController {
 					logger.info(file.getPath());
 					// 파일 업로드 작업
 					FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
-					mem.setAddress("image/profile/"+newFile);
+					mem.setProfile("image/profile/"+newFile);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}

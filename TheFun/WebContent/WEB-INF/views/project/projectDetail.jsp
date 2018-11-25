@@ -225,7 +225,7 @@ $(function () {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray">회사이미지 </td>
+				<td rowspan="2" align="left" class="strongGray"><img src="${writer.profile}" style="width:100%"></td>
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
