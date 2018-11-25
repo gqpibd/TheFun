@@ -34,7 +34,7 @@ public class MemberController {
 	
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType) {
+	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType) throws Exception {
 		logger.info("MemberController loginAf " + new Date());
 		
 		logger.info(loginType);
