@@ -8,19 +8,24 @@ CASCADE CONSTRAINTS; -- S추가
  
 CREATE TABLE FUN_MEMBER(
    ID VARCHAR2(50) PRIMARY KEY,
-   PWD VARCHAR2(50) NOT NULL,
+   PWD VARCHAR2(50),
    NICKNAME VARCHAR2(50) NOT NULL,
-   PHONE VARCHAR2(50) NOT NULL,
-   EMAIL VARCHAR2(50) NOT NULL,
-   ADDRESS VARCHAR2(100) NOT NULL,
+   PHONE VARCHAR2(50),
+   EMAIL VARCHAR2(50),
+   ADDRESS VARCHAR2(100),
    INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
    AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
+   POSTCODE VARCHAR2(10),
+   ROADADDRESS VARCHAR2(100),
+   DETAILADDRESS VARCHAR2(100)
 );*/
 public class MemberDto implements Serializable {
 
 	public static final int MEMBER = 1;
 	public static final int MANAGER = 3;
+	
+	public static final String DEFAULTIMGPATH = "image/profile/default.jpg";
 	
 	String id;
 	String pwd;
@@ -31,12 +36,26 @@ public class MemberDto implements Serializable {
 	String info; // 소개글
 	int point;
 	int auth; // 1: 일반회원 3: 관리자
+	String postcode; // 우편번호
+	String roadaddress; // 도로명 주소
+	String detailaddress; // 상세 주소
 	
-	public MemberDto() {}
+	
+	public MemberDto() {
+		point = 0;
+		nickname = "";
+		phone = "";
+		info = "";
+		email = "";
+		postcode = "";
+		roadaddress = "";
+		detailaddress = "";
+		auth = MEMBER;
+		address = DEFAULTIMGPATH;
+	}
 
 	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info,
-			int point, int auth) {
-		super();
+			int point, int auth, String postcode, String roadaddress, String detailaddress) {
 		this.id = id;
 		this.pwd = pwd;
 		this.nickname = nickname;
@@ -46,8 +65,11 @@ public class MemberDto implements Serializable {
 		this.info = info;
 		this.point = point;
 		this.auth = auth;
+		this.postcode = postcode;
+		this.roadaddress = roadaddress;
+		this.detailaddress = detailaddress;
 	}
-
+	
 	public MemberDto(String id, String pwd, String nickname, String phone, String email, String address, String info) {
 		super();
 		this.id = id;
@@ -130,10 +152,40 @@ public class MemberDto implements Serializable {
 	public void setAuth(int auth) {
 		this.auth = auth;
 	}
+	
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getRoadaddress() {
+		return roadaddress;
+	}
+
+	public void setRoadaddress(String roadaddress) {
+		this.roadaddress = roadaddress;
+	}
+
+	public String getDetailaddress() {
+		return detailaddress;
+	}
+
+	public void setDetailaddress(String detailaddress) {
+		this.detailaddress = detailaddress;
+	}
+
+	public boolean isManager() {
+		if(auth == MANAGER) return true;
+		else return false;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberDto [id=" + id + ", pwd=" + pwd + ", nickname=" + nickname + ", phone=" + phone + ", email="
-				+ email + ", address=" + address + ", info=" + info + ", point=" + point + ", auth=" + auth + "]";
+				+ email + ", address=" + address + ", info=" + info + ", point=" + point + ", auth=" + auth
+				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
 	}
 }

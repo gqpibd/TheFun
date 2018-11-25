@@ -14,11 +14,15 @@ import donzo.thefun.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
+<<<<<<< HEAD
 
 	@Autowired
 	ProjectDao projectDao;
+=======
+>>>>>>> refs/remotes/origin/dh_home
 	
 	@Autowired
+<<<<<<< HEAD
 	OptionDao optionDao;
 
 	@Override
@@ -34,5 +38,8 @@ public class ProjectServiceImpl implements ProjectService {
 		// controller에서 메인이미지 업로드 파일명을 프로젝트 seq로 설정하기 위해 리턴.
 		return projectSeq;
 	}
+=======
+	ProjectDao optionDao;
+>>>>>>> refs/remotes/origin/dh_home
 	
 }

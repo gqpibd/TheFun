@@ -19,12 +19,23 @@ public class NoticeController {
 	@Autowired
 	NoticeService noticeService; //주석 풀어서 쓰길...
 	
+<<<<<<< HEAD
 	
 	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String four() {
+=======
+/*	
+	@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String hahaha() {
+>>>>>>> refs/remotes/origin/dh_home
 		logger.info("NoticeController 어쩌구 메소드 " + new Date());
 		
 		return "뭔.tiles";
+<<<<<<< HEAD
 	}*/
 
+=======
+	}
+*/   
+>>>>>>> refs/remotes/origin/dh_home
 }

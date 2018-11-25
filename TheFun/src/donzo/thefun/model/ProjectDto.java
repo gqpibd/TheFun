@@ -169,6 +169,15 @@ public class ProjectDto implements Serializable {
 		this.shipdate = shipdate;
 	}
 
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -223,14 +232,6 @@ public class ProjectDto implements Serializable {
 
 	public void setTags(String[] tags) {
 		this.tags = tags;
-	}
-	
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
 	}
 
 	public String getBank() {
@@ -297,6 +298,45 @@ public class ProjectDto implements Serializable {
 		this.status = status;
 	}
 
+	public int getQnacount() {
+		return qnacount;
+	}
+
+	public void setQnacount(int qnacount) {
+		this.qnacount = qnacount;
+	}
+
+	public int getBuycount() {
+		return buycount;
+	}
+
+	public void setBuycount(int buycount) {
+		this.buycount = buycount;
+	}
+
+	public int getNoticecount() {
+		return noticecount;
+	}
+
+	public void setNoticecount(int noticecount) {
+		this.noticecount = noticecount;
+	}
+
+	public int getLikecount() {
+		return likecount;
+	}
+
+	public void setLikecount(int likecount) {
+		this.likecount = likecount;
+	}
+
+	public int getFundachived() {
+		return fundachived;
+	}
+
+	public void setFundachived(int fundachived) {
+		this.fundachived = fundachived;
+	}
 
 	@Override
 	public String toString() {

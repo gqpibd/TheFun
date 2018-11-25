@@ -33,48 +33,37 @@ ON DELETE CASCADE; -- 종속 삭제
 CREATE OR REPLACE VIEW FUN_OPTION_VIEW (SEQ, PROJECTSEQ, TITLE, CONTENT, PRICE, STOCK, BUYCOUNT)
 AS
 SELECT O.SEQ, O.PROJECTSEQ, O.TITLE, O.CONTENT, O.PRICE, O.STOCK,
-    NVL((SELECT COUNT(*) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = O.PROJECTSEQ),0)
+    NVL((SELECT SUM(COUNT) FROM FUN_BUY GROUP BY OPTIONSEQ HAVING OPTIONSEQ = O.SEQ),0)
 FROM FUN_OPTION O;*/
 
 public class OptionDto implements Serializable {
 
 	int seq;
 	int projectseq;
-	String title;
-	String content;
-	
+	String op_title;
+	String[] op_content;; 
 	int price;
 	int stock; // 재고
-	
-	
-	// 옵션 입력용(<== 이거 사실 필요없는듯. CONTROLLER에서 파라미터로 OptionDto 자체를 쓰지 않는데... 삭제하고 실행해도 문제없는지 확인하자.)
-	/*String[] op_title;
-	String[] op_content;
-	
-	String[] op_price;
-	String[] op_stock;*/
 	
 	int buycount; // 구매 수량
 	
 	public OptionDto() {}
 
-	public OptionDto(int seq, int projectseq, String title, String content, int price, int stock, int buycount) {
-		super();
+	public OptionDto(int seq, int projectseq, String op_title, String[] op_content, int price, int stock, int buycount) {
 		this.seq = seq;
 		this.projectseq = projectseq;
-		this.title = title;
-		this.content = content;
+		this.op_title = op_title;
+		this.op_content = op_content;
 		this.price = price;
 		this.stock = stock;
 		this.buycount = buycount;
 	}
-	
-	// 옵션 생성용
-	public OptionDto(int projectseq, String title, String content, int price, int stock) {
-		super();
+
+	public OptionDto(int seq, int projectseq, String op_title, String[] op_content, int price, int stock) {
+		this.seq = seq;
 		this.projectseq = projectseq;
-		this.title = title;
-		this.content = content;
+		this.op_title = op_title;
+		this.op_content = op_content;
 		this.price = price;
 		this.stock = stock;
 	}
@@ -96,19 +85,19 @@ public class OptionDto implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return op_title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String op_title) {
+		this.op_title = op_title;
 	}
 
-	public String getContent() {
-		return content;
+	public String[] getContent() {
+		return op_content;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContent(String[] op_content) {
+		this.op_content = op_content;
 	}
 
 	public int getPrice() {
@@ -137,8 +126,8 @@ public class OptionDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OptionDto [projectseq=" + projectseq + ", title=" + title + ", content=" + content + ", price=" + price
-				+ ", stock=" + stock + "]";
+		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", op_title=" + op_title + ", op_content="
+				+ Arrays.toString(op_content) + ", price=" + price + ", stock=" + stock + ", buycount=" + buycount + "]";
 	}
 	
 }

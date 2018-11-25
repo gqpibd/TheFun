@@ -30,13 +30,32 @@ public class ProjectController {
 	@Autowired
 	ProjectService projectService;
 	
+	/* 화면만 이동 */
+	// 프로젝트 상세보기로 이동	
+	@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String detail() {
+		logger.info("ProjectController detail 메소드 " + new Date());	
+		return "detail.tiles";
+	}
+	
+	// 메인 화면으로 이동
+	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goMain() {
+		logger.info("ProjectController goMain 메소드 " + new Date());	
+		return "mainView.tiles";
+	}
+	
+	@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String feedBack() {
+		logger.info("ProjectController feedBack " + new Date());	
+		return "project/detailFeedback";
+	}
 	
 	@RequestMapping(value="newProject.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String newProject() throws Exception{
 		logger.info("ProjectController newProject 들어옴 " + new Date());
 		return "project/newProject";
 	}
-	
 	
 	@RequestMapping(value="newProjectAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String newProjectAf(ProjectDto newProjectDto,

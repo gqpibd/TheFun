@@ -1,5 +1,8 @@
 package donzo.thefun.dao;
 
-public interface QnaDao {
 
+public interface QnaDao {
+	
+
+	
 }

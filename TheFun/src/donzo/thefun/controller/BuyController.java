@@ -16,16 +16,19 @@ import donzo.thefun.service.BuyService;
 public class BuyController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BuyController.class);
-	
+	 
 	@Autowired
 	BuyService buyService;
 	
+	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderReward() {
+		logger.info("BuyController goOrderReward 메소드 " + new Date());
+		return "project/selectReward";
+	}
 	
-	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String two() {
-		logger.info("BuyController 어쩌구 메소드 " + new Date());
-		
-		return "뭔.tiles";
-	}*/
-
-}
+		@RequestMapping(value="goOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrder() {
+		logger.info("BuyController goOrderReward 메소드 " + new Date());
+		return "project/orderReward";
+	}
+} 
