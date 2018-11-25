@@ -8,6 +8,6 @@ import donzo.thefun.model.ProjectDto;
 
 public interface ProjectService {
 	
-	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception;
+	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception;
 
 }

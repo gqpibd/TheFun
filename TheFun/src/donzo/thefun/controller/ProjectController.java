@@ -61,6 +61,7 @@ public class ProjectController {
 		logger.info("newProjectDto : " + newProjectDto.toString());
 		logger.info("mainImage 파일명 : " + mainImage.getOriginalFilename());
 		
+		
 		// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
 		for (int i = 0; i < option_total; i++) {
@@ -68,8 +69,19 @@ public class ProjectController {
 								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
 		}
 		
-		// DB에  프로젝트+옵션 추가!!
-		projectService.projectWrite(newProjectDto, newPotionlist);
+		// [1] DB에  프로젝트+옵션 추가!! (+ 인설트한  프로젝트 seq값 가져오기)
+		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
+		
+		// [2] 파일 업로드
+			// [2]-1. 경로설정 (톰켓에 올리기)
+			String uploadPath = req.getServletContext().getRealPath("/upload");
+				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
+				// String uploadPath = "d:\\tmp";
+			logger.info("업로드 경로 : " + uploadPath);
+			
+			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경
+			String realFileName = mainImage.getOriginalFilename();
+			
 		
 		return "project/newProject";
 	}

@@ -361,8 +361,9 @@ tr, td, input{
 							</span>
 						</td>
 						<td align="right" style="text-align: left">
-							<input type="file" name="fileload" style=" width : 400px;">
+							<input type="file" name="fileload" accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp" style=" width : 400px;">
 							<!-- 이미지는 type이 file! -->
+							<!-- 파일첨부에 이미지만 첨부할 수 있도록 처리 : accept로 설정하면 파일찾기 클릭해서 탐색창이 나올 때 이미지 외에 파일은 보이지 않는다. -->
 							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
 					</tr>
