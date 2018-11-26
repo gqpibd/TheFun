@@ -13,11 +13,22 @@
 	<table border="1" style="table-layout:fixed; height: 550px;">
 	<col width="30%;"><col width="70%;">
 	<tr>
-	<td colspan="2">
+	<td>
 	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
 	<c:choose>
-		<c:when test="${dto.fundtype eq 'reward'}">리워드</c:when>
-		<c:when test="${dto.fundtype eq 'donation'}">기부</c:when>
+		<c:when test="${dto.fundtype.equalsIgnoreCase('reward')}">리워드</c:when>
+		<c:when test="${dto.fundtype.equalsIgnoreCase('donation')}">기부</c:when>
+	</c:choose>
+	</td>
+	<td>
+	<!-- 진행 상태 status 확인하려고 / 일단 전부 써두었습니다 -->
+	<c:choose>
+		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}">준비 중</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}">진행 중</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}">완료됨(성공)</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}">완료됨(실패)</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
 	</c:choose>
 	</td>
 	</tr>

@@ -95,7 +95,7 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
-		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠 예정
+		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠까요?
 		if(pParam.getS_type() == null) {
 			pParam.setS_type("");
 		}
@@ -112,6 +112,15 @@ public class ProjectController {
 			pParam.setS_summary("");
 		}
 		
+		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")){
+			pParam.setS_sort("FUNDACHIVED");
+		} else if(pParam.getS_sort().equals("buycountDESC")) {
+			pParam.setS_sort("BUYCOUNT");
+		} else if(pParam.getS_sort().equals("fundachivedDESC")) {
+			pParam.setS_sort("FUNDACHIVED");
+		} else if(pParam.getS_sort().equals("sdateDESC")) {
+			pParam.setS_sort("SDATE");
+		}
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -139,10 +148,12 @@ public class ProjectController {
 		model.addAttribute("recordCountPerPage", pParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		
+		model.addAttribute("s_summary", pParam.getS_summary());
+		
 		model.addAttribute("s_type", pParam.getS_type());
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
-		model.addAttribute("s_summary", pParam.getS_summary());
+		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
 		
 		model.addAttribute("list", list);
 
@@ -195,11 +206,13 @@ public class ProjectController {
 		
 		return "newProject.tiles";
 	}
+	
 	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
 		ProjectParam mainParam = new ProjectParam();
+		
 		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠 예정
 		if(mainParam.getS_type() == null) {
 			mainParam.setS_type("");
@@ -216,10 +229,26 @@ public class ProjectController {
 		if(mainParam.getS_summary() == null) {
 			mainParam.setS_summary("");
 		}
+		
+		if(mainParam.getS_sort() == null) {
+			mainParam.setS_sort("FUNDACHIVED");
+		}
+		else if(mainParam.getS_sort().equals("buycountDESC")) {
+			mainParam.setS_sort("BUYCOUNT");
+		} else if(mainParam.getS_sort().equals("fundachivedDESC")) {
+			mainParam.setS_sort("FUNDACHIVED");
+		} else if(mainParam.getS_sort().equals("sdateDESC")) {
+			mainParam.setS_sort("SDATE");
+		} else {
+			mainParam.setS_sort("FUNDACHIVED");
+		}
+		
 //		4페이지씩 보여주려고
 		mainParam.setStart(1);
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
+		
+		System.out.println("mainParam 출력 : " + mainParam.toString());
 		
 		List<ProjectDto> mainPageList = projectService.searchProjectList(mainParam);
 		
