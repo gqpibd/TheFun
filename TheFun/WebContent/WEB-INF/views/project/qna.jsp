@@ -6,7 +6,7 @@
 
 <style type="text/css">
 
-textarea {
+.mtextarea {
 	/* margin-left: 20px; */
 	margin-top: 10px;
 	width:100%;
@@ -16,6 +16,7 @@ textarea {
 	line-height: 1.1;
 	border-radius: 3px;
 	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+	height: 100%;
 }
 .reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
 	position: relative;
@@ -53,7 +54,10 @@ textarea {
 <!-- 댓글 창 -->
 <ul id="replies" class="list_reply"> 
 	<c:choose>
-	<c:when test="${qnaList ne null}">	<!-- 댓글이 하나라도 있을 때 -->
+	<c:when test="${qnaList eq null or qnaList.size() == 0}"><!-- list가 null 일 때 -->
+		<li>등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
+	</c:when>
+	<c:otherwise>	<!-- 댓글이 하나라도 있을 때 -->	
 	<c:forEach items="${qnaList}" var="item" varStatus="vs">		
 		<li class="reply">		
 		<c:if test="${item.seq ne re.refseq}">	<!-- 대댓일 때 표시 --> 
@@ -105,30 +109,27 @@ textarea {
 		</c:choose>
 		</li>
 	</c:forEach>
-	</c:when> 	
-	<c:otherwise><!-- list가 null 일 때 -->
-		<li>등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
 	</c:otherwise>
 	</c:choose>
 </ul>
-
-<div class="wrap" align="center" style="width: 90%; margin:auto">
+<div class="mwrap" align="center" style="width: 90%; margin:auto">
 	<c:choose>
 	
 	<c:when test="${login eq null}"> <!-- 로그인 상태가 아니면 -->
-		댓글을 작성하려면 <label style="cursor: pointer;" onclick="loginView()"><b>로그인</b></label>해주세요
+		댓글을 작성하려면 <label style="cursor: pointer;" onclick="location.href='login.do?callback=projectDetail.do?seq=${projectdto.seq}'"><b>로그인</b></label>해주세요
 	</c:when>
 	<c:otherwise>
-	<form action="ReplyController">
-		<input type="hidden" name="command" value="addReply"> 
-		<input type="hidden" name="id" value="${login.id}"> 
-		<input type="hidden" name="pdsSeq" value="${projectdto.seq }">
+	비밀댓글 표시필요!!
+	<form action="addQna.do">		
+		<input type="hidden" name="id" value="${login.id}"> <!-- 작성자 아이디 --> 
+		<input type="hidden" name="projectseq" value="${projectdto.seq }"> <!-- 관련 프로젝트 번호 -->		
 		<div align=left style="margin-left:5px">
 			<img src='${login.profile}' width='10'
 				class='profile re-img' align='middle'
 				onerror="this.src='images/profiles/default.png'" ><font style="font-size: 20px; font-weight: bold;">${login.nickname}</font>
 		</div>
-		<textarea id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content"></textarea>
+		
+		<textarea class="mtextarea" id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content" style="height:50px;"></textarea>
 		<div align=right style="padding: 10px">
 			<button class="mybtn" id="new_reply" type="submit">등록</button>
 		</div>
@@ -136,13 +137,13 @@ textarea {
 	</c:otherwise>
 	</c:choose>
 </div>
-
 <script type="text/javascript">
 
 //textarea 자동 크기 조절			
 // 동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
 // $(".wrap").on('keyup', 'textarea',function(e){ --> 이렇게 하면 원래 있던 태그에만 적용됨
 $(document).ready(function(){
+	$('.mtextarea').css('height','50px');
 	$(document).on('keyup', 'textarea',".wrap",function(e){
 		$(this).css('height', 'auto' );
 		$(this).height( this.scrollHeight );
