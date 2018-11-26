@@ -19,4 +19,5 @@ public interface ProjectService {
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;
 	
+//	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
 }

@@ -26,7 +26,7 @@
 			<li><a class="menuLink" href="myInfo.do?id=${login.id}">내 정보</a></li> 
 			<li><a class="menuLink" href="myOrderList.do?id=${login.id}">나의후원내역</a></li>
 			<li><a class="menuLink" href="#">내프로젝트</a></li>
-			<li><a class="menuLink" href="#">캘린더</a></li>
+			<li><a class="menuLink" href="mySchedule.do?id=${login.id}">캘린더</a></li>
 		</ul>
     </nav>
 </div> 

@@ -84,5 +84,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public int getProjectCount(ProjectParam pParam) throws Exception {
 		return projectDao.getProjectCount(pParam);
 	}
+/*
+	@Override
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
+		return projectDao.mySchedule(pro);
+	}
+*/	
+	
 	
 }

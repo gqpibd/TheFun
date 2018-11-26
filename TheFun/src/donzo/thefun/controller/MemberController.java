@@ -97,8 +97,7 @@ public class MemberController {
 		MemberDto myinfo = memberService.getMypage(mem);		
 				
 		model.addAttribute("myi", myinfo);
-		
-		//return "getMypage.tiles";
+
 		return "myInfo.tiles";	
 	}
 	
@@ -179,4 +178,6 @@ public class MemberController {
 		
 		return "MyPage.tiles";
 	}
+	
+	
 }

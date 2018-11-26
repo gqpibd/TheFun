@@ -248,32 +248,15 @@ public class ProjectController {
 		logger.info("ProjectController newProject 들어옴 " + new Date());
 		return "newProject.tiles";
 	}
-	/*@RequestMapping(value="searchProject.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String searchProject(Model model, ProjectParam pParam) throws Exception{
-		logger.info("ProjectController searchProject.do " + new Date());
-		
-		logger.info("ProjectController 로 들어온 pParam : " + pParam.toString());
-		
-		// paging 처리 
-		int sn = pParam.getPageNumber();
-		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
-		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
-		
-		pParam.setStart(start);
-		pParam.setEnd(end);
-		
-		List<ProjectDto> list = projectService.getAllProjectList(pParam);
-		
-		for (int i = 0; i < list.size(); i++) {
-			ProjectDto dto = list.get(i);
-			System.out.println("List : " + dto.toString());
+	
+	//내 일정 이동 (Calendar==schedule)
+		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
+		public String mySchedule(Model model, ProjectDto pro) throws Exception{
+			logger.info("ProjectController myCalendar " + new Date());
+			//model.addAttribute("schedule", projectService.mySchedule(pro));
+			
+			return "mySchedule.tiles";
 		}
-		
-		model.addAttribute("List", list);
-		
-		return "search.tiles";
-		
-	}*/
 	 
 	/*
 	 참고용 삭제 예정
