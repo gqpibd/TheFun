@@ -66,7 +66,7 @@ tr, td, input{
 					$("#date1").text(arr[0]);
 					$("#date1").append(arr[1]);
 					$("#date1").append(arr[2]);
-							
+					
 					// 요일 구하기
 					var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
 			//		alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
