@@ -14,7 +14,6 @@ public interface OptionDao {
 	public OptionDto getSelectOptions(int seq); 
 	
 	public void optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception;
-	
-	//주문시 재고 update
+
 	public void updateStock(OptionDto opdto);
 }

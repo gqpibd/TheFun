@@ -91,6 +91,8 @@ public class ProjectController {
 		return "orderReward.tiles";
 
 	}
+	
+	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
 		
@@ -99,7 +101,8 @@ public class ProjectController {
 			System.out.println("옵션시퀀스 : "+opSeq[i]);
 			System.out.println("옵션수량 : "+opCount[i]);
 		}
-		//주문 insert
+		
+		//주문 insert & 옵션재고 update
 		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
 
 		return "redirect:/main.do";
@@ -165,18 +168,6 @@ public class ProjectController {
 		return "search.tiles";
 	}
 	
-	// 주문 완료
-	@RequestMapping(value="order.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String order(int projectSeq, int[] opSeq, int[] opCount, Model model) {
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
-
-		//buy테이블에 add 
-		
-		//선택한옵션 seq[]랑 수량[]
-
-		return "redirect:/main.do";
-
-	}	
 	
 	// 새 프로젝트 등록	
 	@RequestMapping(value="newProjectAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
