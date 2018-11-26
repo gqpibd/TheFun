@@ -46,6 +46,9 @@ public class ProjectController {
 				
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
+		
+		//새소식 가져오기 
+		model.addAttribute("qnaList",projectService.getQna(seq));
 		return "projectDetail.tiles";
 	}
 	
@@ -53,7 +56,8 @@ public class ProjectController {
 	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectManage(Model model) {
 		logger.info("ProjectController projectManage 메소드 " + new Date());
-		
+		List<ProjectDto> pList = projectService.getWaitingList();
+		model.addAttribute("pList",pList);
 		return "projectManage.tiles";
 	}
 		

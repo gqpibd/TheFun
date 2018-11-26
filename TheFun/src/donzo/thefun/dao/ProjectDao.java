@@ -16,5 +16,7 @@ public interface ProjectDao {
 	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;
+
+	public List<ProjectDto> getWaitingList();
 	
 }

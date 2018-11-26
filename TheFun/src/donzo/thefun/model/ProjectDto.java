@@ -41,15 +41,26 @@ ON DELETE CASCADE; -- 종속 삭제(참조하는 데이터가 삭제되면 함�
 
 -------------- VIEW : 프로젝트 전체 내용 
 
-CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED)
+CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS)
 AS
-SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE, P.STATUS,
+SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    NVL((SELECT COUNT(*) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),   
-    NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-    NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-    NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
-FROM FUN_PROJECT P;*/
+   NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   (SELECT 
+    CASE 
+        WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
+        WHEN LOWER(STATUS) = 'delete' THEN 'delete'
+        WHEN SDATE >= SYSDATE THEN 'preparing' 
+        WHEN EDATE >= SYSDATE THEN 'ongoing' 
+        WHEN NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
+        ELSE 'complete_fail'  
+     END AS "status" 
+     FROM FUN_PROJECT WHERE SEQ = P.SEQ)
+FROM FUN_PROJECT P;
+*/
 
 public class ProjectDto implements Serializable {
 	
@@ -93,7 +104,7 @@ public class ProjectDto implements Serializable {
 	
 	public ProjectDto() {		
 		shipdate = "";
-		status = PREPARING;
+		status = WAITING; // 처음 프로젝트 생성하면 승인 대기 상태로 저장
 	}
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
@@ -278,6 +289,7 @@ public class ProjectDto implements Serializable {
 	}
 
 	public void setRegdate(String regdate) {
+		
 		this.regdate = regdate;
 	}
 
@@ -335,6 +347,21 @@ public class ProjectDto implements Serializable {
 
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	
+	public String getDateForm(String datetime) {
+		String date = datetime;
+		if(datetime.lastIndexOf(' ')>-1) {
+			date = datetime.substring(0, datetime.lastIndexOf(' '));
+		}
+		return date;
+	}
+	
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
