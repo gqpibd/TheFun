@@ -1,11 +1,13 @@
 package donzo.thefun.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.ProjectService;
+import donzo.thefun.util.FUpUtil;
 
 
 @Controller
@@ -190,8 +193,24 @@ public class ProjectController {
 								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
 		}
 		
-		// DB에  프로젝트+옵션 추가!!
-		projectService.projectWrite(newProjectDto, newPotionlist);
+		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)
+		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
+		
+		// [2] 파일 업로드
+			// [2]-1. 경로설정 (톰켓에 올리기)
+			String uploadPath = req.getServletContext().getRealPath("/upload");
+				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
+				// String uploadPath = "d:\\tmp";
+			logger.info("업로드 경로 : " + uploadPath);
+			
+			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
+			String realFileName = mainImage.getOriginalFilename();
+			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
+			File file = new File(uploadPath + "/" + changedFileName);
+			System.out.println("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+
+			// [2]-3. 실제 업로드 부분
+			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
 		return "newProject.tiles";
 	}

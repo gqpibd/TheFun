@@ -45,32 +45,9 @@ public class OptionDto implements Serializable {
 	int price;
 	int stock; // 재고
 	
-	
-	// 옵션 입력용
-	String[] op_title;
-	String[] op_content;
-	
-	String[] op_price;
-	String[] op_stock;
-	
 	int buycount; // 구매 수량
 	
 	public OptionDto() {}
-	public OptionDto(int seq, int projectseq, String title, String content, int price, int stock, String[] op_title,
-			String[] op_content, String[] op_price, String[] op_stock, int buycount) {
-		super();
-		this.seq = seq;
-		this.projectseq = projectseq;
-		this.title = title;
-		this.content = content;
-		this.price = price;
-		this.stock = stock;
-		this.op_title = op_title;
-		this.op_content = op_content;
-		this.op_price = op_price;
-		this.op_stock = op_stock;
-		this.buycount = buycount;
-	}
 
 	public OptionDto(int seq, int projectseq, String title, String content, int price, int stock, int buycount) {
 		this.seq = seq;
@@ -139,38 +116,6 @@ public class OptionDto implements Serializable {
 		this.stock = stock;
 	}
 
-	public String[] getOp_title() {
-		return op_title;
-	}
-
-	public void setOp_title(String[] op_title) {
-		this.op_title = op_title;
-	}
-
-	public String[] getOp_content() {
-		return op_content;
-	}
-
-	public void setOp_content(String[] op_content) {
-		this.op_content = op_content;
-	}
-
-	public String[] getOp_price() {
-		return op_price;
-	}
-
-	public void setOp_price(String[] op_price) {
-		this.op_price = op_price;
-	}
-
-	public String[] getOp_stock() {
-		return op_stock;
-	}
-
-	public void setOp_stock(String[] op_stock) {
-		this.op_stock = op_stock;
-	}
-
 	public int getBuycount() {
 		return buycount;
 	}
@@ -178,16 +123,7 @@ public class OptionDto implements Serializable {
 	public void setBuycount(int buycount) {
 		this.buycount = buycount;
 	}
-/*
-	@Override
-	public String toString() {
-		return "OptionDto [seq=" + seq + ", projectseq=" + projectseq + ", title=" + title + ", content=" + content
-				+ ", price=" + price + ", stock=" + stock + ", op_title=" + Arrays.toString(op_title) + ", op_content="
-				+ Arrays.toString(op_content) + ", op_price=" + Arrays.toString(op_price) + ", op_stock="
-				+ Arrays.toString(op_stock) + ", buycount=" + buycount + "]";
-	}
-	
-*/
+
 
 	@Override
 	public String toString() {

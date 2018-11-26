@@ -61,26 +61,6 @@ FROM FUN_PROJECT P;
 	SELECT * FROM FUN_MEMBER WHERE ID=(SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 </select>
 
-<!-- 새 프로젝트 등록 -->
-<!-- <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
-	INSERT INTO FUN_PROJECT
-	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
-			#{fundtype}, #{category}, 
-			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
-			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
-			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, '1')
-</insert> -->
-
-<!-- 프로젝트 seq 찾기 --> <!-- 수정하자 --> 
-<!-- <select id="findProjectSeq" parameterType="donzo.thefun.model.ProjectDto"
-		resultType="java.lang.Integer">
-	SELECT SEQ
-	FROM FUN_PROJECT
-	WHERE ID=#{id}
-	AND TITLE=#{title}
-	AND SDATE=TO_DATE(#{sdate}, 'yyyy-mm-dd')
-</select> -->
-
 <!-- 새 프로젝트 등록 후 현재 seq 받아서 리턴 -->
 <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto"> 
 	INSERT INTO FUN_PROJECT
