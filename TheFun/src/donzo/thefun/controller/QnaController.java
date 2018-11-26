@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,14 +18,17 @@ public class QnaController {
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
 	
 	@Autowired
-	QnaService qnaService; //주석 풀어서 쓰길...
+	QnaService qnaService; 	
 	
-	
-	/*@RequestMapping(value="어쩌구.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String six() {
-		logger.info("QnaController 어쩌구 메소드 " + new Date());
+
+	@RequestMapping(value="reply.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String reply(Model model) {
+		logger.info("QnaController reply " + new Date());
+
 		
-		return "뭔.tiles";
+		
+		return "reply.tiles";
 	}
-*/
+
+
 }

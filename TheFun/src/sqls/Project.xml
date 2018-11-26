@@ -9,9 +9,19 @@
 <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
 	INSERT INTO FUN_PROJECT
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
-		#{fundtype}, #{category}, #{title}, #{content}, #{summary}, #{tag}, #{bank}, ${goalfund},
-		TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
-		TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, '1')
+			#{fundtype}, #{category}, 
+			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
+			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
+			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, '1')
 </insert>
+
+<select id="findProjectSeq" parameterType="donzo.thefun.model.ProjectDto"
+		resultType="java.lang.Integer">
+	SELECT SEQ
+	FROM FUN_PROJECT
+	WHERE ID=#{id}
+	AND TITLE=#{title}
+	AND SDATE=TO_DATE(#{sdate}, 'yyyy-mm-dd')
+</select>
 
 </mapper>
