@@ -56,6 +56,7 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<ProjectDto> getWaitingList() {
 		return sqlSession.selectList(ns+"getWaitingList");
 	}
+	
 	/*
 	@Override
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
