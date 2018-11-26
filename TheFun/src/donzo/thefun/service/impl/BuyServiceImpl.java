@@ -1,16 +1,13 @@
 package donzo.thefun.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.OptionDto;
-import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
 
 @Service
@@ -18,6 +15,7 @@ public class BuyServiceImpl implements BuyService {
 
 	@Autowired
 	BuyDao buyDao;
+	
 	@Autowired
 	OptionDao optiondao;
 	
@@ -27,9 +25,7 @@ public class BuyServiceImpl implements BuyService {
 	}
 
 	@Override
-	public boolean addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount) {
-		
-		List<BuyDto> buyList = new ArrayList<>();
+	public void addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount) {
 		
 		//가격추출
 		int[] prices = new int[opSeq.length];
@@ -38,16 +34,24 @@ public class BuyServiceImpl implements BuyService {
 			prices[i]=opDto.getPrice();
 		}
 		
-		//list에 추가
 		for(int i=0; i<opSeq.length; i++) {
 			
+			//주문 insert
 			BuyDto buy = new BuyDto(loginId, projectSeq, opSeq[i], opCount[i], prices[i], "ongoing");
-			buyList.add(buy);
+			System.out.println(buy.toString());
+			buyDao.addOrders(buy);
+			
+			//재고 update
+			OptionDto opdto = new OptionDto(opSeq[i], projectSeq, "", "", prices[i], opCount[i], 0);
+			System.out.println(opdto.toString());
+			optiondao.updateStock(opdto);
 		}
 
-		return buyDao.addOrders(buyList);
 	}
 
+
+	
+	
 	
 	
 	

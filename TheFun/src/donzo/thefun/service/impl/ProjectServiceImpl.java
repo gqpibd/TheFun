@@ -50,8 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<OptionDto> getSelectOptions(int[] seq) {
-		
-		//return할 리스트
+
 		List<OptionDto> optionList = new ArrayList<>();
 		
 		//입력된 seq 배열의 길이만큼 loop
@@ -61,6 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		return optionList;
 	}
+
 
 	@Override
 	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {

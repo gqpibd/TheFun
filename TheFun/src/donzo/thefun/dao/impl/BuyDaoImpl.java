@@ -25,14 +25,8 @@ public class BuyDaoImpl implements BuyDao {
 	}
 
 	@Override
-	public boolean addOrders(List<BuyDto> buys) {
-		
-		int n=0;
-		for(int i=0; i<buys.size(); i++) {
-			n=sqlSession.insert(ns+"addOrders", buys.get(i));
-		}
-		
-		return n>0? true:false;
+	public void addOrders(BuyDto buy) {
+			sqlSession.insert(ns+"addOrders", buy);
 	}
 	
 	

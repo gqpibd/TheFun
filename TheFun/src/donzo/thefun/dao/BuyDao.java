@@ -8,7 +8,7 @@ import donzo.thefun.model.ProjectDto;
 public interface BuyDao {
 
 	public List<BuyDto> orderList(BuyDto buy);
-	public boolean addOrders(List<BuyDto> buys);
+	public void addOrders(BuyDto buy);
 	
 
 	

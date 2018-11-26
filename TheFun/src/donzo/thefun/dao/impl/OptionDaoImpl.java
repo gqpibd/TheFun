@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.OptionDao;
+import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 
@@ -41,4 +42,11 @@ public class OptionDaoImpl implements OptionDao {
 	public OptionDto getSelectOptions(int seq) {	//옵션 seq
 		return sqlSession.selectOne(ns+"selectOptions",seq);
 	}
+
+
+	@Override
+	public void updateStock(OptionDto opdto) {
+			sqlSession.update(ns+"updateStock",opdto);
+	}
+	
 }

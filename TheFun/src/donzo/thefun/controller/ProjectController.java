@@ -30,7 +30,6 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
-	
 	@Autowired
 	BuyService buyservice;
 
@@ -100,9 +99,9 @@ public class ProjectController {
 			System.out.println("옵션시퀀스 : "+opSeq[i]);
 			System.out.println("옵션수량 : "+opCount[i]);
 		}
-		
+		//주문 insert
 		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
-		
+
 		return "redirect:/main.do";
 	}
 	

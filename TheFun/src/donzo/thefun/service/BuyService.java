@@ -10,6 +10,6 @@ public interface BuyService {
 	public List<BuyDto> orderList(BuyDto buy);
 	
 	//add order
-	public boolean addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount);
-	
+	public void addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount);
+
 }

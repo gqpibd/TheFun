@@ -9,11 +9,22 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 
 public interface ProjectService {
+	
+	//프로젝트 디테일 select (프로젝트 seq)
 	public ProjectDto getProject(int seq);
+	
+	//프로젝트 작성자 select (프로젝트 seq)
 	public MemberDto getWriter(int seq);
+	
+	//프로젝트에 해당하는 옵션들 select (프로젝트 seq)
 	public List<OptionDto> getOptions(int seq);
+	
+	//프로젝트별 공지사항 (프로젝트 seq)
 	public List<NoticeDto> getNotice(int seq);
+
+	//주문하고싶은 옵션 select (옵션 seq [])
 	public List<OptionDto> getSelectOptions(int[] seq);
+
 	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception; 
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
