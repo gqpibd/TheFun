@@ -8,40 +8,37 @@
 <title>The Fun_orderReward</title>
  
 <style type="text/css">
+body{
+font-family: "Nanum Gothic", sans-serif;
+}
  .pupple{
  	color:#8152f0;
  	font-weight: bold;
  	font-size:large;
- 	font-family: "Nanum Gothic", sans-serif;
  }
  .strongGray{
- font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
   font-weight: bold;
   font-size: x-large;
   
  }
   .cardInfo{
- font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
   font-weight: bold;
   
  }
  .liteGray{
- 	font-family: "Nanum Gothic", sans-serif;
 	 color: #818181;
  }
   .profiletitle{
   text-align:left;
   font-size:large;
- font-family: "Nanum Gothic", sans-serif;
 	 color: #5c5c5c;
  }
  
 .profile{
   text-align:left;
   font-size:large;
-  font-family: "Nanum Gothic", sans-serif;
 	 color: #818181;
  }
  
@@ -77,25 +74,28 @@
       <input type="hidden" name="opSeq" value="${options.seq }">
 		<table style="width: 70%">
 		<tr>
-			<td class="pupple"align="left">${options.title}</td>
+			<td class="pupple"align="left" colspan="3">${options.title}</td>
 		</tr>
 		<tr>
-			<td class="liteGray td1">
+			<td class="liteGray td1" colspan="3">
 			 <c:forEach items="${options.content}" var="item">
 		  		<li class="liteGray">${item}</li>
 		 	 </c:forEach>
 		</td>
 		<td class="td2 liteGray">
 			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3">개
-			<button type="button"onclick="plusVal(${options.seq})" >+</button>
+			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})">
 			<button type="button"onclick="minusVal(${options.seq})" >- </button>
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="${options.seq}_p">원
-			</td>
+		</td>
 		</tr>
-		</table> <br>
+		</table> 
+		<br>
 	</c:forEach>    
+	<hr width="70%">
+	<br>
      <!-- 사용자정보 -->
      	<table style="width: 70%">
      	<tr>

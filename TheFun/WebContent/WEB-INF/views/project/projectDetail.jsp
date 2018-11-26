@@ -16,20 +16,19 @@
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
 <style type="text/css">
- p {
-   font-family: "Nanum Gothic", sans-serif;
+
+body{
+font-family: "Nanum Gothic", sans-serif;
 }
+
  .pupple{
  	color:#8152f0;
- 	font-family: "Nanum Gothic", sans-serif;
  }
  .strongGray{
- font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
   
  }
  .liteGray{
- font-family: "Nanum Gothic", sans-serif;
 	 color: #c4c4c4;
  }
  .jbMenu {
@@ -141,6 +140,18 @@ function sendLink() {
 				<img height="50" src="image/detail/addcart2.jpg"/>&nbsp;&nbsp;&nbsp; &nbsp;
 				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/>
 			</td>
+		</tr>
+		<tr height="50" style="padding: 50px">
+			<td align="left">
+			<p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+				펀딩기간  <b>
+				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
+				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
+				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
+			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font></td>
+			<td><div id="shareField"></div> </td>
 		</tr>
 		</table>
    
