@@ -51,4 +51,9 @@ public class ProjectDaoImpl implements ProjectDao {
 		// 프로젝트 생성!
 		return sqlSession.insert(ns+"newWrite", newProjectDto);
 	}
+	
+	@Override
+	public List<ProjectDto> getWaitingList() {
+		return sqlSession.selectList(ns+"getWaitingList");
+	}
 }
