@@ -38,22 +38,12 @@ ON DELETE CASCADE; // 종속 삭제(참조하는 데이터가 삭제되면 함�
 
 CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS)
 AS
-SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
+SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE, P.STATUS,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    NVL((SELECT COUNT(*) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),   
-   NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   (SELECT 
-    CASE 
-        WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
-        WHEN LOWER(STATUS) = 'delete' THEN 'delete'
-        WHEN SDATE >= SYSDATE THEN 'preparing' 
-        WHEN EDATE >= SYSDATE THEN 'ongoing' 
-        WHEN NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
-        ELSE 'complete_fail'  
-     END AS "status" 
-     FROM FUN_PROJECT WHERE SEQ = P.SEQ)
+    NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+    NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+    NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
 FROM FUN_PROJECT P;
 
  -->
@@ -70,32 +60,6 @@ FROM FUN_PROJECT P;
 <select id="getWriter" parameterType="java.lang.Integer" resultType="donzo.thefun.model.MemberDto">
 	SELECT * FROM FUN_MEMBER WHERE ID=(SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 </select>
-
-<!-- 새 프로젝트 등록 -->
-<!-- <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
-	INSERT INTO FUN_PROJECT
-	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
-			#{fundtype}, #{category}, 
-			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
-			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
-			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, '1')
-</insert> -->
-
-<!-- 프로젝트 seq 찾기 --> <!-- 수정하자 --> 
-<!-- <select id="findProjectSeq" parameterType="donzo.thefun.model.ProjectDto"
-		resultType="java.lang.Integer">
-	SELECT SEQ
-	FROM FUN_PROJECT
-	WHERE ID=#{id}
-	AND TITLE=#{title}
-	AND SDATE=TO_DATE(#{sdate}, 'yyyy-mm-dd')
-</select> -->
-
-<!-- 승인 대기중이 프로젝트 목록 가져오기 - 관리자 모드 -->
-<select id="getWaitingList" resultType="donzo.thefun.model.ProjectDto">
-	SELECT * FROM FUN_PROJECTALL WHERE LOWER(STATUS) = 'waiting'
-</select>
-
 
 <!-- 새 프로젝트 등록 후 현재 seq 받아서 리턴 -->
 <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto"> 

@@ -26,7 +26,7 @@ public interface ProjectService {
 	//주문하고싶은 옵션 select (옵션 seq [])
 	public List<OptionDto> getSelectOptions(int[] seq);
 
-	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception; 
+	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception; 
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;

@@ -68,16 +68,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 
 	@Override
-	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
-		// [1] 프로젝트 insert
-		//projectDao.projectWrite(newProjectDto);
-		// [2] 생성한 프로젝트 seq값 찾아오기
-		//int projectSeq = projectDao.findProjectSeq(newProjectDto);
-		
+	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
+		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
 		System.out.println("찾아온 project seq : " + projectSeq);
 		// [3] 옵션 insert
 		optionDao.optionWrite(newPotionlist, projectSeq);
+		
+		return projectSeq;
 	}
 	
 	@Override
