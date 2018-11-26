@@ -55,7 +55,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<OptionDto> getSelectOptions(int[] seq) {
-
+		
+		//return할 리스트
 		List<OptionDto> optionList = new ArrayList<>();
 		
 		//입력된 seq 배열의 길이만큼 loop
@@ -66,16 +67,17 @@ public class ProjectServiceImpl implements ProjectService {
 		return optionList;
 	}
 
-
 	@Override
-	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
-		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
+	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
+		// [1] 프로젝트 insert
+		//projectDao.projectWrite(newProjectDto);
+		// [2] 생성한 프로젝트 seq값 찾아오기
+		//int projectSeq = projectDao.findProjectSeq(newProjectDto);
+		
 		int projectSeq = projectDao.projectWrite(newProjectDto);
 		System.out.println("찾아온 project seq : " + projectSeq);
 		// [3] 옵션 insert
 		optionDao.optionWrite(newPotionlist, projectSeq);
-		
-		return projectSeq;
 	}
 	
 	@Override
@@ -97,5 +99,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<QnaDto> getQna(int seq) {
 		return qnaDao.getQnaList(seq);
 	}
+	/*
+	@Override
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
+		return projectDao.mySchedule(pro);
+	}
+*/	
+	
 	
 }

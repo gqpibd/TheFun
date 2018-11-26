@@ -56,4 +56,18 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<ProjectDto> getWaitingList() {
 		return sqlSession.selectList(ns+"getWaitingList");
 	}
+	/*
+	@Override
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
+		return sqlSession.selectList(ns + "mySchedule", pro);
+	}
+*/
+	
+	
+	/*@Override
+	public int findProjectSeq(ProjectDto newProjectDto) throws Exception {
+		// 생성한 프로젝트 seq값 찾아와! (==> for. 이미지 파일명 설정 / 옵션 생성할때 projectSeq)
+		int projectSeq = sqlSession.selectOne(ns+"findProjectSeq", newProjectDto);
+		return projectSeq;
+	}*/
 }

@@ -20,6 +20,7 @@ public class BuyDaoImpl implements BuyDao {
 
 	@Override
 	public List<BuyDto> orderList(BuyDto buy) {
+		//buy.setRegdate(buy.getRegdate().substring(0, 9));
 		List<BuyDto> list = sqlSession.selectList(ns + "myOrderList", buy);
 		return list;
 	}

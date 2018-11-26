@@ -1,3 +1,4 @@
+
 package donzo.thefun.controller;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ public class BuyController {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
 		
 		List<BuyDto> orderlist = buyService.orderList(buy);
+		
 		model.addAttribute("orderlist", orderlist);
 
 		return "myOrder.tiles";
