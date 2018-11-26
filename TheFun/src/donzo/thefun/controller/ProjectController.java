@@ -129,6 +129,7 @@ public class ProjectController {
 		
 		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
 		
+		
 		// 8페이지씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
 		pParam.setEnd(end);
