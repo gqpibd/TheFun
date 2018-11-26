@@ -32,7 +32,7 @@
 	 <!-- /.row -->
 	    
 	<!-- 카테고리 -->
-	<div align="center">
+	<%-- <div align="center">
 	<table style="text-align: center;" border="1">
 	<col width="150px"><col width="150px"><col width="150px"><col width="150px">
 	<tr>
@@ -54,11 +54,11 @@
 	</td>
 	</tr>
 	</table>
-	</div>
+	</div> --%>
 	<div style="margin-bottom: 100px;"></div>
 	
 	<!-- 리스트 -->
-	<h3 class="my-4">HOT 프로젝트(구매많은순-모금액순)</h3>
+	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
 	<div align="right"><a href="searchProjectList.do">see all</a></div>
 </div>
 

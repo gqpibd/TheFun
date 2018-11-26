@@ -30,7 +30,6 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Override
 	public int getProjectCount(ProjectParam pParam) throws Exception {
 		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
-		System.out.println("나온 숫자 : " + sqlSession.selectOne(ns + "getProjectCount", pParam));
 		return sqlSession.selectOne(ns + "getProjectCount", pParam);
 	}
 
