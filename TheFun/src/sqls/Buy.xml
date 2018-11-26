@@ -17,7 +17,6 @@
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
 	INSERT INTO FUN_BUY
 	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},#{price},SYSDATE,null,null)
-
 </insert>
 
 </mapper>

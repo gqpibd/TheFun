@@ -24,7 +24,7 @@
 
 <!-- 구매후 옵션 재고 update -->
 <update id="updateStock" parameterType="donzo.thefun.model.OptionDto">
-	UPDATE FROM FUN_OPTION SET STOCK=(SELECT STOCK FROM FUN_OPTION WHERE SEQ=#{seq})-#{stock} 
+	UPDATE FUN_OPTION SET STOCK=#{stock} 
 	WHERE SEQ=#{seq}
 </update>
 

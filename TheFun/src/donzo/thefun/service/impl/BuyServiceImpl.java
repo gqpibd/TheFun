@@ -29,20 +29,22 @@ public class BuyServiceImpl implements BuyService {
 		
 		//가격추출
 		int[] prices = new int[opSeq.length];
+		int[] stocks = new int[opSeq.length];
 		for(int i=0; i<opSeq.length;i++) {
 			OptionDto opDto= optiondao.getSelectOptions(opSeq[i]);
 			prices[i]=opDto.getPrice();
+			stocks[i]=opDto.getStock();
 		}
 		
 		for(int i=0; i<opSeq.length; i++) {
 			
 			//주문 insert
-			BuyDto buy = new BuyDto(loginId, projectSeq, opSeq[i], opCount[i], prices[i], "ongoing");
+			BuyDto buy = new BuyDto(0, loginId, projectSeq, opSeq[i], opCount[i], prices[i], "", 0, "", "", "", "", "");
 			System.out.println(buy.toString());
 			buyDao.addOrders(buy);
 			
 			//재고 update
-			OptionDto opdto = new OptionDto(opSeq[i], projectSeq, "", "", prices[i], opCount[i], 0);
+			OptionDto opdto = new OptionDto(opSeq[i], projectSeq, "", "", prices[i], opCount[i]-stocks[i], 0);
 			System.out.println(opdto.toString());
 			optiondao.updateStock(opdto);
 		}
