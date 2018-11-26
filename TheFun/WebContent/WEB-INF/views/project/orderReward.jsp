@@ -65,7 +65,7 @@ font-family: "Nanum Gothic", sans-serif;
 <div class="container">
   <div class="my-4" align="center">
     <div align="center" >
-    <form action="order.do">
+    <form action="addOrder.do">
     <!-- 메인 -->
       <p class="strongGray">${projectdto.title } </p>
       <br>
@@ -83,9 +83,9 @@ font-family: "Nanum Gothic", sans-serif;
 		 	 </c:forEach>
 		</td>
 		<td class="td2 liteGray">
-			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3">개
+			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3">개 &nbsp;
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})">
-			<button type="button"onclick="minusVal(${options.seq})" >- </button>
+			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="${options.seq}_p">원
@@ -97,7 +97,7 @@ font-family: "Nanum Gothic", sans-serif;
 	<hr width="70%">
 	<br>
      <!-- 사용자정보 -->
-     	<table style="width: 70%">
+     	<table style="width: 70%" class="td1">
      	<tr>
      		<td class="profiletitle">이름</td>
      	</tr>
@@ -173,9 +173,10 @@ font-family: "Nanum Gothic", sans-serif;
 	</ul>
 </div>
 <br><br>
- <a href="order.do"><img src="image/detail/orderBtn.jpg" width="120px"></a>
-
 <input type="hidden" name="projectSeq" value="${projectdto.seq }">
+<input type="hidden" name="loginId" value="${login.id }">
+<input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;"> 
+
 </form>
      </div>
    </div>
@@ -191,7 +192,8 @@ function plusVal(seqNum) {
 	}else{
 		opCount+=1;
      	document.getElementById(seqNum).value =opCount;
-     	//글씨변환
+     	//가격변환
+     	
 	}
 }
      	
@@ -202,7 +204,9 @@ function minusVal(seqNum) {
 		document.getElementById(seqNum).value ="1";
 	}else{
 		opCount-=1;
-       		document.getElementById(seqNum).value =opCount;
+       	document.getElementById(seqNum).value =opCount;
+       	//가격변환
+       	
 	}
 }	
 </script>

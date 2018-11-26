@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.service.BuyService;
 import donzo.thefun.service.ProjectService;
 
 
@@ -29,6 +30,9 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
+	
+	@Autowired
+	BuyService buyservice;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -87,6 +91,19 @@ public class ProjectController {
 
 		return "orderReward.tiles";
 
+	}
+	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
+		
+		System.out.println("플잭시퀀스:"+projectSeq);
+		for(int i=0; i<opSeq.length;i++) {
+			System.out.println("옵션시퀀스 : "+opSeq[i]);
+			System.out.println("옵션수량 : "+opCount[i]);
+		}
+		
+		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
+		
+		return "redirect:/main.do";
 	}
 	
 	// 프로젝트 검색

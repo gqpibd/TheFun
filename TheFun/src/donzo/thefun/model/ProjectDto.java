@@ -66,7 +66,7 @@ public class ProjectDto implements Serializable {
 	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
 	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
 	public static final String DELETE = "delete"; // 삭제
-		
+	
 	int seq;  
 	String id; // 작성자
 	String fundtype; // REWARD | DONATION

@@ -33,12 +33,12 @@ public class OptionDaoImpl implements OptionDao {
 	
 	
 	@Override
-	public List<OptionDto> getOptions(int seq) {
+	public List<OptionDto> getOptions(int seq) {	//프로젝트 seq
 		return sqlSession.selectList(ns+"getOptions",seq);
 	}
 	
 	@Override
-	public OptionDto getSelectOptions(int seq) {
+	public OptionDto getSelectOptions(int seq) {	//옵션 seq
 		return sqlSession.selectOne(ns+"selectOptions",seq);
 	}
 }
