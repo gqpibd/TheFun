@@ -227,14 +227,14 @@ window.fbAsyncInit = function() {
     $(document).ready(function () {
     	$("#search_Btn").click(function () {
 			$("#_pageNumber").val(0);
-			$("#s_keywordTextField").text($("#s_keywordTextField").text());
+			$("#s_keywordTextField").val($("#s_keywordTextField").val());
 			$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 		});
 	});
     
     function search_Enter() {	// 엔터 쳤을 때 검색
     	$("#_pageNumber").val(0);
-		$("#s_keywordTextField").text($("#s_keywordTextField").text());
+    	$("#s_keywordTextField").val($("#s_keywordTextField").val());
 		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 	}
 </script>

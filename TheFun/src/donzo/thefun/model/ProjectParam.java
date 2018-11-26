@@ -9,6 +9,7 @@ public class ProjectParam implements Serializable {
 	private String s_category; 	// food, it, animal, human
 	private String s_keyword;	// 검색어
 	private String s_summary;	// 요약설명
+	private String s_sort;		// 정렬 구분 1순위 정렬은 
 	
 	// --------- paging
 	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
@@ -19,6 +20,19 @@ public class ProjectParam implements Serializable {
 
 	
 	public ProjectParam() {	}
+
+	
+
+	public String getS_sort() {
+		return s_sort;
+	}
+
+
+
+	public void setS_sort(String s_sort) {
+		this.s_sort = s_sort;
+	}
+
 
 
 	public String getS_type() {
@@ -101,15 +115,15 @@ public class ProjectParam implements Serializable {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "ProjectParam [" + (s_type != null ? "s_type=" + s_type + ", " : "")
 				+ (s_category != null ? "s_category=" + s_category + ", " : "")
 				+ (s_keyword != null ? "s_keyword=" + s_keyword + ", " : "")
-				+ (s_summary != null ? "s_summary=" + s_summary + ", " : "") + "recordCountPerPage="
-				+ recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
+				+ (s_summary != null ? "s_summary=" + s_summary + ", " : "")
+				+ (s_sort != null ? "s_sort=" + s_sort + ", " : "") + "recordCountPerPage=" + recordCountPerPage
+				+ ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
 	}
-	
-	
 	
 }
