@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
+import donzo.thefun.dao.QnaDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.QnaDto;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -27,6 +29,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	NoticeDao noticeDao;
+
+	@Autowired
+	QnaDao qnaDao;
 
 	@Override
 	public ProjectDto getProject(int seq) {
@@ -83,6 +88,16 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int getProjectCount(ProjectParam pParam) throws Exception {
 		return projectDao.getProjectCount(pParam);
+	}
+
+	@Override
+	public List<ProjectDto> getWaitingList() {
+		return projectDao.getWaitingList();
+	}
+
+	@Override
+	public List<QnaDto> getQna(int seq) {
+		return qnaDao.getQnaList(seq);
 	}
 	
 }

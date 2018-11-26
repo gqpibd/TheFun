@@ -48,12 +48,12 @@ public class QnaDto implements Serializable {
 	String id;
 	int refseq; // 참조하는 댓글. 없으면 나
 	String content; // 내용
-	int status; // 일반, 비밀, 삭제
+	String status; // 일반, 비밀, 삭제
 	String regdate;
 	
 	public QnaDto() { }
 
-	public QnaDto(int seq, int projectseq, String id, int refseq, String content, int status,
+	public QnaDto(int seq, int projectseq, String id, int refseq, String content, String status,
 			String regdate) {
 		super();
 		this.seq = seq;
@@ -105,11 +105,11 @@ public class QnaDto implements Serializable {
 		this.content = content;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -119,6 +119,20 @@ public class QnaDto implements Serializable {
 
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+	
+	public boolean isDel() {
+		if(status.equalsIgnoreCase(DELETE)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isHidden() {
+		if(status.equalsIgnoreCase(HIDE)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

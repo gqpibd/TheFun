@@ -103,7 +103,7 @@ public class ProjectDto implements Serializable {
 	
 	public ProjectDto() {		
 		shipdate = "";
-		status = PREPARING;
+		status = WAITING; // 처음 프로젝트 생성하면 승인 대기 상태로 저장
 	}
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
@@ -288,6 +288,7 @@ public class ProjectDto implements Serializable {
 	}
 
 	public void setRegdate(String regdate) {
+		
 		this.regdate = regdate;
 	}
 
@@ -345,6 +346,21 @@ public class ProjectDto implements Serializable {
 
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	
+	public String getDateForm(String datetime) {
+		String date = datetime;
+		if(datetime.lastIndexOf(' ')>-1) {
+			date = datetime.substring(0, datetime.lastIndexOf(' '));
+		}
+		return date;
+	}
+	
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

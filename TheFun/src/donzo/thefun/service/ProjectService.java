@@ -7,6 +7,7 @@ import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.QnaDto;
 
 public interface ProjectService {
 	
@@ -29,5 +30,7 @@ public interface ProjectService {
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;
+	public List<ProjectDto> getWaitingList();
+	public List<QnaDto> getQna(int seq);
 	
 }

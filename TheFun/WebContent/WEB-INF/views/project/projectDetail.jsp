@@ -100,6 +100,9 @@ function sendLink() {
 
  <!-- 카테고리 , 태그 -->
     <div class="container">
+    <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
+    	<button>승인</button> <button>승인 거절</button>
+    </c:if>
    	<br>
    	<div align="center">
    		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;
@@ -221,8 +224,9 @@ $(function () {
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent">
-			<jsp:include page="detailFeedback.jsp"/>
+         <div class="col-lg-8" id="feedbackContent"> <!-- 댓글  -->
+			<%-- <jsp:include page="detailFeedback.jsp"/> --%>
+			<jsp:include page="qna.jsp"/>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
