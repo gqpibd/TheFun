@@ -239,7 +239,7 @@ window.fbAsyncInit = function() {
 </ul>
 </li> 
 <li style="width:90px;text-align: center;">
-<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/funding.jpg" width="90px"></a><!--  펀딩 -->
+<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/funding.jpg" width="60px"></a><!--  펀딩 -->
 <ul>
 	<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
 	<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
