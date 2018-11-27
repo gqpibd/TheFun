@@ -94,6 +94,7 @@ function statusChangeCallback(response) {
 	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
+		
 		<h6 class="background"><span>필수 항목</span></h6>
 		<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="text" name="id" id="newId" placeholder="아이디" maxlength="12" onblur="idCheck()" />
@@ -127,6 +128,7 @@ function statusChangeCallback(response) {
 	
 	<!-- 로그인 폼 -->
 	<form class="login-form" action="loginAf.do" method="post">
+		<input type="hidden" name="callback" value="${callback}">
 		<input type="hidden" name="loginType" value="normal">
 		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" />
 		<!-- <span><input type="checkbox" >아이디 저장</span> -->
@@ -169,8 +171,8 @@ $('.message a').click(function(){
 </script>
 <!-- 카카오 아이디로 로그인 -->
 <script type='text/javascript'>	 
-    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-    Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+    // topbar에서 이미 init함..
+    //Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
     //Kakao.init('e53f47e84dfa687f87346382fb232397'); //다슬
     // 카카오 로그인 버튼을 생성합니다.
 	  

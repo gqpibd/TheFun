@@ -74,7 +74,7 @@ if(firstImg.attr("src")){
 	var firstImgRatio=1
 } 
 
-Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
+//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
 
 function sendLink() { 
 	Kakao.Link.sendTalkLink({ 
