@@ -6,112 +6,44 @@
 <fmt:requestEncoding value="utf-8"/> 
  
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
-<style type="text/css">
-.input {
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 6px 0 0;
-  padding: 15px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-.tb{
-	min-width: 420px;
-	max-width: 600px;
-}
 
-/* 미디어 쿼리 */
+<link rel="stylesheet" href="CSS/mainCss/myInfo.css">
 
-.main {
-  position: relative;
-  /* left: 0;
-  right: 0; */
-  border-radius: 0;
-  max-width: 900px;   
-  width: 100%;   
-  margin: auto;
-  /* overflow:hidden;   */
-}
-.left {
-  width: 100%;
-  margin: auto;
- /*  padding-bottom: 0.7rem; */
-}
-.right {
-  /* display: flex; */
-  width: 100%;
-  margin: auto;
-}
-@media screen and (min-width: 55em) {
-  /* .main {
-    max-width: 1000px;   
-    overflow: visible;
-  } */
-  .left {
-    width: 50%;
-    float: left;
-  }
-  .right {
-    width: 50%;
-    float: right;
-  }  
-}
-/* 프로필 사진 */
-.imgbox{
-	display: table-cell; /* 이미시를 세로 가운데 정렬할때 필요 */
-	vertical-align: middle; /* 이미시를 세로 가운데 정렬할때 필요 */
-	position: relative;
-	width: 150px;
-	height: 150px;
-}
-.holder{
-	max-height: 150px;
-	max-width: 150px;	
-	position: relative;
-	z-index: -1;	
-	border-radius: 100%;
-}
-.upload {
-	align-self: center;
-	width: 150px;
-	height: 150px;
-	opacity: 0;
-	/* background-color:red; */
-	cursor: pointer; 
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
-} 
-
-</style>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${myi.pwd ne null}">
 <input type="hidden" id="imgPath" name="imgPath" value="${myi.profile}">
 <div class="group" style="width: 100%;" align="center">	
-	<div class="imgbox" align="center">
-	<img id="editable-Img" src='${myi.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
-	<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
-	</div>
-	<br>
-	<div align="center">
-	<a href="javascript:profile_default()" id="profile_default">기본 프로필 사진으로 변경</a>
-	<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
-	</div>
+	<table border="0">
+	<tr>
+		<td>
+			<div class="imgbox" align="center">
+			<img id="editable-Img" src='${myi.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
+			</div>
+		</td>
+		<td style="padding-top: 160px;">
+			<div align="center">
+			<a href="javascript:profile_default()" id="profile_default">
+			<img src="image/icons/vcard_active.png"
+			onmouseover="this.src='image/icons/vcard_dark.png'"
+		    onmouseout="this.src='image/icons/vcard_active.png'">
+		    </a>
+			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
+			</div>
+		</td>
+	</tr>
+	</table>
 </div>
+
+<br><br>
+
 </c:if>
 <div class="main form">
 <div class="left" align="center"> 
 <c:choose>
 	<c:when test="${myi.pwd ne null}">		
-		<table class="tb">		
+		<table class="tb1">		
 			<!-- 아이디 -->
 			<tr>
 				<td style="text-align: left; ">아이디</td>
@@ -162,7 +94,7 @@
 		</table>
 	</c:when>
 	<c:otherwise>
-		<table class="tb">		
+		<table class="tb1">		
 			<!-- 아이디 -->
 			<tr>
 				<td style="text-align: left; ">아이디</td>
@@ -179,8 +111,8 @@
 </c:choose>	
 </div>
 	<!-- 여기부터는 옵션 -->
-	<div class="right" align="center"> 
-	<table class="tb">			
+	<div class="right" align="center" > 
+	<table class="tb2">			
 		<!-- 전화번호 -->
 		<tr>
 			<td style="text-align: left;">전화번호</td>
@@ -227,9 +159,10 @@
 			</td>
 		</tr>	
 	</table>
-	</div>
-		
+	</div>	
+	
 	<div class="right" style="width: 100%;" align="center">
+	<br>
 		<input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
 	</div>	
 	</div>

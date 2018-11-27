@@ -366,8 +366,6 @@ public class ProjectDto implements Serializable {
 		}
 		return false;
 	}
-	
-
 	public String getNickname() {
 		return nickname;
 	}

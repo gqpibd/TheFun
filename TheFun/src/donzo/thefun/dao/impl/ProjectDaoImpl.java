@@ -23,8 +23,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
 		
 		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
-		
-		return sqlSession.selectList(ns + "searchProjectList", pParam);
+		List<ProjectDto> list = sqlSession.selectList(ns + "searchProjectList", pParam);
+		return list;
 	}
 
 	@Override

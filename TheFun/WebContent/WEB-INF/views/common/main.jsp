@@ -7,20 +7,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>   
 
-<!-- 차트 css -->
-<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+ <!-- 차트 css -->
+ <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
  
- <style type="text/css">
- .pTitle{
- 	font-weight: bold;
- 	color: black;
- 	font-size: large;
- }
- .pName{
- 	color: gray;
- 	font-size: small;
- }
- </style>
+ <!-- 메인 css -->
+ <link rel="stylesheet" href="CSS/common/main.css">
  
 <div class="container">
 	<!-- 메인 사진 -->
@@ -31,6 +22,7 @@
 	 </div>
 	 <!-- /.row -->
 	    
+	
 	<div style="margin-bottom: 100px;"></div>
 	
 	<!-- 리스트 -->

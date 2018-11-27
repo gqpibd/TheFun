@@ -6,6 +6,7 @@
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
+<link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
 .profile{   
     float: none;
@@ -254,10 +255,12 @@ window.fbAsyncInit = function() {
     &nbsp;&nbsp;&nbsp;&nbsp;
     <form id="_frmFormSearch" name="frmForm1">
 		<div class="box">
-		  <div class="container-4">
-		    <input type="search" id="search" placeholder="Search..." />
-		    <button class="icon"><i class="fa fa-search"></i></button>
-		  </div>
+			<div class="container-4">
+				<input class="field" type="text" placeholder="Search..."
+				style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
+				value="${s_keyword }" name="s_keyword" id="s_keywordTextField">	
+				<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
+			</div>
 		</div>
 	 	
 	 	<%-- <input class="" type="text" placeholder="Search..."
@@ -303,6 +306,8 @@ window.fbAsyncInit = function() {
     </div>
   </div>
 </nav>
+    
+
     
 <script type="text/javascript">
 	var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");

@@ -6,6 +6,9 @@
 <fmt:requestEncoding value="utf-8"/>     
 
 
+<link rel="stylesheet" href="CSS/mainCss/myOther.css">
+
+
 <style type="text/css">
 	a:link { color: black; text-decoration: none;}
 	a:visited { color: black; text-decoration: none;}
@@ -13,39 +16,64 @@
 	a:active { color: black; text-decoration: none;}
 </style>
 
-<div>
+
+
+
+
+
+<div align="center">
+<div class="h1">
+	<h1>나의후원내역</h1>
+</div>
+<br>
 <!-- <form action="myReward.do"> --> <!-- 여기서 form 필요한가? -->
-<table id="myOrderlist">
+<table class="type07" id="myOrderlist">
 	<c:if test="${empty orderlist }">
+	<thead>
 	<tr>
-		<td colspan="3">구매 내역이 없습니다</td>
+		<th colspan="6">구매 내역이 없습니다</th>
 	</tr>	
+	</thead>
 	</c:if>
+	
 	<c:if test="${not empty orderlist }">
+	<thead>
 	<tr>
-		<th> 번호 </th> <th colspan="2">프로젝트</th> <th>후원금액</th> <th>후원 날짜</th> <th>상태</th>
+		<th>번호</th>
+		<th colspan="2">프로젝트</th>
+		<!-- <th></th> -->
+		<th>후원금액</th>
+		<th>후원 날짜</th>
+		<th>상태</th>
 	</tr>	
+	</thead>
 	</c:if>
 	
 	<c:forEach items="${orderlist }" var="order" varStatus="vs">
-	<tr class="_hover_tr"  style="text-align: center;">
-		<td>${vs.count }</td>
+	<tbody>
+	<tr>
+		<th>${vs.count }</th>
 		
 		<!-- 테스트용으로 이미지 하나 추가 함 ( 나중에 지울것 ) -->
-		<td><img alt="썸네일이미지" src="image/thumbnail/${order.projectseq }.png" style="border-radius: 50%;"></td>
+		<td>
+		<img alt="썸네일이미지" src="image/thumbnail/${order.projectseq }.png" style="border-radius: 50%;">
+		</td>
 		
 		<td>		
 			<a href="projectDetail.do?seq=${order.projectseq }">
 				${order.ptitle }
 			</a>			
 		</td>
+		
 		<td>
 			<fmt:formatNumber value="${order.price * order.count}" type="number"/>  
 		</td>
+		
 		<td>
 			<fmt:parseDate var="reg_date" value="${order.regdate}" pattern="yyyy-MM-dd"/>
 			<fmt:formatDate value="${reg_date }" pattern="yyyy-MM-dd"/>
 		</td>
+		
 		<td>							
 			<c:choose>
 				<c:when test="${order.status eq 'complete_success' && order.bcomment eq null}">						
@@ -76,7 +104,9 @@
 				</c:otherwise>
 			</c:choose>
 		</td>
+		
 	</tr>		
+	<tbody>
 	</c:forEach>
 
 </table>

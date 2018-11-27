@@ -155,8 +155,7 @@ public class ProjectController {
 		
 		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
 		
-		
-		// 8페이지씩 보여주려고
+		// 6 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
 		pParam.setEnd(end);
 		pParam.setRecordCountPerPage(8);
@@ -271,8 +270,8 @@ public class ProjectController {
 			mainParam.setS_sort("SDATE");
 		}
 		
-//		4페이지씩 보여주려고
-		mainParam.setStart(1);
+//		3페이지씩 보여주려고
+		mainParam.setStart(0);
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
 		
@@ -305,7 +304,7 @@ public class ProjectController {
 		logger.info("ProjectController newProject 들어옴 " + new Date());
 		return "newProject.tiles";
 	}
-
+	
 	//내 일정 이동 (Calendar==schedule)
 		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
 		public String mySchedule(Model model, ProjectDto pro) throws Exception{
