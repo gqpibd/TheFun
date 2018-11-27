@@ -51,7 +51,15 @@ public class QnaDto implements Serializable {
 	String status; // 일반, 비밀, 삭제
 	String regdate;
 	
-	public QnaDto() { }
+	String towhom;
+	
+	String nickname;
+	String profile; 
+	
+	public QnaDto() {
+		this.status = NORMAL;
+		this.towhom = "";
+	}
 
 	public QnaDto(int seq, int projectseq, String id, int refseq, String content, String status,
 			String regdate) {
@@ -134,10 +142,35 @@ public class QnaDto implements Serializable {
 		}
 		return false;
 	}
+	
+	public String getTowhom() {
+		return towhom;
+	}
+
+	public void setTowhom(String towhom) {
+		this.towhom = towhom;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
 
 	@Override
 	public String toString() {
-		return "ReplyDto [seq=" + seq + ", projectseq=" + projectseq + ", id=" + id + ", refseq=" + refseq
-				+ ", content=" + content + ", status=" + status + ", regdate=" + regdate + "]";
+		return "QnaDto [seq=" + seq + ", projectseq=" + projectseq + ", id=" + id + ", refseq=" + refseq + ", content="
+				+ content + ", status=" + status + ", regdate=" + regdate + ", towhom=" + towhom + ", nickname="
+				+ nickname + ", profile=" + profile + "]";
 	}
 }

@@ -5,50 +5,130 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
  
+ <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
+ 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
+<style type="text/css">
+.input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 6px 0 0;
+  padding: 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.tb{
+	min-width: 420px;
+	max-width: 600px;
+}
 
-<link rel="stylesheet" href="CSS/mainCss/myInfo.css">
+/* 미디어 쿼리 */
 
+.main {
+  position: relative;
+  /* left: 0;
+  right: 0; */
+  border-radius: 0;
+  max-width: 900px;   
+  width: 100%;   
+  margin: auto;
+  /* overflow:hidden;   */
+}
+.left {
+  width: 100%;
+  margin: auto;
+ /*  padding-bottom: 0.7rem; */
+}
+.right {
+  /* display: flex; */
+  width: 100%;
+  margin: auto;
+}
+@media screen and (min-width: 55em) {
+  /* .main {
+    max-width: 1000px;   
+    overflow: visible;
+  } */
+  .left {
+    width: 50%;
+    float: left;
+  }
+  .right {
+    width: 50%;
+    float: right;
+  }  
+}
+/* 프로필 사진 */
+.imgbox{
+	display: table-cell; /* 이미시를 세로 가운데 정렬할때 필요 */
+	vertical-align: middle; /* 이미시를 세로 가운데 정렬할때 필요 */
+	position: relative;
+	width: 150px;
+	height: 150px;
+}
+.holder{
+	max-height: 150px;
+	max-width: 150px;	
+	position: relative;
+	z-index: -1;	
+	border-radius: 100%;
+}
+.upload {
+	align-self: center;
+	width: 150px;
+	height: 150px;
+	opacity: 0;
+	/* background-color:red; */
+	cursor: pointer; 
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+} 
+
+.profile_img{   
+    float: none;
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+</style>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
-<c:if test="${myi.pwd ne null}">
-<input type="hidden" id="imgPath" name="imgPath" value="${myi.profile}">
+<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
+<input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <div class="group" style="width: 100%;" align="center">	
-	<table border="0">
-	<tr>
-		<td>
-			<div class="imgbox" align="center">
-			<img id="editable-Img" src='${myi.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
-			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
-			</div>
-		</td>
-		<td style="padding-top: 160px;">
-			<div align="center">
-			<a href="javascript:profile_default()" id="profile_default">
-			<img src="image/icons/vcard_active.png"
-			onmouseover="this.src='image/icons/vcard_dark.png'"
-		    onmouseout="this.src='image/icons/vcard_active.png'">
-		    </a>
-			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
-			</div>
-		</td>
-	</tr>
-	</table>
+	<div class="imgbox" align="center">
+	<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+	<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
+	</div>
+	<br>
+	<div align="center">
+	<a href="javascript:profile_default()" id="profile_default">기본 프로필 사진으로 변경</a>
+	<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
+	</div>
 </div>
-
-<br><br>
-
 </c:if>
 <div class="main form">
 <div class="left" align="center"> 
 <c:choose>
-	<c:when test="${myi.pwd ne null}">		
-		<table class="tb1">		
+	<c:when test="${login.pwd ne null}">		
+		<table class="tb">		
 			<!-- 아이디 -->
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -79,7 +159,7 @@
 			<tr>
 				<td style="text-align: left;">별명</td>
 				<td colspan="2">
-					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${myi.nickname }" />
+					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -87,19 +167,24 @@
 			<tr>
 				<td style="text-align: left;">이메일</td>
 				<td colspan="2">
-					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${myi.email }" />
+					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${login.email }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
-	<c:otherwise>
-		<table class="tb1">		
+	<c:otherwise> <!-- 연동 로그인 -->
+		<table class="tb">		
+			<tr>
+				<td>
+					<img src="${login.profile}" class="profile_img">
+				</td>
+			</tr>
 			<!-- 아이디 -->
 			<tr>
-				<td style="text-align: left; ">아이디</td>
+				<td style="text-align: left; "></td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${login.nickname}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -111,13 +196,13 @@
 </c:choose>	
 </div>
 	<!-- 여기부터는 옵션 -->
-	<div class="right" align="center" > 
-	<table class="tb2">			
+	<div class="right" align="center"> 
+	<table class="tb">			
 		<!-- 전화번호 -->
 		<tr>
 			<td style="text-align: left;">전화번호</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${myi.phone }" />
+				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -126,7 +211,7 @@
 		<tr>
 			<td style="text-align: left;">주소</td>
 			<td >
-				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${myi.postcode}" readonly="readonly">		
+				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">		
 			</td>
 			<td>
 				<input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
@@ -135,19 +220,19 @@
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${myi.roadaddress}"  readonly="readonly">
+				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${myi.detailaddress}">
+				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: left;">소개</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${myi.info}"/>			
+				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${login.info}"/>			
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -155,14 +240,13 @@
 		<tr>
 			<td style="text-align: left;">포인트</td>
 			<td colspan="2">			
-				<input class="input" type="text" id="myPoint" name="point" value="${myi.point}" readonly="readonly"/>
+				<input class="input" type="text" id="myPoint" name="point" value="${login.point}" readonly="readonly"/>
 			</td>
 		</tr>	
 	</table>
-	</div>	
-	
+	</div>
+		
 	<div class="right" style="width: 100%;" align="center">
-	<br>
 		<input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
 	</div>	
 	</div>
@@ -193,7 +277,7 @@ function myPwdCheck() {
 	$.ajax({
 		type:"post",
 		url:"pwdCheck.do",
-		data:"id=${myi.id}&pwd="+$('#myPwd').val(),
+		data:"id=${login.id}&pwd="+$('#myPwd').val(),
 		
 		success:function(data){		
 			if(data == "OK" ){ //비밀번호 일치

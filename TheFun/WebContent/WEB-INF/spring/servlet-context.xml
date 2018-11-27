@@ -34,6 +34,7 @@
 	    <mvc:interceptor>
 	        <mvc:mapping path="/myPage.do"/>		<!-- 마이페이지 -->
 	        <mvc:mapping path="/myInfo.do"/>		<!-- 내 정보보기 -->
+	        <mvc:mapping path="/myOrderList.do"/>
 	        <mvc:mapping path="/goSelectReward.do"/>
 	        <mvc:mapping path="/goOrderReward.do"/>
 	        <mvc:mapping path="/order.do"/>

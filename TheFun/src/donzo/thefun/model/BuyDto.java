@@ -250,7 +250,15 @@ public class BuyDto implements Serializable {
 	public void setOcontent(String ocontent) {
 		this.ocontent = ocontent;
 	}
-
+	
+	public String getDateForm(String datetime) {
+		String date = datetime;
+		if(datetime.lastIndexOf(' ')>-1) {
+			date = datetime.substring(0, datetime.lastIndexOf(' '));
+		}
+		return date;
+	}
+	
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
