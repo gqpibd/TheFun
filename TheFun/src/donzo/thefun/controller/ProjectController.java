@@ -3,6 +3,7 @@ package donzo.thefun.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +12,19 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
@@ -203,7 +211,6 @@ public class ProjectController {
 			- 배열값 4개 : 각 옵션의 제목, 내용, 가격, 재고
 			- mainImage : 메인이미지로 등록한 파일명
 		 */
-		
 		logger.info("ProjectController newProjectAf 들어옴 " + new Date());
 		
 		logger.info("newProjectDto : " + newProjectDto.toString());
@@ -236,6 +243,73 @@ public class ProjectController {
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
 		return "newProject.tiles";
+	}
+	
+	
+	
+	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	@ResponseBody	// <== ajax에 필수
+	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
+					method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String editorImgUp(HttpServletRequest req, @RequestBody Article article) {
+		
+		// 이미지 업로드할 경로
+		String uploadPath = "D:\tmp";
+		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
+		
+		String fileName = "";	// 파일명
+		
+		try {
+			// 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement();
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+				
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONPObject jobj = new JSONPObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		
+		/*
+		// 이미지 업로드할 경로
+		// String uploadPath = "D:/WYSIWYG_EDITOR_FILEUPLOAD/upload";
+		String uploadPath = "D:\tmp";
+	    int size = 10 * 1024 * 1024;  // 업로드 사이즈 제한 10M 이하
+		
+		String fileName = ""; // 파일명
+		
+		try{
+	        // 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "utf-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement(); 
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	    // 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+		
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONObject jobj = new JSONObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		 */
+
+		return "";
 	}
 	
 	// 메인 화면으로 이동

@@ -13,6 +13,8 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> --> <!-- header에 v4.1.1 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+<!-- include summernote-ko-KR -->
+<script src="/summernote/lang/summernote-ko-KR.js"></script>
 
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
@@ -187,13 +189,62 @@ tr, td, input{
 			
 	});
 	$('#summernote').summernote({
-	  placeholder: 'Hello bootstrap 4',
+	  placeholder: 'ㅇㅇㅇㅇㅋㅋㅋㅋ',
 	  tabsize: 2,
-	  height: 600,                 // set editor height
+	  /* height: 600, */                 // set editor height
+	  height: ($(window).height() - 300),
 	  minHeight: null,             // set minimum height of editor
 	  maxHeight: null,             // set maximum height of editor
-	  focus: true     
+	  focus: true,
+	  lang: 'ko-KR', // default: 'en-US'
+	  callbacks: { // 콜백을 사용
+          // 이미지를 업로드할 경우 이벤트를 발생
+		  onImageUpload: function(files, editor, welEditable) {
+			    sendFile(files[0], this);
+			}
+		}
+
 	});
+	
+	function sendFile(file, editor) {
+        // 파일 전송을 위한 폼생성
+ 		data = new FormData();
+ 	    data.append("uploadFile", file);
+ 	    $.ajax({ // ajax를 통해 파일 업로드 처리
+ 	        data : data,
+ 	        type : "POST",
+ 	        url : "editorImgUp.do",
+ 	        cache : false,
+ 	        contentType : false,
+ 	        processData : false,
+ 	        success : function(data) { // 처리가 성공할 경우
+                // 에디터에 이미지 출력
+ 	        	$(editor).summernote('editor.insertImage', data.url);
+ 	        }
+ 	    });
+ 	}
+
+
+/* 
+	function uploadImage(image) {
+	    var data = new FormData();
+	    data.append("image", image);
+	    $.ajax({
+	        url: 'editorImgUp.do',
+	        cache: false,
+	        contentType: false,
+	        processData: false,
+	        data: data,
+	        type: "post",
+	        success: function(url) {
+	            var image = $('<img>').attr('src', 'http://' + url);
+	            $('#summernote').summernote("insertNode", image[0]);
+	        },
+	        error: function(data) {
+	            console.log(data);
+	        }
+	    });
+	} */
 	
 	
 	/* 리워드옵션의 갯수를 선택한만큼 갱신하는 함수 */ 
@@ -337,7 +388,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarry">프로젝트 요약</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarryTap">프로젝트 요약</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -374,7 +425,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingFour">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="col_image">프로젝트 카테고리</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -470,7 +521,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingSix">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="col_image">검색용 태그</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -499,7 +550,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingSeven">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="col_image">목표 금액 설정</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -513,7 +564,7 @@ tr, td, input{
 						</div>
 					</td>
 					<td>
-						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%">
+						<input type="text" class="form-control" placeholder="0" value="0" id="goalfund" name="goalfund" size="70%">
 					</td>
 					<td>
 						원
@@ -528,7 +579,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingEight">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="col_image">계좌 등록</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -579,7 +630,7 @@ tr, td, input{
     	<!-- 위 -->
 		<div class="card-header" id="headingNine">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="col_image">프로젝트 진행 스케줄</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -661,8 +712,8 @@ tr, td, input{
     <!-- 위 -->
       <div class="card-header" id="headionTen">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen">
-	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen" id="col_content">옵션 개수 선택</a>
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="optiontotalTap">
+	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">옵션 개수 선택</a>
 	       </label>		
         </h4>
       </div>
@@ -708,7 +759,7 @@ tr, td, input{
 				        <h5 class="mb-0">
 								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>
 			
-				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" class="changedOption"><%=(i + "") %>번째 선물</a>
+				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" id="option<%=i %>" class="changedOption"><%=(i + "") %>번째 선물</a>
 				      	</h5>
 				    </div>
 			    <!-- 아래 -->
@@ -785,10 +836,16 @@ tr, td, input{
 $("#btn_submit").click(function () {
 	alert("전송");
 	
-	// 공란 거르기
+	/* 공란 거르기 */
+	
+		// [1] 첫번째 탭 값
 	var title = $("#title").val();
 	var mainImage = $("#mainImage").val();
 	var summary = $("#summary").val();
+		// fundtype과 category는 기본선택값이 있어서 공란판정 필요없다.(공란이될 수 없음)
+	var fundtype = $(".fundtype").val();	// reward / donation
+	var category = $("#category").val();
+		// [2] 두번째 탭 값
 	var summernote = $("#summernote").val();
 	var tag = $("#tag").val();
 	var goalfund = $("#goalfund").val();
@@ -797,44 +854,97 @@ $("#btn_submit").click(function () {
 	var date1 = $("#date1").val();
 	var date2 = $("#date2").val();
 	var date3 = $("#date3").val();
-		// 기부는 아래 값 없게.
+		// *여기까지 공통 입력사항
+		// *기부는 아래 값들 불필요(공란허용)
 	var date4 = $("#date4").val();
-	var optionSelected = $("#optionSelected").val();	// 상품은 "NO" 기부는 "OK"
+		// [3] 세번째 탭 값
+	var optionSelected = $("#optionSelected").val();	// 상품-리워드 갯수 선택했을때 "OK" / 기부or상품-리워드 갯수 선택안했을 때 "NO"
 	var option_total = $("#option_total").val();
-	
+		
+		// 확인용
 	alert("title = " + title + " mainImage = " + mainImage + " summary = " + summary + " summernote = " + summernote +
 			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
 			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
 			" optionSelected = " + optionSelected + " option_total = " + option_total);
 	
+	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
 		alert("제목을 입력해주세요");
+		$("#home-tab").click();
 		$("#titleTap").click();
+		return;
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
+		$("#home-tab").click();
 		$("#col_image").click();
+		return;
 	} else if(summary == null || summary == ""){
 		alert("프로젝트 요약을 등록해주세요");
-		$("#summarry").click();
+		$("#home-tab").click();
+		$("#summarryTap").click();
+		return;
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
-		$("#summarry").click();
+		$("#menu-tab1").click();
+		$("#summernoteTap").click();
+		return;
+	} else if(tag == null || tag == ""){
+		alert("검색용 태그를 등록해주세요");	// #붙여주는 함수 따로 만들자.
+		$("#menu-tab1").click();
+		$("#tagTap").click();
+		return;
+	} else if(goalfund == null || goalfund == ""){
+		alert("프로젝트 달성 목표 금액을 등록해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		$("#menu-tab1").click();
+		$("#goalfundTap").click();
+		return;
+	} else if(bankname == null || bankname == "" || accountNumber == null || accountNumber == ""){
+		alert("은행을 선택해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		$("#menu-tab1").click();
+		$("#bankTap").click();
+		return;
+	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == "" || date4 == null || date4 == ""){
+		alert("프로젝트 진행 스케줄을 모두 등록해주세요");	// 다시 처음주터 날짜를 선택하고 싶을 때를 위해 '취소하기' 버튼 추가하기.
+		$("#menu-tab1").click();
+		$("#dateTap").click();
+		return;
+	} else{	// 공통 입력사항을 모두 기입했을 때
+		
+		// 2. 카테고리에 따른 공란판정
+		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
+			formSubmit();	// form에 submit 실행~
+		} else if(fundtype == "reward" || optionSelected == "NO"){	// 상품 선택하고 리워드 갯수는 선택안한 경우(==> 리워드 입력 필수)
+			//alert("상품 선택하고 리워드 갯수는 선택안한 경우");
+			alert("리워드 갯수를 선택하고 상세정보를 등록해주세요.");
+			$("#optiontotalTap").click();
+			return;
+		} else if(optionSelected == "OK"){	// 상품 선택하고 리워드 갯수도 선택한 경우(==> 리워드 내용입력 필수)
+			for(var i=1; i<=option_total; i++){
+				var op_title = $("#op_title" + i).val();
+				var op_content = $("#op_content" + i).val();
+				var op_price = $("#op_price" + i).val();
+				var op_stock = $("#op_stock" + i).val();
+				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
+				
+				if(op_title == null || op_title == "" || op_content == null || op_content == "" || 
+						op_price == null || op_price == "" || op_stock == null || op_stock == ""){
+					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
+					$("#menu-tab2").click();
+					$("#option"+i).click();
+					return;
+				}
+			}
+			
+			formSubmit();	// form에 submit 실행~
+		} 
 	}
 	
-	if(optionSelected == "OK"){	// 상품 선택했을 경우(==> 리워드 입력 필수)
-		//alert("오키");
-		for(var i=1; i<=option_total; i++){
-			var op_title = $("#op_title" + i).val();
-			var op_content = $("#op_content" + i).val();
-			var op_price = $("#op_price" + i).val();
-			var op_stock = $("#op_stock" + i).val();
-			alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
-		}
-	}else{	// 기부 선택했을 경우(==> 리워드 등록 불필요)
-		alert("놉");
-	}
+});
+
+// form에 submit 최종실행 함수!
+function formSubmit() {
 	// 선택한 은행+계좌번호 가져와
-	/* var bankname = $("#bankname").val();
+	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
 	
 	alert(bankname + accountNumber);
@@ -843,8 +953,8 @@ $("#btn_submit").click(function () {
 	
 	
 	// form 실행! 컨트롤러로~
-	$("#createProjectFrom").submit(); */
-});
+	$("#createProjectFrom").submit();
+}
 
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
@@ -863,6 +973,11 @@ function checkLength (selector,messageSelector,maxlength){
 $("#fundtype2").click(function () {
 	// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
 	$("#menu-tab2").hide();
+})
+// 상품 버튼을 클릭했을 때
+$("#fundtype1").click(function () {
+	// 리워드 탭 보이게.
+	$("#menu-tab2").show();
 })
 
 </script>
