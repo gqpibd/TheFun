@@ -392,12 +392,18 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 	
-	//내 일정 이동 (Calendar==schedule)
+	//내 일정 이동 (내 프로젝트 보기)
 		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
 		public String mySchedule(Model model, ProjectDto pro) throws Exception{
 			logger.info("ProjectController myCalendar " + new Date());
-			//model.addAttribute("schedule", projectService.mySchedule(pro));
 			
+			List<ProjectDto> myschedule = projectService.mySchedule(pro);
+			
+			for (int i = 0; i < myschedule.size(); i++) {
+				ProjectDto dto = myschedule.get(i);
+				logger.info("Schedule list : " + dto.toString());
+			}
+			model.addAttribute("schedule", myschedule);
 			return "mySchedule.tiles";
 		}
 	 

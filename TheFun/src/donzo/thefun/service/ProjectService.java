@@ -33,5 +33,6 @@ public interface ProjectService {
 	public List<ProjectDto> getWaitingList();
 	public List<QnaDto> getQna(int seq);
 	
-//	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	//schedule
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
 }
