@@ -17,7 +17,8 @@ CREATE TABLE FUN_QNA(
    CONTENT VARCHAR2(1000) NOT NULL,
    STATUS VARCHAR2(50) NOT NULL, // 1. 일반, 2. 비밀, 3 삭제
    
-   REGDATE DATE NOT NULL
+   REGDATE DATE NOT NULL,
+   TOWHOM VARCHAR2(50)
 );
 
 CREATE SEQUENCE SEQ_QNA
@@ -47,11 +48,39 @@ ON DELETE CASCADE; // 종속 삭제
 <!-- 질문 목록 가져오기 -->
 <select id="getQnaList" parameterType="int" resultType="donzo.thefun.model.QnaDto">
 	SELECT * 
-	FROM FUN_QNA
+	FROM FUN_QNA_VIEW
 	WHERE PROJECTSEQ = #{seq}
-	ORDER BY REFSEQ ASC, REFSEQ ASC
+	ORDER BY REFSEQ ASC, SEQ ASC
 </select>
 
+<!-- 새 댓글 추가 -->
+<insert id="addNewQna" parameterType="donzo.thefun.model.QnaDto"> 
+	INSERT INTO FUN_QNA
+	<choose>
+	<when test="refseq > 0"> <!-- 대댓일 때 -->
+		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, #{refseq}, #{content}, #{status}, SYSDATE, #{towhom})
+	</when>
+	<otherwise> <!-- 첫 댓글일 때 -->
+		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, SEQ_QNA.CURRVAL, #{content}, #{status}, SYSDATE, #{towhom})
+	</otherwise> 
+	</choose>
+	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
+		SELECT SEQ_QNA.CURRVAL FROM dual 
+	</selectKey>
+</insert>
 
+<!-- 댓글 삭제 -->
+<update id="delQna" parameterType="int">
+	UPDATE FUN_QNA
+	SET STATUS='delete'
+	WHERE SEQ = #{seq}
+</update>
+
+<!-- 댓글 수정 -->
+<update id="updateQna" parameterType="donzo.thefun.model.QnaDto">
+	UPDATE FUN_QNA
+	SET CONTENT=#{content}
+	WHERE SEQ = #{seq}
+</update>
 
 </mapper>

@@ -3,26 +3,28 @@
 
 <%
 	String command = request.getParameter("command");
-%><%--
-<%if(command.equals("rere")){ 
+%>
+
+<%--if(command.equals("rere")){ 
 String id = request.getParameter("id");
 String toWhom = request.getParameter("toWhom");
-String pdsSeq = request.getParameter("pdsSeq");
-String reRef = request.getParameter("reRef");
-%>
-<li class='reply' id='rere_write' style="width: 95%">
+String projectseq = request.getParameter("projectseq");
+String refseq = request.getParameter("refseq");
+String nickname = request.getParameter("nickname");
+--%>
+<%-- <li class='reply' id='rere_write' style="width: 95%">
 	<div class='wrap' align='center' style="padding: 10px;background: #fff;margin:auto" >
 		<form action='ReplyController'>
 			<input type='hidden' name='command' value='addReply'> 
 			<input type='hidden' name='id' value="<%=id%>"> 
-			<input type='hidden' name='pdsSeq' value="<%=pdsSeq%>"> 
-			<input type='hidden' name='refSeq' value="<%=reRef%>"> 
+			<input type='hidden' name='projectseq' value="<%=projectseq%>"> 
+			<input type='hidden' name='refseq' value="<%=refseq%>"> 
 			<input type='hidden' name='toWhom' value="<%=toWhom%>">
 			<div align='left'>
 				<img src='images/profiles/<%=id%>.png' width='10'
 					class='profile re-img' align='middle'
 					onerror="this.src='images/profiles/default.png'"> 
-				<span class='nickname'><%=id%></span>
+				<span class='nickname'><%=nickname %></span>
 				<textarea id='writeReply' placeholder="<%=toWhom%>님에게 댓글 작성" name='content'></textarea>
 				<div align=right style='padding: 10px'>
 					<button class='mybtn' type='submit'>등록</button>
@@ -30,15 +32,15 @@ String reRef = request.getParameter("reRef");
 			</div>
 		</form>
 	</div>
-</li>
-<%}else if(command.equals("modify")){ //수정
+</li> --%>
+<%--}else if(command.equals("modify")){ //수정
+--%>
+<%if(command.equals("modify")){ //수정
 String id = request.getParameter("id");
 String content = request.getParameter("content");
 String reSeq = request.getParameter("reSeq");
 String pdsSeq = request.getParameter("pdsSeq");
-%>
-
-	
+%>	
 <li class='reply' style="width: 95%">
 	<div class='wrap' align='center' style="padding: 10px;background: #fff;margin:auto" >
 		<form action='ReplyController'>
@@ -59,8 +61,9 @@ String pdsSeq = request.getParameter("pdsSeq");
 			</div>
 		</form>
 	</div>
-</li>
- <%}else if(command.equals("cancel")){	
+</li> --%>
+<%} %>
+ <%-- <%}else if(command.equals("cancel")){	
 	String loginId = request.getParameter("loginId");
 	String pdsWriter = request.getParameter("pdsWriter");
 	int reSeq = Integer.parseInt(request.getParameter("reSeq"));
@@ -108,6 +111,6 @@ String pdsSeq = request.getParameter("pdsSeq");
 		</div>
 		</div>
 	</li>
-	<%}
-}%> --%>
+	<%} --%>
+<%--}--%>
  

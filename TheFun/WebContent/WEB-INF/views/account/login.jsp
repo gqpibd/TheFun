@@ -104,7 +104,7 @@ function statusChangeCallback(response) {
 		<input type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="pwdCheck()" />
 		<input type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="pwdCheck()" />
 		<span id="emailCheckMessage" style="color:red; font-size:11px;"></span> 
-		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()"  />
+		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()"  />
 		
 		<h6 class="background" style="cursor: pointer;" onclick="$('#option').slideToggle()"><span>선택 항목</span></h6>
 		<div id="option">		
@@ -172,7 +172,7 @@ $('.message a').click(function(){
 <!-- 카카오 아이디로 로그인 -->
 <script type='text/javascript'>	 
     // topbar에서 이미 init함..
-    //Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+    Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
     //Kakao.init('e53f47e84dfa687f87346382fb232397'); //다슬
     // 카카오 로그인 버튼을 생성합니다.
 	  

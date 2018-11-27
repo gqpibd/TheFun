@@ -90,10 +90,20 @@
 	z-index: 1;
 } 
 
+.profile_img{   
+    float: none;
+    width: 300px;
+    height: 300px;
+    border-radius: 300px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
 </style>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
-<c:if test="${login.pwd ne null}">
+<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <div class="group" style="width: 100%;" align="center">	
 	<div class="imgbox" align="center">
@@ -161,13 +171,18 @@
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
-	<c:otherwise>
+	<c:otherwise> <!-- 연동 로그인 -->
 		<table class="tb">		
+			<tr>
+				<td>
+					<img src="${login.profile}" class="profile_img">
+				</td>
+			</tr>
 			<!-- 아이디 -->
 			<tr>
-				<td style="text-align: left; ">아이디</td>
+				<td style="text-align: left; "></td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${login.nickname}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>

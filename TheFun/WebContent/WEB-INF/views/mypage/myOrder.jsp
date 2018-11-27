@@ -43,8 +43,9 @@
 			<fmt:formatNumber value="${order.price * order.count}" type="number"/>  
 		</td>
 		<td>
-			<fmt:parseDate var="reg_date" value="${order.regdate}" pattern="yyyy-MM-dd"/>
-			<fmt:formatDate value="${reg_date }" pattern="yyyy-MM-dd"/>
+			<%-- <fmt:parseDate var="reg_date" value="${order.regdate}" pattern="yyyy-MM-dd"/>
+			<fmt:formatDate value="${reg_date }" pattern="yyyy-MM-dd"/> --%>
+			${order.getDateForm(order.regdate)}
 		</td>
 		<td>							
 			<c:choose>
