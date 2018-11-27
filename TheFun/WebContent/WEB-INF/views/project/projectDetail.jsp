@@ -148,7 +148,7 @@ function sendLink() {
     <div class="container">
     <div align="center">
     <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
-    	<button class="fun_btn" onclick="location.href=approve.do?projectseq=${projectdto.seq}">프로젝트 승인</button> 
+    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
     	<button class="fun_btn">프로젝트 승인 거절</button>
     </c:if>
     </div>
