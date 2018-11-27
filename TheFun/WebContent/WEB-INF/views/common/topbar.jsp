@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
 
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
 <style type="text/css">
 .profile{   
     float: none;
@@ -14,6 +16,82 @@
     vertical-align: middle;
     object-fit: cover;
 }
+
+
+.container-4{
+  overflow: hidden;
+  width: 300px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.container-4 input#search{
+  width: 250px;
+  height: 40px;
+  background: #F6F6F6;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  color: #000000;
+  padding-left: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.container-4 button.icon{
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+ 
+  border: none;
+  background: #F6F6F6;
+  height: 50px;
+  width: 50px;
+  color: #4f5b66;
+  opacity: 0;
+  font-size: 10pt;
+ 
+  -webkit-transition: all .55s ease;
+  -moz-transition: all .55s ease;
+  -ms-transition: all .55s ease;
+  -o-transition: all .55s ease;
+  transition: all .55s ease;
+}
+
+.btn_MyPage{
+border:1px solid #8a66f4; 
+-webkit-border-radius: 3px; 
+-moz-border-radius: 3px;
+border-radius: 3px;
+font-size:12px;
+font-family:arial, helvetica, sans-serif; 
+padding: 5px 5px 5px 5px; 
+text-decoration:none; 
+display:inline-block;
+text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+font-weight:bold; color: #FFFFFF;
+ background-color: #b29af8; background-image: -webkit-gradient(linear, left top, left bottom, from(#b29af8), to(#9174ed));
+ background-image: -webkit-linear-gradient(top, #b29af8, #9174ed);
+ background-image: -moz-linear-gradient(top, #b29af8, #9174ed);
+ background-image: -ms-linear-gradient(top, #b29af8, #9174ed);
+ background-image: -o-linear-gradient(top, #b29af8, #9174ed);
+ background-image: linear-gradient(to bottom, #b29af8, #9174ed);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#b29af8, endColorstr=#9174ed);
+}
+
+.btn_MyPage:hover{
+ border:1px solid #693bf1;
+ background-color: #8e6af5; background-image: -webkit-gradient(linear, left top, left bottom, from(#8e6af5), to(#6d47e7));
+ background-image: -webkit-linear-gradient(top, #8e6af5, #6d47e7);
+ background-image: -moz-linear-gradient(top, #8e6af5, #6d47e7);
+ background-image: -ms-linear-gradient(top, #8e6af5, #6d47e7);
+ background-image: -o-linear-gradient(top, #8e6af5, #6d47e7);
+ background-image: linear-gradient(to bottom, #8e6af5, #6d47e7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#8e6af5, endColorstr=#6d47e7);
+}
+
 
 /* MENU */
 
@@ -106,6 +184,7 @@
 
 #nav li ul 
 
+
 </style>
 
 <script type="text/javascript">
@@ -147,22 +226,23 @@ window.fbAsyncInit = function() {
 <!-- Navigation 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container" style="background-color: white;">
-<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 -->
+<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 --> 
+    
 <ul id="nav">
 <li style="width:90px;">
-<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/done.jpg" width="50px"></a><!--  기부 -->
+<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/donation_btn.jpg" width="90px"></a><!--  기부 -->
 <ul>
-	<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()">인권</a></li>
-	<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=ANIMAL" onclick="search_Enter()">동물</a></li>
+	<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
+	<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
 	<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
 </ul>
 </li> 
 <li style="width:90px;text-align: center;">
-<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/funding.jpg" width="55px"></a><!--  펀딩 -->
+<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/funding.jpg" width="90px"></a><!--  펀딩 -->
 <ul>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()">음식</a></li>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()">IT</a></li>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()">동물</a></li>
+	<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
+	<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
+	<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
 	<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
 </ul>
 </li>
@@ -170,13 +250,28 @@ window.fbAsyncInit = function() {
   <a href="newProject.do"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
   </li>
   </ul>
-    
-     <form id="_frmFormSearch" name="frmForm1">
-	 	<input type="text" value="${s_keyword }" name="s_keyword" id="s_keywordTextField" style="width: 200px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
-		<a href="#none" id="search_Btn">검색</a>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <form id="_frmFormSearch" name="frmForm1">
+		<div class="box">
+		  <div class="container-4">
+		    <input type="search" id="search" placeholder="Search..." />
+		    <button class="icon"><i class="fa fa-search"></i></button>
+		  </div>
+		</div>
+	 	
+	 	<%-- <input class="" type="text" placeholder="Search..."
+	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
+	 	
+	 	<%-- <input class="field" type="text" placeholder="Search..."
+	 	style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
+	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
+	 	
+		<!-- <a href="#none" id="search_Btn"><button type="submit"  class=''>검색</button></a> -->
 		<!-- controller로 넘겨주기 위한 값 -->
 		<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
+	    
 	</form>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -198,7 +293,8 @@ window.fbAsyncInit = function() {
 						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
 					</c:when>
 					<c:otherwise>
-						<button type="button" onclick="location.href='myPage.do?id=${login.id}'">마이페이지</button>		
+						<button type="button" onclick="location.href='myPage.do?id=${login.id}'"
+						class="btn_MyPage">마이페이지</button>		
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -252,47 +348,39 @@ window.fbAsyncInit = function() {
 		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
 	}
     
+// 상단바 js 부분
     
-    
-    // 상단바 js 부분
-    
-    var site = function() {
-	this.navLi = $('#nav li').children('ul').hide().end();
-	this.init();
+var site = function() {
+this.navLi = $('#nav li').children('ul').hide().end();
+this.init();
 };
-
 site.prototype = {
- 	
- 	init : function() {
- 		this.setMenu();
- 	},
- 	
- 	// Enables the slidedown menu, and adds support for IE6
- 	
- 	setMenu : function() {
- 	
- 	$.each(this.navLi, function() {
- 		if ( $(this).children('ul')[0] ) {
- 			$(this)
- 				.append('<span />')
- 				.children('span')
- 					.addClass('hasChildren')
- 		}
- 	});
- 	
- 		this.navLi.hover(function() {
- 			// mouseover
-			$(this).find('> ul').stop(true, true).slideDown('slow');
- 		}, function() {
- 			// mouseout
- 			$(this).find('> ul').stop(true, true).hide(); 		
-		});
- 		
- 	}
- 
+	 	
+	init : function() {
+		this.setMenu();
+	},
+	
+	// Enables the slidedown menu, and adds support for IE6
+	
+	setMenu : function() {
+	
+	$.each(this.navLi, function() {
+		if ( $(this).children('ul')[0] ) {
+			$(this)
+				.append('<span />')
+				.children('span')
+				.addClass('hasChildren')
+		}
+	});
+	
+	this.navLi.hover(function() {
+		// mouseover
+	$(this).find('> ul').stop(true, true).slideDown('slow');
+	}, function() {
+		// mouseout
+	$(this).find('> ul').stop(true, true).hide(); 		
+	});
+		
+	}
 }
-
-
-new site();
-    
 </script>

@@ -40,16 +40,26 @@ REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; -- 종속 삭제(참조하는 데이터가 삭제되면 함께 삭제)
 
 -------------- VIEW : 프로젝트 전체 내용 
-
-CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED)
+CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS)
 AS
-SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE, P.STATUS,
+SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    NVL((SELECT COUNT(*) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),   
-    NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-    NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-    NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0)
-FROM FUN_PROJECT P;*/
+   NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   (SELECT 
+    CASE 
+        WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
+        WHEN LOWER(STATUS) = 'delete' THEN 'delete'
+        WHEN SDATE >= SYSDATE THEN 'preparing' 
+        WHEN EDATE >= SYSDATE THEN 'ongoing' 
+        WHEN NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
+        ELSE 'complete_fail'  
+     END AS "status" 
+     FROM FUN_PROJECT WHERE SEQ = P.SEQ)
+FROM FUN_PROJECT P;
+*/
 
 public class ProjectDto implements Serializable {
 	
@@ -66,7 +76,7 @@ public class ProjectDto implements Serializable {
 	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
 	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
 	public static final String DELETE = "delete"; // 삭제
-		
+	
 	int seq;  
 	String id; // 작성자
 	String fundtype; // REWARD | DONATION
@@ -90,16 +100,17 @@ public class ProjectDto implements Serializable {
 	int noticecount; // 공지 갯수
 	int likecount; // 좋아요 갯수
 	int fundachived; // 달성 모금액
+	String nickname; // 이름
 	
 	public ProjectDto() {		
 		shipdate = "";
-		status = PREPARING;
+		status = WAITING; // 처음 프로젝트 생성하면 승인 대기 상태로 저장
 	}
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
 			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
 			String shipdate, String regdate, String status, int qnacount, int buycount, int noticecount, int likecount,
-			int fundachived) {
+			int fundachived, String nickname) {
 		this.seq = seq;
 		this.id = id;
 		this.fundtype = fundtype;
@@ -121,9 +132,10 @@ public class ProjectDto implements Serializable {
 		this.noticecount = noticecount;
 		this.likecount = likecount;
 		this.fundachived = fundachived;
+		this.nickname = nickname;
 	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
-			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate, String nickname) {
 		this.id = id;
 		this.fundtype = fundtype;
 		this.category = category;
@@ -137,9 +149,10 @@ public class ProjectDto implements Serializable {
 		this.edate = edate;
 		this.pdate = pdate;
 		this.shipdate = shipdate;
+		this.nickname = nickname;
 	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
-			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate, String nickname) {
 		this.id = id;
 		this.fundtype = fundtype;
 		this.category = category;
@@ -153,6 +166,7 @@ public class ProjectDto implements Serializable {
 		this.edate = edate;
 		this.pdate = pdate;
 		this.shipdate = shipdate;
+		this.nickname = nickname;
 	}
 
 	public int getSeq() {
@@ -278,6 +292,7 @@ public class ProjectDto implements Serializable {
 	}
 
 	public void setRegdate(String regdate) {
+		
 		this.regdate = regdate;
 	}
 
@@ -336,6 +351,30 @@ public class ProjectDto implements Serializable {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
+	
+	public String getDateForm(String datetime) {
+		String date = datetime;
+		if(datetime.lastIndexOf(' ')>-1) {
+			date = datetime.substring(0, datetime.lastIndexOf(' '));
+		}
+		return date;
+	}
+	
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
+	}
+	
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	@Override
 	public String toString() {
@@ -344,7 +383,7 @@ public class ProjectDto implements Serializable {
 				+ Arrays.toString(tags) + ", tag=" + tag + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate="
 				+ sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate
 				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount="
-				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + "]";
+				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + ", nickname=" + nickname + "]";
 	}
 
 	

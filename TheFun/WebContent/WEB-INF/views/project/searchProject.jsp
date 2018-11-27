@@ -35,11 +35,13 @@
 }
 ul.tab li.current{
 	background-color: rgb(129,082,240);
+	selected:selected;
 	color: #222;
 }
 ul.tab li.selected{
 	background-color: rgb(129,082,240);
 	color: #222;
+	
 }
 .tabcontent.current {
 	display: block;
@@ -51,6 +53,7 @@ ul.tab li.selected{
 
 <!-- 몇 건인지 표시하려고 -->
 <div class="container">
+<h5>${totalRecordCount } 건</h5>
 <div class="row">
 <div class="tab">
     <ul class="tab">
@@ -102,7 +105,7 @@ $(function() {
 		$('.tabcontent').removeClass('current');
 		$(this).addClass('current');
 		$('#' + activeTab).addClass('current');
-	})
+	});
 });
 </script>
 

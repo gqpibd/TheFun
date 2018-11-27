@@ -33,7 +33,7 @@
 
 <!-- 메인 -->
 <div style="display: grid"> <!-- 메인뷰 디테일 뉴프로젝트 -->
-	<tiles:insertAttribute name="main" /> 
+	<tiles:insertAttribute name="main"/>		
 </div>
 
 <div style="margin-top: 80px;"></div> <!-- 간격 -->

@@ -15,8 +15,8 @@ public class ProjectParam implements Serializable {
 	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
 	private int pageNumber = 0;				// 페이지 넘버
 	
-	private int start = 1;
-	private int end = 10;
+	private int start;
+	private int end;
 
 	
 	public ProjectParam() {	}

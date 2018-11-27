@@ -32,13 +32,16 @@
 	<!-- Interceptor 설정 -->
 	 <mvc:interceptors>
 	    <mvc:interceptor>
-	        <mvc:mapping path="/myPage.do"/>
-	        <mvc:mapping path="/myInfo.do"/>
+	        <mvc:mapping path="/myPage.do"/>		<!-- 마이페이지 -->
+	        <mvc:mapping path="/myInfo.do"/>		<!-- 내 정보보기 -->
 	        <mvc:mapping path="/goSelectReward.do"/>
 	        <mvc:mapping path="/goOrderReward.do"/>
 	        <mvc:mapping path="/order.do"/>
 	        <mvc:mapping path="/newProject.do"/>
 	        <mvc:mapping path="/newProjectAf.do"/>
+	        <mvc:mapping path="/myOrder.do"/>		<!-- 내 후원 내역 -->
+	        <mvc:mapping path="/myOrderList.do"/>	<!-- 내 후원 내역 controller -->
+	        <mvc:mapping path="/mySchedule.do"/>		<!-- 내 일정 -->
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>
