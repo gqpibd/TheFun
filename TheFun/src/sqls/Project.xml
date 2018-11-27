@@ -90,6 +90,13 @@ FROM FUN_PROJECT P;
 	SELECT * FROM FUN_PROJECTALL WHERE LOWER(STATUS) = 'waiting'
 </select>
 
+<!-- 새 프로젝트 승인 -->
+<update id="approveProject" parameterType="int"> 
+	UPDATE FUN_PROJECT
+	SET STATUS='preparing'
+	WHERE SEQ = #{projectseq}
+</update> 
+
 <!-- 프로젝트 검색 -->
 <select id="searchProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED

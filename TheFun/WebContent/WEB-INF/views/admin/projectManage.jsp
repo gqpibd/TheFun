@@ -23,14 +23,6 @@ table.type08 thead th {
 	background: #dcdcd1;
 }
 
-/* table.type08 thead th {
-	padding: 10px;
-	font-weight: bold;
-	border-top: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 2px solid #c00;
-} */
-
 table.type08 tbody th {
 	padding: 10px;
 	font-weight: bold;
@@ -93,6 +85,8 @@ table.type08 tbody th {
 	border: 1px solid gray;	
 	resize: none;
 }
+
+
 </style>
 
 <div align="center" id="bbsTable">

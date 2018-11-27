@@ -50,48 +50,7 @@
     font-weight: bold;
 }
 
-/* 버튼 */
-.fun_btn {
-	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a78af2), color-stop(1, #8152f0));
-	background:-moz-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-webkit-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-o-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-ms-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:linear-gradient(to bottom, #a78af2 5%, #8152f0 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a78af2', endColorstr='#8152f0',GradientType=0);
-	background-color:#a78af2;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #8152f0;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #7754d1;
-	outline: none;
-}
-.fun_btn:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8152f0), color-stop(1, #a78af2));
-	background:-moz-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-webkit-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-o-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-ms-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:linear-gradient(to bottom, #8152f0 5%, #a78af2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8152f0', endColorstr='#a78af2',GradientType=0);
-	background-color:#8152f0;
-}
-.fun_btn:active {
-	position:relative;
-	top:1px;
-}
+
 /*----------------툴팁----------------*/
 .mtooltip {
     position: absolute;
@@ -209,7 +168,7 @@
 	</c:when>
 	<c:otherwise>
 	비밀댓글 표시필요!!
-	<form action="addQna.do">		
+	<form action="addQna.do" id='newQna'>		
 		<input type="hidden" name="id" value="${login.id}"> <!-- 작성자 아이디 --> 
 		<input type="hidden" name="projectseq" value="${projectdto.seq }"> <!-- 관련 프로젝트 번호 -->		
 		<div align=left style="margin-left:5px">
@@ -219,7 +178,7 @@
 		</div>		
 		<textarea class="mtextarea" id="new_reply_content" placeholder="댓글을 작성해 주세요" name="content" style="height:50px;"></textarea>
 		<div align=right style="padding: 10px">
-			<button class="fun_btn" id="new_reply" type="submit">등록</button>
+			<button class="fun_btn" id="new_reply" type="button" onclick="checkAndSubmit(this)">등록</button>
 		</div>
 	</form>
 	</c:otherwise>
@@ -248,7 +207,7 @@ function addReply(re_btn){       // 댓글에 답글 추가
 	var selector = "[name='" + refseq +"']";
 	var item = "<li class='reply' id='rere_write'>"+
 	"<div class='mwrap' align='center' style='adding: 10px;background: #fff;margin:auto' >"+
-		"<form action='addQna.do'>"+			
+		"<form action='addQna.do' id='addreply'>"+			
 			"<input type='hidden' name='id' value='${login.id}'>" +
 			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +
 			"<input type='hidden' name='refseq' value='"+refseq+"'>" +
@@ -256,9 +215,9 @@ function addReply(re_btn){       // 댓글에 답글 추가
 			"<div align='left'>"+
 				"<img src='${login.profile}' width='10' class='profile re-img' align='middle'>" +
 				"<span class='nickname'>${login.nickname}</span>"+
-				"<textarea class='mtextarea' id='writeReply' placeholder='"+toWhom+"님에게 댓글 작성' name='content'></textarea>"+
+				"<textarea class='mtextarea' id='writeReply' placeholder='"+toWhom+"님에게 댓글 작성' name='content' required></textarea>"+
 				"<div align=right style='padding: 10px'>"+
-					"<button class='fun_btn' type='submit'>등록</button>"+
+					"<button class='fun_btn' type='button' onclick='checkAndSubmit(this)'>등록</button>"+
 	"</div></div></form></div></li>";
 	$(selector).last().parents().eq(2).after(item);
 	console.log($(selector).text());
@@ -282,15 +241,15 @@ function modify(reSeq,content){
 	$("#mcancel").click();
 	var item = "<li class='reply' id='mmodify'>"+
 	"<div class='mwrap' align='center' style='padding: 10px;background: #fff;margin:auto' >"+
-	"<form action='updateQna.do'>"+		
+	"<form action='updateQna.do' id='updateQna'>"+		
 		"<input type='hidden' name='seq' value="+reSeq+">"+
 		"<input type='hidden' name='projectseq' value=${projectdto.seq}>"+
 		"<div align='left'>"+
 			"<img src='${login.profile}' width='10' class='profile re-img' align='middle' >"+ 
 			"<span class='nickname'>${login.nickname}</span>"+
-			"<textarea class='mtextarea' id='writeReply' name='content'>"+content+"</textarea>"+
+			"<textarea class='mtextarea' id='updateReply' name='content'>"+content+"</textarea>"+
 			"<div align=right style='padding: 10px'>"+
-				"<button class='fun_btn' type='submit' style='margin: 5px;'>수정</button>"+
+				"<button class='fun_btn' type='button' onclick='checkAndSubmit(this)'style='margin: 5px;'>수정</button>"+
 				"<button class='fun_btn' type='button' style='margin: 5px;'onclick='deleteReply("+reSeq+")'>삭제</button>"+
 				"<button id='mcancel' class='fun_btn' type='button' style='margin: 5px;'onclick='cancel(this,"+reSeq+")'>취소</button>"+
 	"</div></div></form></div></li>";
@@ -299,6 +258,15 @@ function modify(reSeq,content){
 	origin = $(selector).parents().eq(2).html(); // 현재 내용 저장 --> 취소하면 돌아가야됨
 	//console.log(origin)
 	$(selector).parents().eq(2).replaceWith(item);				
+}
+
+function checkAndSubmit(selector){
+	if($(selector).closest("form").find("textarea").val() != ''){
+		$(selector).closest("form").submit();
+		//console.log($(selector).closest("form").find("textarea").val());
+	}else{
+		console.log("비었음!");
+	}
 }
 </script>
 

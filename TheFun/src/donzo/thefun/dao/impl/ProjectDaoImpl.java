@@ -57,6 +57,12 @@ public class ProjectDaoImpl implements ProjectDao {
 		return sqlSession.selectList(ns+"getWaitingList");
 	}
 	
+	@Override
+	public boolean approveProject(int projectseq) {
+		int n = sqlSession.update(ns + "approveProject", projectseq);		
+		return n>0?true:false;
+	}	
+	
 	/*
 	@Override
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {

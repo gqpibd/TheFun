@@ -39,5 +39,6 @@ public class QnaDaoImpl implements QnaDao {
 	public boolean updateQna(QnaDto dto) {
 		int n = sqlSession.update(ns + "updateQna", dto);		
 		return n>0?true:false;
-	}	
+	}
+
 }

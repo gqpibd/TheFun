@@ -102,7 +102,13 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
 		return projectDao.mySchedule(pro);
 	}
-*/	
+*/
+
+	@Override
+	public boolean approveProject(int projectseq) {
+		return projectDao.approveProject(projectseq);
+		
+	}	
 	
 	
 }

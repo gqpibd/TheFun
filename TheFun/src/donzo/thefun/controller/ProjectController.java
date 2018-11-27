@@ -238,6 +238,15 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 	
+	// 프로젝트 승인
+	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String approve(Model model, int projectseq) throws Exception{
+		logger.info("ProjectController approve " + new Date());
+		projectService.approveProject(projectseq);
+		
+		return "redirect:/projectDetail.do?seq=" + projectseq;
+	}
+	
 	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
@@ -310,13 +319,15 @@ public class ProjectController {
 	}
 	
 	//내 일정 이동 (Calendar==schedule)
-		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-		public String mySchedule(Model model, ProjectDto pro) throws Exception{
-			logger.info("ProjectController myCalendar " + new Date());
-			//model.addAttribute("schedule", projectService.mySchedule(pro));
-			
-			return "mySchedule.tiles";
-		}
+	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String mySchedule(Model model, ProjectDto pro) throws Exception{
+		logger.info("ProjectController myCalendar " + new Date());
+		//model.addAttribute("schedule", projectService.mySchedule(pro));
+		
+		return "mySchedule.tiles";
+	}
+	
+	
 	 
 	/*
 	 참고용 삭제 예정

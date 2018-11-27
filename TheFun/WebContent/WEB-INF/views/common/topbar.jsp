@@ -4,99 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-<style type="text/css">
-.profile{   
-    float: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 33px;
-    margin: 5px;
-    vertical-align: middle;
-    object-fit: cover;
-}
-
-.container-4{
-  overflow: hidden;
-  width: 300px;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.container-4 input#search{
-  width: 250px;
-  height: 40px;
-  background: #F6F6F6;
-  border: none;
-  font-size: 10pt;
-  float: left;
-  color: #000000;
-  padding-left: 15px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.container-4 button.icon{
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
- 
-  border: none;
-  background: #F6F6F6;
-  height: 50px;
-  width: 50px;
-  color: #4f5b66;
-  opacity: 0;
-  font-size: 10pt;
- 
-  -webkit-transition: all .55s ease;
-  -moz-transition: all .55s ease;
-  -ms-transition: all .55s ease;
-  -o-transition: all .55s ease;
-  transition: all .55s ease;
-}
-
-.btn_MyPage{
-border:1px solid #8a66f4; 
--webkit-border-radius: 3px; 
--moz-border-radius: 3px;
-border-radius: 3px;
-font-size:12px;
-font-family:arial, helvetica, sans-serif; 
-padding: 5px 5px 5px 5px; 
-text-decoration:none; 
-display:inline-block;
-text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-font-weight:bold; color: #FFFFFF;
- background-color: #b29af8; background-image: -webkit-gradient(linear, left top, left bottom, from(#b29af8), to(#9174ed));
- background-image: -webkit-linear-gradient(top, #b29af8, #9174ed);
- background-image: -moz-linear-gradient(top, #b29af8, #9174ed);
- background-image: -ms-linear-gradient(top, #b29af8, #9174ed);
- background-image: -o-linear-gradient(top, #b29af8, #9174ed);
- background-image: linear-gradient(to bottom, #b29af8, #9174ed);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#b29af8, endColorstr=#9174ed);
-}
-
-.btn_MyPage:hover{
- border:1px solid #693bf1;
- background-color: #8e6af5; background-image: -webkit-gradient(linear, left top, left bottom, from(#8e6af5), to(#6d47e7));
- background-image: -webkit-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -moz-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -ms-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -o-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: linear-gradient(to bottom, #8e6af5, #6d47e7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#8e6af5, endColorstr=#6d47e7);
-}
-
-
-
-
-
-</style>
-
 <script type="text/javascript">
 window.fbAsyncInit = function() {
 	FB.init({
@@ -105,33 +12,145 @@ window.fbAsyncInit = function() {
 		xfbml : true,
 		version : 'v3.2'
 	});	
-	
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			FB.api('/me',{fields: 'name,email,picture'}, function(res) {			     
-				profile = res.picture.data.url;		
-				console.log("페이스북 로그인 되어있음");
-				console.log(profile);
-				//$("#profile").attr("src",profile);
-			});
-			
-		} else {
-			//console.log("페이스북 로그인 되어있지 않음")
-		}
-	});
-};
-(function(d, s, id) {
+	window.fbApiInit = true; //init flag
+}; 
+/* (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {
-		return;
-	}
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));		
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));	
+ */
+//Load the SDK Asynchronously
+ (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/" + 
+     "en_US" +
+     "/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+ }(document));
 </script>
 
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<style type="text/css">
+.profile {
+	float: none;
+	width: 44px;
+	height: 44px;
+	border-radius: 33px;
+	margin: 5px;
+	vertical-align: middle;
+	object-fit: cover;
+}
+
+.container-4 {
+	overflow: hidden;
+	width: 300px;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.container-4 input#search {
+	width: 250px;
+	height: 40px;
+	background: #F6F6F6;
+	border: none;
+	font-size: 10pt;
+	float: left;
+	color: #000000;
+	padding-left: 15px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.container-4 button.icon {
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: none;
+	background: #F6F6F6;
+	height: 50px;
+	width: 50px;
+	color: #4f5b66;
+	opacity: 0;
+	font-size: 10pt;
+	-webkit-transition: all .55s ease;
+	-moz-transition: all .55s ease;
+	-ms-transition: all .55s ease;
+	-o-transition: all .55s ease;
+	transition: all .55s ease;
+}
+
+.btn_MyPage {
+	border: 1px solid #8a66f4;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-family: arial, helvetica, sans-serif;
+	padding: 5px 5px 5px 5px;
+	text-decoration: none;
+	display: inline-block;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #b29af8;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#b29af8),
+		to(#9174ed));
+	background-image: -webkit-linear-gradient(top, #b29af8, #9174ed);
+	background-image: -moz-linear-gradient(top, #b29af8, #9174ed);
+	background-image: -ms-linear-gradient(top, #b29af8, #9174ed);
+	background-image: -o-linear-gradient(top, #b29af8, #9174ed);
+	background-image: linear-gradient(to bottom, #b29af8, #9174ed);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+		startColorstr=#b29af8, endColorstr=#9174ed);
+	cursor: pointer;
+}
+
+.btn_MyPage:hover {
+	border: 1px solid #693bf1;
+	background-color: #8e6af5;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#8e6af5),
+		to(#6d47e7));
+	background-image: -webkit-linear-gradient(top, #8e6af5, #6d47e7);
+	background-image: -moz-linear-gradient(top, #8e6af5, #6d47e7);
+	background-image: -ms-linear-gradient(top, #8e6af5, #6d47e7);
+	background-image: -o-linear-gradient(top, #8e6af5, #6d47e7);
+	background-image: linear-gradient(to bottom, #8e6af5, #6d47e7);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
+		startColorstr=#8e6af5, endColorstr=#6d47e7);
+}
+</style>
+
+<script type="text/javascript">
+var naverLogin;
+var loginAccount = "thefun"
+var profile = '${login.profile}';
+var auth1;
+
+$(document).ready(function () {		
+	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
+	/* 구글 로그인 정보를 초기화하기 위하여 init */
+	gapi.load('auth2', function() { 
+		auth1 = gapi.auth2.init();
+		if (auth1.isSignedIn.get()) {
+			loginAccount = "구글";
+		}
+	});
+});
+</script>
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-dark">
@@ -194,33 +213,76 @@ window.fbAsyncInit = function() {
   </div>
 </nav>
     
+
 <script type="text/javascript">
-	var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
-	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
-	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
-	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
 	/* 로그아웃 */
 	function logout() {
-		console.log("로그아웃");
+		//console.log("로그아웃");
+		console.log("로그인 계정: " +getLoginAccount());
 		/* 네이버 로그아웃 */
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
-				/* 로그인 상태가 "true" 인 경우  */
-				naverLogin.logout();
+		naverLogin.logout(function(response) { 
+					console.log("네이버 로그아웃");
+				}); 
+		/* naverLogin.getLoginStatus(function (status) {
+			if (status) { // 로그인 상태가 "true" 인 경우 
+				naverLogin.logout(function(response) { 
+					console.log("네이버 로그아웃");
+				});
+				
 			}
-		});		
+		});		 */
 		/* 페이스북 로그아웃 */
 		FB.getLoginStatus(function(response) {
   			if (response.status === 'connected') {
-				FB.logout(function(response) { /* user is now logged out */	}); 
+				FB.logout(function(response) { 
+					console.log("페이스북 로그아웃");
+				});
   			}
 		});
 		/* 카카오 로그아웃 */
-		Kakao.Auth.logout(function () {  alert("카카오로그아웃");});
-    
+		Kakao.Auth.getStatus(function(statusObj){
+			if(statusObj.status == "connected"){
+				Kakao.Auth.logout(function(response) { 
+					console.log("카카오 로그아웃");
+				});
+			}
+		})
+		/* 구글 로그아웃  */
+        if (auth1.isSignedIn.get()) {
+        	console.log("구글 로그아웃");
+        	auth1.signOut(function(response) { 
+				console.log("구글 로그아웃");
+			});
+        }    
 		location.href="logout.do";		
+	}
+
+	function getLoginAccount() {
+		/* 네이버 */
+		naverLogin.getLoginStatus(function (status) {
+			if (status) {
+				loginAccount = "naver";
+				return "naver";
+			}
+		});		
+		/* 페이스북 */
+		FB.getLoginStatus(function(response) {
+  			if (response.status === 'connected') {
+  				loginAccount = "facebook"; 
+  			}
+		});
+		/* 카카오 */
+		Kakao.Auth.getStatus(function(statusObj){
+			if(statusObj.status == "connected"){
+				loginAccount = "kakao";
+			}
+		})
+		/* 구글  */
+       /*  if (auth1.isSignedIn.get()) {
+        	login = "google";
+			count++;
+        } */
+		return loginAccount;
 	}
 	
 	/* 검색버튼 */
@@ -236,5 +298,5 @@ window.fbAsyncInit = function() {
     	$("#_pageNumber").val(0);
     	$("#s_keywordTextField").val($("#s_keywordTextField").val());
 		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
-	}
+	}	
 </script>
