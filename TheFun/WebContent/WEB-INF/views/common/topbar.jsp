@@ -388,4 +388,6 @@ site.prototype = {
 		
 	}
 }
+
+new site();
 </script>
