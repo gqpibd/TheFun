@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+.input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 6px 0 0;
+  padding: 15px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.tb1{
+	min-width: 420px;
+	max-width: 600px;
+}
+
+.tb2{
+	min-width: 420px;
+	max-width: 600px;
+}
+
+/* 미디어 쿼리 */
+
+.main {
+  position: relative;
+  /* left: 0;
+  right: 0; */
+  border-radius: 0;
+  max-width: 900px;   
+  width: 100%;   
+  margin: auto;
+  /* overflow:hidden;   */
+}
+.left {
+  width: 100%;
+  margin: auto;
+ /*  padding-bottom: 0.7rem; */
+}
+.right {
+  /* display: flex; */
+  width: 100%;
+  margin: auto;
+}
+@media screen and (min-width: 55em) {
+  /* .main {
+    max-width: 1000px;   
+    overflow: visible;
+  } */
+  .left {
+    width: 50%;
+    float: left;
+  }
+  .right {
+    width: 50%;
+    float: right;
+  }  
+}
+/* 프로필 사진 */
+.imgbox{
+	display: table-cell; /* 이미시를 세로 가운데 정렬할때 필요 */
+	vertical-align: middle; /* 이미시를 세로 가운데 정렬할때 필요 */
+	position: relative;
+	width: 200px;
+	height: 200px;
+}
+.holder{
+	max-height: 200px;
+	max-width: 200px;	
+	position: relative;
+	z-index: -1;	
+	border-radius: 100%;
+}
+.upload {
+	align-self: center;
+	width: 200px;
+	height: 200px;
+	opacity: 0;
+	/* background-color:red; */
+	cursor: pointer; 
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+} 
+
+
+
+
+
