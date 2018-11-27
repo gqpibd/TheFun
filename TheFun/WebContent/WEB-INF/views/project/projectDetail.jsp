@@ -20,6 +20,9 @@
 body{
 font-family: "Nanum Gothic", sans-serif;
 }
+.pnt { 
+	cursor: pointer; 
+}
 
  .pupple{
  	color:#8152f0;
@@ -271,7 +274,12 @@ $(function () {
 				</ul>
 				<fmt:parseDate value="${projectdto.shipdate}" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
               <p class="liteGray" style="font-size: 15px">예상전달일 :<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일"/></p>
-              <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				<c:if test="${option.stock == option.buycount}">
+				    <p class="pupple"><font style="background-color:#ebe2ff ">&nbsp;매진되었습니다&nbsp;&nbsp;</font></p>
+				</c:if>
+				<c:if test="${option.stock != option.buycount}">
+				    <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				</c:if>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>
           </div>

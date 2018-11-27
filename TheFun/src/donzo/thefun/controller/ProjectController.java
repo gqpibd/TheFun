@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.OptionDto;
@@ -49,7 +50,7 @@ public class ProjectController {
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-				
+		
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		
@@ -86,8 +87,6 @@ public class ProjectController {
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
 
-		//로그인 정보
-		
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(projectSeq));
 		
@@ -99,19 +98,30 @@ public class ProjectController {
 
 	}
 	
+/*	
+	//옵션 재선택
+	@ResponseBody
+	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public List<OptionDto> reloadOption(int[] check, Model model) {
+		
+	
+		//선택한 옵션정보
+		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
+	
+		for(int i=0; i<selectOptions.size();i++) {
+			System.out.println(i+"번째 option :"+selectOptions.get(i));
+		}
+		
+		return selectOptions;
+	}
+*/	
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
 		
-		System.out.println("플잭시퀀스:"+projectSeq);
-		for(int i=0; i<opSeq.length;i++) {
-			System.out.println("옵션시퀀스 : "+opSeq[i]);
-			System.out.println("옵션수량 : "+opCount[i]);
-		}
-		
-		//주문 insert & 옵션재고 update
+		//주문 insert
 		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
-
 		return "redirect:/main.do";
 	}
 	
@@ -270,8 +280,8 @@ public class ProjectController {
 			mainParam.setS_sort("SDATE");
 		}
 		
-//		3페이지씩 보여주려고
-		mainParam.setStart(0);
+//		4페이지씩 보여주려고
+		mainParam.setStart(1);
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
 		
