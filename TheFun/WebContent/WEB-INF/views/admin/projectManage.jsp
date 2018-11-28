@@ -4,92 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<style type="text/css">
-@charset "UTF-8";
-
-table.type08 {
-	border-collapse: collapse;
-	text-align: left;
-	border-left: 1px solid #ccc;
-	margin: 20px 10px;
-}
-
-table.type08 thead th {
-	padding: 10px;
-	font-weight: bold;
-	border-top: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	border-bottom: 2px solid #c00;
-	background: #dcdcd1;
-}
-
-table.type08 tbody th {
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	background: #ececec;
-}
-
-table.type08 td {
-	padding: 10px;
-	vertical-align: top;
-	border: 1px solid #ccc;
-}
-table.type08 th.title {
-	text-align: center;
-}
-
-table.type08 td.content {
-	height : 100px;
-}
-
-textarea {
-	height: 100%;
-	font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
-	width : 100%;
-	background: #fff;
-	border-radius: 3px;
-	line-height: 2em;
-	border: none;	
-	-webkit-transition: height 2s ease;
-	-moz-transition: height 2s ease;
-	-ms-transition: height 2s ease;
-	-o-transition: height 2s ease;
-	transition: height 2s ease;
-	resize: none;
-}
-
-table.type08 {
-	border-collapse: collapse;
-	text-align: left;
-	margin : 10px;
-}
-
-table.type08 tbody th {
-	padding: 10px;
-	font-weight: bold;
-	vertical-align: top;
-	border: 1px solid #ccc;	
-	background: #ececec;
-}
-.center{
-	width : 70%;
-	margin: auto;	
-}
-
-.input {
-	height: 100%;
-	width : 100%;
-	border: 1px solid gray;	
-	resize: none;
-}
-
-
-</style>
+<link rel="stylesheet" href="CSS/admin/manage.css">
 
 <div align="center" id="bbsTable">
+	<div class="h1">
+		<h1>관리자 페이지</h1>
+	</div>
 	<span>승인을 기다리는 프로젝트가 ${pList.size()}개 있습니다.</span>
 	<table class="type08">
 		<col width="70">
@@ -142,7 +62,7 @@ table.type08 tbody th {
 </div>
 <script type="text/javascript">
 $(".hover_tr").mouseover(function () {
-	$(this).children().css("background-color","#F0F5FF");
+	$(this).children().css("background-color","#F7EEF8");
 }).mouseout(function () {
 	$(this).children().css("background-color","#ffffff");		
 });

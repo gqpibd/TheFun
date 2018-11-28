@@ -385,6 +385,19 @@ public class ProjectDto implements Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public String getCategoryKr() {		
+		switch(category.toLowerCase()) {
+		case CATEGORY_FOOD:
+			return "음식";
+		case CATEGORY_ANIMAL:
+			return "동물";
+		case CATEGORY_IT:
+			return "IT";
+		case CATEGORY_HUMAN:
+			return "인권";		
+		}
+		return "";
+	}
 
 	@Override
 	public String toString() {

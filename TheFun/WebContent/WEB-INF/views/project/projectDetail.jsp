@@ -108,6 +108,16 @@ font-family: "Nanum Gothic", sans-serif;
 .fun_btn:focus{
 	outline: none;
 }
+/* 회사 이미지 */
+.profile_img{   
+    float: none;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 4px;
+    vertical-align: middle;
+    object-fit: cover;
+}
 
  </style>
 
@@ -154,8 +164,8 @@ function sendLink() {
     </c:if>
     </div>
    	<br>
-   	<div align="center">
-   		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;
+   	<div align="center">   		
+   		<p><b class="pupple">${projectdto.getCategoryKr()} </b>&nbsp;&nbsp;&nbsp;
    		<font class="strongGray">	
    		 <c:forEach items="${projectdto.tags }" var="tags">
    		 	#${tags }
@@ -217,8 +227,8 @@ function sendLink() {
 		<table style="width: 100%; background-color: white;">
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -292,7 +302,7 @@ $(function () {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><img src="${writer.profile}" style="width:100%"></td>
+				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td>
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>

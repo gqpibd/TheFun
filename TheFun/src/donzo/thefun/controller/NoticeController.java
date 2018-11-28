@@ -32,10 +32,12 @@ public class NoticeController {
 		logger.info(dto.toString());
 		NoticeDto newDto = noticeService.addNotice(dto);
 		logger.info("등록결과: " + newDto.toString());
-		logger.info("날짜:" + UtilFunctions.getDateFormKorean(newDto.getRegdate()));
+		logger.info("날짜:" + newDto.getRegdate());
+		String date = UtilFunctions.getDateFormKorean(newDto.getRegdate());
+		logger.info(date);
 		Map<String, String> rmap = new HashMap<String, String>();
 		rmap.put("number", newDto.getSeq()+"");
-		rmap.put("date", UtilFunctions.getDateFormKorean(newDto.getRegdate()));		
+		rmap.put("date", date);		
 		return rmap;
 	}
 }

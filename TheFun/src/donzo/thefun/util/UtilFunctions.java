@@ -1,6 +1,8 @@
 package donzo.thefun.util;
 
-public class UtilFunctions {
+import java.io.Serializable;
+
+public class UtilFunctions implements Serializable{
 
 	public static String getDateForm(String datetime) {
 		String date = datetime;
@@ -16,6 +18,9 @@ public class UtilFunctions {
 		newdate += datetime.substring(0, 4)+"년";
 		newdate += datetime.substring(5, 7)+"월";
 		newdate += datetime.substring(8, 10)+"일";
+		newdate += " ";
+		newdate += datetime.substring(11, 13)+"시";
+		newdate += datetime.substring(14, 16)+"분";
 		
 		return newdate;		
 	}

@@ -255,7 +255,7 @@ $(document).ready(function () {
 			    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-				<span id="profile"><img class="profile" src="${login.profile}"></span>
+				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
 				<span>${login.nickname}님</span>			
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
 				<c:choose>			
@@ -263,8 +263,6 @@ $(document).ready(function () {
 						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
 					</c:when>
 					<c:otherwise>
-						<button type="button" onclick="location.href='myPage.do?id=${login.id}'"
-						class="btn_MyPage">마이페이지</button>		
 					</c:otherwise>
 				</c:choose>
 			</c:if>
