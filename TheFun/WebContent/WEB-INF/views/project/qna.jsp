@@ -137,7 +137,8 @@
 				 	<img src="${item.profile}" class="profile re-img img_clickable" width="10" align="middle" onclick="location.href='MemberController?command=userPage&id=${item.id}'">
 				 	<font style="font-size: 17px; font-weight: bold;" >${item.nickname}</font>
 					<c:if test="${item.id eq projectdto.id}"> <!-- 게시글 작성자 표시 -->  
-				 		<img src="images/icons/writer.png" width="60"> 
+				 		<!-- <img src="images/icons/writer.png" width="60"> --> 
+				 		<span style="border-radius: 45%; background: #8152f0; color: white; width: 90px; font-size: 5px; padding: 3px 6px 3px 6px"> 작성자 </span>
 				 	</c:if>
 			 	</div>
 			 	<div class="reply_content">

@@ -51,6 +51,7 @@ public class MemberController {
 		logger.info(dto.toString());
 		req.getSession().setAttribute("login", dto);
 		if(callback!=null) {
+			logger.info(callback);
 			return "redirect:/" + callback;
 		}
 		return "redirect:/main.do";

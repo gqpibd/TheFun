@@ -21,10 +21,17 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
         Object obj = session.getAttribute("login");
         logger.info("로그인 상태를 확인합니다"); 
-        logger.info(request.getRequestURI());
         String callbackUri = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+        
+        logger.info(callbackUri);
+        //logger.info(request.getParameter("seq"));
+      
         if ( obj == null ){
             // 로그인이 안되어 있는 상태임으로 로그인 폼으로 다시 돌려보냄(redirect)
+        	String seq = request.getParameter("seq");
+        	if(seq != null) {
+        		callbackUri += "?seq=" + seq;
+        	}
             response.sendRedirect("login.do?callback=" + callbackUri);
             return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
         }

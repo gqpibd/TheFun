@@ -63,7 +63,7 @@ font-family: "Nanum Gothic", sans-serif;
 	padding: 25px;
 }
 
-/* 승인 버튼 */
+/* 버튼 */
 .fun_btn {
 	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
@@ -108,6 +108,7 @@ font-family: "Nanum Gothic", sans-serif;
 .fun_btn:focus{
 	outline: none;
 }
+
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -187,7 +188,7 @@ function sendLink() {
 		<tr height="50">
 			<td> 
 				<a href="goSelectReward.do?seq=${projectdto.seq }">
-					<img src="image/detail/fundBtn.jpg" height="50px">
+					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
 		</tr>
@@ -220,7 +221,7 @@ function sendLink() {
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
 			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>n</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>

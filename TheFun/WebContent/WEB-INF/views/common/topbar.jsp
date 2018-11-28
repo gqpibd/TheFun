@@ -14,14 +14,6 @@ window.fbAsyncInit = function() {
 	});	
 	window.fbApiInit = true; //init flag
 }; 
-/* (function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {return;}
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));	
- */
 //Load the SDK Asynchronously
  (function(d){
      var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
@@ -35,7 +27,7 @@ window.fbAsyncInit = function() {
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-<link rel="stylesheet" href="CSS/common/topbar.css">
+
 <style type="text/css">
 .profile{   
     float: none;

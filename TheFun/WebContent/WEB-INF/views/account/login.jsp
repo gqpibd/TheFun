@@ -259,7 +259,7 @@ function onSignIn(googleUser) {
 <!-- 회원가입 할래? -->
 <script type="text/javascript">
 function willYouSignUp(id,nickname,email,profile){
-	profile
+	//profile
 	/* $.noConflict(); */
 	$.ajax({
 		type:"get",
