@@ -9,8 +9,13 @@
  
 <style type="text/css">
 body{
-font-family: "Nanum Gothic", sans-serif;
+	font-family: "Nanum Gothic", sans-serif;
 }
+
+.pnt { 
+	cursor: pointer; 
+}
+
  .pupple{
  	color:#8152f0;
  	font-weight: bold;
@@ -65,16 +70,17 @@ font-family: "Nanum Gothic", sans-serif;
 <div class="container">
   <div class="my-4" align="center">
     <div align="center" >
-    <form action="addOrder.do">
+    <form action="addOrder.do" name="frm">
     <!-- 메인 -->
       <p class="strongGray">${projectdto.title } </p>
       <br>
       <!-- 옵션테이블 -->
-      <c:forEach items="${selectOptions }" var="options">
-      <input type="hidden" name="opSeq" value="${options.seq }">
+      <c:forEach items="${selectOptions }" var="options" varStatus="status">
 		<table style="width: 70%">
 		<tr>
-			<td class="pupple"align="left" colspan="3">${options.title}</td>
+			<td class="pupple"align="left" colspan="3">
+				<input type="checkbox" value="${options.seq}" name="chekboxs" id="checkbox_${status.count }"> ${options.title}
+			</td>
 		</tr>
 		<tr>
 			<td class="liteGray td1" colspan="3">
@@ -91,9 +97,23 @@ font-family: "Nanum Gothic", sans-serif;
 			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="${options.seq}_p">원
 		</td>
 		</tr>
-		</table> 
+		</table>
 		<br>
 	</c:forEach>    
+	<p align="right" style="width: 70%"><img class="pnt" src="image/detail/deleteBtn.jpg" id="deleteBtn" width="120px;"></p>
+	
+	<hr width="70%">
+	<br>
+	<table style="width: 70%">
+	<tr>
+		<td class="pupple"align="left" >
+			총 결제 금액
+		</td>
+		<td class="pupple"align="right" >
+			원
+		</td>
+	</tr>
+	</table>
 	<hr width="70%">
 	<br>
      <!-- 사용자정보 -->
@@ -185,28 +205,79 @@ font-family: "Nanum Gothic", sans-serif;
 </div>  
 
 <script type="text/javascript">
-function plusVal(seqNum) {
-   	var opCount = Number(document.getElementById(seqNum).value);
-	if(opCount==99){
-		alert("구매가능한 수량보다 많습니다.");
-	}else{
-		opCount+=1;
-     	document.getElementById(seqNum).value =opCount;
-     	//가격변환
-     	
+
+	//수량선택 +
+	function plusVal(seqNum) {
+	   	var opCount = Number(document.getElementById(seqNum).value);
+		if(opCount==99){
+			alert("구매가능한 수량보다 많습니다.");
+		}else{
+			opCount+=1;
+	     	document.getElementById(seqNum).value =opCount;
+	     	//가격변환
+	     	
+		}
 	}
-}
-     	
-function minusVal(seqNum) {
-	var opCount = Number(document.getElementById(seqNum).value);
-	if(opCount==1){
-		alert("0개이하는 선택하실수  없습니다. ");
-		document.getElementById(seqNum).value ="1";
-	}else{
-		opCount-=1;
-       	document.getElementById(seqNum).value =opCount;
-       	//가격변환
-       	
+	
+	//수량선택 -
+	function minusVal(seqNum) {
+		var opCount = Number(document.getElementById(seqNum).value);
+		if(opCount==1){
+			alert("0개이하는 선택하실수  없습니다. ");
+			document.getElementById(seqNum).value ="1";
+		}else{
+			opCount-=1;
+	       	document.getElementById(seqNum).value =opCount;
+	       	//가격변환
+	       	
+		}
 	}
-}	
+	
+	$(document).ready(function (){
+	
+		//선택한 체크박스 value 추출
+		$(document).on("click","#deleteBtn",function (){
+
+			//모든 체크박스 선택시 삭제 불가능
+			var arrlen =$("input[name=chekboxs]:checked").length;
+		/*var allOptionlen = ${fn:length(selectOptions)}
+			
+			//전체선택시
+			if(arrlen==allOptionlen){
+				"전체삭제는 불가능합니다. 다시선택해 주십시오"
+			}else{
+ */			
+				//선택한 체크박스 정보를 담을 배열
+				var opSeqs = new Array(arrlen);
+				var i=0;
+				
+			 	//배열에 옵션시퀀스 입력
+				$("input[name=chekboxs]:checked").each(function() {
+					var test = $(this).val();
+					opSeqs[i]=test;
+					i++;
+				});
+			 	
+			 	//parent. 로 찾아서 해당 child 삭제
+				
+				/* $.ajax({
+					
+					url:"reloadOption.do",
+					type:"post",
+					data:"check="+opSeqs,
+					
+					success:function(data){
+						alert("통신성공");
+						alert(data);
+					},
+					error:function(rq,st,err){
+						alert("통신실패");
+					}
+				}); */
+		//	}
+	
+		});	//onclick 끝
+		
+	});
+	
 </script>

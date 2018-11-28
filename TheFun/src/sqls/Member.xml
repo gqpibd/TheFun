@@ -81,7 +81,7 @@ CREATE TABLE FUN_MEMBER(
 	SET NICKNAME = #{nickname}, PHONE = #{phone}, EMAIL = #{email}, INFO = #{info}, POSTCODE = #{postcode}, ROADADDRESS=#{roadaddress},DETAILADDRESS=#{detailaddress}, PROFILE = #{profile}	
 	<if test="pwd != null and pwd != ''">  <!-- 계정 연동 로그인 -->
 		<!-- 일반 로그인 -->
-		, PWD = #{pwd}		
+		, PWD = #{pwd}
 	</if>	
 	WHERE ID = #{id}	
 </update>

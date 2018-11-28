@@ -3,6 +3,7 @@ package donzo.thefun.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +12,19 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
@@ -49,7 +57,7 @@ public class ProjectController {
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-				
+		
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		
@@ -86,8 +94,6 @@ public class ProjectController {
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
 
-		//로그인 정보
-		
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(projectSeq));
 		
@@ -99,19 +105,30 @@ public class ProjectController {
 
 	}
 	
+/*	
+	//옵션 재선택
+	@ResponseBody
+	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public List<OptionDto> reloadOption(int[] check, Model model) {
+		
+	
+		//선택한 옵션정보
+		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
+	
+		for(int i=0; i<selectOptions.size();i++) {
+			System.out.println(i+"번째 option :"+selectOptions.get(i));
+		}
+		
+		return selectOptions;
+	}
+*/	
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
 		
-		System.out.println("플잭시퀀스:"+projectSeq);
-		for(int i=0; i<opSeq.length;i++) {
-			System.out.println("옵션시퀀스 : "+opSeq[i]);
-			System.out.println("옵션수량 : "+opCount[i]);
-		}
-		
-		//주문 insert & 옵션재고 update
+		//주문 insert
 		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
-
 		return "redirect:/main.do";
 	}
 	
@@ -155,8 +172,7 @@ public class ProjectController {
 		
 		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
 		
-		
-		// 8페이지씩 보여주려고
+		// 6 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
 		pParam.setEnd(end);
 		pParam.setRecordCountPerPage(8);
@@ -203,7 +219,6 @@ public class ProjectController {
 			- 배열값 4개 : 각 옵션의 제목, 내용, 가격, 재고
 			- mainImage : 메인이미지로 등록한 파일명
 		 */
-		
 		logger.info("ProjectController newProjectAf 들어옴 " + new Date());
 		
 		logger.info("newProjectDto : " + newProjectDto.toString());
@@ -238,6 +253,77 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 	
+	
+	
+	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	@ResponseBody	// <== ajax에 필수
+	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
+					method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String editorImgUp(HttpServletRequest req, @RequestBody Article article) {
+		
+		// 이미지 업로드할 경로
+		String uploadPath = "D:\tmp";
+		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
+		
+		String fileName = "";	// 파일명
+		
+		try {
+			// 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement();
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		/* 생략
+		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+				
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONPObject jobj = new JSONPObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		*/
+		
+		
+		/*
+		// 이미지 업로드할 경로
+		// String uploadPath = "D:/WYSIWYG_EDITOR_FILEUPLOAD/upload";
+		String uploadPath = "D:\tmp";
+	    int size = 10 * 1024 * 1024;  // 업로드 사이즈 제한 10M 이하
+		
+		String fileName = ""; // 파일명
+		
+		try{
+	        // 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "utf-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement(); 
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	    // 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+		
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONObject jobj = new JSONObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		 */
+
+		return "";
+	}
+	
 	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
@@ -261,17 +347,14 @@ public class ProjectController {
 			mainParam.setS_summary("");
 		}
 		
-		if(mainParam.getS_sort() == null) {
+		if(mainParam.getS_sort() == null || mainParam.getS_sort().equals("")) {
 			mainParam.setS_sort("FUNDACHIVED");
-		}
-		else if(mainParam.getS_sort().equals("buycountDESC")) {
+		} else if(mainParam.getS_sort().equals("buycountDESC")) {
 			mainParam.setS_sort("BUYCOUNT");
 		} else if(mainParam.getS_sort().equals("fundachivedDESC")) {
 			mainParam.setS_sort("FUNDACHIVED");
 		} else if(mainParam.getS_sort().equals("sdateDESC")) {
 			mainParam.setS_sort("SDATE");
-		} else {
-			mainParam.setS_sort("FUNDACHIVED");
 		}
 		
 //		4페이지씩 보여주려고
@@ -309,12 +392,18 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 	
-	//내 일정 이동 (Calendar==schedule)
+	//내 일정 이동 (내 프로젝트 보기)
 		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
 		public String mySchedule(Model model, ProjectDto pro) throws Exception{
 			logger.info("ProjectController myCalendar " + new Date());
-			//model.addAttribute("schedule", projectService.mySchedule(pro));
 			
+			List<ProjectDto> myschedule = projectService.mySchedule(pro);
+			
+			for (int i = 0; i < myschedule.size(); i++) {
+				ProjectDto dto = myschedule.get(i);
+				logger.info("Schedule list : " + dto.toString());
+			}
+			model.addAttribute("schedule", myschedule);
 			return "mySchedule.tiles";
 		}
 	 

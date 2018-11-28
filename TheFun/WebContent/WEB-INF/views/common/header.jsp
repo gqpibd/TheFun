@@ -5,6 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/> 
 
+<!-- bootstrap icon -->
+<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+
 <!-- Bootstrap core CSS -->
 <link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- v4.1.1  -->
 <!-- Custom styles for this template -->
@@ -40,3 +43,5 @@
 <meta name="description" content="">
 <meta name="author" content=""> 
 
+<!-- Custom styles for this template -->
+<link href="CSS/detailcss/blog-post.css" rel="stylesheet">

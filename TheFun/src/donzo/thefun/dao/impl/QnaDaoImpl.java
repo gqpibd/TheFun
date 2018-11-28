@@ -22,5 +22,22 @@ public class QnaDaoImpl implements QnaDao {
 	@Override
 	public List<QnaDto> getQnaList(int seq) {
 		return sqlSession.selectList(ns + "getQnaList", seq);
+	}
+
+	@Override
+	public int addQna(QnaDto newQna) {
+		return sqlSession.insert(ns + "addNewQna", newQna);		
+	}
+
+	@Override
+	public boolean delQna(int seq) {
+		int n = sqlSession.update(ns + "delQna", seq);		
+		return n>0?true:false;
+	}
+
+	@Override
+	public boolean updateQna(QnaDto dto) {
+		int n = sqlSession.update(ns + "updateQna", dto);		
+		return n>0?true:false;
 	}	
 }

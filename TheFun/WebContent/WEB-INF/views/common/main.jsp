@@ -22,30 +22,11 @@
 	 </div>
 	 <!-- /.row -->
 	    
-	<!-- 카테고리 -->
-	<br><br><br>
-	<div align="center">
-	<table style="text-align: center;" border="1" class="type03">
-		<col width="150px"><col width="150px"><col width="150px"><col width="150px">
-		<tr>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_keyword=<%=ProjectDto.TYPE_REWARD%>" onclick="search_Enter()">리워드 전체</a></td>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_FOOD%>&s_keyword=<%=ProjectDto.CATEGORY_FOOD%>"  onclick="search_Enter()">음식</a></td>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_IT%>&s_keyword=<%=ProjectDto.CATEGORY_IT%>"  onclick="search_Enter()">IT</a></td>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_REWARD%>&s_category=<%=ProjectDto.CATEGORY_ANIMAL%>&s_keyword=<%=ProjectDto.CATEGORY_ANIMAL%>"  onclick="search_Enter()">동물-리워드</a></td>
-		</tr>
-		<tr>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_DONATION%>&s_keyword=<%=ProjectDto.TYPE_DONATION%>" onclick="search_Enter()">기부 전체</a></td>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_DONATION%>&s_category=<%=ProjectDto.CATEGORY_HUMAN%>&s_keyword=<%=ProjectDto.CATEGORY_HUMAN%>" onclick="search_Enter()">인권</a></td>
-			<td><a href="searchProjectList.do?s_type=<%=ProjectDto.TYPE_DONATION%>&s_category=<%=ProjectDto.CATEGORY_ANIMAL%>&s_keyword=<%=ProjectDto.CATEGORY_ANIMAL%>" onclick="search_Enter()">동물-기부</a></td>	
-			<td></td>
-		</tr>
-	</table>
-	</div>
 	
 	<div style="margin-bottom: 100px;"></div>
 	
 	<!-- 리스트 -->
-	<h3 class="my-4">HOT 프로젝트(구매많은순-모금액순)</h3>
+	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
 	<div align="right"><a href="searchProjectList.do">see all</a></div>
 </div>
 

@@ -17,5 +17,5 @@ public interface ProjectDao {
 
 	public List<ProjectDto> getWaitingList();
 	
-//	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
 }
