@@ -93,9 +93,6 @@ function sendLink() {
 } 
 </script>	    
 <!-- 남은날짜계산 -->
-<!-- 프로젝트 오픈전 -->
-
-<!-- 프로젝트 오픈후 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>

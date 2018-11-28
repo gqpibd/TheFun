@@ -37,12 +37,14 @@ body{
   text-align:left;
   font-size:large;
 	 color: #5c5c5c;
+	 padding-bottom: 10px;
  }
  
 .profile{
-  text-align:left;
-  font-size:large;
+  	text-align:left;
+  	font-size:large;
 	 color: #818181;
+	 padding-bottom: 10px;
  }
  
 .td1{
@@ -92,19 +94,20 @@ body{
 		 	 </ul>
 		</td>
 		<td class="td2 liteGray">
-			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3">개 &nbsp;
+			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})">
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
 		</td>
 		<td class="liteGray td3">
-			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="price_${options.seq}">원
+			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
+			
 			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>    
 	</table>
 	<br>
-	<p align="right" style="width: 70%"><img class="pnt" src="image/detail/deleteBtn.jpg" id="deleteBtn" width="120px;"></p>
+	<p align="right" style="width: 70%"><img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;"></p>
 	
 	<hr width="70%">
 	<br>
@@ -114,50 +117,81 @@ body{
 			총 결제 금액
 		</td>
 		<td class="pupple"align="right" >
-			원
+			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원
 		</td>
 	</tr>
 	</table>
 	<hr width="70%">
-	<br>
+	<br><br>
      <!-- 사용자정보 -->
-     	<table style="width: 70%" class="td1">
+     	<table style="width: 70%; padding: 20px;" class="td1">
+     	<tr>
+     		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle"><b>이름</b></td>
+     	</tr>
+     	<tr>
+     		<td class="profile"><input size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle"><b>이메일</b></td>
+     	</tr>
+     	<tr>
+     		<td class="profile"><input size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle"><b>휴대폰 번호</b></td>
+     	</tr>
+     	<tr>
+     		<td class="profile">
+     		<c:if test="${empty login.phone}">
+     			<input size="50px;"value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
+     		</c:if>
+     		<c:if test="${login.phone}">
+     			<input size="50px;"value="${login.phone}" readonly="readonly"style="padding: 5px;">
+     		</c:if>
+     		</td>
+     	</tr>
+     	</table>
+		<br><br>
+		<!-- 배송지정보 -->
+     	<table style="width: 70%; padding: 20px;" class="td1">
+     	<tr>
+     		<td style="padding-bottom: 30px;"><img src="image/detail/deli.jpg" width="120px;"></td>
+     	</tr>
      	<tr>
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile">${login.nickname}</td>
-     	</tr>
-     	<tr>
-     		<td class="profiletitle">이메일</td>
-     	</tr>
-     	<tr>
-     		<td class="profile">${login.email}</td>
+     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile">${login.phone}</td>
+     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
-     		<td class="profiletitle">배송지</td>
+     		<td class="profiletitle">주소</td>
      	</tr>
      	<tr>
-     		<td class="profile">${login.postcode} ${login.roadaddress} ${login.detailaddress}</td>
+     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	</table>
+     	
      	<br><br>
      	<div style="width: 70%" align="left">
      	<p class="strongGray" style="">더펀 리워드 펀딩은 결제예약 시스템을 이용합니다.</p>
      	<ul class="liteGray" >
-<li>쇼핑하기처럼 바로 결제되지 않습니다. 프로젝트의 성공여부에 따라 결제가 실행됩니다.</li>
-<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
-<li>프로젝트 종료일(${projectdto.edate }) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
-	<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
-</ul>
+			<li>쇼핑하기처럼 바로 결제되지 않습니다. 프로젝트의 성공여부에 따라 결제가 실행됩니다.</li>
+			<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
+			<li>프로젝트 종료일(<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
+			<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
+		</ul>
 </div>
-      	<br><br>
+<br><br>
       	<!-- 결제정보입력 테이블 -->
 <table style="width: 70%">
 <tr>
@@ -254,12 +288,14 @@ body{
 
 			//체크된 갯수
 			var arrlen =$("input[name=chekboxs]:checked").length;
-			alert("선택옵션"+arrlen);
+
 			//옵션의 전체갯수
 			var allOptionlen = $("input[name=chekboxs]").length;
-			alert("옵션의 전체갯수"+allOptionlen);
-			
-			if(arrlen==allOptionlen){
+
+			if(arrlen==0){
+				alert("삭제할 리워드를 선택해주세요");
+				
+			}else if(arrlen==allOptionlen){
 				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
 				
 			}else{
@@ -280,8 +316,7 @@ body{
 	
 		});	//onclick 끝
 		
-		
-		
+
 		
 		
 	});

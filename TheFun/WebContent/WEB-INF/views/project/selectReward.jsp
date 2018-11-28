@@ -90,7 +90,7 @@ td{
          }
      }
      if(!isChecked){
-         alert("옵션을 한개 이상 선택해주세요.");
+         alert("최소 1개 이상의 리워드를 선택해주세요.");
          return false;
      }else{
     	 
