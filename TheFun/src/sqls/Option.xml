@@ -22,10 +22,4 @@
 	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
 </insert> 
 
-<!-- 구매후 옵션 재고 update -->
-<update id="updateStock" parameterType="donzo.thefun.model.OptionDto">
-	UPDATE FUN_OPTION SET STOCK=#{stock} 
-	WHERE SEQ=#{seq}
-</update>
-
 </mapper>

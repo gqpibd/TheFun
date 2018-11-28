@@ -10,8 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
  
-<title>The Fun_상세페이지</title>
-
+<title>The Fun_${projectdto.title }</title>
+ 
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
@@ -140,9 +140,6 @@ function sendLink() {
 } 
 </script>	    
 <!-- 남은날짜계산 -->
-<!-- 프로젝트 오픈전 -->
-
-<!-- 프로젝트 오픈후 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -170,7 +167,7 @@ function sendLink() {
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
+			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate+1}일 남음</b></td>
 		</tr>
 		<tr height="50">
 			<td class="strongGray sTd">
@@ -183,7 +180,7 @@ function sendLink() {
 			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
+			<td class="strongGray sTd"><b style="font-size: 20px">${sponserCount}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<td> 
@@ -334,8 +331,8 @@ $(function () {
             </div>
           </div>
           </c:forEach>
-          
 		<!-- side옵션 끝 -->
+		
      	 </div>
      	<!-- sidebar 끝 -->
 

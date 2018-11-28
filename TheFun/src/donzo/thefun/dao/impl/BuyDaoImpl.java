@@ -27,7 +27,12 @@ public class BuyDaoImpl implements BuyDao {
 
 	@Override
 	public void addOrders(BuyDto buy) {
-			sqlSession.insert(ns+"addOrders", buy);
+		sqlSession.insert(ns+"addOrders", buy);
+	}
+
+	@Override
+	public int sponsorCount(int projectSeq) {
+		return sqlSession.selectOne(ns+"sponsorCount",projectSeq);
 	}
 	
 	

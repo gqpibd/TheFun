@@ -37,6 +37,14 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	 
+	//주문완료
+	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
+		
+		//주문 insert
+		buyService.addOrders(loginId,projectSeq, opSeq, opCount);
+		return "redirect:/main.do";
+	}
 	
 	/*-------------이 아래는 페이지 이동--------------*/
 	

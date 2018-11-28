@@ -28,7 +28,6 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
-import donzo.thefun.service.BuyService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
 
@@ -40,8 +39,6 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
-	@Autowired
-	BuyService buyservice;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -60,8 +57,9 @@ public class ProjectController {
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		
-		//새소식 가져오기 
+		//댓글 가져오기 
 		model.addAttribute("qnaList",projectService.getQna(seq));
+		
 		return "projectDetail.tiles";
 	}
 	
@@ -78,13 +76,17 @@ public class ProjectController {
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goSelectReward(int seq,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-	
+
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
 		
+		//기부일 경우
+		
+		
+		//리워드일 경우
+		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-		
 		return "selectReward.tiles";
 	}
 	
@@ -103,34 +105,7 @@ public class ProjectController {
 		return "orderReward.tiles";
 
 	}
-	
-/*	
-	//옵션 재선택
-	@ResponseBody
-	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public List<OptionDto> reloadOption(int[] check, Model model) {
 		
-	
-		//선택한 옵션정보
-		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
-	
-		for(int i=0; i<selectOptions.size();i++) {
-			System.out.println(i+"번째 option :"+selectOptions.get(i));
-		}
-		
-		return selectOptions;
-	}
-*/	
-	
-	//주문완료
-	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
-		
-		//주문 insert
-		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
-		return "redirect:/main.do";
-	}
-	
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProjectList(Model model, ProjectParam pParam) throws Exception{
