@@ -8,7 +8,7 @@ import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.QnaDto;
-
+    
 public interface ProjectService {
 	
 	//프로젝트 디테일 select (프로젝트 seq)
@@ -35,5 +35,6 @@ public interface ProjectService {
 
 	public boolean approveProject(int projectseq);
 	
-//	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	//schedule
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
 }

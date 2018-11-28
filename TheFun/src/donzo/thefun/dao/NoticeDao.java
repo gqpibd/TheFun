@@ -9,4 +9,10 @@ public interface NoticeDao {
 
 	public List<NoticeDto> getNotice(int seq);
 
+	public int addNotice(NoticeDto dto);
+
+	public NoticeDto selectNotice(NoticeDto dto);
+
+	
+
 }

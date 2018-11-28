@@ -37,10 +37,12 @@
 <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans|Do+Hyeon|Jua|Noto+Sans+KR|Noto+Serif+KR:400,500,600,700,900" rel="stylesheet">
 
 <!-- topbar css -->
-<link rel="stylesheet" href="CSS/topbar.css">
+<link rel="stylesheet" href="CSS/common/topbar.css">
 
 <!-- main CSS설정 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content=""> 
 
+<!-- Custom styles for this template -->
+<link href="CSS/detailcss/blog-post.css" rel="stylesheet">

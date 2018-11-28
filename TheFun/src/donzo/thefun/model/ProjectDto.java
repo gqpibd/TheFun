@@ -102,6 +102,7 @@ public class ProjectDto implements Serializable {
 	int noticecount; // 공지 갯수
 	int likecount; // 좋아요 갯수
 	int fundachived; // 달성 모금액
+	String nickname; // 이름
 	
 	public ProjectDto() {		
 		shipdate = "";
@@ -111,7 +112,7 @@ public class ProjectDto implements Serializable {
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
 			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
 			String shipdate, String regdate, String status, int qnacount, int buycount, int noticecount, int likecount,
-			int fundachived) {
+			int fundachived, String nickname) {
 		this.seq = seq;
 		this.id = id;
 		this.fundtype = fundtype;
@@ -133,9 +134,10 @@ public class ProjectDto implements Serializable {
 		this.noticecount = noticecount;
 		this.likecount = likecount;
 		this.fundachived = fundachived;
+		this.nickname = nickname;
 	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
-			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate, String nickname) {
 		this.id = id;
 		this.fundtype = fundtype;
 		this.category = category;
@@ -149,9 +151,10 @@ public class ProjectDto implements Serializable {
 		this.edate = edate;
 		this.pdate = pdate;
 		this.shipdate = shipdate;
+		this.nickname = nickname;
 	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
-			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate) {
+			String[] tags, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate, String nickname) {
 		this.id = id;
 		this.fundtype = fundtype;
 		this.category = category;
@@ -165,6 +168,7 @@ public class ProjectDto implements Serializable {
 		this.edate = edate;
 		this.pdate = pdate;
 		this.shipdate = shipdate;
+		this.nickname = nickname;
 	}
 
 	public int getSeq() {
@@ -374,6 +378,13 @@ public class ProjectDto implements Serializable {
 		}
 		return false;
 	}
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
 	@Override
 	public String toString() {
@@ -382,7 +393,7 @@ public class ProjectDto implements Serializable {
 				+ Arrays.toString(tags) + ", tag=" + tag + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate="
 				+ sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate
 				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount="
-				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + "]";
+				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + ", nickname=" + nickname + "]";
 	}
 
 	

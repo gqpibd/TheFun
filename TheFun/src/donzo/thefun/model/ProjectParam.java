@@ -16,39 +16,30 @@ public class ProjectParam implements Serializable {
 	private int pageNumber = 0;				// 페이지 넘버
 	
 	private int start = 1;
-	private int end = 10;
+	private int end = 8;
 
 	
 	public ProjectParam() {	}
 
-	
-
 	public String getS_sort() {
 		return s_sort;
 	}
-
-
-
+	
 	public void setS_sort(String s_sort) {
 		this.s_sort = s_sort;
 	}
-
-
 
 	public String getS_type() {
 		return s_type;
 	}
 
-
 	public void setS_type(String s_type) {
 		this.s_type = s_type;
 	}
 
-
 	public String getS_category() {
 		return s_category;
 	}
-
 
 	public void setS_category(String s_category) {
 		this.s_category = s_category;

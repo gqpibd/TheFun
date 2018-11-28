@@ -35,7 +35,13 @@
 }
 ul.tab li.current{
 	background-color: rgb(129,082,240);
+	selected:selected;
 	color: #222;
+}
+ul.tab li.selected{
+	background-color: rgb(129,082,240);
+	color: #222;
+	
 }
 .tabcontent.current {
 	display: block;
@@ -47,38 +53,14 @@ ul.tab li.current{
 
 <!-- 몇 건인지 표시하려고 -->
 <div class="container">
+<h5>${totalRecordCount } 건</h5>
 <div class="row">
-<%-- <p>${totalRecordCount } 건</p> --%>
-
-<!-- 정렬기준 -->
-<!-- <ul class="tab">
-	<li data-tab="tab1" data-sort-method="buycountDESC"><a href="#none">참여 많은 순</a><li>
-	<li data-tab="tab2" data-sort-method="fundachivedDESC"><a href="#none">모금액 순</a><li>
-	<li data-tab="tab3" data-sort-method="sdateDESC"><a href="#none">최신 순</a><li>
-</ul> -->
-
 <div class="tab">
     <ul class="tab">
      <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=buycountDESC">참여순</a></li>
      <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=fundachivedDESC">모금액순</a></li>
      <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=sdateDESC">최신순</a></li>
-     
-     <%--
-     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=LIKECOUNT">좋아요수</a></li>
-     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=DOWNCOUNT">다운로드수</a></li>
-     <li><a href="PdsController?command=keyword&tags=<%=keyword %>&choice=READCOUNT">읽은수</a></li> --%>
     </ul>
-      	<%-- <li><a href="#" id="current"><%=keywordkey %></a>
-         <ul>
-          <li><a href="searchProjectList.do?command=keyword&tags=자연&choice=<%=choice %>">자연</a></li>
-          <li><a href="PdsController?command=keyword&tags=인물&choice=<%=choice %>">인물</a></li>
-          <li><a href="PdsController?command=keyword&tags=음식&choice=<%=choice %>">음식</a></li>
-          <li><a href="PdsController?command=keyword&tags=과학&choice=<%=choice %>">과학</a></li>
-          <li><a href="PdsController?command=keyword&tags=디자인&choice=<%=choice %>">디자인</a></li>
-          <li><a href="PdsController?command=keyword&tags=기타&choice=<%=choice %>">기타</a></li>
-         </ul>
-      </li>
-      --%>
 </div>
 
 </div>
@@ -123,7 +105,7 @@ $(function() {
 		$('.tabcontent').removeClass('current');
 		$(this).addClass('current');
 		$('#' + activeTab).addClass('current');
-	})
+	});
 });
 </script>
 

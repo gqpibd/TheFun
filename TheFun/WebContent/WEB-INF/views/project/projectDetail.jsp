@@ -20,6 +20,9 @@
 body{
 font-family: "Nanum Gothic", sans-serif;
 }
+.pnt { 
+	cursor: pointer; 
+}
 
  .pupple{
  	color:#8152f0;
@@ -60,7 +63,7 @@ font-family: "Nanum Gothic", sans-serif;
 	padding: 25px;
 }
 
-/* 승인 버튼 */
+/* 버튼 */
 .fun_btn {
 	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
@@ -105,6 +108,7 @@ font-family: "Nanum Gothic", sans-serif;
 .fun_btn:focus{
 	outline: none;
 }
+
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -184,7 +188,7 @@ function sendLink() {
 		<tr height="50">
 			<td> 
 				<a href="goSelectReward.do?seq=${projectdto.seq }">
-					<img src="image/detail/fundBtn.jpg" height="50px">
+					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
 		</tr>
@@ -217,7 +221,7 @@ function sendLink() {
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
 			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>n</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -320,7 +324,12 @@ $(function () {
 				</ul>
 				<fmt:parseDate value="${projectdto.shipdate}" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
               <p class="liteGray" style="font-size: 15px">예상전달일 :<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일"/></p>
-              <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				<c:if test="${option.stock == option.buycount}">
+				    <p class="pupple"><font style="background-color:#ebe2ff ">&nbsp;매진되었습니다&nbsp;&nbsp;</font></p>
+				</c:if>
+				<c:if test="${option.stock != option.buycount}">
+				    <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				</c:if>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>
           </div>
