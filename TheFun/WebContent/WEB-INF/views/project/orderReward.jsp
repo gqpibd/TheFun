@@ -9,11 +9,9 @@
 body{
 	font-family: "Nanum Gothic", sans-serif;
 }
-
 .pnt { 
 	cursor: pointer; 
 }
-
  .pupple{
  	color:#8152f0;
  	font-weight: bold;
@@ -75,7 +73,7 @@ body{
       <p class="strongGray">${projectdto.title } </p>
       <br>
       <!-- 옵션테이블 -->
-      <table style="width: 70%">
+      <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
 		
 		<tr id="tr_${options.seq}">
@@ -86,7 +84,7 @@ body{
 			</td>
 		</tr>
 		<tr id="tr2_${options.seq}">
-			<td class="liteGray td1" colspan="3">
+			<td class="liteGray td1">
 			<ul>
 			 <c:forEach items="${options.content}" var="item">
 		  		<li class="liteGray">${item}</li>
@@ -99,30 +97,36 @@ body{
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
 		</td>
 		<td class="liteGray td3">
-			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			
+			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
 			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
-	</c:forEach>    
-	</table>
-	<br>
-	<p align="right" style="width: 70%"><img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;"></p>
-	
-	<hr width="70%">
-	<br>
-	<table style="width: 70%">
+	</c:forEach>
+	<tr>
+		<td align="right" style="padding-top: 20px;" colspan="3">
+			<img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;">
+		</td>
+	</tr>
+	<tr>
+	<td colspan="3">
+		<hr>
+	</td>
+	</tr>
 	<tr>
 		<td class="pupple"align="left" >
 			총 결제 금액
 		</td>
+		<td></td>
 		<td class="pupple"align="right" >
 			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원
 		</td>
 	</tr>
 	</table>
+	<br>
 	<hr width="70%">
 	<br><br>
+	
+	
      <!-- 사용자정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
@@ -132,13 +136,13 @@ body{
      		<td class="profiletitle"><b>이름</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>이메일</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>휴대폰 번호</b></td>
@@ -146,14 +150,16 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input size="50px;"value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
+     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
      		</c:if>
      		<c:if test="${login.phone}">
-     			<input size="50px;"value="${login.phone}" readonly="readonly"style="padding: 5px;">
+     			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
      		</c:if>
      		</td>
      	</tr>
      	</table>
+     	
+     	
 		<br><br>
 		<!-- 배송지정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -164,19 +170,19 @@ body{
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	</table>
      	
@@ -282,7 +288,20 @@ body{
 	}
 	
 	$(document).ready(function (){
-	
+		
+		var size = $("input[name='priceName']").length;
+		var priceArr = new Array(size);
+		var tPrice=0;
+		
+		//같은 name 밸류 전부 저장 
+		$("input[name='priceName']").each(function (i) {
+            priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
+            tPrice = tPrice+priceArr[i];
+       });
+		
+		//모든 옵션 + .. 하지만 체크박스삭제하면 가격변동없음
+		$("#finalPrice").val(tPrice);
+		
 		//선택한 체크박스 value 추출
 		$(document).on("click","#deleteBtn",function (){
 

@@ -10,8 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
  
-<title>The Fun_상세페이지</title>
-
+<title>The Fun_${projectdto.title }</title>
+ 
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
