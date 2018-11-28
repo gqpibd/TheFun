@@ -172,7 +172,7 @@ public class ProjectController {
 		
 		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
 		
-		// 6 프로젝트씩 보여주려고
+		// 8 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
 		pParam.setEnd(end);
 		pParam.setRecordCountPerPage(8);
