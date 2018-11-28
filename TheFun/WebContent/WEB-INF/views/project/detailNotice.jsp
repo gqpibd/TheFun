@@ -65,7 +65,7 @@
 </style>
 <table style="width: 100%">
 <tr>
-	<td align="left" class="strongGray">새소식 <strong class="pupple" id="noticecount">${projectdto.noticecount}</strong>건</td>
+	<td align="left" class="strongGray">판매자 공지 <strong class="pupple" id="noticecount">${projectdto.noticecount}</strong>건</td>
 	
 	<!-- if 작성자라면 공지 작성 가능-->
 	<c:if test="${login ne null and login.id eq projectdto.id}">

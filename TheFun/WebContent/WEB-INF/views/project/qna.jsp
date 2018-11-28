@@ -96,7 +96,7 @@
 <ul id="replies" class="list_reply"> 
 	<c:choose>
 	<c:when test="${qnaList eq null or qnaList.size() == 0}"><!-- list가 null 일 때 -->
-		<li>등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
+		<li style="text-align: center;">등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
 	</c:when>
 	<c:otherwise>	<!-- 댓글이 하나라도 있을 때 -->	
 	<c:forEach items="${qnaList}" var="item" varStatus="vs">		

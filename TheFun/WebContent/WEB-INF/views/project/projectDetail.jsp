@@ -190,14 +190,16 @@ function sendLink() {
 			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${sponserCount}</b>명의 서포터
+			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
-		<tr height="50">
+		<tr height="50">		
+		<c:if test="${projectdto.isOngoing()}">
 			<td> 
 				<a href="goSelectReward.do?seq=${projectdto.seq }">
 					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
+		</c:if>
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>

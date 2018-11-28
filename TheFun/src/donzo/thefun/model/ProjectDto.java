@@ -399,6 +399,12 @@ public class ProjectDto implements Serializable {
 		return "";
 	}
 
+	public boolean isOngoing() {
+		if(status.equalsIgnoreCase(ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
