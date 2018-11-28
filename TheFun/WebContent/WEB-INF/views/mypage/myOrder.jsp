@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>     
 
-<link rel="stylesheet" href="CSS/mainCss/myOther.css">
+<link rel="stylesheet" href="CSS/mainCss/myOrder.css">
 
 <!-- <style type="text/css">
 	a:link { color: black; text-decoration: none;}
@@ -52,16 +52,14 @@
 	</thead>
 	
 	<tbody>
-	<c:forEach items="${orderlist }" var="order" varStatus="vs">
-	<tr class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${project.seq}'">
+	<c:forEach items="${orderlist}" var="order" varStatus="vs">
+	<tr class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
 		<th>${vs.count }</th>
 		
 		<!-- 테스트용으로 이미지 하나 추가 함 ( 나중에 지울것 ) -->
 		<td colspan="2" >
 		<img alt="썸네일이미지" src="image/thumbnail/${order.projectseq }.png" style="border-radius: 50%;">
-		<a href="projectDetail.do?seq=${order.projectseq }">
-				${order.ptitle }
-			</a>	
+			${order.ptitle }
 		</td>
 		
 		<%-- <td>		
@@ -123,9 +121,11 @@ $(function goLatter() {
 });
 
 $(".hover_tr").mouseover(function () {
-	$(this).children().css("background-color","#F7EEF8");
+	$(this).find("td").css("background-color","#F7EEF8");
+	//$(this.td).first().css("background-color","#8152f0");
 }).mouseout(function () {
-	$(this).children().css("background-color","#ffffff");		
+	$(this).find("td").css("background-color","#ffffff");	
+	//$(this).first().css("background-color","#8152f0");
 });
 
 

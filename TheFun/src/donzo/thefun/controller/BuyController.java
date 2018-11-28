@@ -32,7 +32,9 @@ public class BuyController {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
 		
 		List<BuyDto> orderlist = buyService.orderList(buy);
-		
+		/*for(int i=0;i<orderlist.size();i++) {
+			logger.info(orderlist.get(i).toString());
+		}*/
 		model.addAttribute("orderlist", orderlist);
 
 		return "myOrder.tiles";
