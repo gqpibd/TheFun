@@ -331,12 +331,29 @@
 	</dependency>
 	
 	
-	<!-- 스마트 에디터용 이미지 업로드(승지) 테스트중 ==> cos.jar -->
+	<!-- 스마트 에디터용 이미지 업로드(승지) 테스트중 ==> cos.jar(파일업로드) -->
 	<dependency>
          <groupId>servlets.com</groupId>
          <artifactId>cos</artifactId>
          <version>05Nov2002</version>
-	</dependency> 
+	</dependency>
+	
+	<!-- 스마트 에디터용 이미지 업로드(승지) 테스트중 ==> JSONObject -->
+	<dependency>
+	   <groupId>net.sf.json-lib</groupId>
+	   <artifactId>json-lib</artifactId>
+	   <version>2.4</version>
+	   <classifier>jdk15</classifier>    
+	</dependency>
+	
+	<!-- 스마트 에디터용 이미지 업로드(승지) 테스트중 ==> json_simple-1.1.jar(JSON파싱) -->
+	<dependency>
+		<groupId>com.googlecode.json-simple</groupId>
+		<artifactId>json-simple</artifactId>
+		<version>1.1</version>
+	</dependency>
+
+
 	
   	<!-- 구글 로그인 -->
 	<dependency>
