@@ -105,24 +105,6 @@ public class ProjectController {
 
 	}
 	
-/*	
-	//옵션 재선택
-	@ResponseBody
-	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public List<OptionDto> reloadOption(int[] check, Model model) {
-		
-	
-		//선택한 옵션정보
-		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
-	
-		for(int i=0; i<selectOptions.size();i++) {
-			System.out.println(i+"번째 option :"+selectOptions.get(i));
-		}
-		
-		return selectOptions;
-	}
-*/	
-	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {

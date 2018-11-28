@@ -46,7 +46,6 @@ td{
           <!-- 테이블 영역 -->
           <form action="goOrderReward.do" method="post" id="goOrderFrm">
           <c:forEach items="${optionList}" var="option"> 
-          <c:if test="${option.stock-option.buycount > 0}"> <!-- 1개 이상 남았을 때만 주문 가능 -->
           <table>
 			<tr>
          	<td class="strongGray">        	 	
@@ -71,7 +70,6 @@ td{
          </tr> -->
           </table>
           <br>
-          </c:if>
           </c:forEach>
           <!-- 테이블 영역 끝 -->
           
@@ -86,6 +84,7 @@ td{
  function boxCheck(e){
      if ( e.checked == true ){
      	alert("선택한 옵션의 seq : "+e.value);
+     	//seq 를 다른 배열에 저장하고 ㅇㅇ
      }else{
      	alert("선택 해제");
      }
