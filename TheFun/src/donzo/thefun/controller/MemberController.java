@@ -179,4 +179,4 @@ public class MemberController {
 		
 		return "myInfo.tiles";	
 	}
-}
+} 

@@ -16,7 +16,7 @@ public class ProjectParam implements Serializable {
 	private int pageNumber = 0;				// 페이지 넘버
 	
 	private int start = 1;
-	private int end = 10;
+	private int end = 8;
 
 	
 	public ProjectParam() {	}

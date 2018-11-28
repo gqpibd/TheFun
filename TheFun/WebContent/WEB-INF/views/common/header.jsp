@@ -43,3 +43,5 @@
 <meta name="description" content="">
 <meta name="author" content=""> 
 
+<!-- Custom styles for this template -->
+<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
