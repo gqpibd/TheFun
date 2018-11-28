@@ -38,3 +38,7 @@ local.properties
 .buildpath
 .target
 /target/
+
+# 그냥좀 무시해
+.MF
+.properties
