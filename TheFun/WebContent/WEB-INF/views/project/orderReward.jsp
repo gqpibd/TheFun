@@ -97,7 +97,8 @@ body{
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
 		</td>
 		<td class="liteGray td3">
-			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="${options.seq}_p">원
+			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="price_${options.seq}">원
+			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>    
@@ -213,12 +214,17 @@ body{
 	function plusVal(seqNum) {
 	   	var opCount = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
+	   	
 		if(opCount==stockCount){
 			alert("구매가능한 수량보다 많습니다.");
 		}else{
 			opCount+=1;
 	     	document.getElementById(seqNum).value =opCount;
-	     	//가격변환
+	       	//가격변환
+	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+	       	var totalPrice = priceField+realPrice;
+	       	document.getElementById("price_"+seqNum).value =totalPrice;
 	     	
 		}
 	}
@@ -232,8 +238,12 @@ body{
 		}else{
 			opCount-=1;
 	       	document.getElementById(seqNum).value =opCount;
-	       	//가격변환
 	       	
+	       	//가격변환 onchage
+	       	var realPrice = document.getElementById("realPrice_"+seqNum).value;
+	       	var priceField = document.getElementById("price_"+seqNum).value;
+	       	var totalPrice = priceField-realPrice;
+	       	document.getElementById("price_"+seqNum).value =totalPrice;
 		}
 	}
 	
