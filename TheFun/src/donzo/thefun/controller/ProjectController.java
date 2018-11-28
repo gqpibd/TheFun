@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -204,7 +205,7 @@ public class ProjectController {
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile mainImage) throws Exception {
 		/* 파라미터 해석ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-			- newProjectDto : 새로 만들 프로젝트의 입력값(id(이건 나중에..), fundtype, dategory, title, content, 
+			- newProjectDto : 새로 만들 프로젝트의 입력값(id, fundtype, dategory, title, content, 
 												summary, tag, bank, goalfund, 
 												sdate, edate, pdate, shipdate)
 			- option_total : 생성할 옵션(리워드) 개수
@@ -251,52 +252,44 @@ public class ProjectController {
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String summernotePhotoUpload(HttpServletRequest req, 
+	public String summernotePhotoUpload(HttpServletRequest req, HttpSession session,
 				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
 		// 파일업로드 경로설정
-		String uploadPath = req.getServletContext().getRealPath("/upload");
+		String uploadPath = session.getServletContext().getRealPath("/upload");
+		//String uploadPath = req.getServletContext().getRealPath("/upload");
 		logger.info("업로드 경로 : " + uploadPath);
 		String realFileName = summerFile.getOriginalFilename();
-		File file = new File(uploadPath + "/summernoteImage/" + realFileName);
-		System.out.println("파일 : " + uploadPath + "/summernoteImage/" + realFileName);	// 경로확인
+		File file = new File(uploadPath + "\\" + realFileName);
+		System.out.println("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
 		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
 		
-		return uploadPath + "/summernoteImage/" + realFileName;
-		// 이미지 업로드할 경로
-		/*String uploadPath = "D:/tmp";
-		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
+		return uploadPath + "\\" + realFileName;
+	}
+	
+	// 프로젝트 업데이트 페이지로 들어가는 메소드(승지)
+	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectUpdate(int seq, Model model) throws Exception {
 		
-		String fileName = "";	// 파일명
+		ProjectDto findProject = projectService.getProject(seq);
+		model.addAttribute("findPro", findProject);
+		return "projectUpdate.tiles";
+	}
+	
+	// 실제로 프로젝트 업데이트하는 메소드(승지)
+	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectUpdateAf(ProjectDto newProjectDto,
+							HttpServletRequest req,
+							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+		// 기존 이미지와 새 이미지가 다른 이미지인지 판별먼저.
 		
-		try {
-			// 파일업로드 및 업로드 후 파일명 가져옴
-			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
-			String file = (String)files.nextElement();
-			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
-		uploadPath = "/upload/" + fileName;
-		
-	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
-		JSONObject jobj = new JSONObject();
-		jobj.put("url", uploadPath);
-		
-		resp.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
-		//resp.getWriter().write(jobj.toString());	// 날려~!
-		//out.print(jobj.toJSONString());
-		
-		return jobj.toString();*/
+		return "projectUpdate.tiles?seq="+newProjectDto.getSeq();	// 될지는 미지수. 테스트를 못해봤다.
 	}
 	
 	// 메인 화면으로 이동
-	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String goMain(Model model) throws Exception {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
 		ProjectParam mainParam = new ProjectParam();

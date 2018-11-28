@@ -19,8 +19,8 @@
 <!-- 옵션 추가 -->
 <insert id="newWrite" parameterType="donzo.thefun.model.OptionDto">
 	INSERT INTO FUN_OPTION(SEQ, PROJECTSEQ, TITLE, CONTENT, PRICE, STOCK)
-	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
-</insert> 
+	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock}
+</insert>
 
 <!-- 구매후 옵션 재고 update -->
 <update id="updateStock" parameterType="donzo.thefun.model.OptionDto">
