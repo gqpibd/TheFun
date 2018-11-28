@@ -4,6 +4,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
 
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+	FB.init({
+		appId : '2123794117640622',
+		cookie : true,
+		xfbml : true,
+		version : 'v3.2'
+	});	
+	window.fbApiInit = true; //init flag
+}; 
+/* (function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));	
+ */
+//Load the SDK Asynchronously
+ (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/" + 
+     "en_US" +
+     "/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+ }(document));
+</script>
+
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="CSS/common/topbar.css">
@@ -189,38 +218,26 @@ font-weight:bold; color: #FFFFFF;
 </style>
 
 <script type="text/javascript">
-window.fbAsyncInit = function() {
-	FB.init({
-		appId : '2123794117640622',
-		cookie : true,
-		xfbml : true,
-		version : 'v3.2'
-	});	
-	
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {
-			FB.api('/me',{fields: 'name,email,picture'}, function(res) {			     
-				profile = res.picture.data.url;		
-				console.log("페이스북 로그인 되어있음");
-				console.log(profile);
-				//$("#profile").attr("src",profile);
-			});
-			
-		} else {
-			//console.log("페이스북 로그인 되어있지 않음")
+var naverLogin;
+var loginAccount = "thefun"
+var profile = '${login.profile}';
+var auth1;
+
+$(document).ready(function () {		
+	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
+	/* 구글 로그인 정보를 초기화하기 위하여 init */
+	gapi.load('auth2', function() { 
+		auth1 = gapi.auth2.init();
+		if (auth1.isSignedIn.get()) {
+			loginAccount = "구글";
 		}
 	});
-};
-(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {
-		return;
-	}
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));		
+});
 </script>
 
 <!-- <div class="top-menu"> -->
@@ -310,32 +327,74 @@ window.fbAsyncInit = function() {
 
     
 <script type="text/javascript">
-	var naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");
-	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
-	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
-	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
 	/* 로그아웃 */
 	function logout() {
-		console.log("로그아웃");
+		//console.log("로그아웃");
+		console.log("로그인 계정: " +getLoginAccount());
 		/* 네이버 로그아웃 */
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
-				/* 로그인 상태가 "true" 인 경우  */
-				naverLogin.logout();
+		naverLogin.logout(function(response) { 
+					console.log("네이버 로그아웃");
+				}); 
+		/* naverLogin.getLoginStatus(function (status) {
+			if (status) { // 로그인 상태가 "true" 인 경우 
+				naverLogin.logout(function(response) { 
+					console.log("네이버 로그아웃");
+				});
+				
 			}
-		});		
+		});		 */
 		/* 페이스북 로그아웃 */
 		FB.getLoginStatus(function(response) {
   			if (response.status === 'connected') {
-				FB.logout(function(response) { /* user is now logged out */	}); 
+				FB.logout(function(response) { 
+					console.log("페이스북 로그아웃");
+				});
   			}
 		});
 		/* 카카오 로그아웃 */
-		Kakao.Auth.logout(function () {  alert("카카오로그아웃");});
-    
+		Kakao.Auth.getStatus(function(statusObj){
+			if(statusObj.status == "connected"){
+				Kakao.Auth.logout(function(response) { 
+					console.log("카카오 로그아웃");
+				});
+			}
+		})
+		/* 구글 로그아웃  */
+        if (auth1.isSignedIn.get()) {
+        	console.log("구글 로그아웃");
+        	auth1.signOut(function(response) { 
+				console.log("구글 로그아웃");
+			});
+        }    
 		location.href="logout.do";		
+	}
+
+	function getLoginAccount() {
+		/* 네이버 */
+		naverLogin.getLoginStatus(function (status) {
+			if (status) {
+				loginAccount = "naver";
+				return "naver";
+			}
+		});		
+		/* 페이스북 */
+		FB.getLoginStatus(function(response) {
+  			if (response.status === 'connected') {
+  				loginAccount = "facebook"; 
+  			}
+		});
+		/* 카카오 */
+		Kakao.Auth.getStatus(function(statusObj){
+			if(statusObj.status == "connected"){
+				loginAccount = "kakao";
+			}
+		})
+		/* 구글  */
+       /*  if (auth1.isSignedIn.get()) {
+        	login = "google";
+			count++;
+        } */
+		return loginAccount;
 	}
 	
 	/* 검색버튼 */
@@ -351,7 +410,7 @@ window.fbAsyncInit = function() {
     	$("#_pageNumber").val(0);
     	$("#s_keywordTextField").val($("#s_keywordTextField").val());
 		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
-	}
+	}	
     
 // 상단바 js 부분
     

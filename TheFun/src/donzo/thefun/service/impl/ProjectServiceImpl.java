@@ -104,6 +104,12 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.mySchedule(pro);
 	}
 
+
+	@Override
+	public boolean approveProject(int projectseq) {
+		return projectDao.approveProject(projectseq);
+		
+	}	
 	
 	
 }

@@ -62,6 +62,52 @@ font-family: "Nanum Gothic", sans-serif;
 	width: 30%;
 	padding: 25px;
 }
+
+/* 승인 버튼 */
+.fun_btn {
+	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a78af2), color-stop(1, #8152f0));
+	background:-moz-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-webkit-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-o-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-ms-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:linear-gradient(to bottom, #a78af2 5%, #8152f0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a78af2', endColorstr='#8152f0',GradientType=0);
+	background-color:#a78af2;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #8152f0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7754d1;
+}
+.fun_btn:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8152f0), color-stop(1, #a78af2));
+	background:-moz-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-webkit-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-o-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-ms-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:linear-gradient(to bottom, #8152f0 5%, #a78af2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8152f0', endColorstr='#a78af2',GradientType=0);
+	background-color:#8152f0;
+}
+.fun_btn:active {
+	position:relative;
+	top:1px;
+	
+}
+.fun_btn:focus{
+	outline: none;
+}
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -103,9 +149,12 @@ function sendLink() {
 
  <!-- 카테고리 , 태그 -->
     <div class="container">
+    <div align="center">
     <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
-    	<button>승인</button> <button>승인 거절</button>
+    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
+    	<button class="fun_btn">프로젝트 승인 거절</button>
     </c:if>
+    </div>
    	<br>
    	<div align="center">
    		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;

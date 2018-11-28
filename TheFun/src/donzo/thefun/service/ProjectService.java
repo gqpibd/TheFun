@@ -32,6 +32,8 @@ public interface ProjectService {
 	public int getProjectCount(ProjectParam pParam) throws Exception;
 	public List<ProjectDto> getWaitingList();
 	public List<QnaDto> getQna(int seq);
+
+	public boolean approveProject(int projectseq);
 	
 	//schedule
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;

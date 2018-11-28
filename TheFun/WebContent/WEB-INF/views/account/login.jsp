@@ -57,8 +57,8 @@ function checkLoginState(){
 }
 
 function statusChangeCallback(response) {
-	console.log('statusChangeCallback');
-	console.log(response);	
+	//console.log('statusChangeCallback');
+	//console.log(response);	
 	if (response.status === 'connected') {
 		var uid = response.authResponse.userID;
 	    var accessToken = response.authResponse.accessToken;
@@ -67,8 +67,9 @@ function statusChangeCallback(response) {
 	      console.log('Successful login for: ' + res.name);		      
 	      console.log('response.authResponse.userID: ' + res.id);		      
 	      console.log('response.email: ' + res.email);			
-	      console.log('response.public_profile: ' + res.picture.data.url);	
-	      willYouSignUp(res.id,res.name,res.email,res.picture.data.url);	
+	      //console.log('response.public_profile: ' + res.picture.data.url);
+	      profile = "http://graph.facebook.com/" + res.id + "/picture";
+	      willYouSignUp(res.id,res.name,res.email,profile);	
 	    });
 	} else {
 		console.log("페이스북 로그인 되어있지 않음")
@@ -241,7 +242,7 @@ function onSignIn(googleUser) {
 	console.log("onSignIn");
 	var id_token = googleUser.getAuthResponse().id_token;
     var auth2 = gapi.auth2.getAuthInstance(); 
-    auth2.disconnect(); 
+    //auth2.disconnect(); 
     
 	var profile = googleUser.getBasicProfile();
 	//var id =  googleUser.getAuthResponse().id_token;

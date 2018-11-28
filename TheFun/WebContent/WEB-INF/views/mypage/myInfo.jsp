@@ -94,9 +94,9 @@
 
 .profile_img{   
     float: none;
-    width: 300px;
-    height: 300px;
-    border-radius: 300px;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
     margin: 5px;
     vertical-align: middle;
     object-fit: cover;
@@ -174,7 +174,7 @@
 		</table>
 	</c:when>
 	<c:otherwise> <!-- 연동 로그인 -->
-		<table class="tb">		
+		<table class="tb" style="text-align: center">		
 			<tr>
 				<td>
 					<img src="${login.profile}" class="profile_img">
@@ -182,14 +182,14 @@
 			</tr>
 			<!-- 아이디 -->
 			<tr>
-				<td style="text-align: left; "></td>
-				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${login.nickname}" readonly="readonly" />
+				<td> 
+					<input type="hidden" name="id" value="${login.id}"/>
+					${login.nickname} 님
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
 			<tr>
-				<td>다른 계정으로 로그인중 </td>
+				<td>간편로그인 사용중</td>
 			</tr>		 		
 		</table>
 	</c:otherwise>
@@ -261,8 +261,12 @@ var infoOk = true;
 var phoneOk = true;
 
 function checkSubmitActivation(){
+	if("${login.pwd}" == null){
+		document.getElementById("submitBtn").disabled = true;
+		document.getElementById("submitBtn").style.background = "#E2E2E2";
+		document.getElementById("submitBtn").style.cursor =  "default";
+	}else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
-	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 		document.getElementById("submitBtn").disabled = false;
 		document.getElementById("submitBtn").style.background = "#8152f0";
 		document.getElementById("submitBtn").style.cursor =  "pointer";
@@ -455,17 +459,5 @@ $('#editable-Img').on('load', function () {
 	$("#imgPath").val($(this).attr('src'));
 	console.log($("#imgPath").val());	
 });	
-
-/* 카카오 아이디로 로그인 했는지 확인 */
-Kakao.init('dd0c44a9e5b9f94ce480a440c3113d2d');
-Kakao.API.request({
-	url : '/v1/user/me',
-	success : function(res) {
-		var id = res.id;
-		var email = res.kaccount_email;
-		var nickname = res.properties['nickname']; // res.properties.nickname으로도 접근 가능
-		console.log(id);//<---- 콘솔 로그에 토큰값 출력			
-	}
-});
  
 </script>

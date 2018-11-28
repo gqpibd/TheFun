@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -252,9 +251,7 @@ public class ProjectController {
 		
 		return "newProject.tiles";
 	}
-	
-	
-	
+		
 	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
@@ -322,6 +319,15 @@ public class ProjectController {
 		 */
 
 		return "";
+	}
+	
+	// 프로젝트 승인
+	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String approve(Model model, int projectseq) throws Exception{
+		logger.info("ProjectController approve " + new Date());
+		projectService.approveProject(projectseq);
+		
+		return "redirect:/projectDetail.do?seq=" + projectseq;
 	}
 	
 	// 메인 화면으로 이동
@@ -423,5 +429,5 @@ public class ProjectController {
 		logger.info("ProjectController detail " + new Date());
 		
 		return "project/detail";
-	}*/   
+	}*/    
 }
