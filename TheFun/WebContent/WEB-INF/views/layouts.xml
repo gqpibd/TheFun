@@ -33,11 +33,15 @@
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
 	
-	<!-- 내 일정(calendar == schedule) -->
+	<!-- 내 프로젝트  보기 schedule -->
 	<definition name="mySchedule.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/mySchedule.jsp"/>
 	</definition>
 	
+	<!-- 일정 보기 ( 캘린더 ) -->
+	<definition name="myCalendar.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
+	</definition>
 	<!-- 프로젝트 -->
 	
 	<!-- 프로젝트 만들기-->

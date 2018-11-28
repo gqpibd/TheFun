@@ -4,10 +4,11 @@
 <fmt:requestEncoding value="utf-8"/> 
 <!-- 스케쥴 css -->
 <link rel="stylesheet" href="CSS/Calendar/calendar.css">
-<script type="text/javascript" src="CSS/Calendar/schedule.js"></script>
+<!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
 <style type="text/css">
+
 body{
 font-family: "Nanum Gothic", sans-serif;
 }
@@ -15,22 +16,30 @@ font-family: "Nanum Gothic", sans-serif;
 
 <header id="cal_header">
   <div class="container text-center">
-    <h1 class="head_title">My Scheduler</h1>
-    <p>일  정</p>
+    <h1 class="head_title">MY PROJECT</h1>
+    <p>프로젝트</p>
   </div>
 </header>
 
-<section class="timeline" id="cal_timeline">
+<body>
+<!-- 등록한 프로젝트가 없을때 -->
+<c:if test="${schedule.size() eq 0}">
+<br><br>
+<p style="text-align: center;">등록하신 프로젝트가 없습니다.</p>
+</c:if>
 
+<!-- 등록한 프로젝트가 있다 -->
 <c:if test="${schedule.size() ne 0}">
-<c:forEach items="${schedule }" var="sche" varStatus="i">
-
-  <div class="container">
-  
-    <div class="timeline-item">
+<section class="timeline" id="cal_timeline">
+<div class="container">
+<c:forEach items="${schedule }" var="sche" varStatus="vStat" begin="1" end="${schedule.size()}" step="1">
+  	
+  	<!-- 홀수일때 왼쪽에 나타나게 하기 -->
+  	
+  	<div class="timeline-item">
       <div class="timeline-img"></div>
 
-      <div class="timeline-content js--fadeInLeft">
+      <div class="timeline-content">
         <br><br><h2>${sche.title }</h2>
         <div class="date"> ${sche.getDateForm(sche.sdate) } ~ ${sche.getDateForm(sche.edate) }</div>
         <div style="text-align: right;">
@@ -60,29 +69,15 @@ font-family: "Nanum Gothic", sans-serif;
      	</div> 
         <div style="text-align: right;">결제일 : ${sche.getDateForm(sche.pdate) }</div>
         <div style="text-align: right;">배송일 : ${sche.getDateForm(sche.shipdate) }</div>
-        <p>${sche.summary }</p>
-        <a class="bnt-more" href="javascript:void(0)">해당디테일</a>
         
+        <a class="bnt-more" href="projectDetail.do?seq=${sche.seq }">More</a>      
+        <a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>      
       </div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-img"></div>
-      <div class="timeline-content timeline-card js--fadeInRight">
-        
-        <br><br><h2>후원도 같이 나와도 될...<%-- ${schedule.title } --%></h2>
-        <div class="date">시작날~끝날<%-- ${schedule.sdate } --%></div>
-        <div style="text-align: right;">진행중</div>
-        <div style="text-align: right;">Reward : IT</div> 
-        <div style="text-align: right;">결제일 : 0000-00-00</div>
-        <div style="text-align: right;">배송일 : 0000-00-00</div>
-        <p>이것은 한줄 소개 테스트입니다.<%-- ${schedule.summary } --%></p>
-        <a class="bnt-more" href="javascript:void(0)">해당 디테일</a>
-        
-      </div>
-    </div>
-<!------------------------------왼쪽-오른쪽-한-세트------------------------------------------->
-  </div>
+    </div> 	
+<!------------------------------------------------------------------------->
 </c:forEach>
-</c:if>  
+
+</div>
 </section>
+</c:if>  
+</body>
