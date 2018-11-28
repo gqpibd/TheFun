@@ -8,13 +8,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- 썸머노트(반응형 스마트 에디터) -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> --> <!-- header에 v4.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> --> <!-- header에 v4.1.1 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
-<!-- include summernote-ko-KR -->
-<script src="/summernote/lang/summernote-ko-KR.js"></script>
+
+<!-- summernote의 스타일시트와 자바스크립트을 사용하기 위한 선언 -->
+<!-- <link href="./dist/summernote.css" rel="stylesheet">
+<script src="./dist/summernote.js"></script> -->
+<script src="./dist/lang/summernote-ko-KR.js"></script>
+
+
 
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
@@ -42,7 +45,43 @@ tr, td, input{
 <script>
 	// 썸머노트 설정
 	$(document).ready(function() {
-		  $('#summernote').summernote();
+		  $('#summernote').summernote({
+				  height: 300,		// 기본 높이값
+			        minHeight: null,	// 최소 높이값(null은 제한 없음)
+			        maxHeight: null,	// 최대 높이값(null은 제한 없음)
+			        focus: true,		// 페이지가 열릴때 포커스를 지정함
+			        lang : 'ko-KR',
+			      	//onlmageUpload callback함수 -> 미설정시 data형태로 에디터 그대로 삽입
+			        callbacks: {
+			          onImageUpload: function(files, editor) {
+			        	  console.log("onImageUpload 업로드 이벤트 발생");
+			            //for (var i = files.length - 1; i >= 0; i--) {
+			              sendFile(files[0], this);
+			            //}
+			          }
+			        }	  
+		  });
+		  
+		  function sendFile(file, editor) {
+		      var form_data = new FormData();
+		      form_data.append('summerFile', file);
+		      $.ajax({
+		        data: form_data,
+		        type: "POST",
+		        url: 'summernotePhotoUpload.do',
+		        enctype: 'multipart/form-data',
+		        cache: false,
+		        contentType: false,
+		        processData: false,
+		        success: function(data) {
+		        	console.log("받은 데이터 = " + data);
+		          $(editor).summernote('editor.insertImage', data);
+		          //$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+		          $(editor).summernote('editor.insertImage', data);
+		          //$('#summernote').append('<img src="'+data+'" width="480" height="auto"/>');
+		        }
+		      });
+		    }
 		  
 		  
 		  /* 리워드 각 탭 아래 나오는거 일단 비활성화 */
@@ -188,32 +227,57 @@ tr, td, input{
 			});
 			
 	});
-	$('#summernote').summernote({
-	  placeholder: 'ㅇㅇㅇㅇㅋㅋㅋㅋ',
-	  tabsize: 2,
-	  /* height: 600, */                 // set editor height
-	  height: ($(window).height() - 300),
-	  minHeight: null,             // set minimum height of editor
-	  maxHeight: null,             // set maximum height of editor
-	  focus: true,
-	  lang: 'ko-KR', // default: 'en-US'
-	  callbacks: { // 콜백을 사용
-          // 이미지를 업로드할 경우 이벤트를 발생
-		  onImageUpload: function(files, editor, welEditable) {
-			    sendFile(files[0], this);
-			}
-		}
-
-	});
 	
+	
+	
+	
+	/* function sendFile(file, el) {
+	      var form_data = new FormData();
+	      form_data.append('summerFile', file);
+	      $.ajax({
+	        data: form_data,
+	        type: "POST",
+	        url: 'summernotePhotoUpload.do',
+	        cache: false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(url) {
+	          $(el).summernote('editor.insertImage', url);
+	          //$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+	        }
+	      });
+	    }
+ */
+
+	
+	/* function sendFile(file, editor) {
+	      var data = new FormData();
+	      data.append('file', file);
+	      $.ajax({
+	        data: data,
+	        type: "POST",
+	        url: 'summernotePhotoUpload.do',
+	        cache: false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(data) {
+	          $(editor).summernote('editor.insertImage', data.url);
+	          $('#summernote').append('<img src="'+data.url+'" width="480" height="auto"/>');
+	        }
+	      });
+	} */
+	/* 
 	function sendFile(file, editor) {
         // 파일 전송을 위한 폼생성
- 		data = new FormData();
+ 		var data = new FormData();
  	    data.append("uploadFile", file);
  	    $.ajax({ // ajax를 통해 파일 업로드 처리
  	        data : data,
  	        type : "POST",
  	        url : "editorImgUp.do",
+			enctype: 'multipart/form-data',
  	        cache : false,
  	        contentType : false,
  	        processData : false,
@@ -224,7 +288,7 @@ tr, td, input{
  	    });
  	}
 
-
+ */
 /* 
 	function uploadImage(image) {
 	    var data = new FormData();
@@ -936,7 +1000,7 @@ $("#btn_submit").click(function () {
 			}
 			
 			formSubmit();	// form에 submit 실행~
-		} 
+		}  
 	}
 	
 });
@@ -974,11 +1038,14 @@ $("#fundtype2").click(function () {
 	// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
 	$("#menu-tab2").hide();
 })
+
 // 상품 버튼을 클릭했을 때
 $("#fundtype1").click(function () {
 	// 리워드 탭 보이게.
 	$("#menu-tab2").show();
 })
+
+
 
 </script>
  

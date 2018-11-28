@@ -1,12 +1,14 @@
 package donzo.thefun.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -32,6 +33,7 @@ import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -57,7 +59,7 @@ public class ProjectController {
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-		
+				
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		
@@ -94,6 +96,7 @@ public class ProjectController {
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
 
+		
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(projectSeq));
 		
@@ -105,30 +108,19 @@ public class ProjectController {
 
 	}
 	
-/*	
-	//옵션 재선택
-	@ResponseBody
-	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public List<OptionDto> reloadOption(int[] check, Model model) {
-		
-	
-		//선택한 옵션정보
-		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
-	
-		for(int i=0; i<selectOptions.size();i++) {
-			System.out.println(i+"번째 option :"+selectOptions.get(i));
-		}
-		
-		return selectOptions;
-	}
-*/	
-	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
 		
-		//주문 insert
+		System.out.println("플잭시퀀스:"+projectSeq);
+		for(int i=0; i<opSeq.length;i++) {
+			System.out.println("옵션시퀀스 : "+opSeq[i]);
+			System.out.println("옵션수량 : "+opCount[i]);
+		}
+		
+		//주문 insert & 옵션재고 update
 		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
+
 		return "redirect:/main.do";
 	}
 	
@@ -249,7 +241,7 @@ public class ProjectController {
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
-		
+			
 		return "newProject.tiles";
 	}
 	
@@ -257,12 +249,24 @@ public class ProjectController {
 	
 	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
-	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
+	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String editorImgUp(HttpServletRequest req, @RequestBody Article article) {
+	public String summernotePhotoUpload(HttpServletRequest req, 
+				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
+		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
+		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
+		// 파일업로드 경로설정
+		String uploadPath = req.getServletContext().getRealPath("/upload");
+		logger.info("업로드 경로 : " + uploadPath);
+		String realFileName = summerFile.getOriginalFilename();
+		File file = new File(uploadPath + "/summernoteImage/" + realFileName);
+		System.out.println("파일 : " + uploadPath + "/summernoteImage/" + realFileName);	// 경로확인
+		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
+		
+		return uploadPath + "/summernoteImage/" + realFileName;
 		// 이미지 업로드할 경로
-		String uploadPath = "D:\tmp";
+		/*String uploadPath = "D:/tmp";
 		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
 		
 		String fileName = "";	// 파일명
@@ -277,51 +281,18 @@ public class ProjectController {
 			e.printStackTrace();
 		}
 		
-		
-		/* 생략
 		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
-		String uploadPath = "/upload/" + fileName;
-				
-	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
-		JSONPObject jobj = new JSONPObject();
-		jobj.put("url", uploadPath);
-		
-		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
-		out.print(jobj.toJSONString());
-		*/
-		
-		
-		/*
-		// 이미지 업로드할 경로
-		// String uploadPath = "D:/WYSIWYG_EDITOR_FILEUPLOAD/upload";
-		String uploadPath = "D:\tmp";
-	    int size = 10 * 1024 * 1024;  // 업로드 사이즈 제한 10M 이하
-		
-		String fileName = ""; // 파일명
-		
-		try{
-	        // 파일업로드 및 업로드 후 파일명 가져옴
-			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "utf-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
-			String file = (String)files.nextElement(); 
-			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	    // 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
-		String uploadPath = "/upload/" + fileName;
+		uploadPath = "/upload/" + fileName;
 		
 	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
 		JSONObject jobj = new JSONObject();
 		jobj.put("url", uploadPath);
 		
-		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
-		out.print(jobj.toJSONString());
-		 */
-
-		return "";
+		resp.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		//resp.getWriter().write(jobj.toString());	// 날려~!
+		//out.print(jobj.toJSONString());
+		
+		return jobj.toString();*/
 	}
 	
 	// 메인 화면으로 이동
