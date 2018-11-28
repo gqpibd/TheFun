@@ -227,30 +227,30 @@ window.fbAsyncInit = function() {
 <!-- Navigation 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container" style="background-color: white;">
-<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 --> 
+	<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 --> 
     
-<ul id="nav">
-<li style="width:90px;">
-<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/donation_btn.jpg" width="90px"></a><!--  기부 -->
-<ul>
-	<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
-	<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-	<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
-</ul>
-</li> 
-<li style="width:90px;text-align: center;">
-<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/funding.jpg" width="60px"></a><!--  펀딩 -->
-<ul>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
-	<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-	<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
-</ul>
-</li>
-  <li>
-  <a href="newProject.do"><img src="image/main/newproject.jpg" width="90px"></a> <!-- 새 프로젝트 만들기 -->
-  </li>
-  </ul>
+		<ul id="nav">
+		<li style="width:90px;">
+			<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/done.jpg" width="110px"></a><!--  기부 -->
+			<ul>
+				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+			</ul>
+		</li> 
+		<li style="width:90px;text-align: center;">
+			<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->
+			<ul>
+				<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
+				<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
+				<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+			</ul>
+		</li>
+		<li style="width:90px;text-align: center;">
+		  <a href="newProject.do"><img src="image/main/newproject.jpg" width="100px"></a> <!-- 새 프로젝트 만들기 -->
+		</li>
+		</ul>
 
     &nbsp;&nbsp;&nbsp;&nbsp;
     <form id="_frmFormSearch" name="frmForm1">
