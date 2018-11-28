@@ -37,4 +37,5 @@ local.properties
 .factorypath
 .buildpath
 .target
+*.properties
 /target/
