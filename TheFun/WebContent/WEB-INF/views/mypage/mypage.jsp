@@ -7,7 +7,7 @@
 	<div>
 			<table border="0">
 				<tr>
-					<td rowspan="3" style="padding: 25px;"><img class="profile_img" alt="프로필" src="${login.profile}"></td>
+					<td rowspan="3" style="padding: 35px;"><img class="profile_img" alt="프로필" src="${login.profile}"></td>
 					<td colspan="4" style=""><h1>${login.id}</h1></td>
 					<!-- <td></td> -->
 					<!-- <td></td> -->
@@ -24,7 +24,7 @@
 					<!-- <td></td> -->
 					<td><a href="myInfo.do?id=${login.id}"><button class="btn_MyPage">내 정보</button></a></td>
 					<td><a href="myOrderList.do?id=${login.id}"><button class="btn_MyPage">나의후원내역</button></a></td>
-					<td><a href="mySchedule.do?id=${login.id}">><button class="btn_MyPage">내프로젝트</button></a></td>
+					<td><a href="mySchedule.do?id=${login.id}"><button class="btn_MyPage">내프로젝트</button></a></td>
 					<td><a href="#"><button class="btn_MyPage">일정보기</button></a></td>
 				</tr>
 			</table>				

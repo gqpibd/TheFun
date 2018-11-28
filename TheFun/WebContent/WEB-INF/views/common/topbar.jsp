@@ -7,92 +7,8 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 <link rel="stylesheet" href="CSS/common/topbar.css">
+
 <style type="text/css">
-.profile{   
-    float: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 33px;
-    margin: 5px;
-    vertical-align: middle;
-    object-fit: cover;
-}
-
-
-.container-4{
-  overflow: hidden;
-  width: 300px;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.container-4 input#search{
-  width: 250px;
-  height: 40px;
-  background: #F6F6F6;
-  border: none;
-  font-size: 10pt;
-  float: left;
-  color: #000000;
-  padding-left: 15px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-.container-4 button.icon{
-  -webkit-border-top-right-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  -moz-border-radius-topright: 5px;
-  -moz-border-radius-bottomright: 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
- 
-  border: none;
-  background: #F6F6F6;
-  height: 50px;
-  width: 50px;
-  color: #4f5b66;
-  opacity: 0;
-  font-size: 10pt;
- 
-  -webkit-transition: all .55s ease;
-  -moz-transition: all .55s ease;
-  -ms-transition: all .55s ease;
-  -o-transition: all .55s ease;
-  transition: all .55s ease;
-}
-
-.btn_MyPage{
-border:1px solid #8a66f4; 
--webkit-border-radius: 3px; 
--moz-border-radius: 3px;
-border-radius: 3px;
-font-size:12px;
-font-family:arial, helvetica, sans-serif; 
-padding: 5px 5px 5px 5px; 
-text-decoration:none; 
-display:inline-block;
-text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-font-weight:bold; color: #FFFFFF;
- background-color: #b29af8; background-image: -webkit-gradient(linear, left top, left bottom, from(#b29af8), to(#9174ed));
- background-image: -webkit-linear-gradient(top, #b29af8, #9174ed);
- background-image: -moz-linear-gradient(top, #b29af8, #9174ed);
- background-image: -ms-linear-gradient(top, #b29af8, #9174ed);
- background-image: -o-linear-gradient(top, #b29af8, #9174ed);
- background-image: linear-gradient(to bottom, #b29af8, #9174ed);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#b29af8, endColorstr=#9174ed);
-}
-
-.btn_MyPage:hover{
- border:1px solid #693bf1;
- background-color: #8e6af5; background-image: -webkit-gradient(linear, left top, left bottom, from(#8e6af5), to(#6d47e7));
- background-image: -webkit-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -moz-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -ms-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: -o-linear-gradient(top, #8e6af5, #6d47e7);
- background-image: linear-gradient(to bottom, #8e6af5, #6d47e7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#8e6af5, endColorstr=#6d47e7);
-}
-
 
 /* MENU */
 
@@ -288,7 +204,7 @@ window.fbAsyncInit = function() {
 			    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-				<span id="profile"><img class="profile" src="${login.profile}"></span>
+				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="프로필사진 클릭 시 마이페이지로 이동합니다."></span>
 				<span>${login.nickname}님</span>			
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
 				<c:choose>			
@@ -296,8 +212,6 @@ window.fbAsyncInit = function() {
 						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
 					</c:when>
 					<c:otherwise>
-						<button type="button" onclick="location.href='myPage.do?id=${login.id}'"
-						class="btn_MyPage">마이페이지</button>		
 					</c:otherwise>
 				</c:choose>
 			</c:if>

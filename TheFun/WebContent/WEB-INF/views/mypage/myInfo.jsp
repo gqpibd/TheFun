@@ -108,16 +108,31 @@
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <div class="group" style="width: 100%;" align="center">	
-	<div class="imgbox" align="center">
-	<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
-	<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
-	</div>
-	<br>
-	<div align="center">
-	<a href="javascript:profile_default()" id="profile_default">기본 프로필 사진으로 변경</a>
-	<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
-	</div>
+	<table border="0">
+	<tr>
+		<td>
+			<div class="imgbox" align="center">
+			<img id="editable-Img" src='${myi.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
+			</div>
+		</td>
+		<td style="padding-top: 160px;">
+			<div align="center">
+			<a href="javascript:profile_default()" id="profile_default">
+			<img src="image/icons/vcard_active.png"
+			onmouseover="this.src='image/icons/vcard_dark.png'"
+		    onmouseout="this.src='image/icons/vcard_active.png'"
+		    title="클릭 시 기본프로필 이미지로 변경됩니다.">
+		    </a>
+			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
+			</div>
+		</td>
+	</tr>
+	</table>
 </div>
+
+<br>
+
 </c:if>
 <div class="main form">
 <div class="left" align="center"> 
@@ -247,6 +262,7 @@
 	</div>
 		
 	<div class="right" style="width: 100%;" align="center">
+		<br>
 		<input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
 	</div>	
 	</div>
