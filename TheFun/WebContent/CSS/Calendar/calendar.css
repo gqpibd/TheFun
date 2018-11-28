@@ -5,7 +5,7 @@
 }
 
 .head_body {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Roboto';
   font-size: 17px;
   font-weight: 400;
   background-color: #eee;
@@ -15,16 +15,16 @@
   font-size: 200%;
   text-transform: uppercase;
   letter-spacing: 3px;
-  font-weight: 400;
+  font-weight: bold;
 }
 
 #cal_header {
   background: #8152f0;
   color: #FFFFFF;
-  padding: 150px 0;
+  padding: 80px;
 }
 #cal_header p {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Allura';
   color: rgba(255, 255, 255, 0.2);
   margin-bottom: 0;
   font-size: 60px;
@@ -96,7 +96,7 @@
 .timeline-img {
   width: 30px;
   height: 30px;
-  background: #3F51B5;
+  background: #8152f0;
   border-radius: 50%;
   position: absolute;
   left: 50%;
@@ -116,11 +116,13 @@
   border-radius: 2px;
   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.6);
 }
-a:hover, a:active, a:focus {
-  background: #32408f;
-  color: #FFFFFF;
-  text-decoration: none;
-}
+  a.bnt-more:hover, a.bnt-more:active, a.bnt-more:focus {
+	  background: #32408f;
+	  color: #FFFFFF;
+	  text-decoration: none;
+  }
+  
+  
 
 .timeline-card {
   padding: 0 !important;
