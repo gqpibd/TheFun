@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
  
+ <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
+ 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <style type="text/css">
 .input {
@@ -90,14 +92,24 @@
 	z-index: 1;
 } 
 
+.profile_img{   
+    float: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
 </style>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
-<c:if test="${myi.pwd ne null}">
-<input type="hidden" id="imgPath" name="imgPath" value="${myi.address}">
+<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
+<input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <div class="group" style="width: 100%;" align="center">	
 	<div class="imgbox" align="center">
-	<img id="editable-Img" src='${myi.address}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+	<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
 	<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" >
 	</div>
 	<br>
@@ -110,13 +122,13 @@
 <div class="main form">
 <div class="left" align="center"> 
 <c:choose>
-	<c:when test="${myi.pwd ne null}">		
+	<c:when test="${login.pwd ne null}">		
 		<table class="tb">		
 			<!-- 아이디 -->
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
+					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -147,7 +159,7 @@
 			<tr>
 				<td style="text-align: left;">별명</td>
 				<td colspan="2">
-					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${myi.nickname }" />
+					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -155,24 +167,29 @@
 			<tr>
 				<td style="text-align: left;">이메일</td>
 				<td colspan="2">
-					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${myi.email }" />
+					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${login.email }" />
 				</td>
 			</tr>
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
-	<c:otherwise>
-		<table class="tb">		
+	<c:otherwise> <!-- 연동 로그인 -->
+		<table class="tb" style="text-align: center">		
+			<tr>
+				<td>
+					<img src="${login.profile}" class="profile_img">
+				</td>
+			</tr>
 			<!-- 아이디 -->
 			<tr>
-				<td style="text-align: left; ">아이디</td>
-				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${myi.id}" readonly="readonly" />
+				<td> 
+					<input type="hidden" name="id" value="${login.id}"/>
+					${login.nickname} 님
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
 			<tr>
-				<td>다른 계정으로 로그인중 </td>
+				<td>간편로그인 사용중</td>
 			</tr>		 		
 		</table>
 	</c:otherwise>
@@ -185,7 +202,7 @@
 		<tr>
 			<td style="text-align: left;">전화번호</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${myi.phone }" />
+				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -194,7 +211,7 @@
 		<tr>
 			<td style="text-align: left;">주소</td>
 			<td >
-				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${myi.postcode}" readonly="readonly">		
+				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">		
 			</td>
 			<td>
 				<input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
@@ -203,19 +220,19 @@
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${myi.roadaddress}"  readonly="readonly">
+				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
 			</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${myi.detailaddress}">
+				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
 			</td>
 		</tr>
 		<tr>
 			<td style="text-align: left;">소개</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${myi.info}"/>			
+				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${login.info}"/>			
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -223,7 +240,7 @@
 		<tr>
 			<td style="text-align: left;">포인트</td>
 			<td colspan="2">			
-				<input class="input" type="text" id="myPoint" name="point" value="${myi.point}" readonly="readonly"/>
+				<input class="input" type="text" id="myPoint" name="point" value="${login.point}" readonly="readonly"/>
 			</td>
 		</tr>	
 	</table>
@@ -244,8 +261,12 @@ var infoOk = true;
 var phoneOk = true;
 
 function checkSubmitActivation(){
+	if("${login.pwd}" == null){
+		document.getElementById("submitBtn").disabled = true;
+		document.getElementById("submitBtn").style.background = "#E2E2E2";
+		document.getElementById("submitBtn").style.cursor =  "default";
+	}else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
-	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 		document.getElementById("submitBtn").disabled = false;
 		document.getElementById("submitBtn").style.background = "#8152f0";
 		document.getElementById("submitBtn").style.cursor =  "pointer";
@@ -260,7 +281,7 @@ function myPwdCheck() {
 	$.ajax({
 		type:"post",
 		url:"pwdCheck.do",
-		data:"id=${myi.id}&pwd="+$('#myPwd').val(),
+		data:"id=${login.id}&pwd="+$('#myPwd').val(),
 		
 		success:function(data){		
 			if(data == "OK" ){ //비밀번호 일치
@@ -438,17 +459,5 @@ $('#editable-Img').on('load', function () {
 	$("#imgPath").val($(this).attr('src'));
 	console.log($("#imgPath").val());	
 });	
-
-/* 카카오 아이디로 로그인 했는지 확인 */
-Kakao.init('dd0c44a9e5b9f94ce480a440c3113d2d');
-Kakao.API.request({
-	url : '/v1/user/me',
-	success : function(res) {
-		var id = res.id;
-		var email = res.kaccount_email;
-		var nickname = res.properties['nickname']; // res.properties.nickname으로도 접근 가능
-		console.log(id);//<---- 콘솔 로그에 토큰값 출력			
-	}
-});
  
 </script>

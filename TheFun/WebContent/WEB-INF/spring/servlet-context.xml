@@ -32,13 +32,17 @@
 	<!-- Interceptor 설정 -->
 	 <mvc:interceptors>
 	    <mvc:interceptor>
-	        <mvc:mapping path="/myPage.do"/>
-	        <mvc:mapping path="/myInfo.do"/>
+	        <mvc:mapping path="/myPage.do"/>		<!-- 마이페이지 -->
+	        <mvc:mapping path="/myInfo.do"/>		<!-- 내 정보보기 -->
+	        <mvc:mapping path="/myOrderList.do"/>
 	        <mvc:mapping path="/goSelectReward.do"/>
 	        <mvc:mapping path="/goOrderReward.do"/>
 	        <mvc:mapping path="/order.do"/>
 	        <mvc:mapping path="/newProject.do"/>
 	        <mvc:mapping path="/newProjectAf.do"/>
+	        <mvc:mapping path="/myOrder.do"/>		<!-- 내 후원 내역 -->
+	        <mvc:mapping path="/myOrderList.do"/>	<!-- 내 후원 내역 controller -->
+	        <mvc:mapping path="/mySchedule.do"/>		<!-- 내 일정 -->
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>
@@ -53,12 +57,13 @@
 	<mvc:default-servlet-handler/>
 	
 	<!-- 파일 업로드 설정 -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="104857600"/> <!-- 1Mb -->
-		<property name="maxInMemorySize" value="102400"/> <!-- 1Kb -->
+	<!-- cos.jar로 스마트 에디터 이미지 업로드를 위해 여기 주석처리하고 테스트중(승지) -->
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="104857600"/> 1Mb
+		<property name="maxInMemorySize" value="102400"/> 1Kb
 		<property name="defaultEncoding" value="utf-8"/>
 		<property name="uploadTempDir" value="upload"/>	
-	</bean>
+	</bean> -->
 	
 	<!-- 파일 다운로드 설정 -->
 	<!-- <bean id="downloadView" class="donzo.thefun.util.DownloadView"/>

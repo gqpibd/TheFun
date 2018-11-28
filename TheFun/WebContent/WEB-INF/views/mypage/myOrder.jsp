@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>     
 
+
 <style type="text/css">
 	a:link { color: black; text-decoration: none;}
 	a:visited { color: black; text-decoration: none;}
@@ -39,10 +40,12 @@
 			</a>			
 		</td>
 		<td>
-			${order.price * order.count} 
+			<fmt:formatNumber value="${order.price * order.count}" type="number"/>  
 		</td>
 		<td>
-			${order.regdate}
+			<%-- <fmt:parseDate var="reg_date" value="${order.regdate}" pattern="yyyy-MM-dd"/>
+			<fmt:formatDate value="${reg_date }" pattern="yyyy-MM-dd"/> --%>
+			${order.getDateForm(order.regdate)}
 		</td>
 		<td>							
 			<c:choose>

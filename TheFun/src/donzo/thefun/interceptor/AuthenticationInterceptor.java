@@ -4,22 +4,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	// shift + alt + s + v : override method
 	// preHandle() : 컨트롤러보다 먼저 수행되는 메서드
+	private static final Logger logger = LoggerFactory.getLogger(AuthenticationInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+    	
         // session 객체를 가져옴
         HttpSession session = request.getSession();
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
         Object obj = session.getAttribute("login");
-        System.out.println("로그인 상태를 확인합니다"); 
+        logger.info("로그인 상태를 확인합니다"); 
+        String callbackUri = request.getRequestURI().substring(request.getRequestURI().lastIndexOf("/")+1);
+        
+        logger.info(callbackUri);
+        //logger.info(request.getParameter("seq"));
+      
         if ( obj == null ){
             // 로그인이 안되어 있는 상태임으로 로그인 폼으로 다시 돌려보냄(redirect)
-            response.sendRedirect("login.do");
+        	String seq = request.getParameter("seq");
+        	if(seq != null) {
+        		callbackUri += "?seq=" + seq;
+        	}
+            response.sendRedirect("login.do?callback=" + callbackUri);
             return false; // 더이상 컨트롤러 요청으로 가지 않도록 false로 반환함
         }
          

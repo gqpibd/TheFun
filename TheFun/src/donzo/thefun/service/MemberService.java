@@ -16,5 +16,7 @@ public interface MemberService {
 
 	public boolean updateMember(MemberDto mem);
 	
+	
+	
 }
  

@@ -49,9 +49,17 @@ td{
           <c:if test="${option.stock-option.buycount > 0}"> <!-- 1개 이상 남았을 때만 주문 가능 -->
           <table>
 			<tr>
-         	<td class="strongGray">
-         	 <p> <input type="checkbox" value="${option.seq }" name="check" onclick="boxCheck(this)">&nbsp;
-         	 	<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>  (${option.stock-option.buycount }개 남음)</p>
+         	<td class="strongGray">        	 	
+         	 	<c:if test="${option.stock == option.buycount}">
+					<p class="pupple"> <input type="checkbox" disabled="disabled">
+					<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>
+					<font style="background-color:#ebe2ff ">&nbsp;매진되었습니다&nbsp;&nbsp;</font></p>
+				</c:if>
+				<c:if test="${option.stock != option.buycount}">
+				 <p> <input type="checkbox" value="${option.seq }" name="check" onclick="boxCheck(this)">&nbsp;
+         	 	<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>(${option.stock-option.buycount }개 남음)</p>
+				</c:if>
+         	
 		 	 <p class="liteGray">&nbsp; ${option.title }</p>
 			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
@@ -99,6 +107,7 @@ td{
  */
           
  function goOrder() {
+	 
   //체크박스 하나라도 체크안한게 있는지 확인 
      var isChecked = false;
      var checkArr = document.getElementsByName("check");

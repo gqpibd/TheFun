@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
+import donzo.thefun.dao.QnaDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.QnaDto;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -27,6 +29,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	NoticeDao noticeDao;
+
+	@Autowired
+	QnaDao qnaDao;
 
 	@Override
 	public ProjectDto getProject(int seq) {
@@ -63,16 +68,14 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
-		// [1] 프로젝트 insert
-		//projectDao.projectWrite(newProjectDto);
-		// [2] 생성한 프로젝트 seq값 찾아오기
-		//int projectSeq = projectDao.findProjectSeq(newProjectDto);
-		
+	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
+		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
 		System.out.println("찾아온 project seq : " + projectSeq);
 		// [3] 옵션 insert
 		optionDao.optionWrite(newPotionlist, projectSeq);
+		
+		return projectSeq;
 	}
 	
 	@Override
@@ -84,5 +87,29 @@ public class ProjectServiceImpl implements ProjectService {
 	public int getProjectCount(ProjectParam pParam) throws Exception {
 		return projectDao.getProjectCount(pParam);
 	}
+
+	@Override
+	public List<ProjectDto> getWaitingList() {
+		return projectDao.getWaitingList();
+	}
+
+	@Override
+	public List<QnaDto> getQna(int seq) {
+		return qnaDao.getQnaList(seq);
+	}
+	
+	//schedule
+	@Override
+	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
+		return projectDao.mySchedule(pro);
+	}
+
+
+	@Override
+	public boolean approveProject(int projectseq) {
+		return projectDao.approveProject(projectseq);
+		
+	}	
+	
 	
 }

@@ -57,8 +57,8 @@ function checkLoginState(){
 }
 
 function statusChangeCallback(response) {
-	console.log('statusChangeCallback');
-	console.log(response);	
+	//console.log('statusChangeCallback');
+	//console.log(response);	
 	if (response.status === 'connected') {
 		var uid = response.authResponse.userID;
 	    var accessToken = response.authResponse.accessToken;
@@ -67,8 +67,9 @@ function statusChangeCallback(response) {
 	      console.log('Successful login for: ' + res.name);		      
 	      console.log('response.authResponse.userID: ' + res.id);		      
 	      console.log('response.email: ' + res.email);			
-	      console.log('response.public_profile: ' + res.picture.data.url);	
-	      willYouSignUp(res.id,res.name,res.email);	
+	      //console.log('response.public_profile: ' + res.picture.data.url);
+	      profile = "http://graph.facebook.com/" + res.id + "/picture";
+	      willYouSignUp(res.id,res.name,res.email,profile);	
 	    });
 	} else {
 		console.log("페이스북 로그인 되어있지 않음")
@@ -94,6 +95,7 @@ function statusChangeCallback(response) {
 	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
+		
 		<h6 class="background"><span>필수 항목</span></h6>
 		<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="text" name="id" id="newId" placeholder="아이디" maxlength="12" onblur="idCheck()" />
@@ -103,7 +105,7 @@ function statusChangeCallback(response) {
 		<input type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="pwdCheck()" />
 		<input type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="pwdCheck()" />
 		<span id="emailCheckMessage" style="color:red; font-size:11px;"></span> 
-		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()"  />
+		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()"  />
 		
 		<h6 class="background" style="cursor: pointer;" onclick="$('#option').slideToggle()"><span>선택 항목</span></h6>
 		<div id="option">		
@@ -127,6 +129,7 @@ function statusChangeCallback(response) {
 	
 	<!-- 로그인 폼 -->
 	<form class="login-form" action="loginAf.do" method="post">
+		<input type="hidden" name="callback" value="${callback}">
 		<input type="hidden" name="loginType" value="normal">
 		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" />
 		<!-- <span><input type="checkbox" >아이디 저장</span> -->
@@ -136,19 +139,19 @@ function statusChangeCallback(response) {
 		<div style="margin: auto; display: table-cell;">
 			
 			<!-- 카카오 아이디로 로그인 -->
-			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;"> 
-				<img style="margin-bottom: 10px;" src="image/login/kakao_account_login_btn_medium_wide.png"
+			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;" > 
+				<img class="mb-2" src="image/login/kakao_account_login_btn_medium_wide.png"
 				onmouseover="this.src='image/login/kakao_account_login_btn_medium_wide_ov.png'"
 				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_wide.png'"/><!-- width="217.31px" -->
 			</a>
-			<!-- 네이버 아이디로 로그인 -->
-			<!-- <div id="naverIdLogin"></div> -->
 			<!-- 페이스북아이디로로그인 -->
 			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" >페이스북 계정으로 로그인
 			</fb:login-button>
 			<!-- 구글 아이디로 로그인 -->
 			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn" style="margin-top: 5px"></div> 
 			
+			<!-- 네이버 아이디로 로그인 -->
+			<div class="mt-2"id="naverIdLogin"></div>
 		</div>
 		<div>
 			<p class="message">
@@ -169,8 +172,9 @@ $('.message a').click(function(){
 </script>
 <!-- 카카오 아이디로 로그인 -->
 <script type='text/javascript'>	 
-    // 사용할 앱의 JavaScript 키를 설정해 주세요.
-    Kakao.init('dd0c44a9e5b9f94ce480a440c3113d2d');
+    // topbar에서 이미 init함..
+    Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+    //Kakao.init('e53f47e84dfa687f87346382fb232397'); //다슬
     // 카카오 로그인 버튼을 생성합니다.
 	  
 	function loginWithKakao() {
@@ -183,8 +187,12 @@ $('.message a').click(function(){
 						var id = res.id;
 						var email = res.kaccount_email;
 						var nickname = res.properties['nickname']; // res.properties.nickname으로도 접근 가능
+						var profile = res.properties.profile_image; 
 						//console.log(authObj.access_token);//<---- 콘솔 로그에 토큰값 출력
-						willYouSignUp(id,nickname,email);	
+						console.log("res.properties.profile_image : " + profile);//<---- 콘솔 로그에 토큰값 출력
+						console.log("res.properties.nickname : " + res.properties.nickname);//<---- 콘솔 로그에 토큰값 출력
+						console.log("res.properties.thumbnail_image : " + res.properties.thumbnail_image);//<---- 콘솔 로그에 토큰값 출력
+						willYouSignUp(id,nickname,email,profile);	
 						
 					}
 				})
@@ -194,18 +202,18 @@ $('.message a').click(function(){
 			}
 		});
 	};
-</script>
+</script>    
 
 <!-- 네이버아디디로로그인 Script -->
 <script type="text/javascript">
-	/* var naverLogin = new naver.LoginWithNaverId(
+	var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "vb6UHNxUFoBsi487fDmI",
-			//callbackUrl: "http://localhost:8090/TheFun/naverLogin.do",
-			callbackUrl: "https://localhost:8443/TheFun/login.do",
+			callbackUrl: "http://localhost:8090/TheFun/login.do",
+			//callbackUrl: "https://localhost:8443/TheFun/login.do",
 			//isPopup: false, // 팝업을 통한 연동처리 여부 
 			//callbackHandle: true,
-			loginButton: {color: "green", type: 3, height: 47} // 로그인 버튼의 타입을 지정
+			loginButton: {color: "green", type: 3, height: 50} // 로그인 버튼의 타입을 지정
 		}
 	);
 	//설정정보를 초기화하고 연동을 준비 
@@ -219,30 +227,11 @@ $('.message a').click(function(){
 			var nickname = naverLogin.user.getNickName();
 			var profileImage = naverLogin.user.getProfileImage();						
 			var id = naverLogin.user.getId();	
-			willYouSignUp(id,nickname,email);	
+			willYouSignUp(id,nickname,email,profileImage);	
 		}
 		});
-	}); */
-function willYouSignUp(id,nickname,email){
-	/* $.noConflict(); */
-	$.ajax({
-		type:"get",
-		url:"idCheck.do",
-		data:"id=" + id,
-		
-		success:function(data){						
-			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-				window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");
-				//location.href="loginAf.do?id=" + id +"&loginType=externalAccount";
-			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴							
-				if (confirm("등록되지 않은 계정입니다.  회원가입 하시겠습니까?")) {
-					//window.location.replace("regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email);
-					location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email;
-				}
-			}
-		}
-	});	
-}
+	}); 
+
 </script>
 <!-- 구글 아이디로 로그인 -->
 
@@ -253,25 +242,80 @@ function onSignIn(googleUser) {
 	console.log("onSignIn");
 	var id_token = googleUser.getAuthResponse().id_token;
     var auth2 = gapi.auth2.getAuthInstance(); 
-    auth2.disconnect(); 
+    //auth2.disconnect(); 
     
 	var profile = googleUser.getBasicProfile();
 	//var id =  googleUser.getAuthResponse().id_token;
 	var id = profile.getId();
 	var nickname = profile.getName();
-	//console.log('Image URL: ' + profile.getImageUrl());
+	console.log('Image URL: ' + profile.getImageUrl());
 	var email = profile.getEmail();
 	console.log("id:"+profile.getId());
 
-	willYouSignUp(id,nickname,email);	
+	willYouSignUp(id,nickname,email,profile.getImageUrl());	
 }
 </script>
 
-<!-- 페이스북아이디로 로그인  -->
+<!-- 회원가입 할래? -->
+<script type="text/javascript">
+function willYouSignUp(id,nickname,email,profile){
+	//profile
+	/* $.noConflict(); */
+	$.ajax({
+		type:"get",
+		url:"idCheck.do",
+		data:"id=" + id,
+		
+		success:function(data){						
+			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
+				window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");				
+			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
+				modalConfirm(function(confirm){
+					if(confirm){
+						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile;
+						console.log("yes");
+					}
+				});		
+			}
+		}
+	});	
+}
+/* confirm창 콜백 처리 */
+var modalConfirm = function(callback) {
+	$("#exampleModal").modal('show');
+	$("#join").on("click", function() {
+		callback(true);
+		$("#exampleModal").modal('hide');
+	});
 
-<script>
+	$("#cancel").on("click", function() {
+		callback(false);
+		$("#exampleModal").modal('hide');
+	});
+};
+</script>	
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">간편 회원가입</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	등록되지 않은 계정입니다.  회원가입 하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">취소</button>
+        <button type="button" class="btn btn-primary" id="join">회원가입</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-</script>
+
 
 
 <script type="text/javascript">

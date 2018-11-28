@@ -16,20 +16,22 @@
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
 <style type="text/css">
- p {
-   font-family: "Nanum Gothic", sans-serif;
+
+body{
+font-family: "Nanum Gothic", sans-serif;
 }
+.pnt { 
+	cursor: pointer; 
+}
+
  .pupple{
  	color:#8152f0;
- 	font-family: "Nanum Gothic", sans-serif;
  }
  .strongGray{
- font-family: "Nanum Gothic", sans-serif;
   color: #5c5c5c;
   
  }
  .liteGray{
- font-family: "Nanum Gothic", sans-serif;
 	 color: #c4c4c4;
  }
  .jbMenu {
@@ -60,6 +62,53 @@
 	width: 30%;
 	padding: 25px;
 }
+
+/* 버튼 */
+.fun_btn {
+	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	box-shadow:inset 0px 1px 0px 0px #d3c2ff;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a78af2), color-stop(1, #8152f0));
+	background:-moz-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-webkit-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-o-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:-ms-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background:linear-gradient(to bottom, #a78af2 5%, #8152f0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a78af2', endColorstr='#8152f0',GradientType=0);
+	background-color:#a78af2;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #8152f0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7754d1;
+}
+.fun_btn:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8152f0), color-stop(1, #a78af2));
+	background:-moz-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-webkit-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-o-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:-ms-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background:linear-gradient(to bottom, #8152f0 5%, #a78af2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8152f0', endColorstr='#a78af2',GradientType=0);
+	background-color:#8152f0;
+}
+.fun_btn:active {
+	position:relative;
+	top:1px;
+	
+}
+.fun_btn:focus{
+	outline: none;
+}
+
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -75,7 +124,7 @@ if(firstImg.attr("src")){
 	var firstImgRatio=1
 } 
 
-Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
+//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
 
 function sendLink() { 
 	Kakao.Link.sendTalkLink({ 
@@ -91,14 +140,22 @@ function sendLink() {
 } 
 </script>	    
 <!-- 남은날짜계산 -->
-<jsp:useBean id="toDay" class="java.util.Date" />
-<fmt:formatDate value="${toDay}" pattern="yyyy-MM-dd HH:mm:ss" />
+<!-- 프로젝트 오픈전 -->
+
+<!-- 프로젝트 오픈후 -->
+<jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 <fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
 
  <!-- 카테고리 , 태그 -->
     <div class="container">
+    <div align="center">
+    <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
+    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
+    	<button class="fun_btn">프로젝트 승인 거절</button>
+    </c:if>
+    </div>
    	<br>
    	<div align="center">
    		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;
@@ -131,7 +188,7 @@ function sendLink() {
 		<tr height="50">
 			<td> 
 				<a href="goSelectReward.do?seq=${projectdto.seq }">
-					<img src="image/detail/fundBtn.jpg" height="50px">
+					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
 		</tr>
@@ -141,6 +198,18 @@ function sendLink() {
 				<img height="50" src="image/detail/addcart2.jpg"/>&nbsp;&nbsp;&nbsp; &nbsp;
 				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/>
 			</td>
+		</tr>
+		<tr height="50" style="padding: 50px">
+			<td align="left">
+			<p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+				펀딩기간  <b>
+				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
+				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
+				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
+			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font></td>
+			<td><div id="shareField"></div> </td>
 		</tr>
 		</table>
    
@@ -152,7 +221,7 @@ function sendLink() {
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
 			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>n</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -208,8 +277,9 @@ $(function () {
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent">
-			<jsp:include page="detailFeedback.jsp"/>
+         <div class="col-lg-8" id="feedbackContent"> <!-- 댓글  -->
+			<%-- <jsp:include page="detailFeedback.jsp"/> --%>
+			<jsp:include page="qna.jsp"/>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
@@ -225,7 +295,7 @@ $(function () {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray">회사이미지 </td>
+				<td rowspan="2" align="left" class="strongGray"><img src="${writer.profile}" style="width:100%"></td>
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
@@ -254,7 +324,12 @@ $(function () {
 				</ul>
 				<fmt:parseDate value="${projectdto.shipdate}" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
               <p class="liteGray" style="font-size: 15px">예상전달일 :<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일"/></p>
-              <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				<c:if test="${option.stock == option.buycount}">
+				    <p class="pupple"><font style="background-color:#ebe2ff ">&nbsp;매진되었습니다&nbsp;&nbsp;</font></p>
+				</c:if>
+				<c:if test="${option.stock != option.buycount}">
+				    <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				</c:if>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>
           </div>

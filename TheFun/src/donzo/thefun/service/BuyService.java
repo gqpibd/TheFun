@@ -9,6 +9,7 @@ public interface BuyService {
 
 	public List<BuyDto> orderList(BuyDto buy);
 	
+	//add order
+	public void addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount);
 
-	
 }

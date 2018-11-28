@@ -8,6 +8,20 @@ public class FUpUtil {
 	//f.substring(0,3) abc
 	
 	// myfile.txt ---> 현재시간.txt 또는 현재시간.back로 변환
+	public static String getSeqFileName(String realFileName, int projectSeq){
+		String newfilename="";
+		String typeOfFile = "";
+		//String fre="";
+		if(realFileName.indexOf('.')>=0){
+			typeOfFile=realFileName.substring(realFileName.indexOf('.'));	// .jpg
+			newfilename=projectSeq+typeOfFile;	// 1.jpg
+		}else{
+			newfilename=projectSeq+".back";
+		}
+		return newfilename;
+	} 
+	
+	// myfile.txt ---> 현재시간.txt 또는 현재시간.back로 변환
 	public static String getNewFile(String f, String id){
 		String filename="";
 		String fpost="";

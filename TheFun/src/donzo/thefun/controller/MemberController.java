@@ -34,9 +34,9 @@ public class MemberController {
 	
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType) {
+	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("MemberController loginAf " + new Date());
-		logger.info(dto.toString());
+		
 		logger.info(loginType);
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			dto = memberService.tryLogin(dto);
@@ -47,7 +47,13 @@ public class MemberController {
 			logger.info("로그인 결과:" + dto);
 			dto = memberService.tryLogin(dto);
 		}
+		
+		logger.info(dto.toString());
 		req.getSession().setAttribute("login", dto);
+		if(callback!=null) {
+			logger.info(callback);
+			return "redirect:/" + callback;
+		}
 		return "redirect:/main.do";
 	}
 	
@@ -64,7 +70,7 @@ public class MemberController {
 		
 		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
 			if(imgPath.equals(MemberDto.DEFAULTIMGPATH)) { // 기본이 이미지인 경우 업로드가 필요 없다.
-				mem.setAddress(imgPath);
+				mem.setProfile(imgPath);
 			}else {
 				String f = fname;
 				String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
@@ -75,7 +81,7 @@ public class MemberController {
 					logger.info(file.getPath());
 					// 파일 업로드 작업
 					FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
-					mem.setAddress("image/profile/"+newFile);
+					mem.setProfile("image/profile/"+newFile);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}
@@ -87,19 +93,6 @@ public class MemberController {
 		req.getSession().setAttribute("login", mem);
 		return "redirect:/myInfo.do?id=" + mem.getId();
 	}	
-	
-	// 내 정보 불러오기(내정보 보기)
-	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getMyinfo(MemberDto mem, Model model) throws Exception{
-		logger.info("MemberController myInfo " + new Date());
-		logger.info("myInfo mem" + mem.toString());
-		MemberDto myinfo = memberService.getMypage(mem);		
-				
-		model.addAttribute("myi", myinfo);
-		
-		//return "getMypage.tiles";
-		return "myInfo.tiles";	
-	}
 	
 	// 로그아웃 처리
 	@RequestMapping(value="logout.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -164,10 +157,11 @@ public class MemberController {
 	/*-------------이 아래는 페이지 이동--------------*/
 	// 로그인 페이지로 이동
 	@RequestMapping(value="login.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String login(Model model, String message) {		
+	public String login(Model model, String message, String callback) {		
 		logger.info("MemberController login " + new Date());	
 		
 		model.addAttribute("message",message);
+		model.addAttribute("callback",callback);
 		return "login.tiles";
 	}
 	
@@ -177,5 +171,13 @@ public class MemberController {
 		logger.info("MemberController getMypage " + new Date());		
 		
 		return "MyPage.tiles";
+	}
+		
+	// 내 정보 보기, 수정하기 페이지로 이동
+	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getMyinfo(Model model) throws Exception{
+		logger.info("MemberController myInfo " + new Date());
+		
+		return "myInfo.tiles";	
 	}
 }

@@ -3,30 +3,33 @@
 <!-- myPage css -->
 <link rel="stylesheet" href="CSS/mainCss/maPage.css">
  
-<div align="center"> 
+<div align="center">
 	<div>
-		<form action="" method="post">
 			<table border="1">
 				<tr>
-					<td><img class="profile_img" alt="프로필" src="${login.address}"></td>
-					<td>${login.id}</td>
+					<td rowspan="3" style="padding: 25px;"><img class="profile_img" alt="프로필" src="${login.profile}.png"></td>
+					<td colspan="4" style=""><h1>${login.id}</h1></td>
+					<!-- <td></td> -->
+					<!-- <td></td> -->
+					<!-- <td></td> -->
 				</tr>
 				<tr>
 					<!-- <td></td> -->
-					<td colspan="2" align="center">보유 포인트 ${login.point}점</td>
+					<td colspan="4" >보유 포인트 ${login.point}점</td>
+					<!-- <td></td> -->
+					<!-- <td></td> -->
+					<!-- <td></td> -->
+				</tr>		
+				<tr">
+					<!-- <td></td> -->
+					<td><a href="myInfo.do?id=${login.id}"><button>내 정보</button></a></td>
+					<td><a href="myOrderList.do?id=${login.id}"><button>나의후원내역</button></a></td>
+					<td><a href="mySchedule.do?id=${login.id}"><button>내프로젝트</button></a></td>
+					<td><a href="#"><button>일정보기</button></a></td>
 				</tr>
-			</table>
-		</form>
+			</table>				
 	</div>
-	
-	<br>
-	
-	<nav id="topMenu"> 
-		<ul> 
-			<li><a class="menuLink" href="myInfo.do?id=${login.id}">내 정보</a></li> 
-			<li><a class="menuLink" href="myOrderList.do?id=${login.id}">나의후원내역</a></li>
-			<li><a class="menuLink" href="#">내프로젝트</a></li>
-			<li><a class="menuLink" href="#">캘린더</a></li>
-		</ul>
-    </nav>
 </div> 
+
+
+

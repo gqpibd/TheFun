@@ -35,6 +35,14 @@ package donzo.thefun.model;
 //REFERENCES FUN_QNA(SEQ)
 //ON DELETE CASCADE; -- 종속 삭제
 
+//-------------- VIEW : 댓글
+//CREATE OR REPLACE VIEW FUN_QNA_VIEW (SEQ, PROJECTSEQ, ID, REFSEQ, CONTENT, STATUS, REGDATE, TOWHOM, NICKNAME, PROFILE)
+//AS
+//SELECT Q.SEQ, Q.PROJECTSEQ, Q.ID, Q.REFSEQ, Q.CONTENT, Q.STATUS, Q.REGDATE, Q.TOWHOM, 
+//    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.ID),
+//    (SELECT PROFILE FROM FUN_MEMBER WHERE ID = Q.ID)
+//FROM FUN_QNA Q;
+
 import java.io.Serializable;
 
 public class QnaDto implements Serializable {
@@ -48,12 +56,20 @@ public class QnaDto implements Serializable {
 	String id;
 	int refseq; // 참조하는 댓글. 없으면 나
 	String content; // 내용
-	int status; // 일반, 비밀, 삭제
+	String status; // 일반, 비밀, 삭제
 	String regdate;
 	
-	public QnaDto() { }
+	String towhom;
+	
+	String nickname;
+	String profile; 
+	
+	public QnaDto() {
+		this.status = NORMAL;
+		this.towhom = "";
+	}
 
-	public QnaDto(int seq, int projectseq, String id, int refseq, String content, int status,
+	public QnaDto(int seq, int projectseq, String id, int refseq, String content, String status,
 			String regdate) {
 		super();
 		this.seq = seq;
@@ -105,11 +121,11 @@ public class QnaDto implements Serializable {
 		this.content = content;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -120,10 +136,49 @@ public class QnaDto implements Serializable {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+	
+	public boolean isDel() {
+		if(status.equalsIgnoreCase(DELETE)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isHidden() {
+		if(status.equalsIgnoreCase(HIDE)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public String getTowhom() {
+		return towhom;
+	}
+
+	public void setTowhom(String towhom) {
+		this.towhom = towhom;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
 
 	@Override
 	public String toString() {
-		return "ReplyDto [seq=" + seq + ", projectseq=" + projectseq + ", id=" + id + ", refseq=" + refseq
-				+ ", content=" + content + ", status=" + status + ", regdate=" + regdate + "]";
+		return "QnaDto [seq=" + seq + ", projectseq=" + projectseq + ", id=" + id + ", refseq=" + refseq + ", content="
+				+ content + ", status=" + status + ", regdate=" + regdate + ", towhom=" + towhom + ", nickname="
+				+ nickname + ", profile=" + profile + "]";
 	}
 }

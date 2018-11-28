@@ -1,25 +1,36 @@
 package donzo.thefun.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.service.BuyService;
 import donzo.thefun.service.ProjectService;
+import donzo.thefun.util.FUpUtil;
 
 
 @Controller
@@ -29,6 +40,8 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
+	@Autowired
+	BuyService buyservice;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -43,10 +56,22 @@ public class ProjectController {
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-				
+		
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
+		
+		//새소식 가져오기 
+		model.addAttribute("qnaList",projectService.getQna(seq));
 		return "projectDetail.tiles";
+	}
+	
+	// 프로젝트 관리 창으로 이동	
+	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectManage(Model model) {
+		logger.info("ProjectController projectManage 메소드 " + new Date());
+		List<ProjectDto> pList = projectService.getWaitingList();
+		model.addAttribute("pList",pList);
+		return "projectManage.tiles";
 	}
 		
 	// 옵션선택창으로 이동
@@ -68,8 +93,6 @@ public class ProjectController {
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
 
-		//로그인 정보
-		
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(projectSeq));
 		
@@ -81,13 +104,40 @@ public class ProjectController {
 
 	}
 	
+/*	
+	//옵션 재선택
+	@ResponseBody
+	@RequestMapping(value="reloadOption.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public List<OptionDto> reloadOption(int[] check, Model model) {
+		
+	
+		//선택한 옵션정보
+		List<OptionDto> selectOptions = projectService.getSelectOptions(check);
+	
+		for(int i=0; i<selectOptions.size();i++) {
+			System.out.println(i+"번째 option :"+selectOptions.get(i));
+		}
+		
+		return selectOptions;
+	}
+*/	
+	
+	//주문완료
+	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
+		
+		//주문 insert
+		buyservice.addOrders(loginId,projectSeq, opSeq, opCount);
+		return "redirect:/main.do";
+	}
+	
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProjectList(Model model, ProjectParam pParam) throws Exception{
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
-		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠 예정
+		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠까요?
 		if(pParam.getS_type() == null) {
 			pParam.setS_type("");
 		}
@@ -104,6 +154,15 @@ public class ProjectController {
 			pParam.setS_summary("");
 		}
 		
+		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")){
+			pParam.setS_sort("FUNDACHIVED");
+		} else if(pParam.getS_sort().equals("buycountDESC")) {
+			pParam.setS_sort("BUYCOUNT");
+		} else if(pParam.getS_sort().equals("fundachivedDESC")) {
+			pParam.setS_sort("FUNDACHIVED");
+		} else if(pParam.getS_sort().equals("sdateDESC")) {
+			pParam.setS_sort("SDATE");
+		}
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -112,7 +171,7 @@ public class ProjectController {
 		
 		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
 		
-		// 8페이지씩 보여주려고
+		// 6 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
 		pParam.setEnd(end);
 		pParam.setRecordCountPerPage(8);
@@ -131,28 +190,18 @@ public class ProjectController {
 		model.addAttribute("recordCountPerPage", pParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		
+		model.addAttribute("s_summary", pParam.getS_summary());
+		
 		model.addAttribute("s_type", pParam.getS_type());
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
-		model.addAttribute("s_summary", pParam.getS_summary());
+		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
 		
 		model.addAttribute("list", list);
 
 		return "search.tiles";
 	}
 	
-	// 주문 완료
-	@RequestMapping(value="order.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String order(int projectSeq, int[] opSeq, int[] opCount, Model model) {
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
-
-		//buy테이블에 add 
-		
-		//선택한옵션 seq[]랑 수량[]
-
-		return "redirect:/main.do";
-
-	}	
 	
 	// 새 프로젝트 등록	
 	@RequestMapping(value="newProjectAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -169,7 +218,6 @@ public class ProjectController {
 			- 배열값 4개 : 각 옵션의 제목, 내용, 가격, 재고
 			- mainImage : 메인이미지로 등록한 파일명
 		 */
-		
 		logger.info("ProjectController newProjectAf 들어옴 " + new Date());
 		
 		logger.info("newProjectDto : " + newProjectDto.toString());
@@ -182,16 +230,112 @@ public class ProjectController {
 								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
 		}
 		
-		// DB에  프로젝트+옵션 추가!!
-		projectService.projectWrite(newProjectDto, newPotionlist);
+		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)
+		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
+		
+		// [2] 파일 업로드
+			// [2]-1. 경로설정 (톰켓에 올리기)
+			String uploadPath = req.getServletContext().getRealPath("/upload");
+				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
+				// String uploadPath = "d:\\tmp";
+			logger.info("업로드 경로 : " + uploadPath);
+			
+			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
+			String realFileName = mainImage.getOriginalFilename();
+			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
+			File file = new File(uploadPath + "/" + changedFileName);
+			System.out.println("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+
+			// [2]-3. 실제 업로드 부분
+			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
 		return "newProject.tiles";
 	}
+		
+	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	@ResponseBody	// <== ajax에 필수
+	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
+					method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String editorImgUp(HttpServletRequest req, @RequestBody Article article) {
+		
+		// 이미지 업로드할 경로
+		String uploadPath = "D:\tmp";
+		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
+		
+		String fileName = "";	// 파일명
+		
+		try {
+			// 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement();
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		/* 생략
+		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+				
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONPObject jobj = new JSONPObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		*/
+		
+		
+		/*
+		// 이미지 업로드할 경로
+		// String uploadPath = "D:/WYSIWYG_EDITOR_FILEUPLOAD/upload";
+		String uploadPath = "D:\tmp";
+	    int size = 10 * 1024 * 1024;  // 업로드 사이즈 제한 10M 이하
+		
+		String fileName = ""; // 파일명
+		
+		try{
+	        // 파일업로드 및 업로드 후 파일명 가져옴
+			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "utf-8", new DefaultFileRenamePolicy());
+			Enumeration files = multi.getFileNames();
+			String file = (String)files.nextElement(); 
+			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	    // 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
+		String uploadPath = "/upload/" + fileName;
+		
+	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
+		JSONObject jobj = new JSONObject();
+		jobj.put("url", uploadPath);
+		
+		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
+		out.print(jobj.toJSONString());
+		 */
+
+		return "";
+	}
+	
+	// 프로젝트 승인
+	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String approve(Model model, int projectseq) throws Exception{
+		logger.info("ProjectController approve " + new Date());
+		projectService.approveProject(projectseq);
+		
+		return "redirect:/projectDetail.do?seq=" + projectseq;
+	}
+	
 	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
 		ProjectParam mainParam = new ProjectParam();
+		
 		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠 예정
 		if(mainParam.getS_type() == null) {
 			mainParam.setS_type("");
@@ -208,10 +352,23 @@ public class ProjectController {
 		if(mainParam.getS_summary() == null) {
 			mainParam.setS_summary("");
 		}
+		
+		if(mainParam.getS_sort() == null || mainParam.getS_sort().equals("")) {
+			mainParam.setS_sort("FUNDACHIVED");
+		} else if(mainParam.getS_sort().equals("buycountDESC")) {
+			mainParam.setS_sort("BUYCOUNT");
+		} else if(mainParam.getS_sort().equals("fundachivedDESC")) {
+			mainParam.setS_sort("FUNDACHIVED");
+		} else if(mainParam.getS_sort().equals("sdateDESC")) {
+			mainParam.setS_sort("SDATE");
+		}
+		
 //		4페이지씩 보여주려고
 		mainParam.setStart(1);
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
+		
+		System.out.println("mainParam 출력 : " + mainParam.toString());
 		
 		List<ProjectDto> mainPageList = projectService.searchProjectList(mainParam);
 		
@@ -240,32 +397,21 @@ public class ProjectController {
 		logger.info("ProjectController newProject 들어옴 " + new Date());
 		return "newProject.tiles";
 	}
-	/*@RequestMapping(value="searchProject.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String searchProject(Model model, ProjectParam pParam) throws Exception{
-		logger.info("ProjectController searchProject.do " + new Date());
-		
-		logger.info("ProjectController 로 들어온 pParam : " + pParam.toString());
-		
-		// paging 처리 
-		int sn = pParam.getPageNumber();
-		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
-		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
-		
-		pParam.setStart(start);
-		pParam.setEnd(end);
-		
-		List<ProjectDto> list = projectService.getAllProjectList(pParam);
-		
-		for (int i = 0; i < list.size(); i++) {
-			ProjectDto dto = list.get(i);
-			System.out.println("List : " + dto.toString());
+	
+	//내 일정 이동 (내 프로젝트 보기)
+		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
+		public String mySchedule(Model model, ProjectDto pro) throws Exception{
+			logger.info("ProjectController myCalendar " + new Date());
+			
+			List<ProjectDto> myschedule = projectService.mySchedule(pro);
+			
+			for (int i = 0; i < myschedule.size(); i++) {
+				ProjectDto dto = myschedule.get(i);
+				logger.info("Schedule list : " + dto.toString());
+			}
+			model.addAttribute("schedule", myschedule);
+			return "mySchedule.tiles";
 		}
-		
-		model.addAttribute("List", list);
-		
-		return "search.tiles";
-		
-	}*/
 	 
 	/*
 	 참고용 삭제 예정
@@ -283,5 +429,5 @@ public class ProjectController {
 		logger.info("ProjectController detail " + new Date());
 		
 		return "project/detail";
-	}*/   
+	}*/    
 }

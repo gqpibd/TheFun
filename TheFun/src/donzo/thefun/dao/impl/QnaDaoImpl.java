@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.QnaDao;
+import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.QnaDto;
 
 @Repository
@@ -17,10 +19,26 @@ public class QnaDaoImpl implements QnaDao {
 	
 	String ns = "Qna.";
 
+	@Override
+	public List<QnaDto> getQnaList(int seq) {
+		return sqlSession.selectList(ns + "getQnaList", seq);
+	}
 
-	
-	
-	
-	
-	
+	@Override
+	public int addQna(QnaDto newQna) {
+		return sqlSession.insert(ns + "addNewQna", newQna);		
+	}
+
+	@Override
+	public boolean delQna(int seq) {
+		int n = sqlSession.update(ns + "delQna", seq);		
+		return n>0?true:false;
+	}
+
+	@Override
+	public boolean updateQna(QnaDto dto) {
+		int n = sqlSession.update(ns + "updateQna", dto);		
+		return n>0?true:false;
+	}
+
 }
