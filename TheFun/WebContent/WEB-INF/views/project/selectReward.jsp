@@ -65,9 +65,6 @@ td{
 			 </c:forEach> 	
          	</td>
          	</tr>
-<!--     <tr>
-         	<td class="liteGray">수량 : <input type="text" name="count" size="5px" value="0"> </td>
-         </tr> -->
           </table>
           <br>
           </c:forEach>
@@ -80,30 +77,6 @@ td{
           </form>
           
  <script type="text/javascript">
- /*
- function boxCheck(e){
-     if ( e.checked == true ){
-     	alert("선택한 옵션의 seq : "+e.value);
-     	//seq 를 다른 배열에 저장하고 ㅇㅇ
-     }else{
-     	alert("선택 해제");
-     }
- }
- 
-/*        // 동적으로 추가된 체크박스 체크여부 확인
-          $("#optionsDiv").on("click", 'input:checkbox', function() {
-        	  $('input:checkbox[name="check"]').each(function() {
-                  if(this.checked){//체크 했을 때
-                    alert("선택한 옵션의 seq :"+this.value); 
-                  }else{//체크 해지 했을 때
-                	  
-                  }
-
-             });
-        	  
-          });
-       
- */
           
  function goOrder() {
 	 

@@ -61,8 +61,11 @@ public class ProjectController {
 		//새소식 가져오기 
 		model.addAttribute("noticeInfo",projectService.getNotice(seq));
 		
-		//새소식 가져오기 
+		//댓글 가져오기 
 		model.addAttribute("qnaList",projectService.getQna(seq));
+		
+		//후원자 인원 
+		model.addAttribute("sponserCount",projectService.sponsorCount(seq));
 		return "projectDetail.tiles";
 	}
 	
@@ -79,13 +82,17 @@ public class ProjectController {
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goSelectReward(int seq,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-	
+
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
 		
+		//기부일 경우
+		
+		
+		//리워드일 경우
+		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-		
 		return "selectReward.tiles";
 	}
 	

@@ -19,4 +19,10 @@
 	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},#{price},SYSDATE,null,null)
 </insert>
 
+<!-- 후원자 카운트 -->
+<select id="sponsorCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	SELECT COUNT(DISTINCT ID) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ=1 
+</select>
+
+
 </mapper>

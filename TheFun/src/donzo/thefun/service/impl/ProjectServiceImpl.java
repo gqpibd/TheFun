@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import donzo.thefun.dao.BuyDao;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
@@ -32,7 +33,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	QnaDao qnaDao;
-
+	
+	@Autowired
+	BuyDao buydao;
+	
 	@Override
 	public ProjectDto getProject(int seq) {
 		return projectDao.getProject(seq);
@@ -104,6 +108,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.mySchedule(pro);
 	}
 
-	
+	@Override
+	public int sponsorCount(int projectSeq) {
+		return buydao.sponsorCount(projectSeq);
+	}
+
 	
 }

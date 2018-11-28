@@ -4,9 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
-  
 <title>The Fun_orderReward</title>
- 
 <style type="text/css">
 body{
 	font-family: "Nanum Gothic", sans-serif;
@@ -75,18 +73,23 @@ body{
       <p class="strongGray">${projectdto.title } </p>
       <br>
       <!-- 옵션테이블 -->
+      <table style="width: 70%">
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		<table style="width: 70%">
-		<tr>
+		
+		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="checkbox" value="${options.seq}" name="chekboxs" id="checkbox_${status.count }"> ${options.title}
+				<p><input type="checkbox" value="${options.seq}" name="chekboxs" id="checkbox_${status.count }"> 
+					${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font></p>
+					<input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
 			</td>
 		</tr>
-		<tr>
+		<tr id="tr2_${options.seq}">
 			<td class="liteGray td1" colspan="3">
+			<ul>
 			 <c:forEach items="${options.content}" var="item">
 		  		<li class="liteGray">${item}</li>
 		 	 </c:forEach>
+		 	 </ul>
 		</td>
 		<td class="td2 liteGray">
 			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3">개 &nbsp;
@@ -97,9 +100,9 @@ body{
 			<input type="text" readonly="readonly" value="${options.price}" class="Fee liteGray" size="10" id="${options.seq}_p">원
 		</td>
 		</tr>
-		</table>
-		<br>
 	</c:forEach>    
+	</table>
+	<br>
 	<p align="right" style="width: 70%"><img class="pnt" src="image/detail/deleteBtn.jpg" id="deleteBtn" width="120px;"></p>
 	
 	<hr width="70%">
@@ -209,7 +212,8 @@ body{
 	//수량선택 +
 	function plusVal(seqNum) {
 	   	var opCount = Number(document.getElementById(seqNum).value);
-		if(opCount==99){
+	   	var stockCount = document.getElementById("stock_"+seqNum).value;
+		if(opCount==stockCount){
 			alert("구매가능한 수량보다 많습니다.");
 		}else{
 			opCount+=1;
@@ -238,45 +242,37 @@ body{
 		//선택한 체크박스 value 추출
 		$(document).on("click","#deleteBtn",function (){
 
-			//모든 체크박스 선택시 삭제 불가능
+			//체크된 갯수
 			var arrlen =$("input[name=chekboxs]:checked").length;
-		/*var allOptionlen = ${fn:length(selectOptions)}
+			alert("선택옵션"+arrlen);
+			//옵션의 전체갯수
+			var allOptionlen = $("input[name=chekboxs]").length;
+			alert("옵션의 전체갯수"+allOptionlen);
 			
-			//전체선택시
 			if(arrlen==allOptionlen){
-				"전체삭제는 불가능합니다. 다시선택해 주십시오"
+				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
+				
 			}else{
- */			
 				//선택한 체크박스 정보를 담을 배열
 				var opSeqs = new Array(arrlen);
 				var i=0;
 				
 			 	//배열에 옵션시퀀스 입력
 				$("input[name=chekboxs]:checked").each(function() {
-					var test = $(this).val();
-					opSeqs[i]=test;
-					i++;
-				});
-			 	
-			 	//parent. 로 찾아서 해당 child 삭제
-				
-				/* $.ajax({
-					
-					url:"reloadOption.do",
-					type:"post",
-					data:"check="+opSeqs,
-					
-					success:function(data){
-						alert("통신성공");
-						alert(data);
-					},
-					error:function(rq,st,err){
-						alert("통신실패");
-					}
-				}); */
-		//	}
+					var test = $(this).val();		
+					opSeqs[i]="tr_"+test;
+					$("#"+opSeqs[i]).remove();		
+					opSeqs[i+1]="tr2_"+test;
+					$("#"+opSeqs[i+1]).remove();				
+					i+=2;
+				}); 
+			}
 	
 		});	//onclick 끝
+		
+		
+		
+		
 		
 	});
 	

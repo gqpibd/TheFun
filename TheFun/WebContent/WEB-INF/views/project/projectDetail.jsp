@@ -120,7 +120,7 @@ function sendLink() {
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
+			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate+1}일 남음</b></td>
 		</tr>
 		<tr height="50">
 			<td class="strongGray sTd">
@@ -133,7 +133,7 @@ function sendLink() {
 			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
+			<td class="strongGray sTd"><b style="font-size: 20px">${sponserCount}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<td> 
@@ -284,8 +284,8 @@ $(function () {
             </div>
           </div>
           </c:forEach>
-          
 		<!-- side옵션 끝 -->
+		
      	 </div>
      	<!-- sidebar 끝 -->
 

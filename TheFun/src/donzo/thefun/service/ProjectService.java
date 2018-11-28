@@ -35,4 +35,7 @@ public interface ProjectService {
 	
 	//schedule
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	
+	//특정 게시글 당 후원자 인원 count
+	public int sponsorCount(int projectSeq);
 }
