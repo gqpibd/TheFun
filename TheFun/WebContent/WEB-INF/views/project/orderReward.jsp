@@ -78,7 +78,7 @@ body{
 		
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
-				<p><input type="checkbox" value="${options.seq}" name="chekboxs" id="checkbox_${status.count }"> 
+				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
 					${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font></p>
 					<input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
 			</td>
@@ -98,7 +98,7 @@ body{
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
+			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}"> <!-- 합계금액 -->
 		</td>
 		</tr>
 	</c:forEach>
@@ -239,7 +239,7 @@ body{
 <br><br>
 <input type="hidden" name="projectSeq" value="${projectdto.seq }">
 <input type="hidden" name="loginId" value="${login.id }">
-<input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;"> 
+<input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;">  <!-- 결제 예약하기 버튼 -->
 
 </form>
      </div>
@@ -273,7 +273,7 @@ body{
 	function minusVal(seqNum) {
 		var opCount = Number(document.getElementById(seqNum).value);
 		if(opCount==1){
-			alert("0개이하는 선택하실수  없습니다. ");
+			//alert("0개이하는 선택하실수  없습니다. ");
 			document.getElementById(seqNum).value ="1";
 		}else{
 			opCount-=1;
@@ -334,9 +334,6 @@ body{
 			}
 	
 		});	//onclick 끝
-		
-
-		
 		
 	});
 	

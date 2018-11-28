@@ -19,7 +19,10 @@
 <!-- 옵션 추가 -->
 <insert id="newWrite" parameterType="donzo.thefun.model.OptionDto">
 	INSERT INTO FUN_OPTION(SEQ, PROJECTSEQ, TITLE, CONTENT, PRICE, STOCK)
-	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
-</insert> 
+	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock}
+</insert>
+
+<!-- updateStock 없음 -->
+<!-- 옵션 재고 수정 (프로젝트 없데이트시)용으로 작성하면 될 듯  -->
 
 </mapper>

@@ -158,18 +158,11 @@ public class BuyDto implements Serializable {
 	
 	
 	// 새 구매 또는 새 장바구니
-	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String status) {
+	public BuyDto(int projectseq, String id, int optionseq, int count) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
-		this.price = price;
-		this.status = status;
-	}
-
-	public BuyDto(int i, String loginId, int projectSeq2, int j, int k, int l, String string, int m, String string2,
-			String string3, String string4, String string5, String string6) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getStatus() {

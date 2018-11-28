@@ -8,13 +8,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- 썸머노트(반응형 스마트 에디터) -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"> --> <!-- header에 v4.1.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script> --> <!-- header에 v4.1.1 -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
-<!-- include summernote-ko-KR -->
-<script src="/summernote/lang/summernote-ko-KR.js"></script>
+
+<!-- summernote의 스타일시트와 자바스크립트을 사용하기 위한 선언 -->
+<!-- <link href="./dist/summernote.css" rel="stylesheet">
+<script src="./dist/summernote.js"></script> -->
+<script src="./dist/lang/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
+
+
 
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
@@ -40,21 +43,55 @@ tr, td, input{
 </style>
 
 <script>
-	// 썸머노트 설정
-	$(document).ready(function() {
-		  $('#summernote').summernote();
+	
+$(document).ready(function() {
+		
+		
+		/* 리워드 각 탭 아래 나오는거 일단 비활성화 */
+		$(".changedOption").hide();
+		
+		
+		// 썸머노트 설정
+		  $('#summernote').summernote({
+				  height: 300,		// 기본 높이값
+				  placeholder : "Only Text Please!!",
+			        minHeight: null,	// 최소 높이값(null은 제한 없음)
+			        maxHeight: null,	// 최대 높이값(null은 제한 없음)
+			        focus: true,		// 페이지가 열릴때 포커스를 지정함
+			        lang : 'ko-KR',		// 한글설정
+			      	//onlmageUpload callback함수 -> 미설정시 data형태로 에디터 그대로 삽입
+			        callbacks: {
+			          onImageUpload: function(files, editor) {
+			        	  console.log("onImageUpload 업로드 이벤트 발생");
+			            //for (var i = files.length - 1; i >= 0; i--) {
+			              sendFile(files[0], this);
+			            //}
+			          }
+			        }	  
+		  });
+		  // 썸머노트 이미지 컨트롤러에 실시간 업로드할 AJAX 함수
+		  function sendFile(file, editor) {
+		      var form_data = new FormData();
+		      form_data.append('summerFile', file);
+		      $.ajax({
+		        data: form_data,
+		        type: "POST",
+		        url: 'summernotePhotoUpload.do',
+		        enctype: 'multipart/form-data',
+		        cache: false,
+		        contentType: false,
+		        processData: false,
+		        success: function(data) {
+		        	console.log("받은 데이터 = " + data);
+					$(editor).summernote('editor.insertImage', data);
+					//$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+					//$(editor).summernote('editor.insertImage', data);
+					$('#summernote').append('<img src="'+data+'" width="480" height="auto"/>');
+		        }
+		      });
+		    }
 		  
-		  
-		  /* 리워드 각 탭 아래 나오는거 일단 비활성화 */
-		  $(".changedOption").hide();
-		  
-		  
-		  /* datepicker 설정 */
-		  // 일단 시작일 빼고 전부 비활성화
-		  /* $("#date2").attr("disabled", true);
-		  $("#date3").attr("disabled", true);
-		  $("#date4").attr("disabled", true); */
-		  
+		  	/* 프로젝트 진행 스케줄 날짜 설정 */
 			// 시작일
 			$("#date1").datepicker({
 				minDate : 0,
@@ -63,7 +100,7 @@ tr, td, input{
 				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 				onSelect:function( d ){
 					// 연,월,일 구하기
-//					alert(d + "선택됐습니다");
+					// alert(d + "선택됐습니다");
 					var arr = d.split("-");
 					$("#date1").text(arr[0]);
 					$("#date1").append(arr[1]);
@@ -71,7 +108,7 @@ tr, td, input{
 					
 					// 요일 구하기
 					var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
-			//		alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
+					// alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
 							
 					var week = new Array("일", "월", "화", "수", "목", "금", "토");
 					$("#date1").append( week[ date.getDay() ] );
@@ -187,33 +224,58 @@ tr, td, input{
 
 			});
 			
-	});
-	$('#summernote').summernote({
-	  placeholder: 'ㅇㅇㅇㅇㅋㅋㅋㅋ',
-	  tabsize: 2,
-	  /* height: 600, */                 // set editor height
-	  height: ($(window).height() - 300),
-	  minHeight: null,             // set minimum height of editor
-	  maxHeight: null,             // set maximum height of editor
-	  focus: true,
-	  lang: 'ko-KR', // default: 'en-US'
-	  callbacks: { // 콜백을 사용
-          // 이미지를 업로드할 경우 이벤트를 발생
-		  onImageUpload: function(files, editor, welEditable) {
-			    sendFile(files[0], this);
-			}
-		}
-
-	});
+});
 	
+	
+	
+	
+	/* function sendFile(file, el) {
+	      var form_data = new FormData();
+	      form_data.append('summerFile', file);
+	      $.ajax({
+	        data: form_data,
+	        type: "POST",
+	        url: 'summernotePhotoUpload.do',
+	        cache: false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(url) {
+	          $(el).summernote('editor.insertImage', url);
+	          //$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+	        }
+	      });
+	    }
+ */
+
+	
+	/* function sendFile(file, editor) {
+	      var data = new FormData();
+	      data.append('file', file);
+	      $.ajax({
+	        data: data,
+	        type: "POST",
+	        url: 'summernotePhotoUpload.do',
+	        cache: false,
+	        contentType: false,
+	        enctype: 'multipart/form-data',
+	        processData: false,
+	        success: function(data) {
+	          $(editor).summernote('editor.insertImage', data.url);
+	          $('#summernote').append('<img src="'+data.url+'" width="480" height="auto"/>');
+	        }
+	      });
+	} */
+	/* 
 	function sendFile(file, editor) {
         // 파일 전송을 위한 폼생성
- 		data = new FormData();
+ 		var data = new FormData();
  	    data.append("uploadFile", file);
  	    $.ajax({ // ajax를 통해 파일 업로드 처리
  	        data : data,
  	        type : "POST",
  	        url : "editorImgUp.do",
+			enctype: 'multipart/form-data',
  	        cache : false,
  	        contentType : false,
  	        processData : false,
@@ -224,7 +286,7 @@ tr, td, input{
  	    });
  	}
 
-
+ */
 /* 
 	function uploadImage(image) {
 	    var data = new FormData();
@@ -246,30 +308,11 @@ tr, td, input{
 	    });
 	} */
 	
-	
-	/* 리워드옵션의 갯수를 선택한만큼 갱신하는 함수 */ 
-	function optionChange( me ) {
-		
-		// 리워드 갯수 선택여부 판별해줄 용도
-		$("#optionSelected").val("OK");
-		
-		$(".notChangedOption").hide();
-		$(".changedOption").show();
-		
-		var num = me.options[me.selectedIndex].value;
-		alert(num + "개");
-		
-		for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
-			$("#_option" + (i+10)).val("");
-			$("#_option" + (i+10)).hide();
-		}
-		for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
-			$("#_option" + (i+10)).show();
-			$("#col_content").click();
-		}		
-	}
-	
 </script>
+
+
+
+
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="createProjectFrom" method="post" action="newProjectAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
@@ -564,7 +607,7 @@ tr, td, input{
 						</div>
 					</td>
 					<td>
-						<input type="text" class="form-control" placeholder="0" value="0" id="goalfund" name="goalfund" size="70%">
+						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%">
 					</td>
 					<td>
 						원
@@ -638,11 +681,12 @@ tr, td, input{
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
-					<td>
+					<td colspan="3">
 						<div class="form-group">
 						  <!-- <label for="sel1"> -->
 						  <div class="desc projectimg">
 						  	프로젝트의 시작일, 종료일 , 정산일, 배송일을 각각 선택해주세요.<br>
+						  	※기부 카테고리를 선택하셨다면, 배송일을 지정할 필요가 없습니다.※<br>
 						  </div>
 						  <!-- </label> -->
 						</div>
@@ -652,34 +696,46 @@ tr, td, input{
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 시작일</label>
-						  <input type="text" class="date" id="date1" name="sdate" placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
-						  <!-- autocomplete="off" : 자동완성 끄기 -->
 						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date1" name="sdate" placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
+						  <!-- autocomplete="off" : 자동완성 끄기 -->
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 종료일</label>
-						  <input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
 						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
 						  <label for="sel1">프로젝트 정산일·결제일</label>
-						  <input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
 						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-						  <label for="sel1">프로젝트 배송일(기부 프로젝트일 경우, 이 칸을 비워두세요)</label>
-						  <input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+						  <label for="sel1">프로젝트 배송일</label>
 						</div>
 					</td>
+					<td>
+						<input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+					</td>
+					<td>
+						<!-- 초기화 버튼 -->
+						<button type="button" id="btn_resetDates" class="btn btn-outline-primary">Reset Date</button>
+					 </td>
 				</tr>
 			</table>
         </div>
@@ -832,6 +888,29 @@ tr, td, input{
 </form>
 
 <script>
+// 리워드옵션 갯수 선택한만큼 리워드 row 보여주기
+function optionChange( me ) {
+	
+	// 나중에 전송전에 리워드 갯수 선택여부만 판별해줄 용도의 변수.
+	$("#optionSelected").val("OK");
+	
+	$(".notChangedOption").hide();
+	$(".changedOption").show();
+	
+	var num = me.options[me.selectedIndex].value;
+	alert(num + "개");
+	
+	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
+		$("#_option" + (i+10)).val("");
+		$("#_option" + (i+10)).hide();
+	}
+	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
+		$("#_option" + (i+10)).show();
+		$("#col_content").click();
+	}		
+}
+
+
 //전송버튼 눌렀을 때
 $("#btn_submit").click(function () {
 	alert("전송");
@@ -903,7 +982,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#bankTap").click();
 		return;
-	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == "" || date4 == null || date4 == ""){
+	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == ""){
 		alert("프로젝트 진행 스케줄을 모두 등록해주세요");	// 다시 처음주터 날짜를 선택하고 싶을 때를 위해 '취소하기' 버튼 추가하기.
 		$("#menu-tab1").click();
 		$("#dateTap").click();
@@ -913,30 +992,53 @@ $("#btn_submit").click(function () {
 		// 2. 카테고리에 따른 공란판정
 		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
 			formSubmit();	// form에 submit 실행~
-		} else if(fundtype == "reward" || optionSelected == "NO"){	// 상품 선택하고 리워드 갯수는 선택안한 경우(==> 리워드 입력 필수)
-			//alert("상품 선택하고 리워드 갯수는 선택안한 경우");
-			alert("리워드 갯수를 선택하고 상세정보를 등록해주세요.");
-			$("#optiontotalTap").click();
-			return;
-		} else if(optionSelected == "OK"){	// 상품 선택하고 리워드 갯수도 선택한 경우(==> 리워드 내용입력 필수)
-			for(var i=1; i<=option_total; i++){
-				var op_title = $("#op_title" + i).val();
-				var op_content = $("#op_content" + i).val();
-				var op_price = $("#op_price" + i).val();
-				var op_stock = $("#op_stock" + i).val();
-				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
-				
-				if(op_title == null || op_title == "" || op_content == null || op_content == "" || 
-						op_price == null || op_price == "" || op_stock == null || op_stock == ""){
-					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
-					$("#menu-tab2").click();
-					$("#option"+i).click();
-					return;
+		} else if(fundtype == "reward"){	// 상품 선택했을 경우(==> 리워드 입력 필수)
+			
+			if(optionSelected == "NO"){	// 리워드 갯수 선택안함
+				//alert("상품 선택하고 리워드 갯수는 선택안한 경우");
+				alert("리워드 갯수를 선택하고 상세정보를 등록해주세요.");
+				$("#optiontotalTap").click();
+				return;
+			} else if(optionSelected == "OK"){	// 리워드 갯수 선택함(==> 리워드 내용입력 필수)
+			
+				// 적정 목표액 판정용
+				var totalPrice = 0;
+			
+				for(var i=1; i<=option_total; i++){
+					var op_title = $("#op_title" + i).val();
+					var op_content = $("#op_content" + i).val();
+					var op_price = $("#op_price" + i).val();
+					var op_stock = $("#op_stock" + i).val();
+					alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
+					
+					// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+					if(op_stock != null || op_stock != ""){
+						totalPrice = totalPrice + (op_price*op_stock);
+					}
+					
+					if(op_title == null || op_title == "" || op_content == null || op_content == "" || 
+							op_price == null || op_price == ""){
+						alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
+						$("#menu-tab2").click();
+						$("#option"+i).click();
+						return;
+					}
 				}
+				
+				if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
+					// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
+					formSubmit();	// form에 submit 실행~
+				}else{
+					alert("등록하신 리워드 재고와 수량은 목표금액보다 미달됩니다. 더 많은 재고를 등록하거나, 제품 가격을 높여주세요.");
+					$("#optiontotalTap").click();
+				}
+				
+				
 			}
 			
-			formSubmit();	// form에 submit 실행~
-		} 
+		}
+			 
+		  
 	}
 	
 });
@@ -969,15 +1071,28 @@ function checkLength (selector,messageSelector,maxlength){
 	}
 }
 
+// 
+$("#btn_resetDates").click(function () {
+	$("#date1").val("");
+	$("#date2").val("");
+	$("#date3").val("");
+	$("#date4").val("");
+})
+
 // 기부 버튼을 클릭했을 때
 $("#fundtype2").click(function () {
 	// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
 	$("#menu-tab2").hide();
+	// 배송일 사라지게.(기부는 선물을 배달하지 않으니까...)
+	$("#date4").hide();
 })
+
 // 상품 버튼을 클릭했을 때
 $("#fundtype1").click(function () {
 	// 리워드 탭 보이게.
 	$("#menu-tab2").show();
+	// 배송일 보이게
+	$("#date4").show();
 })
 
 </script>

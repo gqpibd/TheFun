@@ -1,12 +1,15 @@
 package donzo.thefun.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -30,6 +33,7 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -186,7 +190,7 @@ public class ProjectController {
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile mainImage) throws Exception {
 		/* 파라미터 해석ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-			- newProjectDto : 새로 만들 프로젝트의 입력값(id(이건 나중에..), fundtype, dategory, title, content, 
+			- newProjectDto : 새로 만들 프로젝트의 입력값(id, fundtype, dategory, title, content, 
 												summary, tag, bank, goalfund, 
 												sdate, edate, pdate, shipdate)
 			- option_total : 생성할 옵션(리워드) 개수
@@ -229,71 +233,42 @@ public class ProjectController {
 		
 	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
-	@RequestMapping(value="editorImgUp.do",produces="application/String; charset=UTF-8",
+	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String editorImgUp(HttpServletRequest req, @RequestBody Article article) {
+	public String summernotePhotoUpload(HttpServletRequest req, HttpSession session,
+				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
+		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
+		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
-		// 이미지 업로드할 경로
-		String uploadPath = "D:\tmp";
-		int size = 10 * 1024 * 1024;	// 업로드 사이즈 제한 10M 이하
+		// 파일업로드 경로설정
+		String uploadPath = session.getServletContext().getRealPath("/upload");
+		//String uploadPath = req.getServletContext().getRealPath("/upload");
+		logger.info("업로드 경로 : " + uploadPath);
+		String realFileName = summerFile.getOriginalFilename();
+		File file = new File(uploadPath + "\\" + realFileName);
+		System.out.println("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
+		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
 		
-		String fileName = "";	// 파일명
+		return uploadPath + "\\" + realFileName;
+	}
+	
+	// 프로젝트 업데이트 페이지로 들어가는 메소드(승지)
+	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectUpdate(int seq, Model model) throws Exception {
 		
-		try {
-			// 파일업로드 및 업로드 후 파일명 가져옴
-			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "UTF-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
-			String file = (String)files.nextElement();
-			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		ProjectDto findProject = projectService.getProject(seq);
+		model.addAttribute("findPro", findProject);
+		return "projectUpdate.tiles";
+	}
+	
+	// 실제로 프로젝트 업데이트하는 메소드(승지)
+	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectUpdateAf(ProjectDto newProjectDto,
+							HttpServletRequest req,
+							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+		// 기존 이미지와 새 이미지가 다른 이미지인지 판별먼저.
 		
-		
-		/* 생략
-		// 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
-		String uploadPath = "/upload/" + fileName;
-				
-	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
-		JSONPObject jobj = new JSONPObject();
-		jobj.put("url", uploadPath);
-		
-		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
-		out.print(jobj.toJSONString());
-		*/
-		
-		
-		/*
-		// 이미지 업로드할 경로
-		// String uploadPath = "D:/WYSIWYG_EDITOR_FILEUPLOAD/upload";
-		String uploadPath = "D:\tmp";
-	    int size = 10 * 1024 * 1024;  // 업로드 사이즈 제한 10M 이하
-		
-		String fileName = ""; // 파일명
-		
-		try{
-	        // 파일업로드 및 업로드 후 파일명 가져옴
-			MultipartRequest multi = new MultipartRequest(req, uploadPath, size, "utf-8", new DefaultFileRenamePolicy());
-			Enumeration files = multi.getFileNames();
-			String file = (String)files.nextElement(); 
-			fileName = multi.getFilesystemName(file); // 파일의 이름을 받아옴
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	    // 업로드된 경로와 파일명을 통해 이미지의 경로를 생성
-		String uploadPath = "/upload/" + fileName;
-		
-	    // 생성된 경로를 JSON 형식으로 보내주기 위한 설정
-		JSONObject jobj = new JSONObject();
-		jobj.put("url", uploadPath);
-		
-		response.setContentType("application/json"); // 데이터 타입을 json으로 설정하기 위한 세팅
-		out.print(jobj.toJSONString());
-		 */
-
-		return "";
+		return "projectUpdate.tiles?seq="+newProjectDto.getSeq();	// 될지는 미지수. 테스트를 못해봤다.
 	}
 	
 	// 프로젝트 승인

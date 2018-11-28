@@ -55,6 +55,11 @@
 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>
 	</definition>
 	
+	<!-- 프로젝트 업데이트 -->
+	<definition name="projectUpdate.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/project/projectUpdate.jsp"/>
+	</definition>
+	
 	<!-- 펀딩하기 - 옵션선택화면 -->
 	<definition name="selectReward.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/project/selectReward.jsp"/>
