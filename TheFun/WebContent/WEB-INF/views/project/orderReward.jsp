@@ -170,13 +170,13 @@ body{
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
@@ -388,8 +388,6 @@ body{
 			
 			//옵션의 전체갯수
 			var allOptionlen = $("input[name=opSeq]").length;
-
-			alert("체크된 갯수 : "+arrlen+"전체갯수 : "+allOptionlen);
 			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
@@ -402,15 +400,23 @@ body{
 				var opSeqs = new Array(arrlen);
 				var i=0;
 				
-			 	//배열에 옵션시퀀스 입력
 				$("input[name=opSeq]:checked").each(function() {
-					var test = $(this).val();		
-					opSeqs[i]="tr_"+test;
+					
+					var opSeqNumber = $(this).val();	
+					opSeqs[i]="tr_"+opSeqNumber;
 					$("#"+opSeqs[i]).remove();		
-					opSeqs[i+1]="tr2_"+test;
-					$("#"+opSeqs[i+1]).remove();				
+					opSeqs[i+1]="tr2_"+opSeqNumber;
+					$("#"+opSeqs[i+1]).remove();
 					i+=2;
 				}); 
+				
+				//var opPrice = parseInt($("#price_"+opSeqNumber).val());  //현재적힌가격
+				//var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
+				
+				var ooo = $("#price_102").val();
+				alert("ooo? "+ooo);
+				//alert("현재적힌가격 : "+opPrice+"현재총액 : "+fiPrice);
+				// $("#finalPrice").val(fiPrice-opPrice );			//총액재설정
 			}
 	
 		});	//onclick 끝
