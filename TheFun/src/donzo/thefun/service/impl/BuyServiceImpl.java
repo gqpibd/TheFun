@@ -22,12 +22,16 @@ public class BuyServiceImpl implements BuyService {
 
 	@Override
 	public void addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount) {				
-		for(int i=0; i<opSeq.length; i++) {
-			//주문 insert				
+		
+		for(int i=0; i<opSeq.length; i++) {		
 			BuyDto buy = new BuyDto(projectSeq, loginId, opSeq[i], opCount[i]);
-			System.out.println(buy.toString());
 			buyDao.addOrders(buy);			
 		}
+		
 	}
+	
+	
+	
+	
 }
 

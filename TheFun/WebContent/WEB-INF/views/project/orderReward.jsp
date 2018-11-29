@@ -182,7 +182,16 @@ body{
      		<td class="profiletitle">주소</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile">
+     		<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
+     		</td>
+     	</tr>
+     	<tr>
+     		<td>
+     		<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
+			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
+			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소">
+     		</td>
      	</tr>
      	</table>
      	
@@ -198,7 +207,8 @@ body{
 		</ul>
 </div>
 <br><br>
-      	<!-- 결제정보입력 테이블 -->
+
+<!-- 결제정보입력 테이블 -->
 <table style="width: 70%">
 <tr>
 	<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
@@ -250,7 +260,54 @@ body{
 
 <script type="text/javascript">
 
-	//수량선택 +
+	/* 주소검색 */
+	function sample4_execDaumPostcode() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+	            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+	
+	            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                extraRoadAddr += data.bname;
+	            }
+	            // 건물명이 있고, 공동주택일 경우 추가한다.
+	            if(data.buildingName !== '' && data.apartment === 'Y'){
+	               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	            }
+	            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	            if(extraRoadAddr !== ''){
+	                extraRoadAddr = ' (' + extraRoadAddr + ')';
+	            }
+	            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+	            if(fullRoadAddr !== ''){
+	                fullRoadAddr += extraRoadAddr;
+	            }
+	
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+	            document.getElementById('roadAddress').value = fullRoadAddr;
+	           
+	        }
+	    }).open();
+	}
+	
+	/* 상세 주소 */
+	function detailAddressCheck() {
+		console.log("detailAddressCheck");
+		var text = $("#detailAddress").val();
+		//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		text = text.replace(/[<(+>]/g, '');
+		//console.log(text);
+		$("#detailAddress").val(text);	
+	}
+	
+	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
 	   	var opCount = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
@@ -287,7 +344,7 @@ body{
 	   	}
 	}
 	
-	//수량선택 -
+	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
 	function minusVal(seqNum) {
 		var opCount = Number(document.getElementById(seqNum).value);
 		
@@ -308,30 +365,32 @@ body{
 		}
 	}
 	
+	
+	
 	$(document).ready(function (){
 		
 		var size = $("input[name='priceName']").length;
 		var priceArr = new Array(size);
 		var tPrice=0;
 		
-		//같은 name 밸류 전부 저장 
+		//  총금액 첫 출력 설정
 		$("input[name='priceName']").each(function (i) {
             priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
             tPrice = tPrice+priceArr[i];
-       });
-		
-		//모든 옵션 + .. 하지만 체크박스삭제하면 가격변동없음
+       	});
 		$("#finalPrice").val(tPrice);
 		
-		//선택한 체크박스 value 추출
+		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
 
 			//체크된 갯수
-			var arrlen =$("input[name=chekboxs]:checked").length;
-
+			var arrlen =$("input[name=opSeq]:checked").length;
+			
 			//옵션의 전체갯수
-			var allOptionlen = $("input[name=chekboxs]").length;
+			var allOptionlen = $("input[name=opSeq]").length;
 
+			alert("체크된 갯수 : "+arrlen+"전체갯수 : "+allOptionlen);
+			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
 				
@@ -344,7 +403,7 @@ body{
 				var i=0;
 				
 			 	//배열에 옵션시퀀스 입력
-				$("input[name=chekboxs]:checked").each(function() {
+				$("input[name=opSeq]:checked").each(function() {
 					var test = $(this).val();		
 					opSeqs[i]="tr_"+test;
 					$("#"+opSeqs[i]).remove();		
