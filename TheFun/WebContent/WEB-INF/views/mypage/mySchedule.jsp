@@ -6,14 +6,12 @@
 <link rel="stylesheet" href="CSS/Calendar/calendar.css">
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
- 
 <style type="text/css">
-
 body{
 font-family: "Nanum Gothic", sans-serif;
 }
 </style>
-
+<br><br><br><br><br>
 <header id="cal_header">
   <div class="container text-center">
     <h1 class="head_title">MY PROJECT</h1>
@@ -22,6 +20,8 @@ font-family: "Nanum Gothic", sans-serif;
 </header>
 
 <body>
+<script src="js/Calendar/schedule.js"></script>
+
 <!-- 등록한 프로젝트가 없을때 -->
 <c:if test="${schedule.size() eq 0}">
 <br><br>
