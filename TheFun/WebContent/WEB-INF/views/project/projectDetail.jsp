@@ -23,7 +23,6 @@ font-family: "Nanum Gothic", sans-serif;
 .pnt { 
 	cursor: pointer; 
 }
-
  .pupple{
  	color:#8152f0;
  }
@@ -33,24 +32,6 @@ font-family: "Nanum Gothic", sans-serif;
  }
  .liteGray{
 	 color: #c4c4c4;
- }
- .jbMenu {
-  background-color:#ffffff;
-  text-align: center; 
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-  width: 100%;
-}
-.jbFixed {
-  text-align: center;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-   position: fixed;
-   top: 0px;
  }
 .imgTd{
 	text-align:right;
@@ -122,6 +103,7 @@ font-family: "Nanum Gothic", sans-serif;
  </style>
 
 <!-- 카카오 링크 설정 -->
+<!-- 
 <script> 
 var firstImg=$(".imageblock:first-of-type img"); 
 var contents=""; 
@@ -148,7 +130,8 @@ function sendLink() {
 					url : "http://www.naver.com"  }
 	}); 
 } 
-</script>	    
+</script>	     -->
+
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
@@ -204,8 +187,8 @@ function sendLink() {
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<td>
-				<img height="50" src="image/detail/addcart2.jpg"/>&nbsp;&nbsp;&nbsp; &nbsp;
-				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/>
+				<img height="50" src="image/detail/addcart2.jpg"/><!-- 장바구니추가 버튼 --> &nbsp;&nbsp;&nbsp; &nbsp;
+				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
 		</tr>
 		<tr height="50" style="padding: 50px">
@@ -304,7 +287,7 @@ $(function () {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td>
+				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td> 
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>

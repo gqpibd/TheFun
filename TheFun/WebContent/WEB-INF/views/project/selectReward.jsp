@@ -73,7 +73,7 @@ td{
           
           <br><br><br>
           <input type="hidden" name="projectSeq" value="${projectdto.seq }">
-           <img src="image/detail/next.jpg" width="120px" onclick="goOrder()" style="cursor: pointer">
+           <img src="image/detail/next.jpg" width="120px" onclick="goOrder()" style="cursor: pointer">	<!-- order페이지로 이동하는 버튼 -->
           </form>
           
  <script type="text/javascript">

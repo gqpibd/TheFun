@@ -93,12 +93,12 @@ body{
 		</td>
 		<td class="td2 liteGray">
 			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
-			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})">
-			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
+			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
+			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}"> <!-- 합계금액 -->
+			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>
@@ -118,7 +118,7 @@ body{
 		</td>
 		<td></td>
 		<td class="pupple"align="right" >
-			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원
+			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원 
 		</td>
 	</tr>
 	</table>
@@ -230,10 +230,10 @@ body{
 <div style="width: 70%" align="left">
 	<p class="strongGray" align="left">결제 예약시 유의사항</p>
 	<ul class="liteGray" >
-	<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
-	<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
-	<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
-	<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
+		<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
+		<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
+		<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
+		<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
 	</ul>
 </div>
 <br><br>
@@ -255,35 +255,56 @@ body{
 	   	var opCount = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
 	   	
-		if(opCount==stockCount){
-			alert("구매가능한 수량보다 많습니다.");
-		}else{
-			opCount+=1;
+	   	if(stockCount<0){	//재고가 무제한이라면
+	   		
+	   		opCount+=1;
 	     	document.getElementById(seqNum).value =opCount;
 	       	//가격변환
 	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
 	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
 	       	var totalPrice = priceField+realPrice;
 	       	document.getElementById("price_"+seqNum).value =totalPrice;
-	     	
-		}
+	       	
+	       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+	   		
+	   	}else{		//재고가 무제한이 아니라면
+	 
+			if(opCount==stockCount){
+				alert("구매가능한 수량보다 많습니다.");
+			}else{
+				opCount+=1;
+		     	document.getElementById(seqNum).value =opCount;
+		       	//가격변환
+		       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+		       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+		       	var totalPrice = priceField+realPrice;
+		       	document.getElementById("price_"+seqNum).value =totalPrice;
+		       	
+		       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
+		    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+			}
+	   	}
 	}
 	
 	//수량선택 -
 	function minusVal(seqNum) {
 		var opCount = Number(document.getElementById(seqNum).value);
+		
 		if(opCount==1){
-			//alert("0개이하는 선택하실수  없습니다. ");
 			document.getElementById(seqNum).value ="1";
 		}else{
 			opCount-=1;
 	       	document.getElementById(seqNum).value =opCount;
 	       	
-	       	//가격변환 onchage
-	       	var realPrice = document.getElementById("realPrice_"+seqNum).value;
-	       	var priceField = document.getElementById("price_"+seqNum).value;
-	       	var totalPrice = priceField-realPrice;
-	       	document.getElementById("price_"+seqNum).value =totalPrice;
+	       	//가격변환 
+	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
+	       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
+	       	var resultPrice = priceField-realPrice;								//셋팅할 가격
+	       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
+	       	
+	       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 		}
 	}
 	

@@ -91,7 +91,7 @@ a:hover { color: black; text-decoration: underline;}
 	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
 	<c:choose>
 		<c:when test="${dto.fundtype.equalsIgnoreCase('reward')}"><img src="image/main/reward.png" width="80px;"></c:when>
-		<c:when test="${dto.fundtype.equalsIgnoreCase('donation')}"><img src="image/main/done.png" width="80px;"></c:when>
+		<c:when test="${dto.fundtype.equalsIgnoreCase('donation')}"><img src="image/main/donaIcon.png" width="80px;"></c:when>
 	</c:choose>
 	</td>
 	<td>
