@@ -48,11 +48,15 @@ public class QnaController {
 	
 	// 댓글 수정
 	@RequestMapping(value="updateQna.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String updateQna(Model model,  QnaDto dto) {
+	public String updateQna(Model model,  QnaDto dto, boolean secret) {
 		logger.info("QnaController updateQna " + new Date());
-		logger.info(dto.toString());
+		if(secret) {
+			dto.setStatus(QnaDto.HIDE);
+		}else {
+			dto.setStatus(QnaDto.NORMAL);
+		}
+		logger.info(dto.toString());		
 		qnaService.updateQna(dto);	
-		
 		return "redirect:/projectDetail.do?seq=" + dto.getProjectseq();
 	}
 }

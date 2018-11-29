@@ -42,11 +42,7 @@
     margin: 5px;
     vertical-align: middle;
 }
-.reply_content {
-    display: block;
-    float: none;
-    padding: 0 28px 0 40px;
-}
+
 .nickname {
     font-size: 20px;   
     font-weight: bold;
@@ -211,7 +207,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 				<div class="reply_content">삭제된 댓글입니다</div>
 			</c:when> 
 			<c:when test="${item.isHidden() and item.id ne login.id and login.id ne item.towhom and login.id ne projectseq.id}"> <!-- 비밀댓글이고 못 볼때 -->
-				<div class="reply"><i class="fas fa-lock"></i>&nbsp;비밀 댓글입니다</div>
+				<div class="reply_content"><i class="fas fa-lock"></i>&nbsp;비밀 댓글입니다</div>
 			</c:when> 
 			<c:otherwise> <!-- 일반 댓글 -->
 				<c:if test="${login ne null and item.id eq login.id}"> <!-- 작성자일 때 수정, 삭제 가능하게 -->
@@ -221,17 +217,17 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 						<!-- <span class="fas fa-stroopwafel" aria-hidden="true" width="3px" align="right" style="cursor: pointer" ></span> -->
 						
 						<span class="mtooltiptext">
-						<label class="lablehover" onclick="modify('${item.seq }','${item.content }')" id="${item.seq}" class="aTag">수정</label><br>
+						<label class="lablehover" onclick="modify('${item.seq }','${item.content }','${item.isHidden()}')" id="${item.seq}" class="aTag">수정</label><br>
 						<label class="lablehover" onclick="deleteReply(${item.seq})" class="aTag">삭제</label><br>						
 						</span>
 					</div> 
 				</c:if>	
 				<c:choose>
 				<c:when test="${item.seq ne item.refseq}">
-					<div style="margin-left: 30px">				
+					<div style="margin-left: 30px" class="reply_content">				
 				</c:when>
 				<c:otherwise>
-					<div>				
+					<div class="reply_content">				
 				</c:otherwise>
 				</c:choose>
 				<div>
@@ -266,7 +262,6 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 	</c:otherwise>
 	</c:choose>
 </ul>
-<div class="mwrap" align="center" style="margin:auto">
 	<c:choose>
 	
 	<c:when test="${login eq null}"> <!-- 로그인 상태가 아니면 -->
@@ -287,7 +282,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 			<tr>
 				<td>비밀글</td>
 				<td>
-					<input class="hiddenCheckbox" type="checkbox" id="toggleNormal" name='secret'/>
+					<input class="hiddenCheckbox" type="checkbox" id="toggleNormal" name='secret' />
 					<div class="checkDiv">
 					  <label class="checkLabel" for="toggleNormal"></label>			
 					</div>
@@ -301,7 +296,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 	</form>
 	</c:otherwise>
 	</c:choose>
-</div>
+
 <script type="text/javascript">
 
 //textarea 자동 크기 조절			
@@ -323,8 +318,7 @@ function addReply(re_btn){       // 댓글에 답글 추가
 	var refseq = $(re_btn).attr('name');
 	var toWhom = $(re_btn).attr('toWhom');
 	var selector = "[name='" + refseq +"']";
-	var item = "<li class='reply' id='rere_write'>"+
-	"<div class='mwrap' align='center' style='adding: 10px;background: #fff;margin:auto' >"+
+	var item = "<li class='reply' id='rere_write'>"+	
 		"<form action='addQna.do' id='addreply'>"+			
 			"<input type='hidden' name='id' value='${login.id}'>" +
 			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +
@@ -340,14 +334,14 @@ function addReply(re_btn){       // 댓글에 답글 추가
 						"<div class='checkDiv'><label class='checkLabel' for='toggleRere'></label></div></td>"	+		
 					"<td style=padding-left: 10px;'><button class='fun_btn' type='button' onclick='checkAndSubmit(this)'>등록</button>"+
 				"</td></tr></table>"+
-			"</div></div></form></div></li>";
+			"</div><hr></div></form></li>";
 	$(selector).last().parents().eq(2).after(item);
 	console.log($(selector).text());
 }  
 
 //취소
 function cancel(item,reSeq) {
-	$(item).parents().eq(3).replaceWith(origin);	
+	$(item).parents().eq(8).replaceWith("<li class='reply' >" + origin + "</li>");	
 }
 
 //댓글 삭제
@@ -359,10 +353,13 @@ function deleteReply(reSeq) {
 }
 
 //댓글 수정
-function modify(reSeq,content){ 	
+function modify(reSeq,content,status){
+	var ischecked = "";
+	if(status == 'true'){
+		ischecked = "checked='checked'";
+	}
 	$("#mcancel").click();
-	var item = "<li class='reply' id='mmodify'>"+
-	"<div class='mwrap' align='center' style='padding: 10px;background: #fff;margin:auto' >"+
+	var item = "<li class='reply' ><div class='mwrap' align='center' style='padding: 10px;background: #fff;margin:auto' id='mmodify'>"+
 	"<form action='updateQna.do' id='updateQna'>"+		
 		"<input type='hidden' name='seq' value="+reSeq+">"+
 		"<input type='hidden' name='projectseq' value=${projectdto.seq}>"+
@@ -371,7 +368,7 @@ function modify(reSeq,content){
 			"<span class='nickname'>${login.nickname}</span>"+
 			"<textarea class='mtextarea' id='updateReply' name='content'>"+content+"</textarea>"+
 			"<div align=right>"+
-			"<table> <tr><td>비밀글</td><td><input class='hiddenCheckbox' type='checkbox' id='toggleRere' name='secret'/>"+
+			"<table> <tr><td>비밀글</td><td><input class='hiddenCheckbox' type='checkbox' id='toggleRere' name='secret' "+ ischecked+"/>"+
 			"<div class='checkDiv'><label class='checkLabel' for='toggleRere'></label></div></td><td>"+
 				"<button class='fun_btn' type='button' onclick='checkAndSubmit(this)'style='margin: 5px;'>수정</button></td><td>"+
 				"<button class='fun_btn' type='button' style='margin: 5px;'onclick='deleteReply("+reSeq+")'>삭제</button></td><td>"+
