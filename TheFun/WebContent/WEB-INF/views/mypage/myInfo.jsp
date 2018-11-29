@@ -104,6 +104,21 @@
     object-fit: cover;
 }
 
+/* 프로필 이미지 변경 */
+.gb_mb {
+    background: rgba(0,0,0,.54);
+    bottom: 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    left: 0;
+    line-height: 9px;
+    position: absolute;
+    padding: 8px 0;
+    text-align: center;
+    width: 150px;
+}
+
 </style>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
@@ -115,18 +130,18 @@
 		<td>
 			<div class="imgbox" align="center">
 			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+			<span class="gb_mb">변경</span>
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
 			</div>
 		</td>
-		<td style="padding-top: 160px;">
+	</tr>
+	<tr>	
+		<td style="padding-top: 5px;">
 			<div align="center">
 			<a href="javascript:profile_default()" id="profile_default">
-			<img src="image/icons/vcard_active.png"
-			onmouseover="this.src='image/icons/vcard_dark.png'"
-		    onmouseout="this.src='image/icons/vcard_active.png'"
-		    title="클릭 시 기본프로필 이미지로 변경됩니다.">
+			기본사진으로 변경
 		    </a>
-			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
+			<input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true">
 			</div>
 		</td>
 	</tr>

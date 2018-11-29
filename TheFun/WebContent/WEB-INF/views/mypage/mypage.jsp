@@ -5,7 +5,7 @@
  
 <div align="center">
 	<div>
-			<table border="0">
+			<table border="1">
 				<tr>
 					<td rowspan="3" style="padding: 35px;"><img class="profile_img" alt="프로필" src="${login.profile}"></td>
 					<td colspan="4" style=""><h1>${login.id}</h1></td>
