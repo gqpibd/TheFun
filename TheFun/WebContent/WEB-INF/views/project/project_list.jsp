@@ -76,9 +76,7 @@ a:link { color: black; text-decoration: none;}
 a:visited { color: black; text-decoration: none;}
 a:hover { color: black; text-decoration: underline;}
 td{
-	padding-left: 5px;
-	padding-right: 5px;
-	vertical-align: middle;
+	padding-left: 5px;padding-right: 5px;vertical-align: middle;
 }
 </style>
 
@@ -101,7 +99,7 @@ td{
 	
 	</span>
 	</td>
-	<td style="text-align: right;position: relative;top:10%;">
+	<td style="text-align: right;position: relative;top:11%;right:5%;padding: 0px;margin: 0px;">
 	<span>
 		<c:choose>
 		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
@@ -118,18 +116,18 @@ td{
 	
 	<tr>
 	<td colspan="2">
-		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;" src="image/thumbnail/${dto.seq }.png" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
+		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="image/thumbnail/mainImg1.PNG" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
 	<tr>
 	<td colspan="2" style="font-size: 11pt;">
 	<a href="projectDetail.do?seq=${dto.seq }">
-	<!-- 30자수 제한 -->
+	<!-- 40자수 제한 -->
 	<c:set var="str" value="${dto.title }"/>
 	<c:set var="len" value="${fn:length(str)}"/>
 	<c:choose>
-	<c:when test="${len ge 50}"><strong>${fn:substring(str,0,30) } ...</strong></c:when>
+	<c:when test="${len ge 40}"><strong>${fn:substring(str,0,40) } ...</strong></c:when>
 	<c:otherwise><strong>${str }</strong></c:otherwise>
 	</c:choose>
 	</a>
@@ -141,14 +139,26 @@ td{
 	</tr>
 	
 	<tr class="features">
-	<td colspan="2" style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
+	<td style="text-align: left;">
+
+	<!-- 남은 날짜 구하기 -->
+	<jsp:useBean id="toDay" class="java.util.Date"/>
+	<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+	<fmt:parseDate value="${dto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+	
+	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
+	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
+	</td>
+	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
 	
+	<!-- 차트 -->
 	<tr>
 	<td colspan="2">
 		<div class="charts" style="position: relative;margin-left: 5px;margin-right: 5px;">
 		<div class="charts__chart chart--p100 chart--inverse chart--sm" >
-		<div align="center" class="charts__chart chart--green chart--sm" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		<div align="center" class="charts__chart chart--yellow chart--sm" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
 		</div>
 		</div>
 		</div>

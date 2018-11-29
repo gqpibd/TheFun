@@ -9,6 +9,7 @@
 
  <!-- 차트 css -->
  <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+ <!-- <link href="CSS/chart/chart.scss" rel="stylesheet" type="text/scss"> -->
  
  <!-- 메인 css -->
  <link rel="stylesheet" href="CSS/common/main.css">

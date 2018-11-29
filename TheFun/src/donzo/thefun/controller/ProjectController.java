@@ -223,7 +223,7 @@ public class ProjectController {
 			String realFileName = mainImage.getOriginalFilename();
 			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
 			File file = new File(uploadPath + "/" + changedFileName);
-			System.out.println("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
@@ -246,7 +246,7 @@ public class ProjectController {
 		logger.info("업로드 경로 : " + uploadPath);
 		String realFileName = summerFile.getOriginalFilename();
 		File file = new File(uploadPath + "\\" + realFileName);
-		System.out.println("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
+		logger.info("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
 		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
 		
 		return uploadPath + "\\" + realFileName;
