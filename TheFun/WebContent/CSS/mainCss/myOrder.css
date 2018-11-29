@@ -85,6 +85,7 @@ table.type07 tbody th {
 
 /* 타이틀 띠 CSS */
 .head_title {
+	font-family: inherit;
   font-size: 200%;
   text-transform: uppercase;
   letter-spacing: 3px;

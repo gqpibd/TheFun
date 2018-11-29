@@ -6,9 +6,7 @@
 <link rel="stylesheet" href="CSS/Calendar/calendar.css">
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
- 
 <style type="text/css">
-
 body{
 font-family: "Nanum Gothic", sans-serif;
 }
