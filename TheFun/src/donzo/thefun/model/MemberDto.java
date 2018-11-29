@@ -1,5 +1,7 @@
 package donzo.thefun.model;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.Serializable;
 /*-- 멤버 테이블
 
@@ -185,7 +187,6 @@ public class MemberDto implements Serializable {
 	public String getFullAddress() {
 		return postcode + " " + roadaddress + " " + detailaddress;
 	}
-
 	@Override
 	public String toString() {
 		return "MemberDto [id=" + id + ", pwd=" + pwd + ", nickname=" + nickname + ", phone=" + phone + ", email="

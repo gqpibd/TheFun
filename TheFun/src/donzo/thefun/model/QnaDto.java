@@ -174,6 +174,15 @@ public class QnaDto implements Serializable {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+	
+	public boolean isNormal() {
+		if(status==NORMAL) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 
 	@Override
 	public String toString() {
