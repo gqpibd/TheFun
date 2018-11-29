@@ -78,16 +78,20 @@ a:hover { color: black; text-decoration: underline;}
 td{
 	padding-left: 5px;padding-right: 5px;vertical-align: middle;
 }
+
+.shadooooow{
+	box-shadow:3px 3px 3px 3px #80808030;
+}
 </style>
 
 
 
-<div class="container">
+<div class="container" style="margin-bottom: 20%;">
 <div class="row">
 <c:if test="${list.size() ne 0}">
 <c:forEach items="${list }" var="dto" varStatus="i">
-<div class="col-md-3 col-sm-6 mb-4" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;">
-	<table style="height: 400px;" >
+<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;">
+	<table style="height: 400px;">
 	<tr>
 	<td style="text-align: left;">
 	<!-- 조건문 : 리워드 / 기부 구분 위해 -->
@@ -149,26 +153,53 @@ td{
 	
 	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
 	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
+	
 	</td>
-	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
+	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
 	
 	<!-- 차트 -->
 	<tr>
 	<td colspan="2">
-		<div class="charts" style="position: relative;margin-left: 5px;margin-right: 5px;">
+		<div class="charts" style="margin-left: 2%;margin-right: 2%;">
 		<div class="charts__chart chart--p100 chart--inverse chart--sm" >
-		<div align="center" class="charts__chart chart--yellow chart--sm" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		<!-- 퍼센트가 100% 미만일 때 -->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 lt 100) }">
+		<div align="right" class="charts__chart chart--yellow chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</c:if>
+		<!-- 퍼센트 100% 이상일 때 -->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 ge 100) }">
+		<div align="right" class="charts__chart chart--green chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</c:if>
+		
 		</div>
 		</div>
-		</div>
+		
 	</td>
 	</tr>
 
 	</table>
 
 </div>
+
 </c:forEach>
 </c:if>
 </div>
+<br><br><br><br><br>
 </div>
+
+
+
+<script>
+// 그림자
+function shadow(tableOne) {
+	$(tableOne).addClass("shadooooow");
+}
+// 그림자 삭제
+function noShadow(tableOne) {
+	$(tableOne).removeClass("shadooooow");
+}
+
+</script>
