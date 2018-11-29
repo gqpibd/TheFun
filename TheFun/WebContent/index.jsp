@@ -11,6 +11,5 @@
 <script type="text/javascript">
 	location.href="main.do"
 </script>
-<!-- 승지 집에서 커밋 테스트 -->
 </body>
 </html>
