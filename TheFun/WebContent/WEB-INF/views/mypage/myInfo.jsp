@@ -8,6 +8,7 @@
  <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
  
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
+<!-- 
 <style type="text/css">
 .input {
   outline: 0;
@@ -103,8 +104,38 @@
     vertical-align: middle;
     object-fit: cover;
 }
+/* 타이틀 띠 CSS */
+.head_title {
+  font-size: 200%;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
 
+#line_header {
+  background: #8152f0;
+  color: #FFFFFF;
+  padding: 80px;
+}
+
+#line_header p {
+  font-family: 'Allura';
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 0;
+  font-size: 60px;
+  margin-top: -30px;
+}
 </style>
+ -->
+ <br><br><br><br><br>
+<header id="line_header">
+  <div class="container text-center">
+    <h1 class="head_title">MY INFOMAION</h1>
+    <p>나의 정보</p>
+  </div>
+</header>
+
+<br><br>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->

@@ -16,12 +16,15 @@
 
 <div align="center">
 
+<br><br><br><br><br>
+<header id="line_header">
+  <div class="container text-center">
+    <h1 class="head_title">MY SUPPORT</h1>
+    <p>내 후원</p>
+  </div>
+</header>
 
-<div class="h1">
-	<h1>나의후원내역</h1>
-</div>
-
-<br>
+<br><br>
 
 <!-- <form action="myReward.do"> --> <!-- 여기서 form 필요한가? -->
 <table class="type07" id="myOrderlist">
