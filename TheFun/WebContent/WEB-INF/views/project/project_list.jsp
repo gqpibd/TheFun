@@ -33,7 +33,7 @@ th, td{
 }
 .name{
 	width: 100%;
-	font-size: 15px;
+	font-size: 11pt;
 	font-weight: 700;
 	display: block;
 	text-align: right;
@@ -44,6 +44,7 @@ th, td{
 	color: rgb(138, 138, 138);
 	margin: 0;
 	padding: 0;
+	font-size: 10pt;
 }
 .features li{
 	/* margin: 0 35px; */
@@ -64,7 +65,7 @@ th, td{
 	/* width: 200px; */
 	display: block;
 	font-weight: 700;
-	font-size: 15px;
+	/* font-size: 15px; */
 	text-transform: uppercase;
 	margin: 20px auto 35px;
 }
@@ -74,6 +75,11 @@ th, td{
 a:link { color: black; text-decoration: none;}
 a:visited { color: black; text-decoration: none;}
 a:hover { color: black; text-decoration: underline;}
+td{
+	padding-left: 5px;
+	padding-right: 5px;
+	vertical-align: middle;
+}
 </style>
 
 
@@ -82,85 +88,74 @@ a:hover { color: black; text-decoration: underline;}
 <div class="row">
 <c:if test="${list.size() ne 0}">
 <c:forEach items="${list }" var="dto" varStatus="i">
-<div class="col-md-3 col-sm-6 mb-4">
-	<hr>
-	<table >
-	<col width="20%;"><col width="80%;">
+<div class="col-md-3 col-sm-6 mb-4" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;">
+	<table style="height: 400px;" >
 	<tr>
-	<td>
-	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
+	<td style="text-align: left;">
+	<!-- 조건문 : 리워드 / 기부 구분 위해 -->
+	<span>
 	<c:choose>
 		<c:when test="${dto.fundtype.equalsIgnoreCase('reward')}"><img src="image/main/reward.png" width="80px;"></c:when>
 		<c:when test="${dto.fundtype.equalsIgnoreCase('donation')}"><img src="image/main/done.png" width="80px;"></c:when>
 	</c:choose>
+	
+	</span>
 	</td>
-	<td>
-	<!-- 진행 상태 status 확인하려고 / 일단 전부 써두었습니다 -->
-	<%-- <c:choose>
+	<td style="text-align: right;position: relative;top:10%;">
+	<span>
+		<c:choose>
 		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}">준비 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;" style="position: sticky;top: 50px;left: 130px;z-index:1;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}">완료됨(성공)</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}">완료됨(실패)</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;"></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;"></c:when>
 		<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
-	</c:choose> --%>
+		</c:choose>
+	</span>
 	</td>
+	
 	</tr>
 	
 	<tr>
 	<td colspan="2">
-		<a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;border-radius: 5px;" src="image/thumbnail/${dto.seq }.png" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a>
-		<div class="charts" style="cursor:pointer; position: relative;top: -40px;margin-left: 5px;margin-right: 5px;" onclick="javascript:location.href='projectDetail.do?seq=${dto.seq }'">
-		<div class="charts__chart chart--p100 chart--inverse " >
-		<div align="center" class="charts__chart chart--green" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
-		</div>
-		</div>
-		</div>
-		
-		<div align="right">
-			<c:choose>
-			<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><div class="ref" style="position: absolute;"><div class="stat" style="position: relative;top: -240px;left: 165px;z-index:1;"><img src="image/main/ongoing.png" width="65px;"></div></div></c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;">(성공)</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;">(실패)</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
-			</c:choose>
-		</div>
+		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;" src="image/thumbnail/${dto.seq }.png" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
 	<tr>
-	<td colspan="2" style="padding: 10px;text-align: center;width: 90%;">
-	
+	<td colspan="2" style="font-size: 11pt;">
 	<a href="projectDetail.do?seq=${dto.seq }">
-	<!-- 50자수 제한 -->
+	<!-- 30자수 제한 -->
 	<c:set var="str" value="${dto.title }"/>
 	<c:set var="len" value="${fn:length(str)}"/>
 	<c:choose>
-	<c:when test="${len ge 50}"><strong>${fn:substring(str,0,50) } ...</strong></c:when>
+	<c:when test="${len ge 50}"><strong>${fn:substring(str,0,30) } ...</strong></c:when>
 	<c:otherwise><strong>${str }</strong></c:otherwise>
 	</c:choose>
 	</a>
 	</td>
 	</tr>
 	
-	<tr>
+	<tr class="features">
 	<td colspan="2" style="text-align: right;margin-right: 50px;">by ${dto.nickname }</td>
 	</tr>
 	
-	<tr>
-	<td colspan="2" style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span>&nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span></td>
+	<tr class="features">
+	<td colspan="2" style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
 	
 	<tr>
 	<td colspan="2">
+		<div class="charts" style="position: relative;margin-left: 5px;margin-right: 5px;">
+		<div class="charts__chart chart--p100 chart--inverse chart--sm" >
+		<div align="center" class="charts__chart chart--green chart--sm" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</div>
+		</div>
 	</td>
 	</tr>
 
 	</table>
-	<hr>
-
 
 </div>
 </c:forEach>

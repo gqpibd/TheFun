@@ -148,7 +148,7 @@ public class ProjectController {
 		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
 		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
 		
-		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
+//		logger.info("sn : " + sn + " start : " + start + " end : " + end);
 		
 		// 8 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
@@ -159,10 +159,10 @@ public class ProjectController {
 		int totalRecordCount = projectService.getProjectCount(pParam);
 		
 		// 확인용
-		for (int i = 0; i < list.size(); i++) {
-			ProjectDto dto = list.get(i);
-			logger.info("list : " + dto.toString());
-		}
+//		for (int i = 0; i < list.size(); i++) {
+//			ProjectDto dto = list.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 		
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -318,14 +318,14 @@ public class ProjectController {
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
 		
-		System.out.println("mainParam 출력 : " + mainParam.toString());
+//		logger.info("mainParam 출력 : " + mainParam.toString());
 		
 		List<ProjectDto> mainPageList = projectService.searchProjectList(mainParam);
 		
-		for (int i = 0; i < mainPageList.size(); i++) {
-			ProjectDto dto = mainPageList.get(i);
-			logger.info("list : " + dto.toString());
-		}
+//		for (int i = 0; i < mainPageList.size(); i++) {
+//			ProjectDto dto = mainPageList.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 		
 		model.addAttribute("list", mainPageList);
 		model.addAttribute("recordCountPerPage", mainParam.getRecordCountPerPage());
@@ -363,21 +363,4 @@ public class ProjectController {
 			return "mySchedule.tiles";
 		}
 	 
-	/*
-	 참고용 삭제 예정
-	 @ResponseBody   
-		   @RequestMapping(value="idcheck.do",produces="application/String; charset=utf-8", method=RequestMethod.GET)
-		   public String idcheck(String id) {
-		      logger.info("HelloController idcheck.do 입니다");
-		      logger.info(id);
-
-		      String str = "깜띡이";
-		      return str;
-		   }*/
-	/*@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String detail(Model model, int seq) {
-		logger.info("ProjectController detail " + new Date());
-		
-		return "project/detail";
-	}*/    
 }

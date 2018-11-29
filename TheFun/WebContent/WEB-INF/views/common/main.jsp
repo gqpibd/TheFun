@@ -86,7 +86,7 @@
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>
+	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
 </div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
