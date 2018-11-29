@@ -25,6 +25,7 @@ public class BuyServiceImpl implements BuyService {
 		
 		for(int i=0; i<opSeq.length; i++) {		
 			BuyDto buydto = new BuyDto(buy.getId(), buy.getProjectseq(), buy.getOptionseq(), opCount[i], opPrice[i], buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress());
+			System.out.println("buyService의 dto : "+buydto);
 			buyDao.addOrders(buydto);			
 		}
 		

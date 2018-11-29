@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 <title>The Fun_orderReward</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <style type="text/css">
 body{
 	font-family: "Nanum Gothic", sans-serif;
@@ -75,7 +76,7 @@ body{
       <!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		<input name="optionseq" value="${options.seq}" type="hidden">
+		<input name="opSeq" value="${options.seq}" type="hidden">
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
 				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
@@ -92,13 +93,13 @@ body{
 		 	 </ul>
 		</td>
 		<td class="td2 liteGray">
-			수량 : <input type="text" id="${options.seq}" name="count" value="1" size="3" readonly="readonly">개 &nbsp;
+			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" name="price" id="realPrice_${options.seq}" value="${options.price}">
+			<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>
