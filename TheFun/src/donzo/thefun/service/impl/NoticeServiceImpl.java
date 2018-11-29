@@ -15,8 +15,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public NoticeDto addNotice(NoticeDto dto) {		
-		int seq = noticeDao.addNotice(dto);
-		dto.setSeq(seq);		
+		noticeDao.addNotice(dto);
 		NoticeDto newDto = noticeDao.selectNotice(dto);
 		return newDto;
 	}

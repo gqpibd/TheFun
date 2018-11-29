@@ -121,11 +121,21 @@ public class BuyDto implements Serializable {
 	String ocontent; // 옵션 내용 -- view에서 가져옴
 	String status;
 	
+	// 배송지 정보
+	String name; // 구매자 이름
+	String phone; // 전화번호
+	String postcode; // 우편번호
+	String roadaddress; // 도로명주소
+	String detailaddress; // 상세주소
+	
+	
 	public BuyDto() {}
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
-			String bcomment, String ptitle, String otitle, String ocontent, String status) {
+			String bcomment, String ptitle, String otitle, String ocontent, String status, String name, String phone,
+			String postcode, String roadaddress, String detailaddress) {
+		super();
 		this.seq = seq;
 		this.id = id;
 		this.projectseq = projectseq;
@@ -139,20 +149,22 @@ public class BuyDto implements Serializable {
 		this.otitle = otitle;
 		this.ocontent = ocontent;
 		this.status = status;
+		this.name = name;
+		this.phone = phone;
+		this.postcode = postcode;
+		this.roadaddress = roadaddress;
+		this.detailaddress = detailaddress;
 	}
 	
+	
 	// 새 구매 또는 새 장바구니
-	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String status) {
+	public BuyDto(int projectseq, String id, int optionseq, int count) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
-		this.price = price;
-		this.status = status;
 	}
 
-	
-	
 	public String getStatus() {
 		return status;
 	}
@@ -265,11 +277,53 @@ public class BuyDto implements Serializable {
 		return date;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getRoadaddress() {
+		return roadaddress;
+	}
+
+	public void setRoadaddress(String roadaddress) {
+		this.roadaddress = roadaddress;
+	}
+
+	public String getDetailaddress() {
+		return detailaddress;
+	}
+
+	public void setDetailaddress(String detailaddress) {
+		this.detailaddress = detailaddress;
+	}
+
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
 				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
-				+ status + "]";
+				+ status + ", name=" + name + ", phone=" + phone + ", postcode=" + postcode + ", roadaddress="
+				+ roadaddress + ", detailaddress=" + detailaddress + "]";
 	}
+	
 }

@@ -65,7 +65,7 @@
 </style>
 <table style="width: 100%">
 <tr>
-	<td align="left" class="strongGray">새소식 <strong class="pupple">${projectdto.noticecount}</strong>건</td>
+	<td align="left" class="strongGray">판매자 공지 <strong class="pupple" id="noticecount">${projectdto.noticecount}</strong>건</td>
 	
 	<!-- if 작성자라면 공지 작성 가능-->
 	<c:if test="${login ne null and login.id eq projectdto.id}">
@@ -83,7 +83,7 @@
 <c:forEach items="${noticeInfo }" var="notice" varStatus="status">
 	<fmt:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyy-MM-dd HH:mm:ss"/>
 	
-	<tr>
+	<tr style='height: 50px; vertical-align: bottom;'>
 		<td class="strongGray">
 			<font class="pupple" style="font-weight: bold;">#${noticeInfo.size() - status.count +1}</font>&nbsp;${notice.title }
 		</td>
@@ -91,12 +91,12 @@
 	<tr>
 		<td>
 			<font class="liteGray" size="2px">
-				작성일 : <fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일"/>
+				작성일 : <fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일 HH시mm분"/>
 			</font>
 		</td>
 	</tr>
 	<tr>
-		<td class="liteGray"><br>${notice.content }</td>
+		<td class="liteGray">${notice.content }<br></td>
 	</tr>
 	
 </c:forEach>
@@ -126,8 +126,8 @@ function checkAndSubmitNotice(){
 	}else{
 		var newNoticeData = {
 			projectseq: '${projectdto.seq}',
-			title: $("#noticeTitle").val().trim(),
-			content: $("#newNoticeContent").val().trim()
+			title: ntitle,
+			content: ncontent
 		};
 		console.log(newNoticeData);		
 		$.ajax({
@@ -141,15 +141,17 @@ function checkAndSubmitNotice(){
 					alert("공지가 등록되었습니다.");					
 					$("#exit").click();
 					$("#noticeTable").prepend(
-							"<tr><td class=strongGray'><font class='pupple' style='font-weight: bold;'>#"+
+							"<tr style='height: 50px; vertical-align: bottom;'><td class=strongGray'><font class='pupple' style='font-weight: bold;'>#"+
 							data.number + "</font>&nbsp;" + ntitle +"</td></tr>" +
 							"<tr><td><font class='liteGray' size='2px'> 작성일 : " + data.date + "</font>" +
 							"</td></tr>"+
-							"<tr><td class='liteGray'><br>"+ncontent+"</td></tr>"
+							"<tr><td class='liteGray'>"+ncontent+"<br></td></tr>"
 							); 
+					$("#noticecount").text(data.number);
+					$("#noticecounttab").html("<b>"+data.number+"</b>");
 			},
 			error:function(req, stu, err){
-					alert("통신실패");
+				alert("통신실패");
 			}		
 		});	
 	}	

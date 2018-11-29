@@ -46,7 +46,7 @@ public class OptionDaoImpl implements OptionDao {
 
 	@Override
 	public void updateStock(OptionDto opdto) {
-			sqlSession.update(ns+"updateStock",opdto);
+		sqlSession.update(ns+"updateStock",opdto);
 	}
 	
 }

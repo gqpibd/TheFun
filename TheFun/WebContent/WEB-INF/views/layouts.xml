@@ -8,6 +8,7 @@
  	<definition name="home.tiles" template="/WEB-INF/views/layouts-tiles.jsp"> 
  		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
  		<put-attribute name="topbar" value="/WEB-INF/views/common/topbar.jsp"/>
+ 		<put-attribute name="tabs" value=""/>
  		<put-attribute name="main" value="/WEB-INF/views/common/main.jsp"/>
  		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
  	</definition>
@@ -20,24 +21,33 @@
 	
 	<!-- 마이페이지 -->
 	<definition name="MyPage.tiles" extends="home.tiles">
-		<put-attribute name="main" value="/WEB-INF/views/mypage/mypage.jsp"/>
+		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+ 		<put-attribute name="main" value=""/>
 	</definition>
 	
 	<!-- 개인정보수정 -->
 	<definition name="myInfo.tiles" extends="home.tiles">
+		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>
 	</definition>
 	
 	<!-- 나의 후원내역 -->
 	<definition name="myOrder.tiles" extends="home.tiles">
+		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
 	
-	<!-- 내 일정(calendar == schedule) -->
+	<!-- 내 프로젝트  보기 schedule -->
 	<definition name="mySchedule.tiles" extends="home.tiles">
+		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/mypage/mySchedule.jsp"/>
 	</definition>
 	
+	<!-- 일정 보기 ( 캘린더 ) -->
+	<definition name="myCalendar.tiles" extends="home.tiles">
+		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
+	</definition>
 	<!-- 프로젝트 -->
 	
 	<!-- 프로젝트 만들기-->
@@ -53,6 +63,11 @@
 	<!-- 프로젝트 상세 정보 -->
 	<definition name="projectDetail.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/project/projectDetail.jsp"/>
+	</definition>
+	
+	<!-- 프로젝트 업데이트 -->
+	<definition name="projectUpdate.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/project/projectUpdate.jsp"/>
 	</definition>
 	
 	<!-- 펀딩하기 - 옵션선택화면 -->

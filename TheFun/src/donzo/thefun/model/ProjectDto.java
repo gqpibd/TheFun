@@ -16,7 +16,7 @@ CREATE TABLE FUN_PROJECT(
    
    FUNDTYPE VARCHAR2(50) NOT NULL, -- REWARD | DONATION
    CATEGORY VARCHAR2(50) NOT NULL, -- FOOD, ANIMAL, IT | ANIMAL, HUMAN
-   TITLE VARCHAR2(200) NOT NULL, 
+   TITLE VARCHAR2(200) NOT NULL,
    CONTENT VARCHAR2(4000) NOT NULL,
    SUMMARY VARCHAR2(1000) NOT NULL,
    TAGS VARCHAR2(400), -- 태그를 넣는거는 선택사항으로? NOT NULL 없앰.
@@ -45,17 +45,17 @@ CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTE
 AS
 SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   NVL((SELECT COUNT(*) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),   
+   NVL((SELECT COUNT(DISTINCT ID) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),      
    NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    (SELECT 
     CASE 
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
         WHEN LOWER(STATUS) = 'delete' THEN 'delete'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
         WHEN EDATE >= SYSDATE THEN 'ongoing' 
-        WHEN NVL((SELECT SUM(PRICE * COUNT) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
+        WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
         ELSE 'complete_fail'  
      END AS "status" 
      FROM FUN_PROJECT WHERE SEQ = P.SEQ),
@@ -385,7 +385,26 @@ public class ProjectDto implements Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	public String getCategoryKr() {		
+		switch(category.toLowerCase()) {
+		case CATEGORY_FOOD:
+			return "음식";
+		case CATEGORY_ANIMAL:
+			return "동물";
+		case CATEGORY_IT:
+			return "IT";
+		case CATEGORY_HUMAN:
+			return "인권";		
+		}
+		return "";
+	}
 
+	public boolean isOngoing() {
+		if(status.equalsIgnoreCase(ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category

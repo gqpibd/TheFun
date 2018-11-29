@@ -10,8 +10,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
  
-<title>The Fun_상세페이지</title>
-
+<title>The Fun_${projectdto.title }</title>
+ 
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
  
@@ -108,6 +108,16 @@ font-family: "Nanum Gothic", sans-serif;
 .fun_btn:focus{
 	outline: none;
 }
+/* 회사 이미지 */
+.profile_img{   
+    float: none;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 4px;
+    vertical-align: middle;
+    object-fit: cover;
+}
 
  </style>
 
@@ -140,9 +150,6 @@ function sendLink() {
 } 
 </script>	    
 <!-- 남은날짜계산 -->
-<!-- 프로젝트 오픈전 -->
-
-<!-- 프로젝트 오픈후 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -157,8 +164,8 @@ function sendLink() {
     </c:if>
     </div>
    	<br>
-   	<div align="center">
-   		<p><b class="pupple">${projectdto.category} </b>&nbsp;&nbsp;&nbsp;
+   	<div align="center">   		
+   		<p><b class="pupple">${projectdto.getCategoryKr()} </b>&nbsp;&nbsp;&nbsp;
    		<font class="strongGray">	
    		 <c:forEach items="${projectdto.tags }" var="tags">
    		 	#${tags }
@@ -170,7 +177,7 @@ function sendLink() {
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate }일 남음</b></td>
+			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate+1}일 남음</b></td>
 		</tr>
 		<tr height="50">
 			<td class="strongGray sTd">
@@ -185,12 +192,14 @@ function sendLink() {
 		<tr height="50">
 			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
-		<tr height="50">
+		<tr height="50">		
+		<c:if test="${projectdto.isOngoing()}">
 			<td> 
 				<a href="goSelectReward.do?seq=${projectdto.seq }">
 					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
+		</c:if>
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
@@ -220,8 +229,8 @@ function sendLink() {
 		<table style="width: 100%; background-color: white;">
 		<tr>
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">새소식<sup class="pupple"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">피드백<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -295,7 +304,7 @@ $(function () {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><img src="${writer.profile}" style="width:100%"></td>
+				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td>
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
@@ -334,8 +343,8 @@ $(function () {
             </div>
           </div>
           </c:forEach>
-          
 		<!-- side옵션 끝 -->
+		
      	 </div>
      	<!-- sidebar 끝 -->
 

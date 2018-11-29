@@ -46,7 +46,6 @@ td{
           <!-- 테이블 영역 -->
           <form action="goOrderReward.do" method="post" id="goOrderFrm">
           <c:forEach items="${optionList}" var="option"> 
-          <c:if test="${option.stock-option.buycount > 0}"> <!-- 1개 이상 남았을 때만 주문 가능 -->
           <table>
 			<tr>
          	<td class="strongGray">        	 	
@@ -66,12 +65,8 @@ td{
 			 </c:forEach> 	
          	</td>
          	</tr>
-<!--     <tr>
-         	<td class="liteGray">수량 : <input type="text" name="count" size="5px" value="0"> </td>
-         </tr> -->
           </table>
           <br>
-          </c:if>
           </c:forEach>
           <!-- 테이블 영역 끝 -->
           
@@ -82,29 +77,6 @@ td{
           </form>
           
  <script type="text/javascript">
- /*
- function boxCheck(e){
-     if ( e.checked == true ){
-     	alert("선택한 옵션의 seq : "+e.value);
-     }else{
-     	alert("선택 해제");
-     }
- }
- 
-/*        // 동적으로 추가된 체크박스 체크여부 확인
-          $("#optionsDiv").on("click", 'input:checkbox', function() {
-        	  $('input:checkbox[name="check"]').each(function() {
-                  if(this.checked){//체크 했을 때
-                    alert("선택한 옵션의 seq :"+this.value); 
-                  }else{//체크 해지 했을 때
-                	  
-                  }
-
-             });
-        	  
-          });
-       
- */
           
  function goOrder() {
 	 
@@ -118,7 +90,7 @@ td{
          }
      }
      if(!isChecked){
-         alert("옵션을 한개 이상 선택해주세요.");
+         alert("최소 1개 이상의 리워드를 선택해주세요.");
          return false;
      }else{
     	 

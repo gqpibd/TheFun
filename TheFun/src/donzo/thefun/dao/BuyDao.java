@@ -13,6 +13,8 @@ public interface BuyDao {
 	//주문 최종입력
 	public void addOrders(BuyDto buy);
 	
+	//특정 게시글 당 후원자 인원 count
+	public int sponsorCount(int projectSeq);
 
 	
 }

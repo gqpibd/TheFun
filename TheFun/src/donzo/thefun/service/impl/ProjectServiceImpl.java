@@ -107,8 +107,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean approveProject(int projectseq) {
-		return projectDao.approveProject(projectseq);
-		
+		return projectDao.approveProject(projectseq);		
 	}	
 	
 	

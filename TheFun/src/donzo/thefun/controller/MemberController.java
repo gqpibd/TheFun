@@ -41,7 +41,7 @@ public class MemberController {
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			dto = memberService.tryLogin(dto);
 			if(dto == null) { // 로그인 실패
-				return "redirect:/login.do?message=retry";
+				return "redirect:/login.do?message=retry&callback=" + callback;
 			}
 		}else if(loginType.equals("externalAccount")){ // 계정 연동 로그인인 경우
 			logger.info("로그인 결과:" + dto);
@@ -180,4 +180,13 @@ public class MemberController {
 		
 		return "myInfo.tiles";	
 	}
+	
+	// 내 일정 보기 ( 캘린더 테스트..)
+	@RequestMapping(value="myCalendar.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myCalendar(Model model) throws Exception{	
+		logger.info("MemberController myCalendar " + new Date());
+		
+		return "myCalendar.tiles";	
+	}
+	
 }
