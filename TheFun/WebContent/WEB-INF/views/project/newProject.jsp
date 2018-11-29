@@ -922,7 +922,7 @@ $("#btn_submit").click(function () {
 	var mainImage = $("#mainImage").val();
 	var summary = $("#summary").val();
 		// fundtype과 category는 기본선택값이 있어서 공란판정 필요없다.(공란이될 수 없음)
-	var fundtype = $(".fundtype").val();	// reward / donation
+	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
 	var category = $("#category").val();
 		// [2] 두번째 탭 값
 	var summernote = $("#summernote").val();
@@ -941,7 +941,7 @@ $("#btn_submit").click(function () {
 	var option_total = $("#option_total").val();
 		
 		// 확인용
-	alert("title = " + title + " mainImage = " + mainImage + " summary = " + summary + " summernote = " + summernote +
+	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
 			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
 			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
 			" optionSelected = " + optionSelected + " option_total = " + option_total);
@@ -991,57 +991,60 @@ $("#btn_submit").click(function () {
 		
 		// 2. 카테고리에 따른 공란판정
 		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
+			alert("당신은 기부왕!");
 			formSubmit();	// form에 submit 실행~
-		} else if(fundtype == "reward"){	// 상품 선택했을 경우(==> 리워드 입력 필수)
-			
-			if(optionSelected == "NO"){	// 리워드 갯수 선택안함
+			return;
+		} else if(fundtype == "reward" || optionSelected == "NO"){	// 상품선택하고, 리워드 갯수 선택안함
 				//alert("상품 선택하고 리워드 갯수는 선택안한 경우");
 				alert("리워드 갯수를 선택하고 상세정보를 등록해주세요.");
+				$("#menu-tab2").click();
 				$("#optiontotalTap").click();
 				return;
-			} else if(optionSelected == "OK"){	// 리워드 갯수 선택함(==> 리워드 내용입력 필수)
-			
-				// 적정 목표액 판정용
-				var totalPrice = 0;
-			
-				for(var i=1; i<=option_total; i++){
-					var op_title = $("#op_title" + i).val();
-					var op_content = $("#op_content" + i).val();
-					var op_price = $("#op_price" + i).val();
-					var op_stock = $("#op_stock" + i).val();
-					alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
-					
-					// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
-					if(op_stock != null || op_stock != ""){
-						totalPrice = totalPrice + (op_price*op_stock);
-					}
-					
-					if(op_title == null || op_title == "" || op_content == null || op_content == "" || 
-							op_price == null || op_price == ""){
-						alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
-						$("#menu-tab2").click();
-						$("#option"+i).click();
-						return;
-					}
+		} else if(fundtype == "reward" || optionSelected == "OK"){	// 상품선택하고, 리워드 갯수 선택함(==> 리워드 내용입력 필수)
+		
+			// 적정 목표액 판정용
+			var totalPrice = 0;
+		
+			for(var i=1; i<=option_total; i++){
+				var op_title = $("#op_title" + i).val();
+				var op_content = $("#op_content" + i).val();
+				var op_price = $("#op_price" + i).val();
+				var op_stock = $("#op_stock" + i).val();
+				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
+				
+				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+				if(op_stock != null || op_stock != ""){
+					totalPrice = totalPrice + (op_price*op_stock);
 				}
 				
-				if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
-					// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
-					formSubmit();	// form에 submit 실행~
-				}else{
-					alert("등록하신 리워드 재고와 수량은 목표금액보다 미달됩니다. 더 많은 재고를 등록하거나, 제품 가격을 높여주세요.");
-					$("#optiontotalTap").click();
+				if(op_title == null || op_title == "" || op_content == null || op_content == "" || op_price == null || op_price == ""){
+					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
+					$("#menu-tab2").click();
+					$("#option"+i).click();
+					return;
 				}
-				
-				
 			}
 			
+			alert("총액 = " +  totalPrice);
+			
+			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
+				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
+				formSubmit();	// form에 submit 실행~
+			}else{
+				alert("등록하신 리워드 재고와 수량은 목표금액보다 미달됩니다. 더 많은 재고를 등록하거나, 제품 가격을 높여주세요.");
+				$("#optiontotalTap").click();
+				return;
+			}
+				
+				
 		}
+			
+	}
 			 
 		  
-	}
-	
 });
+	
+
 
 // form에 submit 최종실행 함수!
 function formSubmit() {

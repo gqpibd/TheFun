@@ -204,9 +204,26 @@ public class ProjectController {
 		
 		// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
-		for (int i = 0; i < option_total; i++) {
-			newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				
+				logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), 0));
+				}
+				
+			}
+			
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리스트 : " + newPotionlist.get(i).toString());
+			}
 		}
 		
 		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)

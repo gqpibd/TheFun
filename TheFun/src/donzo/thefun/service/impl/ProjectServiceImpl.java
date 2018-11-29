@@ -72,8 +72,12 @@ public class ProjectServiceImpl implements ProjectService {
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
 		System.out.println("찾아온 project seq : " + projectSeq);
-		// [3] 옵션 insert
-		optionDao.optionWrite(newPotionlist, projectSeq);
+		
+		if(newProjectDto.getFundtype().equals("reward")) {	// 리워드일 경우(기부는 옵션 없음)
+			// [2] 옵션 insert
+			optionDao.optionWrite(newPotionlist, projectSeq);
+		}
+		
 		
 		return projectSeq;
 	}
