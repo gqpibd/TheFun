@@ -22,10 +22,10 @@ public class QnaController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
 	 
-	@Autowired
+	@Autowired 
 	QnaService qnaService; 	 
 	
-	// 댓글 등록
+	// 댓글 등록 ------
 	@RequestMapping(value="addQna.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String addQna(Model model, QnaDto newQna, boolean secret) {
 		logger.info("QnaController addQna " + new Date());		
