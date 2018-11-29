@@ -39,14 +39,15 @@ public class BuyController {
 
 		return "myOrder.tiles";
 	} 
-	 
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
+	public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 
+		
 		//주문 insert
-		buyService.addOrders(loginId,projectSeq, opSeq, opCount);
+		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
 
 		return "redirect:/main.do";
 	}

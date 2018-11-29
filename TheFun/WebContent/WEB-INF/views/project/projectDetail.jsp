@@ -320,7 +320,14 @@ $(function () {
 				    <p class="pupple"><font style="background-color:#ebe2ff ">&nbsp;매진되었습니다&nbsp;&nbsp;</font></p>
 				</c:if>
 				<c:if test="${option.stock != option.buycount}">
-				    <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; <b>현재  ${option.stock-option.buycount }개 남음!</b></p>
+				    <p class="pupple">제한수량 ${option.stock } 개&nbsp;&nbsp; 
+				    <c:if test="${option.stock==0}">
+				     	<b>제한수량 없음</b>
+				    </c:if>
+				    <c:if test="${option.stock>0}">
+					    <b>현재  ${option.stock-option.buycount }개 남음!</b>
+				    </c:if>
+				   </p> 
 				</c:if>
               <p class="strongGray"><b>총 ${option.buycount }개 펀딩완료</b></p>
             </div>

@@ -56,7 +56,14 @@ td{
 				</c:if>
 				<c:if test="${option.stock != option.buycount}">
 				 <p> <input type="checkbox" value="${option.seq }" name="check" onclick="boxCheck(this)">&nbsp;
-         	 	<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>(${option.stock-option.buycount }개 남음)</p>
+         	 	<b style="font-size: 20px">${option.price } 원 펀딩합니다</b>
+         	 	<c:if test="${option.stock==0}">
+				     	<b>(제한수량 없음)</b>
+			    </c:if>
+			    <c:if test="${option.stock>0}">
+				    <b>(${option.stock-option.buycount }개 남음)</b>
+			    </c:if>
+         	 	</p>
 				</c:if>
          	
 		 	 <p class="liteGray">&nbsp; ${option.title }</p>

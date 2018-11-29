@@ -67,8 +67,9 @@ FROM FUN_BUY B;
 
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
-	INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE)
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE)
+	INSERT INTO FUN_BUY *
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},#{price},SYSDATE,
+			null,null,#{name},#{phone},#{postcode},#{roadaddress},#{detailaddress})
 </insert>
 
 </mapper>

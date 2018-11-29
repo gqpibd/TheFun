@@ -75,7 +75,7 @@ body{
       <!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		
+		<input name="optionseq" value="${options.seq}" type="hidden">
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
 				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
@@ -92,13 +92,13 @@ body{
 		 	 </ul>
 		</td>
 		<td class="td2 liteGray">
-			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
+			수량 : <input type="text" id="${options.seq}" name="count" value="1" size="3" readonly="readonly">개 &nbsp;
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}">
+			<input type="hidden" name="price" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>
@@ -136,7 +136,7 @@ body{
      		<td class="profiletitle"><b>이름</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input class="liteGray" name="name" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>이메일</b></td>
@@ -176,7 +176,7 @@ body{
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
+     		<td class="profile"><input name="phone" class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
@@ -247,8 +247,8 @@ body{
 	</ul>
 </div>
 <br><br>
-<input type="hidden" name="projectSeq" value="${projectdto.seq }">
-<input type="hidden" name="loginId" value="${login.id }">
+<input type="hidden" name="projectseq" value="${projectdto.seq }">
+<input type="hidden" name="id" value="${login.id }">
 <input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;">  <!-- 결제 예약하기 버튼 -->
 
 </form>
@@ -309,13 +309,13 @@ body{
 	
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
-	   	var opCount = Number(document.getElementById(seqNum).value);
+	   	var count = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
 	   	
 	   	if(stockCount<0){	//재고가 무제한이라면
 	   		
-	   		opCount+=1;
-	     	document.getElementById(seqNum).value =opCount;
+	   		count+=1;
+	     	document.getElementById(seqNum).value =count;
 	       	//가격변환
 	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
 	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
@@ -327,11 +327,11 @@ body{
 	   		
 	   	}else{		//재고가 무제한이 아니라면
 	 
-			if(opCount==stockCount){
+			if(count==stockCount){
 				alert("구매가능한 수량보다 많습니다.");
 			}else{
-				opCount+=1;
-		     	document.getElementById(seqNum).value =opCount;
+				count+=1;
+		     	document.getElementById(seqNum).value =count;
 		       	//가격변환
 		       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
 		       	var priceField =Number(document.getElementById("price_"+seqNum).value);
@@ -346,13 +346,13 @@ body{
 	
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
 	function minusVal(seqNum) {
-		var opCount = Number(document.getElementById(seqNum).value);
+		var count = Number(document.getElementById(seqNum).value);
 		
-		if(opCount==1){
+		if(count==1){
 			document.getElementById(seqNum).value ="1";
 		}else{
-			opCount-=1;
-	       	document.getElementById(seqNum).value =opCount;
+			count-=1;
+	       	document.getElementById(seqNum).value =count;
 	       	
 	       	//가격변환 
 	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
@@ -396,27 +396,32 @@ body{
 				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
 				
 			}else{
-				//선택한 체크박스 정보를 담을 배열
-				var opSeqs = new Array(arrlen);
+				
+				//선택한 체크박스 id를 담을 배열
+				var ids = new Array(arrlen);
 				var i=0;
 				
 				$("input[name=opSeq]:checked").each(function() {
 					
-					var opSeqNumber = $(this).val();	
-					opSeqs[i]="tr_"+opSeqNumber;
-					$("#"+opSeqs[i]).remove();		
-					opSeqs[i+1]="tr2_"+opSeqNumber;
-					$("#"+opSeqs[i+1]).remove();
+					var opSeqNum = $(this).val();	//옵션시퀀스
+					
+					/* 총가격 변환 */
+					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
+					var opPrice = $("#"+priceId).val();  				//현재적힌가격
+					var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
+
+					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
+					
+					/* 테이블 remove */
+					ids[i]="tr_"+opSeqNum;	//옵션타이틀 
+					$("#"+ids[i]).remove();		
+					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
+					$("#"+ids[i+1]).remove();
 					i+=2;
+				
 				}); 
 				
-				//var opPrice = parseInt($("#price_"+opSeqNumber).val());  //현재적힌가격
-				//var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
 				
-				var ooo = $("#price_102").val();
-				alert("ooo? "+ooo);
-				//alert("현재적힌가격 : "+opPrice+"현재총액 : "+fiPrice);
-				// $("#finalPrice").val(fiPrice-opPrice );			//총액재설정
 			}
 	
 		});	//onclick 끝

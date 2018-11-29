@@ -21,11 +21,11 @@ public class BuyServiceImpl implements BuyService {
 	}
 
 	@Override
-	public void addOrders(String loginId,int projectSeq, int[] opSeq, int[] opCount) {				
+	public void addOrders(BuyDto buy ,int[] opSeq, int[] opCount, int[] opPrice) {				
 		
 		for(int i=0; i<opSeq.length; i++) {		
-			BuyDto buy = new BuyDto(projectSeq, loginId, opSeq[i], opCount[i]);
-			buyDao.addOrders(buy);			
+			BuyDto buydto = new BuyDto(buy.getId(), buy.getProjectseq(), buy.getOptionseq(), opCount[i], opPrice[i], buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress());
+			buyDao.addOrders(buydto);			
 		}
 		
 	}
