@@ -27,9 +27,13 @@ public class QnaController {
 	
 	// 댓글 등록
 	@RequestMapping(value="addQna.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String addQna(Model model, QnaDto newQna) {
+	public String addQna(Model model, QnaDto newQna, boolean secret) {
 		logger.info("QnaController addQna " + new Date());		
 		logger.info(newQna.toString());
+		logger.info(secret + "");
+		if(secret) {
+			newQna.setStatus(QnaDto.HIDE);
+		}
 		qnaService.addQna(newQna);		
 		return "redirect:/projectDetail.do?seq=" + newQna.getProjectseq();
 	}	
