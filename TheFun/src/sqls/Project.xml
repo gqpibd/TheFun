@@ -73,7 +73,7 @@ FROM FUN_PROJECT P;
 </select>
 
 <!-- 새 프로젝트 등록 후 현재 seq 받아서 리턴 -->
-<insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto"> 
+<insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
 	INSERT INTO FUN_PROJECT
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
@@ -83,7 +83,14 @@ FROM FUN_PROJECT P;
 	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_PROJECT.CURRVAL FROM dual 
 	</selectKey>
-</insert> 
+</insert>
+
+<!-- 내 프로젝트 내용 수정(제목, 요약, 내용, 계좌 , +메인이미지 파일은 따로..) -->
+<update id="updateProject" parameterType="donzo.thefun.model.ProjectDto">
+	UPDATE FUN_PROJECT
+	SET TITLE=#{title}, SUMMARY=#{summary}, CONTENT=#{content}, Bank=#{bank}
+	WHERE SEQ=#{seq}
+</update>
 
 <!-- 승인 대기중이 프로젝트 목록 가져오기 - 관리자 모드 -->
 <select id="getWaitingList" resultType="donzo.thefun.model.ProjectDto">

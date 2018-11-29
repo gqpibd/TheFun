@@ -52,6 +52,13 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
+	public void updateProject(ProjectDto myProjectDto) throws Exception {
+		// 내 프로젝트 업데이트하기(승지)
+		sqlSession.update(ns+"updateProject", myProjectDto);
+		
+	}
+
+	@Override
 	public List<ProjectDto> getWaitingList() {
 		return sqlSession.selectList(ns+"getWaitingList");
 	}

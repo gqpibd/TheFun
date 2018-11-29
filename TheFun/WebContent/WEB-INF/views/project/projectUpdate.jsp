@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
-<script src="./dist/lang/summernote-ko-KR.js"></script>
+<script src="./js/summernote-ko-KR.js"></script>
 
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
@@ -52,6 +52,17 @@ $(document).ready(function() {
 		// 이상하게 이 페이지 들어오자마자 프로젝트 스토리가 열려서, 걍 닫아주는용.
 		$("#summernoteTap").click();
 		
+		// 들어오자마자 글자수 판정
+		checkLength($("#title"),'#titleLen',30);
+		checkLength($("#summary"),'#commentLength',100);
+		
+		var myAccount = '${findPro.bank}'.split('/');	// 카카오뱅크/110422942251
+		var bank = myAccount[0];	// 카카오뱅크
+		var account = myAccount[1];	// 110422942251
+		
+		// select 기존 옵션으로 기본설정 세팅
+		$("#bankname").val(bank).prop("selected", true);
+		$("#accountNumber").val(account);
 });	
 </script>
 
@@ -63,6 +74,7 @@ $(document).ready(function() {
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
 	<input type="hidden" id="id" name="id" value="${login.id}">
+	<input type="hidden" name="seq" value="${findPro.seq }">
 	<input type="hidden" id="originImage" name="originImage" value="${findPro.seq }.jpg">	<!-- PNG파일이면 어쩜..?ㅠㅠ -->
 
 
@@ -87,7 +99,7 @@ $(document).ready(function() {
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
 	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" 
-	       			aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
+	       			aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>
         </h4>
       </div>
     <!-- 아래 -->
@@ -105,7 +117,6 @@ $(document).ready(function() {
 						<span style="color: #4B088A; margin-left: 2%;">
 							<span id="titleLen">30자 남았습니다.</span>
 						</span>
-						
 					</td>
 					<td align="right">
 						<a data-toggle="collapse" href="#col_title">
@@ -144,7 +155,7 @@ $(document).ready(function() {
 								<ul>
 						          <li>사이즈: 가로1200px  세로675px </li>
 						          <li>용량 : 3MB 미만</li>
-						          <li>텍스트 및 로고 삽입 금지 </li>
+						          <li>텍스트 및 로고 삽입 금지</li>
 						        </ul>
 							</span>
 						</td>
@@ -203,16 +214,16 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-    <!-- [5] 프로젝트 스토리(content) -->
+    <!-- [4] 프로젝트 스토리(content) -->
 	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);">
     <!-- 위 -->
-      <div class="card-header" id="headionFive">
+      <div class="card-header" id="headionFour">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>		
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour" id="summernoteTap">프로젝트 스토리</label>		
         </h4>
       </div>
     <!-- 아래 -->
-      <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordionExample">
+      <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionExample">
         <div class="card-body">
         	<table style="width: 100%">
 				<tr>
@@ -232,16 +243,17 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-    <!-- [8] 계좌 등록 -->
+    <!-- [5] 계좌 등록 -->
     <div class="card border-secondary mb-1">
     	<!-- 위 -->
-		<div class="card-header" id="headingEight">        
+		<div class="card-header" id="headingFive">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"
+		  			id="bankTap">계좌 등록</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
-		<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionExample">
+		<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
@@ -288,9 +300,6 @@ $(document).ready(function() {
 	
 </div>
 </div>
-<!-- 첫번째 탭 끝 -->
-
-
 
 
 
@@ -301,16 +310,16 @@ $(document).ready(function() {
 
 
 <!-- 전송버튼 -->
-<input type="button" id="btn_submit" value="전송">
+<input type="button" id="btn_submit" value="수정하기">
 </form>
 
 
 <script>
 
 
-//전송버튼 눌렀을 때
+//수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
-	alert("전송");
+	alert("업뎃!");
 	
 	/* 공란 거르기 */
 	
@@ -321,6 +330,8 @@ $("#btn_submit").click(function () {
 	var summernote = $("#summernote").val();
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
+	
+	alert("bankname = " + bankname);
 	
 	
 	// 1. 공통입력사항 공란 판정
@@ -340,8 +351,8 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
 		return;
-	} else if(bankname == null || bankname == "" || accountNumber == null || accountNumber == ""){
-		alert("은행을 선택해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
+		alert("은행을 선택해주세요");
 		$("#bankTap").click();
 		return;
 	} else{	// 공통 입력사항을 모두 기입했을 때
@@ -379,10 +390,5 @@ function checkLength (selector,messageSelector,maxlength){
 
 </script>
  
-
-
-
-
-
 
 

@@ -269,23 +269,47 @@ public class ProjectController {
 		return uploadPath + "\\" + realFileName;
 	}
 	
-	// 프로젝트 업데이트 페이지로 들어가는 메소드(승지)
+	// 프로젝트 수정 페이지로 들어가는 메소드(승지)
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
-		
+		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
 		return "projectUpdate.tiles";
 	}
 	
-	// 실제로 프로젝트 업데이트하는 메소드(승지)
+	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdateAf(ProjectDto newProjectDto,
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
-		// 기존 이미지와 새 이미지가 다른 이미지인지 판별먼저.
+		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
+		// 업데이트 값 확인
+		logger.info("SEQ = " +newProjectDto.getSeq());
+		logger.info("제목 = " +newProjectDto.getTitle());
+		logger.info("요약 = "+newProjectDto.getSummary());
+		logger.info("내용 = "+newProjectDto.getContent());
+		logger.info("은행 = "+newProjectDto.getBank());
+		logger.info("이미지 = "+newImage.getOriginalFilename());
 		
-		return "projectUpdate.tiles?seq="+newProjectDto.getSeq();	// 될지는 미지수. 테스트를 못해봤다.
+		// DB 수정
+		projectService.updateProject(newProjectDto);
+		
+		// 파일 수정
+		String fupload = req.getServletContext().getRealPath("/upload");
+		
+		String realFileName = newImage.getOriginalFilename();
+		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
+		
+		try {
+			File file = new File(fupload + "/" + changedFileName);
+			// 실제 업로드
+			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+		} catch(Exception e) {
+			logger.info("수정 이미지 파일 업로드에 실패했습니다");
+		}
+		
+		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
 	// 프로젝트 승인

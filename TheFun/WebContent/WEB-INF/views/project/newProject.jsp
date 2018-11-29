@@ -39,7 +39,6 @@ tr, td, input{
 /* #accordion{
 	font-size: 5%;
 } */
-
 </style>
 
 <script>
@@ -157,7 +156,6 @@ $(document).ready(function() {
 						$("#date3").attr("disabled", false);
 		            }
 		        }
-
 			});
 			// 정산일
 			$("#date3").datepicker({
@@ -192,7 +190,6 @@ $(document).ready(function() {
 						$("#date4").attr("disabled", false);
 		            }
 		        }
-
 			});
 			// 정산일
 			$("#date4").datepicker({
@@ -221,7 +218,6 @@ $(document).ready(function() {
 		                
 		            }
 		        }
-
 			});
 			
 });
@@ -247,7 +243,6 @@ $(document).ready(function() {
 	      });
 	    }
  */
-
 	
 	/* function sendFile(file, editor) {
 	      var data = new FormData();
@@ -285,7 +280,6 @@ $(document).ready(function() {
  	        }
  	    });
  	}
-
  */
 /* 
 	function uploadImage(image) {
@@ -909,8 +903,6 @@ function optionChange( me ) {
 		$("#col_content").click();
 	}		
 }
-
-
 //전송버튼 눌렀을 때
 $("#btn_submit").click(function () {
 	alert("전송");
@@ -977,7 +969,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
-	} else if(bankname == null || bankname == "" || accountNumber == null || accountNumber == ""){
+	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
 		$("#menu-tab1").click();
 		$("#bankTap").click();
@@ -994,13 +986,13 @@ $("#btn_submit").click(function () {
 			alert("당신은 기부왕!");
 			formSubmit();	// form에 submit 실행~
 			return;
-		} else if(fundtype == "reward" || optionSelected == "NO"){	// 상품선택하고, 리워드 갯수 선택안함
+		} else if(fundtype == "reward" && optionSelected == "NO"){	// 상품선택하고, 리워드 갯수 선택안함
 				//alert("상품 선택하고 리워드 갯수는 선택안한 경우");
 				alert("리워드 갯수를 선택하고 상세정보를 등록해주세요.");
 				$("#menu-tab2").click();
 				$("#optiontotalTap").click();
 				return;
-		} else if(fundtype == "reward" || optionSelected == "OK"){	// 상품선택하고, 리워드 갯수 선택함(==> 리워드 내용입력 필수)
+		} else if(fundtype == "reward" && optionSelected == "OK"){	// 상품선택하고, 리워드 갯수 선택함(==> 리워드 내용입력 필수)
 		
 			// 적정 목표액 판정용
 			var totalPrice = 0;
@@ -1044,8 +1036,6 @@ $("#btn_submit").click(function () {
 		  
 });
 	
-
-
 // form에 submit 최종실행 함수!
 function formSubmit() {
 	// 선택한 은행+계좌번호 가져와
@@ -1060,7 +1050,6 @@ function formSubmit() {
 	// form 실행! 컨트롤러로~
 	$("#createProjectFrom").submit();
 }
-
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
 	var curr = $(selector).val().length;
@@ -1073,7 +1062,6 @@ function checkLength (selector,messageSelector,maxlength){
 		$(messageSelector).css("color", "red");
 	}
 }
-
 // 
 $("#btn_resetDates").click(function () {
 	$("#date1").val("");
@@ -1081,7 +1069,6 @@ $("#btn_resetDates").click(function () {
 	$("#date3").val("");
 	$("#date4").val("");
 })
-
 // 기부 버튼을 클릭했을 때
 $("#fundtype2").click(function () {
 	// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
@@ -1089,7 +1076,6 @@ $("#fundtype2").click(function () {
 	// 배송일 사라지게.(기부는 선물을 배달하지 않으니까...)
 	$("#date4").hide();
 })
-
 // 상품 버튼을 클릭했을 때
 $("#fundtype1").click(function () {
 	// 리워드 탭 보이게.
@@ -1097,6 +1083,4 @@ $("#fundtype1").click(function () {
 	// 배송일 보이게
 	$("#date4").show();
 })
-
 </script>
- 

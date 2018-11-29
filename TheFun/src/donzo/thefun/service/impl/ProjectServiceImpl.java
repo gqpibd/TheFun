@@ -83,6 +83,11 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
+	public void updateProject(ProjectDto myProjectDto) throws Exception {
+		projectDao.updateProject(myProjectDto);
+	}
+
+	@Override
 	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
 		return projectDao.searchProjectList(pParam);
 	}
