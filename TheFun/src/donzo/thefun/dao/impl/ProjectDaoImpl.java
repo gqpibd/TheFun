@@ -22,14 +22,14 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Override
 	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
 		
-		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
+//		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
 		List<ProjectDto> list = sqlSession.selectList(ns + "searchProjectList", pParam);
 		return list;
 	}
 
 	@Override
 	public int getProjectCount(ProjectParam pParam) throws Exception {
-		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
+//		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
 		return sqlSession.selectOne(ns + "getProjectCount", pParam);
 	}
 

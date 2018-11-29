@@ -33,7 +33,7 @@ th, td{
 }
 .name{
 	width: 100%;
-	font-size: 15px;
+	font-size: 11pt;
 	font-weight: 700;
 	display: block;
 	text-align: right;
@@ -44,6 +44,7 @@ th, td{
 	color: rgb(138, 138, 138);
 	margin: 0;
 	padding: 0;
+	font-size: 10pt;
 }
 .features li{
 	/* margin: 0 35px; */
@@ -64,7 +65,7 @@ th, td{
 	/* width: 200px; */
 	display: block;
 	font-weight: 700;
-	font-size: 15px;
+	/* font-size: 15px; */
 	text-transform: uppercase;
 	margin: 20px auto 35px;
 }
@@ -74,96 +75,131 @@ th, td{
 a:link { color: black; text-decoration: none;}
 a:visited { color: black; text-decoration: none;}
 a:hover { color: black; text-decoration: underline;}
+td{
+	padding-left: 5px;padding-right: 5px;vertical-align: middle;
+}
+
+.shadooooow{
+	box-shadow:3px 3px 3px 3px #80808030;
+}
 </style>
 
 
 
-<div class="container">
+<div class="container" style="margin-bottom: 20%;">
 <div class="row">
 <c:if test="${list.size() ne 0}">
 <c:forEach items="${list }" var="dto" varStatus="i">
-<div class="col-md-3 col-sm-6 mb-4">
-	<hr>
-	<table >
-	<col width="20%;"><col width="80%;">
+<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;">
+	<table style="height: 400px;">
 	<tr>
-	<td>
-	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
+	<td style="text-align: left;">
+	<!-- 조건문 : 리워드 / 기부 구분 위해 -->
+	<span>
 	<c:choose>
 		<c:when test="${dto.fundtype.equalsIgnoreCase('reward')}"><img src="image/main/reward.png" width="80px;"></c:when>
 		<c:when test="${dto.fundtype.equalsIgnoreCase('donation')}"><img src="image/main/donaIcon.png" width="80px;"></c:when>
 	</c:choose>
+	
+	</span>
 	</td>
-	<td>
-	<!-- 진행 상태 status 확인하려고 / 일단 전부 써두었습니다 -->
-	<%-- <c:choose>
+	<td style="text-align: right;position: relative;top:11%;right:5%;padding: 0px;margin: 0px;">
+	<span>
+		<c:choose>
 		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}">준비 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;" style="position: sticky;top: 50px;left: 130px;z-index:1;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}">완료됨(성공)</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}">완료됨(실패)</c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;"></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;"></c:when>
 		<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
-	</c:choose> --%>
+		</c:choose>
+	</span>
 	</td>
+	
 	</tr>
 	
 	<tr>
 	<td colspan="2">
-		<a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;border-radius: 5px;" src="image/thumbnail/${dto.seq }.png" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a>
-		<div class="charts" style="cursor:pointer; position: relative;top: -40px;margin-left: 5px;margin-right: 5px;" onclick="javascript:location.href='projectDetail.do?seq=${dto.seq }'">
-		<div class="charts__chart chart--p100 chart--inverse " >
-		<div align="center" class="charts__chart chart--green" data-percent="${(dto.fundachived div dto.goalfund * 100) }%" style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
-		</div>
-		</div>
-		</div>
-		
-		<div align="right">
-			<c:choose>
-			<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><div class="ref" style="position: absolute;"><div class="stat" style="position: relative;top: -240px;left: 165px;z-index:1;"><img src="image/main/ongoing.png" width="65px;"></div></div></c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;">(성공)</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;">(실패)</c:when>
-			<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
-			</c:choose>
-		</div>
+		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="image/thumbnail/mainImg1.PNG" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
 	<tr>
-	<td colspan="2" style="padding: 10px;text-align: center;width: 90%;">
-	
+	<td colspan="2" style="font-size: 11pt;">
 	<a href="projectDetail.do?seq=${dto.seq }">
-	<!-- 50자수 제한 -->
+	<!-- 40자수 제한 -->
 	<c:set var="str" value="${dto.title }"/>
 	<c:set var="len" value="${fn:length(str)}"/>
 	<c:choose>
-	<c:when test="${len ge 50}"><strong>${fn:substring(str,0,50) } ...</strong></c:when>
+	<c:when test="${len ge 40}"><strong>${fn:substring(str,0,40) } ...</strong></c:when>
 	<c:otherwise><strong>${str }</strong></c:otherwise>
 	</c:choose>
 	</a>
 	</td>
 	</tr>
 	
-	<tr>
+	<tr class="features">
 	<td colspan="2" style="text-align: right;margin-right: 50px;">by ${dto.nickname }</td>
 	</tr>
 	
-	<tr>
-	<td colspan="2" style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원</span>&nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span></td>
+	<tr class="features">
+	<td style="text-align: left;">
+
+	<!-- 남은 날짜 구하기 -->
+	<jsp:useBean id="toDay" class="java.util.Date"/>
+	<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+	<fmt:parseDate value="${dto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+	
+	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
+	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
+	
+	</td>
+	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
 	
+	<!-- 차트 -->
 	<tr>
 	<td colspan="2">
+		<div class="charts" style="margin-left: 2%;margin-right: 2%;">
+		<div class="charts__chart chart--p100 chart--inverse chart--sm" >
+		<!-- 퍼센트가 100% 미만일 때 -->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 lt 100) }">
+		<div align="right" class="charts__chart chart--yellow chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</c:if>
+		<!-- 퍼센트 100% 이상일 때 -->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 ge 100) }">
+		<div align="right" class="charts__chart chart--green chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</c:if>
+		
+		</div>
+		</div>
+		
 	</td>
 	</tr>
 
 	</table>
-	<hr>
-
 
 </div>
+
 </c:forEach>
 </c:if>
 </div>
+<br><br><br><br><br>
 </div>
+
+
+
+<script>
+// 그림자
+function shadow(tableOne) {
+	$(tableOne).addClass("shadooooow");
+}
+// 그림자 삭제
+function noShadow(tableOne) {
+	$(tableOne).removeClass("shadooooow");
+}
+
+</script>

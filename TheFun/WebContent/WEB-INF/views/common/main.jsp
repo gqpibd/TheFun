@@ -9,6 +9,7 @@
 
  <!-- 차트 css -->
  <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+ <!-- <link href="CSS/chart/chart.scss" rel="stylesheet" type="text/scss"> -->
  
  <!-- 메인 css -->
  <link rel="stylesheet" href="CSS/common/main.css">
@@ -86,7 +87,7 @@
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>
+	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
 </div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
