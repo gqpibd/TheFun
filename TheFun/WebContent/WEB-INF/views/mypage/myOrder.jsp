@@ -49,7 +49,7 @@
 			<th>상태</th>
 		</tr>	
 		</c:if>
-	</thead>
+	</thead><!-- head -->
 	
 	<tbody>
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">

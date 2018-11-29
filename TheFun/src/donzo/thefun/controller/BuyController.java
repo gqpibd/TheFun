@@ -39,23 +39,22 @@ public class BuyController {
 
 		return "myOrder.tiles";
 	} 
-	 
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String loginId,int projectSeq, int[] opSeq, int[] opCount, Model model) {
-		
-		logger.info("플잭시퀀스:"+projectSeq);
-		for(int i=0; i<opSeq.length;i++) {
-			logger.info("옵션시퀀스 : "+opSeq[i]);
-			logger.info("옵션수량 : "+opCount[i]);
+	public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
+		logger.info("BuyController addOrder 메소드 " + new Date());
+
+		System.out.println("dto : "+newbuy);
+		for (int i=0; i<opSeq.length;i++) {
+			System.out.println(i+"번째"+" opSeq : "+opSeq[i]);
+			System.out.println(i+"번째"+" opCount : "+opCount[i]);
+			System.out.println(i+"번째"+" opPrice : "+opPrice[i]);
 		}
-		logger.info(loginId);
-		//주문 insert & 옵션재고 update
-		buyService.addOrders(loginId,projectSeq, opSeq, opCount);
 		
-		
-		
-		
+		//주문 insert
+		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
+
 		return "redirect:/main.do";
 	}
 	
