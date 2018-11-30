@@ -405,6 +405,7 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
