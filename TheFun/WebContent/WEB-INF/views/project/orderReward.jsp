@@ -151,7 +151,7 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
+     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
      		</c:if>
      		<c:if test="${login.phone}">
      			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
@@ -217,8 +217,8 @@ body{
 <tr>
 	<td colspan="2">
 	<input type="text" name="card1"> 
-	<input type="text" name="card2">
-	<input type="text" name="card3"> 
+	<input type="password" name="card2">
+	<input type="password" name="card3"> 
 	<input type="text" name="card4"> 
 	</td>
 </tr>
@@ -227,8 +227,8 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" name="validDate"></td>
-	<td><input type="text" name="cardPwd"></td>
+	<td><input type="text" name="validDate" value="mm/yy"></td>
+	<td><input type="password" name="cardPwd"></td>
 </tr>
 <tr>
 	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
@@ -427,6 +427,13 @@ body{
 	
 		});	//onclick 끝
 		
+		
+
 	});
+	
+	
+	//이름, 전화번호, 배송지 유효성
+	
+	//결제 설정 글자수 4개면 다음칸으로 이동
 	
 </script>
