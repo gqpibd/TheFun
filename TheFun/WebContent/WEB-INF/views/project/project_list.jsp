@@ -151,9 +151,13 @@ td{
 	<fmt:parseDate value="${dto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
 	
-	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
-	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
-	<c:if test="${endDate - strDate + 1 lt 0}"><strong>마감되었습니다.</strong></c:if>
+	<c:choose>
+      <c:when test="${endDate - strDate eq 0}"><font color="red">오늘 마감</font></c:when>
+      <c:when test="${endDate - strDate lt 0}"><strong>마감되었습니다.</strong></c:when>
+      <c:otherwise>
+      	<strong>${endDate - strDate + 1}일</strong> 남음
+      </c:otherwise>
+    </c:choose>
 	
 	</td>
 	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>

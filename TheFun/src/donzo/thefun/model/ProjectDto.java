@@ -245,8 +245,8 @@ public class ProjectDto implements Serializable {
 			}
 		}
 		System.out.println(tags);
-		System.out.println("수정한 태그: " + tempList.toArray(new String[tempList.size()]));
 		this.tags = tempList.toArray(new String[tempList.size()]);
+		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
    	 	
 		//content split
 		//String realTags[]=tags.split("/");
@@ -407,6 +407,7 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category

@@ -76,10 +76,10 @@ body{
       <!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		<input name="opSeq" value="${options.seq}" type="hidden">
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
-				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
+			<input type="hidden" name="opSeq" value="${options.seq}">
+				<p><input type="checkbox" value="${options.seq}" name="checkboxs" id="checkbox_${status.count }"> 
 					${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font></p>
 					<input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
 			</td>
@@ -385,10 +385,10 @@ body{
 		$(document).on("click","#deleteBtn",function (){
 
 			//체크된 갯수
-			var arrlen =$("input[name=opSeq]:checked").length;
+			var arrlen =$("input[name=checkboxs]:checked").length;
 			
 			//옵션의 전체갯수
-			var allOptionlen = $("input[name=opSeq]").length;
+			var allOptionlen = $("input[name=checkboxs]").length;
 			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
@@ -402,7 +402,7 @@ body{
 				var ids = new Array(arrlen);
 				var i=0;
 				
-				$("input[name=opSeq]:checked").each(function() {
+				$("input[name=checkboxs]:checked").each(function() {
 					
 					var opSeqNum = $(this).val();	//옵션시퀀스
 					

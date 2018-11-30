@@ -160,7 +160,17 @@ function sendLink() {
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate+1}일 남음</b></td>
+			<td class="strongGray sTd">
+				 <c:if test="${(endDate - strDate+1)==0}">
+				 	<b style="font-size: 20px">종료된 리워드</b>
+				 </c:if>
+				 <c:if test="${(endDate - strDate+1)==1}">
+				 <b style="font-size: 20px">오늘마감</b>
+				 </c:if>
+				 <c:if test="${(endDate - strDate+1)>1}">
+				 <b style="font-size: 20px">${endDate - strDate+1}일 남음</b>
+				 </c:if>
+			</td>
 		</tr>
 		<tr height="50">
 			<td class="strongGray sTd">
@@ -186,10 +196,13 @@ function sendLink() {
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<img height="50" src="image/detail/addcart2.jpg"/><!-- 장바구니추가 버튼 --> &nbsp;&nbsp;&nbsp; &nbsp;
-				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/> <!-- 공유하기 버튼 -->
+				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_gray.jpg" onclick="hartClick()"/>10	&nbsp;&nbsp;<!-- 하트 버튼 -->
+				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
+				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
+			</c:if>
 		</tr>
 		<tr height="50" style="padding: 50px">
 			<td align="left">
@@ -220,26 +233,21 @@ function sendLink() {
 		</div>
 	    </div>
 	 </div>
+	 
+	 
 <script type="text/javascript">
 $(document).ready(function () {
-//	$("#shareBtn").show();
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
 });
 
-/* //공유하기
-$('#shareBtn').toggle(function() { 
-	alert('선택'); 
-	}, function() { 
-		alert('선택해제'); 
-		}); */
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	
 	$(this).css("cursor","pointer");
 }); 
 
-//
+//show and hide
 $(function () {
 	$("#story").click(function () {
 		//alert("스토리 클릭");
@@ -261,7 +269,22 @@ $(function () {
 	});
 });
 
+function hartClick(){
+	var img1 = document.getElementById('hartBtn');
+
+	if(img1.src.indexOf('red') == -1) {
+		img1.src = img1.src.replace('gray', 'red');
+
+	} else {
+		img1.src = img1.src.replace('red', 'gray');
+
+	}
+}
 </script>
+
+
+
+
       <div class="row">
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
