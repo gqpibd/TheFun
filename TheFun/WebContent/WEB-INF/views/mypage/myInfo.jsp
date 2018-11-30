@@ -109,12 +109,13 @@
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
+<input type="hidden" name="profile" value="${login.profile}">
 <div class="group" style="width: 100%;" align="center">	
 	<table border="0">
 	<tr>
 		<td>
 			<div class="imgbox" align="center">
-			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'>
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
 			</div>
 		</td>
@@ -278,12 +279,15 @@ var nicknameOk = true;
 var infoOk = true;
 var phoneOk = true;
 
+$(document).ready(function(){
+	checkSubmitActivation();
+});
 function checkSubmitActivation(){
-	if("${login.pwd}" == null){
-		document.getElementById("submitBtn").disabled = true;
-		document.getElementById("submitBtn").style.background = "#E2E2E2";
-		document.getElementById("submitBtn").style.cursor =  "default";
-	}else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
+	/* if('${login.pwd}' == ''){
+		pwdOk=true;
+		newPwdOk = true;
+	} */
+	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
 		document.getElementById("submitBtn").disabled = false;
 		document.getElementById("submitBtn").style.background = "#8152f0";
@@ -469,6 +473,7 @@ var loadImageFile = function () {
 /* 기본 이미지로 변경 */
 function profile_default() {
 	$("#editable-Img").attr("src", "<%=MemberDto.DEFAULTIMGPATH%>");
+	$("#imgPath").val("<%=MemberDto.DEFAULTIMGPATH%>");
 	//console.log("profile_default() profile_keep_or_default : false");
 	//$("#profile_keep_or_default").val('false');
 } 

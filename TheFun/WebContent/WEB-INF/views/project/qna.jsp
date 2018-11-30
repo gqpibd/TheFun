@@ -3,9 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
 <style type="text/css">
 
+.list_reply{
+	padding-inline-start: 5px;
+}
 .mtextarea {
 	/* margin-left: 20px; */
 	margin-top: 10px;
@@ -20,6 +23,10 @@
 }
 .reply{ /* 댓글 하나가 한 덩어리로 묶인다. */
 	position: relative;
+}
+
+.reply_content{
+	padding-left: 10px;
 }
 
 .list_reply li {
@@ -55,6 +62,7 @@
     position: relative;
     right:0;
     display: inline-block;
+    padding: 10px;
 }
 
 .mtooltip .mtooltiptext{
@@ -111,7 +119,7 @@ input[type="checkbox"]:checked ~ .checkDiv {
 }
 
 input[type="checkbox"]:checked ~ .checkDiv .checkLabel {
-  left: 35px;
+  left: 37px;
   -webkit-transform: rotate(360deg);
           transform: rotate(360deg);
 }
@@ -140,18 +148,18 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel {
   width: 25px;
   background: rgba(255, 255, 255, 1);
   position: absolute;
-  top: 2.5px;
+  top: 2px;
   left: 3px;
   cursor: pointer;
 }
 
 .checkLabel::before {
    content: '';
-  height: 23px;
+  height: 21px;
   width: 4px;
   position: absolute;
   top: calc(50% - 11px);
-  left: calc(50% - 3px);
+  left: calc(50% - 2px);
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }
@@ -162,7 +170,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel {
     width: 22px;
     position: absolute;
     top: calc(50% - 2px);
-    left: calc(50% - 12px);
+    left: calc(50% - 11px);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
@@ -200,14 +208,14 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 		<li class="reply">		
 		<c:if test="${item.seq ne item.refseq}">	<!-- 대댓일 때 표시 --> 
 		<!-- <i class="fas fa-reply" style="float: left; width: 20px; margin-right: 13px"></i> -->
- 		<img src="image/detail/rere.png" style="float: left; width: 20px; margin-right: 13px">
+ 		<img src="image/detail/rere.png" style="float: left; width: 20px; margin-left: 13px">
 		</c:if>
 		<c:choose>
 			<c:when test="${item.isDel()}">
-				<div class="reply_content">삭제된 댓글입니다</div>
+				<div class="reply_content">삭제된 댓글입니다<hr></div>
 			</c:when> 
-			<c:when test="${item.isHidden() and item.id ne login.id and login.id ne item.towhom and login.id ne projectseq.id}"> <!-- 비밀댓글이고 못 볼때 -->
-				<div class="reply_content"><i class="fas fa-lock"></i>&nbsp;비밀 댓글입니다</div>
+			<c:when test="${item.isHidden() and (item.id ne login.id) and (login.id ne item.towhom) and (login.id ne projectdto.id)}"> <!-- 비밀댓글이고 못 볼때 -->				
+				<div class="reply_content"><i class="fas fa-lock"></i>&nbsp;비밀 댓글입니다 <hr></div>
 			</c:when> 
 			<c:otherwise> <!-- 일반 댓글 -->
 				<c:if test="${login ne null and item.id eq login.id}"> <!-- 작성자일 때 수정, 삭제 가능하게 -->
@@ -231,7 +239,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 				</c:otherwise>
 				</c:choose>
 				<div>
-				 	<img src="${item.profile}" class="profile re-img img_clickable" width="10" align="middle" onclick="location.href='MemberController?command=userPage&id=${item.id}'">
+				 	<img src="${item.profile}" class="profile re-img" width="10" align="middle">
 				 	<font style="font-size: 17px; font-weight: bold;" >${item.nickname}</font>
 					<c:if test="${item.id eq projectdto.id}"> <!-- 게시글 작성자 표시 -->  
 				 		<!-- <img src="images/icons/writer.png" width="60"> --> 
@@ -244,13 +252,13 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 			 	</div>
 			 	<div class="reply_content">
 			 	<c:if test="${item.towhom ne null and item.towhom ne '' }"><!-- 다른 사람 호출하는 태그가 있을 때 --> 
-					<b>@${item.towhom}</b> 
+					<b>@${item.towhomnickname}</b> 
 				</c:if>
 				 	${item.content}
 				<br> 
 				<font style="font-size: 3px; color: graytext;">${item.regdate}</font><br> <!-- 날짜 -->
 				<c:if test="${login ne null}">
-					<button class="btn btn-navy btn-border" name="${item.refseq}" onclick="addReply(this)" id="${item.seq}" toWhom="${item.id}">답변</button>
+					<button class="btn btn-navy btn-border" name="${item.refseq}" onclick="addReply(this)" id="${item.seq}" toWhom="${item.id}" toWhomNick="${item.nickname}">답변</button>
 				</c:if>				
 				</div>
 				<hr>
@@ -317,6 +325,8 @@ function addReply(re_btn){       // 댓글에 답글 추가
 	$("#rere_write").remove();
 	var refseq = $(re_btn).attr('name');
 	var toWhom = $(re_btn).attr('toWhom');
+	var toWhomNick = $(re_btn).attr('toWhomNick');
+	
 	var selector = "[name='" + refseq +"']";
 	var item = "<li class='reply' id='rere_write'>"+	
 		"<form action='addQna.do' id='addreply'>"+			
@@ -327,7 +337,7 @@ function addReply(re_btn){       // 댓글에 답글 추가
 			"<div align='left'>"+
 				"<img src='${login.profile}' width='10' class='profile re-img' align='middle'>" +
 				"<span class='nickname'>${login.nickname}</span>"+
-				"<textarea class='mtextarea' id='writeReply' placeholder='"+toWhom+"님에게 댓글 작성' name='content' required></textarea>"+
+				"<textarea class='mtextarea' id='writeReply' placeholder='"+toWhomNick+"님에게 댓글 작성' name='content' required></textarea>"+
 				"<div align=right>"+
 				"<table><tr><td>비밀글</td>"+
 					"<td><input class='hiddenCheckbox' type='checkbox' id='toggleRere' name='secret'/>"+
