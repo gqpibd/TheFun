@@ -317,6 +317,15 @@ public class ProjectController {
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
+	// 내 등록 프로젝트 삭제하는 메소드(승지)
+	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectDelete(int seq) throws Exception {
+		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		
+		
+		return "projectUpdate.tiles";
+	}
+	
 	// 프로젝트 승인
 	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String approve(Model model, int projectseq) throws Exception{
