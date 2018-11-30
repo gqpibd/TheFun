@@ -166,6 +166,16 @@ window.fbAsyncInit = function() {
 	top: 0;
 }
 #nav li ul
+
+
+
+
+/* 햄버거메뉴 */
+.menu a{cursor:pointer;}
+.menu .hide{display:none;}
+
+
+
 </style>
 
 <script type="text/javascript">
@@ -194,32 +204,108 @@ $(document).ready(function () {
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
 <nav class="navbar navbar-expand-lg navbar-dark">
+  <!-- 탑바 전체를 묶는 div -->	
   <div class="container" style="background-color: white;">
-	<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 --> 
+  	
+  	<!-- 사이트 로고 a태그로 main뷰 연결 -->
+	<a class="navbar-brand" href="main.do">
+		<img src="image/main/banner.jpg" width="130px">
+	</a>
     
-		<ul id="nav">
+    <!-- 3가지 메뉴 기부, 리워드, 프로젝트 -->
+	<ul id="nav">
+		
+		<!-- 1번째 목록 -->
 		<li style="width:90px;">
-			<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a><!--  기부 -->
+			<!-- 1번째 부모목록: 기부  -->
+			<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()">
+				<img src="image/main/donation.jpg" width="100px">
+			</a>
+			
+			<!-- 자식목록 -->
 			<ul>
-				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+				<!-- 인권 -->
+				<li style="width:90px;text-align: center;">
+					<a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()">
+						<img src="image/main/human_btn.jpg" width="90px">
+					</a>
+				</li>
+				<!-- 동물 -->
+				<li style="width:90px;">
+					<a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()">
+						<img src="image/main/animal_btn.jpg" width="90px">
+					</a>
+				</li>
+				<!-- 히스토리 -->
+				<li style="width:90px;">
+					<a href="#">
+						<img src="image/main/history.jpg" width="90px">
+					</a>
+				</li>
 			</ul>
 		</li> 
-		<li style="width:90px;text-align: center;">
-			<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->
+		
+		<!-- 2번째 목록 -->
+		<li style="width:90px;text-align: center;">		
+			<!-- 2번째 부모록록: 리워드 -->
+			<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()">
+				<img src="image/main/reward.jpg" width="95px">
+			</a>
+			
+			<!-- 자식목록 -->
 			<ul>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+				<!-- 음식 -->
+				<li>
+					<a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()">
+						<img src="image/main/food_btn.jpg" width="90px">
+					</a>
+				</li>
+				<!-- IT/전자 -->
+				<li>
+					<a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()">
+						<img src="image/main/it_btn.jpg" width="90px">
+					</a>
+				</li>
+				<!-- 동물 -->
+				<li>
+					<a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()">
+						<img src="image/main/animal_btn.jpg" width="90px">
+					</a>
+				</li>
+				<!-- 히스토리 -->
+				<li style="width:90px;">
+					<a href="#">
+						<img src="image/main/history.jpg" width="90px">
+					</a>
+				</li>
+			</ul>	
+		</li>
+		
+		<!-- 3번째 목록 -->
+		<li style="width:90px;text-align: center;">
+			<!-- 3번째 부모록록: 새 프로젝트 -->
+			<a href="newProject.do">
+				<img src="image/main/newproject.jpg" width="95px">
+			</a>
+			<!-- 자식목록 -->
+			<ul>
+				<!-- 등록하기 -->
+				<li>
+				<a>
+					<img>
+				</a>
+				</li>
 			</ul>
 		</li>
-		<li style="width:90px;text-align: center;">
-		  <a href="newProject.do"><img src="image/main/newproject.jpg" width="95px"></a> <!-- 새 프로젝트 만들기 -->
-		</li>
-		</ul>
+		
+	</ul>
+	<!--///////  -->
     &nbsp;&nbsp;&nbsp;&nbsp;
+    
+    
+    
+    
+    <!-- 검색바 -->
     <form id="_frmFormSearch" name="frmForm1">
 		<div class="box">
 			<div class="container-4">
@@ -243,32 +329,90 @@ $(document).ready(function () {
 		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
 	    
 	</form>
+	
+    <!-- 로그인 하기 전 로그인 버튼-->
+  	<c:if test="${login eq null}">
+	    <a class="nav-link" href="login.do">
+	    	<img src="image/main/mainLogin.jpg" height="20px">
+	    </a> 		
+	</c:if>
+	
+    <!-- 로그인 후 상태 -->
+    <c:if test="${login ne null}">
+	    <!-- 프로필이미지 -->
+		<span id="profile">
+			<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
+			title="마이페이지로 이동" style="cursor: pointer;">
+		</span>
+		<!-- 회원 닉네임 -->
+		<span>${login.nickname}님</span>		
+		
+		<!-- 로그인 후 햄버거 버튼 활성화 -->
+	   <!--  <button class="navbar-toggler" type="button" 
+	    		data-toggle="collapse" data-target="#navbarResponsive" 
+	    		aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button> -->
+	    
+   		<div class=" " id="">
+	 
+			<ul class=" ">
+				<li class="menu">         	
+					<a><img src="" alt="상위메뉴이미지1"/></a>
+					
+						<%-- <!-- 프로필이미지 -->
+						<span id="profile">
+							<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
+							title="마이페이지로 이동" style="cursor: pointer;">
+						</span>
+						<!-- 회원 닉네임 -->
+						<span>${login.nickname}님</span> --%>	
+					
+						<!-- 여기서 부터 햄버거버튼 -->
+						<ul class="hide">
+							<!-- 나의 정보 -->
+							<li>
+								<a href="#" onclick="">나의 정보</a> 		
+							</li>	
+							
+							<!-- 나의 후원내역 -->
+							<li>
+								<a href="#" onclick="">나의 후원내역</a> 		
+							</li>	
+							
+							<!-- 나의 프로젝트 -->
+							<li>
+								<a href="#" onclick="">나의 프로젝트</a> 		
+							</li>	
+							
+							<!-- 나의 일정 -->
+							<li>
+								<a href="#" onclick="">나의 일정</a> 		
+							</li>	
+							
+							<!-- 로그아웃 -->
+							<li>
+								<a href="#" onclick="logout()">로그아웃</a> 		
+							</li>
+							
+							<%-- <c:choose>			
+								<c:when test="${login.isManager()}">
+									<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose> --%>
+						
+						</ul>
+				
+				</li>
+			</ul>
+	     
+	    </div>
     
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">              
-			<c:if test="${login eq null}">
-			    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
-			</c:if>
-			<c:if test="${login ne null}">
-				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
-				<span>${login.nickname}님</span>			
-				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
-				<c:choose>			
-					<c:when test="${login.isManager()}">
-						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
-					</c:when>
-					<c:otherwise>
-					</c:otherwise>
-				</c:choose>
-			</c:if>
-        </li>
-      </ul>
-    </div>
+    </c:if>
+  
+  
   </div>
 </nav>
     
@@ -397,4 +541,22 @@ site.prototype = {
 }
 
 new site();
+
+
+/* 햄버거버튼 */
+   // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+
 </script>
