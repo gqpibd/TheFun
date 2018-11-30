@@ -37,8 +37,13 @@ local.properties
 .factorypath
 .buildpath
 .target
+<<<<<<< HEAD
+*.properties
+/target/
+=======
 /target/
 
 # 그냥좀 무시해
 .MF
 .properties
+>>>>>>> refs/remotes/origin/dh
