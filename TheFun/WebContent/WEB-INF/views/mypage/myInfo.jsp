@@ -4,10 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
- 
  <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
- 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
+<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<style type="text/css">
+body{
+font-family: "Nanum Gothic", sans-serif;
+}
+</style>
+ 
 <style type="text/css">
 .input {
   outline: 0;
@@ -24,8 +29,8 @@
   font-size: 14px;
 }
 .tb{
-	min-width: 420px;
-	max-width: 600px;
+   min-width: 420px;
+   max-width: 600px;
 }
 
 /* 미디어 쿼리 */
@@ -66,32 +71,32 @@
 }
 /* 프로필 사진 */
 .imgbox{
-	display: table-cell; /* 이미시를 세로 가운데 정렬할때 필요 */
-	vertical-align: middle; /* 이미시를 세로 가운데 정렬할때 필요 */
-	position: relative;
-	width: 150px;
-	height: 150px;
+   display: table-cell; /* 이미시를 세로 가운데 정렬할때 필요 */
+   vertical-align: middle; /* 이미시를 세로 가운데 정렬할때 필요 */
+   position: relative;
+   width: 150px;
+   height: 150px;
 }
 .holder{
-	height: 150px;
-	width: 150px;	
-	position: relative;
-	z-index: -1;	
-	border-radius: 150px;
+   height: 150px;
+   width: 150px;   
+   position: relative;
+   z-index: -1;   
+   border-radius: 150px;
     object-fit: cover;
-    vertical-align: middle;	
+    vertical-align: middle;   
 }
 .upload {
-	align-self: center;
-	width: 150px;
-	height: 150px;
-	opacity: 0;
-	/* background-color:red; */
-	cursor: pointer; 
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1;
+   align-self: center;
+   width: 150px;
+   height: 150px;
+   opacity: 0;
+   /* background-color:red; */
+   cursor: pointer; 
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: 1;
 } 
 
 .profile_img{   
@@ -102,6 +107,27 @@
     margin: 5px;
     vertical-align: middle;
     object-fit: cover;
+}
+/* 타이틀 띠 CSS */
+.head_title {
+  font-size: 200%;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+#line_header {
+  background: #8152f0;
+  color: #FFFFFF;
+  padding: 80px;
+}
+
+#line_header p {
+  font-family: 'Allura';
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 0;
+  font-size: 60px;
+  margin-top: -30px;
 }
 
 /* 프로필 이미지 변경 */
@@ -119,7 +145,18 @@
     width: 150px;
 }
 
+
 </style>
+
+ <br><br><br><br>
+<header id="line_header">
+  <div class="container text-center">
+    <h1 class="head_title">MY INFOMAION</h1>
+    <p>나의 정보</p>
+  </div>
+</header>
+
+<br><br>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
@@ -154,135 +191,135 @@
 <div class="main form">
 <div class="left" align="center"> 
 <c:choose>
-	<c:when test="${login.pwd ne null}">		
-		<table class="tb">		
-			<!-- 아이디 -->
-			<tr>
-				<td style="text-align: left; ">아이디</td>
-				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
-					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
-				</td>
-			</tr>
-			
-			<!-- 비밀번호는 안보여줌 -->	
-			<tr> <!-- 개인정보 수정하려면 현재 비밀번호를 입력해야됨  -->
-				<td style="text-align: left;">현재 비밀번호</td>
-				<td colspan="2">
-					<input class="input" type="password" id="myPwd" name="myPwd" maxlength="12" placeholder="현재 비밀번호" onblur="myPwdCheck()" />				
-				</td>
-			</tr>
-			<tr><td></td><td colspan="2" id="myPwdCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-			<tr>
-				<td style="text-align: left;">새 비밀번호</td>
-				<td colspan="2">
-					<input class="input" type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="myNewPwdCheck()" />
-				</td>
-			</tr>
-			<tr><td></td><td colspan="2" id="pwdCheckMessage" style="color:red; font-size:11px; margin: 0;" ></td></tr>
-			
-			<tr class="hideWhenRead"><!-- null 이면 readonly -->
-				<td style="text-align: left;">새 비밀번호 확인</td>
-				<td colspan="2">
-					<input class="input" type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="myNewPwdCheck()" />
-				</td>
-			</tr>
-			
-			<tr>
-				<td style="text-align: left;">별명</td>
-				<td colspan="2">
-					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
-				</td>
-			</tr>
-			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-				
-			<tr>
-				<td style="text-align: left;">이메일</td>
-				<td colspan="2">
-					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${login.email }" />
-				</td>
-			</tr>
-			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
-		</table>
-	</c:when>
-	<c:otherwise> <!-- 연동 로그인 -->
-		<table class="tb" style="text-align: center">		
-			<tr>
-				<td>
-					<img src="${login.profile}" class="profile_img">
-				</td>
-			</tr>
-			<!-- 아이디 -->
-			<tr>
-				<td> 
-					<input type="hidden" name="id" value="${login.id}"/>
-					${login.nickname} 님
-					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
-				</td>
-			</tr>
-			<tr>
-				<td>간편로그인 사용중</td>
-			</tr>		 		
-		</table>
-	</c:otherwise>
-</c:choose>	
+   <c:when test="${login.pwd ne null}">      
+      <table class="tb">      
+         <!-- 아이디 -->
+         <tr>
+            <td style="text-align: left; ">아이디</td>
+            <td colspan="2"> 
+               <input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
+               <span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
+            </td>
+         </tr>
+         
+         <!-- 비밀번호는 안보여줌 -->   
+         <tr> <!-- 개인정보 수정하려면 현재 비밀번호를 입력해야됨  -->
+            <td style="text-align: left;">현재 비밀번호</td>
+            <td colspan="2">
+               <input class="input" type="password" id="myPwd" name="myPwd" maxlength="12" placeholder="현재 비밀번호" onblur="myPwdCheck()" />            
+            </td>
+         </tr>
+         <tr><td></td><td colspan="2" id="myPwdCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+         <tr>
+            <td style="text-align: left;">새 비밀번호</td>
+            <td colspan="2">
+               <input class="input" type="password" id="newPwd" name="pwd" maxlength="12" placeholder="비밀번호" onkeyup="myNewPwdCheck()" />
+            </td>
+         </tr>
+         <tr><td></td><td colspan="2" id="pwdCheckMessage" style="color:red; font-size:11px; margin: 0;" ></td></tr>
+         
+         <tr class="hideWhenRead"><!-- null 이면 readonly -->
+            <td style="text-align: left;">새 비밀번호 확인</td>
+            <td colspan="2">
+               <input class="input" type="password" id="newPwdCheck" maxlength="12" placeholder="비밀번호 확인" onkeyup="myNewPwdCheck()" />
+            </td>
+         </tr>
+         
+         <tr>
+            <td style="text-align: left;">별명</td>
+            <td colspan="2">
+               <input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
+            </td>
+         </tr>
+         <tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+            
+         <tr>
+            <td style="text-align: left;">이메일</td>
+            <td colspan="2">
+               <input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${login.email }" />
+            </td>
+         </tr>
+         <tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr>       
+      </table>
+   </c:when>
+   <c:otherwise> <!-- 연동 로그인 -->
+      <table class="tb" style="text-align: center">      
+         <tr>
+            <td>
+               <img src="${login.profile}" class="profile_img">
+            </td>
+         </tr>
+         <!-- 아이디 -->
+         <tr>
+            <td> 
+               <input type="hidden" name="id" value="${login.id}"/>
+               ${login.nickname} 님
+               <span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
+            </td>
+         </tr>
+         <tr>
+            <td>간편로그인 사용중</td>
+         </tr>             
+      </table>
+   </c:otherwise>
+</c:choose>   
 </div>
-	<!-- 여기부터는 옵션 -->
-	<div class="right" align="center"> 
-	<table class="tb">			
-		<!-- 전화번호 -->
-		<tr>
-			<td style="text-align: left;">전화번호</td>
-			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
-			</td>
-		</tr>
-		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-		
-		<!-- 주소 -->
-		<tr>
-			<td style="text-align: left;">주소</td>
-			<td >
-				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">		
-			</td>
-			<td>
-				<input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td colspan="2">
-				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td colspan="2">
-				<input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
-			</td>
-		</tr>
-		<tr>
-			<td style="text-align: left;">소개</td>
-			<td colspan="2">
-				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${login.info}"/>			
-			</td>
-		</tr>
-		<tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-		
-		<tr>
-			<td style="text-align: left;">포인트</td>
-			<td colspan="2">			
-				<input class="input" type="text" id="myPoint" name="point" value="${login.point}" readonly="readonly"/>
-			</td>
-		</tr>	
-	</table>
-	</div>
-		
-	<div class="right" style="width: 100%;" align="center">
-		<br>
-		<input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
-	</div>	
-	</div>
+   <!-- 여기부터는 옵션 -->
+   <div class="right" align="center"> 
+   <table class="tb">         
+      <!-- 전화번호 -->
+      <tr>
+         <td style="text-align: left;">전화번호</td>
+         <td colspan="2">
+            <input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
+         </td>
+      </tr>
+      <tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+      
+      <!-- 주소 -->
+      <tr>
+         <td style="text-align: left;">주소</td>
+         <td >
+            <input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">      
+         </td>
+         <td>
+            <input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
+         </td>
+      </tr>
+      <tr>
+         <td></td>
+         <td colspan="2">
+            <input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
+         </td>
+      </tr>
+      <tr>
+         <td></td>
+         <td colspan="2">
+            <input class="input" type="text" id="myDetailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
+         </td>
+      </tr>
+      <tr>
+         <td style="text-align: left;">소개</td>
+         <td colspan="2">
+            <input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${login.info}"/>         
+         </td>
+      </tr>
+      <tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+      
+      <tr>
+         <td style="text-align: left;">포인트</td>
+         <td colspan="2">         
+            <input class="input" type="text" id="myPoint" name="point" value="${login.point}" readonly="readonly"/>
+         </td>
+      </tr>   
+   </table>
+   </div>
+      
+   <div class="right" style="width: 100%;" align="center">
+      <br>
+      <input class="input" type="submit" id="submitBtn" style="background: #E2E2E2; cursor: default; color: white; width: 200px" value="수정하기" disabled="disabled"/>
+   </div>   
+   </div>
 </form>
 <!-- 유효성 검사 -->
 <script type="text/javascript">
@@ -294,125 +331,125 @@ var infoOk = true;
 var phoneOk = true;
 
 function checkSubmitActivation(){
-	if("${login.pwd}" == null){
-		document.getElementById("submitBtn").disabled = true;
-		document.getElementById("submitBtn").style.background = "#E2E2E2";
-		document.getElementById("submitBtn").style.cursor =  "default";
-	}else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
-	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
-		document.getElementById("submitBtn").disabled = false;
-		document.getElementById("submitBtn").style.background = "#8152f0";
-		document.getElementById("submitBtn").style.cursor =  "pointer";
-	}else{
-		document.getElementById("submitBtn").disabled = true;
-		document.getElementById("submitBtn").style.background = "#E2E2E2";
-		document.getElementById("submitBtn").style.cursor =  "default";
-	}
+   if("${login.pwd}" == null){
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("submitBtn").style.background = "#E2E2E2";
+      document.getElementById("submitBtn").style.cursor =  "default";
+   }else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
+   //console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
+      document.getElementById("submitBtn").disabled = false;
+      document.getElementById("submitBtn").style.background = "#8152f0";
+      document.getElementById("submitBtn").style.cursor =  "pointer";
+   }else{
+      document.getElementById("submitBtn").disabled = true;
+      document.getElementById("submitBtn").style.background = "#E2E2E2";
+      document.getElementById("submitBtn").style.cursor =  "default";
+   }
 }
 
-function myPwdCheck() {			
-	$.ajax({
-		type:"post",
-		url:"pwdCheck.do",
-		data:"id=${login.id}&pwd="+$('#myPwd').val(),
-		
-		success:function(data){		
-			if(data == "OK" ){ //비밀번호 일치
-				$("#myPwdCheckMessage").text("");	
-				pwdOk = true;
-				checkSubmitActivation();		
-			}else{
-				$("#myPwdCheckMessage").text("비밀번호가 일치하지 않습니다.");	
-				pwdOk = false;
-				checkSubmitActivation();
-			}
-		}
-	});		
+function myPwdCheck() {         
+   $.ajax({
+      type:"post",
+      url:"pwdCheck.do",
+      data:"id=${login.id}&pwd="+$('#myPwd').val(),
+      
+      success:function(data){      
+         if(data == "OK" ){ //비밀번호 일치
+            $("#myPwdCheckMessage").text("");   
+            pwdOk = true;
+            checkSubmitActivation();      
+         }else{
+            $("#myPwdCheckMessage").text("비밀번호가 일치하지 않습니다.");   
+            pwdOk = false;
+            checkSubmitActivation();
+         }
+      }
+   });      
 }
 
-function myNewPwdCheck() {		
-	var re = /^[a-zA-Z0-9]{3,12}$/ // 아이디와 패스워드가 적합한지 검사할 정규식
-	if($('#newPwd').val() != "" && !re.test($('#newPwd').val())) {
-		$("#pwdCheckMessage").text("3~12자의 영문과 숫자로만 입력해 주세요");
-		$("#newPwd").focus();
-		newPwdOk = false;
-		checkSubmitActivation();
+function myNewPwdCheck() {      
+   var re = /^[a-zA-Z0-9]{3,12}$/ // 아이디와 패스워드가 적합한지 검사할 정규식
+   if($('#newPwd').val() != "" && !re.test($('#newPwd').val())) {
+      $("#pwdCheckMessage").text("3~12자의 영문과 숫자로만 입력해 주세요");
+      $("#newPwd").focus();
+      newPwdOk = false;
+      checkSubmitActivation();
     }else if(($('#newPwd').val() != "" && $("#newPwdCheck").val() !="" ) && ($("#newPwd").val() != $("#newPwdCheck").val())){ // 비밀 번호 다르면
-		$("#pwdCheckMessage").text("비밀번호가 일치하지 않습니다.");		
-		newPwdOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#pwdCheckMessage").text("");		
-		newPwdOk = true;
-		checkSubmitActivation();
-	}
+      $("#pwdCheckMessage").text("비밀번호가 일치하지 않습니다.");      
+      newPwdOk = false;
+      checkSubmitActivation();
+   }else{
+      $("#pwdCheckMessage").text("");      
+      newPwdOk = true;
+      checkSubmitActivation();
+   }
 }
 
 function nicknameCheck() { // 15글자 이내
-	//console.log("nicknameCheck");
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	if(regExp.test($("#myNickname").val()) || $("#myNickname").val().length < 2 ){	    
-		$("#nicknameCheckMessage").text("한글 또는 영어로만 2~15자 이내로 적어주세요");
-		$("#myNickname").focus();
-		nicknameOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#nicknameCheckMessage").text("");
-		nicknameOk = true;
-		checkSubmitActivation();
-	}
+   //console.log("nicknameCheck");
+   var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+   if(regExp.test($("#myNickname").val()) || $("#myNickname").val().length < 2 ){       
+      $("#nicknameCheckMessage").text("한글 또는 영어로만 2~15자 이내로 적어주세요");
+      $("#myNickname").focus();
+      nicknameOk = false;
+      checkSubmitActivation();
+   }else{
+      $("#nicknameCheckMessage").text("");
+      nicknameOk = true;
+      checkSubmitActivation();
+   }
 }
 
 function infoCheck() { // 30글자 이내
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	if(regExp.test($("#myInfo").val()) && $("#myInfo").val().length != 0){	    
-		$("#infoCheckMessage").text("한글 또는 영어로만 30자 이내로 적어주세요");
-		$("#myInfo").focus();
-		infoOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#infoCheckMessage").text("");
-	    infoOk = true;
-		checkSubmitActivation();
-	}
+   var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+   if(regExp.test($("#myInfo").val()) && $("#myInfo").val().length != 0){       
+      $("#infoCheckMessage").text("한글 또는 영어로만 30자 이내로 적어주세요");
+      $("#myInfo").focus();
+      infoOk = false;
+      checkSubmitActivation();
+   }else{
+      $("#infoCheckMessage").text("");
+       infoOk = true;
+      checkSubmitActivation();
+   }
 }
 /* 상세 주소 */
-function detailAddressCheck() {	
-	var text = $("#myDetailAddress").val();
-	//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	text = text.replace(/[<(+>]/g, '');
-	$("#myDetailAddress").val(text);	
+function detailAddressCheck() {   
+   var text = $("#myDetailAddress").val();
+   //var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+   text = text.replace(/[<(+>]/g, '');
+   $("#myDetailAddress").val(text);   
 }
 function phoneCheck(){
-	var text = $("#myPhone").val();
-	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-	//text = text.replace(/[^0-9]/g, '');
-	//$("#newPhone").val(text);
-	if (!text.match(regExp) && $("#myPhone").val().length != 0) {
-		$("#phoneCheckMessage").text("전화번호 형식:XXX-XXXX-XXXX");
-		phoneOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#phoneCheckMessage").text("");
-		phoneOk = true;
-		checkSubmitActivation();
-	}
+   var text = $("#myPhone").val();
+   var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
+   //text = text.replace(/[^0-9]/g, '');
+   //$("#newPhone").val(text);
+   if (!text.match(regExp) && $("#myPhone").val().length != 0) {
+      $("#phoneCheckMessage").text("전화번호 형식:XXX-XXXX-XXXX");
+      phoneOk = false;
+      checkSubmitActivation();
+   }else{
+      $("#phoneCheckMessage").text("");
+      phoneOk = true;
+      checkSubmitActivation();
+   }
 }
 
 function emailCheck() {
-	var emailVal = $("#myEmail").val();
-	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;	
-				
-	if(emailVal.match(regExp) == null || emailVal == "") { // 형식이 올바르지 않은 경우
-		$("#emailCheckMessage").text("올바른 이메일을 입력해 주세요");
-	    $("#myEmail").focus();
-	    emailOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#emailCheckMessage").text("");
-	    emailOk = true;
-		checkSubmitActivation();
-	}
+   var emailVal = $("#myEmail").val();
+   var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;   
+            
+   if(emailVal.match(regExp) == null || emailVal == "") { // 형식이 올바르지 않은 경우
+      $("#emailCheckMessage").text("올바른 이메일을 입력해 주세요");
+       $("#myEmail").focus();
+       emailOk = false;
+      checkSubmitActivation();
+   }else{
+      $("#emailCheckMessage").text("");
+       emailOk = true;
+      checkSubmitActivation();
+   }
 }
 
 /* 주소검색 */
@@ -464,33 +501,33 @@ fileReader.onload = function (event) { // 파일이 로드 되었을 때
    image.src = event.target.result;
 };
 var loadImageFile = function () {
-	  var uploadImage = document.getElementById("upload-Image"); //파일 요소 가져와서
-	  
-	  //check and retuns the length of uploded file.
-	  if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
-	    return; 
-	  }	 
-	  
-	  //Is Used for validate a valid file.
-	  var uploadFile = document.getElementById("upload-Image").files[0]; // 업로드된 파일중 첫 번째를 가져온다.
-	  
-	  if (!filterType.test(uploadFile.type)) {
-	    alert("Please select a valid image."); 
-	    return;
-	  }	  
-	  fileReader.readAsDataURL(uploadFile); // 파일 리더를 이용해 파일을 읽는다
+     var uploadImage = document.getElementById("upload-Image"); //파일 요소 가져와서
+     
+     //check and retuns the length of uploded file.
+     if (uploadImage.files.length == 0) {  // 업로드 된게 있는지 확인하고
+       return; 
+     }    
+     
+     //Is Used for validate a valid file.
+     var uploadFile = document.getElementById("upload-Image").files[0]; // 업로드된 파일중 첫 번째를 가져온다.
+     
+     if (!filterType.test(uploadFile.type)) {
+       alert("Please select a valid image."); 
+       return;
+     }     
+     fileReader.readAsDataURL(uploadFile); // 파일 리더를 이용해 파일을 읽는다
 };
 
 /* 기본 이미지로 변경 */
 function profile_default() {
-	$("#editable-Img").attr("src", "<%=MemberDto.DEFAULTIMGPATH%>");
-	//console.log("profile_default() profile_keep_or_default : false");
-	//$("#profile_keep_or_default").val('false');
+   $("#editable-Img").attr("src", "<%=MemberDto.DEFAULTIMGPATH%>");
+   //console.log("profile_default() profile_keep_or_default : false");
+   //$("#profile_keep_or_default").val('false');
 } 
 
 $('#editable-Img').on('load', function () {
-	$("#imgPath").val($(this).attr('src'));
-	//console.log($("#imgPath").val());	
-});	
+   $("#imgPath").val($(this).attr('src'));
+   //console.log($("#imgPath").val());   
+});   
  
 </script>

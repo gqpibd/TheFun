@@ -5,6 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 <title>The Fun_orderReward</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <style type="text/css">
 body{
 	font-family: "Nanum Gothic", sans-serif;
@@ -75,7 +76,7 @@ body{
       <!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		
+		<input name="opSeq" value="${options.seq}" type="hidden">
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
 				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
@@ -93,12 +94,12 @@ body{
 		</td>
 		<td class="td2 liteGray">
 			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
-			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})">
-			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})">
+			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
+			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">
 			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" id="realPrice_${options.seq}" value="${options.price}"> <!-- 합계금액 -->
+			<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
 	</c:forEach>
@@ -118,7 +119,7 @@ body{
 		</td>
 		<td></td>
 		<td class="pupple"align="right" >
-			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원
+			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원 
 		</td>
 	</tr>
 	</table>
@@ -136,7 +137,7 @@ body{
      		<td class="profiletitle"><b>이름</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input class="liteGray" name="name" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>이메일</b></td>
@@ -170,19 +171,28 @@ body{
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input name="phone" class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile">
+     		<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
+     		</td>
+     	</tr>
+     	<tr>
+     		<td>
+     		<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
+			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
+			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소">
+     		</td>
      	</tr>
      	</table>
      	
@@ -198,7 +208,8 @@ body{
 		</ul>
 </div>
 <br><br>
-      	<!-- 결제정보입력 테이블 -->
+
+<!-- 결제정보입력 테이블 -->
 <table style="width: 70%">
 <tr>
 	<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
@@ -230,15 +241,15 @@ body{
 <div style="width: 70%" align="left">
 	<p class="strongGray" align="left">결제 예약시 유의사항</p>
 	<ul class="liteGray" >
-	<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
-	<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
-	<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
-	<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
+		<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
+		<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
+		<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
+		<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
 	</ul>
 </div>
 <br><br>
-<input type="hidden" name="projectSeq" value="${projectdto.seq }">
-<input type="hidden" name="loginId" value="${login.id }">
+<input type="hidden" name="projectseq" value="${projectdto.seq }">
+<input type="hidden" name="id" value="${login.id }">
 <input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;">  <!-- 결제 예약하기 버튼 -->
 
 </form>
@@ -250,42 +261,112 @@ body{
 
 <script type="text/javascript">
 
-	//수량선택 +
+	/* 주소검색 */
+	function sample4_execDaumPostcode() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+	            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+	            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+	
+	            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                extraRoadAddr += data.bname;
+	            }
+	            // 건물명이 있고, 공동주택일 경우 추가한다.
+	            if(data.buildingName !== '' && data.apartment === 'Y'){
+	               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	            }
+	            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	            if(extraRoadAddr !== ''){
+	                extraRoadAddr = ' (' + extraRoadAddr + ')';
+	            }
+	            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+	            if(fullRoadAddr !== ''){
+	                fullRoadAddr += extraRoadAddr;
+	            }
+	
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+	            document.getElementById('roadAddress').value = fullRoadAddr;
+	           
+	        }
+	    }).open();
+	}
+	
+	/* 상세 주소 */
+	function detailAddressCheck() {
+		console.log("detailAddressCheck");
+		var text = $("#detailAddress").val();
+		//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		text = text.replace(/[<(+>]/g, '');
+		//console.log(text);
+		$("#detailAddress").val(text);	
+	}
+	
+	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
-	   	var opCount = Number(document.getElementById(seqNum).value);
+	   	var count = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
 	   	
-		if(opCount==stockCount){
-			alert("구매가능한 수량보다 많습니다.");
-		}else{
-			opCount+=1;
-	     	document.getElementById(seqNum).value =opCount;
+	   	if(stockCount<0){	//재고가 무제한이라면
+	   		
+	   		count+=1;
+	     	document.getElementById(seqNum).value =count;
 	       	//가격변환
 	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
 	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
 	       	var totalPrice = priceField+realPrice;
 	       	document.getElementById("price_"+seqNum).value =totalPrice;
-	     	
+	       	
+	       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+	   		
+	   	}else{		//재고가 무제한이 아니라면
+	 
+			if(count==stockCount){
+				alert("구매가능한 수량보다 많습니다.");
+			}else{
+				count+=1;
+		     	document.getElementById(seqNum).value =count;
+		       	//가격변환
+		       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+		       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+		       	var totalPrice = priceField+realPrice;
+		       	document.getElementById("price_"+seqNum).value =totalPrice;
+		       	
+		       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
+		    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+			}
+	   	}
+	}
+	
+	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
+	function minusVal(seqNum) {
+		var count = Number(document.getElementById(seqNum).value);
+		
+		if(count==1){
+			document.getElementById(seqNum).value ="1";
+		}else{
+			count-=1;
+	       	document.getElementById(seqNum).value =count;
+	       	
+	       	//가격변환 
+	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
+	       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
+	       	var resultPrice = priceField-realPrice;								//셋팅할 가격
+	       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
+	       	
+	       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 		}
 	}
 	
-	//수량선택 -
-	function minusVal(seqNum) {
-		var opCount = Number(document.getElementById(seqNum).value);
-		if(opCount==1){
-			//alert("0개이하는 선택하실수  없습니다. ");
-			document.getElementById(seqNum).value ="1";
-		}else{
-			opCount-=1;
-	       	document.getElementById(seqNum).value =opCount;
-	       	
-	       	//가격변환 onchage
-	       	var realPrice = document.getElementById("realPrice_"+seqNum).value;
-	       	var priceField = document.getElementById("price_"+seqNum).value;
-	       	var totalPrice = priceField-realPrice;
-	       	document.getElementById("price_"+seqNum).value =totalPrice;
-		}
-	}
+	
 	
 	$(document).ready(function (){
 		
@@ -293,24 +374,22 @@ body{
 		var priceArr = new Array(size);
 		var tPrice=0;
 		
-		//같은 name 밸류 전부 저장 
+		//  총금액 첫 출력 설정
 		$("input[name='priceName']").each(function (i) {
             priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
             tPrice = tPrice+priceArr[i];
-       });
-		
-		//모든 옵션 + .. 하지만 체크박스삭제하면 가격변동없음
+       	});
 		$("#finalPrice").val(tPrice);
 		
-		//선택한 체크박스 value 추출
+		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
 
 			//체크된 갯수
-			var arrlen =$("input[name=chekboxs]:checked").length;
-
+			var arrlen =$("input[name=opSeq]:checked").length;
+			
 			//옵션의 전체갯수
-			var allOptionlen = $("input[name=chekboxs]").length;
-
+			var allOptionlen = $("input[name=opSeq]").length;
+			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
 				
@@ -318,19 +397,32 @@ body{
 				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
 				
 			}else{
-				//선택한 체크박스 정보를 담을 배열
-				var opSeqs = new Array(arrlen);
+				
+				//선택한 체크박스 id를 담을 배열
+				var ids = new Array(arrlen);
 				var i=0;
 				
-			 	//배열에 옵션시퀀스 입력
-				$("input[name=chekboxs]:checked").each(function() {
-					var test = $(this).val();		
-					opSeqs[i]="tr_"+test;
-					$("#"+opSeqs[i]).remove();		
-					opSeqs[i+1]="tr2_"+test;
-					$("#"+opSeqs[i+1]).remove();				
+				$("input[name=opSeq]:checked").each(function() {
+					
+					var opSeqNum = $(this).val();	//옵션시퀀스
+					
+					/* 총가격 변환 */
+					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
+					var opPrice = $("#"+priceId).val();  				//현재적힌가격
+					var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
+
+					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
+					
+					/* 테이블 remove */
+					ids[i]="tr_"+opSeqNum;	//옵션타이틀 
+					$("#"+ids[i]).remove();		
+					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
+					$("#"+ids[i+1]).remove();
 					i+=2;
+				
 				}); 
+				
+				
 			}
 	
 		});	//onclick 끝

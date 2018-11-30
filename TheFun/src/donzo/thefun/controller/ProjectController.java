@@ -148,7 +148,7 @@ public class ProjectController {
 		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
 		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
 		
-		System.out.println("sn : " + sn + " start : " + start + " end : " + end);
+//		logger.info("sn : " + sn + " start : " + start + " end : " + end);
 		
 		// 8 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
@@ -159,10 +159,10 @@ public class ProjectController {
 		int totalRecordCount = projectService.getProjectCount(pParam);
 		
 		// 확인용
-		for (int i = 0; i < list.size(); i++) {
-			ProjectDto dto = list.get(i);
-			logger.info("list : " + dto.toString());
-		}
+//		for (int i = 0; i < list.size(); i++) {
+//			ProjectDto dto = list.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 		
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -204,9 +204,26 @@ public class ProjectController {
 		
 		// 배열로 입력된 갯수만큼 받아온 옵션입력값을 전부 list로 넣어준다.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
-		for (int i = 0; i < option_total; i++) {
-			newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				
+				logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), 0));
+				}
+				
+			}
+			
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리스트 : " + newPotionlist.get(i).toString());
+			}
 		}
 		
 		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)
@@ -223,7 +240,7 @@ public class ProjectController {
 			String realFileName = mainImage.getOriginalFilename();
 			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
 			File file = new File(uploadPath + "/" + changedFileName);
-			System.out.println("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
@@ -246,29 +263,53 @@ public class ProjectController {
 		logger.info("업로드 경로 : " + uploadPath);
 		String realFileName = summerFile.getOriginalFilename();
 		File file = new File(uploadPath + "\\" + realFileName);
-		System.out.println("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
+		logger.info("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
 		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
 		
 		return uploadPath + "\\" + realFileName;
 	}
 	
-	// 프로젝트 업데이트 페이지로 들어가는 메소드(승지)
+	// 프로젝트 수정 페이지로 들어가는 메소드(승지)
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
-		
+		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
 		return "projectUpdate.tiles";
 	}
 	
-	// 실제로 프로젝트 업데이트하는 메소드(승지)
+	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdateAf(ProjectDto newProjectDto,
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
-		// 기존 이미지와 새 이미지가 다른 이미지인지 판별먼저.
+		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
+		// 업데이트 값 확인
+		logger.info("SEQ = " +newProjectDto.getSeq());
+		logger.info("제목 = " +newProjectDto.getTitle());
+		logger.info("요약 = "+newProjectDto.getSummary());
+		logger.info("내용 = "+newProjectDto.getContent());
+		logger.info("은행 = "+newProjectDto.getBank());
+		logger.info("이미지 = "+newImage.getOriginalFilename());
 		
-		return "projectUpdate.tiles?seq="+newProjectDto.getSeq();	// 될지는 미지수. 테스트를 못해봤다.
+		// DB 수정
+		projectService.updateProject(newProjectDto);
+		
+		// 파일 수정
+		String fupload = req.getServletContext().getRealPath("/upload");
+		
+		String realFileName = newImage.getOriginalFilename();
+		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
+		
+		try {
+			File file = new File(fupload + "/" + changedFileName);
+			// 실제 업로드
+			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+		} catch(Exception e) {
+			logger.info("수정 이미지 파일 업로드에 실패했습니다");
+		}
+		
+		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
 	// 프로젝트 승인
@@ -318,14 +359,14 @@ public class ProjectController {
 		mainParam.setEnd(4);
 		mainParam.setRecordCountPerPage(8);
 		
-		System.out.println("mainParam 출력 : " + mainParam.toString());
+//		logger.info("mainParam 출력 : " + mainParam.toString());
 		
 		List<ProjectDto> mainPageList = projectService.searchProjectList(mainParam);
 		
-		for (int i = 0; i < mainPageList.size(); i++) {
-			ProjectDto dto = mainPageList.get(i);
-			logger.info("list : " + dto.toString());
-		}
+//		for (int i = 0; i < mainPageList.size(); i++) {
+//			ProjectDto dto = mainPageList.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 		
 		model.addAttribute("list", mainPageList);
 		model.addAttribute("recordCountPerPage", mainParam.getRecordCountPerPage());
@@ -363,21 +404,4 @@ public class ProjectController {
 			return "mySchedule.tiles";
 		}
 	 
-	/*
-	 참고용 삭제 예정
-	 @ResponseBody   
-		   @RequestMapping(value="idcheck.do",produces="application/String; charset=utf-8", method=RequestMethod.GET)
-		   public String idcheck(String id) {
-		      logger.info("HelloController idcheck.do 입니다");
-		      logger.info(id);
-
-		      String str = "깜띡이";
-		      return str;
-		   }*/
-	/*@RequestMapping(value="detail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String detail(Model model, int seq) {
-		logger.info("ProjectController detail " + new Date());
-		
-		return "project/detail";
-	}*/    
 }

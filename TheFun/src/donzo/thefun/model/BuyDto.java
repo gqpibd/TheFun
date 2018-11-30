@@ -164,6 +164,22 @@ public class BuyDto implements Serializable {
 		this.optionseq = optionseq;
 		this.count = count;
 	}
+	
+	//새 구매
+	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
+			String postcode, String roadaddress, String detailaddress) {
+		super();
+		this.id = id;
+		this.projectseq = projectseq;
+		this.optionseq = optionseq;
+		this.count = count;
+		this.price = price;
+		this.name = name;
+		this.phone = phone;
+		this.postcode = postcode;
+		this.roadaddress = roadaddress;
+		this.detailaddress = detailaddress;
+	}
 
 	public String getStatus() {
 		return status;

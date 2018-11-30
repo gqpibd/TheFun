@@ -6,22 +6,24 @@
 <fmt:requestEncoding value="utf-8"/>     
 
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
-
-<!-- <style type="text/css">
-	a:link { color: black; text-decoration: none;}
-	a:visited { color: black; text-decoration: none;}
-	a:hover { color: black; text-decoration: underline;}
-	a:active { color: black; text-decoration: none;}
-</style> -->
+<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<style type="text/css">
+body{
+font-family: "Nanum Gothic", sans-serif;
+}
+</style>
 
 <div align="center">
 
+<br><br><br><br>
+<header id="line_header">
+  <div class="container text-center">
+    <h1 class="head_title">MY SUPPORT</h1>
+    <p>내 후원</p>
+  </div>
+</header>
 
-<div class="h1">
-	<h1>나의후원내역</h1>
-</div>
-
-<br>
+<br><br>
 
 <!-- <form action="myReward.do"> --> <!-- 여기서 form 필요한가? -->
 <table class="type07" id="myOrderlist">

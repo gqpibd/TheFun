@@ -19,4 +19,7 @@ public interface ProjectDao {
 	public boolean approveProject(int projectseq);
 	
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	
+	public void updateProject(ProjectDto myProjectDto) throws Exception;
+	
 }

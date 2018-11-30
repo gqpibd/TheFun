@@ -79,7 +79,7 @@ ON DELETE CASCADE; // 종속 삭제
 <!-- 댓글 수정 -->
 <update id="updateQna" parameterType="donzo.thefun.model.QnaDto">
 	UPDATE FUN_QNA
-	SET CONTENT=#{content}
+	SET CONTENT=#{content}, STATUS = #{status}
 	WHERE SEQ = #{seq}
 </update>
 

@@ -22,14 +22,14 @@ public class ProjectDaoImpl implements ProjectDao {
 	@Override
 	public List<ProjectDto> searchProjectList(ProjectParam pParam) throws Exception{
 		
-		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
+//		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
 		List<ProjectDto> list = sqlSession.selectList(ns + "searchProjectList", pParam);
 		return list;
 	}
 
 	@Override
 	public int getProjectCount(ProjectParam pParam) throws Exception {
-		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
+//		System.out.println("getProjectCount로 들어가는 pParam :" + pParam.toString());
 		return sqlSession.selectOne(ns + "getProjectCount", pParam);
 	}
 
@@ -51,6 +51,13 @@ public class ProjectDaoImpl implements ProjectDao {
 		return sqlSession.insert(ns+"newWrite", newProjectDto);
 	}
 	
+	@Override
+	public void updateProject(ProjectDto myProjectDto) throws Exception {
+		// 내 프로젝트 업데이트하기(승지)
+		sqlSession.update(ns+"updateProject", myProjectDto);
+		
+	}
+
 	@Override
 	public List<ProjectDto> getWaitingList() {
 		return sqlSession.selectList(ns+"getWaitingList");
