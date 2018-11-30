@@ -230,10 +230,12 @@ public class ProjectController {
 		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
 		
 		// [2] 파일 업로드
-			// [2]-1. 경로설정 (톰켓에 올리기)
-			String uploadPath = req.getServletContext().getRealPath("/upload");
-				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
-				// String uploadPath = "d:\\tmp";
+			// [2]-1. 경로설정 (실제 폴더에 올리기)
+			// 이건 d드라이브 안에 upload폴더라는 절대경로?로 업로드! 주의할점~ servlet-context.xml에 써준 uploadTempDir부분과 이름(upload)을 맞춰줘야 한다
+			String uploadPath = "d:\\upload";
+				// 아래는 톰캣 서버에 올리는 방법(이건 오류가 잦음)
+				//String uploadPath = req.getServletContext().getRealPath("/upload");
+			
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
@@ -248,7 +250,7 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 		
-	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	// 스마트 에디터 이미지 업로드 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -258,8 +260,11 @@ public class ProjectController {
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
 		// 파일업로드 경로설정
-		String uploadPath = session.getServletContext().getRealPath("/upload");
-		//String uploadPath = req.getServletContext().getRealPath("/upload");
+		//String uploadPath = session.getServletContext().getRealPath("/upload");
+		//	String uploadPath = req.getServletContext().getRealPath("/upload"); 이건 톰캣경로로 올라감. 임시경로인건지 서버를 끄고 clean하면 업로드한 이미지도 사라짐 ㅠㅠ
+		
+		String uploadPath = "d:\\upload";	// 이건 d드라이브 안 실제 폴더로 올라감.
+		
 		logger.info("업로드 경로 : " + uploadPath);
 		String realFileName = summerFile.getOriginalFilename();
 		File file = new File(uploadPath + "\\" + realFileName);
@@ -296,7 +301,7 @@ public class ProjectController {
 		projectService.updateProject(newProjectDto);
 		
 		// 파일 수정
-		String fupload = req.getServletContext().getRealPath("/upload");
+		String fupload = req.getServletContext().getRealPath("d:\\upload");
 		
 		String realFileName = newImage.getOriginalFilename();
 		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());

@@ -153,6 +153,7 @@ td{
 	
 	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
 	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
+	<c:if test="${endDate - strDate + 1 lt 0}"><strong>마감되었습니다.</strong></c:if>
 	
 	</td>
 	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>

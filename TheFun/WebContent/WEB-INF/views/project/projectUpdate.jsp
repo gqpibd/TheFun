@@ -60,8 +60,9 @@ $(document).ready(function() {
 		var bank = myAccount[0];	// 카카오뱅크
 		var account = myAccount[1];	// 110422942251
 		
-		// select 기존 옵션으로 기본설정 세팅
+		// 은행 select 기존 옵션으로 기본설정 세팅
 		$("#bankname").val(bank).prop("selected", true);
+		// 계좌도 기존 입력값으로 세팅
 		$("#accountNumber").val(account);
 });	
 </script>
@@ -339,6 +340,10 @@ $("#btn_submit").click(function () {
 		alert("제목을 입력해주세요");
 		$("#titleTap").click();
 		return;
+	} else if(title.length > 30){
+		alert("제목이 너무 깁니다. 줄여주세요.");
+		$("#home-tab").click();
+		$("#titleTap").click();
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
 		$("#col_image").click();
@@ -347,14 +352,26 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 요약을 등록해주세요");
 		$("#summarryTap").click();
 		return;
+	} else if(summary.length > 100){
+		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
+		$("#home-tab").click();
+		$("#summarryTap").click();
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
 		return;
+	} else if(summernote.length > 4000){
+		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
+		$("#menu-tab1").click();
+		$("#summernoteTap").click();
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");
 		$("#bankTap").click();
 		return;
+	} else if(accountNumber.length > 15){
+		alert("계좌번호가 너무 깁니다. 줄여주세요.");
+		$("#menu-tab1").click();
+		$("#bankTap").click();
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
 		formSubmit(bankname, accountNumber);
