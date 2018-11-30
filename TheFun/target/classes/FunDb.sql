@@ -1,4 +1,5 @@
-﻿// update : 11/30 01:30 -- FUN_QNA_VIEW TOWHOMNICKNAME 추가, TOWHOM 외래키 추가
+﻿// update : 11/30 21:23 -- FUN_PROJECTALL테이블 수정, status 가져올 때, WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
+// update : 11/30 01:30 -- FUN_QNA_VIEW TOWHOMNICKNAME 추가, TOWHOM 외래키 추가
 // update : 11/29 01:43 -- FUN_BUY 테이블에서 PRICE 삭제, 대신 FUN_BUY_VIEW에서 가격을 가져오도록 변경, FUN_PROJECTALL도 이에 맞게 변경, 장바구니에서도 PRICE 삭제 및 VIEW 변경 
 // update : 11/28 23:32 -- FUN_PROJECTALL 에서 BUYCOUNT 가져오는 방법 변경
 // update : 11/28 20:35 -- FUN_BUY 테이블에 배송지정보(name, phone, postcode, roadaddress, detailaddress 칼럼 추가), FUN_BUY_VIEW도 이에 맞게 변경
@@ -342,7 +343,7 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
         WHEN LOWER(STATUS) = 'delete' THEN 'delete'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
-        WHEN EDATE >= SYSDATE THEN 'ongoing' 
+        WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
         WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
         ELSE 'complete_fail'  
      END AS "status" 

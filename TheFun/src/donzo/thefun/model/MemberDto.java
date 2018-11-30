@@ -42,6 +42,8 @@ public class MemberDto implements Serializable {
 	String roadaddress; // 도로명 주소
 	String detailaddress; // 상세 주소
 	
+	String account;
+	
 	
 	public MemberDto() {
 		point = 0;
@@ -55,6 +57,8 @@ public class MemberDto implements Serializable {
 		auth = MEMBER;
 		profile = DEFAULTIMGPATH;
 	}
+	
+	
 
 	public MemberDto(String id, String pwd, String nickname, String phone, String email, String profile, String info,
 			int point, int auth, String postcode, String roadaddress, String detailaddress) {
@@ -81,6 +85,18 @@ public class MemberDto implements Serializable {
 		this.email = email;
 		this.profile = profile;
 		this.info = info;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public String getProfile() {
+		return profile;
 	}
 
 	public String getId() {
@@ -121,10 +137,6 @@ public class MemberDto implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getprofile() {
-		return profile;
 	}
 
 	public void setProfile(String profile) {

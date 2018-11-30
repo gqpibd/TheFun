@@ -215,7 +215,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 				<div class="reply_content">삭제된 댓글입니다<hr></div>
 			</c:when> 
 			<c:when test="${item.isHidden() and (item.id ne login.id) and (login.id ne item.towhom) and (login.id ne projectdto.id)}"> <!-- 비밀댓글이고 못 볼때 -->				
-				<div class="reply_content"><i class="fas fa-lock"></i>&nbsp;비밀 댓글입니다 <hr></div>
+				<div class="reply_content"><i class="fas fa-lock ml-2"></i>&nbsp;비밀 댓글입니다 <hr></div>
 			</c:when> 
 			<c:otherwise> <!-- 일반 댓글 -->
 				<c:if test="${login ne null and item.id eq login.id}"> <!-- 작성자일 때 수정, 삭제 가능하게 -->
@@ -273,7 +273,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 	<c:choose>
 	
 	<c:when test="${login eq null}"> <!-- 로그인 상태가 아니면 -->
-		댓글을 작성하려면 <label style="cursor: pointer;" onclick="location.href='login.do?callback=projectDetail.do?seq=${projectdto.seq}'"><b>로그인</b></label>해주세요
+		<div style="width:100%; text-align: center">댓글을 작성하려면 <label style="cursor: pointer;" onclick="location.href='login.do?callback=projectDetail.do?seq=${projectdto.seq}'"><b>로그인</b></label>해주세요</div>
 	</c:when>
 	<c:otherwise>
 	<form action="addQna.do" id='newQna'>		

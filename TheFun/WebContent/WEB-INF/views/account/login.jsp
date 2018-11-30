@@ -51,7 +51,7 @@ function statusChangeCallback(response) {
 	      console.log('response.email: ' + res.email);			
 	      //console.log('response.public_profile: ' + res.picture.data.url);
 	      profile = "http://graph.facebook.com/" + res.id + "/picture";
-	      willYouSignUp(res.id,res.name,res.email,profile);	
+	      willYouSignUp(res.id,res.name,res.email,profile,"facebook");	
 	    });
 	} else {
 		console.log("페이스북 로그인 되어있지 않음")
@@ -174,7 +174,7 @@ $('.message a').click(function(){
 						console.log("res.properties.profile_image : " + profile);//<---- 콘솔 로그에 토큰값 출력
 						console.log("res.properties.nickname : " + res.properties.nickname);//<---- 콘솔 로그에 토큰값 출력
 						console.log("res.properties.thumbnail_image : " + res.properties.thumbnail_image);//<---- 콘솔 로그에 토큰값 출력
-						willYouSignUp(id,nickname,email,profile);	
+						willYouSignUp(id,nickname,email,profile,"kakao");	
 						
 					}
 				})
@@ -209,7 +209,7 @@ $('.message a').click(function(){
 			var nickname = naverLogin.user.getNickName();
 			var profileImage = naverLogin.user.getProfileImage();						
 			var id = naverLogin.user.getId();	
-			willYouSignUp(id,nickname,email,profileImage);	
+			willYouSignUp(id,nickname,email,profileImage,"naver");	
 		}
 		});
 	}); 
@@ -234,13 +234,13 @@ function onSignIn(googleUser) {
 	var email = profile.getEmail();
 	console.log("id:"+profile.getId());
 
-	willYouSignUp(id,nickname,email,profile.getImageUrl());	
+	willYouSignUp(id,nickname,email,profile.getImageUrl(),"google");	
 }
 </script>
 
 <!-- 회원가입 할래? -->
 <script type="text/javascript">
-function willYouSignUp(id,nickname,email,profile){
+function willYouSignUp(id,nickname,email,profile,account){
 	//profile
 	/* $.noConflict(); */
 	$.ajax({
@@ -250,7 +250,7 @@ function willYouSignUp(id,nickname,email,profile){
 		
 		success:function(data){						
 			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-				window.location.replace("loginAf.do?id=" + id);				
+				window.location.replace("loginAf.do?id=" + id +"&loginType=" + account);				
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
 				modalConfirm(function(confirm){
 					if(confirm){

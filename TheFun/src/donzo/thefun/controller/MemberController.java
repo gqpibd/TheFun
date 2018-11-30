@@ -43,10 +43,10 @@ public class MemberController {
 			if(loginUser == null) { // 로그인 실패
 				return "redirect:/login.do?message=retry&callback=" + callback;
 			}
-		}else if(loginType.equals("externalAccount")){ // 계정 연동 로그인인 경우
+		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
 			loginUser = memberService.tryLogin(dto);			
 		}
-		
+		loginUser.setAccount(loginType);
 		logger.info("로그인 결과: " + loginUser.toString());
 		req.getSession().setAttribute("login", loginUser);
 		if(callback!=null) {
