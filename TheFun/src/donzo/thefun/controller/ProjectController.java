@@ -275,7 +275,13 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
-		return "projectUpdate.tiles";
+		
+		if(findProject.getStatus().equals("ongoing")) {
+			return "projectUpdate.tiles";
+		}else {
+			logger.info("진행중이 아니야. 돌아가");
+			return "MyPage.tiles";
+		}
 	}
 	
 	// 실제로 수정하는 메소드(승지)
