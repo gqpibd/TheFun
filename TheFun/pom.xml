@@ -371,7 +371,6 @@
 		<version>4.5.3</version>
 	</dependency>
 	
-
   </dependencies>
   
   <repositories>
@@ -379,5 +378,6 @@
 		<id>codelds</id>
 		<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 	</repository>
+	
   </repositories>
 </project>

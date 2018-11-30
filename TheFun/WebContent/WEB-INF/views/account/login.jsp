@@ -5,8 +5,12 @@
     pageEncoding="UTF-8"%>
 <%
 	String message = (String) request.getAttribute("message");
-	if(message != null && message.equals("retry")){
-		out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
+	if(message != null){
+		if(message.equals("retry")){
+			out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
+		}else if(message.equals("registered")){
+			out.print("<script>alert('회원가입이 완료되었습니다. 로그인해 주십시오')</script>");
+		}
 	}
 %>
 
@@ -23,33 +27,11 @@
 
 <!-- 페이스북 로그인에 필요하 스크립트 -->
 <script type="text/javascript">
-/* id
-first_name
-last_name
-middle_name
-name
-name_format
-picture
-short_name */
-/* window.fbAsyncInit = function() {
-	FB.init({
-		appId : '2123794117640622',
-		cookie : true,
-		xfbml : true,
-		version : 'v3.2'
-	});	
-};
-(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {
-		return;
-	}
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk')); */
-
+function optionToggle(){
+	$('#option').slideToggle();
+	$( ".fas" ).toggleClass( "fa-angle-down" );
+	$( ".fas" ).toggleClass( "fa-angle-up" );	
+}
 function checkLoginState(){
 	FB.getLoginStatus(function(response) {
 		statusChangeCallback(response);
@@ -107,7 +89,7 @@ function statusChangeCallback(response) {
 		<span id="emailCheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()"  />
 		
-		<h6 class="background" style="cursor: pointer;" onclick="$('#option').slideToggle()"><span>선택 항목</span></h6>
+		<h6 class="background" style="cursor: pointer;" onclick="optionToggle()"><span>선택 항목<i id="updown" class="fas fa-angle-down"></i></span></h6>
 		<div id="option">		
 			<span id="phoneCheckMessage" style="color:red; font-size:11px;"></span> 
 			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()">
@@ -268,12 +250,12 @@ function willYouSignUp(id,nickname,email,profile){
 		
 		success:function(data){						
 			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-				window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");				
+				window.location.replace("loginAf.do?id=" + id);				
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
 				modalConfirm(function(confirm){
 					if(confirm){
 						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile;
-						console.log("yes");
+						//console.log("yes");
 					}
 				});		
 			}
