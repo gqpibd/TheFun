@@ -15,7 +15,7 @@ font-family: "Nanum Gothic", sans-serif;
 
 <div align="center">
 
-<br><br><br><br><br>
+<br><br><br><br>
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY SUPPORT</h1>

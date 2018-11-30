@@ -47,8 +47,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	public int projectWrite(ProjectDto newProjectDto) throws Exception {
 		// 생성할 새 프로젝트 값
 		System.out.println("projectWrite 다오 : "+ newProjectDto.toString());
-		// 프로젝트 생성!
-		return sqlSession.insert(ns+"newWrite", newProjectDto);
+		// 프로젝트 생성!		
+		sqlSession.insert(ns+"newWrite", newProjectDto);
+		return newProjectDto.getSeq();
 	}
 	
 	@Override

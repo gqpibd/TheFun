@@ -228,7 +228,7 @@ public class ProjectController {
 		
 		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)
 		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
-		
+		logger.info("방금 들어간 프로젝트 번호: " +  projectSeq);
 		// [2] 파일 업로드
 			// [2]-1. 경로설정 (톰켓에 올리기)
 			String uploadPath = req.getServletContext().getRealPath("/upload");

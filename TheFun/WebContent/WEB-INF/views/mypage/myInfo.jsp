@@ -12,9 +12,7 @@ body{
 font-family: "Nanum Gothic", sans-serif;
 }
 </style>
-
-
-<!-- 
+ 
 <style type="text/css">
 .input {
   outline: 0;
@@ -31,8 +29,8 @@ font-family: "Nanum Gothic", sans-serif;
   font-size: 14px;
 }
 .tb{
-	min-width: 420px;
-	max-width: 600px;
+   min-width: 420px;
+   max-width: 600px;
 }
 
 /* 미디어 쿼리 */
@@ -131,9 +129,26 @@ font-family: "Nanum Gothic", sans-serif;
   font-size: 60px;
   margin-top: -30px;
 }
+
+/* 프로필 이미지 변경 */
+.gb_mb {
+    background: rgba(0,0,0,.54);
+    bottom: 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    left: 0;
+    line-height: 9px;
+    position: absolute;
+    padding: 8px 0;
+    text-align: center;
+    width: 150px;
+}
+
+
 </style>
- -->
- <br><br><br><br><br>
+
+ <br><br><br><br>
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY INFOMAION</h1>
@@ -153,18 +168,17 @@ font-family: "Nanum Gothic", sans-serif;
 		<td>
 			<div class="imgbox" align="center">
 			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'>
+			<span class="gb_mb">변경</span>
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
 			</div>
 		</td>
-		<td style="padding-top: 160px;">
+	</tr>
+	<tr>	
+		<td style="padding-top: 5px;">
 			<div align="center">
 			<a href="javascript:profile_default()" id="profile_default">
-			<img src="image/icons/vcard_active.png"
-			onmouseover="this.src='image/icons/vcard_dark.png'"
-		    onmouseout="this.src='image/icons/vcard_active.png'"
-		    title="클릭 시 기본프로필 이미지로 변경됩니다.">
+			기본사진으로 변경
 		    </a>
-			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
 			</div>
 		</td>
 	</tr>

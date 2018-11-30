@@ -243,7 +243,9 @@ public class ProjectDto implements Serializable {
 			if(tempArr[i].length() != 0) {
 				tempList.add(tempArr[i]);
 			}
-		}		
+		}
+		System.out.println(tags);
+		System.out.println("수정한 태그: " + tempList.toArray(new String[tempList.size()]));
 		this.tags = tempList.toArray(new String[tempList.size()]);
    	 	
 		//content split

@@ -1,11 +1,22 @@
 @charset "UTF-8";
 
 /* 프로필사진크기설정 */
-.profile_img{   
+/* .profile_img{   
     float: none;
     max-width: 200px;
     max-height: 200px;
     border-radius: 200px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+} */
+
+/* 프로필사진크기설정 */
+.profile_img{   
+    float: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
     margin: 5px;
     vertical-align: middle;
     object-fit: cover;
