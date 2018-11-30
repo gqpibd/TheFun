@@ -260,7 +260,7 @@ $(document).ready(function () {
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
 				<c:choose>			
 					<c:when test="${login.isManager()}">
-						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+						<button class="btn" type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>
