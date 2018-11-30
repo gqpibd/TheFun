@@ -137,7 +137,7 @@ body{
      		<td class="profiletitle"><b>이름</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input class="liteGray" name="name" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>이메일</b></td>
@@ -151,7 +151,7 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
+     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
      		</c:if>
      		<c:if test="${login.phone}">
      			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
@@ -163,6 +163,7 @@ body{
      	
 		<br><br>
 		<!-- 배송지정보 -->
+		<input type="radio" name="delivery" value="infoDeli" checked="checked">기본정보 배송지 <input name="delivery" type="radio" value="newDeli">새로운 배송지
      	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/deli.jpg" width="120px;"></td>
@@ -171,13 +172,20 @@ body{
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
+     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" ></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input name="phone" class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
+     		<td class="profile">
+     		<c:if test="${empty login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;">
+     		</c:if>
+     		<c:if test="${login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;">
+     		</c:if>
+     		</td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
@@ -217,8 +225,8 @@ body{
 <tr>
 	<td colspan="2">
 	<input type="text" name="card1"> 
-	<input type="text" name="card2">
-	<input type="text" name="card3"> 
+	<input type="password" name="card2">
+	<input type="password" name="card3"> 
 	<input type="text" name="card4"> 
 	</td>
 </tr>
@@ -227,8 +235,8 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" name="validDate"></td>
-	<td><input type="text" name="cardPwd"></td>
+	<td><input type="text" name="validDate" value="mm/yy"></td>
+	<td><input type="password" name="cardPwd"></td>
 </tr>
 <tr>
 	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
@@ -427,6 +435,28 @@ body{
 	
 		});	//onclick 끝
 		
+		$("input:radio[name=delivery]").click(function(){
+			var deliId =$(':radio[name="delivery"]:checked').val();
+			alert("아이디 : "+deliId);
+			
+			if(deliId=="newDeli"){	//새로운 배송지
+				$("#deliName").val("");
+				$("#deliPhone").val("");
+				$("#postcode").val("");
+				$("#roadAddress").val("");
+				$("#detailAddress").val("");
+				
+			}else{	//기존배송지
+
+			}
+		});
+
+
 	});
+	
+	
+	//이름, 전화번호, 배송지 유효성
+	
+	//결제 설정 글자수 4개면 다음칸으로 이동
 	
 </script>

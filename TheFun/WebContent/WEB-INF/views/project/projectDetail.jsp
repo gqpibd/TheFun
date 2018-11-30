@@ -41,7 +41,7 @@ font-family: "Nanum Gothic", sans-serif;
 .sTd{
 	text-align:left;
 	width: 30%;
-	padding: 25px;
+	padding: 10px;
 }
 
 /* 버튼 */
@@ -162,13 +162,13 @@ function sendLink() {
 			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
 			<td class="strongGray sTd">
 				 <c:if test="${(endDate - strDate+1)==0}">
-				 	<b style="font-size: 20px">종료된 리워드</b>
+				 	<b style="font-size: 25px">종료된 리워드</b>
 				 </c:if>
 				 <c:if test="${(endDate - strDate+1)==1}">
-				 <b style="font-size: 20px">오늘마감</b>
+				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
 				 <c:if test="${(endDate - strDate+1)>1}">
-				 <b style="font-size: 20px">${endDate - strDate+1}일 남음</b>
+				 <b style="font-size: 25px">${endDate - strDate+1}일 남음</b>
 				 </c:if>
 			</td>
 		</tr>
@@ -273,17 +273,20 @@ function hartClick(){
 	var img1 = document.getElementById('hartBtn');
 
 	if(img1.src.indexOf('red') == -1) {
+		
+		//컨트롤러 이동 (좋아요 insert)
+		
 		img1.src = img1.src.replace('gray', 'red');
-
+		
 	} else {
+		
+		//컨트롤러 이동 (좋아요 취소)
+		
 		img1.src = img1.src.replace('red', 'gray');
 
 	}
 }
 </script>
-
-
-
 
       <div class="row">
 
