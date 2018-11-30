@@ -28,5 +28,10 @@
 	border-radius: 20px;
 	width: 125px;
 	height: 40px;
+	cursor: pointer;
+}
+
+.btn_MyPage:focus {
+	outline: none;
 }
 

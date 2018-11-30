@@ -180,7 +180,7 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
      		</c:if>
      		<c:if test="${login.phone}">
      			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;">
@@ -459,4 +459,41 @@ body{
 	
 	//결제 설정 글자수 4개면 다음칸으로 이동
 	
+</script>
+
+
+<script type="text/javascript">
+function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
+}
 </script>

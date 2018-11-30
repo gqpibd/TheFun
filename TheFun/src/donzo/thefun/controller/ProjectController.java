@@ -238,9 +238,14 @@ public class ProjectController {
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
 			String realFileName = mainImage.getOriginalFilename();
-			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
-			File file = new File(uploadPath + "/" + changedFileName);
-			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			//String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
+			//File file = new File(uploadPath + "/" + changedFileName);
+			//logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			
+			/* seq번호로 바로 저장(확장자명 없이) */
+			File file = new File(uploadPath + "/" + projectSeq);
+			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
+			
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());

@@ -105,8 +105,8 @@ public class MemberController {
 		logger.info("regiAf " + new Date());
 		logger.info("dto = " + dto);
 		memberService.addAccount(dto);
-		if(dto.getPwd() == null) {
-			return "redirect:/loginAf.do?loginType=externalAccount&id="+dto.getId();
+		if(dto.getPwd() == null) { // 연동로그인인 경우 바로 로그인시켜준다
+			return "redirect:/loginAf.do?id="+dto.getId() +"&loginType=" + dto.getAccount();
 		}
 		return "redirect:/login.do?message='registered'";
 	}

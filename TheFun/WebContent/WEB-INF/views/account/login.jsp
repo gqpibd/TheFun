@@ -92,7 +92,7 @@ function statusChangeCallback(response) {
 		<h6 class="background" style="cursor: pointer;" onclick="optionToggle()"><span>선택 항목<i id="updown" class="fas fa-angle-down"></i></span></h6>
 		<div id="option">		
 			<span id="phoneCheckMessage" style="color:red; font-size:11px;"></span> 
-			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()">
+			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)">
 			<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
 			<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
 			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
@@ -254,7 +254,7 @@ function willYouSignUp(id,nickname,email,profile,account){
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
 				modalConfirm(function(confirm){
 					if(confirm){
-						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile;
+						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile +"&account="+account;
 						//console.log("yes");
 					}
 				});		
@@ -408,7 +408,7 @@ function detailAddressCheck() {
 	//console.log(text);
 	$("#detailAddress").val(text);	
 }
-function phoneCheck(){
+/* function phoneCheck(){
 	//colsole.log()
 	var text = $("#newPhone").val();
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
@@ -423,7 +423,7 @@ function phoneCheck(){
 		phoneOk = true;
 		checkSubmitActivation();
 	}
-}
+} */
 
 function emailCheck() {
 	var emailVal = $("#newEmail").val();
@@ -504,5 +504,39 @@ function sample4_execDaumPostcode() {
            
         }
     }).open();
+}
+
+//휴대폰 번호 자동 하이픈(-)
+function autoHypenPhone(str){ 
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 </script>

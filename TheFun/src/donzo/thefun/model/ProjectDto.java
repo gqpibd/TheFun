@@ -240,17 +240,13 @@ public class ProjectDto implements Serializable {
 		String tempArr[] = temp.substring(startIndex).split("#");
 		ArrayList<String> tempList = new ArrayList<>(); 
 		for(int i=0;i<tempArr.length;i++) {
-			if(tempArr[i].length() != 0) {
+			if(tempArr[i].length() != 0) { // ##같은게 있을수 있으므로 처리
 				tempList.add(tempArr[i]);
 			}
 		}
-		System.out.println(tags);
 		this.tags = tempList.toArray(new String[tempList.size()]);
-		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
-   	 	
-		//content split
-		//String realTags[]=tags.split("/");
-		//this.tags = tags.substring(startIndex).split("#"); 
+		//System.out.println(tags);
+		//System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 
 	public String getBank() {

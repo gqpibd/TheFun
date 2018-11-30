@@ -26,6 +26,11 @@ public class MemberDto implements Serializable {
 
 	public static final int MEMBER = 1;
 	public static final int MANAGER = 3;
+
+	public static final String NAVER = "naver";
+	public static final String KAKAO = "kakao";
+	public static final String GOOGLE = "google";
+	public static final String FACEBOOK = "facebook";
 	
 	public static final String DEFAULTIMGPATH = "image/profile/default.jpg";
 	
@@ -198,6 +203,22 @@ public class MemberDto implements Serializable {
 	
 	public String getFullAddress() {
 		return postcode + " " + roadaddress + " " + detailaddress;
+	}
+	
+	public String accountKr() {
+		if(account != null) {
+			switch(account.toLowerCase()) {
+			case NAVER:
+				return "네이버";
+			case KAKAO:
+				return "카카오";
+			case FACEBOOK:
+				return "페이스북";
+			case GOOGLE:
+				return "구글";
+			}
+		}
+		return "더펀";
 	}
 	@Override
 	public String toString() {

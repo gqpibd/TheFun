@@ -159,9 +159,10 @@ font-family: "Nanum Gothic", sans-serif;
 <br><br>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
-<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
+<input type="hidden" name="id" value="${login.id}"/>
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <input type="hidden" name="profile" value="${login.profile}">
+<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <div class="group" style="width: 100%;" align="center">	
 	<table border="0">
 	<tr>
@@ -197,7 +198,7 @@ font-family: "Nanum Gothic", sans-serif;
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
+					<input class="input" type="text" value="${login.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -242,24 +243,50 @@ font-family: "Nanum Gothic", sans-serif;
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
-	<c:otherwise> <!-- 연동 로그인 -->
+		
+	<c:otherwise> <!-- 연동 로그인 -->	
+		<input type="hidden" name="account" value="${login.account}"/>
 		<table class="tb" style="text-align: center">		
-			<tr>
-				<td>
-					<img src="${login.profile}" class="profile_img">
-				</td>
-			</tr>
-			<!-- 아이디 -->
-			<tr>
-				<td> 
-					<input type="hidden" name="id" value="${login.id}"/>
-					${login.nickname} 님
-					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
+			<tr valign="middle">
+				<td colspan="2">
+					<div style="border: 2px solid #8152f0; font-weight: bold; padding-top:8px; padding-bottom:8px; border-radius: 50px; font-size: 20px; color: #8152f0;">
+					${login.accountKr()} 아이디로 로그인중
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<td>간편로그인 사용중</td>
-			</tr>		 		
+				<td  colspan="2" align="center">
+					<div class="imgbox" align="center" style="padding-top: 10px;">
+					<img id="editable-Img" src='${login.profile}' class='holder' align='middle'>
+					<span class="gb_mb">변경</span>
+					<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
+					</div>
+				</td>
+			</tr>
+			<tr>	
+				<td  colspan="2" style="padding-top: 5px;">
+					<div align="center">
+					<a href="javascript:profile_default()" id="profile_default">
+					기본사진으로 변경
+				    </a>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: left;">별명</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+				
+			<tr>
+				<td style="text-align: left;">이메일</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()" value="${login.email }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 			 		
 		</table>
 	</c:otherwise>
 </c:choose>	
@@ -271,7 +298,7 @@ font-family: "Nanum Gothic", sans-serif;
 		<tr>
 			<td style="text-align: left;">전화번호</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
+				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)" value="${login.phone }" />
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -334,10 +361,10 @@ $(document).ready(function(){
 	checkSubmitActivation();
 });
 function checkSubmitActivation(){
-	/* if('${login.pwd}' == ''){
+	if('${login.account}' != ''){                                                     
 		pwdOk=true;
 		newPwdOk = true;
-	} */
+	}
 	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
 		document.getElementById("submitBtn").disabled = false;
@@ -423,7 +450,7 @@ function detailAddressCheck() {
 	text = text.replace(/[<(+>]/g, '');
 	$("#myDetailAddress").val(text);	
 }
-function phoneCheck(){
+/* function phoneCheck(){
 	var text = $("#myPhone").val();
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
 	//text = text.replace(/[^0-9]/g, '');
@@ -437,7 +464,7 @@ function phoneCheck(){
 		phoneOk = true;
 		checkSubmitActivation();
 	}
-}
+} */
 
 function emailCheck() {
 	var emailVal = $("#myEmail").val();
@@ -533,5 +560,40 @@ $('#editable-Img').on('load', function () {
 	$("#imgPath").val($(this).attr('src'));
 	//console.log($("#imgPath").val());	
 });	
+
+//휴대폰 번호 자동 하이픈(-)
+function autoHypenPhone(str){ 
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
+}
  
 </script>

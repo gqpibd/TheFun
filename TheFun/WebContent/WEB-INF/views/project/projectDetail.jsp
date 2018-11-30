@@ -159,7 +159,7 @@ function sendLink() {
 <!-- 프로젝트 타이틀 -->
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
-			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
+			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="100%"></td>
 			<td class="strongGray sTd">
 				 <c:if test="${(endDate - strDate+1)==0}">
 				 	<b style="font-size: 25px">종료된 리워드</b>
@@ -305,7 +305,7 @@ function hartClick(){
         </div>
 
         <!-- Sidebar 전체-->
-        <div class="col-md-4">
+        <div class="col-lg-4">
         
           <!--side 회사정보-->
           <p class="strongGray"><b>메이커정보</b></p>
@@ -369,3 +369,4 @@ function hartClick(){
 
     </div>
     <!-- /.container -->
+    

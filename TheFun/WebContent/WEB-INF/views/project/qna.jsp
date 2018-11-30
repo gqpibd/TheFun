@@ -54,7 +54,26 @@
     font-size: 20px;   
     font-weight: bold;
 }
-
+/* -------------reply btn---------------- */
+.rereBtn {
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #666666;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+.rereBtn:hover {
+	background-color:#f6f6f6;
+}
+.rereBtn:focus {
+	outline: none;
+}
 
 /*----------------툴팁----------------*/
 .mtooltip {
@@ -88,7 +107,7 @@
 .lablehover{
 	width : 100%;
 	cursor: pointer;
-	border-radius: 100%;
+	border-radius: 50px;
 } 
 .lablehover:hover{
 	background: #f3f3f3;
@@ -212,10 +231,10 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 		</c:if>
 		<c:choose>
 			<c:when test="${item.isDel()}">
-				<div class="reply_content">삭제된 댓글입니다<hr></div>
+				<div class="reply_content">삭제된 댓글입니다</div><hr>
 			</c:when> 
 			<c:when test="${item.isHidden() and (item.id ne login.id) and (login.id ne item.towhom) and (login.id ne projectdto.id)}"> <!-- 비밀댓글이고 못 볼때 -->				
-				<div class="reply_content"><i class="fas fa-lock ml-2"></i>&nbsp;비밀 댓글입니다 <hr></div>
+				<div class="reply_content"><i class="fas fa-lock ml-2"></i>&nbsp;비밀 댓글입니다 </div><hr>
 			</c:when> 
 			<c:otherwise> <!-- 일반 댓글 -->
 				<c:if test="${login ne null and item.id eq login.id}"> <!-- 작성자일 때 수정, 삭제 가능하게 -->
@@ -243,7 +262,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 				 	<font style="font-size: 17px; font-weight: bold;" >${item.nickname}</font>
 					<c:if test="${item.id eq projectdto.id}"> <!-- 게시글 작성자 표시 -->  
 				 		<!-- <img src="images/icons/writer.png" width="60"> --> 
-				 		<span style="border-radius: 45%; background: #8152f0; color: white; width: 90px; font-size: 5px; padding: 3px 6px 3px 6px"> 작성자 </span>
+				 		<span style="border-radius: 50px; border: 1px solid #8152f0; color: #8152f0; width: 90px; font-size: 5px; padding: 3px 6px 3px 6px"> 작성자 </span>
 				 	</c:if>
 				 	<c:if test="${item.isHidden()}">
 				 		&nbsp;<i class="fas fa-lock" style="opacity: 0.5"></i>
@@ -258,11 +277,11 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 				<br> 
 				<font style="font-size: 3px; color: graytext;">${item.regdate}</font><br> <!-- 날짜 -->
 				<c:if test="${login ne null}">
-					<button class="btn btn-navy btn-border" name="${item.refseq}" onclick="addReply(this)" id="${item.seq}" toWhom="${item.id}" toWhomNick="${item.nickname}">답변</button>
+					<button class="rereBtn" name="${item.refseq}" onclick="addReply(this)" id="${item.seq}" toWhom="${item.id}" toWhomNick="${item.nickname}">답변</button>
 				</c:if>				
 				</div>
-				<hr>
 			</div>
+			<hr>
 			</c:otherwise>
 		</c:choose>
 		</li>
@@ -321,7 +340,7 @@ $(document).ready(function(){
 });
 
 
-function addReply(re_btn){       // 댓글에 답글 추가
+function addReply(re_btn){       // 댓글에  추가
 	$("#rere_write").remove();
 	var refseq = $(re_btn).attr('name');
 	var toWhom = $(re_btn).attr('toWhom');
@@ -344,7 +363,7 @@ function addReply(re_btn){       // 댓글에 답글 추가
 						"<div class='checkDiv'><label class='checkLabel' for='toggleRere'></label></div></td>"	+		
 					"<td style=padding-left: 10px;'><button class='fun_btn' type='button' onclick='checkAndSubmit(this)'>등록</button>"+
 				"</td></tr></table>"+
-			"</div><hr></div></form></li>";
+			"</div></div><hr></form></li>";
 	$(selector).last().parents().eq(2).after(item);
 	console.log($(selector).text());
 }  
