@@ -33,8 +33,8 @@
     overflow: hidden;
     position: relative;
     /* padding: 10px 10px 10px 20px; */
-    padding-top: 5px;
-    padding-bottom: 5px;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
     border-bottom: 1px solid #fff;
     width : 100%;
 }
@@ -227,7 +227,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 		<li class="reply">		
 		<c:if test="${item.seq ne item.refseq}">	<!-- 대댓일 때 표시 --> 
 		<!-- <i class="fas fa-reply" style="float: left; width: 20px; margin-right: 13px"></i> -->
- 		<img src="image/detail/rere.png" style="float: left; width: 20px; margin-left: 13px">
+ 		<img src="image/detail/rere.png" style="float: left; width: 15px; margin-left: 13px; margin-right: 13px;">
 		</c:if>
 		<c:choose>
 			<c:when test="${item.isDel()}">

@@ -231,19 +231,12 @@ $(document).ready(function () {
 			<div class="container-4">
 				<input class="field" type="text" placeholder="Search..."
 				style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
-				value="${s_keyword }" name="s_keyword" id="s_keywordTextField">	
+				value="" id="s_keywordTextField">
+				<input type="hidden" name="s_keyword" value="${s_keyword }">	
 				<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
 			</div>
 		</div>
 	 	
-	 	<%-- <input class="" type="text" placeholder="Search..."
-	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
-	 	
-	 	<%-- <input class="field" type="text" placeholder="Search..."
-	 	style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
-	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
-	 	
-		<!-- <a href="#none" id="search_Btn"><button type="submit"  class=''>검색</button></a> -->
 		<!-- controller로 넘겨주기 위한 값 -->
 		<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
