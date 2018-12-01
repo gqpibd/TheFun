@@ -72,6 +72,7 @@ font-family: "Nanum Gothic", sans-serif;
         
         <a class="bnt-more" href="projectDetail.do?seq=${sche.seq }">More</a>      
         <a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>      
+        <a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>      
       </div>
     </div>    
 <!------------------------------------------------------------------------->
