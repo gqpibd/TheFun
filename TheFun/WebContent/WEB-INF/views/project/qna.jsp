@@ -32,9 +32,6 @@
 .list_reply li {
     overflow: hidden;
     position: relative;
-    /* padding: 10px 10px 10px 20px; */
-    /* padding-top: 5px;
-    padding-bottom: 5px; */
     border-bottom: 1px solid #fff;
     width : 100%;
 }
