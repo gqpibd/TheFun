@@ -110,11 +110,12 @@ $(document).ready(function() {
 				},
 				onClose : function (selectedDate) {
 					if( selectedDate != "" ) {
-						// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+						// 펀딩 시작일은 내일날짜부터 선택가능하게
 						var curDate = $("#date1").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
+						// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
 						$("#date2").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 종료일 태그 활성화
 						$("#date2").attr("disabled", false);
 					}
 				}
@@ -144,11 +145,11 @@ $(document).ready(function() {
 		                // xxx의 maxDate를 yyy의 날짜로 설정
 		                $("#date1").datepicker("option", "maxDate", selectedDate);
 		                
-		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+		             	// 정산일(결제일)은 종료일 담날부터 가능
 						var curDate = $("#date2").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
 						$("#date3").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 정산일 태그 활성화
 						$("#date3").attr("disabled", false);
 		            }
 		        }
@@ -178,16 +179,16 @@ $(document).ready(function() {
 		                // xxx의 maxDate를 yyy의 날짜로 설정
 		                $("#date2").datepicker("option", "maxDate", selectedDate);
 		                
-		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+		             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
 						var curDate = $("#date3").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
 						$("#date4").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 배송일 태그 활성화
 						$("#date4").attr("disabled", false);
 		            }
 		        }
 			});
-			// 정산일
+			// 배송일
 			$("#date4").datepicker({
 				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
