@@ -41,4 +41,14 @@ public class QnaDaoImpl implements QnaDao {
 		return n>0?true:false;
 	}
 
+	@Override
+	public String getRefWriter(int refseq) {
+		return sqlSession.selectOne(ns + "getRefWriter", refseq);
+	}
+
+	@Override
+	public String getProjectOwner(int projectseq) {		
+		return sqlSession.selectOne(ns + "getProjectOwner", projectseq);
+	}
+
 }

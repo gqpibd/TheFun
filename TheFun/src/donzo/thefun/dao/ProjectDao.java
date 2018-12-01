@@ -18,7 +18,7 @@ public interface ProjectDao {
 	public List<ProjectDto> getWaitingList();
 	public boolean approveProject(int projectseq);
 	
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	public List<ProjectDto> mySchedule(String id) throws Exception;
 	
 	public void updateProject(ProjectDto myProjectDto) throws Exception;
 	

@@ -1,7 +1,6 @@
 package donzo.thefun.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +29,7 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	MemberService memberService;	 
+	MemberService memberService;
 	
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -49,6 +48,7 @@ public class MemberController {
 		loginUser.setAccount(loginType);
 		logger.info("로그인 결과: " + loginUser.toString());
 		req.getSession().setAttribute("login", loginUser);
+		
 		if(callback!=null) {
 			logger.info(callback);
 			return "redirect:/" + callback;

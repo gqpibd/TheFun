@@ -32,7 +32,7 @@ font-family: "Nanum Gothic", sans-serif;
 <c:if test="${schedule.size() ne 0}">
 <section class="timeline" id="cal_timeline">
 <div class="container">
-<c:forEach items="${schedule }" var="sche" varStatus="vStat" begin="1" end="${schedule.size()}" step="1">
+<c:forEach items="${schedule }" var="sche">
   	
   	<!-- 홀수일때 왼쪽에 나타나게 하기 -->
   	
@@ -45,12 +45,12 @@ font-family: "Nanum Gothic", sans-serif;
         <div style="text-align: right;">
 			<!-- 진행 상태 status 한글화 -->
 			<c:choose>
-				<c:when test="${(sche.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-				<c:when test="${(sche.status).equalsIgnoreCase('preparing')}">준비 중</c:when>
-				<c:when test="${(sche.status).equalsIgnoreCase('ongoing')}">진행 중</c:when>
-				<c:when test="${(sche.status).equalsIgnoreCase('complete_success')}">완료됨(성공)</c:when>
-				<c:when test="${(sche.status).equalsIgnoreCase('complete_fail')}">완료됨(실패)</c:when>
-				<c:when test="${(sche.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
+				<c:when test="${sche.isWaiting()}">승인 대기 중</c:when>
+				<c:when test="${sche.isPreparing()}">준비 중</c:when>
+				<c:when test="${sche.isOngoing()}">진행 중</c:when>
+				<c:when test="${sche.isComplete_success()}">완료됨(성공)</c:when>
+				<c:when test="${sche.isComplete_fail()}">완료됨(실패)</c:when>
+				<c:when test="${sche.isDeleted()}">삭제된 게시글</c:when>
 			</c:choose>
 		</div>
         

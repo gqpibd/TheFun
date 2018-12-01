@@ -297,7 +297,9 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 	<c:otherwise>
 	<form action="addQna.do" id='newQna'>		
 		<input type="hidden" name="id" value="${login.id}"> <!-- 작성자 아이디 --> 
+		<input type="hidden" name="nickname" value="${login.nickname}"> <!-- 작성자 닉네임 : 알람 생성에 필요 --> 
 		<input type="hidden" name="projectseq" value="${projectdto.seq }"> <!-- 관련 프로젝트 번호 -->		
+		<input type="hidden" name="projectWriter" value="${projectdto.id }"> <!-- 프로젝트 작성자 아이디 -->
 		<div align=left style="margin-left:5px">
 			<img src='${login.profile}' width='10'
 				class='profile re-img' align='middle'>
@@ -350,7 +352,9 @@ function addReply(re_btn){       // 댓글에  추가
 	var item = "<li class='reply' id='rere_write'>"+	
 		"<form action='addQna.do' id='addreply'>"+			
 			"<input type='hidden' name='id' value='${login.id}'>" +
-			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +
+			"<input type='hidden' name='nickname' value='${login.nickname}'>" +
+			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +			
+			"<input type='hidden' name='projectWriter' value='${projectdto.id }'>"+			
 			"<input type='hidden' name='refseq' value='"+refseq+"'>" +
 			"<input type='hidden' name='towhom' value='"+toWhom+"'>"+
 			"<div align='left'>"+

@@ -4,36 +4,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.ProjectService;
-import donzo.thefun.util.FUpUtil;
-import net.sf.json.JSONObject;
 
 
 @Controller
@@ -43,6 +36,9 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
+	
+	@Autowired
+	AlarmService alarmService;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -281,12 +277,13 @@ public class ProjectController {
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
 		
-		if(findProject.getStatus().equals("ongoing")) {
+		/*if(findProject.getStatus().equalsIgnoreCase(ProjectDto.PREPARING) || findProject.getStatus().equalsIgnoreCase(ProjectDto.WAITING)) { // 준비중이거나 대기중일때만 수정 가능
 			return "projectUpdate.tiles";
 		}else {
-			logger.info("진행중이 아니야. 돌아가");
-			return "MyPage.tiles";
-		}
+			logger.info("지금은 수정 안 됨. 돌아가");
+			return "redirect:mySchedule.do?id="+findProject.getId();
+		}*/
+		return "projectUpdate.tiles";
 	}
 	
 	// 실제로 수정하는 메소드(승지)
@@ -310,10 +307,10 @@ public class ProjectController {
 		String fupload = req.getServletContext().getRealPath("/upload");
 		
 		String realFileName = newImage.getOriginalFilename();
-		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
+		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
-			File file = new File(fupload + "/" + changedFileName);
+			File file = new File(fupload + "/" + newProjectDto.getSeq());
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
 		} catch(Exception e) {
@@ -378,7 +375,7 @@ public class ProjectController {
 //			ProjectDto dto = mainPageList.get(i);
 //			logger.info("list : " + dto.toString());
 //		}
-		
+				
 		model.addAttribute("list", mainPageList);
 		model.addAttribute("recordCountPerPage", mainParam.getRecordCountPerPage());
 				
@@ -401,18 +398,18 @@ public class ProjectController {
 	}
 	
 	//내 일정 이동 (내 프로젝트 보기)
-		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-		public String mySchedule(Model model, ProjectDto pro) throws Exception{
-			logger.info("ProjectController myCalendar " + new Date());
-			
-			List<ProjectDto> myschedule = projectService.mySchedule(pro);
-			
-			for (int i = 0; i < myschedule.size(); i++) {
-				ProjectDto dto = myschedule.get(i);
-				logger.info("Schedule list : " + dto.toString());
-			}
-			model.addAttribute("schedule", myschedule);
-			return "mySchedule.tiles";
+	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String mySchedule(Model model, String id) throws Exception{
+		logger.info("ProjectController myCalendar " + new Date());
+		
+		List<ProjectDto> myschedule = projectService.mySchedule(id);
+		
+		for (int i = 0; i < myschedule.size(); i++) {
+			ProjectDto dto = myschedule.get(i);
+			logger.info("Schedule list : " + dto.toString());
 		}
+		model.addAttribute("schedule", myschedule);
+		return "mySchedule.tiles";
+	}
 	 
 }

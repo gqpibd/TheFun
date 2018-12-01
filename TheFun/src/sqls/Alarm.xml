@@ -3,7 +3,79 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!-- 
+CREATE TABLE FUN_ALARM(
+   SEQ NUMBER(8) NOT NULL,
+   PROJECTSEQ NUMBER(8) NOT NULL,
+   ID VARCHAR2(50) NOT NULL, // 받는사람
+   
+   ATYPE VARCHAR2(50) NOT NULL, // 알람 종류. 1. 시작, 2. 종료, 3. 결제, 4. 배송, 5. 공지, 6. 댓글
+   BUYTYPE VARCHAR2(50) NOT NULL, // 찜, 장바구니, 구매, 내프로젝트, 기타(댓글만 다는 경우)   
+   REGDATE DATE NOT NULL,   
+   FROMNICKNAME VARCHAR2(50), // 보내는사람
+   CONTENT VARCHAR2(2000)
+);
+
+
+// 뷰
+CREATE OR REPLACE VIEW FUN_ALARM_VIEW (SEQ, PROJECTSEQ, ID, FROMNICKNAME, ATYPE, BUYTYPE, REGDATE, ACONTENT, PTITLE)
+AS
+SELECT A.SEQ, A.PROJECTSEQ, A.ID, A.FROMNICKNAME, A.ATYPE, A.BUYTYPE, A.REGDATE, A.ACONTENT,
+    (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = A.PROJECTSEQ)
+FROM FUN_ALARM A;
+
+ -->
+
 <!-- 알람☎ -->  
 <mapper namespace="Alarm">
-
+	<!-- 알람 생성 -->
+	<insert id="addAlarm" parameterType="donzo.thefun.model.AlarmDto">
+		INSERT INTO FUN_ALARM (SEQ, PROJECTSEQ, ID, ATYPE, BUYTYPE, REGDATE, FROMNICKNAME, ACONTENT)
+		<choose>
+		<when test="fromnickname != null"> <!-- QNA인경우 -->
+			VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, #{id}, #{atype}, #{buytype}, SYSDATE, #{fromnickname}, #{acontent})
+		</when>
+		<otherwise> <!-- 프로젝트 관련인 경우 -->
+			VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, #{id}, #{atype}, #{buytype}, SYSDATE, 
+					(SELECT NICKNAME FROM FUN_PROJECT_ALL WHERE SEQ = ${projectseq}),'')
+		</otherwise>
+		</choose>	
+	</insert>
+	
+	<!-- 알람 갯수 가져오기 -->
+	<select id="getAlarmCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM FUN_ALARM
+		WHERE ID=#{id}
+	</select>
+	
+	<!-- 알람 목록 가져오기 -->
+	<select id="getAlarmList" parameterType="java.lang.String" resultType="donzo.thefun.model.AlarmDto">
+		SELECT *
+		FROM FUN_ALARM_VIEW
+		WHERE ID=#{id}
+		ORDER BY REGDATE DESC
+	</select>
+	
+	<!-- 알람 지우기 -->
+	<delete id="deleteAlarm" parameterType="java.lang.Integer" >
+		DELETE FROM
+		FUN_ALARM
+		WHERE SEQ=#{seq}
+	</delete>
+	
+	<!-- 변화가 생긴 프로젝트와 관계있는 사람 아이디 모두 가져오기 -->
+	<select id="getRelatedUserList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.AlarmDto">
+		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'like','like') BUYTYPE
+		FROM FUN_LIKE
+		WHERE PROJECTSEQ = #{seq}
+		UNION ALL
+		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'basket','basket') BUYTYPE
+		FROM FUN_BASKET 
+		WHERE PROJECTSEQ = #{seq}
+		UNION ALL
+		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'buy','buy') BUYTYPE
+		FROM FUN_BUY 
+		WHERE PROJECTSEQ = #{seq}
+	</select>
 </mapper>

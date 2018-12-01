@@ -109,8 +109,8 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	//schedule
 	@Override
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
-		return projectDao.mySchedule(pro);
+	public List<ProjectDto> mySchedule(String id) throws Exception {
+		return projectDao.mySchedule(id);
 	}
 
 

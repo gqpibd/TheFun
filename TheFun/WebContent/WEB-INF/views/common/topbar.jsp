@@ -27,6 +27,10 @@ window.fbAsyncInit = function() {
 
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
+body{
+	font-family: "Nanum Gothic", sans-serif;
+}
+
 .profile {
 	float: none;
 	width: 44px;
@@ -166,6 +170,8 @@ window.fbAsyncInit = function() {
 	top: 0;
 }
 #nav li ul
+
+
 </style>
 
 <script type="text/javascript">
@@ -256,7 +262,12 @@ $(document).ready(function () {
 			</c:if>
 			<c:if test="${login ne null}">
 				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
-				<span>${login.nickname}님</span>			
+				<span>${login.nickname}님</span>
+				<a href="viewAlarms.do" class="notification">
+				  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+				  <%-- <span class="badge">${alarmCount}</span> --%>
+				  <span class="badge" id="alarmcount"></span>
+				</a>			
 				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
 				<c:choose>			
 					<c:when test="${login.isManager()}">
@@ -275,6 +286,20 @@ $(document).ready(function () {
 
     
 <script type="text/javascript">
+$(document).ready(function(){
+	setAlarmCount();
+})
+function setAlarmCount(){
+	$.ajax({
+		type:"get",
+		url:"getAlarmCount.do",
+		data:"id=${login.id}",
+		
+		success:function(data){						
+			$("#alarmcount").text(data);
+		}
+	});	
+}
 	/* 로그아웃 */
 	function logout() {
 		//console.log("로그아웃");
@@ -396,5 +421,5 @@ site.prototype = {
 	}
 }
 
-new site();
+//new site();
 </script>

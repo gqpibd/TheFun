@@ -72,8 +72,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	//schedule
 	@Override
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
-		return sqlSession.selectList(ns + "mySchedule", pro);
+	public List<ProjectDto> mySchedule(String id) throws Exception {
+		return sqlSession.selectList(ns + "mySchedule", id);
 	}
 
 	

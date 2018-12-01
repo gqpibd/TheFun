@@ -106,12 +106,12 @@ td{
 	<td style="text-align: right;position: relative;top:11%;right:5%;padding: 0px;margin: 0px;">
 	<span>
 		<c:choose>
-		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
+		<c:when test="${dto.isWaiting()}">승인 대기 중</c:when>
+		<c:when test="${dto.isPreparing()}"><img src="image/main/prepare.png" width="65px;" ></c:when>
+		<c:when test="${dto.isOngoing()}"><img src="image/main/ongoing.png" width="65px;"></c:when>
+		<c:when test="${dto.isComplete_success()}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${dto.isComplete_fail()}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${dto.isDeleted()}">삭제된 게시글</c:when>
 		</c:choose>
 	</span>
 	</td>
@@ -120,7 +120,7 @@ td{
 	
 	<tr>
 	<td colspan="2">
-		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="image/thumbnail/mainImg1.PNG" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
+		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
