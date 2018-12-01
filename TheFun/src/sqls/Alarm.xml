@@ -37,7 +37,7 @@ FROM FUN_ALARM A;
 		</when>
 		<otherwise> <!-- 프로젝트 관련인 경우 -->
 			VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, #{id}, #{atype}, #{buytype}, SYSDATE, 
-					(SELECT NICKNAME FROM FUN_PROJECT_ALL WHERE SEQ = ${projectseq}),'')
+					(SELECT NICKNAME FROM FUN_PROJECTALL WHERE SEQ = ${projectseq}),#{acontent})
 		</otherwise>
 		</choose>	
 	</insert>

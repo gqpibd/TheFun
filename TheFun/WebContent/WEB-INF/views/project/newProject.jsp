@@ -11,11 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
-
-<!-- summernote의 스타일시트와 자바스크립트을 사용하기 위한 선언 -->
-<!-- <link href="./dist/summernote.css" rel="stylesheet">
-<script src="./dist/summernote.js"></script> -->
-<script src="./dist/lang/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
+<script src="./js/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
 
 
 
@@ -114,11 +110,12 @@ $(document).ready(function() {
 				},
 				onClose : function (selectedDate) {
 					if( selectedDate != "" ) {
-						// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+						// 펀딩 시작일은 내일날짜부터 선택가능하게
 						var curDate = $("#date1").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
+						// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
 						$("#date2").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 종료일 태그 활성화
 						$("#date2").attr("disabled", false);
 					}
 				}
@@ -148,11 +145,11 @@ $(document).ready(function() {
 		                // xxx의 maxDate를 yyy의 날짜로 설정
 		                $("#date1").datepicker("option", "maxDate", selectedDate);
 		                
-		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+		             	// 정산일(결제일)은 종료일 담날부터 가능
 						var curDate = $("#date2").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
 						$("#date3").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 정산일 태그 활성화
 						$("#date3").attr("disabled", false);
 		            }
 		        }
@@ -182,16 +179,16 @@ $(document).ready(function() {
 		                // xxx의 maxDate를 yyy의 날짜로 설정
 		                $("#date2").datepicker("option", "maxDate", selectedDate);
 		                
-		             	// 체크아웃(퇴실일)을 체크인(입실일)의 다음날부터 가능하게
+		             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
 						var curDate = $("#date3").datepicker("getDate");  // Date return
 						curDate.setDate( curDate.getDate() + 1 );
 						$("#date4").datepicker("option", "minDate", curDate);
-						// 체크아웃 태그 활성화
+						// 배송일 태그 활성화
 						$("#date4").attr("disabled", false);
 		            }
 		        }
 			});
-			// 정산일
+			// 배송일
 			$("#date4").datepicker({
 				dateFormat:"yy-mm-dd",
 				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
@@ -843,13 +840,13 @@ $(document).ready(function() {
 								<td>
 									<div class="form-group">
 									  <label for="sel1">후원 금액</label>
-									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%">
+									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%" maxlength="8">
 									</div>
 								</td>
 								<td>
 									<div class="form-group">
 									  <label for="sel1">보유 수량</label>
-									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%">
+									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%" maxlength="8">
 									</div>
 								</td>
 							</tr>
@@ -919,7 +916,8 @@ $("#btn_submit").click(function () {
 		// [2] 두번째 탭 값
 	var summernote = $("#summernote").val();
 	var tag = $("#tag").val();
-	var goalfund = $("#goalfund").val();
+	var _goalfund = $("#goalfund").val();
+	var goalfund = _goalfund.replace(/,/gi, "");
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
 	var date1 = $("#date1").val();
@@ -937,6 +935,8 @@ $("#btn_submit").click(function () {
 			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
 			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
 			" optionSelected = " + optionSelected + " option_total = " + option_total);
+		
+	alert("내용 길이 = " + summernote.length);
 	
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
@@ -944,6 +944,10 @@ $("#btn_submit").click(function () {
 		$("#home-tab").click();
 		$("#titleTap").click();
 		return;
+	} else if(title.length > 30){
+		alert("제목이 너무 깁니다. 줄여주세요.");
+		$("#home-tab").click();
+		$("#titleTap").click();
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
 		$("#home-tab").click();
@@ -954,26 +958,47 @@ $("#btn_submit").click(function () {
 		$("#home-tab").click();
 		$("#summarryTap").click();
 		return;
+	} else if(summary.length > 100){
+		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
+		$("#home-tab").click();
+		$("#summarryTap").click();
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
 		return;
+	} else if(summernote.length > 4000){
+		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
+		$("#menu-tab1").click();
+		$("#summernoteTap").click();
 	} else if(tag == null || tag == ""){
 		alert("검색용 태그를 등록해주세요");	// #붙여주는 함수 따로 만들자.
 		$("#menu-tab1").click();
 		$("#tagTap").click();
 		return;
+	} else if(tag.length > 400){
+		alert("태그가 너무 깁니다. 줄여주세요");
+		$("#menu-tab1").click();
+		$("#tagTap").click();
 	} else if(goalfund == null || goalfund == ""){
 		alert("프로젝트 달성 목표 금액을 등록해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
+	} else if(goalfund.length > 10){
+		alert("프로젝트 목표금액이 너무 큽니다. 줄여주세요.");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		$("#menu-tab1").click();
+		$("#goalfundTap").click();
+		return;
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
-		alert("은행을 선택해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		alert("은행을 선택해주세요");
 		$("#menu-tab1").click();
 		$("#bankTap").click();
 		return;
+	} else if(accountNumber.length > 15){
+		alert("계좌번호가 너무 깁니다. 줄여주세요.");
+		$("#menu-tab1").click();
+		$("#bankTap").click();
 	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == ""){
 		alert("프로젝트 진행 스케줄을 모두 등록해주세요");	// 다시 처음주터 날짜를 선택하고 싶을 때를 위해 '취소하기' 버튼 추가하기.
 		$("#menu-tab1").click();
@@ -1000,9 +1025,13 @@ $("#btn_submit").click(function () {
 			for(var i=1; i<=option_total; i++){
 				var op_title = $("#op_title" + i).val();
 				var op_content = $("#op_content" + i).val();
-				var op_price = $("#op_price" + i).val();
-				var op_stock = $("#op_stock" + i).val();
-				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock);
+				var _op_price = $("#op_price" + i).val();
+				var op_price = _op_price.replace(/,/gi, "");
+				var _op_stock = $("#op_stock" + i).val();
+				var op_stock = _op_stock.replace(/,/gi, "");
+				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock
+						+ " 가격 자리수 = " + op_price.length + " 수량 자리수 = " + op_stock.length);
+				
 				
 				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
 				if(op_stock != null || op_stock != ""){
@@ -1042,14 +1071,26 @@ function formSubmit() {
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
 	
-	alert(bankname + accountNumber);
-	// hidden에 bank값 세팅
+	// hidden에 bank값 세팅(컨트롤러에서 projectDto중 bank로 받아줄 값)
 	$("#bank").val(bankname + "/" + accountNumber);
 	
+	
+	// (목표금액, 리워드금액, 리워드 수량에 들어간)콤마 전부 없애기
+	var _goalfund = $("#goalfund").val();
+	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
+	
+	var option_total = $("#option_total").val();
+	for (var i = 1; i <= option_total; i++) {
+		var data1 = $("#op_price" + i).val();
+		var data2 = $("#op_stock" + i).val();
+		$("#op_price" + i).val(data1.replace(/,/gi, ""));
+		$("#op_stock" + i).val(data2.replace(/,/gi, ""));
+	}
 	
 	// form 실행! 컨트롤러로~
 	$("#createProjectFrom").submit();
 }
+
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
 	var curr = $(selector).val().length;
@@ -1062,7 +1103,20 @@ function checkLength (selector,messageSelector,maxlength){
 		$(messageSelector).css("color", "red");
 	}
 }
-// 
+// 목표금액, 리워드 금액, 리워드 수량 전부 --> 숫자만 입력가능 + 콤마생성
+$("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() {
+	$(this).val(addCommas($(this).val().replace(/[^0-9]/g,"")));
+});
+//계좌번호 숫자만 입력가능
+$("#accountNumber").on("keyup", function() {
+    $(this).val($(this).val().replace(/[^0-9]/g,""));
+});
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// 선택한 프로젝트 스케줄 날짜를 다시 리셋함.
 $("#btn_resetDates").click(function () {
 	$("#date1").val("");
 	$("#date2").val("");

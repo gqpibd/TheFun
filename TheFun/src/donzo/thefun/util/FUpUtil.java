@@ -7,19 +7,20 @@ public class FUpUtil {
 	//f.substring(3) .zip
 	//f.substring(0,3) abc
 	
-	// 대표 이미지를 프로젝트seq.jpg로 변환(승지)
+	// 대표 이미지를 '프로젝트seq.jpg'로 변환(승지)
 	public static String getSeqFileName(String realFileName, int projectSeq){
 		String newfilename="";
-		String typeOfFile = "";
+		//String typeOfFile = "";
 		//String fre="";
 		if(realFileName.indexOf('.')>=0){
-			typeOfFile=realFileName.substring(realFileName.indexOf('.'));	// .jpg
-			newfilename=projectSeq+typeOfFile;	// 1.jpg
+			//typeOfFile=realFileName.substring(realFileName.indexOf('.'));	// .png
+			//newfilename=projectSeq+typeOfFile;	// 1.png
+			newfilename=projectSeq+".jpg";	// 무조건 jpg파일로 만들거임.
 		}else{
-			newfilename=projectSeq+".back";
+			newfilename=projectSeq+".jpg";
 		}
 		return newfilename;
-	} 
+	}
 	
 	// myfile.txt ---> 현재시간.txt 또는 현재시간.back로 변환
 	public static String getNewFile(String f, String id){

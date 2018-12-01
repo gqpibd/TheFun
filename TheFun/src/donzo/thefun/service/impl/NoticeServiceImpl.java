@@ -30,6 +30,7 @@ public class NoticeServiceImpl implements NoticeService {
 			item.setAtype(AlarmDto.ATYPE_NOTICE);
 			//item.setFromid(""); // 우선 비워놨다. 공지에서는 굳이 필요 없을듯...?
 			item.setProjectseq(dto.getProjectseq());
+			item.setAcontent(dto.getTitle());
 			alarmDao.addAlarm(item);
 		}
 		

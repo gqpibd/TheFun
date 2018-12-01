@@ -2,31 +2,41 @@ package donzo.thefun.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import donzo.thefun.model.MemberDto;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.ProjectService;
+import donzo.thefun.util.FUpUtil;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -224,24 +234,21 @@ public class ProjectController {
 		
 		// [1] DB에  프로젝트 & 옵션 추가!(+ 프로젝트  SEQ값 찾아옴)
 		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
-		logger.info("방금 들어간 프로젝트 번호: " +  projectSeq);
+		
 		// [2] 파일 업로드
-			// [2]-1. 경로설정 (톰켓에 올리기)
+			// [2]-1. 경로설정 (실제 폴더에 올리기)
+			// 이건 d드라이브 안에 upload폴더라는 절대경로?로 업로드! 주의할점~ servlet-context.xml에 써준 uploadTempDir부분과 이름(upload)을 맞춰줘야 한다
+			// String uploadPath = "d:\\upload";
+			// 아래는 톰캣 서버에 올리는 방법(이건 오류가 잦음)
 			String uploadPath = req.getServletContext().getRealPath("/upload");
-				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
-				// String uploadPath = "d:\\tmp";
+			
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
 			String realFileName = mainImage.getOriginalFilename();
-			//String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
-			//File file = new File(uploadPath + "/" + changedFileName);
-			//logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
-			
-			/* seq번호로 바로 저장(확장자명 없이) */
-			File file = new File(uploadPath + "/" + projectSeq);
-			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
-			
+			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
+			File file = new File(uploadPath + "/" + changedFileName);
+			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
@@ -249,25 +256,37 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 		
-	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	// 스마트 에디터 이미지 업로드 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String summernotePhotoUpload(HttpServletRequest req, HttpSession session,
+	public String summernotePhotoUpload(HttpServletRequest request, HttpServletResponse response,
 				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
-		// 파일업로드 경로설정
-		String uploadPath = session.getServletContext().getRealPath("/upload");
-		//String uploadPath = req.getServletContext().getRealPath("/upload");
-		logger.info("업로드 경로 : " + uploadPath);
-		String realFileName = summerFile.getOriginalFilename();
-		File file = new File(uploadPath + "\\" + realFileName);
-		logger.info("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
-		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
+		response.setContentType("text/html;charset=utf-8");
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("/upload");
+		UUID uuid = UUID.randomUUID();
+
+		// 업로드할 파일 이름
+		String org_filename = summerFile.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+
+		String filepath = realFolder + "\\" + str_filename;
+		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		summerFile.transferTo(f);
 		
-		return uploadPath + "\\" + realFileName;
+		return "upload/"+str_filename;
 	}
 	
 	// 프로젝트 수정 페이지로 들어가는 메소드(승지)
@@ -277,12 +296,6 @@ public class ProjectController {
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
 		
-		/*if(findProject.getStatus().equalsIgnoreCase(ProjectDto.PREPARING) || findProject.getStatus().equalsIgnoreCase(ProjectDto.WAITING)) { // 준비중이거나 대기중일때만 수정 가능
-			return "projectUpdate.tiles";
-		}else {
-			logger.info("지금은 수정 안 됨. 돌아가");
-			return "redirect:mySchedule.do?id="+findProject.getId();
-		}*/
 		return "projectUpdate.tiles";
 	}
 	
@@ -318,6 +331,15 @@ public class ProjectController {
 		}
 		
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
+	}
+	
+	// 내 등록 프로젝트 삭제하는 메소드(승지)
+	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectDelete(int seq) throws Exception {
+		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		
+		
+		return "projectUpdate.tiles";
 	}
 	
 	// 프로젝트 승인

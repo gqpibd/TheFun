@@ -158,7 +158,7 @@ td{
       	<strong>${endDate - strDate + 1}일</strong> 남음
       </c:otherwise>
     </c:choose>
-	
+	 
 	</td>
 	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
