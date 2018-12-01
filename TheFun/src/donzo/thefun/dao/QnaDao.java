@@ -13,6 +13,10 @@ public interface QnaDao {
 	public boolean delQna(int seq);
 
 	public boolean updateQna(QnaDto dto);
+
+	public String getRefWriter(int refseq);
+
+	public String getProjectOwner(int projectseq);
 	
 
 	

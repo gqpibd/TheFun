@@ -41,6 +41,6 @@ public interface ProjectService {
 	public boolean approveProject(int projectseq);
 	
 	//schedule
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	public List<ProjectDto> mySchedule(String id) throws Exception;
 	
 }

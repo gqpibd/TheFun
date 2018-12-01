@@ -56,7 +56,12 @@ public class ProjectDaoImpl implements ProjectDao {
 	public void updateProject(ProjectDto myProjectDto) throws Exception {
 		// 내 프로젝트 업데이트하기(승지)
 		sqlSession.update(ns+"updateProject", myProjectDto);
-		
+	}
+	
+	@Override
+	public void deleteProject(ProjectDto myProjectDto) throws Exception {
+		// 내 프로젝트 삭제하기(승지)
+		sqlSession.update(ns+"deleteProject", myProjectDto);		
 	}
 
 	@Override
@@ -72,8 +77,8 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	//schedule
 	@Override
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
-		return sqlSession.selectList(ns + "mySchedule", pro);
+	public List<ProjectDto> mySchedule(String id) throws Exception {
+		return sqlSession.selectList(ns + "mySchedule", id);
 	}
 
 	

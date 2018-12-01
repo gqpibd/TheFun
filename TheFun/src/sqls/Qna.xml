@@ -71,10 +71,7 @@ FROM FUN_QNA Q;
 	<otherwise> <!-- 첫 댓글일 때 -->
 		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, SEQ_QNA.CURRVAL, #{content}, #{status}, SYSDATE, #{towhom})
 	</otherwise> 
-	</choose>
-	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
-		SELECT SEQ_QNA.CURRVAL FROM dual 
-	</selectKey>
+	</choose>	
 </insert>
 
 <!-- 댓글 삭제 -->
@@ -90,5 +87,12 @@ FROM FUN_QNA Q;
 	SET CONTENT=#{content}, STATUS = #{status}
 	WHERE SEQ = #{seq}
 </update>
+
+<!-- 원댓글 작성자 아이디 -->
+<select id="getRefWriter" parameterType="Integer" resultType="String">
+	SELECT ID
+	FROM FUN_QNA
+	WHERE SEQ=#{refseq}
+</select>
 
 </mapper>

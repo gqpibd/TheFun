@@ -370,12 +370,6 @@ public class ProjectDto implements Serializable {
 		return date;
 	}
 	
-	public boolean isWaiting() {
-		if(status.equalsIgnoreCase(WAITING)) {
-			return true;
-		}
-		return false;
-	}
 	public String getNickname() {
 		return nickname;
 	}
@@ -397,8 +391,38 @@ public class ProjectDto implements Serializable {
 		return "";
 	}
 
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
+	}
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isPreparing() {
+		if(status.equalsIgnoreCase(PREPARING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_success() {
+		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_fail() {
+		if(status.equalsIgnoreCase(COMPLETE_FAIL)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isDeleted() {
+		if(status.equalsIgnoreCase(DELETE)) {
 			return true;
 		}else
 			return false;

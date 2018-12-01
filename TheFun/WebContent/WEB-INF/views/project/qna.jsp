@@ -33,8 +33,8 @@
     overflow: hidden;
     position: relative;
     /* padding: 10px 10px 10px 20px; */
-    padding-top: 5px;
-    padding-bottom: 5px;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
     border-bottom: 1px solid #fff;
     width : 100%;
 }
@@ -227,7 +227,7 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 		<li class="reply">		
 		<c:if test="${item.seq ne item.refseq}">	<!-- 대댓일 때 표시 --> 
 		<!-- <i class="fas fa-reply" style="float: left; width: 20px; margin-right: 13px"></i> -->
- 		<img src="image/detail/rere.png" style="float: left; width: 20px; margin-left: 13px">
+ 		<img src="image/detail/rere.png" style="float: left; width: 15px; margin-left: 13px; margin-right: 13px;">
 		</c:if>
 		<c:choose>
 			<c:when test="${item.isDel()}">
@@ -297,7 +297,9 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 	<c:otherwise>
 	<form action="addQna.do" id='newQna'>		
 		<input type="hidden" name="id" value="${login.id}"> <!-- 작성자 아이디 --> 
+		<input type="hidden" name="nickname" value="${login.nickname}"> <!-- 작성자 닉네임 : 알람 생성에 필요 --> 
 		<input type="hidden" name="projectseq" value="${projectdto.seq }"> <!-- 관련 프로젝트 번호 -->		
+		<input type="hidden" name="projectWriter" value="${projectdto.id }"> <!-- 프로젝트 작성자 아이디 -->
 		<div align=left style="margin-left:5px">
 			<img src='${login.profile}' width='10'
 				class='profile re-img' align='middle'>
@@ -350,7 +352,9 @@ function addReply(re_btn){       // 댓글에  추가
 	var item = "<li class='reply' id='rere_write'>"+	
 		"<form action='addQna.do' id='addreply'>"+			
 			"<input type='hidden' name='id' value='${login.id}'>" +
-			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +
+			"<input type='hidden' name='nickname' value='${login.nickname}'>" +
+			"<input type='hidden' name='projectseq' value='${projectdto.seq}'>" +			
+			"<input type='hidden' name='projectWriter' value='${projectdto.id }'>"+			
 			"<input type='hidden' name='refseq' value='"+refseq+"'>" +
 			"<input type='hidden' name='towhom' value='"+toWhom+"'>"+
 			"<div align='left'>"+

@@ -8,9 +8,7 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
 <style type="text/css">
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
+
 </style>
  
 <style type="text/css">
