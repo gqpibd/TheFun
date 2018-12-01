@@ -2,10 +2,12 @@ package donzo.thefun.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -232,9 +234,9 @@ public class ProjectController {
 		// [2] 파일 업로드
 			// [2]-1. 경로설정 (실제 폴더에 올리기)
 			// 이건 d드라이브 안에 upload폴더라는 절대경로?로 업로드! 주의할점~ servlet-context.xml에 써준 uploadTempDir부분과 이름(upload)을 맞춰줘야 한다
-			String uploadPath = "d:\\upload";
-				// 아래는 톰캣 서버에 올리는 방법(이건 오류가 잦음)
-				//String uploadPath = req.getServletContext().getRealPath("/upload");
+			// String uploadPath = "d:\\upload";
+			// 아래는 톰캣 서버에 올리는 방법(이건 오류가 잦음)
+			String uploadPath = req.getServletContext().getRealPath("/upload");
 			
 			logger.info("업로드 경로 : " + uploadPath);
 			
@@ -254,24 +256,33 @@ public class ProjectController {
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String summernotePhotoUpload(HttpServletRequest req, HttpSession session,
+	public String summernotePhotoUpload(HttpServletRequest request, HttpServletResponse response,
 				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
-		// 파일업로드 경로설정
-		//String uploadPath = session.getServletContext().getRealPath("/upload");
-		//	String uploadPath = req.getServletContext().getRealPath("/upload"); 이건 톰캣경로로 올라감. 임시경로인건지 서버를 끄고 clean하면 업로드한 이미지도 사라짐 ㅠㅠ
+		response.setContentType("text/html;charset=utf-8");
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("/upload");
+		UUID uuid = UUID.randomUUID();
+
+		// 업로드할 파일 이름
+		String org_filename = summerFile.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+
+		String filepath = realFolder + "\\" + str_filename;
+		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		summerFile.transferTo(f);
 		
-		String uploadPath = "d:\\upload";	// 이건 d드라이브 안 실제 폴더로 올라감.
-		
-		logger.info("업로드 경로 : " + uploadPath);
-		String realFileName = summerFile.getOriginalFilename();
-		File file = new File(uploadPath + "\\" + realFileName);
-		logger.info("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
-		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
-		
-		return uploadPath + "\\" + realFileName;
+		return "upload/"+str_filename;
 	}
 	
 	// 프로젝트 수정 페이지로 들어가는 메소드(승지)
@@ -301,13 +312,14 @@ public class ProjectController {
 		projectService.updateProject(newProjectDto);
 		
 		// 파일 수정
-		String fupload = req.getServletContext().getRealPath("d:\\upload");
-		
+		String uploadPath = req.getServletContext().getRealPath("/upload");
+		//String uploadPath = req.getServletContext().getRealPath("d:\\upload");
+	
 		String realFileName = newImage.getOriginalFilename();
 		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
-			File file = new File(fupload + "/" + changedFileName);
+			File file = new File(uploadPath + "/" + changedFileName);
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
 		} catch(Exception e) {
