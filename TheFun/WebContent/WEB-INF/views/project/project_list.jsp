@@ -86,12 +86,13 @@ td{
 
 
 
-<div class="container" style="margin-bottom: 20%;">
+<div class="container">
 <div class="row">
 <c:if test="${list.size() ne 0}">
 <c:forEach items="${list }" var="dto" varStatus="i">
-<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;">
-	<table style="height: 400px;">
+<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;margin-bottom: 10%;">
+	<table style="width:inherit;height: 500px;table-layout: fixed;">
+	<col width="30%;"><col width="70%">
 	<tr>
 	<td style="text-align: left;">
 	<!-- 조건문 : 리워드 / 기부 구분 위해 -->
@@ -118,28 +119,29 @@ td{
 	
 	</tr>
 	
-	<tr>
+	<tr style="height: 20px;">
 	<td colspan="2">
 		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="image/thumbnail/mainImg1.PNG" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
 	<tr>
-	<td colspan="2" style="font-size: 11pt;">
+	<td colspan="2" style="font-size: 11pt;word-break:break-all;height: 100px;">
 	<a href="projectDetail.do?seq=${dto.seq }">
-	<!-- 40자수 제한 -->
+	<!-- 60 제한 -->
 	<c:set var="str" value="${dto.title }"/>
 	<c:set var="len" value="${fn:length(str)}"/>
 	<c:choose>
-	<c:when test="${len ge 40}"><strong>${fn:substring(str,0,40) } ...</strong></c:when>
-	<c:otherwise><strong>${str }</strong></c:otherwise>
+	<c:when test="${len ge 60}"><strong>&nbsp;${fn:substring(str,0,60) } ...</strong></c:when>
+	<c:otherwise><strong>&nbsp;${str }</strong></c:otherwise>
 	</c:choose>
 	</a>
 	</td>
 	</tr>
 	
 	<tr class="features">
-	<td colspan="2" style="text-align: right;margin-right: 50px;">by ${dto.nickname }</td>
+	<td style="text-align: left;"><strong>&nbsp;${dto.buycount }명</strong> 참여</td>
+	<td style="text-align: right;margin-right: 50px;" title="프로젝트 진행자">by ${dto.nickname }&nbsp;</td>
 	</tr>
 	
 	<tr class="features">
@@ -152,13 +154,13 @@ td{
 	<fmt:parseNumber var="endDate" value="${endDate.time / (1000*60*60*24)}" integerOnly="true"/>
 	
 	<c:choose>
-		<c:when test="${endDate - strDate + 1 gt 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:when>
+		<c:when test="${endDate - strDate + 1 gt 0}"><strong>&nbsp;${endDate - strDate + 1}일</strong> 남음</c:when>
 		<c:when test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:when>
-		<c:when test="${endDate - strDate + 1 lt 0}"><strong>마감되었습니다.</strong></c:when>
+		<c:when test="${endDate - strDate + 1 lt 0}"><strong>종료된 프로젝트</strong></c:when>
 	</c:choose>
 	
 	</td>
-	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
+	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
 	
 	<!-- 차트 -->

@@ -203,7 +203,7 @@ $(document).ready(function () {
 			<ul>
 				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
 				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
 			</ul>
 		</li> 
 		<li style="width:90px;text-align: center;">
@@ -212,7 +212,7 @@ $(document).ready(function () {
 				<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
 				<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
 				<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=reward&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
 			</ul>
 		</li>
 		<li style="width:90px;text-align: center;">

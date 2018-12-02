@@ -116,31 +116,30 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
-		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠까요?
-		if(pParam.getS_type() == null) {
-			pParam.setS_type("");
-		}
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(pParam.getS_type() == null) { pParam.setS_type(""); }
+		if(pParam.getS_category() == null) { pParam.setS_category(""); }
+		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
+		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
+		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
 		
-		if(pParam.getS_category() == null) {
-			pParam.setS_category("");
-		}
 		
-		if(pParam.getS_keyword() == null) {
-			pParam.setS_keyword("");
-		}
-		
-		if(pParam.getS_summary() == null) {
-			pParam.setS_summary("");
-		}
-		
-		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")){
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
 			pParam.setS_sort("FUNDACHIVED");
+			pParam.setS_asc_desc("DESC");
 		} else if(pParam.getS_sort().equals("buycountDESC")) {
 			pParam.setS_sort("BUYCOUNT");
+			pParam.setS_asc_desc("DESC");
 		} else if(pParam.getS_sort().equals("fundachivedDESC")) {
 			pParam.setS_sort("FUNDACHIVED");
+			pParam.setS_asc_desc("DESC");
 		} else if(pParam.getS_sort().equals("sdateDESC")) {
 			pParam.setS_sort("SDATE");
+			pParam.setS_asc_desc("DESC");
+		} else if(pParam.getS_sort().equals("edateASC")) {
+			pParam.setS_sort("EDATE");
+			pParam.setS_asc_desc("ASC");
 		}
 		
 		// paging 처리 
@@ -159,10 +158,16 @@ public class ProjectController {
 		int totalRecordCount = projectService.getProjectCount(pParam);
 		
 		// 확인용
-//		for (int i = 0; i < list.size(); i++) {
-//			ProjectDto dto = list.get(i);
-//			logger.info("list : " + dto.toString());
-//		}
+		for (int i = 0; i < list.size(); i++) {
+			ProjectDto dto = list.get(i);
+			logger.info("list : " + dto.toString());
+		}
+		
+		if(pParam.getS_complete().equals("complete")) {
+			model.addAttribute("doc_title", "complete");
+		} else if(pParam.getS_complete().equals("")) {
+			model.addAttribute("doc_title", "search");
+		}
 		
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -174,7 +179,10 @@ public class ProjectController {
 		model.addAttribute("s_type", pParam.getS_type());
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
-		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
+		model.addAttribute("s_complete", pParam.getS_complete());
+		
+//		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
+//		model.addAttribute("s_asc_desc", pParam.getS_asc_desc());	// 내림 오름 차순 기준
 		
 		model.addAttribute("list", list);
 
@@ -327,31 +335,30 @@ public class ProjectController {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
 		ProjectParam mainParam = new ProjectParam();
 		
-		// null 들어오면 xml 에서 오류 발생. 그거 방지위함 xml 헷갈려서 그냥 이렇게 했는데 나중에 고칠 예정
-		if(mainParam.getS_type() == null) {
-			mainParam.setS_type("");
-		}
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(mainParam.getS_type() == null) { mainParam.setS_type(""); }
+		if(mainParam.getS_category() == null) { mainParam.setS_category(""); }
+		if(mainParam.getS_keyword() == null) { mainParam.setS_keyword(""); }
+		if(mainParam.getS_summary() == null) { mainParam.setS_summary(""); }
+		if(mainParam.getS_complete() == null) { mainParam.setS_complete("");}
 		
-		if(mainParam.getS_category() == null) {
-			mainParam.setS_category("");
-		}
 		
-		if(mainParam.getS_keyword() == null) {
-			mainParam.setS_keyword("");
-		}
-		
-		if(mainParam.getS_summary() == null) {
-			mainParam.setS_summary("");
-		}
-		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(mainParam.getS_sort() == null || mainParam.getS_sort().equals("")) {
 			mainParam.setS_sort("FUNDACHIVED");
+			mainParam.setS_asc_desc("DESC");
 		} else if(mainParam.getS_sort().equals("buycountDESC")) {
 			mainParam.setS_sort("BUYCOUNT");
+			mainParam.setS_asc_desc("DESC");
 		} else if(mainParam.getS_sort().equals("fundachivedDESC")) {
 			mainParam.setS_sort("FUNDACHIVED");
+			mainParam.setS_asc_desc("DESC");
 		} else if(mainParam.getS_sort().equals("sdateDESC")) {
 			mainParam.setS_sort("SDATE");
+			mainParam.setS_asc_desc("DESC");
+		} else if(mainParam.getS_sort().equals("edateASC")) {
+			mainParam.setS_sort("EDATE");
+			mainParam.setS_asc_desc("ASC");
 		}
 		
 //		4페이지씩 보여주려고
@@ -370,6 +377,15 @@ public class ProjectController {
 		
 		model.addAttribute("list", mainPageList);
 		model.addAttribute("recordCountPerPage", mainParam.getRecordCountPerPage());
+		
+		
+		///////////////////////////////////
+		// 곧 마감되는 프로젝트 
+		mainParam.setS_sort("EDATE");
+		mainParam.setS_asc_desc("ASC");
+		
+		List<ProjectDto> edateList = projectService.searchProjectList(mainParam);
+		model.addAttribute("edate_list", edateList);
 				
 		return "home.tiles";
 	}
