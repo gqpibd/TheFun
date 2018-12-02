@@ -48,8 +48,10 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     CASE 
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
         WHEN LOWER(STATUS) = 'delete' THEN 'delete'
+        WHEN LOWER(STATUS) = 'reject' THEN 'reject'
+        WHEN LOWER(STATUS) = 'revise' THEN 'revise'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
-        WHEN EDATE >= SYSDATE THEN 'ongoing' 
+        WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
         WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
         ELSE 'complete_fail'  
      END AS "status" 
@@ -110,8 +112,15 @@ FROM FUN_PROJECT P;
 <!-- 새 프로젝트 승인 -->
 <update id="approveProject" parameterType="int"> 
 	UPDATE FUN_PROJECT
-	SET STATUS='approved' <!-- 의미 없지만 승인되었다는 의미로, preparing과 구분하는 의미로 넣어놓음 -->
+	SET STATUS='approve' <!-- 의미 없지만 승인되었다는 의미로, preparing과 구분하는 의미로 넣어놓음 -->
 	WHERE SEQ = #{projectseq}
+</update>
+ 
+<!-- 새 프로젝트 승인 거절 -->
+<update id="rejectProject" parameterType="donzo.thefun.model.ProjectDto"> 
+	UPDATE FUN_PROJECT
+	SET STATUS= #{status}
+	WHERE SEQ = #{seq}
 </update> 
 
 <!-- 승인 대기중인 프로젝트의 갯수 -->

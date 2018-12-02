@@ -5,6 +5,7 @@ import java.util.List;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
 
 public interface ProjectDao { 
 	
@@ -23,5 +24,6 @@ public interface ProjectDao {
 	public void updateProject(ProjectDto myProjectDto) throws Exception;
 	public void deleteProject(int seq) throws Exception;
 	public int getWaitCount();
+	public boolean rejectProject(ProjectDto projectdto);
 	
 }

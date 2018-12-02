@@ -19,7 +19,7 @@ CREATE TABLE FUN_PROJECTMSG(
 CREATE SEQUENCE SEQ_PROJECTMSG
 START WITH 1 INCREMENT BY 1;
  -->
-<mapper namespace="Option">
+<mapper namespace="Projectmsg">
 
 <!-- 새로운 메시지 추가 -->
 <insert id="insertProjectMsg" parameterType="donzo.thefun.model.ProjectmsgDto">

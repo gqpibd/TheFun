@@ -438,6 +438,15 @@ $('#messageModal').on('show.bs.modal', function (event) {
 	var button = $(event.relatedTarget) // Button that triggered the modal
 	var modal = $(this)	
 });
+
+function checkAndSendMessage(){
+	if($("#rejectMessage").val().trim() == ''){
+		alert("내용을 입력해 주세요");
+		return;
+	}else{
+		$("#rejectMsgForm").submit();
+	}
+}
 </script>
 
 <!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->    
@@ -450,7 +459,7 @@ $('#messageModal').on('show.bs.modal', function (event) {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>     
-	    <form action="rejectProject.do" >
+	    <form action="rejectProject.do" method="post" id="rejectMsgForm">
 	      <div class="modal-body">
 	      	<input type="hidden" name="projectseq" value="${projectdto.seq}">
 					<div>
@@ -463,12 +472,12 @@ $('#messageModal').on('show.bs.modal', function (event) {
 					</div>
 				<div class="form-group">
 	            <label for="message-text" class="col-form-label">메시지</label>
-	            <textarea class="form-control" id="newNoticeContent" name="message"></textarea>
+	            <textarea class="form-control" id="rejectMessage" name="message"></textarea>
 	          </div>       
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
-	        <button type="button" class="btn fun_btn" onclick="checkAndSubmitNotice()">메시지 전송</button>	       
+	        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="quit">취소</button>
+	        <button type="button" class="btn fun_btn" onclick="checkAndSendMessage()">메시지 전송</button>	       
 	      </div>
 	   </form>
     </div>

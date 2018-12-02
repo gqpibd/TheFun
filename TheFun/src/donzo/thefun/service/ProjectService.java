@@ -7,6 +7,7 @@ import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
     
 public interface ProjectService {
@@ -47,12 +48,16 @@ public interface ProjectService {
 
 	// 프로젝트 승인
 	public boolean approveProject(int projectseq);
+
+	// 프로젝트 반려
+	public boolean rejectProject(ProjectmsgDto msgdto);
 	
 	// 승인대기중인 프로젝트의 수	
 	public int getWaitCount();
 	
 	//schedule
 	public List<ProjectDto> mySchedule(String id) throws Exception;
+
 	
 	
 }

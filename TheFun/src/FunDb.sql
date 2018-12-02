@@ -1,4 +1,5 @@
-﻿// update : 12/03 02:33 -- 프로젝트 승인, 거절 메시지 테이블( FUN_PROJECTMSG ) 생성
+﻿// update : 12/03 03:28 -- FUN_PROJECTALL 변경 -- STATUS에 REJECT, REVISE 추가됨
+// update : 12/03 02:33 -- 프로젝트 승인, 거절 메시지 테이블( FUN_PROJECTMSG ) 생성
 // update : 12/02 00:50 -- FUN_ALARM 테이블에 FROMNICKNAME(알람생성자), CONTENT 추가
 // update : 11/30 21:23 -- FUN_PROJECTALL테이블 수정, status 가져올 때, WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
 // update : 11/30 01:30 -- FUN_QNA_VIEW TOWHOMNICKNAME 추가, TOWHOM 외래키 추가
@@ -369,6 +370,8 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     CASE 
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
         WHEN LOWER(STATUS) = 'delete' THEN 'delete'
+        WHEN LOWER(STATUS) = 'reject' THEN 'reject'
+        WHEN LOWER(STATUS) = 'revise' THEN 'revise'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
         WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
         WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         

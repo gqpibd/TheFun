@@ -33,6 +33,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
@@ -349,6 +350,15 @@ public class ProjectController {
 		projectService.approveProject(projectseq);
 		
 		return "redirect:/projectDetail.do?seq=" + projectseq;
+	}
+	
+	// 프로젝트 거절
+	@RequestMapping(value="rejectProject.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String rejectProject(ProjectmsgDto msgDto) throws Exception{
+		logger.info("rejectProject " + new Date());
+		projectService.rejectProject(msgDto);
+		
+		return "redirect:/projectDetail.do?seq=" + msgDto.getProjectseq();
 	}
 	
 	// 대기중인 프로젝트 갯수 가져오기

@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import donzo.thefun.controller.ProjectController;
-import donzo.thefun.dao.AlarmDao;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
@@ -132,12 +130,21 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.mySchedule(id);
 	}
 
-
 	// 프로젝트 승인
 	@Override
 	public boolean approveProject(int projectseq) {
 		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,"관리자가 프로젝트 게시를 승인하였습니다."));		
 		return projectDao.approveProject(projectseq);		
+	}
+	
+	// 프로젝트 승인
+	@Override
+	public boolean rejectProject(ProjectmsgDto msgdto) {		
+		projectmsgDao.insertProjectMsg(msgdto);
+		ProjectDto pdto = new ProjectDto();
+		pdto.setSeq(msgdto.getProjectseq());
+		pdto.setStatus(msgdto.getStatus());
+		return projectDao.rejectProject(pdto);		
 	}
 
 	// 대기중이 프로젝트 갯수
