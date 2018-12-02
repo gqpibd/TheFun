@@ -23,7 +23,7 @@ CREATE TABLE FUN_MEMBER(
    PROFILE VARCHAR2(1000),
    INFO VARCHAR2(2000), -- 소개글 (NOT NULL 삭제)
    POINT NUMBER(15),
-   AUTH NUMBER(1) NOT NULL -- 1: 일반회원 3: 관리자
+   AUTH NUMBER(1) NOT NULL, -- 1: 일반회원 3: 관리자
    POSTCODE VARCHAR2(10),
    ROADADDRESS VARCHAR2(100),
    DETAILADDRESS VARCHAR2(100)
@@ -421,3 +421,6 @@ values(SEQ_NOTICE.NEXTVAL, 1, '프로젝트 시작', '많이 후훤해 주세요
 
 insert into FUN_BUY
 values(SEQ_BUY.NEXTVAL,'aaa',1,1,1,10000,'2018-11-25',null,null);
+
+
+

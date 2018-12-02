@@ -59,9 +59,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public void deleteProject(ProjectDto myProjectDto) throws Exception {
+	public void deleteProject(int seq) throws Exception {
 		// 내 프로젝트 삭제하기(승지)
-		sqlSession.update(ns+"deleteProject", myProjectDto);		
+		sqlSession.update(ns+"deleteProject", seq);		
 	}
 
 	@Override
@@ -81,12 +81,8 @@ public class ProjectDaoImpl implements ProjectDao {
 		return sqlSession.selectList(ns + "mySchedule", id);
 	}
 
-	
-	
-	/*@Override
-	public int findProjectSeq(ProjectDto newProjectDto) throws Exception {
-		// 생성한 프로젝트 seq값 찾아와! (==> for. 이미지 파일명 설정 / 옵션 생성할때 projectSeq)
-		int projectSeq = sqlSession.selectOne(ns+"findProjectSeq", newProjectDto);
-		return projectSeq;
-	}*/
+	@Override
+	public int getWaitCount() {		
+		return sqlSession.selectOne(ns+"getWaitCount");
+	}
 }

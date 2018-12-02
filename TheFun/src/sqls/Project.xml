@@ -78,10 +78,10 @@ FROM FUN_PROJECT P;
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
 			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
-			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd'), 
+			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd-hh24-mi-ss'), 
 			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, #{status})
 	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
-		SELECT SEQ_PROJECT.CURRVAL FROM dual 
+		SELECT SEQ_PROJECT.CURRVAL FROM dual
 	</selectKey>
 </insert>
 
@@ -93,23 +93,33 @@ FROM FUN_PROJECT P;
 </update>
 
 <!-- 내 프로젝트 삭제(승지) : 실제 삭제는 안하고 status만 delete로 바꿈 -->
-<update id="deleteProject" parameterType="donzo.thefun.model.ProjectDto">
+<update id="deleteProject" parameterType="java.lang.Integer">
 	UPDATE FUN_PROJECT
-	SET STATUS=#{DELETE}
-	WHERE SEQ={seq}
+	SET STATUS= 'delete'
+	WHERE SEQ=#{seq}
 </update>
 
 <!-- 승인 대기중이 프로젝트 목록 가져오기 - 관리자 모드 -->
 <select id="getWaitingList" resultType="donzo.thefun.model.ProjectDto">
-	SELECT * FROM FUN_PROJECTALL WHERE LOWER(STATUS) = 'waiting'
+	SELECT * 
+	FROM FUN_PROJECTALL 
+	WHERE LOWER(STATUS) = 'waiting'
+	ORDER BY REGDATE DESC 
 </select>
 
 <!-- 새 프로젝트 승인 -->
 <update id="approveProject" parameterType="int"> 
 	UPDATE FUN_PROJECT
-	SET STATUS='preparing'
+	SET STATUS=''
 	WHERE SEQ = #{projectseq}
 </update> 
+
+<!-- 승인 대기중인 프로젝트의 갯수 -->
+<select id="getWaitCount" resultType="int">
+	SELECT COUNT(*)
+	FROM FUN_PROJECTALL
+	WHERE LOWER(STATUS)='waiting'	
+</select>
 
 <!-- 프로젝트 검색 -->
 <select id="searchProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">

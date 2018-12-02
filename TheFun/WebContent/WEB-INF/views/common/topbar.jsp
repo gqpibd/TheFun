@@ -256,19 +256,22 @@ $(document).ready(function () {
 			<c:if test="${login ne null}">
 				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
 				<span>${login.nickname}님</span>
-				<a href="viewAlarms.do" class="notification">
+				<a href="viewAlarms.do" class="notification" title="새소식">
 				  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
 				  <%-- <span class="badge">${alarmCount}</span> --%>
 				  <span class="badge" id="alarmcount"></span>
-				</a>			
-				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
+				</a>								
 				<c:choose>			
 					<c:when test="${login.isManager()}">
-						<button class="btn" type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+						<a href="projectManage.do"  class="notification" title="대기중인 프로젝트">
+							<span class="fas fa-eye" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+							<span class="badge" id="waitcount"></span>
+						</a>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>
 				</c:choose>
+				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->			
 			</c:if>
         </li>
       </ul>
@@ -281,8 +284,11 @@ $(document).ready(function () {
 <script type="text/javascript">
 $(document).ready(function(){
 	setAlarmCount();
+	if (document.getElementById('waitcount')) { // 관리자 모드인 경우
+		setWaitCount();
+	}
 })
-function setAlarmCount(){
+function setAlarmCount(){ // 알람 갯수
 	$.ajax({
 		type:"get",
 		url:"getAlarmCount.do",
@@ -290,6 +296,17 @@ function setAlarmCount(){
 		
 		success:function(data){						
 			$("#alarmcount").text(data);
+		}
+	});	
+}
+
+function setWaitCount(){ // 대기중인 프로젝트 갯수
+	
+	$.ajax({
+		type:"get",
+		url:"getWaitCount.do",		
+		success:function(data){						
+			$("#waitcount").text(data);
 		}
 	});	
 }

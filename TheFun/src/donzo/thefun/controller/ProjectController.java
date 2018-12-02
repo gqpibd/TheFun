@@ -265,20 +265,21 @@ public class ProjectController {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
+
 		response.setContentType("text/html;charset=utf-8");
 		// 업로드할 폴더 경로
 		String realFolder = request.getSession().getServletContext().getRealPath("/upload");
 		UUID uuid = UUID.randomUUID();
-
+		
 		// 업로드할 파일 이름
 		String org_filename = summerFile.getOriginalFilename();
 		String str_filename = uuid.toString() + org_filename;
-
-		System.out.println("원본 파일명 : " + org_filename);
-		System.out.println("저장할 파일명 : " + str_filename);
+		
+		logger.info("원본 파일명 : " + org_filename);
+		logger.info("저장할 파일명 : " + str_filename);
 
 		String filepath = realFolder + "\\" + str_filename;
-		System.out.println("파일경로 : " + filepath);
+		logger.info("파일경로 : " + filepath);
 
 		File f = new File(filepath);
 		if (!f.exists()) {
@@ -295,7 +296,6 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
-		
 		return "projectUpdate.tiles";
 	}
 	
@@ -317,13 +317,13 @@ public class ProjectController {
 		projectService.updateProject(newProjectDto);
 		
 		// 파일 수정
-		String fupload = req.getServletContext().getRealPath("/upload");
+		String uploadPath = req.getServletContext().getRealPath("/upload");
 		
 		String realFileName = newImage.getOriginalFilename();
 		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
-			File file = new File(fupload + "/" + newProjectDto.getSeq());
+			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
 		} catch(Exception e) {
@@ -337,18 +337,27 @@ public class ProjectController {
 	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDelete(int seq) throws Exception {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		projectService.deleteProject(seq);
 		
-		
-		return "projectUpdate.tiles";
+		return "mySchedule.tiles";
 	}
 	
 	// 프로젝트 승인
 	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String approve(Model model, int projectseq) throws Exception{
-		logger.info("ProjectController approve " + new Date());
+		logger.info("approve " + new Date());
 		projectService.approveProject(projectseq);
 		
 		return "redirect:/projectDetail.do?seq=" + projectseq;
+	}
+	
+	// 대기중인 프로젝트 갯수 가져오기
+	@ResponseBody
+	@RequestMapping(value="getWaitCount.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getWaitCount() throws Exception{
+		logger.info("getWaitCount " + new Date());
+				
+		return projectService.getWaitCount()+""; 
 	}
 	
 	// 메인 화면으로 이동

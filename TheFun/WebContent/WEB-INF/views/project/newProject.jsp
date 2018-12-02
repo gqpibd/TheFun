@@ -865,16 +865,20 @@ $(document).ready(function() {
     
 	
 </div>
+
 </div>
 <!-- 3번째 탭 내용 끝 -->
 
 
 </div>
+<!-- 전송버튼 -->
+	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
+		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="전송">	
+
+</div>
 </div>
 
 
-<!-- 전송버튼 -->
-<input type="button" id="btn_submit" value="전송">
 
 </form>
 
