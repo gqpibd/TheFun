@@ -10,7 +10,6 @@ import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
-import donzo.thefun.model.ProjectmsgDto;
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {
