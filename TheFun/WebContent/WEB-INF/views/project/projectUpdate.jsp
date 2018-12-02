@@ -170,7 +170,7 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						<td colspan="2">
-							<img alt="" src="D:/stsToEclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TheFun/upload/1.jpg">
+							<!-- <img alt="" src="D:/stsToEclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TheFun/upload/1.jpg"> -->
 						</td>
 					</tr>
 				</table>
@@ -298,24 +298,29 @@ $(document).ready(function() {
     </div>
     
     </div>
-	
+    
+    
+    
+	<!-- 전송버튼 -->
+	<input type="button" class="btn btn-lg btn-primary" id="btn_submit" 
+		style="font-family: 'Noto Sans KR', sans-serif" value="수정하기">
+	<input type="button" class="btn btn-secondary btn-lg" id="btn_calcel" 
+		style="font-family: 'Noto Sans KR', sans-serif" value="취소">
 </div>
 </div>
 
 
 
-
-
-
 </div>
-
-
-<!-- 전송버튼 -->
-<input type="button" id="btn_submit" value="수정하기">
 </form>
-
+<!-- 전체 폼 끝 -->
 
 <script>
+
+// 취소 버튼 눌렀을 때
+$("#btn_calcel").click(function () {
+	location.href="mySchedule.do?id=${login.id}";
+});
 
 
 //수정하기 버튼 눌렀을 때

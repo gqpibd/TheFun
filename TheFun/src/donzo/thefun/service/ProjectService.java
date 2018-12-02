@@ -32,6 +32,9 @@ public interface ProjectService {
 	// 내 프로젝트 수정 (새 입력값 프로젝트 dto)
 	public void updateProject(ProjectDto myProjectDto) throws Exception;
 	
+	// 내 프로젝트 삭제( 삭제할 프로젝트 seq )
+	public void deleteProject(int seq) throws Exception;
+	
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;

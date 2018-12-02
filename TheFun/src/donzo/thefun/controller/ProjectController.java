@@ -44,7 +44,7 @@ public class ProjectController {
 	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
-	ProjectService projectService; 
+	ProjectService projectService;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -77,7 +77,7 @@ public class ProjectController {
 		model.addAttribute("pList",pList);
 		return "projectManage.tiles";
 	}
-		
+	
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goSelectReward(int seq,Model model) {
@@ -261,20 +261,21 @@ public class ProjectController {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
+
 		response.setContentType("text/html;charset=utf-8");
 		// 업로드할 폴더 경로
 		String realFolder = request.getSession().getServletContext().getRealPath("/upload");
 		UUID uuid = UUID.randomUUID();
-
+		
 		// 업로드할 파일 이름
 		String org_filename = summerFile.getOriginalFilename();
 		String str_filename = uuid.toString() + org_filename;
-
-		System.out.println("원본 파일명 : " + org_filename);
-		System.out.println("저장할 파일명 : " + str_filename);
+		
+		logger.info("원본 파일명 : " + org_filename);
+		logger.info("저장할 파일명 : " + str_filename);
 
 		String filepath = realFolder + "\\" + str_filename;
-		System.out.println("파일경로 : " + filepath);
+		logger.info("파일경로 : " + filepath);
 
 		File f = new File(filepath);
 		if (!f.exists()) {
@@ -333,9 +334,9 @@ public class ProjectController {
 	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDelete(int seq) throws Exception {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		projectService.deleteProject(seq);
 		
-		
-		return "projectUpdate.tiles";
+		return "mySchedule.tiles";
 	}
 	
 	// 프로젝트 승인

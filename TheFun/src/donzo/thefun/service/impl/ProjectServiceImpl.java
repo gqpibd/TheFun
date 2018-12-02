@@ -3,9 +3,12 @@ package donzo.thefun.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import donzo.thefun.controller.ProjectController;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
@@ -20,6 +23,8 @@ import donzo.thefun.service.ProjectService;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 	
 	@Autowired
 	ProjectDao projectDao;
@@ -69,9 +74,12 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
+		// edate 종료일 자정직전까지 시간설정
+		String edate = newProjectDto.getEdate();
+		newProjectDto.setEdate(edate+"-23-59-59");
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
-		System.out.println("찾아온 project seq : " + projectSeq);
+		logger.info("찾아온 project seq : " + projectSeq);
 		
 		if(newProjectDto.getFundtype().equals("reward")) {	// 리워드일 경우(기부는 옵션 없음)
 			// [2] 옵션 insert
@@ -85,6 +93,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void updateProject(ProjectDto myProjectDto) throws Exception {
 		projectDao.updateProject(myProjectDto);
+	}
+	
+	@Override
+	public void deleteProject(int seq) throws Exception {
+		projectDao.deleteProject(seq);
 	}
 
 	@Override

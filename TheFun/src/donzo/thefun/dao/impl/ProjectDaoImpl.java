@@ -58,9 +58,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public void deleteProject(ProjectDto myProjectDto) throws Exception {
+	public void deleteProject(int seq) throws Exception {
 		// 내 프로젝트 삭제하기(승지)
-		sqlSession.update(ns+"deleteProject", myProjectDto);		
+		sqlSession.update(ns+"deleteProject", seq);		
 	}
 
 	@Override

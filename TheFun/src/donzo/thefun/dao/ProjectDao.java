@@ -21,6 +21,6 @@ public interface ProjectDao {
 	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
 	
 	public void updateProject(ProjectDto myProjectDto) throws Exception;
-	public void deleteProject(ProjectDto myProjectDto) throws Exception;
+	public void deleteProject(int seq) throws Exception;
 	
 }
