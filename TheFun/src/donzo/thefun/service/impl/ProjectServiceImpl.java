@@ -9,15 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import donzo.thefun.controller.ProjectController;
+import donzo.thefun.dao.AlarmDao;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
+import donzo.thefun.dao.ProjectmsgDao;
 import donzo.thefun.dao.QnaDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
 import donzo.thefun.service.ProjectService;
 
@@ -37,6 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	QnaDao qnaDao;
+
+	@Autowired
+	ProjectmsgDao projectmsgDao;
 
 	@Override
 	public ProjectDto getProject(int seq) {
@@ -130,6 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
 	// 프로젝트 승인
 	@Override
 	public boolean approveProject(int projectseq) {
+		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,"관리자가 프로젝트 게시를 승인하였습니다."));		
 		return projectDao.approveProject(projectseq);		
 	}
 

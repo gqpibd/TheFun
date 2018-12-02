@@ -38,14 +38,21 @@ public interface ProjectService {
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;
+	
+	// 승인 대기중인 프로젝트 목록(관리자)
 	public List<ProjectDto> getWaitingList();
+	
+	// Qna목록
 	public List<QnaDto> getQna(int seq);
 
+	// 프로젝트 승인
 	public boolean approveProject(int projectseq);
+	
+	// 승인대기중인 프로젝트의 수	
+	public int getWaitCount();
 	
 	//schedule
 	public List<ProjectDto> mySchedule(String id) throws Exception;
-
-	public int getWaitCount();
+	
 	
 }

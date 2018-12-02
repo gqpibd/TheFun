@@ -100,6 +100,69 @@ font-family: "Nanum Gothic", sans-serif;
     object-fit: cover;
 }
 
+/* 라디오버튼 - 승인거절시 */
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #40e0d0;
+}
+.option-input:checked::before {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  content: '✔';
+  display: inline-block;
+  font-size: 26.66667px;
+  text-align: center;
+  line-height: 40px;
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #40e0d0;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 50%;
+}
+.option-input.radio::after {
+  border-radius: 50%;
+}
+
+.label {
+  display: block;
+  line-height: 40px;
+}
+
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -143,7 +206,7 @@ function sendLink() {
     <div align="center">
     <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
     	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
-    	<button class="fun_btn">프로젝트 승인 거절</button>
+    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal" data-whatever="@mdo">프로젝트 승인 거절</button>
     </c:if>
     </div>
    	<br>
@@ -369,4 +432,46 @@ function hartClick(){
 
     </div>
     <!-- /.container -->
+    
+<script type="text/javascript">
+$('#messageModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var modal = $(this)	
+});
+</script>
+
+<!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->    
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>관리자 메시지</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+	    <form action="rejectProject.do" >
+	      <div class="modal-body">
+	      	<input type="hidden" name="projectseq" value="${projectdto.seq}">
+					<div>
+						<label class="label"> 
+							<input type="radio" class="option-input radio" name="status" value="reject" checked /> 승인 거절
+						</label> 
+						<label class="label"> 
+							<input type="radio" class="option-input radio" name="status" value="revise" /> 보완 요청
+						</label>
+					</div>
+				<div class="form-group">
+	            <label for="message-text" class="col-form-label">메시지</label>
+	            <textarea class="form-control" id="newNoticeContent" name="message"></textarea>
+	          </div>       
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
+	        <button type="button" class="btn fun_btn" onclick="checkAndSubmitNotice()">메시지 전송</button>	       
+	      </div>
+	   </form>
+    </div>
+  </div>
+</div>
     

@@ -110,7 +110,7 @@ FROM FUN_PROJECT P;
 <!-- 새 프로젝트 승인 -->
 <update id="approveProject" parameterType="int"> 
 	UPDATE FUN_PROJECT
-	SET STATUS=''
+	SET STATUS='approved' <!-- 의미 없지만 승인되었다는 의미로, preparing과 구분하는 의미로 넣어놓음 -->
 	WHERE SEQ = #{projectseq}
 </update> 
 
