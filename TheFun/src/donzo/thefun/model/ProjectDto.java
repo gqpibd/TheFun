@@ -53,8 +53,10 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
     CASE 
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
         WHEN LOWER(STATUS) = 'delete' THEN 'delete'
+        WHEN LOWER(STATUS) = 'reject' THEN 'reject'
+        WHEN LOWER(STATUS) = 'revise' THEN 'revise'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
-        WHEN EDATE >= SYSDATE THEN 'ongoing' 
+        WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
         WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
         ELSE 'complete_fail'  
      END AS "status" 
@@ -78,6 +80,10 @@ public class ProjectDto implements Serializable {
 	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
 	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
 	public static final String DELETE = "delete"; // 삭제
+	
+	//public static final String APPROVE = "approve"; // 승인됨
+	public static final String REJECT = "reject"; // 거절됨
+	public static final String REVISE = "revise"; // 보완요청
 	
 	int seq;  
 	String id; // 작성자
@@ -240,15 +246,13 @@ public class ProjectDto implements Serializable {
 		String tempArr[] = temp.substring(startIndex).split("#");
 		ArrayList<String> tempList = new ArrayList<>(); 
 		for(int i=0;i<tempArr.length;i++) {
-			if(tempArr[i].length() != 0) {
+			if(tempArr[i].length() != 0) { // ##같은게 있을수 있으므로 처리
 				tempList.add(tempArr[i]);
 			}
-		}		
+		}
 		this.tags = tempList.toArray(new String[tempList.size()]);
-   	 	
-		//content split
-		//String realTags[]=tags.split("/");
-		//this.tags = tags.substring(startIndex).split("#"); 
+		//System.out.println(tags);
+		//System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 
 	public String getBank() {
@@ -372,12 +376,6 @@ public class ProjectDto implements Serializable {
 		return date;
 	}
 	
-	public boolean isWaiting() {
-		if(status.equalsIgnoreCase(WAITING)) {
-			return true;
-		}
-		return false;
-	}
 	public String getNickname() {
 		return nickname;
 	}
@@ -399,12 +397,43 @@ public class ProjectDto implements Serializable {
 		return "";
 	}
 
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
+	}
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ONGOING)) {
 			return true;
 		}else
 			return false;
 	}
+	public boolean isPreparing() {
+		if(status.equalsIgnoreCase(PREPARING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_success() {
+		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_fail() {
+		if(status.equalsIgnoreCase(COMPLETE_FAIL)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isDeleted() {
+		if(status.equalsIgnoreCase(DELETE)) {
+			return true;
+		}else
+			return false;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category

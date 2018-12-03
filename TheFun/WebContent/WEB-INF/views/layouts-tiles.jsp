@@ -29,7 +29,7 @@
 	<tiles:insertAttribute name="topbar" /> 
 </div>
 
-<div style="margin-top: 80px;"></div> <!-- 간격 -->
+<div style="margin-top: 60px;"></div> <!-- 간격 -->
 
 <!-- 메인 -->
 <div style="display: grid"> <!-- 메인뷰 디테일 뉴프로젝트 -->

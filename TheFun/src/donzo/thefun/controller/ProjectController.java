@@ -2,10 +2,12 @@ package donzo.thefun.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
+import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
 import net.sf.json.JSONObject;
@@ -43,6 +47,9 @@ public class ProjectController {
 	
 	@Autowired
 	ProjectService projectService; 
+	
+	@Autowired
+	AlarmService alarmService;
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -230,10 +237,12 @@ public class ProjectController {
 		int projectSeq = projectService.projectWrite(newProjectDto, newPotionlist);
 		
 		// [2] 파일 업로드
-			// [2]-1. 경로설정 (톰켓에 올리기)
+			// [2]-1. 경로설정 (실제 폴더에 올리기)
+			// 이건 d드라이브 안에 upload폴더라는 절대경로?로 업로드! 주의할점~ servlet-context.xml에 써준 uploadTempDir부분과 이름(upload)을 맞춰줘야 한다
+			// String uploadPath = "d:\\upload";
+			// 아래는 톰캣 서버에 올리는 방법(이건 오류가 잦음)
 			String uploadPath = req.getServletContext().getRealPath("/upload");
-				// 아래는 실제 폴더에 올리는 방법.(이게 더 오류가 안날거 같긴한데.. 일단 톰캣으로 해보자)
-				// String uploadPath = "d:\\tmp";
+			
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
@@ -248,25 +257,38 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 		
-	// 스마트 에디터 이미지 업로드 미친새끼 테스트중(승지)
+	// 스마트 에디터 이미지 업로드 테스트중(승지)
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String summernotePhotoUpload(HttpServletRequest req, HttpSession session,
+	public String summernotePhotoUpload(HttpServletRequest request, HttpServletResponse response,
 				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
 		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
-		// 파일업로드 경로설정
-		String uploadPath = session.getServletContext().getRealPath("/upload");
-		//String uploadPath = req.getServletContext().getRealPath("/upload");
-		logger.info("업로드 경로 : " + uploadPath);
-		String realFileName = summerFile.getOriginalFilename();
-		File file = new File(uploadPath + "\\" + realFileName);
-		logger.info("파일 : " + uploadPath + "\\" + realFileName);	// 경로확인
-		FileUtils.writeByteArrayToFile(file, summerFile.getBytes());
+
+		response.setContentType("text/html;charset=utf-8");
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("/upload");
+		UUID uuid = UUID.randomUUID();
 		
-		return uploadPath + "\\" + realFileName;
+		// 업로드할 파일 이름
+		String org_filename = summerFile.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+		
+		logger.info("원본 파일명 : " + org_filename);
+		logger.info("저장할 파일명 : " + str_filename);
+
+		String filepath = realFolder + "\\" + str_filename;
+		logger.info("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		summerFile.transferTo(f);
+		
+		return "upload/"+str_filename;
 	}
 	
 	// 프로젝트 수정 페이지로 들어가는 메소드(승지)
@@ -275,13 +297,7 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		ProjectDto findProject = projectService.getProject(seq);
 		model.addAttribute("findPro", findProject);
-		
-		if(findProject.getStatus().equals("ongoing")) {
-			return "projectUpdate.tiles";
-		}else {
-			logger.info("진행중이 아니야. 돌아가");
-			return "MyPage.tiles";
-		}
+		return "projectUpdate.tiles";
 	}
 	
 	// 실제로 수정하는 메소드(승지)
@@ -302,13 +318,13 @@ public class ProjectController {
 		projectService.updateProject(newProjectDto);
 		
 		// 파일 수정
-		String fupload = req.getServletContext().getRealPath("/upload");
+		String uploadPath = req.getServletContext().getRealPath("/upload");
 		
 		String realFileName = newImage.getOriginalFilename();
-		String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
+		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
-			File file = new File(fupload + "/" + changedFileName);
+			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
 		} catch(Exception e) {
@@ -318,13 +334,40 @@ public class ProjectController {
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
+	// 내 등록 프로젝트 삭제하는 메소드(승지)
+	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectDelete(int seq) throws Exception {
+		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		projectService.deleteProject(seq);
+		
+		return "mySchedule.tiles";
+	}
+	
 	// 프로젝트 승인
 	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String approve(Model model, int projectseq) throws Exception{
-		logger.info("ProjectController approve " + new Date());
+		logger.info("approve " + new Date());
 		projectService.approveProject(projectseq);
 		
 		return "redirect:/projectDetail.do?seq=" + projectseq;
+	}
+	
+	// 프로젝트 거절
+	@RequestMapping(value="rejectProject.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String rejectProject(ProjectmsgDto msgDto) throws Exception{
+		logger.info("rejectProject " + new Date());
+		projectService.rejectProject(msgDto);
+		
+		return "redirect:/projectDetail.do?seq=" + msgDto.getProjectseq();
+	}
+	
+	// 대기중인 프로젝트 갯수 가져오기
+	@ResponseBody
+	@RequestMapping(value="getWaitCount.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getWaitCount() throws Exception{
+		logger.info("getWaitCount " + new Date());
+				
+		return projectService.getWaitCount()+""; 
 	}
 	
 	// 메인 화면으로 이동
@@ -373,7 +416,7 @@ public class ProjectController {
 //			ProjectDto dto = mainPageList.get(i);
 //			logger.info("list : " + dto.toString());
 //		}
-		
+				
 		model.addAttribute("list", mainPageList);
 		model.addAttribute("recordCountPerPage", mainParam.getRecordCountPerPage());
 				
@@ -396,18 +439,18 @@ public class ProjectController {
 	}
 	
 	//내 일정 이동 (내 프로젝트 보기)
-		@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-		public String mySchedule(Model model, ProjectDto pro) throws Exception{
-			logger.info("ProjectController myCalendar " + new Date());
-			
-			List<ProjectDto> myschedule = projectService.mySchedule(pro);
-			
-			for (int i = 0; i < myschedule.size(); i++) {
-				ProjectDto dto = myschedule.get(i);
-				logger.info("Schedule list : " + dto.toString());
-			}
-			model.addAttribute("schedule", myschedule);
-			return "mySchedule.tiles";
+	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String mySchedule(Model model, String id) throws Exception{
+		logger.info("ProjectController myCalendar " + new Date());
+		
+		List<ProjectDto> myschedule = projectService.mySchedule(id);
+		
+		for (int i = 0; i < myschedule.size(); i++) {
+			ProjectDto dto = myschedule.get(i);
+			logger.info("Schedule list : " + dto.toString());
 		}
+		model.addAttribute("schedule", myschedule);
+		return "mySchedule.tiles";
+	}
 	 
 }

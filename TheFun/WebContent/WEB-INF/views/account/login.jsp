@@ -3,10 +3,15 @@
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
 	String message = (String) request.getAttribute("message");
-	if(message != null && message.equals("retry")){
-		out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
+	if(message != null){
+		if(message.equals("retry")){
+			out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
+		}else if(message.equals("registered")){
+			out.print("<script>alert('회원가입이 완료되었습니다. 로그인해 주십시오')</script>");
+		}
 	}
 %>
 
@@ -23,33 +28,11 @@
 
 <!-- 페이스북 로그인에 필요하 스크립트 -->
 <script type="text/javascript">
-/* id
-first_name
-last_name
-middle_name
-name
-name_format
-picture
-short_name */
-/* window.fbAsyncInit = function() {
-	FB.init({
-		appId : '2123794117640622',
-		cookie : true,
-		xfbml : true,
-		version : 'v3.2'
-	});	
-};
-(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) {
-		return;
-	}
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk')); */
-
+function optionToggle(){
+	$('#option').slideToggle();
+	$( ".fas" ).toggleClass( "fa-angle-down" );
+	$( ".fas" ).toggleClass( "fa-angle-up" );	
+}
 function checkLoginState(){
 	FB.getLoginStatus(function(response) {
 		statusChangeCallback(response);
@@ -69,7 +52,7 @@ function statusChangeCallback(response) {
 	      console.log('response.email: ' + res.email);			
 	      //console.log('response.public_profile: ' + res.picture.data.url);
 	      profile = "http://graph.facebook.com/" + res.id + "/picture";
-	      willYouSignUp(res.id,res.name,res.email,profile);	
+	      willYouSignUp(res.id,res.name,res.email,profile,"facebook");	
 	    });
 	} else {
 		console.log("페이스북 로그인 되어있지 않음")
@@ -107,10 +90,10 @@ function statusChangeCallback(response) {
 		<span id="emailCheckMessage" style="color:red; font-size:11px;"></span> 
 		<input type="text" id="newEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()"  />
 		
-		<h6 class="background" style="cursor: pointer;" onclick="$('#option').slideToggle()"><span>선택 항목</span></h6>
+		<h6 class="background" style="cursor: pointer;" onclick="optionToggle()"><span>선택 항목<i id="updown" class="fas fa-angle-down"></i></span></h6>
 		<div id="option">		
 			<span id="phoneCheckMessage" style="color:red; font-size:11px;"></span> 
-			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()">
+			<input type="text" id="newPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)">
 			<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
 			<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
 			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
@@ -192,7 +175,7 @@ $('.message a').click(function(){
 						console.log("res.properties.profile_image : " + profile);//<---- 콘솔 로그에 토큰값 출력
 						console.log("res.properties.nickname : " + res.properties.nickname);//<---- 콘솔 로그에 토큰값 출력
 						console.log("res.properties.thumbnail_image : " + res.properties.thumbnail_image);//<---- 콘솔 로그에 토큰값 출력
-						willYouSignUp(id,nickname,email,profile);	
+						willYouSignUp(id,nickname,email,profile,"kakao");	
 						
 					}
 				})
@@ -227,7 +210,7 @@ $('.message a').click(function(){
 			var nickname = naverLogin.user.getNickName();
 			var profileImage = naverLogin.user.getProfileImage();						
 			var id = naverLogin.user.getId();	
-			willYouSignUp(id,nickname,email,profileImage);	
+			willYouSignUp(id,nickname,email,profileImage,"naver");	
 		}
 		});
 	}); 
@@ -252,13 +235,13 @@ function onSignIn(googleUser) {
 	var email = profile.getEmail();
 	console.log("id:"+profile.getId());
 
-	willYouSignUp(id,nickname,email,profile.getImageUrl());	
+	willYouSignUp(id,nickname,email,profile.getImageUrl(),"google");	
 }
 </script>
 
 <!-- 회원가입 할래? -->
 <script type="text/javascript">
-function willYouSignUp(id,nickname,email,profile){
+function willYouSignUp(id,nickname,email,profile,account){
 	//profile
 	/* $.noConflict(); */
 	$.ajax({
@@ -268,12 +251,12 @@ function willYouSignUp(id,nickname,email,profile){
 		
 		success:function(data){						
 			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-				window.location.replace("loginAf.do?id=" + id +"&loginType=externalAccount");				
+				window.location.replace("loginAf.do?id=" + id +"&loginType=" + account);				
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
 				modalConfirm(function(confirm){
 					if(confirm){
-						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile;
-						console.log("yes");
+						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile +"&account="+account;
+						//console.log("yes");
 					}
 				});		
 			}
@@ -426,7 +409,7 @@ function detailAddressCheck() {
 	//console.log(text);
 	$("#detailAddress").val(text);	
 }
-function phoneCheck(){
+/* function phoneCheck(){
 	//colsole.log()
 	var text = $("#newPhone").val();
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
@@ -441,7 +424,7 @@ function phoneCheck(){
 		phoneOk = true;
 		checkSubmitActivation();
 	}
-}
+} */
 
 function emailCheck() {
 	var emailVal = $("#newEmail").val();
@@ -522,5 +505,39 @@ function sample4_execDaumPostcode() {
            
         }
     }).open();
+}
+
+//휴대폰 번호 자동 하이픈(-)
+function autoHypenPhone(str){ 
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 </script>

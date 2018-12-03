@@ -371,7 +371,20 @@
 		<version>4.5.3</version>
 	</dependency>
 	
-
+	
+	<!-- 웹소켓(서버 통신)용 -->
+	<!-- <dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-websocket</artifactId>
+		<version>5.0.8.RELEASE</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.glassfish</groupId>
+	    <artifactId>javax.json</artifactId>
+	    <version>1.0.4</version>
+	</dependency> -->
+	
   </dependencies>
   
   <repositories>
@@ -379,5 +392,6 @@
 		<id>codelds</id>
 		<url>https://code.lds.org/nexus/content/groups/main-repo</url>
 	</repository>
+	
   </repositories>
 </project>

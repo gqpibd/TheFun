@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+DROP TABLE FUN_PROJECTMSG CASCADE CONSTRAINTS;
+DROP SEQUENCE SEQ_PROJECTMSG;
+
+CREATE TABLE FUN_PROJECTMSG( 
+    SEQ NUMBER(8) PRIMARY KEY, 
+    PROJECTSEQ NUMBER(8) NOT NULL,
+    STATUS VARCHAR2(50) NOT NULL, // SUBMIT, APPROVE, REJECT, REVISE, RESUBMIT
+    MESSAGE VARCHAR2(3000),
+    REGDATE DATE,
+    CONSTRAINT FK_PROJECTSEQ_PROJECTMSG FOREIGN KEY(PROJECTSEQ) REFERENCES FUN_PROJECT(SEQ)
+);
+
+CREATE SEQUENCE SEQ_PROJECTMSG
+START WITH 1 INCREMENT BY 1;
+ -->
+<mapper namespace="Projectmsg">
+
+<!-- 새로운 메시지 추가 -->
+<insert id="insertProjectMsg" parameterType="donzo.thefun.model.ProjectmsgDto">
+	INSERT INTO FUN_PROJECTMSG(SEQ, PROJECTSEQ, STATUS, MESSAGE, REGDATE)
+	VALUES(SEQ_PROJECTMSG.NEXTVAL, #{projectseq}, #{status}, #{message}, SYSDATE)
+</insert>
+
+
+
+</mapper>

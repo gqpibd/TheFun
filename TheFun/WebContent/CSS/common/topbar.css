@@ -96,8 +96,25 @@ font-weight:bold; color: #FFFFFF;
  background-image: linear-gradient(to bottom, #8e6af5, #6d47e7);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#8e6af5, endColorstr=#6d47e7);
 }
 
+/* 알람 아이콘 */
+.notification {
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  border-radius: 100%;
+  text-decoration: none;
+}
+.notification:hover{
+	text-decoration: none;
+}
 
-
-
-
-
+.notification .badge {
+   position: relative;
+   top: -13px;
+   right: 13px;
+   padding: 3px 5px;
+   border-radius: 50%;
+   background-color: tomato;
+   color: white;
+   font-size: 0.8em;
+}

@@ -27,6 +27,10 @@ window.fbAsyncInit = function() {
 
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
+body{
+	font-family: "Nanum Gothic", sans-serif;
+}
+
 .profile {
 	float: none;
 	width: 44px;
@@ -166,6 +170,8 @@ window.fbAsyncInit = function() {
 	top: 0;
 }
 #nav li ul
+
+
 </style>
 
 <script type="text/javascript">
@@ -225,19 +231,12 @@ $(document).ready(function () {
 			<div class="container-4">
 				<input class="field" type="text" placeholder="Search..."
 				style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
-				value="${s_keyword }" name="s_keyword" id="s_keywordTextField">	
+				value="" id="s_keywordTextField">
+				<input type="hidden" name="s_keyword" value="${s_keyword }">	
 				<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
 			</div>
 		</div>
 	 	
-	 	<%-- <input class="" type="text" placeholder="Search..."
-	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
-	 	
-	 	<%-- <input class="field" type="text" placeholder="Search..."
-	 	style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
-	 	value="${s_keyword }" name="s_keyword" id="s_keywordTextField"> --%>
-	 	
-		<!-- <a href="#none" id="search_Btn"><button type="submit"  class=''>검색</button></a> -->
 		<!-- controller로 넘겨주기 위한 값 -->
 		<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
@@ -256,15 +255,23 @@ $(document).ready(function () {
 			</c:if>
 			<c:if test="${login ne null}">
 				<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
-				<span>${login.nickname}님</span>			
-				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->				
+				<span>${login.nickname}님</span>
+				<a href="viewAlarms.do" class="notification" title="새소식">
+				  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+				  <%-- <span class="badge">${alarmCount}</span> --%>
+				  <span class="badge" id="alarmcount"></span>
+				</a>								
 				<c:choose>			
 					<c:when test="${login.isManager()}">
-						<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+						<a href="projectManage.do"  class="notification" title="대기중인 프로젝트">
+							<span class="fas fa-eye" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+							<span class="badge" id="waitcount"></span>
+						</a>
 					</c:when>
 					<c:otherwise>
 					</c:otherwise>
 				</c:choose>
+				<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->			
 			</c:if>
         </li>
       </ul>
@@ -275,6 +282,34 @@ $(document).ready(function () {
 
     
 <script type="text/javascript">
+$(document).ready(function(){
+	setAlarmCount();
+	if (document.getElementById('waitcount')) { // 관리자 모드인 경우
+		setWaitCount();
+	}
+})
+function setAlarmCount(){ // 알람 갯수
+	$.ajax({
+		type:"get",
+		url:"getAlarmCount.do",
+		data:"id=${login.id}",
+		
+		success:function(data){						
+			$("#alarmcount").text(data);
+		}
+	});	
+}
+
+function setWaitCount(){ // 대기중인 프로젝트 갯수
+	
+	$.ajax({
+		type:"get",
+		url:"getWaitCount.do",		
+		success:function(data){						
+			$("#waitcount").text(data);
+		}
+	});	
+}
 	/* 로그아웃 */
 	function logout() {
 		//console.log("로그아웃");
@@ -396,5 +431,5 @@ site.prototype = {
 	}
 }
 
-new site();
+//new site();
 </script>

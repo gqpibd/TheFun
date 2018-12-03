@@ -36,11 +36,12 @@ package donzo.thefun.model;
 //ON DELETE CASCADE; -- 종속 삭제
 
 //-------------- VIEW : 댓글
-//CREATE OR REPLACE VIEW FUN_QNA_VIEW (SEQ, PROJECTSEQ, ID, REFSEQ, CONTENT, STATUS, REGDATE, TOWHOM, NICKNAME, PROFILE)
+//CREATE OR REPLACE VIEW FUN_QNA_VIEW (SEQ, PROJECTSEQ, ID, REFSEQ, CONTENT, STATUS, REGDATE, TOWHOM, NICKNAME, PROFILE, TOWHOMNICKNAME)
 //AS
 //SELECT Q.SEQ, Q.PROJECTSEQ, Q.ID, Q.REFSEQ, Q.CONTENT, Q.STATUS, Q.REGDATE, Q.TOWHOM, 
 //    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.ID),
-//    (SELECT PROFILE FROM FUN_MEMBER WHERE ID = Q.ID)
+//    (SELECT PROFILE FROM FUN_MEMBER WHERE ID = Q.ID),
+//    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.TOWHOM)
 //FROM FUN_QNA Q;
 
 import java.io.Serializable;
@@ -60,7 +61,10 @@ public class QnaDto implements Serializable {
 	String regdate;
 	
 	String towhom;
+	String towhomnickname;
 	
+	
+
 	String nickname;
 	String profile; 
 	
@@ -183,11 +187,18 @@ public class QnaDto implements Serializable {
 		}
 		
 	}
+	public String getTowhomnickname() {
+		return towhomnickname;
+	}
+
+	public void setTowhomnickname(String towhomnickname) {
+		this.towhomnickname = towhomnickname;
+	}
 
 	@Override
 	public String toString() {
 		return "QnaDto [seq=" + seq + ", projectseq=" + projectseq + ", id=" + id + ", refseq=" + refseq + ", content="
-				+ content + ", status=" + status + ", regdate=" + regdate + ", towhom=" + towhom + ", nickname="
-				+ nickname + ", profile=" + profile + "]";
+				+ content + ", status=" + status + ", regdate=" + regdate + ", towhom=" + towhom + ", towhomnickname="
+				+ towhomnickname + ", nickname=" + nickname + ", profile=" + profile + "]";
 	}
 }

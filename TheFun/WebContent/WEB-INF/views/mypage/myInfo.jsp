@@ -8,13 +8,9 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
 <style type="text/css">
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
+
 </style>
-
-
-<!-- 
+ 
 <style type="text/css">
 .input {
   outline: 0;
@@ -31,8 +27,8 @@ font-family: "Nanum Gothic", sans-serif;
   font-size: 14px;
 }
 .tb{
-	min-width: 420px;
-	max-width: 600px;
+   min-width: 420px;
+   max-width: 600px;
 }
 
 /* 미디어 쿼리 */
@@ -131,9 +127,26 @@ font-family: "Nanum Gothic", sans-serif;
   font-size: 60px;
   margin-top: -30px;
 }
+
+/* 프로필 이미지 변경 */
+.gb_mb {
+    background: rgba(0,0,0,.54);
+    bottom: 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    left: 0;
+    line-height: 9px;
+    position: absolute;
+    padding: 8px 0;
+    text-align: center;
+    width: 150px;
+}
+
+
 </style>
- -->
- <br><br><br><br><br>
+
+ <br><br><br><br>
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY INFOMAION</h1>
@@ -144,26 +157,27 @@ font-family: "Nanum Gothic", sans-serif;
 <br><br>
 
 <form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
-<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
+<input type="hidden" name="id" value="${login.id}"/>
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
+<input type="hidden" name="profile" value="${login.profile}">
+<c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <div class="group" style="width: 100%;" align="center">	
 	<table border="0">
 	<tr>
 		<td>
 			<div class="imgbox" align="center">
-			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'  onerror="this.src='image/profile/default.jpg'">
+			<img id="editable-Img" src='${login.profile}' class='holder' align='middle'>
+			<span class="gb_mb">변경</span>
 			<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
 			</div>
 		</td>
-		<td style="padding-top: 160px;">
+	</tr>
+	<tr>	
+		<td style="padding-top: 5px;">
 			<div align="center">
 			<a href="javascript:profile_default()" id="profile_default">
-			<img src="image/icons/vcard_active.png"
-			onmouseover="this.src='image/icons/vcard_dark.png'"
-		    onmouseout="this.src='image/icons/vcard_active.png'"
-		    title="클릭 시 기본프로필 이미지로 변경됩니다.">
+			기본사진으로 변경
 		    </a>
-			<!-- <input type="hidden" name="profile_keep_or_default" id="profile_keep_or_default" value="true"> -->
 			</div>
 		</td>
 	</tr>
@@ -182,7 +196,7 @@ font-family: "Nanum Gothic", sans-serif;
 			<tr>
 				<td style="text-align: left; ">아이디</td>
 				<td colspan="2"> 
-					<input class="input" type="text" name="id" value="${login.id}" readonly="readonly" />
+					<input class="input" type="text" value="${login.id}" readonly="readonly" />
 					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
 				</td>
 			</tr>
@@ -227,24 +241,50 @@ font-family: "Nanum Gothic", sans-serif;
 			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
-	<c:otherwise> <!-- 연동 로그인 -->
+		
+	<c:otherwise> <!-- 연동 로그인 -->	
+		<input type="hidden" name="account" value="${login.account}"/>
 		<table class="tb" style="text-align: center">		
-			<tr>
-				<td>
-					<img src="${login.profile}" class="profile_img">
-				</td>
-			</tr>
-			<!-- 아이디 -->
-			<tr>
-				<td> 
-					<input type="hidden" name="id" value="${login.id}"/>
-					${login.nickname} 님
-					<span id="idcheckMessage" style="color:red; font-size:11px;"></span> 
+			<tr valign="middle">
+				<td colspan="2">
+					<div style="border: 2px solid #8152f0; font-weight: bold; padding-top:8px; padding-bottom:8px; border-radius: 50px; font-size: 20px; color: #8152f0;">
+					${login.accountKr()} 아이디로 로그인중
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<td>간편로그인 사용중</td>
-			</tr>		 		
+				<td  colspan="2" align="center">
+					<div class="imgbox" align="center" style="padding-top: 10px;">
+					<img id="editable-Img" src='${login.profile}' class='holder' align='middle'>
+					<span class="gb_mb">변경</span>
+					<input type="file" name="fileload" accept="image/gif, image/jpeg, image/png" class="upload" id="upload-Image" onchange="loadImageFile();" title="클릭하여 프로필 사진 변경">
+					</div>
+				</td>
+			</tr>
+			<tr>	
+				<td  colspan="2" style="padding-top: 5px;">
+					<div align="center">
+					<a href="javascript:profile_default()" id="profile_default">
+					기본사진으로 변경
+				    </a>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: left;">별명</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+				
+			<tr>
+				<td style="text-align: left;">이메일</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()" value="${login.email }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 			 		
 		</table>
 	</c:otherwise>
 </c:choose>	
@@ -256,7 +296,7 @@ font-family: "Nanum Gothic", sans-serif;
 		<tr>
 			<td style="text-align: left;">전화번호</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="phoneCheck()" value="${login.phone }" />
+				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)" value="${login.phone }" />
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
@@ -315,12 +355,15 @@ var nicknameOk = true;
 var infoOk = true;
 var phoneOk = true;
 
+$(document).ready(function(){
+	checkSubmitActivation();
+});
 function checkSubmitActivation(){
-	if("${login.pwd}" == null){
-		document.getElementById("submitBtn").disabled = true;
-		document.getElementById("submitBtn").style.background = "#E2E2E2";
-		document.getElementById("submitBtn").style.cursor =  "default";
-	}else if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
+	if('${login.account}' != ''){                                                     
+		pwdOk=true;
+		newPwdOk = true;
+	}
+	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
 	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
 		document.getElementById("submitBtn").disabled = false;
 		document.getElementById("submitBtn").style.background = "#8152f0";
@@ -405,7 +448,7 @@ function detailAddressCheck() {
 	text = text.replace(/[<(+>]/g, '');
 	$("#myDetailAddress").val(text);	
 }
-function phoneCheck(){
+/* function phoneCheck(){
 	var text = $("#myPhone").val();
 	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
 	//text = text.replace(/[^0-9]/g, '');
@@ -419,7 +462,7 @@ function phoneCheck(){
 		phoneOk = true;
 		checkSubmitActivation();
 	}
-}
+} */
 
 function emailCheck() {
 	var emailVal = $("#myEmail").val();
@@ -506,6 +549,7 @@ var loadImageFile = function () {
 /* 기본 이미지로 변경 */
 function profile_default() {
 	$("#editable-Img").attr("src", "<%=MemberDto.DEFAULTIMGPATH%>");
+	$("#imgPath").val("<%=MemberDto.DEFAULTIMGPATH%>");
 	//console.log("profile_default() profile_keep_or_default : false");
 	//$("#profile_keep_or_default").val('false');
 } 
@@ -514,5 +558,40 @@ $('#editable-Img').on('load', function () {
 	$("#imgPath").val($(this).attr('src'));
 	//console.log($("#imgPath").val());	
 });	
+
+//휴대폰 번호 자동 하이픈(-)
+function autoHypenPhone(str){ 
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
+}
  
 </script>

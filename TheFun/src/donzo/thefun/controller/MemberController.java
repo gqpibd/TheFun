@@ -1,7 +1,6 @@
 package donzo.thefun.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,26 +29,26 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	MemberService memberService;	 
+	MemberService memberService;
 	
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
-		logger.info("MemberController loginAf " + new Date());
-		
+		logger.info("loginAf " + new Date());
+		MemberDto loginUser=null;
 		logger.info(loginType);
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
-			dto = memberService.tryLogin(dto);
-			if(dto == null) { // 로그인 실패
+			loginUser = memberService.tryLogin(dto);
+			if(loginUser == null) { // 로그인 실패
 				return "redirect:/login.do?message=retry&callback=" + callback;
 			}
-		}else if(loginType.equals("externalAccount")){ // 계정 연동 로그인인 경우
-			logger.info("로그인 결과:" + dto);
-			dto = memberService.tryLogin(dto);
+		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
+			loginUser = memberService.tryLogin(dto);			
 		}
+		loginUser.setAccount(loginType);
+		logger.info("로그인 결과: " + loginUser.toString());
+		req.getSession().setAttribute("login", loginUser);
 		
-		logger.info(dto.toString());
-		req.getSession().setAttribute("login", dto);
 		if(callback!=null) {
 			logger.info(callback);
 			return "redirect:/" + callback;
@@ -69,23 +68,21 @@ public class MemberController {
 		String fupload = req.getServletContext().getRealPath("/image/profile");
 		
 		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
-			if(imgPath.equals(MemberDto.DEFAULTIMGPATH)) { // 기본이 이미지인 경우 업로드가 필요 없다.
-				mem.setProfile(imgPath);
-			}else {
-				String f = fname;
-				String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
-				//pdsdto.setFilename(newFile);
-				//파일 업로드
-				try {
-					File file = new File(fupload + "/" + newFile);
-					logger.info(file.getPath());
-					// 파일 업로드 작업
-					FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
-					mem.setProfile("image/profile/"+newFile);
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
+			String f = fname;
+			String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
+			//pdsdto.setFilename(newFile);
+			//파일 업로드
+			try {
+				File file = new File(fupload + "/" + newFile);
+				logger.info(file.getPath());
+				// 파일 업로드 작업
+				FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
+				mem.setProfile("image/profile/"+newFile);
+			}catch(Exception e) {
+				e.printStackTrace();
 			}
+		}else if(imgPath.equals(MemberDto.DEFAULTIMGPATH)) { // 기본이 이미지인 경우 업로드가 필요 없다.
+			mem.setProfile(imgPath);
 		}
 		memberService.updateMember(mem);
 		
@@ -105,16 +102,13 @@ public class MemberController {
 	// 회원가입 처리
 	@RequestMapping(value="regiAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String regiAf(HttpServletResponse resp, MemberDto dto) {
-		logger.info("MemberController regiAf " + new Date());
-		logger.info("MemberController dto = " + dto);
-		if(memberService.addAccount(dto)) {
-			try {
-				resp.getWriter().println("<script>alert('회원가입이 완료되었습니다. 로그인 해주세요')</script>");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} 
-		return "redirect:/login.do";
+		logger.info("regiAf " + new Date());
+		logger.info("dto = " + dto);
+		memberService.addAccount(dto);
+		if(dto.getPwd() == null) { // 연동로그인인 경우 바로 로그인시켜준다
+			return "redirect:/loginAf.do?id="+dto.getId() +"&loginType=" + dto.getAccount();
+		}
+		return "redirect:/login.do?message='registered'";
 	}
  
 	/*-------------Ajax--------------*/

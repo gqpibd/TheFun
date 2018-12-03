@@ -41,7 +41,7 @@ font-family: "Nanum Gothic", sans-serif;
 .sTd{
 	text-align:left;
 	width: 30%;
-	padding: 25px;
+	padding: 10px;
 }
 
 /* 버튼 */
@@ -100,6 +100,69 @@ font-family: "Nanum Gothic", sans-serif;
     object-fit: cover;
 }
 
+/* 라디오버튼 - 승인거절시 */
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #40e0d0;
+}
+.option-input:checked::before {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  content: '✔';
+  display: inline-block;
+  font-size: 26.66667px;
+  text-align: center;
+  line-height: 40px;
+}
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #40e0d0;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+.option-input.radio {
+  border-radius: 50%;
+}
+.option-input.radio::after {
+  border-radius: 50%;
+}
+
+.label {
+  display: block;
+  line-height: 40px;
+}
+
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -143,7 +206,7 @@ function sendLink() {
     <div align="center">
     <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
     	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
-    	<button class="fun_btn">프로젝트 승인 거절</button>
+    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal" data-whatever="@mdo">프로젝트 승인 거절</button>
     </c:if>
     </div>
    	<br>
@@ -159,8 +222,18 @@ function sendLink() {
 <!-- 프로젝트 타이틀 -->
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
-			<td rowspan="5" class="imgTd"> 이미지&nbsp;&nbsp;</td>
-			<td class="strongGray sTd"><b style="font-size: 20px">${endDate - strDate+1}일 남음</b></td>
+			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="100%"></td>
+			<td class="strongGray sTd">
+				 <c:if test="${(endDate - strDate+1)==0}">
+				 	<b style="font-size: 25px">종료된 리워드</b>
+				 </c:if>
+				 <c:if test="${(endDate - strDate+1)==1}">
+				 <b style="font-size: 25px">오늘마감</b>
+				 </c:if>
+				 <c:if test="${(endDate - strDate+1)>1}">
+				 <b style="font-size: 25px">${endDate - strDate+1}일 남음</b>
+				 </c:if>
+			</td>
 		</tr>
 		<tr height="50">
 			<td class="strongGray sTd">
@@ -186,10 +259,13 @@ function sendLink() {
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<img height="50" src="image/detail/addcart2.jpg"/><!-- 장바구니추가 버튼 --> &nbsp;&nbsp;&nbsp; &nbsp;
-				<img id="shareBtn" height="50" src="image/detail/ShareBtn.jpg"/> <!-- 공유하기 버튼 -->
+				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_gray.jpg" onclick="hartClick()"/>10	&nbsp;&nbsp;<!-- 하트 버튼 -->
+				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
+				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
+			</c:if>
 		</tr>
 		<tr height="50" style="padding: 50px">
 			<td align="left">
@@ -220,26 +296,21 @@ function sendLink() {
 		</div>
 	    </div>
 	 </div>
+	 
+	 
 <script type="text/javascript">
 $(document).ready(function () {
-//	$("#shareBtn").show();
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
 });
 
-/* //공유하기
-$('#shareBtn').toggle(function() { 
-	alert('선택'); 
-	}, function() { 
-		alert('선택해제'); 
-		}); */
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	
 	$(this).css("cursor","pointer");
 }); 
 
-//
+//show and hide
 $(function () {
 	$("#story").click(function () {
 		//alert("스토리 클릭");
@@ -261,7 +332,25 @@ $(function () {
 	});
 });
 
+function hartClick(){
+	var img1 = document.getElementById('hartBtn');
+
+	if(img1.src.indexOf('red') == -1) {
+		
+		//컨트롤러 이동 (좋아요 insert)
+		
+		img1.src = img1.src.replace('gray', 'red');
+		
+	} else {
+		
+		//컨트롤러 이동 (좋아요 취소)
+		
+		img1.src = img1.src.replace('red', 'gray');
+
+	}
+}
 </script>
+
       <div class="row">
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
@@ -279,7 +368,7 @@ $(function () {
         </div>
 
         <!-- Sidebar 전체-->
-        <div class="col-md-4">
+        <div class="col-lg-4">
         
           <!--side 회사정보-->
           <p class="strongGray"><b>메이커정보</b></p>
@@ -343,3 +432,55 @@ $(function () {
 
     </div>
     <!-- /.container -->
+    
+<script type="text/javascript">
+$('#messageModal').on('show.bs.modal', function (event) {
+	var button = $(event.relatedTarget) // Button that triggered the modal
+	var modal = $(this)	
+});
+
+function checkAndSendMessage(){
+	if($("#rejectMessage").val().trim() == ''){
+		alert("내용을 입력해 주세요");
+		return;
+	}else{
+		$("#rejectMsgForm").submit();
+	}
+}
+</script>
+
+<!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->    
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>관리자 메시지</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+	    <form action="rejectProject.do" method="post" id="rejectMsgForm">
+	      <div class="modal-body">
+	      	<input type="hidden" name="projectseq" value="${projectdto.seq}">
+					<div>
+						<label class="label"> 
+							<input type="radio" class="option-input radio" name="status" value="reject" checked /> 승인 거절
+						</label> 
+						<label class="label"> 
+							<input type="radio" class="option-input radio" name="status" value="revise" /> 보완 요청
+						</label>
+					</div>
+				<div class="form-group">
+	            <label for="message-text" class="col-form-label">메시지</label>
+	            <textarea class="form-control" id="rejectMessage" name="message"></textarea>
+	          </div>       
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="quit">취소</button>
+	        <button type="button" class="btn fun_btn" onclick="checkAndSendMessage()">메시지 전송</button>	       
+	      </div>
+	   </form>
+    </div>
+  </div>
+</div>
+    

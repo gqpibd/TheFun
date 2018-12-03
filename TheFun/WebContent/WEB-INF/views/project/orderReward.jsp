@@ -76,10 +76,10 @@ body{
       <!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		<input name="opSeq" value="${options.seq}" type="hidden">
 		<tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
-				<p><input type="checkbox" value="${options.seq}" name="opSeq" id="checkbox_${status.count }"> 
+			<input type="hidden" name="opSeq" value="${options.seq}">
+				<p><input type="checkbox" value="${options.seq}" name="checkboxs" id="checkbox_${status.count }"> 
 					${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font></p>
 					<input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
 			</td>
@@ -137,7 +137,7 @@ body{
      		<td class="profiletitle"><b>이름</b></td>
      	</tr>
      	<tr>
-     		<td class="profile"><input class="liteGray" name="name" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle"><b>이메일</b></td>
@@ -151,7 +151,7 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다." readonly="readonly"style="padding: 5px;">
+     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
      		</c:if>
      		<c:if test="${login.phone}">
      			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
@@ -163,6 +163,7 @@ body{
      	
 		<br><br>
 		<!-- 배송지정보 -->
+		<input type="radio" name="delivery" value="infoDeli" checked="checked">기본정보 배송지 <input name="delivery" type="radio" value="newDeli">새로운 배송지
      	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/deli.jpg" width="120px;"></td>
@@ -171,13 +172,20 @@ body{
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
+     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" ></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input name="phone" class="liteGray" size="50px;"value="" style="padding: 5px;"></td>
+     		<td class="profile">
+     		<c:if test="${empty login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     		</c:if>
+     		<c:if test="${login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;">
+     		</c:if>
+     		</td>
      	</tr>
      	<tr>
      		<td class="profiletitle">주소</td>
@@ -217,8 +225,8 @@ body{
 <tr>
 	<td colspan="2">
 	<input type="text" name="card1"> 
-	<input type="text" name="card2">
-	<input type="text" name="card3"> 
+	<input type="password" name="card2">
+	<input type="password" name="card3"> 
 	<input type="text" name="card4"> 
 	</td>
 </tr>
@@ -227,8 +235,8 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" name="validDate"></td>
-	<td><input type="text" name="cardPwd"></td>
+	<td><input type="text" name="validDate" value="mm/yy"></td>
+	<td><input type="password" name="cardPwd"></td>
 </tr>
 <tr>
 	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
@@ -385,10 +393,10 @@ body{
 		$(document).on("click","#deleteBtn",function (){
 
 			//체크된 갯수
-			var arrlen =$("input[name=opSeq]:checked").length;
+			var arrlen =$("input[name=checkboxs]:checked").length;
 			
 			//옵션의 전체갯수
-			var allOptionlen = $("input[name=opSeq]").length;
+			var allOptionlen = $("input[name=checkboxs]").length;
 			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
@@ -402,7 +410,7 @@ body{
 				var ids = new Array(arrlen);
 				var i=0;
 				
-				$("input[name=opSeq]:checked").each(function() {
+				$("input[name=checkboxs]:checked").each(function() {
 					
 					var opSeqNum = $(this).val();	//옵션시퀀스
 					
@@ -427,6 +435,65 @@ body{
 	
 		});	//onclick 끝
 		
+		$("input:radio[name=delivery]").click(function(){
+			var deliId =$(':radio[name="delivery"]:checked').val();
+			alert("아이디 : "+deliId);
+			
+			if(deliId=="newDeli"){	//새로운 배송지
+				$("#deliName").val("");
+				$("#deliPhone").val("");
+				$("#postcode").val("");
+				$("#roadAddress").val("");
+				$("#detailAddress").val("");
+				
+			}else{	//기존배송지
+
+			}
+		});
+
+
 	});
 	
+	
+	//이름, 전화번호, 배송지 유효성
+	
+	//결제 설정 글자수 4개면 다음칸으로 이동
+	
+</script>
+
+
+<script type="text/javascript">
+function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
+	  str = str.replace(/[^0-9]/g, '');
+	  var tmp = '';
+	  if( str.length < 4){
+	    return str;
+	  }else if(str.length < 7){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3);
+	    return tmp;
+	  }else if(str.length < 11){
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 3);
+	    tmp += '-';
+	    tmp += str.substr(6);
+	    return tmp;
+	  }else{        
+	    tmp += str.substr(0, 3);
+	    tmp += '-';
+	    tmp += str.substr(3, 4);
+	    tmp += '-';
+	    tmp += str.substr(7);
+	    return tmp;
+	  }
+	  return str;
+	}
+	
+
+function autoHyphen(phoneField){
+	var _val = $(phoneField).val().trim();
+	$(phoneField).val(autoHypenPhone(_val)) ;
+}
 </script>

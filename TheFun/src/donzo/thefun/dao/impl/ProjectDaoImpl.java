@@ -47,15 +47,21 @@ public class ProjectDaoImpl implements ProjectDao {
 	public int projectWrite(ProjectDto newProjectDto) throws Exception {
 		// 생성할 새 프로젝트 값
 		System.out.println("projectWrite 다오 : "+ newProjectDto.toString());
-		// 프로젝트 생성!
-		return sqlSession.insert(ns+"newWrite", newProjectDto);
+		// 프로젝트 생성!		
+		sqlSession.insert(ns+"newWrite", newProjectDto);
+		return newProjectDto.getSeq();
 	}
 	
 	@Override
 	public void updateProject(ProjectDto myProjectDto) throws Exception {
 		// 내 프로젝트 업데이트하기(승지)
 		sqlSession.update(ns+"updateProject", myProjectDto);
-		
+	}
+	
+	@Override
+	public void deleteProject(int seq) throws Exception {
+		// 내 프로젝트 삭제하기(승지)
+		sqlSession.update(ns+"deleteProject", seq);		
 	}
 
 	@Override
@@ -71,16 +77,20 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	//schedule
 	@Override
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception {
-		return sqlSession.selectList(ns + "mySchedule", pro);
+	public List<ProjectDto> mySchedule(String id) throws Exception {
+		return sqlSession.selectList(ns + "mySchedule", id);
+	}
+
+	@Override
+	public int getWaitCount() {		
+		return sqlSession.selectOne(ns+"getWaitCount");
+	}
+
+	@Override
+	public boolean rejectProject(ProjectDto projectdto) {
+		int n = sqlSession.update(ns + "rejectProject", projectdto);		
+		return n>0?true:false;
 	}
 
 	
-	
-	/*@Override
-	public int findProjectSeq(ProjectDto newProjectDto) throws Exception {
-		// 생성한 프로젝트 seq값 찾아와! (==> for. 이미지 파일명 설정 / 옵션 생성할때 projectSeq)
-		int projectSeq = sqlSession.selectOne(ns+"findProjectSeq", newProjectDto);
-		return projectSeq;
-	}*/
 }

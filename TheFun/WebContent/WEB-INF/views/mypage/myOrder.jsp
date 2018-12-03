@@ -15,7 +15,7 @@ font-family: "Nanum Gothic", sans-serif;
 
 <div align="center">
 
-<br><br><br><br><br>
+<br><br><br><br>
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY SUPPORT</h1>
@@ -60,7 +60,7 @@ font-family: "Nanum Gothic", sans-serif;
 		
 		<!-- 테스트용으로 이미지 하나 추가 함 ( 나중에 지울것 ) -->
 		<td colspan="2" >
-		<img alt="썸네일이미지" src="image/thumbnail/${order.projectseq }.png" style="border-radius: 50%;">
+		<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">
 			${order.ptitle }
 		</td>
 		

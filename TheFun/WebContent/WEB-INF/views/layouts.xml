@@ -48,6 +48,14 @@
 		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
 	</definition>
+	
+	<!-- 알람보기 -->
+	<definition name="myAlarms.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myAlarms.jsp"/>
+	</definition>
+	
+	
+	
 	<!-- 프로젝트 -->
 	
 	<!-- 프로젝트 만들기-->

@@ -45,16 +45,8 @@ public class BuyController {
 	public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 
-		System.out.println("dto : "+newbuy);
-		for (int i=0; i<opSeq.length;i++) {
-			System.out.println(i+"번째"+" opSeq : "+opSeq[i]);
-			System.out.println(i+"번째"+" opCount : "+opCount[i]);
-			System.out.println(i+"번째"+" opPrice : "+opPrice[i]);
-		}
-		
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
-
 		return "redirect:/main.do";
 	}
 	

@@ -106,12 +106,12 @@ td{
 	<td style="text-align: right;position: relative;top:11%;right:5%;padding: 0px;margin: 0px;">
 	<span>
 		<c:choose>
-		<c:when test="${(dto.status).equalsIgnoreCase('waiting')}">승인 대기 중</c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('preparing')}"><img src="image/main/prepare.png" width="65px;" ></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('ongoing')}"><img src="image/main/ongoing.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_success')}"><img src="image/main/complete.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('complete_fail')}"><img src="image/main/complete.png" width="65px;"></c:when>
-		<c:when test="${(dto.status).equalsIgnoreCase('delete')}">삭제된 게시글</c:when>
+		<c:when test="${dto.isWaiting()}">승인 대기 중</c:when>
+		<c:when test="${dto.isPreparing()}"><img src="image/main/prepare.png" width="65px;" ></c:when>
+		<c:when test="${dto.isOngoing()}"><img src="image/main/ongoing.png" width="65px;"></c:when>
+		<c:when test="${dto.isComplete_success()}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${dto.isComplete_fail()}"><img src="image/main/complete.png" width="65px;"></c:when>
+		<c:when test="${dto.isDeleted()}">삭제된 게시글</c:when>
 		</c:choose>
 	</span>
 	</td>
@@ -120,7 +120,7 @@ td{
 	
 	<tr>
 	<td colspan="2">
-		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="image/thumbnail/mainImg1.PNG" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
+		<span style="text-align: left;"><a href="projectDetail.do?seq=${dto.seq }"><img class="img-fluid" style="object-fit: cover;cursor: pointer;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'"></a></span>
 	</td>
 	</tr>
 	
@@ -147,13 +147,16 @@ td{
 
 	<!-- 남은 날짜 구하기 -->
 	<jsp:useBean id="toDay" class="java.util.Date"/>
-	<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
-	<fmt:parseDate value="${dto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
-	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+	<fmt:parseNumber var="strDate" value="${toDay.time / (1000*60*60*24)}" integerOnly="true"/>
+	<fmt:parseDate var="endDate" value="${dto.edate }" pattern="yyyy-MM-dd HH:mm:ss"/>
+	<fmt:parseNumber var="endDate" value="${endDate.time / (1000*60*60*24)}" integerOnly="true"/>
 	
-	<c:if test="${endDate - strDate + 1 ne 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:if>
-	<c:if test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:if>
-	
+	<c:choose>
+		<c:when test="${endDate - strDate + 1 gt 0}"><strong>${endDate - strDate + 1}일</strong> 남음</c:when>
+		<c:when test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:when>
+		<c:when test="${endDate - strDate + 1 lt 0}"><strong>마감되었습니다.</strong></c:when>
+	</c:choose>
+	 
 	</td>
 	<td style="text-align: right;"><span title="모금액"><fmt:formatNumber value="${dto.fundachived }" type="number"/> 원 모금&nbsp;(<fmt:formatNumber value="${(dto.fundachived div dto.goalfund * 100) }" type="number" pattern="0.0"/>%)</span><%-- &nbsp;/&nbsp;<span title="목표 금액"><fmt:formatNumber value="${dto.goalfund }" type="number"/> 원</span> --%></td>
 	</tr>
@@ -163,8 +166,13 @@ td{
 	<td colspan="2">
 		<div class="charts" style="margin-left: 2%;margin-right: 2%;">
 		<div class="charts__chart chart--p100 chart--inverse chart--sm" >
-		<!-- 퍼센트가 100% 미만일 때 -->
-		<c:if test="${(dto.fundachived div dto.goalfund * 100 lt 100) }">
+		<!-- 퍼센트가 80% 미만일 때 -->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 lt 80) }">
+		<div align="right" class="charts__chart chart--yellow chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
+		</div>
+		</c:if>
+		<!-- 퍼센트가 80% 이상 100% 미만일 때 색 빨강색이 별로라기에 chart--yellow 에서 변경하지 않았음-->
+		<c:if test="${(dto.fundachived div dto.goalfund * 100 ge 80 && dto.fundachived div dto.goalfund * 100 lt 100) }">
 		<div align="right" class="charts__chart chart--yellow chart--sm" <%-- data-percent="${(dto.fundachived div dto.goalfund * 100) }%" --%> style="width: ${(dto.fundachived div dto.goalfund * 100) }%; max-width:100%;">
 		</div>
 		</c:if>
@@ -183,11 +191,9 @@ td{
 	</table>
 
 </div>
-
 </c:forEach>
 </c:if>
 </div>
-<br><br><br><br><br>
 </div>
 
 

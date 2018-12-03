@@ -40,7 +40,15 @@ ALTER TABLE FUN_QNA ADD CONSTRAINT QNA_REFSEQ_FK
 FOREIGN KEY(REFSEQ)
 REFERENCES FUN_QNA(SEQ)
 ON DELETE CASCADE; // 종속 삭제
- -->
+
+CREATE OR REPLACE VIEW FUN_QNA_VIEW (SEQ, PROJECTSEQ, ID, REFSEQ, CONTENT, STATUS, REGDATE, TOWHOM, NICKNAME, PROFILE, TOWHOMNICKNAME)
+AS
+SELECT Q.SEQ, Q.PROJECTSEQ, Q.ID, Q.REFSEQ, Q.CONTENT, Q.STATUS, Q.REGDATE, Q.TOWHOM, 
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.ID),
+    (SELECT PROFILE FROM FUN_MEMBER WHERE ID = Q.ID),
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.TOWHOM)
+FROM FUN_QNA Q;
+-->
 
 <!-- 질문&답변 -->  
 <mapper namespace="Qna">
@@ -63,10 +71,7 @@ ON DELETE CASCADE; // 종속 삭제
 	<otherwise> <!-- 첫 댓글일 때 -->
 		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, SEQ_QNA.CURRVAL, #{content}, #{status}, SYSDATE, #{towhom})
 	</otherwise> 
-	</choose>
-	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
-		SELECT SEQ_QNA.CURRVAL FROM dual 
-	</selectKey>
+	</choose>	
 </insert>
 
 <!-- 댓글 삭제 -->
@@ -82,5 +87,12 @@ ON DELETE CASCADE; // 종속 삭제
 	SET CONTENT=#{content}, STATUS = #{status}
 	WHERE SEQ = #{seq}
 </update>
+
+<!-- 원댓글 작성자 아이디 -->
+<select id="getRefWriter" parameterType="Integer" resultType="String">
+	SELECT ID
+	FROM FUN_QNA
+	WHERE SEQ=#{refseq}
+</select>
 
 </mapper>

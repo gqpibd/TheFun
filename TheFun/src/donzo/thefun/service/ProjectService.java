@@ -7,6 +7,7 @@ import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
     
 public interface ProjectService {
@@ -32,15 +33,31 @@ public interface ProjectService {
 	// 내 프로젝트 수정 (새 입력값 프로젝트 dto)
 	public void updateProject(ProjectDto myProjectDto) throws Exception;
 	
+	// 내 프로젝트 삭제( 삭제할 프로젝트 seq )
+	public void deleteProject(int seq) throws Exception;
+	
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
 	public int getProjectCount(ProjectParam pParam) throws Exception;
+	
+	// 승인 대기중인 프로젝트 목록(관리자)
 	public List<ProjectDto> getWaitingList();
+	
+	// Qna목록
 	public List<QnaDto> getQna(int seq);
 
+	// 프로젝트 승인
 	public boolean approveProject(int projectseq);
+
+	// 프로젝트 반려
+	public boolean rejectProject(ProjectmsgDto msgdto);
+	
+	// 승인대기중인 프로젝트의 수	
+	public int getWaitCount();
 	
 	//schedule
-	public List<ProjectDto> mySchedule(ProjectDto pro) throws Exception;
+	public List<ProjectDto> mySchedule(String id) throws Exception;
+
+	
 	
 }
