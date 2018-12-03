@@ -86,6 +86,9 @@ public class ProjectServiceImpl implements ProjectService {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = newProjectDto.getEdate();
 		newProjectDto.setEdate(edate+"-23-59-59");
+		// TAG 공백에 # 넣기
+		String tag = newProjectDto.getTag();
+		
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
 		logger.info("찾아온 project seq : " + projectSeq);
