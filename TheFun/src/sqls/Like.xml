@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- 
+DROP TABLE FUN_LIKE
+CASCADE CONSTRAINTS;
+
+CREATE TABLE FUN_LIKE(
+   ID VARCHAR2(50) NOT NULL,
+   PROJECTSEQ NUMBER(8) NOT NULL
+);
+
+ALTER TABLE FUN_LIKE ADD CONSTRAINT LIKE_PROJECTSEQ_FK
+FOREIGN KEY(PROJECTSEQ)
+REFERENCES FUN_PROJECT(SEQ)
+ON DELETE CASCADE; 
+
+ALTER TABLE FUN_LIKE ADD CONSTRAINT LIKE_ID_FK
+FOREIGN KEY(ID)
+REFERENCES FUN_MEMBER(ID)
+ON DELETE CASCADE; 
+ -->
+ 
+ <!-- 멤버 -->  
+<mapper namespace="Like">
+<!-- 내가 좋아요 했는지 가져오기 -->
+<select id="isLike" parameterType="donzo.thefun.model.LikeDto" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM FUN_LIKE
+	WHERE ID=#{id} AND PROJECTSEQ = #{projectseq}
+</select>
+
+<!-- 좋아요 하기 -->
+<insert id="like" parameterType="donzo.thefun.model.LikeDto">
+	INSERT INTO FUN_LIKE
+	VALUES(#{id},#{projectseq})
+</insert>
+
+<!-- 좋아요 취소 -->
+<delete id="disLike" parameterType="donzo.thefun.model.LikeDto">
+	DELETE FROM FUN_LIKE
+	WHERE ID=#{id} AND PROJECTSEQ = #{projectseq}
+</delete>
+
+<!-- 이 프로젝트의 좋아요 갯수 가져오기 -->
+<select id="getLikeCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM FUN_LIKE
+	WHERE PROJECTSEQ = #{projectseq}
+</select>
+
+</mapper>

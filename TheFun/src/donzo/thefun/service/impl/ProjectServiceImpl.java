@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import donzo.thefun.dao.LikeDao;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.dao.ProjectmsgDao;
 import donzo.thefun.dao.QnaDao;
+import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
@@ -41,6 +43,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	ProjectmsgDao projectmsgDao;
+	
+	@Autowired
+	LikeDao likeDao;
 
 	@Override
 	public ProjectDto getProject(int seq) {
@@ -151,6 +156,21 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int getWaitCount() {		
 		return projectDao.getWaitCount();
+	}
+
+	@Override
+	public boolean changeLike(LikeDto like) {		
+		return likeDao.changeLike(like);
+	}
+
+	@Override
+	public int getLikeCount(int projectseq) {
+		return likeDao.getLikeCount(projectseq);
+	}
+
+	@Override
+	public List<ProjectmsgDto> getMsgList(int projectseq) {		
+		return projectmsgDao.getMsgList(projectseq);
 	}	
 	
 	
