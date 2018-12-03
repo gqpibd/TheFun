@@ -83,7 +83,7 @@ ul.tab li.selected{
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 
-<!-- 페이징 처리 -->
+<!-- 페이징 처리 -->     
 <div id="paging_wrap"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 	

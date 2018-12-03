@@ -433,7 +433,20 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
-	
+	public boolean isRevise() {
+		if(status.equalsIgnoreCase(REVISE)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isReject() {
+		if(status.equalsIgnoreCase(REJECT)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
