@@ -258,7 +258,10 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" class="liteGray numberCheck" name="validDate" value="mm/yy"></td>
+	<td>
+		<input type="text" class="liteGray numberCheck" name="validDate1" value="mm" size="3">월
+		<input type="text" class="liteGray numberCheck" name="validDate2" value="yy" size="3">년
+	</td>
 	<td><input type="password" class="liteGray numberCheck" name="cardPwd" ></td>
 </tr>
 <tr>
@@ -295,10 +298,39 @@ body{
 
 function addOrder() {
 	alert("go");
+
 	//배송지 이름, 전화번호, 주소
-	//결제 카드번호, 비밀번호, 생년월일, 유효기간
-	 //if(){} else{}
-	//$("#orderfrm").attr("action","addOrder.do").submit();
+	if(document.getElementById("card1").value.length<4){
+		alert("첫번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card2").value.length<4){
+		alert("두번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card3").value.length<4){
+		alert("세번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card4").value.length<4){
+		alert("네번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("birth").value.length<6){
+		alert("생년월일이 6자리 이하입니다");
+	}else if(document.getElementById("validDate1").value.length<2){
+		alert("두자리수로 입력하여 주십시오");
+	}else if(document.getElementById("validDate2").value.length<2){
+		alert("두자리수로 입력하여 주십시오");
+	}else if(document.getElementById("validDate2").value>12 || document.getElementById("validDate2").value<1){
+		alert("두자리수로 입력하여 주십시오");
+	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
+		alert("두자리수로 입력하여 주십시오");
+	}else if(document.getElementById("deliName").value==null){
+		alert("이름을 입력하여주십시오");
+	}else if(document.getElementById("deliPhone").value==null){
+		alert("연락처를 입력하여 주십시오");
+	}else if(document.getElementById("postcode").value==null){
+		alert("우편번호를 입력하여 주십시오");
+	}else if(document.getElementById("roadAddress").value==null){
+		alert("주소를 입력하여 주십시오");
+	}else if(document.getElementById("detailAddress").value==null){
+		alert("상세주소를 입력하여 주십시오");
+	}else{
+		$("#orderfrm").attr("action","addOrder.do").submit();
+	}
 	
 }
 
@@ -430,7 +462,32 @@ function addOrder() {
 				$("#detailAddress").val("${login.detailaddress}");
 			}
 		});
-
+		
+		$("#card1").on("keyup",function(){
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}
+		});
+		$("#card2").on("keyup",function(){
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}
+		});
+		$("#card3").on("keyup",function(){
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}
+		});
+		$("#card4").on("keyup",function(){
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}
+		});
+		$("#birth").on("keyup",function(){
+			if($(this).val().length>6){
+				$(this).val($(this).val().substring(0,6));
+			}
+		});
 
 	});
 	
@@ -522,8 +579,8 @@ function autoHyphen(phoneField){
 
 //영어와 한글만 가능한 유효성검사
 function nameCheck(nameField) {
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
 	var name=$(nameField).val().trim();
+	name=name.replace(/[<(+>]/g,'');
 	$(nameField).val(name);
 }
 
@@ -532,14 +589,5 @@ function nameCheck(nameField) {
 $(".numberCheck").on("keyup", function() {
     $(this).val($(this).val().replace(/[^0-9]/g,""));
 });
-
-//4자리
-
-//6자리
-
-//유효기간
-
-
-
 
 </script>
