@@ -7,10 +7,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>   
 
-<!-- 차트 css -->
-<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
-
+ <!-- 차트 css -->
+ <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
  
+ <!-- 메인 css -->
+ <link rel="stylesheet" href="CSS/common/main.css">
+ 
+
 <div class="container">	 
 	<!-- 메인 배너 슬라이드 -->
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
@@ -53,7 +56,7 @@
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
+	<div align="right"><a href="searchProjectList.do">see all</a></div>
 </div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
