@@ -25,6 +25,7 @@ window.fbAsyncInit = function() {
  }(document));
 </script>
 
+<!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
 body{
@@ -172,6 +173,10 @@ body{
 #nav li ul
 
 
+/* 햄버거메뉴 */
+.menu a{cursor:pointer;}
+.menu .hide{display:none;}
+
 </style>
 
 <script type="text/javascript">
@@ -244,7 +249,89 @@ $(document).ready(function () {
 		<input type="hidden" name="s_complete" value="${s_complete }">
 	    
 	</form>
-    
+	
+    <!-- 로그인 하기 전 로그인 버튼-->
+  	<c:if test="${login eq null}">
+	    <a class="nav-link" href="login.do">
+	    	<img src="image/main/mainLogin.jpg" height="20px">
+	    </a> 		
+	</c:if>
+	
+    <!-- 로그인 후 상태 -->
+    <c:if test="${login ne null}">
+	    <!-- 프로필이미지 -->
+		<span id="profile">
+			<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
+			title="마이페이지로 이동" style="cursor: pointer;">
+		</span>
+		<!-- 회원 닉네임 -->
+		<span>${login.nickname}님</span>		
+		
+		<!-- 로그인 후 햄버거 버튼 활성화 -->
+	   <!--  <button class="navbar-toggler" type="button" 
+	    		data-toggle="collapse" data-target="#navbarResponsive" 
+	    		aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button> -->
+	    
+   		<div class=" " id="">
+	 
+			<ul class=" " id="">
+				<li class="menu">         	
+					<a><!-- <img src="" alt="상위메뉴이미지1"/> -->
+						<button class="menu-toggle">Menu</button>
+					</a>
+					
+						<%-- <!-- 프로필이미지 -->
+						<span id="profile">
+							<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
+							title="마이페이지로 이동" style="cursor: pointer;">
+						</span>
+						<!-- 회원 닉네임 -->
+						<span>${login.nickname}님</span> --%>	
+					
+						<!-- 여기서 부터 햄버거버튼 -->
+						<ul class="hide">
+							<!-- 나의 정보 -->
+							<li>
+								<a href="#" onclick="">나의 정보</a> 		
+							</li>	
+							
+							<!-- 나의 후원내역 -->
+							<li>
+								<a href="#" onclick="">나의 후원내역</a> 		
+							</li>	
+							
+							<!-- 나의 프로젝트 -->
+							<li>
+								<a href="#" onclick="">나의 프로젝트</a> 		
+							</li>	
+							
+							<!-- 나의 일정 -->
+							<li>
+								<a href="#" onclick="">나의 일정</a> 		
+							</li>	
+							
+							<!-- 로그아웃 -->
+							<li>
+								<a href="#" onclick="logout()">로그아웃</a> 		
+							</li>
+							
+							<%-- <c:choose>			
+								<c:when test="${login.isManager()}">
+									<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose> --%>
+						
+						</ul>
+				
+				</li>
+			</ul>
+	     
+	    </div>
+    </c:if>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -427,11 +514,29 @@ site.prototype = {
 	$(this).find('> ul').stop(true, true).slideDown('slow');
 	}, function() {
 		// mouseout
-	$(this).find('> ul').stop(true, 	true).hide(); 		
+	$(this).find('> ul').stop(true, true).hide(); 		
 	});
 		
 	}
 }
 
 new site();
+
+
+/* 햄버거버튼 */
+   // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+
 </script>
