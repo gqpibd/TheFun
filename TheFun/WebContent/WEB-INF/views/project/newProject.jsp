@@ -49,7 +49,7 @@ $(document).ready(function() {
 		// 썸머노트 설정
 		  $('#summernote').summernote({
 				  height: 300,		// 기본 높이값
-				  placeholder : "Only Text Please!!",
+				  placeholder : "Draw your dream!!",
 			        minHeight: null,	// 최소 높이값(null은 제한 없음)
 			        maxHeight: null,	// 최대 높이값(null은 제한 없음)
 			        focus: true,		// 페이지가 열릴때 포커스를 지정함
@@ -353,7 +353,7 @@ $(document).ready(function() {
         <div class="card-body">
         	<table class="card-text" style="width: 100%">
 				<tr>
-					<td colspan="2">
+					<td>
 						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
 					</td>
 				</tr>
@@ -363,11 +363,6 @@ $(document).ready(function() {
 							<span id="titleLen">30자 남았습니다.</span>
 						</span>
 						
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_title">
-							<button style="color: #4B088A">취소하기</button>
-						</a>
 					</td>
 				</tr>
 			</table>
@@ -430,7 +425,7 @@ $(document).ready(function() {
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
-					<td colspan="2">
+					<td>
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
 						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)"></textarea>
@@ -439,15 +434,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-						<span style="color: #4B088A; margin-left: 2%;">
+						<span style="color: #4B088A;">
 							<span id="commentLength">100자 남았습니다.</span>
 						</span>
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_summary">
-							<button style="color: #4B088A">취소하기</button>
-							<!-- 취소하기버튼 다 없애기. 아님 다른 기능으로 만들던가. -->
-						</a>
 					</td>
 				</tr>
 			</table>
@@ -476,12 +465,12 @@ $(document).ready(function() {
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
-						<span class="btn btn-primary btn-block" style="font-size: 1em">
+						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
 						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
-						</span>
-						<span class="btn btn-primary btn-block" style="font-size: 1em">
+						</label>
+						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
 						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
-						</span>
+						</label>
 					</td>
 				</tr>
 				<tr>

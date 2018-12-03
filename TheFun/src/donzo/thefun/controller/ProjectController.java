@@ -96,6 +96,13 @@ public class ProjectController {
 		return "selectReward.tiles";
 	}
 	
+	@RequestMapping(value="basket.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String basket(Model model) {
+		// 장바구니 페이지로 이동(승지)
+		
+		return "";
+	}
+	
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
