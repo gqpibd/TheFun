@@ -257,85 +257,10 @@ $(document).ready(function () {
 	    </a> 		
 	</c:if>
 	
-    <!-- 로그인 후 상태 -->
-    <c:if test="${login ne null}">
-	    <!-- 프로필이미지 -->
-		<span id="profile">
-			<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
-			title="마이페이지로 이동" style="cursor: pointer;">
-		</span>
-		<!-- 회원 닉네임 -->
-		<span>${login.nickname}님</span>		
-		
-		<!-- 로그인 후 햄버거 버튼 활성화 -->
-	   <!--  <button class="navbar-toggler" type="button" 
-	    		data-toggle="collapse" data-target="#navbarResponsive" 
-	    		aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button> -->
-	    
-   		<div class=" " id="">
-	 
-			<ul class=" " id="">
-				<li class="menu">         	
-					<a><!-- <img src="" alt="상위메뉴이미지1"/> -->
-						<button class="menu-toggle">Menu</button>
-					</a>
-					
-						<%-- <!-- 프로필이미지 -->
-						<span id="profile">
-							<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" 
-							title="마이페이지로 이동" style="cursor: pointer;">
-						</span>
-						<!-- 회원 닉네임 -->
-						<span>${login.nickname}님</span> --%>	
-					
-						<!-- 여기서 부터 햄버거버튼 -->
-						<ul class="hide">
-							<!-- 나의 정보 -->
-							<li>
-								<a href="#" onclick="">나의 정보</a> 		
-							</li>	
-							
-							<!-- 나의 후원내역 -->
-							<li>
-								<a href="#" onclick="">나의 후원내역</a> 		
-							</li>	
-							
-							<!-- 나의 프로젝트 -->
-							<li>
-								<a href="#" onclick="">나의 프로젝트</a> 		
-							</li>	
-							
-							<!-- 나의 일정 -->
-							<li>
-								<a href="#" onclick="">나의 일정</a> 		
-							</li>	
-							
-							<!-- 로그아웃 -->
-							<li>
-								<a href="#" onclick="logout()">로그아웃</a> 		
-							</li>
-							
-							<%-- <c:choose>			
-								<c:when test="${login.isManager()}">
-									<button type="button" onclick="location.href='projectManage.do'">프로젝트 관리</button>
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose> --%>
-						
-						</ul>
-				
-				</li>
-			</ul>
-	     
-	    </div>
-    </c:if>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+        
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">              
