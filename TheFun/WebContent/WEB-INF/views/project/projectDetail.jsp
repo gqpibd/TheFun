@@ -222,9 +222,9 @@ function sendLink() {
 <!-- 프로젝트 타이틀 -->
 		<table style="width: 100%;" id="sTable">
 		<tr height="50">
-			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="100%"></td>
+			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
-				 <c:if test="${(endDate - strDate+1)==0}">
+				 <c:if test="${(endDate - strDate+1)<=0}">
 				 	<b style="font-size: 25px">종료된 리워드</b>
 				 </c:if>
 				 <c:if test="${(endDate - strDate+1)==1}">
@@ -251,7 +251,7 @@ function sendLink() {
 		<tr height="50">		
 		<c:if test="${projectdto.isOngoing()}">
 			<td> 
-				<a href="goSelectReward.do?seq=${projectdto.seq }">
+				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
 					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
 				</a> 
 			</td>
@@ -399,7 +399,7 @@ function hartClick(){
            	 </p>
              <p class="strongGray">${option.title }</p> 
               <ul>             	
-             <c:forEach items="${option.content}" var="item">
+             <c:forEach items="${fn:split(option.content,'/')}" var="item">
 			   <li class="liteGray">${item}</li>
 			 </c:forEach>
 				</ul>

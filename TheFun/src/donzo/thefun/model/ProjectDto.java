@@ -434,6 +434,23 @@ public class ProjectDto implements Serializable {
 			return false;
 	}
 	
+	
+	public boolean isDonation() {
+		if(fundtype.equalsIgnoreCase(TYPE_DONATION)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isReward() {
+		if(fundtype.equalsIgnoreCase(TYPE_REWARD)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category

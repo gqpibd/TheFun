@@ -16,8 +16,8 @@ public class BuyServiceImpl implements BuyService {
 	BuyDao buyDao;
 	
 	@Override
-	public List<BuyDto> orderList(BuyDto buy) {
-		return buyDao.orderList(buy);
+	public List<BuyDto> orderList(String id) {
+		return buyDao.orderList(id);
 	}
 
 	@Override

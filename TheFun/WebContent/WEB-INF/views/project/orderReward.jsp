@@ -69,11 +69,26 @@ body{
 <div class="container">
   <div class="my-4" align="center">
     <div align="center" >
-    <form action="addOrder.do" name="frm">
+    <form action="addOrder.do" name="orderfrm">
     <!-- 메인 -->
       <p class="strongGray">${projectdto.title } </p>
       <br>
-      <!-- 옵션테이블 -->
+      
+      <!-- 기부일 경우 -->
+      <c:if test="${projectdto.isDonation()}">
+      	<table>
+      	<tr>
+      		<td colspan="2"> 기부금액 </td>
+      	</tr>
+      	<tr>
+      		<td colspan="2"><input type="text" name="donaPrice" size="10">원 </td>
+      	</tr>
+      	</table>
+      </c:if>
+      
+      <!-- 리워드일 경우 -->
+      <c:if test="${projectdto.isReward()}">
+
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
 		<tr id="tr_${options.seq}">
@@ -126,7 +141,7 @@ body{
 	<br>
 	<hr width="70%">
 	<br><br>
-	
+	 </c:if>
 	
      <!-- 사용자정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -153,7 +168,7 @@ body{
      		<c:if test="${empty login.phone}">
      			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
      		</c:if>
-     		<c:if test="${login.phone}">
+     		<c:if test="${not empty login.phone}">
      			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
      		</c:if>
      		</td>
@@ -163,16 +178,22 @@ body{
      	
 		<br><br>
 		<!-- 배송지정보 -->
-		<input type="radio" name="delivery" value="infoDeli" checked="checked">기본정보 배송지 <input name="delivery" type="radio" value="newDeli">새로운 배송지
+		
      	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/deli.jpg" width="120px;"></td>
      	</tr>
      	<tr>
+	     	<td>
+	     	<label for="infoDeli" class="pnt"><input type="radio" id="infoDeli" name="delivery" value="infoDeli" checked="checked">기본정보 배송지</label>  
+	     	<label for="newDeli" class="pnt"><input name="delivery" id="newDeli" type="radio" value="newDeli">새로운 배송지</label> 
+	     	</td>
+     	</tr>
+     	<tr>
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" ></td>
+     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
@@ -180,10 +201,10 @@ body{
      	<tr>
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" placeholder="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
      		</c:if>
-     		<c:if test="${login.phone}">
-     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;">
+     		<c:if test="${not empty login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
      		</c:if>
      		</td>
      	</tr>
@@ -197,9 +218,9 @@ body{
      	</tr>
      	<tr>
      		<td>
-     		<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly">
-			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly">
-			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소">
+     		<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode }">
+			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
+			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
      		</td>
      	</tr>
      	</table>
@@ -235,14 +256,14 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" name="validDate" value="mm/yy"></td>
-	<td><input type="password" name="cardPwd"></td>
+	<td><input type="text" class="liteGray" name="validDate" value="mm/yy" onkeyup="numberCheck(this)"></td>
+	<td><input type="password" class="liteGray" name="cardPwd" onkeyup="numberCheck(this)"></td>
 </tr>
 <tr>
 	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
 </tr>
 <tr>
-	<td colspan="2"><input type="text" name="birth"></td>
+	<td colspan="2"><input type="text" name="birth" onkeyup="numberCheck(this)"></td>
 </tr>
 </table>
 <br><br>
@@ -258,7 +279,7 @@ body{
 <br><br>
 <input type="hidden" name="projectseq" value="${projectdto.seq }">
 <input type="hidden" name="id" value="${login.id }">
-<input type="image" src="image/detail/orderBtn.jpg" name="Submit" value="Submit" width="120px;">  <!-- 결제 예약하기 버튼 -->
+<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="addOrder()" width="120px;">  <!-- 결제 예약하기 버튼 -->
 
 </form>
      </div>
@@ -269,53 +290,16 @@ body{
 
 <script type="text/javascript">
 
-	/* 주소검색 */
-	function sample4_execDaumPostcode() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+function addOrder() {
+	alert("go");
+	//배송지 이름, 전화번호, 주소
+	//결제 카드번호, 비밀번호, 생년월일, 유효기간
+	 
+	// $("#orderfrm").attr("action","addOrder.do").submit();
 	
-	            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-	            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-	
-	            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                extraRoadAddr += data.bname;
-	            }
-	            // 건물명이 있고, 공동주택일 경우 추가한다.
-	            if(data.buildingName !== '' && data.apartment === 'Y'){
-	               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	            }
-	            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	            if(extraRoadAddr !== ''){
-	                extraRoadAddr = ' (' + extraRoadAddr + ')';
-	            }
-	            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-	            if(fullRoadAddr !== ''){
-	                fullRoadAddr += extraRoadAddr;
-	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
-	            document.getElementById('roadAddress').value = fullRoadAddr;
-	           
-	        }
-	    }).open();
-	}
-	
-	/* 상세 주소 */
-	function detailAddressCheck() {
-		console.log("detailAddressCheck");
-		var text = $("#detailAddress").val();
-		//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-		text = text.replace(/[<(+>]/g, '');
-		//console.log(text);
-		$("#detailAddress").val(text);	
-	}
-	
+}
+
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
 	   	var count = Number(document.getElementById(seqNum).value);
@@ -373,9 +357,7 @@ body{
 	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 		}
 	}
-	
-	
-	
+
 	$(document).ready(function (){
 		
 		var size = $("input[name='priceName']").length;
@@ -400,18 +382,14 @@ body{
 			
 			if(arrlen==0){
 				alert("삭제할 리워드를 선택해주세요");
-				
 			}else if(arrlen==allOptionlen){
 				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
-				
 			}else{
-				
 				//선택한 체크박스 id를 담을 배열
 				var ids = new Array(arrlen);
 				var i=0;
 				
 				$("input[name=checkboxs]:checked").each(function() {
-					
 					var opSeqNum = $(this).val();	//옵션시퀀스
 					
 					/* 총가격 변환 */
@@ -427,10 +405,7 @@ body{
 					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
 					$("#"+ids[i+1]).remove();
 					i+=2;
-				
 				}); 
-				
-				
 			}
 	
 		});	//onclick 끝
@@ -454,15 +429,58 @@ body{
 
 	});
 	
-	
-	//이름, 전화번호, 배송지 유효성
-	
-	//결제 설정 글자수 4개면 다음칸으로 이동
-	
 </script>
 
 
 <script type="text/javascript">
+
+/* 주소검색 */
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                extraRoadAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if(data.buildingName !== '' && data.apartment === 'Y'){
+               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if(extraRoadAddr !== ''){
+                extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+            if(fullRoadAddr !== ''){
+                fullRoadAddr += extraRoadAddr;
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('roadAddress').value = fullRoadAddr;
+        }
+    }).open();
+}
+	
+	/* 상세 주소 */
+	function detailAddressCheck() {
+		console.log("detailAddressCheck");
+		var text = $("#detailAddress").val();
+		//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+		text = text.replace(/[<(+>]/g, '');
+		//console.log(text);
+		$("#detailAddress").val(text);	
+	}
+	
+
 function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  str = str.replace(/[^0-9]/g, '');
 	  var tmp = '';
@@ -496,4 +514,20 @@ function autoHyphen(phoneField){
 	var _val = $(phoneField).val().trim();
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
+
+//영어와 한글만 가능한 유효성검사
+function nameCheck(nameField) {
+	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+	var name=$(nameField).val().trim();
+	$(nameField).val(name);
+}
+
+//숫자만 가능한 유효성 검사 (카드번호, 카드비밀번호)
+function numberCheck(numberField) {
+	alert("num : "+num);
+	var numberF = $(numberField).val().trim();
+	numberF = numberF.replace(/[^0-9]/g, '');
+	$(numberField).val(numberF);
+}
+
 </script>
