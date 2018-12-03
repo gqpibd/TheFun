@@ -69,7 +69,8 @@ body{
 <div class="container">
   <div class="my-4" align="center">
     <div align="center" >
-    <form action="addOrder.do" name="orderfrm">
+    <form action="addOrder.do" id="orderfrm"  method="post" >
+    
     <!-- 메인 -->
       <p class="strongGray">${projectdto.title } </p>
       <br>
@@ -88,7 +89,8 @@ body{
       
       <!-- 리워드일 경우 -->
       <c:if test="${projectdto.isReward()}">
-
+		
+		<!-- 옵션테이블 -->
       <table style="width: 70%" >
       <c:forEach items="${selectOptions }" var="options" varStatus="status">
 		<tr id="tr_${options.seq}">
@@ -245,10 +247,10 @@ body{
 </tr>
 <tr>
 	<td colspan="2">
-	<input type="text" name="card1"> 
-	<input type="password" name="card2">
-	<input type="password" name="card3"> 
-	<input type="text" name="card4"> 
+	<input class="numberCheck" type="text" name="card1" id="card1"> 
+	<input  class="numberCheck" type="password" name="card2" id="card2">
+	<input class="numberCheck"  type="password" name="card3" id="card3"> 
+	<input  class="numberCheck" type="text" name="card4" id="card4"> 
 	</td>
 </tr>
 <tr>
@@ -256,14 +258,14 @@ body{
 	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
 </tr>
 <tr>
-	<td><input type="text" class="liteGray" name="validDate" value="mm/yy" onkeyup="numberCheck(this)"></td>
-	<td><input type="password" class="liteGray" name="cardPwd" onkeyup="numberCheck(this)"></td>
+	<td><input type="text" class="liteGray numberCheck" name="validDate" value="mm/yy"></td>
+	<td><input type="password" class="liteGray numberCheck" name="cardPwd" ></td>
 </tr>
 <tr>
 	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
 </tr>
 <tr>
-	<td colspan="2"><input type="text" name="birth" onkeyup="numberCheck(this)"></td>
+	<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
 </tr>
 </table>
 <br><br>
@@ -295,8 +297,8 @@ function addOrder() {
 	alert("go");
 	//배송지 이름, 전화번호, 주소
 	//결제 카드번호, 비밀번호, 생년월일, 유효기간
-	 
-	// $("#orderfrm").attr("action","addOrder.do").submit();
+	 //if(){} else{}
+	//$("#orderfrm").attr("action","addOrder.do").submit();
 	
 }
 
@@ -412,7 +414,6 @@ function addOrder() {
 		
 		$("input:radio[name=delivery]").click(function(){
 			var deliId =$(':radio[name="delivery"]:checked').val();
-			alert("아이디 : "+deliId);
 			
 			if(deliId=="newDeli"){	//새로운 배송지
 				$("#deliName").val("");
@@ -422,7 +423,11 @@ function addOrder() {
 				$("#detailAddress").val("");
 				
 			}else{	//기존배송지
-
+				$("#deliName").val("${login.nickname}");
+				$("#deliPhone").val("${login.phone}");
+				$("#postcode").val("${login.postcode}");
+				$("#roadAddress").val("${login.roadaddress}");
+				$("#detailAddress").val("${login.detailaddress}");
 			}
 		});
 
@@ -522,12 +527,19 @@ function nameCheck(nameField) {
 	$(nameField).val(name);
 }
 
-//숫자만 가능한 유효성 검사 (카드번호, 카드비밀번호)
-function numberCheck(numberField) {
-	alert("num : "+num);
-	var numberF = $(numberField).val().trim();
-	numberF = numberF.replace(/[^0-9]/g, '');
-	$(numberField).val(numberF);
-}
+
+//숫자만 가능한 유효성 검사 (카드번호, 카드비밀번호,생년월일)
+$(".numberCheck").on("keyup", function() {
+    $(this).val($(this).val().replace(/[^0-9]/g,""));
+});
+
+//4자리
+
+//6자리
+
+//유효기간
+
+
+
 
 </script>
