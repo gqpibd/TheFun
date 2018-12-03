@@ -988,29 +988,27 @@ function formSubmit() {
 	// hidden에 bank값 세팅(컨트롤러에서 projectDto중 bank로 받아줄 값)
 	$("#bank").val(bankname + "/" + accountNumber);
 	
-	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기
+	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 리워드금액, 리워드 수량에 들어간콤마 전부 없애기
 	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
 	var option_total = $("#option_total").val();
 	if(fundtype == "reward"){
 		for(var i=1; i<=option_total; i++){
-			$("#op_content" + i).val().replace("\r\n", "/");
+			var content = $("#op_content" + i).val();
+			var price = $("#op_price" + i).val();
+			var stock = $("#op_stock" + i).val();
+			$("#op_content" + i).val(content.replace(/\n/gi, "/"));
+			$("#op_price" + i).val(price.replace(/,/gi, ""));
+			$("#op_stock" + i).val(stock.replace(/,/gi, ""));
 		}
 	}
 	
-	// (목표금액, 리워드금액, 리워드 수량에 들어간)콤마 전부 없애기
+	// 목표금액에 들어간 콤마 전부 없애기
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
-	var option_total = $("#option_total").val();
-	for (var i = 1; i <= option_total; i++) {
-		var data1 = $("#op_price" + i).val();
-		var data2 = $("#op_stock" + i).val();
-		$("#op_price" + i).val(data1.replace(/,/gi, ""));
-		$("#op_stock" + i).val(data2.replace(/,/gi, ""));
-	}
 	
 	// form 실행! 컨트롤러로~
-	$("#createProjectFrom").submit();
+//	$("#createProjectFrom").submit();
 }
 
 /* 글자 길이 확인 */
