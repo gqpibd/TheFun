@@ -34,6 +34,7 @@ import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import donzo.thefun.util.UtilFunctions;
 
 
 @Controller
@@ -384,12 +385,20 @@ public class ProjectController {
 	public String getStatusWithMessage(int projectseq) throws Exception{
 		List<ProjectmsgDto> msgList = projectService.getMsgList(projectseq);
 		String messageData = "{\"items\":[";
+		String messageFrom = "";
 		for(int i=0;i<msgList.size();i++) {
+			
+			if(msgList.get(i).isResubmit()) {
+				messageFrom = "작성자";
+			}else {
+				messageFrom = "에디터";
+			}
 			messageData += "{\"seq\":\"" + msgList.get(i).getSeq() +"\",";
 			messageData += "\"proejctseq\":\"" + msgList.get(i).getProjectseq() +"\",";
+			messageData += "\"writer\":\"" + messageFrom +"\",";
 			messageData += "\"status\":\"" + msgList.get(i).getStatusKor() +"\",";
 			messageData += "\"message\":\"" + msgList.get(i).getMessage() +"\",";
-			messageData += "\"date\":\"" + msgList.get(i).getRegdate() +"\"}";
+			messageData += "\"date\":\"" + UtilFunctions.getDateFormKorean(msgList.get(i).getRegdate()) +"\"}";
 			if(i < msgList.size()-1) {
 				messageData += ",";
 			}
