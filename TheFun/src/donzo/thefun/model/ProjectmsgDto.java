@@ -14,7 +14,7 @@ public class ProjectmsgDto implements Serializable {
 	public int projectseq;
 	public String status;
 	public String message;
-	public String date;
+	public String regdate;
 	
 	public ProjectmsgDto() {}
 
@@ -25,13 +25,13 @@ public class ProjectmsgDto implements Serializable {
 		this.message = message;
 	}
 
-	public ProjectmsgDto(int seq, int projectseq, String status, String message, String date) {
+	public ProjectmsgDto(int seq, int projectseq, String status, String message, String regdate) {
 		super();
 		this.seq = seq;
 		this.projectseq = projectseq;
 		this.status = status;
 		this.message = message;
-		this.date = date;
+		this.regdate = regdate;
 	}
 
 	public int getSeq() {
@@ -66,17 +66,32 @@ public class ProjectmsgDto implements Serializable {
 		this.message = message;
 	}
 
-	public String getDate() {
-		return date;
+	public String getRegdate() {
+		return regdate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	
+	public String getStatusKor() {
+		switch(status.toLowerCase()) {
+		case APPROVE:
+			return "프로젝트 승인됨";
+		case REJECT:
+			return "프로젝트 승인 거절됨";
+		case REVISE:
+			return "프로젝트 보완 요청됨";
+		case RESUBMIT:
+			return "프로젝트 재승인 요청";
+		default:
+			return "이건뭐지";
+		}
 	}
 
 	@Override
 	public String toString() {
 		return "ProjectmsgDto [seq=" + seq + ", projectseq=" + projectseq + ", status=" + status + ", message="
-				+ message + ", date=" + date + "]";
+				+ message + ", regdate=" + regdate + "]";
 	}
 }

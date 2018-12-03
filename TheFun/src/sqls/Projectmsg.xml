@@ -27,6 +27,12 @@ START WITH 1 INCREMENT BY 1;
 	VALUES(SEQ_PROJECTMSG.NEXTVAL, #{projectseq}, #{status}, #{message}, SYSDATE)
 </insert>
 
+<!-- 메시지 목록 불러오기 -->
+<select id="getMsgList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.ProjectmsgDto">
+	SELECT *
+	FROM FUN_PROJECTMSG
+	WHERE PROJECTSEQ=#{projectseq}
+</select>
 
 
 </mapper>

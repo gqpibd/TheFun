@@ -2,43 +2,37 @@ package donzo.thefun.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.google.api.plus.Activity.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
+import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.service.AlarmService;
+import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
-import net.sf.json.JSONObject;
 
 
 @Controller
@@ -51,10 +45,14 @@ public class ProjectController {
 	
 	@Autowired
 	AlarmService alarmService;
+	
+	@Autowired
+	LikeService likeService;
+	
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectDetail(int seq,Model model) {
+	public String projectDetail(int seq,Model model,HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		logger.info("projectDetail project : " + projectService.getProject(seq) );
 		//현재 선택한 프로젝트 정보
@@ -72,6 +70,14 @@ public class ProjectController {
 		//댓글 가져오기 
 		model.addAttribute("qnaList",projectService.getQna(seq));
 		
+		//좋아요 했는지 여부
+		MemberDto login = (MemberDto)req.getSession().getAttribute("login");
+		if(login != null) {			
+			model.addAttribute("isLike",likeService.isLike(new LikeDto(login.getId(),seq)));
+		}else {
+			model.addAttribute("isLike",false);
+		}
+		
 		return "projectDetail.tiles";
 	}
 	
@@ -86,23 +92,27 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,String type ,Model model) {
+	public String goSelectReward(int seq,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-		String returnStr="";
+
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
-	
-		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
-			
-			//옵션들
-			model.addAttribute("optionList",projectService.getOptions(seq));
-			returnStr= "selectReward.tiles";
 		
-		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
-			
-			returnStr= "orderReward.tiles";
-		}
-		return returnStr;
+		//기부일 경우
+		
+		
+		//리워드일 경우
+		
+		//옵션들
+		model.addAttribute("optionList",projectService.getOptions(seq));
+		return "selectReward.tiles";
+	}
+	
+	@RequestMapping(value="basket.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String basket(Model model) {
+		// 장바구니 페이지로 이동(승지)
+		
+		return "";
 	}
 	
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
@@ -374,6 +384,28 @@ public class ProjectController {
 		return projectService.getWaitCount()+""; 
 	}
 	
+	// 이 프로젝트의 상태 메시지 가져오기
+	@ResponseBody
+	@RequestMapping(value="getStatusWithMessage.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String getStatusWithMessage(int projectseq) throws Exception{
+		List<ProjectmsgDto> msgList = projectService.getMsgList(projectseq);
+		String messageData = "{\"items\":[";
+		for(int i=0;i<msgList.size();i++) {
+			messageData += "{\"seq\":\"" + msgList.get(i).getSeq() +"\",";
+			messageData += "\"proejctseq\":\"" + msgList.get(i).getProjectseq() +"\",";
+			messageData += "\"status\":\"" + msgList.get(i).getStatusKor() +"\",";
+			messageData += "\"message\":\"" + msgList.get(i).getMessage() +"\",";
+			messageData += "\"date\":\"" + msgList.get(i).getRegdate() +"\"}";
+			if(i < msgList.size()-1) {
+				messageData += ",";
+			}
+		}
+		messageData += "]}";
+		logger.info(messageData);
+		
+		return messageData; 
+	}
+	
 	// 메인 화면으로 이동
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
@@ -456,5 +488,18 @@ public class ProjectController {
 		model.addAttribute("schedule", myschedule);
 		return "mySchedule.tiles";
 	}
-	 
+	
+	// 좋아요 변경
+	@ResponseBody
+	@RequestMapping(value="changeLike.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public Map<String, Object> changeLike(LikeDto like) {
+		logger.info("changeLike " + new Date());
+		boolean isLike = projectService.changeLike(like);
+		int likeCount = projectService.getLikeCount(like.getProjectseq());
+		
+		Map<String, Object> rmap = new HashMap<String, Object>();
+		rmap.put("isLike", isLike);
+		rmap.put("likeCount", likeCount);		
+		return rmap;
+	}
 }
