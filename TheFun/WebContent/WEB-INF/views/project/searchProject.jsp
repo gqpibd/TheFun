@@ -87,7 +87,7 @@ ul.tab li.selected{
 	<div class="container text-center">
 	<h1 class="head_title">SEARCH</h1>
 	<p>검색 결과</p>
-	<h5 style="font-family: 'Allura';">" ${totalRecordCount } 건 "</h5>
+	<h5 style="font-family: 'Allura';">진행 중인 프로젝트 " ${totalRecordCount } 건 "</h5>
 	</div>
 	</header>
 	</c:when>
