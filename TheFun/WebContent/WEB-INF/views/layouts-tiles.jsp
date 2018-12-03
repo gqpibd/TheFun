@@ -14,13 +14,7 @@
 <tiles:insertAttribute name="header"/> <!-- views/common파일 위치에 header.jsp 생성 -->
 
 <%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/style.css"> --%>
-<style>
-.top {
-  position: fixed;
-  top: 0px;
-  z-index: 5;
-}
-</style>
+
 </head>
 <body>
 

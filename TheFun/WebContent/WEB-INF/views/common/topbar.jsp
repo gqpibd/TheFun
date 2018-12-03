@@ -25,7 +25,9 @@ window.fbAsyncInit = function() {
  }(document));
 </script>
 
+<!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
+
 <style type="text/css">
 .profile {
 	float: none;
@@ -174,8 +176,6 @@ window.fbAsyncInit = function() {
 .menu a{cursor:pointer;}
 .menu .hide{display:none;}
 
-
-
 </style>
 
 <script type="text/javascript">
@@ -203,7 +203,7 @@ $(document).ready(function () {
 
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark" style="z-index:100;">
   <!-- 탑바 전체를 묶는 div -->	
   <div class="container" style="background-color: white;">
   	
@@ -214,9 +214,8 @@ $(document).ready(function () {
     
     <!-- 3가지 메뉴 기부, 리워드, 프로젝트 -->
 	<ul id="nav">
-		
 		<!-- 1번째 목록 -->
-		<li style="width:90px;">
+		<li style="width:90px; text-align: center;">
 			<!-- 1번째 부모목록: 기부  -->
 			<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()">
 				<img src="image/main/donation.jpg" width="100px">
@@ -225,7 +224,7 @@ $(document).ready(function () {
 			<!-- 자식목록 -->
 			<ul>
 				<!-- 인권 -->
-				<li style="width:90px;text-align: center;">
+				<li>
 					<a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()">
 						<img src="image/main/human_btn.jpg" width="90px">
 					</a>
@@ -246,7 +245,7 @@ $(document).ready(function () {
 		</li> 
 		
 		<!-- 2번째 목록 -->
-		<li style="width:90px;text-align: center;">		
+		<li style="width:90px; text-align: center;">		
 			<!-- 2번째 부모록록: 리워드 -->
 			<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()">
 				<img src="image/main/reward.jpg" width="95px">
@@ -282,7 +281,7 @@ $(document).ready(function () {
 		</li>
 		
 		<!-- 3번째 목록 -->
-		<li style="width:90px;text-align: center;">
+		<li style="width:90px; text-align: center;">
 			<!-- 3번째 부모록록: 새 프로젝트 -->
 			<a href="newProject.do">
 				<img src="image/main/newproject.jpg" width="95px">
@@ -299,6 +298,11 @@ $(document).ready(function () {
 		</li>
 		
 	</ul>
+	
+	
+	
+	
+	
 	<!--///////  -->
     &nbsp;&nbsp;&nbsp;&nbsp;
     
@@ -356,9 +360,11 @@ $(document).ready(function () {
 	    
    		<div class=" " id="">
 	 
-			<ul class=" ">
+			<ul class=" " id="">
 				<li class="menu">         	
-					<a><img src="" alt="상위메뉴이미지1"/></a>
+					<a><!-- <img src="" alt="상위메뉴이미지1"/> -->
+						<button class="menu-toggle">Menu</button>
+					</a>
 					
 						<%-- <!-- 프로필이미지 -->
 						<span id="profile">
@@ -416,6 +422,13 @@ $(document).ready(function () {
   </div>
 </nav>
     
+
+
+
+
+
+
+
 
     
 <script type="text/javascript">
