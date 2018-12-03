@@ -272,7 +272,7 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 		
-	// 스마트 에디터 이미지 업로드 테스트중(승지)
+	// 스마트 에디터 이미지 업로드
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
