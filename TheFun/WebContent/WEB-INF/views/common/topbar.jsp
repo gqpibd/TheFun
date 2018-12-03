@@ -250,13 +250,6 @@ $(document).ready(function () {
 	    
 	</form>
 	
-    <!-- 로그인 하기 전 로그인 버튼-->
-  	<c:if test="${login eq null}">
-	    <a class="nav-link" href="login.do">
-	    	<img src="image/main/mainLogin.jpg" height="20px">
-	    </a> 		
-	</c:if>
-	
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
