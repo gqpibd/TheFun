@@ -156,7 +156,7 @@ td{
 	<c:choose>
 		<c:when test="${endDate - strDate + 1 gt 0}"><strong>&nbsp;${endDate - strDate + 1}일</strong> 남음</c:when>
 		<c:when test="${endDate - strDate + 1 eq 0}"><font color="red">오늘 마감</font></c:when>
-		<c:when test="${endDate - strDate + 1 lt 0}"><strong>종료된 프로젝트</strong></c:when>
+		<c:when test="${endDate - strDate + 1 lt 0}"><strong>마감</strong></c:when>
 	</c:choose>
 	
 	</td>
