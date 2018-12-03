@@ -577,7 +577,7 @@ function autoHyphen(phoneField){
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 
-//영어와 한글만 가능한 유효성검사
+//이름 유효성검사
 function nameCheck(nameField) {
 	var name=$(nameField).val().trim();
 	name=name.replace(/[<(+>]/g,'');
