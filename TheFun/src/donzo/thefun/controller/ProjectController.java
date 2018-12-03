@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
@@ -85,20 +86,23 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,Model model) {
+	public String goSelectReward(int seq,String type ,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-
+		String returnStr="";
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
+	
+		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
+			
+			//옵션들
+			model.addAttribute("optionList",projectService.getOptions(seq));
+			returnStr= "selectReward.tiles";
 		
-		//기부일 경우
-		
-		
-		//리워드일 경우
-		
-		//옵션들
-		model.addAttribute("optionList",projectService.getOptions(seq));
-		return "selectReward.tiles";
+		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
+			
+			returnStr= "orderReward.tiles";
+		}
+		return returnStr;
 	}
 	
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
