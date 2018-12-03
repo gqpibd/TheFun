@@ -537,6 +537,6 @@ new site();
                 submenu.slideDown();
             }
         });
-    });
+    });  
 
 </script>
