@@ -46,21 +46,68 @@ ul.tab li.selected{
 .tabcontent.current {
 	display: block;
 }
+
+.head_title {
+  font-size: 200%;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+#line_header {
+  background: #f6f5f5;
+  color: #00000090;
+  padding: 20px;
+}
+
+#line_header p {
+  font-family: 'Allura';
+  color: #00000090;
+  font-size: 40px;
+}
+
+
 </style>
 
 <!-- 차트 css -->
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
 <!-- 몇 건인지 표시하려고 -->
+<div style="background: #fff;">
+
+
+<div style="background: #fff;padding-top: -3%;padding-bottom: 3%;">
+<c:choose>
+	<c:when test="${doc_title eq 'complete'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">HISTORY</h1> -->
+	<p>종료된 프로젝트</p>
+	<h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'search'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p> "${s_keyword }" 의 검색 결과</p>
+	<h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5>
+	</div>
+	</header>
+	</c:when>
+</c:choose>
+</div>
+
 <div class="container">
-<h5>${totalRecordCount } 건</h5>
 <div class="row">
 <div class="tab">
     <ul class="tab">
-     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=buycountDESC">참여순</a></li>
-     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=fundachivedDESC">모금액순</a></li>
-     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_sort=sdateDESC">최신순</a></li>
+     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=buycountDESC">참여 순</a></li>
+     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=fundachivedDESC">모금순</a></li>
+     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type }&s_category=${s_category }&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=edateASC">마감 순</a></li>
     </ul>
+</div>
 </div>
 
 </div>
@@ -79,12 +126,13 @@ ul.tab li.selected{
 	<jsp:param value="${s_category }" name="s_category"/>
 	<jsp:param value="${s_keyword }" name="s_keyword"/>
 	<jsp:param value="${s_summary }" name="s_summary"/>
+	<jsp:param value="${s_asc_desc }" name="s_asc_desc"/>
 	
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 
 <!-- 페이징 처리 -->     
-<div id="paging_wrap"><!-- flush 는 갱신의 의미 -->
+<div id="paging_wrap" align="center"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 	
 		<jsp:param value="${s_keyword }" name="s_keyword"/>

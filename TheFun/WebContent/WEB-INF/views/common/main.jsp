@@ -53,8 +53,8 @@
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>
-
+	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
+</div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
 <c:set var="list" value="${list }" scope="request"/>
@@ -73,6 +73,31 @@
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 
+<br><br><br>
+
+<div class="container">
+	<!-- 리스트 -->
+	
+	<h3 class="my-4">곧 마감되는 프로젝트</h3>
+	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>&nbsp;<br>
+</div>
+	
+<!-- list jsp:include로 보내려면 이렇게 -->
+<c:set var="list" value="${edate_list }" scope="request"/>
+
+<jsp:include page="/WEB-INF/views/project/project_list.jsp" flush="false">
+	<jsp:param value="${edate_pageNumber }" name="pageNumber"/>
+	<jsp:param value="${edate_pageCountPerScreen }" name="pageCountPerScreen"/>
+	<jsp:param value="${edate_recordCountPerPage }" name="recordCountPerPage"/>
+	<jsp:param value="${edate_totalRecordCount }" name="totalRecordCount"/>
+
+	<jsp:param value="${edate_s_type }" name="s_type"/>
+	<jsp:param value="${edate_s_category }" name="s_category"/>
+	<jsp:param value="${edate_s_keyword }" name="s_keyword"/>
+	<jsp:param value="${edate_s_summary }" name="s_summary"/>
+
+	<jsp:param value="${edate_list }" name="list"/>
+</jsp:include>
 
 </div>
 <script type="text/javascript">
