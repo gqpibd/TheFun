@@ -159,7 +159,7 @@ td{
 	
 	<span title="프로젝트 남은 기간">
 	<c:choose>
-		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${toDayDate - startDate + 1}일</strong> 후 시작</c:when>
+		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate + 1}일</strong> 후 시작</c:when>
 		<c:when test="${(endDate - toDayDate + 1)>1}"><strong>&nbsp;${endDate - toDayDate + 1}일</strong> 남음</c:when>
 		<c:when test="${(endDate - toDayDate + 1)==1}"><font color="red">&nbsp;오늘 마감</font></c:when>
 		<c:when test="${(endDate - toDayDate + 1)<=0}"><strong>&nbsp;종료</strong></c:when>
