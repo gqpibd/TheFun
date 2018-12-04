@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<fmt:requestEncoding value="utf-8"/>     
+<fmt:requestEncoding value="utf-8"/>    
 
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
@@ -26,8 +26,9 @@ font-family: "Nanum Gothic", sans-serif;
 <br><br>
 
 <!-- <form action="myReward.do"> --> <!-- 여기서 form 필요한가? -->
+
 <table class="type07" id="myOrderlist">
-	<col width="70">
+	<col width="200">
 	<col width="410">
 	<col width="150">
 	<col width="150">
@@ -43,70 +44,75 @@ font-family: "Nanum Gothic", sans-serif;
 	<thead>
 		<c:if test="${not empty orderlist }">
 		<tr>
-			<th>번호</th>
-			<th colspan="2">프로젝트</th>
-			<th>수량</th>
-			<th>후원금액</th>
-			<th>후원 날짜</th>
-			<th>결제일</th>
-			<th>배송일</th>
-			<th>상태</th>
+			<th>후원일자</th>
+			<th colspan="2">후원 프로젝트 정보</th>
+			<th>후원금액(수량)</th>
+			<th>프로젝트 주인</th>
+			<th>프로젝트 상태</th>
+			<!-- <th>추가할 어떤 것</th> -->
 		</tr>	
 		</c:if>
 	</thead><!-- head -->
 	
 	<tbody>
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">
-	<tr class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
-		<th>${vs.count }</th>
-		
-		<!-- 테스트용으로 이미지 하나 추가 함 ( 나중에 지울것 ) -->
-		<td colspan="2" >
-		<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">
-			${order.ptitle }
-		</td>
-		
-		<td>${order.count }</td>
-		
-		<td><fmt:formatNumber value="${order.price * order.count}" type="number"/></td>
-		
-		<td>	${order.getDateForm(order.regdate)}</td>
-		
-		<td>${order.getDateForm(order.pdate) }</td>
-		
-		<td>${order.getDateForm(order.shipdate) }</td>
-		
-		<td>							
-			<c:choose>
-				<c:when test="${order.status eq 'complete_success' && order.bcomment eq null}">						
-					<button type="button" id="latter" onclick="goLatter()">후기작성</button>					
-				</c:when>
-				<c:otherwise>						
-					<c:choose>		<%-- 임시.. 더 나은 방법을 생각해 보자 --%>								
-						<c:when test="${order.status eq 'preparing'}"> 
-							준비중
-						</c:when>
-						<c:when test="${order.status eq 'ongoing'}"> 
-							진행중
-						</c:when>
-						<c:when test="${order.status eq 'complete_success'}"> <!-- bcomment가 null이 아니므로 후기 작성 했음 --> 
-							구매 확정
-						</c:when>
-						<c:when test="${order.status eq 'complete_fail'}"> 
-							종료(목표 미달성)
-						</c:when>
-						<c:when test="${order.status eq 'delete'}"> 
-							삭제됨
-						</c:when>
+	<!--  class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'" -->
+	
+	<c:choose>
+		<c:when test="${order.isDeleted() eq false }">
+			<tr>
+			<!-- 후원 일자 : 펀딩일 결제일 -->
+			<td><!-- white-space: nowrap;  word-break:break-all  -->		
+				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
+				<div>결제 날짜 : ${order.getDateForm(order.pdate) }</div>
+				<div><a href="projectDetail.do?seq=${order.projectseq}">상세내역</a></div>
+			</td>
+			
+			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->
+			<td colspan="2" >
+				<div class="proTitle" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
+					<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">${order.ptitle }
+				</div>
+				<div class="opTitle" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>
+			</td>
+			
+			<!-- 총 금액 ( 수량 ) -->
+			<td>
+				<div><fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
+				 <div>(${order.count }개)</div>
+			</td>
+			
+			<!-- 프로젝트 작성자 -->
+			<td>작성자</td>
+			
+			<!-- 프로젝트 상태 -->
+			<td>
+				<div>
+					<c:choose>										
+						<c:when test="${order.isWaiting()}">승인 대기 중</c:when>
+						<c:when test="${order.isPreparing()}">준비 중</c:when>
+						<c:when test="${order.isOngoing()}">진행 중</c:when>
+						<c:when test="${order.isComplete_success()}">구매 확정</c:when>
+						<c:when test="${order.isComplete_fail()}">완료됨(실패)</c:when>
+						<c:when test="${order.isDeleted()}">삭제된 게시글</c:when>
 						<c:otherwise> 
 							${order.status} 
 						</c:otherwise>
 					 </c:choose>
-					<!-- <button type="button" id="latter2" disabled="disabled">후기작성</button> -->				
-				</c:otherwise>
-			</c:choose>
-		</td>	
-	</tr>
+				 </div>	
+				 <div>
+				 	<c:choose>
+						<c:when test="${order.isComplete_success() && order.bcomment eq null}">						
+							<button type="button" id="latter" onclick="goLatter()">후기작성</button>					
+						</c:when>
+					</c:choose>
+				 </div>			
+			</td>
+			<!-- 뭔가 더 추가할 어떤것 -->
+		</tr>
+		</c:when>
+	</c:choose>
+	
 	</c:forEach>
 	<tbody>
 
@@ -126,8 +132,4 @@ $(".hover_tr").mouseover(function () {
 	$(this).find("td").css("background-color","#ffffff");	
 	//$(this).first().css("background-color","#8152f0");
 });
-
-
-
-
-</script>
+</script> 

@@ -203,12 +203,12 @@ public class MemberController {
 		return "myInfo.tiles";	
 	}
 	
-	// 내 일정 보기 ( 캘린더 테스트..)
+/*	// 내 일정 보기 ( 캘린더 테스트..)
 	@RequestMapping(value="myCalendar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myCalendar(Model model) throws Exception{	
 		logger.info("MemberController myCalendar " + new Date());
 		
 		return "myCalendar.tiles";	
-	}
+	}*/
 	
 }

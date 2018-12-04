@@ -13,14 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
-import donzo.thefun.util.UtilFunctions;
+import donzo.thefun.service.ProjectService;
 
 
 @Controller
@@ -43,6 +42,19 @@ public class BuyController {
 
 		return "myOrder.tiles";
 	} 
+	
+	
+	//주문완료
+	//@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	//public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
+	//	logger.info("BuyController addOrder 메소드 " + new Date());
+
+		//주문 insert
+	//	buyService.addOrders(newbuy, opSeq, opCount, opPrice);
+		
+	//	return "redirect:/myOrderList.do";
+	//}
+	
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
