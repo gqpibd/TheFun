@@ -10,9 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import donzo.thefun.model.AlarmDto;
 import donzo.thefun.model.QnaDto;
-import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.QnaService;
 
 @Controller

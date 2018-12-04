@@ -206,7 +206,10 @@ function sendLink() {
     <div align="center">
     <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
     	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
-    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal" data-whatever="@mdo">프로젝트 승인 거절</button>
+    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
+    </c:if>
+    <c:if test="${projectdto.isOnsubmission() and login ne null and (login.isManager() or login.id eq proejctdto.id)}">
+    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
     </c:if>
     </div>
    	<br>
@@ -261,7 +264,7 @@ function sendLink() {
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_gray.jpg" onclick="hartClick()"/>10	&nbsp;&nbsp;<!-- 하트 버튼 -->
+				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> &nbsp;&nbsp;<!-- 하트 버튼 -->
 				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
 				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
@@ -332,21 +335,29 @@ $(function () {
 	});
 });
 
-function hartClick(){
+function heartClick(selector){	
 	var img1 = document.getElementById('hartBtn');
-
-	if(img1.src.indexOf('red') == -1) {
-		
-		//컨트롤러 이동 (좋아요 insert)
-		
-		img1.src = img1.src.replace('gray', 'red');
-		
-	} else {
-		
-		//컨트롤러 이동 (좋아요 취소)
-		
-		img1.src = img1.src.replace('red', 'gray');
-
+	
+	if ('${login.id}' == ''){
+		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
+	} else {			
+		$.ajax({
+			url:"changeLike.do", // 접근대상
+			type:"get",		// 데이터 전송 방식
+			data:"id=${login.id}&projectseq=${projectdto.seq}", // 전송할 데이터
+			success:function(data){
+				if(data.isLike == true){ // 좋아요
+					img1.src = img1.src.replace('gray', 'red');
+					$("#likeCount").text(data.likeCount);
+				}else{ // 좋아요 취소				
+					img1.src = img1.src.replace('red', 'gray');
+					$("#likeCount").text(data.likeCount);
+				}
+			},
+			error:function(){ // 또는					 
+				console.log("통신실패!");
+			}
+		});				
 	}
 }
 </script>
@@ -434,11 +445,6 @@ function hartClick(){
     <!-- /.container -->
     
 <script type="text/javascript">
-$('#messageModal').on('show.bs.modal', function (event) {
-	var button = $(event.relatedTarget) // Button that triggered the modal
-	var modal = $(this)	
-});
-
 function checkAndSendMessage(){
 	if($("#rejectMessage").val().trim() == ''){
 		alert("내용을 입력해 주세요");
@@ -447,6 +453,35 @@ function checkAndSendMessage(){
 		$("#rejectMsgForm").submit();
 	}
 }
+
+function viewStatus(){	
+	
+	$.ajax({
+		url:"getStatusWithMessage.do", // 접근대상
+		type:"get",		// 데이터 전송 방식
+		data:"projectseq=${projectdto.seq}", // 전송할 데이터
+		dataType :"json",
+		success:function(data){
+			console.log(data);
+			var msgBody = document.getElementById("msgBody");
+			var msgul = document.createElement('div');
+			var items = data['items'];
+			for (i = 0; i < items.length; i++) {
+		      var listItem = document.createElement('div');
+		      listItem.textContent = items[i].status;
+		      listItem.textContent += items[i].message;
+		      listItem.textContent += items[i].date;
+		      msgul.appendChild(listItem);
+		    }			
+			msgBody.replaceChild(msgul,msgBody.childNodes[0]);
+			$("#readMsgModal").modal('show');
+		},
+		error:function(){ // 또는					 
+			console.log("통신실패!");
+		}
+	});	
+}
+
 </script>
 
 <!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->    
@@ -480,6 +515,27 @@ function checkAndSendMessage(){
 	        <button type="button" class="btn fun_btn" onclick="checkAndSendMessage()">메시지 전송</button>	       
 	      </div>
 	   </form>
+    </div>
+  </div>
+</div>
+
+<!-- 프로젝트 상태와 관리자가 남긴 메시지 등을 출력하는 부분 -->
+<div class="modal fade" id="readMsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">프로젝트 승인 현황</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="msgBody">
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
     </div>
   </div>
 </div>
