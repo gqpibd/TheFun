@@ -42,6 +42,22 @@ FROM FUN_ALARM A;
 		</choose>	
 	</insert>
 	
+	<!-- 승인 상태 변화 알람 생성 -->
+	<!-- 관리자 계정은 admin만 있다고 가정함.... -->
+	<insert id="addSubmitStatusAlarm" parameterType="donzo.thefun.model.AlarmDto">
+		INSERT INTO FUN_ALARM (SEQ, PROJECTSEQ, ID, ATYPE, BUYTYPE, REGDATE, FROMNICKNAME, ACONTENT)
+		<choose>				
+			<when test="fromnickname != null"> <!-- 관리자가 보내는 경우 -->
+				VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, (SELECT ID FROM FUN_PROJECT WHERE SEQ = ${projectseq}), #{atype}, #{buytype}, SYSDATE, 
+					#{fromnickname}, #{acontent})
+			</when>
+			<otherwise> <!-- 관리자에게 보내는 경우 -->
+				VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, 'admin', #{atype}, #{buytype}, SYSDATE, 
+					(SELECT NICKNAME FROM FUN_PROJECTALL WHERE SEQ = ${projectseq}),#{acontent})
+			</otherwise>
+		</choose>	
+	</insert>
+	
 	<!-- 알람 갯수 가져오기 -->
 	<select id="getAlarmCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*)
