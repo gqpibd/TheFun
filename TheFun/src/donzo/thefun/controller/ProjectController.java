@@ -364,7 +364,7 @@ public class ProjectController {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
 		projectService.deleteProject(seq);
 		
-		return "mySchedule.tiles";
+		return "redirect:/mySchedule.do";
 	}
 	
 	// 프로젝트 승인
@@ -502,10 +502,10 @@ public class ProjectController {
 	
 	//내 일정 이동 (내 프로젝트 보기)
 	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String mySchedule(Model model, String id) throws Exception{
+	public String mySchedule(Model model, HttpServletRequest req) throws Exception{
 		logger.info("ProjectController myCalendar " + new Date());
-		
-		List<ProjectDto> myschedule = projectService.mySchedule(id);
+		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
+		List<ProjectDto> myschedule = projectService.mySchedule(((MemberDto)req.getSession().getAttribute("login")).getId());
 		
 		for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);

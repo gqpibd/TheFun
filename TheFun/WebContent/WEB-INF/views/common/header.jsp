@@ -49,3 +49,9 @@
 
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+
+<style type="text/css"> /* 공통 글씨체 */
+body{
+	font-family: "Nanum Gothic", sans-serif;
+}
+</style>

@@ -57,7 +57,6 @@ SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BC
 FROM FUN_BUY B;
  -->
 
-
 <!-- 구매자 -->  
 <mapper namespace="Buy">
 
@@ -70,8 +69,8 @@ FROM FUN_BUY B;
 
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
-	INSERT INTO FUN_BUY
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE,null,null,#{name},#{phone},#{postcode},#{roadaddress},#{detailaddress})
+	INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, PRICE )
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE,#{name},#{phone},#{postcode},#{roadaddress},#{detailaddress},#{price})
 </insert>
 
 

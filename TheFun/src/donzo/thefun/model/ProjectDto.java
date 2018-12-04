@@ -463,6 +463,23 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
+	
+	public boolean isDonation() {
+		if(fundtype.equalsIgnoreCase(TYPE_DONATION)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isReward() {
+		if(fundtype.equalsIgnoreCase(TYPE_REWARD)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public boolean isOnsubmission() {
 		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
 			return true;

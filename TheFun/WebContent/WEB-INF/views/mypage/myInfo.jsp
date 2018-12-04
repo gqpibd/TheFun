@@ -4,8 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
+
+<!-- 본문출력 묶는 태그 -->
+	<main class="s-layout__content">  		
+<!-- //본문출력 묶는 태그 -->
+
+
  <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
+
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
 <style type="text/css">
 
@@ -106,27 +113,6 @@
     vertical-align: middle;
     object-fit: cover;
 }
-/* 타이틀 띠 CSS */
-.head_title {
-  font-size: 200%;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-
-#line_header {
-  background: #8152f0;
-  color: #FFFFFF;
-  padding: 80px;
-}
-
-#line_header p {
-  font-family: 'Allura';
-  color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 0;
-  font-size: 60px;
-  margin-top: -30px;
-}
 
 /* 프로필 이미지 변경 */
 .gb_mb {
@@ -143,11 +129,9 @@
     width: 150px;
 }
 
+</style> 
 
-</style>
-
- <br><br><br><br>
-<header id="line_header">
+<header class="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY INFOMAION</h1>
     <p>나의 정보</p>
@@ -595,3 +579,8 @@ function autoHyphen(phoneField){
 }
  
 </script>
+
+<!-- 본문출력 묶는 태그 -->
+	</main>
+	</div> 
+<!-- //본문출력 묶는 태그 -->

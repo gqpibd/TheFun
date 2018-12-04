@@ -13,13 +13,14 @@
 <title>The Fun_${projectdto.title }</title>
  
 <!-- Custom styles for this template -->
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> --><!-- portpolio.css랑 같은. header.jsp에 있음 -->
+
  
 <style type="text/css">
 
-body{
+/* body{
 font-family: "Nanum Gothic", sans-serif;
-}
+} */
 .pnt { 
 	cursor: pointer; 
 }

@@ -30,7 +30,7 @@ public class AlarmController {
 	public String viewAlarms(Model model, HttpServletRequest req) {
 		MemberDto loginUser = (MemberDto) req.getSession().getAttribute("login");		
 		logger.info("viewAlarms.do");
-		List<AlarmDto> alist = alarmService.getAlarmList(loginUser.getId());
+		//List<AlarmDto> alist = alarmService.getAlarmList(loginUser.getId());
 		/*for(AlarmDto dto : alist) {
 			logger.info(dto.toString());
 		}*/
