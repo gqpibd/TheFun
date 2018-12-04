@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
 
 @Service
@@ -21,12 +22,27 @@ public class BuyServiceImpl implements BuyService {
 	}
 
 	@Override
-	public void addOrders(BuyDto buy ,int[] opSeq, int[] opCount, int[] opPrice) {				
+	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
-		for(int i=0; i<opSeq.length; i++) {		
-			BuyDto buydto = new BuyDto(buy.getId(), buy.getProjectseq(), opSeq[i], opCount[i], opPrice[i], buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress());
-			buyDao.addOrders(buydto);			
+		if(fundtype.equals(ProjectDto.TYPE_DONATION)) {
+			BuyDto buydto=new BuyDto(
+						buy.getId(), buy.getProjectseq(), 0, 0, opPrice[0], 
+						buy.getName(), buy.getPhone(), null, null, null,
+						buy.getCardNumber(), buy.getBankName());
+			System.out.println("addorders의 dto : "+buydto);
+			buyDao.addOrders(buydto);	
+			
+		}else if(fundtype.equals(ProjectDto.TYPE_REWARD)) {
+			for(int i=0; i<opSeq.length; i++) {		
+				BuyDto buydto = new BuyDto(
+						buy.getId(), buy.getProjectseq(), opSeq[i], opCount[i], opPrice[i], 
+						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
+						buy.getCardNumber(), buy.getBankName());
+				System.out.println("addorders의 dto : "+buydto);
+				buyDao.addOrders(buydto);			
+			}
 		}
+
 		
 	}
 	

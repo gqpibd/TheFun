@@ -44,11 +44,13 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
-
+		
+		System.out.println("buy 컨트롤러 dto : "+newbuy);
+		
 		//주문 insert
-		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
+		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		
 		return "redirect:/myOrderList.do";
 	}
