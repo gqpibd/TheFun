@@ -163,58 +163,6 @@ font-family: "Nanum Gothic", sans-serif;
   line-height: 40px;
 }
 
-/* 프로젝트 승인 상태 보기 */
-.blog-container {
- 	background: #f6f6f6;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
-    padding: 20px 0 20px 0;
-}
-
-.author {
-  margin: 0 auto;
-  padding-top: .125rem;
-  width: 80%;
-  color: #999999;
-}
-
-.blog-body {
-  margin: 0 auto;
-  width: 80%;
-}
-
-.msgtitle {
-  color: #8152f0;
-  font-weight: bold;
-  border: 1px solid #8152f0;
-  border-radius: 5px;
-  letter-spacing: 1px;
-  padding: 0 .5rem;
-}
-
-.blog-summary p {
-  color: #4d4d4d;
-}
-
-.blog-footer {
-  border-top: 1px solid #e6e6e6;
-  margin: 0 auto;
-  padding-bottom: .125rem;
-  width: 80%;
-}
-
-.published-date {
-  margin: 3px;
-  border: 1px solid #999999;
-  border-radius: 3px;
-  padding: 0.2rem;
-  color: #999999;
-  font-size: .75rem;
-  letter-spacing: 1px;
-  line-height: 1.9rem;
-  text-align: center;
-}
-
  </style>
 
 <!-- 카카오 링크 설정 -->
@@ -249,22 +197,22 @@ function sendLink() {
 
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
-<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 <fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+<fmt:parseDate value="${projectdto.sdate }" var="sDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:parseNumber value="${sDate.time / (1000*60*60*24)}" integerOnly="true" var="startDate"></fmt:parseNumber>
 
  <!-- 카테고리 , 태그 -->
     <div class="container">
     <div align="center">
-    <c:if test="${login ne null}">
-	    <c:if test="${projectdto.isWaiting() and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
-	    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
-	    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
-	    </c:if>
-	    <c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
-	    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
-	    </c:if>
-	</c:if>
+    <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
+    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
+    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
+    </c:if>
+    <c:if test="${projectdto.isOnsubmission() and login ne null and (login.isManager() or login.id eq proejctdto.id)}">
+    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
+    </c:if>
     </div>
    	<br>
    	<div align="center">   		
@@ -277,19 +225,24 @@ function sendLink() {
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;background-color: white;" id="sTable">
+		<table style="width: 100%;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
-				 <c:if test="${(endDate - strDate+1)<=0}">
+			<c:if test="${projectdto.isPreparing()}">
+				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
+			</c:if>
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	
 				 	<b style="font-size: 25px">종료된 리워드</b>
-				 </c:if>
-				 <c:if test="${(endDate - strDate+1)==1}">
+			</c:if>
+			<c:if test="${projectdto.isOngoing()}">
+				 <c:if test="${(endDate - nowDate)==0}">
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
-				 <c:if test="${(endDate - strDate+1)>1}">
-				 <b style="font-size: 25px">${endDate - strDate+1}일 남음</b>
+				 <c:if test="${(endDate - nowDate)>0}">
+				 <b style="font-size: 25px">${endDate-nowDate}일 남음</b>
 				 </c:if>
+			</c:if>
 			</td>
 		</tr>
 		<tr height="50">
@@ -423,9 +376,13 @@ function heartClick(selector){
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent"> <!-- 댓글  -->
-			<jsp:include page="detailFeedback.jsp"/>
-			<%-- <jsp:include page="qna.jsp"/> --%>
+         <div class="col-lg-8" id="feedbackContent"> <!-- 후기 혹은 QNA  -->
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
+				<jsp:include page="detailFeedback.jsp"/>
+			</c:if>
+			<c:if test="${projectdto.isOngoing() or isPreparing()}">
+				<jsp:include page="qna.jsp"/>
+			</c:if>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
@@ -508,52 +465,26 @@ function checkAndSendMessage(){
 	}
 }
 
-/* 프로젝트의 관리자 승인 상태를 보자 */
-function viewStatus(){		
+function viewStatus(){	
+	
 	$.ajax({
 		url:"getStatusWithMessage.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
 		data:"projectseq=${projectdto.seq}", // 전송할 데이터
 		dataType :"json",
 		success:function(data){
-			//console.log(data);
-			
-			var msgBox = document.createElement('div');
-			
+			console.log(data);
+			var msgBody = document.getElementById("msgBody");
+			var msgul = document.createElement('div');
 			var items = data['items'];
-			if(items.length>0){
-				for (i = 0; i < items.length; i++) {
-				  var msgContainer = document.createElement('div');
-				  msgContainer.classList.add("blog-container");
-	
-			      var author = document.createElement('div');
-			      author.classList.add("author");
-			      if(items[i].writer == "에디터"){
-			    	  console.log(items[i].writer);
-			    	  author.innerHTML = "<h4><i class='fas fa-user-astronaut'></i>에디터</h4>";
-			      }else{
-			    	  //console.log(items[i].writer);
-			    	  author.innerHTML = "<h4><i class='fas fa-reply'></i>작성자</h4>";
-			      }
-			      var body = document.createElement('div');
-			      body.classList.add("blog-body");			      
-			      body.innerHTML = "<span class='msgtitle'>" + items[i].status + "</span>" +
-			      				   "<div class='blog-summary' style='margin-top: 15px; margin-bottom: 15px'><i class='far fa-arrow-alt-circle-right'></i>&nbsp;" + 
-			      				   items[i].message +"</div>";
-			      var footer = document.createElement('div');
-			      footer.classList.add("blog-footer");
-			      footer.innerHTML = "<span class='published-date'>" + items[i].date +"<span>";
-			      
-			      msgContainer.appendChild(author);
-			      msgContainer.appendChild(body);
-			      msgContainer.appendChild(footer);
-			      
-			      msgBox.appendChild(msgContainer);
-			    }			
-				
-				var msgBody = document.getElementById("msgBody");
-				msgBody.replaceChild(msgBox, msgBody.childNodes[0]);
-			}
+			for (i = 0; i < items.length; i++) {
+		      var listItem = document.createElement('div');
+		      listItem.textContent = items[i].status;
+		      listItem.textContent += items[i].message;
+		      listItem.textContent += items[i].date;
+		      msgul.appendChild(listItem);
+		    }			
+			msgBody.replaceChild(msgul,msgBody.childNodes[0]);
 			$("#readMsgModal").modal('show');
 		},
 		error:function(){ // 또는					 
@@ -603,16 +534,20 @@ function viewStatus(){
 <div class="modal fade" id="readMsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header" style="display: unset;">
-        <h5 class="modal-title" id="exampleModalLabel">프로젝트 승인 현황</h5>        
-			<div class="modal-body" id="msgBody">
-				에디터가 프로젝트 내용을 검토중입니다.			
-			</div>
-			<div class="modal-footer">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">프로젝트 승인 현황</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="msgBody">
+        <div>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
-</div>
 </div>
     
