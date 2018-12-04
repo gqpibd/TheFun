@@ -66,6 +66,7 @@ FROM FUN_BUY B;
 		SELECT *
 		FROM FUN_BUY_VIEW
 		WHERE ID=#{id}
+		ORDER BY REGDATE ASC
 </select>
 
 <!-- add Order -->

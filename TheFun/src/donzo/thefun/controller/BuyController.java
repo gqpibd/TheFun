@@ -19,6 +19,7 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
+import donzo.thefun.service.ProjectService;
 
 
 @Controller
@@ -52,7 +53,7 @@ public class BuyController {
 		
 		return "redirect:/myOrderList.do";
 	}
-	
+
 	/*-------------이 아래는 페이지 이동--------------*/
 	
 		

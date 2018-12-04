@@ -91,6 +91,5 @@ public class ProjectDaoImpl implements ProjectDao {
 		int n = sqlSession.update(ns + "rejectProject", projectdto);		
 		return n>0?true:false;
 	}
-
 	
 }

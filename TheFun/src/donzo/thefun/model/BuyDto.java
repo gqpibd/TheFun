@@ -111,6 +111,17 @@ FROM FUN_BASKET B;*/
 
 public class BuyDto implements Serializable {
 
+	public static final String WAITING = "waiting"; // 승인대기 
+	public static final String PREPARING = "preparing"; // 준비중
+	public static final String ONGOING = "ongoing"; // 진행중
+	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
+	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
+	public static final String DELETE = "delete"; // 삭제
+	
+	//public static final String APPROVE = "approve"; // 승인됨
+	public static final String REJECT = "reject"; // 거절됨
+	public static final String REVISE = "revise"; // 보완요청
+	
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -358,6 +369,57 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 	}
 
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isOngoing() {
+		if(status.equalsIgnoreCase(ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isPreparing() {
+		if(status.equalsIgnoreCase(PREPARING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_success() {
+		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_fail() {
+		if(status.equalsIgnoreCase(COMPLETE_FAIL)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isDeleted() {
+		if(status.equalsIgnoreCase(DELETE)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isRevise() {
+		if(status.equalsIgnoreCase(REVISE)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isReject() {
+		if(status.equalsIgnoreCase(REJECT)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq

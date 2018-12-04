@@ -36,7 +36,7 @@
 		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
-	
+ 
 	<!-- 내 프로젝트  보기 schedule -->
 	<definition name="mySchedule.tiles" extends="home.tiles">
 		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
