@@ -227,13 +227,13 @@ function sendLink() {
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
-				 <c:if test="${(endDate - strDate+1)<=0}">
+				 <c:if test="${(endDate - strDate)<=-1}">
 				 	<b style="font-size: 25px">종료된 리워드</b>
 				 </c:if>
-				 <c:if test="${(endDate - strDate+1)==1}">
+				 <c:if test="${(endDate - strDate)==0}">
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
-				 <c:if test="${(endDate - strDate+1)>1}">
+				 <c:if test="${(endDate - strDate)>0}">
 				 <b style="font-size: 25px">${endDate - strDate+1}일 남음</b>
 				 </c:if>
 			</td>
