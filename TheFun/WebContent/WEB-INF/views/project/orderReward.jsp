@@ -267,10 +267,10 @@ body{
 	</tr>
 	<tr>
 		<td>
-			<input type="text" class="liteGray numberCheck" name="validDate1" placeholder="mm" size="3">월
-			<input type="text" class="liteGray numberCheck" name="validDate2" placeholder="yy" size="3">년
+			<input type="text" class="liteGray numberCheck" id="validDate1" name="validDate1" placeholder="mm" size="3">월
+			<input type="text" class="liteGray numberCheck" id="validDate2" name="validDate2" placeholder="yy" size="3">년
 		</td>
-		<td><input type="password" class="liteGray numberCheck" name="cardPwd" ></td>
+		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
 	</tr>
 	<tr>
 		<td class="cardInfo" align="left">사용은행</td>
@@ -295,6 +295,14 @@ body{
 <input type="hidden" name="fundtype" value="${projectdto.fundtype }">
 <input type="hidden" name="projectseq" value="${projectdto.seq }">
 <input type="hidden" name="id" value="${login.id }">
+<!-- 기부일 경우 -->
+<c:if test="${projectdto.isDonation()}">
+	<input type="hidden" name="opSeq" value="0">
+	<input type="hidden" name="opCount" value="0">
+	<input type="hidden" name="name" value="${login.nickname}">
+	<input type="hidden" name="phone" value="${login.phone}">
+</c:if>
+</form>
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdto.isReward()}">
@@ -303,14 +311,8 @@ body{
 
 <!-- 기부일 경우 -->
 <c:if test="${projectdto.isDonation()}">
-<input type="hidden" name="opSeq" value="0">
-<input type="hidden" name="opCount" value="0">
-<input type="hidden" name="name" value="${login.nickname}">
-<input type="hidden" name="name" value="${login.phone}">
-<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="addOrder()" width="120px;">  <!-- 기부하기 버튼 -->
+	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder()" width="120px;">  <!-- 기부하기 버튼 -->
 </c:if>
-</form>
-
      </div>
    </div>
    <!-- /.row -->
@@ -320,9 +322,8 @@ body{
 <script type="text/javascript">
 
 
-function addOrder() {
-	alert("go");
-	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
+function goAddOrder() {
+ 	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
 	document.getElementById("cardNumber").value=cardNum;
 	
 	//배송지 이름, 전화번호, 주소
@@ -334,38 +335,30 @@ function addOrder() {
 		$("#card2").focus();
 	}else if(document.getElementById("card3").value.length<4){
 		alert("세번째 카드번호가 4자리수 이하입니다");
-		
 	}else if(document.getElementById("card4").value.length<4){
 		alert("네번째 카드번호가 4자리수 이하입니다");
-		
+	}else if(document.getElementById("cardPwd").value.length<4){
+		alert("카드번호가 4자리 이하입니다");
 	}else if(document.getElementById("birth").value.length<6){
 		alert("생년월일이 6자리 이하입니다");
-		
-	}else if(document.getElementById("validDate2").value>12 || document.getElementById("validDate2").value<1){
-		alert("유효기간이 맞지 않습니다");
-		
-	}else if(document.getElementById("validDate1").value<=19){
-		alert("유효기간이 맞지 않습니다");
-		
-	}else if(document.getElementById("deliName").value==null){
+	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
+		alert("월의 유효기간이 맞지 않습니다");
+	}else if(document.getElementById("validDate2").value<=19){
+		alert("년도 유효기간이 맞지 않습니다");
+	}/* else if(document.getElementById("deliName").value==null){
 		alert("이름을 입력하여주십시오");
-		
 	}else if(document.getElementById("deliPhone").value==null){
 		alert("연락처를 입력하여 주십시오");
-		
 	}else if(document.getElementById("postcode").value==null){
 		alert("우편번호를 입력하여 주십시오");
-		
 	}else if(document.getElementById("roadAddress").value==null){
 		alert("주소를 입력하여 주십시오");
-		
 	}else if(document.getElementById("detailAddress").value==null){
 		alert("상세주소를 입력하여 주십시오");
-		
-	}else{
+	} */else{
 		alert("넘어간다");
 		//$("#orderfrm").attr("action","addOrder.do").submit();
-	}
+	} 
 	
 }
 
@@ -500,6 +493,7 @@ function addOrder() {
 		
 		//유효성검사
 		$("#card1").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
 				$(this).val($(this).val().substring(0,4));
 			}else if($(this).val().length==4){
@@ -518,6 +512,7 @@ function addOrder() {
 		    } 
 		});
 		$("#card2").on("keyup",function(){
+			$("#card2").val($("#card2").val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
 				$(this).val($(this).val().substring(0,4));
 			}else if($(this).val().length==4){
@@ -525,6 +520,7 @@ function addOrder() {
 			}
 		});
 		$("#card3").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
 				$(this).val($(this).val().substring(0,4));
 			}else if($(this).val().length==4){
@@ -532,6 +528,7 @@ function addOrder() {
 			}
 		});
 		$("#card4").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
 				$(this).val($(this).val().substring(0,4));
 			}else if($(this).val().length==4){
@@ -539,6 +536,7 @@ function addOrder() {
 			}
 		});
 		$("#validDate1").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>2){
 				$(this).val($(this).val().substring(0,2));
 			}else if($(this).val().length==2){
@@ -546,6 +544,7 @@ function addOrder() {
 			}
 		});
 		$("#validDate2").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>2){
 				$(this).val($(this).val().substring(0,2));
 			}else if($(this).val().length==2){
@@ -553,13 +552,15 @@ function addOrder() {
 			}
 		});
 		$("#cardPwd").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
 				$(this).val($(this).val().substring(0,4));
-			}else if($(this).val().length==2){
+			}else if($(this).val().length==4){
 				$("#birth").focus();
 			}
 		});
 		$("#birth").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>6){
 				$(this).val($(this).val().substring(0,6));
 			}
@@ -657,16 +658,5 @@ function autoHyphen(phoneField){
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 
-//이름 유효성검사
-function nameCheck(nameField) {
-	var name=$(nameField).val().trim();
-	name=name.replace(/[<(+>]/g,'');
-	$(nameField).val(name);
-}
-
-//숫자만 가능한 유효성 검사 (카드번호, 카드비밀번호,생년월일)
-$(".numberCheck").on("keyup", function() {
-    $(this).val($(this).val().replace(/[^0-9]/g,""));
-}
 
 </script>

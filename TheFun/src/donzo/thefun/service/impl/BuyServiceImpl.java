@@ -26,8 +26,8 @@ public class BuyServiceImpl implements BuyService {
 		
 		if(fundtype.equals(ProjectDto.TYPE_DONATION)) {
 			BuyDto buydto=new BuyDto(
-						buy.getId(), buy.getProjectseq(), 0, 0, opPrice[0], 
-						buy.getName(), buy.getPhone(), null, null, null,
+						buy.getId(), buy.getProjectseq(), buy.getOptionseq(), buy.getCount(), opPrice[0], 
+						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
 			System.out.println("addorders의 dto : "+buydto);
 			buyDao.addOrders(buydto);	
