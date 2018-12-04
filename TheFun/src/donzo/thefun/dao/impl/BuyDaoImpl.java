@@ -19,9 +19,9 @@ public class BuyDaoImpl implements BuyDao {
 	String ns = "Buy.";
 
 	@Override
-	public List<BuyDto> orderList(BuyDto buy) {
+	public List<BuyDto> orderList(String id) {
 		//buy.setRegdate(buy.getRegdate().substring(0, 9));
-		List<BuyDto> list = sqlSession.selectList(ns + "myOrderList", buy);
+		List<BuyDto> list = sqlSession.selectList(ns + "myOrderList", id);
 		return list;
 	}
 

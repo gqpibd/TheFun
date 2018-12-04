@@ -79,9 +79,10 @@ FROM FUN_PROJECT P;
 	INSERT INTO FUN_PROJECT (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS)
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
-			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
+			#{title}, #{summary}, #{tag}, #{bank}, #{goalfund},
 			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd-hh24-mi-ss'), 
-			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, #{status})
+			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, 
+			#{status}, #{content})
 	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_PROJECT.CURRVAL FROM dual
 	</selectKey>
@@ -133,11 +134,16 @@ FROM FUN_PROJECT P;
 <!-- 프로젝트 검색 -->
 <select id="searchProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, NICKNAME
-	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${s_sort} DESC) AS RNUM, 
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${s_sort} ${s_asc_desc}) AS RNUM, 
 				 SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, NICKNAME                                              
 		  FROM FUN_PROJECTALL
 		  WHERE 1=1
-		  AND STATUS IN ('preparing', 'ongoing', 'complete_success', 'complete_fail')
+		  <if test="s_complete == 'complete'">
+		  AND LOWER(STATUS) IN ('complete_success', 'complete_fail')
+		  </if>
+		  <if test="s_complete == ''">
+		  AND LOWER(STATUS) IN ('preparing', 'ongoing')
+		  </if>
 		  <if test="s_type != ''">
 		  AND (LOWER(FUNDTYPE)=LOWER(#{s_type}))
 		  </if>
@@ -145,9 +151,8 @@ FROM FUN_PROJECT P;
 		  AND (LOWER(CATEGORY)=LOWER(#{s_category}))
 		  </if>
 		  <if test="s_keyword != ''">
-		  AND (LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
-	    </if>
-	     AND LOWER(STATUS) IN ('preparing', 'ongoing', 'complete_success', 'complete_fail')
+		  AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+	   	  </if>
 		  ) A		 
 	WHERE RNUM BETWEEN #{start} AND #{end}
 </select>
@@ -157,16 +162,21 @@ FROM FUN_PROJECT P;
   	SELECT NVL(COUNT(*), 0) AS CNT
   	FROM FUN_PROJECTALL
   	WHERE 1=1
+  	<if test="s_complete == 'complete'">
+    AND LOWER(STATUS) IN ('complete_success', 'complete_fail')
+    </if>
+    <if test="s_complete == ''">
+    AND LOWER(STATUS) IN ('preparing', 'ongoing')
+    </if>
 	<if test="s_type != ''">
-	  AND (LOWER(FUNDTYPE)=LOWER(#{s_type}))
-	  </if>
-	  <if test="s_category != ''">
-	   AND (LOWER(CATEGORY)=LOWER(#{s_category}))
-	  </if>
-	  <if test="s_keyword != ''">	  
-	  AND (LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CONTENT) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
-    </if> 
-    AND LOWER(STATUS) IN ('preparing', 'ongoing', 'complete_success', 'complete_fail')
+	AND (LOWER(FUNDTYPE)=LOWER(#{s_type}))
+	</if>
+	<if test="s_category != ''">
+	AND (LOWER(CATEGORY)=LOWER(#{s_category}))
+	</if>
+	<if test="s_keyword != ''">	  
+	AND (LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CONTENT) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+	</if> 
 </select>
 
 <!-- 내 일정 찾기 : 등록한 프로젝트 -->
@@ -176,7 +186,7 @@ FROM FUN_PROJECT P;
 			FUNDACHIVED, STATUS
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id}	
-	ORDER BY SDATE ASC
+	ORDER BY SDATE ASC, EDATE ASC
 </select>
 
 </mapper>
