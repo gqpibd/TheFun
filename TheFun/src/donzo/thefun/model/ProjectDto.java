@@ -384,14 +384,6 @@ public class ProjectDto implements Serializable {
 	public void setFundachived(int fundachived) {
 		this.fundachived = fundachived;
 	}
-
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
 	
 	public String getDateForm(String datetime) {
 		String date = datetime;
