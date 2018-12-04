@@ -76,7 +76,7 @@ FROM FUN_PROJECT P;
 
 <!-- 새 프로젝트 등록 후 현재 seq 받아서 리턴 : 주의! keyProperty에 seq는 parameter로 들어온 dto에 seq변수에 값을 넣어준다는 의미다. 따라서 값을 찾을때는 getSeq로 찾아야 올바른 값을 얻을 수 있다. -->
 <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
-	INSERT INTO FUN_PROJECT
+	INSERT INTO FUN_PROJECT (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS)
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
 			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},

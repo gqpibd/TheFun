@@ -2,6 +2,7 @@ package donzo.thefun.service;
 
 import java.util.List;
 
+import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
@@ -57,6 +58,12 @@ public interface ProjectService {
 	
 	//schedule
 	public List<ProjectDto> mySchedule(String id) throws Exception;
+
+	public boolean changeLike(LikeDto like);
+
+	public int getLikeCount(int projectseq);
+
+	public List<ProjectmsgDto> getMsgList(int projectseq);
 
 	
 	

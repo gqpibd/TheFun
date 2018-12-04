@@ -1,7 +1,5 @@
 package donzo.thefun.model;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.io.Serializable;
 /*-- 멤버 테이블
 
