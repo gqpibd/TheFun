@@ -43,7 +43,11 @@ $(document).ready(function() {
 		console.log("카테고리 = ${myProject.category }");
 		// 기존 fundtype(라디오 버튼) / categoty(셀렉트 옵션) 값 설정
 		$('input:radio[name=fundtype]:input[value=${myProject.fundtype}]').attr('checked', true);
-		$('.category option[value=${myProject.category}]').attr('selected', 'selected');
+		$("#category option").each(function(){
+		    if($(this).val()=="${myProject.category}"){
+		      $(this).prop("selected","selected"); // attr적용안될경우 prop으로 
+		    }
+		});
 		
 		// 썸머노트 설정
 		  $('#summernote').summernote({
