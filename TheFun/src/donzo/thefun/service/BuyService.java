@@ -12,4 +12,9 @@ public interface BuyService {
 	//add order
 	public void addOrders(BuyDto buy ,int[] opSeq, int[] opCount, int[] opPrice);
 
+	//후기 등록
+	public boolean addReview(BuyDto buydto);
+
+	public List<BuyDto> selectReviewList(int seq);
+
 }

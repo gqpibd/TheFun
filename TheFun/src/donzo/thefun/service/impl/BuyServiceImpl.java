@@ -27,11 +27,16 @@ public class BuyServiceImpl implements BuyService {
 			BuyDto buydto = new BuyDto(buy.getId(), buy.getProjectseq(), opSeq[i], opCount[i], opPrice[i], buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress());
 			buyDao.addOrders(buydto);			
 		}
-		
 	}
-	
-	
-	
-	
+
+	@Override
+	public boolean addReview(BuyDto buydto) {
+		return buyDao.addReview(buydto);
+	}
+
+	@Override
+	public List<BuyDto> selectReviewList(int seq) {
+		return buyDao.selectReviewList(seq);
+	}
 }
 

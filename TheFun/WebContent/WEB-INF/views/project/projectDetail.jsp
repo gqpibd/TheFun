@@ -424,8 +424,8 @@ function heartClick(selector){
         </div>
         
          <div class="col-lg-8" id="feedbackContent"> <!-- 댓글  -->
-			<%-- <jsp:include page="detailFeedback.jsp"/> --%>
-			<jsp:include page="qna.jsp"/>
+			<jsp:include page="detailFeedback.jsp"/>
+			<%-- <jsp:include page="qna.jsp"/> --%>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
