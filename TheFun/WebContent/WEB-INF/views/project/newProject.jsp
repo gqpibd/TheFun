@@ -850,8 +850,6 @@ $("#btn_submit").click(function () {
 			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
 			" optionSelected = " + optionSelected + " option_total = " + option_total);
 		
-	alert("내용 길이 = " + summernote.length);
-	
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
 		alert("제목을 입력해주세요");
@@ -886,7 +884,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
 	} else if(tag == null || tag == ""){
-		alert("검색용 태그를 등록해주세요");	// #붙여주는 함수 따로 만들자.
+		alert("검색용 태그를 등록해주세요");
 		$("#menu-tab1").click();
 		$("#tagTap").click();
 		return;
@@ -895,12 +893,12 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#tagTap").click();
 	} else if(goalfund == null || goalfund == ""){
-		alert("프로젝트 달성 목표 금액을 등록해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		alert("프로젝트 달성 목표 금액을 등록해주세요");
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
 	} else if(goalfund.length > 10){
-		alert("프로젝트 목표금액이 너무 큽니다. 줄여주세요.");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		alert("프로젝트 목표금액이 너무 큽니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
@@ -914,7 +912,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#bankTap").click();
 	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == ""){
-		alert("프로젝트 진행 스케줄을 모두 등록해주세요");	// 다시 처음주터 날짜를 선택하고 싶을 때를 위해 '취소하기' 버튼 추가하기.
+		alert("프로젝트 진행 스케줄을 모두 등록해주세요");
 		$("#menu-tab1").click();
 		$("#dateTap").click();
 		return;
@@ -922,7 +920,7 @@ $("#btn_submit").click(function () {
 		
 		// 2. 카테고리에 따른 공란판정
 		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
-			alert("당신은 기부왕!");
+			console.log("기부를 선택하셨습니다");
 			formSubmit();	// form에 submit 실행~
 			return;
 		} else if(fundtype == "reward" && optionSelected == "NO"){	// 상품선택하고, 리워드 갯수 선택안함
@@ -959,8 +957,7 @@ $("#btn_submit").click(function () {
 					return;
 				}
 			}
-			
-			alert("총액 = " +  totalPrice);
+			console.log("총액 = " +  totalPrice);
 			
 			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
 				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)

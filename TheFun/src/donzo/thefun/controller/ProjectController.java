@@ -318,31 +318,42 @@ public class ProjectController {
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
+		
 		// 수정할 펀딩
-		model.addAttribute("myProject", projectService.getProject(seq));
-		// 펀딩에 딸린 리워드들
-		model.addAttribute("optionList",projectService.getOptions(seq));
+		ProjectDto myProject = projectService.getProject(seq);
+		model.addAttribute("myProject", myProject);
+		
+		List<OptionDto> myOption = null;
+		if(myProject.getFundtype().equals("reward")) {
+			// 펀딩에 딸린 리워드들
+			myOption = projectService.getOptions(seq);
+		}
+		model.addAttribute("optionList", myOption);
 		
 		return "projectUpdate.tiles";
 	}
 	
 	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectUpdateAf(ProjectDto newProjectDto,
+	public String projectUpdateAf(ProjectDto newProjectDto, String proSeq,
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
-		logger.info("SEQ = " +newProjectDto.getSeq());
-		logger.info("제목 = " +newProjectDto.getTitle());
-		logger.info("요약 = "+newProjectDto.getSummary());
-		logger.info("내용 = "+newProjectDto.getContent());
-		logger.info("은행 = "+newProjectDto.getBank());
-		logger.info("새 이미지 = "+newImage.getOriginalFilename());
+		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
+		logger.info("수정할 펀딩의 seq = " + proSeq);
+		logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
 		
-		// DB 수정
+		// seq값 세팅
+		newProjectDto.setSeq(Integer.parseInt(proSeq));
+		
+		// 프로젝트 DB 수정
 		projectService.updateProject(newProjectDto);
 		
+		// 옵션 DB 수정(리워드일 경우만)
+		
+		
+		/*
 		// 파일 수정
 		String uploadPath = req.getServletContext().getRealPath("/upload");
 		
@@ -356,7 +367,7 @@ public class ProjectController {
 		} catch(Exception e) {
 			logger.info("수정 이미지 파일 업로드에 실패했습니다");
 		}
-		
+		*/
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
