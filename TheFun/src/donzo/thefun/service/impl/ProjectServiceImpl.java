@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import donzo.thefun.dao.AlarmDao;
 import donzo.thefun.dao.LikeDao;
 import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.dao.ProjectmsgDao;
 import donzo.thefun.dao.QnaDao;
+import donzo.thefun.model.AlarmDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
@@ -46,6 +48,9 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	LikeDao likeDao;
+	
+	@Autowired 
+	AlarmDao alarmDao;
 
 	@Override
 	public ProjectDto getProject(int seq) {
@@ -141,13 +146,16 @@ public class ProjectServiceImpl implements ProjectService {
 	// 프로젝트 승인
 	@Override
 	public boolean approveProject(int projectseq) {
-		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,"관리자가 프로젝트 게시를 승인하였습니다."));		
+		String message = "관리자가 프로젝트 게시를 승인하였습니다.";
+		alarmDao.addSubmitStatusAlarm(new AlarmDto(projectseq, "에디터", null , AlarmDto.ATYPE_SUBMISSION, AlarmDto.BTYPE_MYPROJECT, message));
+		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,message));		
 		return projectDao.approveProject(projectseq);		
 	}
 	
 	// 프로젝트 승인
 	@Override
-	public boolean rejectProject(ProjectmsgDto msgdto) {		
+	public boolean rejectProject(ProjectmsgDto msgdto) {
+		alarmDao.addSubmitStatusAlarm(new AlarmDto(msgdto.getProjectseq(), "에디터", null , AlarmDto.ATYPE_SUBMISSION, AlarmDto.BTYPE_MYPROJECT, msgdto.getMessage()));
 		projectmsgDao.insertProjectMsg(msgdto);
 		ProjectDto pdto = new ProjectDto();
 		pdto.setSeq(msgdto.getProjectseq());

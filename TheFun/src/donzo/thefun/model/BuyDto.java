@@ -307,7 +307,7 @@ public class BuyDto implements Serializable {
 	}
 
 	public void setOcontent(String ocontent) {
-		this.ocontent = ocontent;
+		this.ocontent = ocontent.trim();
 	}
 	
 	public String getDateForm(String datetime) {
