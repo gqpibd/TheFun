@@ -87,9 +87,47 @@ body{
       		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
       	</table>
+
+				
+	<br><br>
+	
+	<table style="width: 70%; padding: 20px;" class="td1">
+     	<tr>
+     		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle">이름</td>
+     	</tr>
+     	<tr>
+     		<td class="profile">
+     			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
+     			<input type="hidden" name="opSeq" value="0">
+				<input type="hidden" name="opCount" value="0">
+     		</td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle"><b>이메일</b></td>
+     	</tr>
+     	<tr>
+     		<td class="profile"><input  class="liteGray" size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
+     	</tr>
+     	<tr>
+     		<td class="profiletitle">휴대폰 번호</td>
+     	</tr>
+     	<tr>
+     		<td class="profile">
+     		<c:if test="${empty login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" placeholder="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     		</c:if>
+     		<c:if test="${not empty login.phone}">
+     			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
+     		</c:if>
+     		</td>
+     	</tr>
+     	</table>
 </c:if>
-      <br><br>
-      
+
+
 <!-- 리워드일 경우 -->
 <c:if test="${projectdto.isReward()}">
 		
@@ -146,7 +184,7 @@ body{
 	<br>
 	<hr width="70%">
 	<br><br>
-</c:if><!-- 리워드일경우 끝 -->
+
 	
      <!-- 사용자정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -180,7 +218,7 @@ body{
      	</tr>
      	</table>
      	
-     	
+</c:if><!-- 리워드일경우 끝 --> 	
 		<br><br>
 <!-- 리워드일 경우 -->
 <c:if test="${projectdto.isReward()}">
@@ -282,6 +320,8 @@ body{
 	</tr>
 	</table>
 	<br><br>
+	<!-- 리워드일경우 -->
+<c:if test="${projectdto.isReward()}">
 	<div style="width: 70%" align="left">
 		<p class="strongGray" align="left">결제 예약시 유의사항</p>
 		<ul class="liteGray" >
@@ -291,28 +331,24 @@ body{
 			<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
 		</ul>
 	</div>
+</c:if>
 	<br><br>
 <input type="hidden" name="fundtype" value="${projectdto.fundtype }">
 <input type="hidden" name="projectseq" value="${projectdto.seq }">
 <input type="hidden" name="id" value="${login.id }">
-<!-- 기부일 경우 -->
-<c:if test="${projectdto.isDonation()}">
-	<input type="hidden" name="opSeq" value="0">
-	<input type="hidden" name="opCount" value="0">
-	<input type="hidden" name="name" value="${login.nickname}">
-	<input type="hidden" name="phone" value="${login.phone}">
-</c:if>
+
 </form>
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdto.isReward()}">
-	<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="addOrder()" width="120px;">  <!-- 결제 예약하기 버튼 -->
+	<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="goAddOrder(2)" width="120px;">  <!-- 결제 예약하기 버튼 -->
 </c:if>
 
 <!-- 기부일 경우 -->
 <c:if test="${projectdto.isDonation()}">
-	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder()" width="120px;">  <!-- 기부하기 버튼 -->
+	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder(1)" width="120px;">  <!-- 기부하기 버튼 -->
 </c:if>
+
      </div>
    </div>
    <!-- /.row -->
@@ -322,17 +358,15 @@ body{
 <script type="text/javascript">
 
 
-function goAddOrder() {
- 	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
+function goAddOrder( is ) {
+ 	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
+ 				  document.getElementById("card3").value+document.getElementById("card4").value;
 	document.getElementById("cardNumber").value=cardNum;
-	
-	//배송지 이름, 전화번호, 주소
+	var iswhat = is;
 	if(document.getElementById("card1").value.length<4){
 		alert("첫번째 카드번호가 4자리수 이하입니다");
-		$("#card1").focus();
 	}else if(document.getElementById("card2").value.length<4){
 		alert("두번째 카드번호가 4자리수 이하입니다");
-		$("#card2").focus();
 	}else if(document.getElementById("card3").value.length<4){
 		alert("세번째 카드번호가 4자리수 이하입니다");
 	}else if(document.getElementById("card4").value.length<4){
@@ -343,21 +377,23 @@ function goAddOrder() {
 		alert("생년월일이 6자리 이하입니다");
 	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
 		alert("월의 유효기간이 맞지 않습니다");
-	}else if(document.getElementById("validDate2").value<=19){
+	}else if(document.getElementById("validDate2").value<=19 || document.getElementById("validDate2").value>30){
 		alert("년도 유효기간이 맞지 않습니다");
-	}/* else if(document.getElementById("deliName").value==null){
+	}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
 		alert("이름을 입력하여주십시오");
-	}else if(document.getElementById("deliPhone").value==null){
+	}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 		alert("연락처를 입력하여 주십시오");
-	}else if(document.getElementById("postcode").value==null){
-		alert("우편번호를 입력하여 주십시오");
-	}else if(document.getElementById("roadAddress").value==null){
-		alert("주소를 입력하여 주십시오");
-	}else if(document.getElementById("detailAddress").value==null){
-		alert("상세주소를 입력하여 주십시오");
-	} */else{
-		alert("넘어간다");
-		//$("#orderfrm").attr("action","addOrder.do").submit();
+	}else if(iswhat=="2"){
+		if(document.getElementById("postcode").value=""){
+			alert("우편번호를 입력하여 주십시오");
+		}else if(document.getElementById("roadAddress").value==""){
+			alert("주소를 입력하여 주십시오");
+		}else if(document.getElementById("detailAddress").value==""){
+			alert("상세주소를 입력하여 주십시오");
+		} 
+	}else{
+		alert("가자");
+		$("#orderfrm").attr("action","addOrder.do").submit();
 	} 
 	
 }

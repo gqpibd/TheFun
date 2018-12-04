@@ -408,8 +408,10 @@ function heartClick(selector){
             </div>
           </div>
           
-          <p class="strongGray"><b>리워드선택</b></p>
-          
+<!-- 리워드라면 -->
+ <c:if test="${projectdto.isReward()}">
+    <p class="strongGray"><b>리워드선택</b></p>
+</c:if> 
           <!-- Side 옵션 -->
           
           <c:forEach items="${optionList}" var="option"> 
