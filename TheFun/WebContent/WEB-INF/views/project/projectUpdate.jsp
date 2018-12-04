@@ -44,7 +44,7 @@ $(document).ready(function() {
 		// 기존 fundtype(라디오 버튼) / categoty(셀렉트 옵션) 값 설정
 		$('input:radio[name=fundtype]:input[value=${myProject.fundtype}]').attr('checked', true);
 		$('.category option[value=${myProject.category}]').attr('selected', 'selected');
-		Ss
+		
 		// 썸머노트 설정
 		  $('#summernote').summernote({
 			height: 300,		// 기본 높이값
@@ -725,162 +725,153 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [11] 리워드 등록 -->
-    <c:forEach var="x" begin="1" end="10" step="1">
-    	<c:forEach items="${optionList }" var="myOption" varStatus="i">
-		    <c:choose>
-			   	<c:when test="${x eq i.count }">
-			   		<div id="_option${i.count+10 }">
+   	<c:forEach items="${optionList }" var="myOption" varStatus="i">
+   		<div id="_option${i.count+10 }">
+   
+		    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+				    <div class="panel panel-default">
+					    <div class="card-header" id="headion${i.count }">
+					        <h5 class="mb-0">
+					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count+10 }" 
+					          		id="option${i.count }" class="changedOption">${i.count }번째 선물</a>
+					      	</h5>
+					    </div>
+				    <div id="collapse${i.count+10 }" class="panel-collapse collapse" aria-labelledby="heading${i.count }" data-parent="#accordion2">
+		       			<div class="card-body">
+				        	<table style="width: 100%">
+								<tr>
+									<td colspan="2">
+										<div class="desc projectimg">
+											후원자 분들에게 드릴 선물 내용을 입력해주세요
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">옵션 제목</label>
+										  <input type="text" class="form-control" id="op_title${i.count }" 
+										  	name="op_title" value="${myOption.title }" 
+										  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+										  	style="font-size: 15px" size="100%">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">아이템</label>
+										  <textarea class="form-control" rows="5" id="op_content${i.count }" 
+										  	name="op_content" style="font-size: 15px" 
+										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요.">${myOption.content }</textarea>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">후원 금액</label>
+										  <input type="text" class="form-control" id="op_price${i.count }" 
+										  	name="op_price" value="${myOption.price }"
+										  	placeholder="해당 옵션의 적정가를 책정해주세요" 
+										  	style="font-size: 15px" size="50%" maxlength="8">
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">보유 수량</label>
+										  <c:choose>
+										  	<c:when test="${myOption.stock ne 0}">
+											  <input type="text" class="form-control" id="op_stock${i.count }" 
+											  	name="op_stock" value="${myOption.stock}" 
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8">
+										  	</c:when>
+										  	<c:otherwise>
+										  		<input type="text" class="form-control" id="op_stock${i.count }" 
+											  	name="op_stock"
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8">
+										  	</c:otherwise>
+										  </c:choose>
+										</div>
+									</td>
+								</tr>
+							</table>
+				        </div>
+				      </div>
+			    </div>
+		    </div>		    
+		</div>
+	</c:forEach>
+	<c:forEach var="x" begin="${fn:length(optionList)+1 }" end="10" step="1">
+   		<div id="_option${x+10 }">
+   
+		    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+				    <div class="panel panel-default">
+					    <div class="card-header" id="headion${x }">
+					        <h5 class="mb-0">
+					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${x+10 }" 
+					          		id="option${x }" class="changedOption">${x }번째 선물</a>
+					      	</h5>
+					    </div>
+				    <div id="collapse${x+10 }" class="panel-collapse collapse" aria-labelledby="heading${x }" data-parent="#accordion2">
+		       			<div class="card-body">
+				        	<table style="width: 100%">
+								<tr>
+									<td colspan="2">
+										<div class="desc projectimg">
+											후원자 분들에게 드릴 선물 내용을 입력해주세요
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">옵션 제목</label>
+										  <input type="text" class="form-control" id="op_title${x }" 
+										  	name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+										  	style="font-size: 15px" size="100%">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">아이템</label>
+										  <textarea class="form-control" rows="5" id="op_content${x }" 
+										  	name="op_content" style="font-size: 15px" 
+										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">후원 금액</label>
+										  <input type="text" class="form-control" id="op_price${x }" 
+										  	name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" 
+										  	style="font-size: 15px" size="50%" maxlength="8">
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">보유 수량</label>
+										  		<input type="text" class="form-control" id="op_stock${x }" 
+											  	name="op_stock"
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8">
+										</div>
+									</td>
+								</tr>
+							</table>
+				        </div>
+				      </div>
+			    </div>
+		    </div>
 		    
-					    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
-							    <div class="panel panel-default">
-								    <div class="card-header" id="headion${i.count }">
-								        <h5 class="mb-0">
-								          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count+10 }" 
-								          		id="option${i.count }" class="changedOption">${i.count }번째 선물</a>
-								      	</h5>
-								    </div>
-							    <div id="collapse${i.count+10 }" class="panel-collapse collapse" aria-labelledby="heading${i.count }" data-parent="#accordion2">
-					       			<div class="card-body">
-							        	<table style="width: 100%">
-											<tr>
-												<td colspan="2">
-													<div class="desc projectimg">
-														후원자 분들에게 드릴 선물 내용을 입력해주세요
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<div class="form-group">
-													  <label for="sel1">옵션 제목</label>
-													  <input type="text" class="form-control" id="op_title${i.count }" 
-													  	name="op_title" value="${myOption.title }" 
-													  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
-													  	style="font-size: 15px" size="100%">
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<div class="form-group">
-													  <label for="sel1">아이템</label>
-													  <textarea class="form-control" rows="5" id="op_content${i.count }" 
-													  	name="op_content" style="font-size: 15px" 
-													  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요.">${myOption.content }</textarea>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="form-group">
-													  <label for="sel1">후원 금액</label>
-													  <input type="text" class="form-control" id="op_price${i.count }" 
-													  	name="op_price" value="${myOption.price }"
-													  	placeholder="해당 옵션의 적정가를 책정해주세요" 
-													  	style="font-size: 15px" size="50%" maxlength="8">
-													</div>
-												</td>
-												<td>
-													<div class="form-group">
-													  <label for="sel1">보유 수량</label>
-													  <c:choose>
-													  	<c:when test="${myOption.stock ne 0}">
-														  <input type="text" class="form-control" id="op_stock${i.count }" 
-														  	name="op_stock" value="${myOption.stock}" 
-														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-														  	style="font-size: 15px" size="50%" maxlength="8">
-													  	</c:when>
-													  	<c:otherwise>
-													  		<input type="text" class="form-control" id="op_stock${i.count }" 
-														  	name="op_stock"
-														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-														  	style="font-size: 15px" size="50%" maxlength="8">
-													  	</c:otherwise>
-													  </c:choose>
-													</div>
-												</td>
-											</tr>
-										</table>
-							        </div>
-							      </div>
-						    </div>
-					    </div>
-					    
-					    
-					    </div>
-			   	</c:when>
-			   	<c:otherwise>
-			   		<div id="_option${x+10 }">
 		    
-					    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
-							    <div class="panel panel-default">
-								    <div class="card-header" id="headion${x }">
-								        <h5 class="mb-0">
-								          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${x+10 }" 
-								          		id="option${x }" class="changedOption">${x }번째 선물</a>
-								      	</h5>
-								    </div>
-							    <div id="collapse${x+10 }" class="panel-collapse collapse" aria-labelledby="heading${x }" data-parent="#accordion2">
-					       			<div class="card-body">
-							        	<table style="width: 100%">
-											<tr>
-												<td colspan="2">
-													<div class="desc projectimg">
-														후원자 분들에게 드릴 선물 내용을 입력해주세요
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<div class="form-group">
-													  <label for="sel1">옵션 제목</label>
-													  <input type="text" class="form-control" id="op_title${x }" 
-													  	name="op_title" value="${x }" 
-													  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
-													  	style="font-size: 15px" size="100%">
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="2">
-													<div class="form-group">
-													  <label for="sel1">아이템</label>
-													  <textarea class="form-control" rows="5" id="op_content${x }" 
-													  	name="op_content" style="font-size: 15px" 
-													  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div class="form-group">
-													  <label for="sel1">후원 금액</label>
-													  <input type="text" class="form-control" id="op_price${x }" 
-													  	name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" 
-													  	style="font-size: 15px" size="50%" maxlength="8">
-													</div>
-												</td>
-												<td>
-													<div class="form-group">
-													  <label for="sel1">보유 수량</label>
-													  		<input type="text" class="form-control" id="op_stock${x }" 
-														  	name="op_stock"
-														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-														  	style="font-size: 15px" size="50%" maxlength="8">
-													</div>
-												</td>
-											</tr>
-										</table>
-							        </div>
-							      </div>
-						    </div>
-					    </div>
-					    
-					    
-					    </div>
-			   	</c:otherwise>
-		    </c:choose>
-	    </c:forEach>
+		    </div>
 	</c:forEach>
 	<%-- 
    	<c:forEach items="${optionList }" var="myOption" varStatus="i">
