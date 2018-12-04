@@ -1,9 +1,13 @@
 package donzo.thefun.dao;
 
+import java.util.List;
+
 import donzo.thefun.model.ProjectmsgDto;
 
 public interface ProjectmsgDao {
 
-	void insertProjectMsg(ProjectmsgDto projectmsgDto);
+	public void insertProjectMsg(ProjectmsgDto projectmsgDto);
+
+	public List<ProjectmsgDto> getMsgList(int projectseq);
 
 }

@@ -252,7 +252,7 @@ public class ProjectDto implements Serializable {
 		}
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
-		//System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 
 	public String getBank() {
@@ -450,6 +450,13 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
+		public boolean isOnsubmission() {
+		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
+			return true;
+		}else
+			return false;
+	}
+	
 	
 	@Override
 	public String toString() {
