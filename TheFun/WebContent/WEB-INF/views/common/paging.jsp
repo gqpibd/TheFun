@@ -77,17 +77,17 @@
 	}
 %>
 
-
-<div style="float: left; width: 96%; text-align: center;">
+<!-- float: left -->
+<div style="width: 96%; text-align: center;" align="center">
 	<a href="#none" title="처음 페이지" onclick="goPage('0');">
-		<img alt="처음 페이지" src="image/common/arrow_first.gif" style="width: 9px; height: 9px;">
+		<img alt="처음 페이지" src="image/common/angle-double-left-solid.svg" style="width: 11px; height: 11px;">
 	</a>&nbsp;
 		<%
 		// 
 		if(screenStartPageIndex > 1){	// 글의 수가 100개가 넘었을 때 보인다.
 			%>
 			<a href="#none" title="이전 페이지" onclick="goPage('<%= screenStartPageIndex - 1 %>')">
-				<img alt="이전 페이지" src="image/common/arrow_prev.gif" style="width: 9px; height: 9px;">
+				<img alt="이전 페이지" src="image/common/angle-left-solid.svg" style="width: 11px; height: 11px;">
 			</a>&nbsp;
 			<%
 		}
@@ -96,13 +96,13 @@
 		for (int i = screenStartPageIndex; i < screenEndPageIndex; i++) {
 			if(i == pageNumber){
 				%>
-				<span style="font-size: 9pt; color: #000000; font-weight: bold;">
+				<span style="font-size: 14pt; color: #000000; font-weight: bold;">
 					<%= i + 1 %>  <!-- 현재 페이지 -->
-				</span>
+				</span>&nbsp;
 				<%
 			}else{
 				%>
-				<a href="#none" title="<%=i+1%> 페이지" onclick="goPage(<%=i%>);" style="font-size: 7.5pt; color: #000000; font-weight: normal;">
+				<a href="#none" title="<%=i+1%> 페이지" onclick="goPage(<%=i%>);" style="font-size: 14pt; color: #000000; font-weight: normal;">
 					[<%=i+1%>]
 				</a>&nbsp;
 				<%
@@ -111,7 +111,7 @@
 		if(screenEndPageIndex < totalPageCount){	//[1][2] ~ 9[10] 
 			%>
 			<a href="#none" title="다음 페이지" onclick="goPage(<%=screenEndPageIndex%>)">
-				<img alt="다음 페이지" src="image/common/arrow_next.gif" style="width: 9px; height: 9px;">
+				<img alt="다음 페이지" src="image/common/angle-right-solid.svg" style="width: 11px; height: 11px;">
 			</a>&nbsp;
 			<%
 		}
@@ -125,7 +125,7 @@
 		%>
 		
 	<a href="#none" title="마지막 페이지" onclick="goPage(<%=end_page%>)">
-		<img alt="마지막 페이지" src="image/common/arrow_end.gif" style="width: 9px; height: 9px;">
+		<img alt="마지막 페이지" src="image/common/angle-double-right-solid.svg" style="width: 11px; height: 11px;">
 	</a>
 
 </div>

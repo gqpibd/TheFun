@@ -14,25 +14,16 @@
 <script src="./js/summernote-ko-KR.js"></script>
 
 <style type="text/css">
-/* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
-	/* font-family: 'Noto Sans KR', sans-serif;*/
-	/* font-family: 'Do Hyeon', sans-serif; */
-	/* font-family: 'Jua', sans-serif;  */
-	/* font-family: 'Noto Serif KR', sans-serif; */
-/* } */
-h1, h4, tr, a{
+h1, h4, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
-a{
+#home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-size: 1em;
 	color: black;
 }
 tr, td, input{
 	font-size: 17px;
 }
-/* #accordion{
-	font-size: 5%;
-} */
 
 </style>
 
@@ -56,13 +47,11 @@ $(document).ready(function() {
 		checkLength($("#title"),'#titleLen',30);
 		checkLength($("#summary"),'#commentLength',100);
 		
+		// 계좌 기존값으로 설정
 		var myAccount = '${findPro.bank}'.split('/');	// 카카오뱅크/110422942251
 		var bank = myAccount[0];	// 카카오뱅크
 		var account = myAccount[1];	// 110422942251
-		
-		// 은행 select 기존 옵션으로 기본설정 세팅
 		$("#bankname").val(bank).prop("selected", true);
-		// 계좌도 기존 입력값으로 세팅
 		$("#accountNumber").val(account);
 });	
 </script>
@@ -76,11 +65,25 @@ $(document).ready(function() {
 	<input type="hidden" id="bank" name="bank">
 	<input type="hidden" id="id" name="id" value="${login.id}">
 	<input type="hidden" name="seq" value="${findPro.seq }">
-	<input type="hidden" id="originImage" name="originImage" value="${findPro.seq }.jpg">	<!-- PNG파일이면 어쩜..?ㅠㅠ -->
+	<input type="hidden" id="originImage" name="originImage" value="${findPro.seq }.jpg">
 
 
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 70%; margin: 0 auto;">
+
+<!-- 상단 탭 모음 -->
+<ul class="nav nav-tabs">  
+  <%-- <li class="active"> --%>
+  <li class="nav-item">
+  	<a class= "nav-link active" href="#home" id="home-tab" data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="home" aria-selected="true">프로젝트 개요</a>
+  </li>  
+  <li class="nav-item">
+  	<a class= "nav-link" href="#menu1" id="menu-tab1"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu1" aria-selected="false">스토리텔링</a>
+  </li>
+  <li class="nav-item">
+  	<a class= "nav-link" href="#menu2" id="menu-tab2"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu2" aria-selected="false">리워드 등록</a>
+  </li>
+</ul>
 
 <!-- 탭 하단에 나오는 내용 div -->
 <div class="tab-content">
@@ -92,15 +95,15 @@ $(document).ready(function() {
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>등록 프로젝트 수정</h1>
+  <h1>프로젝트 개요</h1>
+  <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
-	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);">
+	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" 
-	       			aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
         </h4>
       </div>
     <!-- 아래 -->
@@ -108,9 +111,8 @@ $(document).ready(function() {
         <div class="card-body">
         	<table class="card-text" style="width: 100%">
 				<tr>
-					<td colspan="2">
-						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" 
-								onkeyup="checkLength(this,'#titleLen',30)" value="${findPro.title} ">
+					<td>
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
 					</td>
 				</tr>
 				<tr>
@@ -118,11 +120,7 @@ $(document).ready(function() {
 						<span style="color: #4B088A; margin-left: 2%;">
 							<span id="titleLen">30자 남았습니다.</span>
 						</span>
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_title">
-							<button style="color: #4B088A">취소하기</button>
-						</a>
+						
 					</td>
 				</tr>
 			</table>
@@ -152,25 +150,21 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						<td>
-							<span style="color: #4B088A; margin-left: 2%;">
+							<div style="color: #4B088A; margin-left: 2%;">
 								<ul>
 						          <li>사이즈: 가로1200px  세로675px </li>
 						          <li>용량 : 3MB 미만</li>
-						          <li>텍스트 및 로고 삽입 금지</li>
+						          <li>텍스트 및 로고 삽입 금지 </li>
 						        </ul>
-							</span>
-						</td>
-						<td align="right" style="text-align: left">
-							<input type="file" id="newImage" name="fileload" style=" width : 400px;"
+							</div>
+							<input type="file" id="mainImage" name="fileload" style=" margin-left: 6%;"
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
-							<!-- 이미지는 type이 file! -->
-							<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
-							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
+									<!-- 이미지는 type이 file! -->
+									<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
+									<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<!-- <img alt="" src="D:/stsToEclipse/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TheFun/upload/1.jpg"> -->
+						<td>
+							<img alt="#none" src="" id="imgPreview" class="card-img-top" width="20px">
 						</td>
 					</tr>
 				</table>
@@ -190,41 +184,102 @@ $(document).ready(function() {
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
-					<td colspan="2">
+					<td>
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
-						  <textarea class="form-control" rows="5" id="summary" name="summary" 
-						  			onkeyup="checkLength(this,'#commentLength',100)">${findPro.summary }</textarea>
+						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)"></textarea>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<span style="color: #4B088A; margin-left: 2%;">
+						<span style="color: #4B088A;">
 							<span id="commentLength">100자 남았습니다.</span>
 						</span>
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_summary">
-							<button style="color: #4B088A">취소하기</button>
-							<!-- 취소하기버튼 다 없애기. 아님 다른 기능으로 만들던가. -->
-						</a>
 					</td>
 				</tr>
 			</table>
         </div>
       </div>
     </div>
-    <!-- [4] 프로젝트 스토리(content) -->
+    <!-- [4] 카테고리 선택 -->
+    <div class="card border-secondary mb-1">
+    	<!-- 위 -->
+		<div class="card-header" id="headingFour">        
+		  <h4 class="mb-0">
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>          
+		  </h4>
+		</div>
+      	<!-- 아래 -->
+		<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+        <div class="card-body">
+	        	<table style="width: 100%">
+				<tr>
+					<td>
+						<div class="desc projectimg">
+								프로젝트의 성격에 맞는 카테고리를 선택해 주세요.<br>
+								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정권고를 받을 수 있습니다.)
+						</div>
+					</td>
+				</tr>
+				<tr style="margin-top: 10%">
+					<td>
+						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
+						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
+						</label>
+						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
+						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <span for="sel1">Project Category(택 1):</span>
+						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
+						    <option>Food</option>
+						    <option>Animal</option>
+						    <option>IT</option>
+						    <option style="display: none;">Human</option>
+						  </select>
+						</div>
+					</td>
+				</tr>
+			</table>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+	
+</div>
+</div>
+<!-- 첫번째 탭 끝 -->
+
+
+
+
+
+
+<!-- (2) 두번째 탭 눌렀을 때 -->
+<div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
+<br>
+
+<!-- 큰 테두리 -->
+<div class="container">
+  <h1>스토리텔링</h1>
+  <!-- card 샘플 시작 -->
+  <div class="accordion" id="accordion1">
+  	<!-- [5] 프로젝트 스토리(content) -->
 	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);">
     <!-- 위 -->
-      <div class="card-header" id="headionFour">
+      <div class="card-header" id="headionFive">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour" id="summernoteTap">프로젝트 스토리</label>		
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>		
         </h4>
       </div>
     <!-- 아래 -->
-      <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionExample">
+      <div id="collapseFive" class="collapse show" aria-labelledby="headingFive" data-parent="#accordion1">
         <div class="card-body">
         	<table style="width: 100%">
 				<tr>
@@ -237,24 +292,81 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-							<textarea id="summernote" name="content">${findPro.content }</textarea>
+							<textarea id="summernote" name="content"></textarea>
+					</td>
+				</tr>
+			</table>
+        </div>
+      </div>
+    </div>    
+    <!-- [6] 태그 -->
+    <div class="card border-secondary mb-1">
+    	<!-- 위 -->
+		<div class="card-header" id="headingSix">        
+		  <h4 class="mb-0">
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>          
+		  </h4>
+		</div>
+      	<!-- 아래 -->
+		<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion1">
+        <div class="card-body">
+	        	<table style="width: 100%">
+				<tr>
+					<td>
+						<div class="desc projectimg">
+							내부 또는 외부 검색엔진에서 프로젝트가 잘 검색될 수 있도록, 사람들이 검색할만한 프로젝트의 핵심 단어를 입력해주세요.<br>
+							최소 0개부터 최대 10개까지 입력하실 수 있습니다.
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
 					</td>
 				</tr>
 			</table>
         </div>
       </div>
     </div>
-    <!-- [5] 계좌 등록 -->
+    <!-- [7] 목표 금액 설정 -->
     <div class="card border-secondary mb-1">
     	<!-- 위 -->
-		<div class="card-header" id="headingFive">        
+		<div class="card-header" id="headingSeven">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"
-		  			id="bankTap">계좌 등록</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
-		<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+		<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion1">
+        <div class="card-body">
+	        	<table style="width: 100%">
+				<tr>
+					<td>
+						<div class="form-group" style="padding-top: 10%">
+						  <label for="sel1" size="20%">목표 금액을 입력해주세요</label>
+						</div>
+					</td>
+					<td>
+						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%">
+					</td>
+					<td>
+						원
+					</td>
+				</tr>
+			</table>
+        </div>
+      </div>
+    </div>
+    <!-- [8] 계좌 등록 -->
+    <div class="card border-secondary mb-1">
+    	<!-- 위 -->
+		<div class="card-header" id="headingEight">        
+		  <h4 class="mb-0">
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>          
+		  </h4>
+		</div>
+      	<!-- 아래 -->
+		<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion1">
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
@@ -296,22 +408,227 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-    
+    <!-- [9] 프로젝트 진행 스케줄 -->
+    <div class="card border-secondary mb-1">
+    	<!-- 위 -->
+		<div class="card-header" id="headingNine">        
+		  <h4 class="mb-0">
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>          
+		  </h4>
+		</div>
+      	<!-- 아래 -->
+		<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion1">
+        <div class="card-body">
+	        	<table style="width: 100%">
+				<tr>
+					<td colspan="3">
+						<div class="form-group">
+						  <!-- <label for="sel1"> -->
+						  <div class="desc projectimg">
+						  	프로젝트의 시작일, 종료일 , 정산일, 배송일을 각각 선택해주세요.<br>
+						  	※기부 카테고리를 선택하셨다면, 배송일을 지정할 필요가 없습니다.※<br>
+						  </div>
+						  <!-- </label> -->
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 시작일</label>
+						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date1" name="sdate" placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
+						  <!-- autocomplete="off" : 자동완성 끄기 -->
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 종료일</label>
+						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 정산일·결제일</label>
+						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="form-group">
+						  <label for="sel1">프로젝트 배송일</label>
+						</div>
+					</td>
+					<td>
+						<input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+					</td>
+					<td>
+						<!-- 초기화 버튼 -->
+						<button type="button" id="btn_resetDates" class="btn btn-outline-primary">Reset Date</button>
+					 </td>
+				</tr>
+			</table>
+        </div>
+      </div>
     </div>
     
+    </div>
+	
+</div>
+</div>
+
+
+
+
+
+
+
+
+<!-- (3) 세번째 탭 눌렀을 때 -->
+<div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
+<br>
+
+<!-- 큰 테두리 -->
+<div class="container">
+  <h1>리워드 등록</h1>
+  <!-- card 샘플 시작 -->
+  <div class="accordion" id="accordion2">
+  	<!-- [10] 옵션 개수 선택 -->
+	<div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+    <!-- 위 -->
+      <div class="card-header" id="headionTen">
+        <h4 class="mb-0">    				
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="optiontotalTap">
+	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">옵션 개수 선택</a>
+	       </label>		
+        </h4>
+      </div>
+    <!-- 아래 -->
+      <div id="collapseTen" class="collapse show" aria-labelledby="headingTen" data-parent="#accordion2">
+        <div class="card-body">
+        	<table style="width: 100%">
+					<tr>
+						<td>
+							<div class="desc projectimg">
+								후원자 분들에게 어떤 선물을 드릴까요?
+							</div>
+						</td>
+						<td>
+							<div class="form-group">
+							  <label for="sel1">옵션 총 개수</label>
+							  <select class="form-control" id="option_total" name="option_total" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
+							    <%
+								for(int i=1; i <= 10; i++){
+									%>
+									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
+									<%
+								}
+								%>
+							  </select>
+							</div>
+						</td>
+					</tr>
+				</table>
+        </div>
+      </div>
+    </div>    
+    <!-- [11] 리워드 등록 -->
+	    <%
+		for(int i=1; i <= 10; i++){
+			%>
+	    <div id="_option<%=(i+10 + "")%>">
+	    
+	    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+			    <div class="panel panel-default">
+			    	<!-- 위 -->
+				    <div class="card-header" id="headion<%=(i + "") %>">
+				        <h5 class="mb-0">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>
+			
+				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" id="option<%=i %>" class="changedOption"><%=(i + "") %>번째 선물</a>
+				      	</h5>
+				    </div>
+			    <!-- 아래 -->
+			    <div id="collapse<%=(i+10 + "")%>" class="panel-collapse collapse" aria-labelledby="heading<%=(i + "") %>" data-parent="#accordion2">
+        			<div class="card-body">
+			        	<table style="width: 100%">
+							<tr>
+								<td colspan="2">
+									<div class="desc projectimg">
+										후원자 분들에게 드릴 선물 내용을 입력해주세요
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="form-group">
+									  <label for="sel1">옵션 제목</label>
+									  <input type="text" class="form-control" id="op_title<%=i %>" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="form-group">
+									  <label for="sel1">아이템</label>
+									  <textarea class="form-control" rows="5" id="op_content<%=i %>" name="op_content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="form-group">
+									  <label for="sel1">후원 금액</label>
+									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%" maxlength="8">
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+									  <label for="sel1">보유 수량</label>
+									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%" maxlength="8">
+									</div>
+								</td>
+							</tr>
+						</table>
+			        </div>
+			      </div>
+		    </div>
+	    </div>
+	    
+	    
+	    </div>
+	    	<%
+		}
+		%>
     
     
-	<!-- 전송버튼 -->
-	<input type="button" class="btn btn-lg btn-primary" id="btn_submit" 
-		style="font-family: 'Noto Sans KR', sans-serif" value="수정하기">
-	<input type="button" class="btn btn-secondary btn-lg" id="btn_calcel" 
-		style="font-family: 'Noto Sans KR', sans-serif" value="취소">
+	
+</div>
+
+</div>
+<!-- 3번째 탭 내용 끝 -->
+
+
+</div>
+<!-- 전송버튼 -->
+	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
+		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="전송">	
+
 </div>
 </div>
 
 
 
-</div>
 </form>
 <!-- 전체 폼 끝 -->
 

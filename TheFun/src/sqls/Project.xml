@@ -79,9 +79,10 @@ FROM FUN_PROJECT P;
 	INSERT INTO FUN_PROJECT (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS)
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
-			#{title}, #{content}, #{summary}, #{tag}, #{bank}, #{goalfund},
+			#{title}, #{summary}, #{tag}, #{bank}, #{goalfund},
 			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd-hh24-mi-ss'), 
-			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, #{status})
+			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, 
+			#{status}, #{content})
 	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
 		SELECT SEQ_PROJECT.CURRVAL FROM dual
 	</selectKey>
@@ -185,7 +186,7 @@ FROM FUN_PROJECT P;
 			FUNDACHIVED, STATUS
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id}	
-	ORDER BY SDATE ASC
+	ORDER BY SDATE ASC, EDATE ASC
 </select>
 
 </mapper>

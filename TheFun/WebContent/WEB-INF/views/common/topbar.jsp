@@ -25,6 +25,7 @@ window.fbAsyncInit = function() {
  }(document));
 </script>
 
+<!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
 body{
@@ -84,7 +85,7 @@ body{
 }
 
 /* MENU */
-#nav {
+.nav {
 	text-align: center;
 	/* background: #e5e5e5; */
 	float: left;
@@ -94,34 +95,34 @@ body{
 	/* border-bottom: none; */
 }
 
-#nav li a, #nav li {
+.nav li a, .nav li {
 	float: left;
 }
 
-#nav li {
+.nav li {
 	list-style: none;
 	position: relative;
 }
 
-#nav li a {
+.nav li a {
 	/* padding: 1em 2em; */
 	text-decoration: none;
 	color: #8152f0;
 	background: #FFF;
-	background: -moz-linear-gradient(top, black, #dddddd 1px, #dddddd 25px);
-	background: -webkit-gradient(linear, left top, left 25, from(#dddddd),
-		color-stop(4%, #dddddd), to(#dddddd));
+	background: -moz-linear-gradient(top, black, #fff 1px, #fff 25px);
+	background: -webkit-gradient(linear, left top, left 25, from(#fff),
+		color-stop(4%, #fff), to(#fff));
 	/* border-right: 1px solid #3c3c3c;
  border-left: 1px solid #292929;
  border-bottom: 1px solid #232323;
  border-top: 1px solid #545454; */
 }
 
-#nav li a:hover {
-	/* background: #dddddd; */
-	background: -moz-linear-gradient(top, #dddddd, #dddddd);
-	background: -webkit-gradient(linear, left top, left bottom, from(#dddddd),
-		to(#dddddd));
+.nav li a:hover {
+	/* background: #fff; */
+	background: -moz-linear-gradient(top, #fff, #fff);
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
+		to(#fff));
 }
 
 /* Submenu */
@@ -133,7 +134,7 @@ body{
 	right : 0;
 	bottom: 0;
 } */
-#nav li ul {
+.nav li ul {
 	display: none;
 	position: absolute;
 	left: 0;
@@ -142,62 +143,77 @@ body{
 	margin: 0;
 }
 
-#nav li:hover>ul {
+.nav li:hover>ul {
 	display: block;
 }
 
-#nav li ul li, #nav li ul li a {
+.nav li ul li, .nav li ul li a {
 	float: none;
 }
 
-#nav li ul li {
+.nav li ul li {
 	/* _display: inline; /* for IE6 */ */
 	display: table;
 	margin: 0px auto 0px auto;
 }
 
-#nav li ul li a {
+.nav li ul li a {
 	/*  width: 150px; */
 	display: block;
 }
 /* SUBSUB Menu */
-#nav li ul li ul {
+.nav li ul li ul {
 	display: none;
 }
 
-#nav li ul li:hover ul {
+.nav li ul li:hover ul {
 	left: 100%;
 	top: 0;
 }
-#nav li ul
+.nav li ul
 /* megamenu : 둘러보기 css */
 .mega-menu {
 	padding: 10px 0px ! important;
 	width: 540px;
   border-radius: 0;
-  margin-top: 0px;
+  /* margin-top: 0px; */
 	}
 
 	.mega-menu li {
 		display: inline-block;
 		float: left;
 		font-size: 0.94rem;
-		padding: 3px 0px;
+		/* padding: 3px 0px; */
 		}
 
 		.mega-menu li.mega-menu-column {
-			margin-right: 20px;
-			width: 150px;
+			/* margin-right: 20px; */
+			/* width: 700px;
+			height: 600px; */
+			z-index: 6;
+			background: #FFF;
 			}
 
 			.mega-menu .nav-header {
 			padding: 0 !important;
-			margin-bottom: 10px;
+			/* margin-bottom: 10px; */
 			display: inline-block;
 			width: 100%;
-			border-bottom: 1px solid #ddd;
+			/* border-bottom: 1px solid #ddd; */
 			}
-      .mega-menu img { padding-bottom: 10px;}
+      .mega-menu img { /* padding-bottom: 10px; */}
+      
+.table_content{
+	color: #949494;
+	text-align: left;
+	padding-left: 10px;
+	cursor: pointer;
+}
+      
+/* 햄버거메뉴 */
+.menu a{cursor:pointer;}
+.menu .hide{display:none;}
+
 </style>
 
 <script type="text/javascript">
@@ -225,45 +241,60 @@ $(document).ready(function () {
 
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark top-menu">
   <div class="container" style="background-color: white;">
-	<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px"></a><!--  배너 --> 
-    
-		<ul id="nav">
-		<li style="width:90px;">
-		<img src="image/main/donation.jpg" width="100px">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mega Menu <b class="caret"></b></a>                      
-
-		<ul class="dropdown-menu mega-menu">
-
-		    <li class="mega-menu-column">
-		    <ul>
-		        <li class="nav-header">Mega menu 1</li>
-		        <img src="image/main/donation.jpg">
-				<li><a href="#">Mega-menu link</a></li>
-		        <li><a href="#">Mega-menu link</a></li>
-		        <li><a href="#">Mega-menu link</a></li>
-		        <li><a href="#">Mega-menu link</a></li>
-		        <li><a href="#">Mega-menu link</a></li>
-		        <li><a href="#">Mega-menu link</a></li>
-		    </ul>
-		    </li> 
-	    </ul>
-		</li>
-		
-		
-		<li style="width:90px;">
-			<a href="searchProjectList.do?s_type=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a><!--  기부 -->
-			<ul>
-				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
+		<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px" ></a><!--  배너 -->
+		<ul class="nav mega-menu">
+		<li>
+			<a href="#none" onclick=""><!-- <img src="image/main/newproject.jpg" width="95px"> --><span style="width:95px;">프로젝트 둘러보기</span></a>
+			<ul style="z-index: 6;background: white;padding: 5px;width: 700%;top: 100%;">
+	        <li class="nav-header">
+	        <table style="width: 100%;height: 90%;" border="1">
+	        <col width="20%"><col width="20%"><col width="30%"><col width="30%">
+			<tr>
+			<th>더 펀 메이커</th>
+			<th>더 펀 소개</th>
+			<th rowspan="6"><img alt="" src="image/banner/in_menu_logo.png" height="50%;" style="object-fit: cover;overflow:hidden"></th>
+			<th rowspan="6">태그</th>
+			</tr>
+			<tr>
+			<td class="table_content"><a href="searchProjectList.do?">모든 프로젝트</a></td>
+			<td class="table_content">더 펀 이야기</td>
+			</tr>
+			<tr>
+			<td class="table_content">분야별 인기 프로젝트</td>
+			<td class="table_content">더 펀 이야기</td>
+			</tr>
+			<tr>
+			<td class="table_content" onclick="location.href='searchProjectList.do?s_sort=edateASC'">마감 앞둔 프로젝트</td>
+			<td class="table_content">더 펀 이야기</td>
+			</tr>
+			<tr>
+			<td class="table_content" onclick="location.href='searchProjectList.do?s_sort=sdateDESC'">최신 프로젝트</td>
+			<td class="table_content">더 펀 이야기</td>
+			</tr>
+			<tr>
+			<td class="table_content" onclick="location.href='searchProjectList.do?s_type=donation&s_complete=complete'">완료된 프로젝트</td>
+			<td class="table_content">더 펀 이야기</td>
+			</tr>
+			</table>
+			</li>
+	        <!-- <img src="http://placehold.it/150x120"> -->
 			</ul>
 			
 		</li> 
+		
+		
+		<li style="width:90px;z-index: 5;">
+			<a href="searchProjectList.do?s_type=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a>
+			<ul>
+				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
+			</ul>
+		</li> 
 		<li style="width:90px;text-align: center;">
-			<a href="searchProjectList.do?s_type=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->
+			<a href="searchProjectList.do?s_type=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a>
 			<ul style="z-index: 5;">
 				<li><a href="searchProjectList.do?s_type=reward&s_category=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
 				<li><a href="searchProjectList.do?s_type=reward&s_category=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
@@ -272,10 +303,12 @@ $(document).ready(function () {
 			</ul>
 		</li>
 		<li style="width:90px;text-align: center;">
-		  <a href="newProject.do"><img src="image/main/newproject.jpg" width="95px"></a> <!-- 새 프로젝트 만들기 -->
+		  <div align="center"><a href="newProject.do"><img src="image/main/newproject.jpg" width="95px"></a> </div><!-- 새 프로젝트 만들기 -->
 		</li>
 		</ul>
+		
     &nbsp;&nbsp;&nbsp;&nbsp;
+    
     <form id="_frmFormSearch" name="frmForm1">
 		<div class="box">
 			<div class="container-4">
@@ -294,11 +327,11 @@ $(document).ready(function () {
 		<input type="hidden" name="s_complete" value="${s_complete }">
 	    
 	</form>
-    
+	
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+        
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">              
@@ -332,7 +365,6 @@ $(document).ready(function () {
 </nav>
     
 
-    
 <script type="text/javascript">
 $(document).ready(function(){
 	setAlarmCount();
@@ -450,7 +482,7 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
 // 상단바 js 부분
     
 var site = function() {
-this.navLi = $('#nav li').children('ul').hide().end();
+this.navLi = $('.nav li').children('ul').hide().end();
 this.init();
 };
 site.prototype = {
@@ -468,7 +500,7 @@ site.prototype = {
 			$(this)
 				.append('<span />')
 				.children('span')
-				.addClass('hasChildren')
+				.addClass('hasChildren');
 		}
 	});
 	
@@ -477,11 +509,30 @@ site.prototype = {
 	$(this).find('> ul').stop(true, true).slideDown('slow');
 	}, function() {
 		// mouseout
-	$(this).find('> ul').stop(true, 	true).hide(); 		
+	$(this).find('> ul').stop(true, true).hide(); 		
 	});
 		
 	}
 }
 
 new site();
+
+
+
+/* 햄버거버튼 */
+   // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });  
+
 </script>

@@ -10,8 +10,10 @@
 <!-- 차트 css -->
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
+ <!-- 메인 css -->
+ <link rel="stylesheet" href="CSS/common/main.css"> 
  
-<div class="container">	 
+<div class="container" style="z-index: 2">	 
 	<!-- 메인 배너 슬라이드 -->
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
 	  <ol class="carousel-indicators">
@@ -49,11 +51,11 @@
 	</div>
 
 	 <!-- /.row -->	
-	<div style="margin-bottom: 100px;"></div>
+	<div style="margin-bottom: 10px;"></div>
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
+	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;
 </div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
@@ -73,13 +75,13 @@
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 
-<br><br><br>
+<br>
 
 <div class="container">
 	<!-- 리스트 -->
 	
 	<h3 class="my-4">곧 마감되는 프로젝트</h3>
-	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>&nbsp;<br>
+	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>&nbsp;
 </div>
 	
 <!-- list jsp:include로 보내려면 이렇게 -->
@@ -104,7 +106,7 @@
 /* 배너이미지 시간차 변경코드 */
 $('section.awSlider .carousel').carousel({
 	pause: "hover",
-  interval: 2000
+  interval: 2000  
 });
 var startImage = $('section.awSlider .item.active > img').attr('src');
 $('section.awSlider').append('<img src="' + startImage + '">');
