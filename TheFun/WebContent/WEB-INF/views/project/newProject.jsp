@@ -476,13 +476,13 @@ $(document).ready(function() {
 					<td>
 						<div class="desc projectimg">
 							내부 또는 외부 검색엔진에서 프로젝트가 잘 검색될 수 있도록, 사람들이 검색할만한 프로젝트의 핵심 단어를 입력해주세요.<br>
-							최소 0개부터 최대 10개까지 입력하실 수 있습니다.
+							최소 1개부터 최대 10개까지 입력하실 수 있습니다.
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
+						<input type="text" class="form-control" placeholder="태그는 #으로 구분해주세요. 띄어쓰기 시 자동으로 #이 입력됩니다." id="tag" name="tag" size="100%">
 					</td>
 				</tr>
 			</table>

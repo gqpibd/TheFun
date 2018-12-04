@@ -392,16 +392,13 @@ $(document).ready(function() {
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
 						  <c:choose>
 					    	<c:when test="${myProject.fundtype eq 'reward' }">
-					    		<option>Food</option>
-							    <option>Animal</option>
-							    <option>IT</option>
-							    <option style="visibility: none;">Human</option>
+					    		<option value="Food">Food</option>
+							    <option value="Animal">Animal</option>
+							    <option value="IT">IT</option>
 					    	</c:when>
 					    	<c:when test="${myProject.fundtype eq 'donation' }">
-					    		<option style="visibility: none;">Food</option>
-							    <option>Animal</option>
-							    <option style="visibility: none;">IT</option>
-							    <option>Human</option>
+							    <option value="Animal">Animal</option>
+							    <option value="Human">Human</option>
 					    	</c:when>
 						  </c:choose>
 						  </select>
@@ -478,13 +475,13 @@ $(document).ready(function() {
 					<td>
 						<div class="desc projectimg">
 							내부 또는 외부 검색엔진에서 프로젝트가 잘 검색될 수 있도록, 사람들이 검색할만한 프로젝트의 핵심 단어를 입력해주세요.<br>
-							최소 0개부터 최대 10개까지 입력하실 수 있습니다.
+							최소 1개부터 최대 10개까지 입력하실 수 있습니다.
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" 
+					<input type="text" class="form-control" placeholder="태그는 #으로 구분해주세요. 띄어쓰기 시 자동으로 #이 입력됩니다." 
 						value="<c:forEach items="${myProject.tags }" var="tags" varStatus="status">#${tags }</c:forEach>" 
 						id="tag" name="tag" size="100%">
 					</td>
