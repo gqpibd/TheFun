@@ -20,8 +20,6 @@ font-family: "Nanum Gothic", sans-serif;
 </header>
 
 <body>
-<script src="js/Calendar/schedule.js"></script>
-
 <!-- 등록한 프로젝트가 없을때 -->
 <c:if test="${schedule.size() eq 0}">
 <br><br>
@@ -33,48 +31,82 @@ font-family: "Nanum Gothic", sans-serif;
 <section class="timeline" id="cal_timeline">
 <div class="container">
 <c:forEach items="${schedule }" var="sche">
-  	
-  	<!-- 홀수일때 왼쪽에 나타나게 하기 -->
-  	
-  	<div class="timeline-item">
-      <div class="timeline-img"></div>
-
-      <div class="timeline-content">
-        <br><br><h2>${sche.title }</h2>
-        <div class="date"> ${sche.getDateForm(sche.sdate) } ~ ${sche.getDateForm(sche.edate) }</div>
-        <div style="text-align: right;">
-			<!-- 진행 상태 status 한글화 -->
-			<c:choose>
-				<c:when test="${sche.isWaiting()}">승인 대기 중</c:when>
-				<c:when test="${sche.isPreparing()}">준비 중</c:when>
-				<c:when test="${sche.isOngoing()}">진행 중</c:when>
-				<c:when test="${sche.isComplete_success()}">완료됨(성공)</c:when>
-				<c:when test="${sche.isComplete_fail()}">완료됨(실패)</c:when>
-				<c:when test="${sche.isDeleted()}">삭제된 게시글</c:when>
-			</c:choose>
-		</div>
-        
-        <div style="text-align: right;">
-        	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
-			<c:choose>
-				<c:when test="${sche.fundtype.equalsIgnoreCase('reward')}">리워드</c:when>
-				<c:when test="${sche.fundtype.equalsIgnoreCase('donation')}">기부</c:when>
-			</c:choose> : 
-			<c:choose>
-				<c:when test="${sche.category.equalsIgnoreCase('food')}">음식</c:when>
-				<c:when test="${sche.category.equalsIgnoreCase('animal')}">동물</c:when>
-				<c:when test="${sche.category.equalsIgnoreCase('it')}">IT</c:when>
-				<c:when test="${sche.category.equalsIgnoreCase('human')}">인권</c:when>
-			</c:choose>
-     	</div> 
-        <div style="text-align: right;">결제일 : ${sche.getDateForm(sche.pdate) }</div>
-        <div style="text-align: right;">배송일 : ${sche.getDateForm(sche.shipdate) }</div>
-        
-        <a class="bnt-more" href="projectDetail.do?seq=${sche.seq }">More</a>      
-        <a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>      
-        <a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>      
-      </div>
-    </div>    
+	<c:choose>
+		<c:when test="${sche.isDeleted() eq false }">
+			<div class="timeline-item">
+		      <div class="timeline-img"></div>
+		
+		      <div class="timeline-content">
+		        <br><br><h2>${sche.title }</h2>
+		        <div class="date"> ${sche.getDateForm(sche.sdate) } ~ ${sche.getDateForm(sche.edate) }</div>
+		        <div style="text-align: right;">
+					<!-- 진행 상태 status 한글화 -->
+					<c:choose>
+						<c:when test="${sche.isWaiting()}">승인 대기 중</c:when>
+						<c:when test="${sche.isPreparing()}">준비 중</c:when>
+						<c:when test="${sche.isOngoing()}">진행 중</c:when>
+						<c:when test="${sche.isComplete_success()}">완료됨(성공)</c:when>
+						<c:when test="${sche.isComplete_fail()}">완료됨(실패)</c:when>
+						<c:when test="${sche.isDeleted()}">삭제된 게시글</c:when>
+						<c:when test="${sche.isRevise() }">보안 요청</c:when>
+						<c:when test="${sche.isReject() }">승인  거절</c:when>
+					</c:choose>
+				</div>
+		        
+		        <div style="text-align: right;">
+		        	<!-- 조건문 : 리워드 / 기부 구분 위해 일단은 간략하게 글씨로 -->
+					<c:choose>
+						<c:when test="${sche.fundtype.equalsIgnoreCase('reward')}">리워드</c:when>
+						<c:when test="${sche.fundtype.equalsIgnoreCase('donation')}">기부</c:when>
+					</c:choose> : 
+					<c:choose>
+						<c:when test="${sche.category.equalsIgnoreCase('food')}">음식</c:when>
+						<c:when test="${sche.category.equalsIgnoreCase('animal')}">동물</c:when>
+						<c:when test="${sche.category.equalsIgnoreCase('it')}">IT</c:when>
+						<c:when test="${sche.category.equalsIgnoreCase('human')}">인권</c:when>
+					</c:choose>
+		     	</div> 
+		        <div style="text-align: right;">결제일 : ${sche.getDateForm(sche.pdate) }</div>
+		        
+		        <c:choose>
+		        	<c:when test="${sche.fundtype.equalsIgnoreCase('reward')}">
+			        	<div style="text-align: right;">배송일 : ${sche.getDateForm(sche.shipdate) }</div>
+		        	</c:when>
+		        </c:choose>
+		        
+		        <a class="bnt-more" href="projectDetail.do?seq=${sche.seq }">More</a>    
+		        <!-- 준비 중일 때만 업데이트 버튼 활성화 혹은 보이기? -->
+		        <c:choose>
+		        	<c:when test="${sche.isWaiting()}">
+		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
+		        	</c:when>
+		        	<c:when test="${sche.isPreparing() }">
+		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
+		        	</c:when>
+		        	<c:when test="${sche.isRevise() }">
+		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
+		        	</c:when>
+		        	<c:when test="${sche.isReject() }">
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
+		        	</c:when>
+		        	<c:when test="${sche.isComplete_fail() }">
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
+		        	</c:when>
+		        	<c:when test="${sche.isComplete_success() }">
+		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
+		        	</c:when>
+		        </c:choose>  
+		      </div>
+		    </div> 
+		</c:when>
+		<c:otherwise>
+			
+		</c:otherwise>
+	</c:choose>
+  	   
 <!------------------------------------------------------------------------->
 </c:forEach>
 

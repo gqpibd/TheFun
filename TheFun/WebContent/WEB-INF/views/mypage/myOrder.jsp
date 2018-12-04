@@ -45,9 +45,11 @@ font-family: "Nanum Gothic", sans-serif;
 		<tr>
 			<th>번호</th>
 			<th colspan="2">프로젝트</th>
-			<!-- <th></th> -->
+			<th>수량</th>
 			<th>후원금액</th>
 			<th>후원 날짜</th>
+			<th>결제일</th>
+			<th>배송일</th>
 			<th>상태</th>
 		</tr>	
 		</c:if>
@@ -64,20 +66,15 @@ font-family: "Nanum Gothic", sans-serif;
 			${order.ptitle }
 		</td>
 		
-		<%-- <td>		
-			<a href="projectDetail.do?seq=${order.projectseq }">
-				${order.ptitle }
-			</a>			
-		</td> --%>
+		<td>${order.count }</td>
 		
-		<td>
-			<fmt:formatNumber value="${order.price * order.count}" type="number"/>  
-		</td>
+		<td><fmt:formatNumber value="${order.price * order.count}" type="number"/></td>
 		
-		<td>
-			<fmt:parseDate var="reg_date" value="${order.regdate}" pattern="yyyy-MM-dd"/>
-			<fmt:formatDate value="${reg_date }" pattern="yyyy-MM-dd"/>
-		</td>
+		<td>	${order.getDateForm(order.regdate)}</td>
+		
+		<td>${order.getDateForm(order.pdate) }</td>
+		
+		<td>${order.getDateForm(order.shipdate) }</td>
 		
 		<td>							
 			<c:choose>

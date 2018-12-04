@@ -4,6 +4,8 @@ package donzo.thefun.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
@@ -28,13 +31,12 @@ public class BuyController {
 	
 	// 내 주문 내역 목록 (myOrderHistory)
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myOrderList(Model model, BuyDto buy) {
+	public String myOrderList(HttpServletRequest req, Model model) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
 		
-		List<BuyDto> orderlist = buyService.orderList(buy);
-		/*for(int i=0;i<orderlist.size();i++) {
-			logger.info(orderlist.get(i).toString());
-		}*/
+		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
+		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+		List<BuyDto> orderlist = buyService.orderList(user.getId());
 		model.addAttribute("orderlist", orderlist);
 
 		return "myOrder.tiles";
@@ -47,7 +49,8 @@ public class BuyController {
 
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
-		return "redirect:/main.do";
+		
+		return "redirect:/myOrderList.do";
 	}
 	
 	/*-------------이 아래는 페이지 이동--------------*/

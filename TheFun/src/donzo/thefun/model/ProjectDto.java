@@ -449,7 +449,20 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
-	
+	public boolean isRevise() {
+		if(status.equalsIgnoreCase(REVISE)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isReject() {
+		if(status.equalsIgnoreCase(REJECT)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	public boolean isOnsubmission() {
 		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
 			return true;

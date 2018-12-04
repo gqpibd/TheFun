@@ -87,14 +87,18 @@ ON DELETE CASCADE; -- 종속 삭제
 
 -------------- VIEW : 구매
 
-CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS)
+CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
 AS
-SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, B.SCORE, B.BCOMMENT,
+SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, 
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
     (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
     (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),    
-    (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ)
+    (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
+    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT PDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ),
+    (SELECT SHIPDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ)
 FROM FUN_BUY B;
+
 
 -------------- VIEW : 장바구니
 CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, PTITLE, OTITLE, OCONTENT)
@@ -120,6 +124,8 @@ public class BuyDto implements Serializable {
 	String otitle; // 옵션 이름 -- view에서 가져옴
 	String ocontent; // 옵션 내용 -- view에서 가져옴
 	String status;
+	String pdate;	//결제일 -- project 에서 가져옴
+	String shipdate;	//배송일 -- project 에서 가져옴
 	
 	// 배송지 정보
 	String name; // 구매자 이름
@@ -133,8 +139,8 @@ public class BuyDto implements Serializable {
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
-			String bcomment, String ptitle, String otitle, String ocontent, String status, String name, String phone,
-			String postcode, String roadaddress, String detailaddress) {
+			String bcomment, String ptitle, String otitle, String ocontent, String status, String pdate,
+			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -149,6 +155,8 @@ public class BuyDto implements Serializable {
 		this.otitle = otitle;
 		this.ocontent = ocontent;
 		this.status = status;
+		this.pdate = pdate;
+		this.shipdate = shipdate;
 		this.name = name;
 		this.phone = phone;
 		this.postcode = postcode;
@@ -156,15 +164,14 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 	}
 	
-	
 	// 새 구매 또는 새 장바구니
 	public BuyDto(int projectseq, String id, int optionseq, int count) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
-	}
-	
+	}		
+
 	//새 구매
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
 			String postcode, String roadaddress, String detailaddress) {
@@ -179,6 +186,24 @@ public class BuyDto implements Serializable {
 		this.postcode = postcode;
 		this.roadaddress = roadaddress;
 		this.detailaddress = detailaddress;
+	}
+
+	
+	
+	public String getPdate() {
+		return pdate;
+	}
+
+	public void setPdate(String pdate) {
+		this.pdate = pdate;
+	}
+
+	public String getShipdate() {
+		return shipdate;
+	}
+
+	public void setShipdate(String shipdate) {
+		this.shipdate = shipdate;
 	}
 
 	public String getStatus() {
@@ -338,8 +363,10 @@ public class BuyDto implements Serializable {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
 				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
-				+ status + ", name=" + name + ", phone=" + phone + ", postcode=" + postcode + ", roadaddress="
-				+ roadaddress + ", detailaddress=" + detailaddress + "]";
+				+ status + ", pdate=" + pdate + ", shipdate=" + shipdate + ", name=" + name + ", phone=" + phone
+				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
 	}
+
+	
 	
 }

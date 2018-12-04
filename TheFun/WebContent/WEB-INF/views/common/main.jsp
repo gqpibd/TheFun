@@ -10,6 +10,8 @@
 <!-- 차트 css -->
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
+ <!-- 메인 css -->
+ <link rel="stylesheet" href="CSS/common/main.css"> 
  
 <div class="container">	 
 	<!-- 메인 배너 슬라이드 -->
@@ -53,8 +55,8 @@
 	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>
-
+	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;<br>
+</div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
 <c:set var="list" value="${list }" scope="request"/>
@@ -73,13 +75,38 @@
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 
+<br><br><br>
+
+<div class="container">
+	<!-- 리스트 -->
+	
+	<h3 class="my-4">곧 마감되는 프로젝트</h3>
+	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>&nbsp;<br>
+</div>
+	
+<!-- list jsp:include로 보내려면 이렇게 -->
+<c:set var="list" value="${edate_list }" scope="request"/>
+
+<jsp:include page="/WEB-INF/views/project/project_list.jsp" flush="false">
+	<jsp:param value="${edate_pageNumber }" name="pageNumber"/>
+	<jsp:param value="${edate_pageCountPerScreen }" name="pageCountPerScreen"/>
+	<jsp:param value="${edate_recordCountPerPage }" name="recordCountPerPage"/>
+	<jsp:param value="${edate_totalRecordCount }" name="totalRecordCount"/>
+
+	<jsp:param value="${edate_s_type }" name="s_type"/>
+	<jsp:param value="${edate_s_category }" name="s_category"/>
+	<jsp:param value="${edate_s_keyword }" name="s_keyword"/>
+	<jsp:param value="${edate_s_summary }" name="s_summary"/>
+
+	<jsp:param value="${edate_list }" name="list"/>
+</jsp:include>
 
 </div>
 <script type="text/javascript">
 /* 배너이미지 시간차 변경코드 */
 $('section.awSlider .carousel').carousel({
 	pause: "hover",
-  interval: 2000
+  interval: 2000  
 });
 var startImage = $('section.awSlider .item.active > img').attr('src');
 $('section.awSlider').append('<img src="' + startImage + '">');
