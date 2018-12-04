@@ -170,8 +170,34 @@ body{
 	top: 0;
 }
 #nav li ul
+/* megamenu : 둘러보기 css */
+.mega-menu {
+	padding: 10px 0px ! important;
+	width: 540px;
+  border-radius: 0;
+  margin-top: 0px;
+	}
 
+	.mega-menu li {
+		display: inline-block;
+		float: left;
+		font-size: 0.94rem;
+		padding: 3px 0px;
+		}
 
+		.mega-menu li.mega-menu-column {
+			margin-right: 20px;
+			width: 150px;
+			}
+
+			.mega-menu .nav-header {
+			padding: 0 !important;
+			margin-bottom: 10px;
+			display: inline-block;
+			width: 100%;
+			border-bottom: 1px solid #ddd;
+			}
+      .mega-menu img { padding-bottom: 10px;}
 </style>
 
 <script type="text/javascript">
@@ -205,12 +231,36 @@ $(document).ready(function () {
     
 		<ul id="nav">
 		<li style="width:90px;">
+		<img src="image/main/donation.jpg" width="100px">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mega Menu <b class="caret"></b></a>                      
+
+		<ul class="dropdown-menu mega-menu">
+
+		    <li class="mega-menu-column">
+		    <ul>
+		        <li class="nav-header">Mega menu 1</li>
+		        <img src="image/main/donation.jpg">
+				<li><a href="#">Mega-menu link</a></li>
+		        <li><a href="#">Mega-menu link</a></li>
+		        <li><a href="#">Mega-menu link</a></li>
+		        <li><a href="#">Mega-menu link</a></li>
+		        <li><a href="#">Mega-menu link</a></li>
+		        <li><a href="#">Mega-menu link</a></li>
+		    </ul>
+		    </li> 
+	    </ul>
+		</li>
+		
+		
+		<li style="width:90px;">
 			<a href="searchProjectList.do?s_type=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a><!--  기부 -->
 			<ul>
 				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
 				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
 				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
 			</ul>
+			
 		</li> 
 		<li style="width:90px;text-align: center;">
 			<a href="searchProjectList.do?s_type=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->

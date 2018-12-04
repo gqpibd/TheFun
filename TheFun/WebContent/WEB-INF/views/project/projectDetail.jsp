@@ -220,11 +220,11 @@ function sendLink() {
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable">
+		<table style="width: 100%;background-color: white;" id="sTable">
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="100%"></td>
 			<td class="strongGray sTd">
-				 <c:if test="${(endDate - strDate+1)==0}">
+				 <c:if test="${(endDate - strDate+1)<=0}">
 				 	<b style="font-size: 25px">종료된 리워드</b>
 				 </c:if>
 				 <c:if test="${(endDate - strDate+1)==1}">
