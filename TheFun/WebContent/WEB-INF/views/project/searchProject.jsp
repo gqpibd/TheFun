@@ -54,7 +54,7 @@ ul.tab li.selected{
   font-weight: bold;
 }
 #line_header {
-  background: #f6f5f5;
+  background: #fff;
   color: #00000090;
   padding: 20px;
 }
@@ -82,7 +82,7 @@ ul.tab li.selected{
 	<div class="container text-center">
 	<!-- <h1 class="head_title">HISTORY</h1> -->
 	<p>종료된 프로젝트</p>
-	<h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5>
+	<%-- <h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5> --%>
 	</div>
 	</header>
 	</c:when>
@@ -91,8 +91,8 @@ ul.tab li.selected{
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p> "${s_keyword }" 의 검색 결과</p>
-	<h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5>
+	<%-- <p> "${s_keyword }" 의 검색 결과</p> --%>
+	<%-- <h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5> --%>
 	</div>
 	</header>
 	</c:when>
@@ -100,6 +100,7 @@ ul.tab li.selected{
 </div>
 
 <div class="container">
+${totalRecordCount } 건
 <div class="row">
 <div class="tab">
     <ul class="tab">
@@ -130,7 +131,7 @@ ul.tab li.selected{
 	
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
-
+<br>
 <!-- 페이징 처리 -->     
 <div id="paging_wrap" align="center"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
