@@ -41,7 +41,7 @@ $(document).ready(function() {
 	 /* var $target = $('#category');
 	 $target.find('option:gt(2)').css('display', 'none'); */
 		
-		/* 리워드 각 탭 아래 나오는거 일단 비활성화 */
+		/* 각 리워드마다 하단 상세내용 보여주는 a태그 일단 비활성화 */
 		$(".changedOption").hide();
 		
 		
@@ -1008,7 +1008,7 @@ function formSubmit() {
 	
 	
 	// form 실행! 컨트롤러로~
-//	$("#createProjectFrom").submit();
+	$("#createProjectFrom").submit();
 }
 
 /* 글자 길이 확인 */

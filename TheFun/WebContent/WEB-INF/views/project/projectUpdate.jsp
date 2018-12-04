@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%-- <%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %> --%>
-<fmt:requestEncoding value="UTF-8"/>
+<fmt:requestEncoding value="utf-8"/>
 
 <!-- 패널 접었다 폈다 할 수 있는 기능(https://www.w3schools.com/bootstrap/bootstrap_collapse.asp 참고) -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,7 +30,21 @@ tr, td, input{
 <script>
 	
 $(document).ready(function() {
+	
+		console.log("옵션 토탈 = ${myProject.optiontotal }");
+		// 등록된 리워드 갯수까지만 row 보이기
+		for (var i = 1; i <= 10; i++) {
+			$("#_option" + (i+10)).hide();
+		}
+		for (var i = 1; i <= '${myProject.optiontotal }'; i++) {
+			$("#_option" + (i+10)).show();
+		}
 		
+		console.log("카테고리 = ${myProject.category }");
+		// 기존 fundtype(라디오 버튼) / categoty(셀렉트 옵션) 값 설정
+		$('input:radio[name=fundtype]:input[value=${myProject.fundtype}]').attr('checked', true);
+		$('.category option[value=${myProject.category}]').attr('selected', 'selected');
+		Ss
 		// 썸머노트 설정
 		  $('#summernote').summernote({
 			height: 300,		// 기본 높이값
@@ -48,12 +62,153 @@ $(document).ready(function() {
 		checkLength($("#summary"),'#commentLength',100);
 		
 		// 계좌 기존값으로 설정
-		var myAccount = '${findPro.bank}'.split('/');	// 카카오뱅크/110422942251
+		var myAccount = '${myProject.bank}'.split('/');	// 카카오뱅크/110422942251
 		var bank = myAccount[0];	// 카카오뱅크
 		var account = myAccount[1];	// 110422942251
 		$("#bankname").val(bank).prop("selected", true);
 		$("#accountNumber").val(account);
-});	
+		
+		
+		
+		/* 프로젝트 스케줄 datepicker 생성 */
+		// 시작일
+		$("#date1").datepicker({
+			minDate : 0,
+			dateFormat:"yy-mm-dd",
+			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			onSelect:function( d ){
+				// 연,월,일 구하기
+				// alert(d + "선택됐습니다");
+				var arr = d.split("-");
+				$("#date1").text(arr[0]);
+				$("#date1").append(arr[1]);
+				$("#date1").append(arr[2]);
+				
+				// 요일 구하기
+				var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
+				// alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
+						
+				var week = new Array("일", "월", "화", "수", "목", "금", "토");
+				$("#date1").append( week[ date.getDay() ] );
+			},
+			onClose : function (selectedDate) {
+				if( selectedDate != "" ) {
+					// 펀딩 시작일은 내일날짜부터 선택가능하게
+					var curDate = $("#date1").datepicker("getDate");  // Date return
+					curDate.setDate( curDate.getDate() + 1 );
+					// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
+					$("#date2").datepicker("option", "minDate", curDate);
+					// 종료일 태그 활성화
+					$("#date2").attr("disabled", false);
+				}
+			}
+		});
+		// 기존에 입력한 스케줄로 날짜 세팅
+		/* var _sdate = "${myProject.sdate}";
+		var sdate = _sdate.trim().substring(0,10);
+		console.log("sdate == " + sdate);
+		$("#date1").datepicker( "setDate" , sdate); */
+		// 종료일
+		$("#date2").datepicker({
+			dateFormat:"yy-mm-dd",
+			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			onSelect:function( d ){
+				// 연,월,일 구하기
+//				alert(d + "선택됐습니다");
+				var arr = d.split("-");
+				$("#date2").text(arr[0]);
+				$("#date2").append(arr[1]);
+				$("#date2").append(arr[2]);
+				
+				// 요일 구하기
+				var date = new Date( $("#date2").datepicker({dateFormat:'yy-mm-dd'}).val() );
+//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+				
+				var week = new Array("일", "월", "화", "수", "목", "금", "토");
+				$("#date2").append( week[ date.getDay() ] );
+			},
+			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+	            if( selectedDate != "" ) {
+	                // xxx의 maxDate를 yyy의 날짜로 설정
+	                $("#date1").datepicker("option", "maxDate", selectedDate);
+	                
+	             	// 정산일(결제일)은 종료일 담날부터 가능
+					var curDate = $("#date2").datepicker("getDate");  // Date return
+					curDate.setDate( curDate.getDate() + 1 );
+					$("#date3").datepicker("option", "minDate", curDate);
+					// 정산일 태그 활성화
+					$("#date3").attr("disabled", false);
+	            }
+	        }
+		});
+		// 정산일
+		$("#date3").datepicker({
+			dateFormat:"yy-mm-dd",
+			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			onSelect:function( d ){
+				// 연,월,일 구하기
+//				alert(d + "선택됐습니다");
+				var arr = d.split("-");
+				$("#date3").text(arr[0]);
+				$("#date3").append(arr[1]);
+				$("#date3").append(arr[2]);
+				
+				// 요일 구하기
+				var date = new Date( $("#date3").datepicker({dateFormat:'yy-mm-dd'}).val() );
+//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+				
+				var week = new Array("일", "월", "화", "수", "목", "금", "토");
+				$("#date3").append( week[ date.getDay() ] );
+			},
+			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+	            if( selectedDate != "" ) {
+	                // xxx의 maxDate를 yyy의 날짜로 설정
+	                $("#date2").datepicker("option", "maxDate", selectedDate);
+	                
+	             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
+					var curDate = $("#date3").datepicker("getDate");  // Date return
+					curDate.setDate( curDate.getDate() + 1 );
+					$("#date4").datepicker("option", "minDate", curDate);
+					// 배송일 태그 활성화
+					$("#date4").attr("disabled", false);
+	            }
+	        }
+		});
+		// 배송일
+		$("#date4").datepicker({
+			dateFormat:"yy-mm-dd",
+			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
+			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			onSelect:function( d ){
+				// 연,월,일 구하기
+//				alert(d + "선택됐습니다");
+				var arr = d.split("-");
+				$("#date4").text(arr[0]);
+				$("#date4").append(arr[1]);
+				$("#date4").append(arr[2]);
+				
+				// 요일 구하기
+				var date = new Date( $("#date4").datepicker({dateFormat:'yy-mm-dd'}).val() );
+//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
+				
+				var week = new Array("일", "월", "화", "수", "목", "금", "토");
+				$("#date4").append( week[ date.getDay() ] );
+			},
+			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+	            if( selectedDate != "" ) {
+	                // xxx의 maxDate를 yyy의 날짜로 설정
+	                $("#date3").datepicker("option", "maxDate", selectedDate);
+	                
+	            }
+	        }
+		});
+		
+		
+		
+});
 </script>
 
 
@@ -64,8 +219,8 @@ $(document).ready(function() {
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
 	<input type="hidden" id="id" name="id" value="${login.id}">
-	<input type="hidden" name="seq" value="${findPro.seq }">
-	<input type="hidden" id="originImage" name="originImage" value="${findPro.seq }.jpg">
+	<input type="hidden" name="seq" value="${myProject.seq }">
+	<input type="hidden" id="originImage" name="originImage" value="${myProject.seq }.jpg">	<!-- 기존이미지이름 별로 필요없을듯. 어차피 파일 덮어쓰기 할거라... seq.jpg로 -->
 
 
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
@@ -112,7 +267,7 @@ $(document).ready(function() {
         	<table class="card-text" style="width: 100%">
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" value="${myProject.title }" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
 					</td>
 				</tr>
 				<tr>
@@ -159,12 +314,10 @@ $(document).ready(function() {
 							</div>
 							<input type="file" id="mainImage" name="fileload" style=" margin-left: 6%;"
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
-									<!-- 이미지는 type이 file! -->
-									<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
-									<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
 						<td>
-							<img alt="#none" src="" id="imgPreview" class="card-img-top" width="20px">
+							<img alt="#none" src="D:\springWithJava\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\TheFun\upload\${myProject.seq }.jpg" id="imgPreview" class="card-img-top" width="20px">
+							<!-- 또 로컬경로에 있는 이미지를 불러오지 못한다는 오류가 뜬다... Not allowed to load local resource -->
 						</td>
 					</tr>
 				</table>
@@ -187,7 +340,7 @@ $(document).ready(function() {
 					<td>
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
-						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)"></textarea>
+						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)">${myProject.summary }</textarea>
 						</div>
 					</td>
 				</tr>
@@ -237,10 +390,20 @@ $(document).ready(function() {
 						<div class="form-group">
 						  <span for="sel1">Project Category(택 1):</span>
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
-						    <option>Food</option>
-						    <option>Animal</option>
-						    <option>IT</option>
-						    <option style="display: none;">Human</option>
+						  <c:choose>
+					    	<c:when test="${myProject.fundtype eq 'reward' }">
+					    		<option>Food</option>
+							    <option>Animal</option>
+							    <option>IT</option>
+							    <option style="visibility: none;">Human</option>
+					    	</c:when>
+					    	<c:when test="${myProject.fundtype eq 'donation' }">
+					    		<option style="visibility: none;">Food</option>
+							    <option>Animal</option>
+							    <option style="visibility: none;">IT</option>
+							    <option>Human</option>
+					    	</c:when>
+						  </c:choose>
 						  </select>
 						</div>
 					</td>
@@ -292,7 +455,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-							<textarea id="summernote" name="content"></textarea>
+						<textarea id="summernote" name="content">${myProject.content }</textarea>
 					</td>
 				</tr>
 			</table>
@@ -321,7 +484,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" id="tag" name="tag" size="100%">
+					<input type="text" class="form-control" placeholder="태그는 #로 구분해주세요" 
+						value="<c:forEach items="${myProject.tags }" var="tags" varStatus="status">#${tags }</c:forEach>" 
+						id="tag" name="tag" size="100%">
 					</td>
 				</tr>
 			</table>
@@ -347,7 +512,8 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%">
+						<input type="text" class="form-control" placeholder="0" 
+							value="${myProject.goalfund }" id="goalfund" name="goalfund" size="70%">
 					</td>
 					<td>
 						원
@@ -439,7 +605,10 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="date" id="date1" name="sdate" placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
+						<fmt:parseDate value="${myProject.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
+						<input type="text" class="date" id="date1" name="sdate" 
+							value="<fmt:formatDate value="${sdate}" pattern="yyyy-MM-dd"/>" 
+							placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
 						  <!-- autocomplete="off" : 자동완성 끄기 -->
 					</td>
 				</tr>
@@ -450,7 +619,10 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+						<fmt:parseDate value="${myProject.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+						<input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" 
+							value="<fmt:formatDate value="${edate}" pattern="yyyy-MM-dd"/>" 
+							size="30%" autocomplete="off" disabled="disabled">
 					</td>
 				</tr>
 				<tr>
@@ -460,7 +632,10 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+						<fmt:parseDate value="${myProject.pdate }" pattern="yyyy-MM-dd HH:mm:ss" var="pdate" />
+						<input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다"
+							value="<fmt:formatDate value="${pdate}" pattern="yyyy-MM-dd"/>" 
+							size="30%" autocomplete="off" disabled="disabled">
 					</td>
 				</tr>
 				<tr>
@@ -470,7 +645,10 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다" size="30%" autocomplete="off" disabled="disabled">
+						<fmt:parseDate value="${myProject.shipdate }" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
+						<input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다"
+							value="<fmt:formatDate value="${shipdate}" pattern="yyyy-MM-dd"/>" 
+							size="30%" autocomplete="off" disabled="disabled">
 					</td>
 					<td>
 						<!-- 초기화 버튼 -->
@@ -527,13 +705,17 @@ $(document).ready(function() {
 							<div class="form-group">
 							  <label for="sel1">옵션 총 개수</label>
 							  <select class="form-control" id="option_total" name="option_total" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
-							    <%
-								for(int i=1; i <= 10; i++){
-									%>
-									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
-									<%
-								}
-								%>
+							  	<!-- 순서대로 for문, if문, else문 -->
+							    <c:forEach var="x" begin="1" end="10" step="1">
+								    <c:choose>
+							    	<c:when test="${myProject.optiontotal eq x }">
+							    		<option selected='selected' value="${x }">${x }</option>
+							    	</c:when>
+							    	<c:otherwise>
+							    		<option value="${x }">${x }</option>
+							    	</c:otherwise>
+								    </c:choose>
+								</c:forEach>
 							  </select>
 							</div>
 						</td>
@@ -543,74 +725,246 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [11] 리워드 등록 -->
-	    <%
-		for(int i=1; i <= 10; i++){
-			%>
-	    <div id="_option<%=(i+10 + "")%>">
-	    
-	    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
-			    <div class="panel panel-default">
-			    	<!-- 위 -->
-				    <div class="card-header" id="headion<%=(i + "") %>">
-				        <h5 class="mb-0">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>
-			
-				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" id="option<%=i %>" class="changedOption"><%=(i + "") %>번째 선물</a>
-				      	</h5>
-				    </div>
-			    <!-- 아래 -->
-			    <div id="collapse<%=(i+10 + "")%>" class="panel-collapse collapse" aria-labelledby="heading<%=(i + "") %>" data-parent="#accordion2">
-        			<div class="card-body">
-			        	<table style="width: 100%">
-							<tr>
-								<td colspan="2">
-									<div class="desc projectimg">
-										후원자 분들에게 드릴 선물 내용을 입력해주세요
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<div class="form-group">
-									  <label for="sel1">옵션 제목</label>
-									  <input type="text" class="form-control" id="op_title<%=i %>" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<div class="form-group">
-									  <label for="sel1">아이템</label>
-									  <textarea class="form-control" rows="5" id="op_content<%=i %>" name="op_content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="form-group">
-									  <label for="sel1">후원 금액</label>
-									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%" maxlength="8">
-									</div>
-								</td>
-								<td>
-									<div class="form-group">
-									  <label for="sel1">보유 수량</label>
-									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%" maxlength="8">
-									</div>
-								</td>
-							</tr>
-						</table>
-			        </div>
-			      </div>
+    <c:forEach var="x" begin="1" end="10" step="1">
+    	<c:forEach items="${optionList }" var="myOption" varStatus="i">
+		    <c:choose>
+			   	<c:when test="${x eq i.count }">
+			   		<div id="_option${i.count+10 }">
+		    
+					    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+							    <div class="panel panel-default">
+								    <div class="card-header" id="headion${i.count }">
+								        <h5 class="mb-0">
+								          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count+10 }" 
+								          		id="option${i.count }" class="changedOption">${i.count }번째 선물</a>
+								      	</h5>
+								    </div>
+							    <div id="collapse${i.count+10 }" class="panel-collapse collapse" aria-labelledby="heading${i.count }" data-parent="#accordion2">
+					       			<div class="card-body">
+							        	<table style="width: 100%">
+											<tr>
+												<td colspan="2">
+													<div class="desc projectimg">
+														후원자 분들에게 드릴 선물 내용을 입력해주세요
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<div class="form-group">
+													  <label for="sel1">옵션 제목</label>
+													  <input type="text" class="form-control" id="op_title${i.count }" 
+													  	name="op_title" value="${myOption.title }" 
+													  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+													  	style="font-size: 15px" size="100%">
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<div class="form-group">
+													  <label for="sel1">아이템</label>
+													  <textarea class="form-control" rows="5" id="op_content${i.count }" 
+													  	name="op_content" style="font-size: 15px" 
+													  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요.">${myOption.content }</textarea>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="form-group">
+													  <label for="sel1">후원 금액</label>
+													  <input type="text" class="form-control" id="op_price${i.count }" 
+													  	name="op_price" value="${myOption.price }"
+													  	placeholder="해당 옵션의 적정가를 책정해주세요" 
+													  	style="font-size: 15px" size="50%" maxlength="8">
+													</div>
+												</td>
+												<td>
+													<div class="form-group">
+													  <label for="sel1">보유 수량</label>
+													  <c:choose>
+													  	<c:when test="${myOption.stock ne 0}">
+														  <input type="text" class="form-control" id="op_stock${i.count }" 
+														  	name="op_stock" value="${myOption.stock}" 
+														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+														  	style="font-size: 15px" size="50%" maxlength="8">
+													  	</c:when>
+													  	<c:otherwise>
+													  		<input type="text" class="form-control" id="op_stock${i.count }" 
+														  	name="op_stock"
+														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+														  	style="font-size: 15px" size="50%" maxlength="8">
+													  	</c:otherwise>
+													  </c:choose>
+													</div>
+												</td>
+											</tr>
+										</table>
+							        </div>
+							      </div>
+						    </div>
+					    </div>
+					    
+					    
+					    </div>
+			   	</c:when>
+			   	<c:otherwise>
+			   		<div id="_option${x+10 }">
+		    
+					    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+							    <div class="panel panel-default">
+								    <div class="card-header" id="headion${x }">
+								        <h5 class="mb-0">
+								          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${x+10 }" 
+								          		id="option${x }" class="changedOption">${x }번째 선물</a>
+								      	</h5>
+								    </div>
+							    <div id="collapse${x+10 }" class="panel-collapse collapse" aria-labelledby="heading${x }" data-parent="#accordion2">
+					       			<div class="card-body">
+							        	<table style="width: 100%">
+											<tr>
+												<td colspan="2">
+													<div class="desc projectimg">
+														후원자 분들에게 드릴 선물 내용을 입력해주세요
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<div class="form-group">
+													  <label for="sel1">옵션 제목</label>
+													  <input type="text" class="form-control" id="op_title${x }" 
+													  	name="op_title" value="${x }" 
+													  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+													  	style="font-size: 15px" size="100%">
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">
+													<div class="form-group">
+													  <label for="sel1">아이템</label>
+													  <textarea class="form-control" rows="5" id="op_content${x }" 
+													  	name="op_content" style="font-size: 15px" 
+													  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<div class="form-group">
+													  <label for="sel1">후원 금액</label>
+													  <input type="text" class="form-control" id="op_price${x }" 
+													  	name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" 
+													  	style="font-size: 15px" size="50%" maxlength="8">
+													</div>
+												</td>
+												<td>
+													<div class="form-group">
+													  <label for="sel1">보유 수량</label>
+													  		<input type="text" class="form-control" id="op_stock${x }" 
+														  	name="op_stock"
+														  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+														  	style="font-size: 15px" size="50%" maxlength="8">
+													</div>
+												</td>
+											</tr>
+										</table>
+							        </div>
+							      </div>
+						    </div>
+					    </div>
+					    
+					    
+					    </div>
+			   	</c:otherwise>
+		    </c:choose>
+	    </c:forEach>
+	</c:forEach>
+	<%-- 
+   	<c:forEach items="${optionList }" var="myOption" varStatus="i">
+		<div id="_option${i.count+10 }">
+		    
+		    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+				    <div class="panel panel-default">
+					    <div class="card-header" id="headion${i.count }">
+					        <h5 class="mb-0">
+					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count+10 }" 
+					          		id="option${i.count }" class="changedOption">${i.count }번째 선물</a>
+					      	</h5>
+					    </div>
+				    <div id="collapse${i.count+10 }" class="panel-collapse collapse" aria-labelledby="heading${i.count }" data-parent="#accordion2">
+		       			<div class="card-body">
+				        	<table style="width: 100%">
+								<tr>
+									<td colspan="2">
+										<div class="desc projectimg">
+											후원자 분들에게 드릴 선물 내용을 입력해주세요
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">옵션 제목</label>
+										  <input type="text" class="form-control" id="op_title${i.count }" 
+										  	name="op_title" value="${myOption.title }" 
+										  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+										  	style="font-size: 15px" size="100%">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="form-group">
+										  <label for="sel1">아이템</label>
+										  <textarea class="form-control" rows="5" id="op_content${i.count }" 
+										  	name="op_content" style="font-size: 15px" 
+										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요.">${myOption.content }</textarea>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">후원 금액</label>
+										  <input type="text" class="form-control" id="op_price${i.count }" 
+										  	name="op_price" value="${myOption.price }"
+										  	placeholder="해당 옵션의 적정가를 책정해주세요" 
+										  	style="font-size: 15px" size="50%" maxlength="8">
+										</div>
+									</td>
+									<td>
+										<div class="form-group">
+										  <label for="sel1">보유 수량</label>
+										  <c:choose>
+										  	<c:when test="${myOption.stock ne 0}">
+											  <input type="text" class="form-control" id="op_stock${i.count }" 
+											  	name="op_stock" value="${myOption.stock}" 
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8">
+										  	</c:when>
+										  	<c:otherwise>
+										  		<input type="text" class="form-control" id="op_stock${i.count }" 
+											  	name="op_stock"
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8">
+										  	</c:otherwise>
+										  </c:choose>
+										</div>
+									</td>
+								</tr>
+							</table>
+				        </div>
+				      </div>
+			    </div>
 		    </div>
-	    </div>
-	    
-	    
-	    </div>
-	    	<%
-		}
-		%>
-    
+		    
+		    
+		    </div>
+    	</c:forEach>
+     --%>
     
 	
 </div>
@@ -622,7 +976,7 @@ $(document).ready(function() {
 </div>
 <!-- 전송버튼 -->
 	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
-		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="전송">	
+		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="수정하기">	
 
 </div>
 </div>
@@ -633,6 +987,21 @@ $(document).ready(function() {
 <!-- 전체 폼 끝 -->
 
 <script>
+
+// 옵션갯수 다시 선택하면  
+function optionChange( me ) {
+	var num = me.options[me.selectedIndex].value;
+	alert(num + "개");
+	
+	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
+		$("#_option" + (i+10)).val("");
+		$("#_option" + (i+10)).hide();
+	}
+	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
+		$("#_option" + (i+10)).show();
+		$("#col_content").click();
+	}		
+}
 
 // 취소 버튼 눌렀을 때
 $("#btn_calcel").click(function () {
@@ -726,7 +1095,72 @@ function checkLength (selector,messageSelector,maxlength){
 	}
 }
 
+//목표금액, 리워드 금액, 리워드 수량 전부 --> 숫자만 입력가능 + 콤마생성
+$("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() {
+	$(this).val(addCommas($(this).val().replace(/[^0-9]/g,"")));
+});
+//계좌번호 숫자만 입력가능
+$("#accountNumber").on("keyup", function() {
+    $(this).val($(this).val().replace(/[^0-9]/g,""));
+})
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
+// 선택한 프로젝트 스케줄 날짜를 다시 리셋함.
+$("#btn_resetDates").click(function () {
+	$("#date1").val("");
+	$("#date2").val("");
+	$("#date3").val("");
+	$("#date4").val("");
+})
+// 기부 버튼을 클릭했을 때
+$("#fundtype2").click(function () {
+	// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
+	$("#menu-tab2").hide();
+	// 배송일 사라지게.(기부는 선물을 배달하지 않으니까...)
+	$("#date4").hide();
+})
+// 상품 버튼을 클릭했을 때
+$("#fundtype1").click(function () {
+	// 리워드 탭 보이게.
+	$("#menu-tab2").show();
+	// 배송일 보이게
+	$("#date4").show();
+})
+
+// fundtype(기부/리워드) 라디오버튼 클릭 시 category에 select option값도 각각맞게 세팅
+var options = $("#category option");
+$(":radio").click(function (e) {
+	$("#category option").remove();
+	if($(this).attr("id")== "fundtype1"){	// Food, Animal, IT
+		$("#category").append(options[0]).append(options[1]).append(options[2]);
+	}
+	if($(this).attr("id")== "fundtype2"){	// Human, Animal
+		$("#category").append(options[1]).append(options[3]);
+	}
+});
+
+
+// 대표이미지 미리보기
+$("#mainImage").on("change", function (e) {
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	filesArr.forEach(function (f) {
+		if(!f.type.match("image.*")){
+			alert("확장자는 이미지 확장자만 가능합니다.");
+			return;
+		}
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$("#imgPreview").attr("src", e.target.result);
+		}
+		reader.readAsDataURL(f);
+	})
+})
 </script>
  
 

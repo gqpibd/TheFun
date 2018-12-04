@@ -318,8 +318,11 @@ public class ProjectController {
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
-		ProjectDto findProject = projectService.getProject(seq);
-		model.addAttribute("findPro", findProject);
+		// 수정할 펀딩
+		model.addAttribute("myProject", projectService.getProject(seq));
+		// 펀딩에 딸린 리워드들
+		model.addAttribute("optionList",projectService.getOptions(seq));
+		
 		return "projectUpdate.tiles";
 	}
 	
@@ -335,7 +338,7 @@ public class ProjectController {
 		logger.info("요약 = "+newProjectDto.getSummary());
 		logger.info("내용 = "+newProjectDto.getContent());
 		logger.info("은행 = "+newProjectDto.getBank());
-		logger.info("이미지 = "+newImage.getOriginalFilename());
+		logger.info("새 이미지 = "+newImage.getOriginalFilename());
 		
 		// DB 수정
 		projectService.updateProject(newProjectDto);

@@ -85,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = newProjectDto.getEdate();
-		newProjectDto.setEdate(edate+"-23-59-59");
+		newProjectDto.setEdate(edate+" 23:59:59");
 		// TAG 공백에 # 넣기
 		String tag = newProjectDto.getTag();
 		
