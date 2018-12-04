@@ -22,25 +22,24 @@
 	/* font-family: 'Jua', sans-serif;  */
 	/* font-family: 'Noto Serif KR', sans-serif; */
 /* } */
-h1, h4, tr, a{
+h1, h4, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
-a{
+#home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-size: 1em;
 	color: black;
 }
 tr, td, input{
 	font-size: 17px;
 }
-/* #accordion{
-	font-size: 5%;
-} */
 </style>
 
 <script>
 	
 $(document).ready(function() {
-		
+	
+	 /* var $target = $('#category');
+	 $target.find('option:gt(2)').css('display', 'none'); */
 		
 		/* 리워드 각 탭 아래 나오는거 일단 비활성화 */
 		$(".changedOption").hide();
@@ -49,7 +48,7 @@ $(document).ready(function() {
 		// 썸머노트 설정
 		  $('#summernote').summernote({
 				  height: 300,		// 기본 높이값
-				  placeholder : "Only Text Please!!",
+				  placeholder : "Draw your dream!!",
 			        minHeight: null,	// 최소 높이값(null은 제한 없음)
 			        maxHeight: null,	// 최대 높이값(null은 제한 없음)
 			        focus: true,		// 페이지가 열릴때 포커스를 지정함
@@ -219,86 +218,6 @@ $(document).ready(function() {
 			
 });
 	
-	
-	
-	
-	/* function sendFile(file, el) {
-	      var form_data = new FormData();
-	      form_data.append('summerFile', file);
-	      $.ajax({
-	        data: form_data,
-	        type: "POST",
-	        url: 'summernotePhotoUpload.do',
-	        cache: false,
-	        contentType: false,
-	        enctype: 'multipart/form-data',
-	        processData: false,
-	        success: function(url) {
-	          $(el).summernote('editor.insertImage', url);
-	          //$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
-	        }
-	      });
-	    }
- */
-	
-	/* function sendFile(file, editor) {
-	      var data = new FormData();
-	      data.append('file', file);
-	      $.ajax({
-	        data: data,
-	        type: "POST",
-	        url: 'summernotePhotoUpload.do',
-	        cache: false,
-	        contentType: false,
-	        enctype: 'multipart/form-data',
-	        processData: false,
-	        success: function(data) {
-	          $(editor).summernote('editor.insertImage', data.url);
-	          $('#summernote').append('<img src="'+data.url+'" width="480" height="auto"/>');
-	        }
-	      });
-	} */
-	/* 
-	function sendFile(file, editor) {
-        // 파일 전송을 위한 폼생성
- 		var data = new FormData();
- 	    data.append("uploadFile", file);
- 	    $.ajax({ // ajax를 통해 파일 업로드 처리
- 	        data : data,
- 	        type : "POST",
- 	        url : "editorImgUp.do",
-			enctype: 'multipart/form-data',
- 	        cache : false,
- 	        contentType : false,
- 	        processData : false,
- 	        success : function(data) { // 처리가 성공할 경우
-                // 에디터에 이미지 출력
- 	        	$(editor).summernote('editor.insertImage', data.url);
- 	        }
- 	    });
- 	}
- */
-/* 
-	function uploadImage(image) {
-	    var data = new FormData();
-	    data.append("image", image);
-	    $.ajax({
-	        url: 'editorImgUp.do',
-	        cache: false,
-	        contentType: false,
-	        processData: false,
-	        data: data,
-	        type: "post",
-	        success: function(url) {
-	            var image = $('<img>').attr('src', 'http://' + url);
-	            $('#summernote').summernote("insertNode", image[0]);
-	        },
-	        error: function(data) {
-	            console.log(data);
-	        }
-	    });
-	} */
-	
 </script>
 
 
@@ -353,7 +272,7 @@ $(document).ready(function() {
         <div class="card-body">
         	<table class="card-text" style="width: 100%">
 				<tr>
-					<td colspan="2">
+					<td>
 						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
 					</td>
 				</tr>
@@ -363,11 +282,6 @@ $(document).ready(function() {
 							<span id="titleLen">30자 남았습니다.</span>
 						</span>
 						
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_title">
-							<button style="color: #4B088A">취소하기</button>
-						</a>
 					</td>
 				</tr>
 			</table>
@@ -397,20 +311,21 @@ $(document).ready(function() {
 					</tr>
 					<tr>
 						<td>
-							<span style="color: #4B088A; margin-left: 2%;">
+							<div style="color: #4B088A; margin-left: 2%;">
 								<ul>
 						          <li>사이즈: 가로1200px  세로675px </li>
 						          <li>용량 : 3MB 미만</li>
 						          <li>텍스트 및 로고 삽입 금지 </li>
 						        </ul>
-							</span>
-						</td>
-						<td align="right" style="text-align: left">
-							<input type="file" id="mainImage" name="fileload" style=" width : 400px;"
+							</div>
+							<input type="file" id="mainImage" name="fileload" style=" margin-left: 6%;"
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
-							<!-- 이미지는 type이 file! -->
-							<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
-							<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
+									<!-- 이미지는 type이 file! -->
+									<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
+									<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
+						</td>
+						<td>
+							<img alt="#none" src="" id="imgPreview" class="card-img-top" width="20px">
 						</td>
 					</tr>
 				</table>
@@ -430,7 +345,7 @@ $(document).ready(function() {
         <div class="card-body">
 	        	<table style="width: 100%">
 				<tr>
-					<td colspan="2">
+					<td>
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
 						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)"></textarea>
@@ -439,15 +354,9 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-						<span style="color: #4B088A; margin-left: 2%;">
+						<span style="color: #4B088A;">
 							<span id="commentLength">100자 남았습니다.</span>
 						</span>
-					</td>
-					<td align="right">
-						<a data-toggle="collapse" href="#col_summary">
-							<button style="color: #4B088A">취소하기</button>
-							<!-- 취소하기버튼 다 없애기. 아님 다른 기능으로 만들던가. -->
-						</a>
 					</td>
 				</tr>
 			</table>
@@ -470,18 +379,18 @@ $(document).ready(function() {
 					<td>
 						<div class="desc projectimg">
 								프로젝트의 성격에 맞는 카테고리를 선택해 주세요.<br>
-								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정될 수 있습니다.)
+								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정권고를 받을 수 있습니다.)
 						</div>
 					</td>
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
-						<span class="btn btn-primary btn-block" style="font-size: 1em">
+						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
 						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
-						</span>
-						<span class="btn btn-primary btn-block" style="font-size: 1em">
+						</label>
+						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
 						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
-						</span>
+						</label>
 					</td>
 				</tr>
 				<tr>
@@ -489,9 +398,10 @@ $(document).ready(function() {
 						<div class="form-group">
 						  <span for="sel1">Project Category(택 1):</span>
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
-						    <option selected="selected">Food</option>
+						    <option>Food</option>
 						    <option>Animal</option>
 						    <option>IT</option>
+						    <option style="display: none;">Human</option>
 						  </select>
 						</div>
 					</td>
@@ -1078,21 +988,27 @@ function formSubmit() {
 	// hidden에 bank값 세팅(컨트롤러에서 projectDto중 bank로 받아줄 값)
 	$("#bank").val(bankname + "/" + accountNumber);
 	
+	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 리워드금액, 리워드 수량에 들어간콤마 전부 없애기
+	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
+	var option_total = $("#option_total").val();
+	if(fundtype == "reward"){
+		for(var i=1; i<=option_total; i++){
+			var content = $("#op_content" + i).val();
+			var price = $("#op_price" + i).val();
+			var stock = $("#op_stock" + i).val();
+			$("#op_content" + i).val(content.replace(/\n/gi, "/"));
+			$("#op_price" + i).val(price.replace(/,/gi, ""));
+			$("#op_stock" + i).val(stock.replace(/,/gi, ""));
+		}
+	}
 	
-	// (목표금액, 리워드금액, 리워드 수량에 들어간)콤마 전부 없애기
+	// 목표금액에 들어간 콤마 전부 없애기
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
-	var option_total = $("#option_total").val();
-	for (var i = 1; i <= option_total; i++) {
-		var data1 = $("#op_price" + i).val();
-		var data2 = $("#op_stock" + i).val();
-		$("#op_price" + i).val(data1.replace(/,/gi, ""));
-		$("#op_stock" + i).val(data2.replace(/,/gi, ""));
-	}
 	
 	// form 실행! 컨트롤러로~
-	$("#createProjectFrom").submit();
+//	$("#createProjectFrom").submit();
 }
 
 /* 글자 길이 확인 */
@@ -1114,7 +1030,7 @@ $("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_pr
 //계좌번호 숫자만 입력가능
 $("#accountNumber").on("keyup", function() {
     $(this).val($(this).val().replace(/[^0-9]/g,""));
-});
+})
 //3자리 단위마다 콤마 생성하는 함수
 function addCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1140,5 +1056,37 @@ $("#fundtype1").click(function () {
 	$("#menu-tab2").show();
 	// 배송일 보이게
 	$("#date4").show();
+})
+
+// fundtype(기부/리워드) 라디오버튼 클릭 시 category에 select option값도 각각맞게 세팅
+var options = $("#category option");
+$(":radio").click(function (e) {
+	$("#category option").remove();
+	if($(this).attr("id")== "fundtype1"){	// Food, Animal, IT
+		$("#category").append(options[0]).append(options[1]).append(options[2]);
+	}
+	if($(this).attr("id")== "fundtype2"){	// Human, Animal
+		$("#category").append(options[1]).append(options[3]);
+	}
+});
+
+
+// 대표이미지 미리보기
+$("#mainImage").on("change", function (e) {
+	var files = e.target.files;
+	var filesArr = Array.prototype.slice.call(files);
+	filesArr.forEach(function (f) {
+		if(!f.type.match("image.*")){
+			alert("확장자는 이미지 확장자만 가능합니다.");
+			return;
+		}
+		sel_file = f;
+		
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$("#imgPreview").attr("src", e.target.result);
+		}
+		reader.readAsDataURL(f);
+	})
 })
 </script>

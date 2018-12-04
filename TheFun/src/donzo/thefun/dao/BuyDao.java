@@ -8,7 +8,7 @@ import donzo.thefun.model.ProjectDto;
 public interface BuyDao {
 
 	
-	public List<BuyDto> orderList(BuyDto buy);
+	public List<BuyDto> orderList(String id);
 	
 	//주문 최종입력
 	public void addOrders(BuyDto buy);

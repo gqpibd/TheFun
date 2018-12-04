@@ -19,6 +19,9 @@
 <!-- <script src="js/postcode/postcode.v2.js"></script>
 <script src="js/postcode/180928.js"></script> -->
 <link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
+  
+<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.cookie.js"></script>
+
 
 <style type="text/css">
 .form .register-form {
@@ -72,7 +75,39 @@ function statusChangeCallback(response) {
                 }
    });
 } */
+
+//id저장
+$(document).ready(function(){
+
+var user_id = $.cookie("user_id");
+
+if(user_id != null){
+	$("#loginId").val(user_id);
+	$("#_chk_save_id").attr("checked", "checked");
+}
+
+//$("#_chk_save_id").change(function() {
+$('input:checkbox[id="_chk_save_id"]').change(function(){
+	console.log("아이디저장하자");
+	if($('input:checkbox[id="_chk_save_id"]').is(":checked")){
+		console.log("체크");
+		if($("#loginId").val() == ""){
+			console.log("아이디없음");
+			$(this).prop("checked", false);
+			alert("아이디를 입력해 주십시오");
+		}else{
+			console.log("아이디 있음");
+			$.cookie("user_id", $("#loginId").val(), { expires: 7, path: '/' });
+		}		
+	}else{
+		console.log("체크 해제");
+		$.removeCookie("user_id", { path:'/' });
+	}
+}); 
+})
+
 </script>
+
 <div>
 <div class="form">
 	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
@@ -114,8 +149,13 @@ function statusChangeCallback(response) {
 	<form class="login-form" action="loginAf.do" method="post">
 		<input type="hidden" name="callback" value="${callback}">
 		<input type="hidden" name="loginType" value="normal">
-		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" />
-		<!-- <span><input type="checkbox" >아이디 저장</span> -->
+		
+		<!-- 아이디 쿠키 저장 -->
+		<span title="아이디저장" style="font-size: small; color: #747474;">
+			아이디 저장하기<input type="checkbox" id="_chk_save_id">	
+		</span>
+		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" value="" />
+		
 		<input type="password" id="loginPwd" name="pwd" onkeyup="loginCheck()" maxlength="12" placeholder="비밀번호" />
 		<button style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
@@ -139,6 +179,9 @@ function statusChangeCallback(response) {
 		<div>
 			<p class="message">
 				아직도 더펀 계정이 없으신가요? <a href="#" style="color: #8152f0">회원가입</a>
+			</p>
+			<p class="message">
+				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기</a> / <a href="find_pw_from.do" style="color: #8152f0">비밀번호 찾기</a>
 			</p>
 		</div>
 	</form>
@@ -540,4 +583,7 @@ function autoHyphen(phoneField){
 	var _val = $(phoneField).val().trim();
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
+
+
+
 </script>

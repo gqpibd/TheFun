@@ -86,7 +86,7 @@ td{
  <script type="text/javascript">
           
  function goOrder() {
-	 
+
   //체크박스 하나라도 체크안한게 있는지 확인 
      var isChecked = false;
      var checkArr = document.getElementsByName("check");
