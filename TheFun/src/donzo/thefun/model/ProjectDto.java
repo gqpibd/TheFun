@@ -30,10 +30,21 @@ CREATE TABLE FUN_PROJECT(
    REGDATE DATE NOT NULL,
    
    STATUS VARCHAR2(50) NOT NULL -- 1: 준비중, 2: 승인대기, 3: 진행중, 4: 완료됨(성공), 5: 완료됨(실패), 6: 삭제
+   
+   CONTENT CLOB NOT NULL -- 사진 포함한 본문
 );
 
-CREATE SEQUENCE SEQ_PROJECT
-START WITH 1 INCREMENT BY 1;
+-- 새 CLOB 컬럼을 추가합니다
+ALTER TABLE FUN_PROJECT ADD(TMP_CONTENT CLOB NOT NULL);
+-- 데이터를 복사합니다
+UPDATE FUN_PROJECT SET TMP_CONTENT = CONTENT;
+COMMIT;
+-- 기존 컬럼을 삭제합니다
+ALTER TABLE FUN_PROJECT DROP COLUMN CONTENT;
+-- 새로 추가한 임시 컬럼의 이름을 변경합니다
+ALTER TABLE FUN_PROJECT RENAME COLUMN TMP_CONTENT TO CONTENT;
+-- 이제 해당 칼럼에 NOT NULL 추가
+ALTER TABLE FUN_PROJECT MODIFY (CONTENT NOT NULL);
 
 ALTER TABLE FUN_PROJECT ADD CONSTRAINT PROJECT_ID_FK
 FOREIGN KEY(ID)
@@ -253,6 +264,20 @@ public class ProjectDto implements Serializable {
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
 		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+	}
+	
+	public String getTag() {
+		return tag;
+	}
+	
+	// 태그 띄어쓰기칸을 전부 #로 치환
+	public void setTag(String tag) {
+		String temp = tag.replaceAll(" ", "#"); // 한 칸 공백은 #으로 만든다
+		if(!temp.startsWith("#")) { // #으로 시작하지 않으면 맨 처음에도 #를 넣어준다
+			temp = "#" + temp;
+		}
+		this.tag = temp;
 	}
 
 	public String getBank() {
@@ -445,6 +470,20 @@ public class ProjectDto implements Serializable {
 	
 	public boolean isReward() {
 		if(fundtype.equalsIgnoreCase(TYPE_REWARD)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isRevise() {
+		if(status.equalsIgnoreCase(REVISE)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isReject() {
+		if(status.equalsIgnoreCase(REJECT)) {
 			return true;
 		}else {
 			return false;

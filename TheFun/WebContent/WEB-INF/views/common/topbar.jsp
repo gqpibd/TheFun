@@ -25,6 +25,7 @@ window.fbAsyncInit = function() {
  }(document));
 </script>
 
+<!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
 body{
@@ -172,6 +173,10 @@ body{
 #nav li ul
 
 
+/* 햄버거메뉴 */
+.menu a{cursor:pointer;}
+.menu .hide{display:none;}
+
 </style>
 
 <script type="text/javascript">
@@ -205,20 +210,20 @@ $(document).ready(function () {
     
 		<ul id="nav">
 		<li style="width:90px;">
-			<a href="searchProjectList.do?s_type=donation&s_keyword=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a><!--  기부 -->
+			<a href="searchProjectList.do?s_type=donation" onclick="search_Enter()"><img src="image/main/donation.jpg" width="100px"></a><!--  기부 -->
 			<ul>
-				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&s_keyword=human" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+				<li style="width:90px;text-align: center;"><a href="searchProjectList.do?s_type=donation&s_category=human&" onclick="search_Enter()"><img src="image/main/human_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_category=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=donation&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
 			</ul>
 		</li> 
 		<li style="width:90px;text-align: center;">
-			<a href="searchProjectList.do?s_type=reward&s_keyword=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->
-			<ul>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=food&s_keyword=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=it&s_keyword=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
-				<li><a href="searchProjectList.do?s_type=reward&s_category=animal&s_keyword=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
-				<li style="width:90px;"><a href="#"><img src="image/main/history.jpg" width="90px"></a></li>
+			<a href="searchProjectList.do?s_type=reward" onclick="search_Enter()"><img src="image/main/reward.jpg" width="95px"></a><!--  리워드 -->
+			<ul style="z-index: 5;">
+				<li><a href="searchProjectList.do?s_type=reward&s_category=food"  onclick="search_Enter()"><img src="image/main/food_btn.jpg" width="90px"></a></li>
+				<li><a href="searchProjectList.do?s_type=reward&s_category=it" onclick="search_Enter()"><img src="image/main/it_btn.jpg" width="90px"></a></li>
+				<li><a href="searchProjectList.do?s_type=reward&s_category=animal" onclick="search_Enter()"><img src="image/main/animal_btn.jpg" width="90px"></a></li>
+				<li style="width:90px;"><a href="searchProjectList.do?s_type=reward&s_complete=complete"><img src="image/main/history.jpg" width="90px"></a></li>
 			</ul>
 		</li>
 		<li style="width:90px;text-align: center;">
@@ -231,8 +236,7 @@ $(document).ready(function () {
 			<div class="container-4">
 				<input class="field" type="text" placeholder="Search..."
 				style="width: 300px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
-				value="" id="s_keywordTextField">
-				<input type="hidden" name="s_keyword" value="${s_keyword }">	
+				name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
 				<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
 			</div>
 		</div>
@@ -240,13 +244,16 @@ $(document).ready(function () {
 		<!-- controller로 넘겨주기 위한 값 -->
 		<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 		<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
+		<input type="hidden" name="s_type" value="${s_type }">
+		<input type="hidden" name="s_category" value="${s_category }">
+		<input type="hidden" name="s_complete" value="${s_complete }">
 	    
 	</form>
-    
+	
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+        
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">              
@@ -431,5 +438,23 @@ site.prototype = {
 	}
 }
 
-//new site();
+new site();
+
+
+/* 햄버거버튼 */
+   // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+        $(".menu>a").click(function(){
+            var submenu = $(this).next("ul");
+ 
+            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });  
+
 </script>
