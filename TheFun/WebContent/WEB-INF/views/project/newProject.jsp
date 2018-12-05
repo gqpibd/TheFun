@@ -22,7 +22,7 @@
 	/* font-family: 'Jua', sans-serif;  */
 	/* font-family: 'Noto Serif KR', sans-serif; */
 /* } */
-h1, h4, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
+h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
 #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
@@ -255,12 +255,12 @@ $(document).ready(function() {
 <br><br><br><br>
 
 <!-- 큰 테두리 -->
-<div class="container">
+<div class="container" >
   <!-- <h1>프로젝트 개요</h1> -->
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
-	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
+	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);z-index: -1;"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
