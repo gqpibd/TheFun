@@ -126,6 +126,7 @@ window.fbAsyncInit = function() {
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
+	z-index: 11;
 }
 
 .cbp-hrmenu > ul > li {
@@ -275,15 +276,17 @@ $(document).ready(function () {
 
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
-<div class="main_menu" style="z-index: 101;">
-		<div align="center">
-		<img class="navbar-brand" src="image/main/banner.jpg" width="130px" style="cursor: pointer;"onclick="location.href='main.do'">
-		</div>
-	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin-top: -3%;">
+<div align="center" style="cursor: pointer;padding: 0px;margin: 0px;">
+<span>
+<img src="image/main/banner.jpg" width="150px" onclick="location.href='main.do'">
+</span>
+</div>
+<div class="main_menu" >
+	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px;">
 		<ul class="navbar-nav ml-auto">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>
-				<div class="cbp-hrsub">
+				<div class="cbp-hrsub" style="z-index:11;">
 					<div class="cbp-hrsub-inner"> 
 						<div>
 							<h4>더 펀 메이커</h4>
@@ -353,7 +356,7 @@ $(document).ready(function () {
 		      <ul class="navbar-nav ml-auto">
 		        <li class="nav-item">              
 					<c:if test="${login eq null}">
-					    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="20px"></a> <!-- 로그인 -->				
+					    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="30px"></a> <!-- 로그인 -->				
 					</c:if>
 					<c:if test="${login ne null}">
 						<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
@@ -380,9 +383,6 @@ $(document).ready(function () {
 		      </ul>
 		    </div>
 	</nav>
-	
-	
-	
 </div>
 
 <%-- 원본

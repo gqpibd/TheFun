@@ -289,7 +289,7 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [2] 대표 이미지 -->
-    <div class="card border-secondary mb-1">
+    <div class="card border-secondary mb-1" style="z-index: -1;">
     	<!-- 위 -->
 		<div class="card-header" id="headingTwo">        
 		  <h4 class="mb-0">
@@ -333,7 +333,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [3] 프로젝트 요약 -->
-    <div class="card border-secondary mb-1">
+    <div class="card border-secondary mb-1" style="z-index: -1;">
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
