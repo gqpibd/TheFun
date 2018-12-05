@@ -1,5 +1,7 @@
 package donzo.thefun.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import donzo.thefun.model.MemberDto;
 
 public interface MemberService {
@@ -18,7 +20,8 @@ public interface MemberService {
 
 	public boolean addPoint(MemberDto mem);
 	
-	
+	//id 찾기
+	public String find_id(HttpServletResponse response, String email) throws Exception;
 	
 }
  

@@ -26,7 +26,7 @@
     border-bottom: 1px solid rgba(0,0,0,.1);
     height: 50px;
     margin-top: 1em;
-    margin-bottom: 1em;
+    margin-bottom: 1em; 
 }
 /* 탭부분 css 끝 */
 .pnt { 

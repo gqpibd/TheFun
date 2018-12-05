@@ -93,4 +93,10 @@ CREATE TABLE FUN_MEMBER(
 	WHERE ID = #{id}	
 </update>
 
+<!-- id찾기 -->
+<select id="find_id" parameterType="String" resultType="String">
+	SELECT COUNT(*) 
+	FROM FUN_MEMBER 
+	WHERE EMAIL = #{email}
+</select>
 </mapper>

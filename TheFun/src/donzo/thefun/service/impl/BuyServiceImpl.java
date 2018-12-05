@@ -32,7 +32,7 @@ public class BuyServiceImpl implements BuyService {
 						buy.getCardNumber(), buy.getBankName());
 			//System.out.println("addorders의 dto : "+buydto);
 			buyDao.addOrders(buydto);	
-			
+			 
 		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
 			for(int i=0; i<opSeq.length; i++) {		
 				BuyDto buydto = new BuyDto(
