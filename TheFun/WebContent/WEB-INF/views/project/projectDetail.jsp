@@ -17,7 +17,7 @@
  
 <style type="text/css">
 /* 탭부분 css */
-.tabSelect{
+.tabSelect{ 
 	background: #8152f038;
 }
 .tabTable{

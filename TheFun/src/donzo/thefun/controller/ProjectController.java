@@ -131,16 +131,13 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
+		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
 		if(pParam.getS_category() == null) { pParam.setS_category(""); }
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
-		
-		if(pParam.getS_category() == null) {
-			pParam.setS_category("");
-		}
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -159,6 +156,8 @@ public class ProjectController {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
 		}
+		
+		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
