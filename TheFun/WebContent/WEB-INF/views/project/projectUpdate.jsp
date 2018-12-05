@@ -24,7 +24,6 @@ h1, h4, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption
 tr, td, input{
 	font-size: 17px;
 }
-
 </style>
 
 <script>
@@ -43,6 +42,12 @@ $(document).ready(function() {
 		console.log("카테고리 = ${myProject.category }");
 		// 기존 fundtype(라디오 버튼) / categoty(셀렉트 옵션) 값 설정
 		$('input:radio[name=fundtype]:input[value=${myProject.fundtype}]').attr('checked', true);
+		if("${myProject.fundtype}" == "donation"){
+			// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
+			$("#menu-tab2").hide();
+			// 배송일 사라지게.(기부는 선물을 배달하지 않으니까...)
+			$("#date4").hide();
+		}
 		$("#category option").each(function(){
 		    if($(this).val()=="${myProject.category}"){
 		      $(this).prop("selected","selected"); // attr적용안될경우 prop으로 
@@ -222,10 +227,9 @@ $(document).ready(function() {
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
-	<input type="hidden" id="id" name="id" value="${login.id}">
+	<input type="hidden" id="status" name="status" value="${myProject.status}">
 	<input type="hidden" name="seq" value="${myProject.seq }">
 	<input type="hidden" id="originImage" name="originImage" value="${myProject.seq }.jpg">	<!-- 기존이미지이름 별로 필요없을듯. 어차피 파일 덮어쓰기 할거라... seq.jpg로 -->
-
 
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 70%; margin: 0 auto;">
@@ -250,11 +254,11 @@ $(document).ready(function() {
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>프로젝트 개요</h1>
+  <!-- <h1>프로젝트 개요</h1> -->
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
@@ -320,8 +324,7 @@ $(document).ready(function() {
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
 						</td>
 						<td>
-							<img alt="#none" src="D:\springWithJava\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\TheFun\upload\${myProject.seq }.jpg" id="imgPreview" class="card-img-top" width="20px">
-							<!-- 또 로컬경로에 있는 이미지를 불러오지 못한다는 오류가 뜬다... Not allowed to load local resource -->
+							<img alt="#none" src="upload/${myProject.seq}" id="imgPreview" class="card-img-top" width="50%" height="30%">
 						</td>
 					</tr>
 				</table>
@@ -427,11 +430,11 @@ $(document).ready(function() {
 
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>스토리텔링</h1>
+  <!-- <h1>스토리텔링</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion1">
   	<!-- [5] 프로젝트 스토리(content) -->
@@ -675,11 +678,11 @@ $(document).ready(function() {
 
 <!-- (3) 세번째 탭 눌렀을 때 -->
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>리워드 등록</h1>
+  <!-- <h1>리워드 등록</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion2">
   	<!-- [10] 옵션 개수 선택 -->
@@ -708,14 +711,7 @@ $(document).ready(function() {
 							  <select class="form-control" id="option_total" name="option_total" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
 							  	<!-- 순서대로 for문, if문, else문 -->
 							    <c:forEach var="x" begin="1" end="10" step="1">
-								    <c:choose>
-							    	<c:when test="${myProject.optiontotal eq x }">
-							    		<option selected='selected' value="${x }">${x }</option>
-							    	</c:when>
-							    	<c:otherwise>
-							    		<option value="${x }">${x }</option>
-							    	</c:otherwise>
-								    </c:choose>
+								    <option value="${x }" ${x == myProject.optiontotal? 'selected="selected"':""}>${x}</option>
 								</c:forEach>
 							  </select>
 							</div>
@@ -895,7 +891,6 @@ $(document).ready(function() {
 <!-- 전체 폼 끝 -->
 
 <script>
-
 // 옵션갯수 다시 선택하면  
 function optionChange( me ) {
 	var num = me.options[me.selectedIndex].value;
@@ -909,8 +904,8 @@ function optionChange( me ) {
 		$("#_option" + (i+10)).show();
 		$("#col_content").click();
 	}		
+	//console.log("옵션개수 = " + $("#option_total").val());
 }
-
 // 취소 버튼 눌렀을 때
 $("#btn_calcel").click(function () {
 	location.href="mySchedule.do?id=${login.id}";
@@ -919,23 +914,33 @@ $("#btn_calcel").click(function () {
 
 //수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
-	alert("업뎃!");
-	/* if('${myProject.isRevise()}' == 'true'){
-		console.log("수정상태");
-	} */
-		$("#messageModal").modal('show');
+	//alert("업뎃!");
+	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
 	/* 공란 거르기 */
 	
-		// [1] 첫번째 탭 값
+	// [1] 첫번째 탭 값
 	var title = $("#title").val();
-	var mainImage = $("#newImage").val();
+	var mainImage = $("#mainImage").val();
 	var summary = $("#summary").val();
+	var fundtype = $("input[name='fundtype']:checked").val();
+	var category = $("#category").val();
+	// [2] 두번째 탭 값
 	var summernote = $("#summernote").val();
+	var tag = $("#tag").val();
+	var _goalfund = $("#goalfund").val();
+	var goalfund = _goalfund.replace(/,/gi, "");
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
+	var date1 = $("#date1").val();
+	var date2 = $("#date2").val();
+	var date3 = $("#date3").val();
+	// *기부는 아래 값들 불필요(공란허용)
+	var date4 = $("#date4").val();
+	var optotal = $("#option_total").val();
 	
-	alert("bankname = " + bankname);
-	
+	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
+			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
+			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 + " option_total = " + optotal);
 	
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
@@ -976,7 +981,49 @@ $("#btn_submit").click(function () {
 		$("#bankTap").click();
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
-		formSubmit(bankname, accountNumber);
+		// 2. 카테고리에 따른 공란판정
+		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
+			console.log("기부를 선택하셨습니다");
+			formSubmit(bankname, accountNumber);	// form에 submit 실행~
+			return;
+		} else if(fundtype == "reward"){
+			// 적정 목표액 판정용
+			var totalPrice = 0;
+			
+			for(var i=1; i<=optotal; i++){
+				var op_title = $("#op_title" + i).val();
+				var op_content = $("#op_content" + i).val();
+				var _op_price = $("#op_price" + i).val();
+				var op_price = _op_price.replace(/,/gi, "");
+				var _op_stock = $("#op_stock" + i).val();
+				var op_stock = _op_stock.replace(/,/gi, "");
+				console.log(i + "번째 [리워드]~ 제목 = " + op_title + " 내용 = " + op_content + " 가격 = " + op_price + " 재고 = " + op_stock
+						+ " 가격 자리수 = " + op_price.length + " 재고 자리수 = " + op_stock.length);
+				
+				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+				if(op_stock != null || op_stock != ""){
+					totalPrice = totalPrice + (op_price*op_stock);
+				}
+				
+				if(op_title == null || op_title == "" || op_content == null || op_content == "" || op_price == null || op_price == ""){
+					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
+					$("#menu-tab2").click();
+					$("#option"+i).click();
+					return;
+				}
+			}
+			console.log("총액 = " +  totalPrice);
+			
+			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
+				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
+				formSubmit(bankname, accountNumber);	// form에 submit 실행~
+			} else{
+				alert("등록하신 리워드 재고와 수량은 목표금액보다 미달됩니다. 더 많은 재고를 등록하거나, 제품 가격을 높여주세요.");
+				$("#optiontotalTap").click();
+				return;
+			}
+		}
+		  
 	}
 	
 });
@@ -987,6 +1034,24 @@ function formSubmit(bankname, accountNumber) {
 	alert(bankname + accountNumber);
 	// hidden에 bank값 세팅
 	$("#bank").val(bankname + "/" + accountNumber);
+	
+	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 리워드금액, 리워드 수량에 들어간콤마 전부 없애기
+	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
+	if(fundtype == "reward"){
+		var optotal = $("#option_total").val();
+		for(var i=1; i<=optotal; i++){
+			var content = $("#op_content" + i).val();
+			var price = $("#op_price" + i).val();
+			var stock = $("#op_stock" + i).val();
+			$("#op_content" + i).val(content.replace(/\n/gi, "/"));
+			$("#op_price" + i).val(price.replace(/,/gi, ""));
+			$("#op_stock" + i).val(stock.replace(/,/gi, ""));
+		}
+	}
+	
+	// 목표금액에 들어간 콤마 전부 없애기
+	var _goalfund = $("#goalfund").val();
+	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
 	// form 실행! 컨트롤러로~
 	$("#updateProjectFrom").submit();

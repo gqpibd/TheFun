@@ -1,10 +1,8 @@
 package donzo.thefun.service.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.ProjectDto;
@@ -26,10 +24,10 @@ public class BuyServiceImpl implements BuyService {
 		
 		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
 			BuyDto buydto=new BuyDto(
-						buy.getId(), buy.getProjectseq(), buy.getOptionseq(), buy.getCount(), opPrice[0], 
+						buy.getId(), buy.getProjectseq(), buy.getOptionseq(), 1, opPrice[0], 
 						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
-			System.out.println("addorders의 dto : "+buydto);
+			//System.out.println("addorders의 dto : "+buydto);
 			buyDao.addOrders(buydto);	
 			
 		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
@@ -42,7 +40,7 @@ public class BuyServiceImpl implements BuyService {
 				buyDao.addOrders(buydto);			
 			}
 		}else {
-			System.out.println(fundtype);
+			System.out.println("너는 무슨 타입이냐:" + fundtype);
 		}
 		
 	}
@@ -57,5 +55,11 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.selectReviewList(seq);
 	}
 	
+	@Override
+	public List<BuyDto> selectMyBasket(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 

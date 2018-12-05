@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -269,8 +265,6 @@ public class ProjectController {
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
-			String realFileName = mainImage.getOriginalFilename();
-			//String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
 			File file = new File(uploadPath + "/" + projectSeq);
 			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
 
@@ -318,36 +312,65 @@ public class ProjectController {
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
+		
 		// 수정할 펀딩
-		model.addAttribute("myProject", projectService.getProject(seq));
-		// 펀딩에 딸린 리워드들
-		model.addAttribute("optionList",projectService.getOptions(seq));
+		ProjectDto myProject = projectService.getProject(seq);
+		model.addAttribute("myProject", myProject);
+		
+		List<OptionDto> myOption = null;
+		if(myProject.getFundtype().equals("reward")) {
+			// 펀딩에 딸린 리워드들
+			myOption = projectService.getOptions(seq);
+		}
+		model.addAttribute("optionList", myOption);
 		
 		return "projectUpdate.tiles";
 	}
 	
 	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectUpdateAf(ProjectDto newProjectDto,
+	public String projectUpdateAf(ProjectDto newProjectDto,/* String proSeq,*/
+							int option_total,
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
-		logger.info("SEQ = " +newProjectDto.getSeq());
-		logger.info("제목 = " +newProjectDto.getTitle());
-		logger.info("요약 = "+newProjectDto.getSummary());
-		logger.info("내용 = "+newProjectDto.getContent());
-		logger.info("은행 = "+newProjectDto.getBank());
-		logger.info("새 이미지 = "+newImage.getOriginalFilename());
+		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
+		/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
+		logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
+		
+		// seq값 세팅
+		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
+		
+		// 리워드 입력값 배열 모두 list로 변환.
+		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
+		
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!무제한");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), 0));
+				}
+			}
+			// 확인용
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리워드 리스트 : " + newPotionlist.get(i).toString());
+			}
+		}
 		
 		// DB 수정
-		projectService.updateProject(newProjectDto);
+		projectService.updateProject(newProjectDto, newPotionlist);
+		
 		
 		// 파일 수정
 		String uploadPath = req.getServletContext().getRealPath("/upload");
-		
-		String realFileName = newImage.getOriginalFilename();
-		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
 			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
@@ -530,6 +553,4 @@ public class ProjectController {
 		rmap.put("likeCount", likeCount);		
 		return rmap;
 	}
-	
-	
 }

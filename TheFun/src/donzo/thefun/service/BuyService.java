@@ -3,7 +3,6 @@ package donzo.thefun.service;
 import java.util.List;
 
 import donzo.thefun.model.BuyDto;
-import donzo.thefun.model.ProjectDto;
 
 public interface BuyService {
 
@@ -16,5 +15,8 @@ public interface BuyService {
 	public boolean addReview(BuyDto buydto);
 
 	public List<BuyDto> selectReviewList(int seq);
+	
+	// 장바구니 가져오기
+	public List<BuyDto> selectMyBasket(String id);
 
 }
