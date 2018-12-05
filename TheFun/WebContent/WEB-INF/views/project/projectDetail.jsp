@@ -36,11 +36,11 @@ font-family: "Nanum Gothic", sans-serif;
 .imgTd{
 	text-align:right;
 	padding: 20px;
-	width: 70%;
+	width: 60%;
 }
 .sTd{
 	text-align:left;
-	width: 30%;
+	width: 40%;
 	padding: 10px;
 }
 
@@ -165,36 +165,6 @@ font-family: "Nanum Gothic", sans-serif;
 
  </style>
 
-<!-- 카카오 링크 설정 -->
-<!-- 
-<script> 
-var firstImg=$(".imageblock:first-of-type img"); 
-var contents=""; 
-if(firstImg.attr("src")){ 
-	var firstImgSrc=firstImg.attr("src"); 
-	var firstImgRatio = parseInt(firstImg.css("height"))/parseInt(firstImg.css("width")); 
-	if (firstImgRatio <=0.27) var firstImgRatio=0.27; 
-}else{
-	var firstImgSrc=location.origin+"/favicon.ico";
-	var firstImgRatio=1
-} 
-
-//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
-
-function sendLink() { 
-	Kakao.Link.sendTalkLink({ 
-		label: '[##_page_title_##]', // 공유할 메세지의 제목을 설정
-		image: { 
-			src: firstImgSrc, 
-			width: '300', 
-			height: parseInt(300*firstImgRatio)  // 이건 썸네일을 설정 하는 겁니다.
-		},
-		webButton: {text: 'TheFun_더 아름다운 세상을 위한 펀딩', 
-					url : "http://www.naver.com"  }
-	}); 
-} 
-</script>	     -->
-
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"></fmt:parseNumber>
@@ -225,7 +195,7 @@ function sendLink() {
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable">
+		<table style="width: 100%;" id="sTable" border="1">
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
@@ -260,10 +230,8 @@ function sendLink() {
 		</tr>
 		<tr height="50">		
 		<c:if test="${projectdto.isOngoing()}">
-			<td> 
-				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
-				</a> 
+			<td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+				명이 좋아합니다
 			</td>
 		</c:if>
 		</tr>
@@ -271,23 +239,15 @@ function sendLink() {
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> &nbsp;&nbsp;<!-- 하트 버튼 -->
-				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
-				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
+				<a href="addCart.do">
+					<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니 버튼 -->
+				</a>
+				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
+				</a> 
+				<!-- <img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> --> <!-- 공유하기 버튼 -->
 			</td>
 			</c:if>
-		</tr>
-		<tr height="50" style="padding: 50px">
-			<td align="left">
-			<p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
-				펀딩기간  <b>
-				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
-				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
-				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
-				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
-			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font></td>
-			<td><div id="shareField"></div> </td>
 		</tr>
 		</table>
    
@@ -300,6 +260,7 @@ function sendLink() {
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
 			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
 			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="review"><font class="menubar">후기<sup class="pupple"><b></b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -312,6 +273,7 @@ function sendLink() {
 $(document).ready(function () {
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
+	$("#reviewContent").hide();
 });
 
 
@@ -323,22 +285,28 @@ $(".menubar").mouseover(function () {
 //show and hide
 $(function () {
 	$("#story").click(function () {
-		//alert("스토리 클릭");
 		$("#storyContent").show();
 		$("#noticeContent").hide();
 		$("#feedbackContent").hide();
+		$("#reviewContent").hide();
 	});
 	$("#notice").click(function () {
-		//alert("새소식 클릭");	
 		$("#storyContent").hide();
 		$("#noticeContent").show();
 		$("#feedbackContent").hide();
+		$("#reviewContent").hide();
 	});
 	$("#feedback").click(function () {
-		//alert("피드백 클릭");	
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
 		$("#feedbackContent").show();
+		$("#reviewContent").hide();
+	});
+	$("#review").click(function () {
+		$("#reviewContent").show();
+		$("#storyContent").hide();
+		$("#noticeContent").hide();
+		$("#feedbackContent").hide();
 	});
 });
 
@@ -373,22 +341,27 @@ function heartClick(selector){
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
+        <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+				펀딩기간  <b>
+				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
+				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
+				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
+			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
          <div class="col-lg-8" id="feedbackContent"> <!-- 후기 혹은 QNA  -->
-			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
-				<jsp:include page="detailFeedback.jsp"/>
-			</c:if>
-			<c:if test="${projectdto.isOngoing() or projectdto.isPreparing()}">
 				<jsp:include page="qna.jsp"/>
-			</c:if>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
 			<jsp:include page="detailNotice.jsp"/>
         </div>
-
+        <div class="col-lg-8" id="reviewContent">
+        	<jsp:include page="detailFeedback.jsp"/>
+		</div>
         <!-- Sidebar 전체-->
         <div class="col-lg-4">
         

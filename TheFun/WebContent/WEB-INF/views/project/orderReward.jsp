@@ -152,8 +152,9 @@ body{
 		 	 </ul>
 		</td>
 		<td class="td2 liteGray">
-			수량 : <input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly">개 &nbsp;
+		
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
+			<input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly" style="text-align: center;">
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">

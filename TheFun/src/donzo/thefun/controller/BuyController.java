@@ -45,19 +45,6 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	
-	
-	//주문완료
-	//@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	//public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
-	//	logger.info("BuyController addOrder 메소드 " + new Date());
-
-		//주문 insert
-	//	buyService.addOrders(newbuy, opSeq, opCount, opPrice);
-		
-	//	return "redirect:/myOrderList.do";
-	//}
-	
-	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
@@ -69,7 +56,7 @@ public class BuyController {
 		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		
 		return "redirect:/myOrderList.do";
-	}	
+	}		
 	
 	// 후기 등록
 	@RequestMapping(value="addReview.do", method= {RequestMethod.GET, RequestMethod.POST})
@@ -105,4 +92,15 @@ public class BuyController {
 		
 		return listData; 
 	}	
+	
+	//카트에 넣기 addCart.do
+	@RequestMapping(value="addCart.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public void addCart(BuyDto buydto) {
+		
+		//장바구니 insert
+		
+	}
+	
+	//페이지이동 카트로 이동 --------------------------
+	
 }  
