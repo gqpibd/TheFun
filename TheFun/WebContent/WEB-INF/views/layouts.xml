@@ -101,6 +101,11 @@
 		<put-attribute name="main" value="/WEB-INF/views/project/orderReward.jsp"/>
 	</definition>
 	
+	<!-- 장바구니 화면 -->
+	<definition name="basket.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/project/basket.jsp"/>
+	</definition>
+	
 	<!-- 검색? -->
 	<definition name="search.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>

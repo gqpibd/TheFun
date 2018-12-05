@@ -11,36 +11,38 @@
 <fmt:requestEncoding value="utf-8"/> 
  
 <title>The Fun_${projectdto.title }</title>
+
+<!-- 모달 css -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
 <!-- Custom styles for this template -->
 
  
 <style type="text/css">
-.pnt {
-	cursor: pointer;
+.pnt { 
+	cursor: pointer; 
 }
-
-.pupple {
-	color: #8152f0;
-}
-
-.strongGray {
-	color: #5c5c5c;
-}
-
-.liteGray {
-	color: #c4c4c4;
-}
+ .pupple{
+ 	color:#8152f0;
+ }
+ .strongGray{
+  color: #5c5c5c;
+  
+ }
+ .liteGray{
+	 color: #c4c4c4;
+ }
 
 .imgTd {
 	text-align: right;
 	padding: 20px;
-	width: 70%;
+	width: 60%;
 }
-
-.sTd {
-	text-align: left;
-	width: 30%;
+.sTd{
+	text-align:left;
+	width: 40%;
 	padding: 10px;
 }
 
@@ -83,11 +85,11 @@
 }
 
 .option-input:hover {
-	background: #9faab7;
+  background: #9faab7;
 }
 
 .option-input:checked {
-	background: #40e0d0;
+  background: #40e0d0;
 }
 
 .option-input:checked::before {
@@ -126,36 +128,6 @@
 }
 </style>
 
-<!-- 카카오 링크 설정 -->
-<!-- 
-<script> 
-var firstImg=$(".imageblock:first-of-type img"); 
-var contents=""; 
-if(firstImg.attr("src")){ 
-	var firstImgSrc=firstImg.attr("src"); 
-	var firstImgRatio = parseInt(firstImg.css("height"))/parseInt(firstImg.css("width")); 
-	if (firstImgRatio <=0.27) var firstImgRatio=0.27; 
-}else{
-	var firstImgSrc=location.origin+"/favicon.ico";
-	var firstImgRatio=1
-} 
-
-//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 사용할 앱의 JavaScript 키를 설정해 주세요. 
-
-function sendLink() { 
-	Kakao.Link.sendTalkLink({ 
-		label: '[##_page_title_##]', // 공유할 메세지의 제목을 설정
-		image: { 
-			src: firstImgSrc, 
-			width: '300', 
-			height: parseInt(300*firstImgRatio)  // 이건 썸네일을 설정 하는 겁니다.
-		},
-		webButton: {text: 'TheFun_더 아름다운 세상을 위한 펀딩', 
-					url : "http://www.naver.com"  }
-	}); 
-} 
-</script>	     -->
-
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
 <fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"></fmt:parseNumber>
@@ -188,7 +160,7 @@ function sendLink() {
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable">
+		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
@@ -222,21 +194,31 @@ function sendLink() {
 			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
 		<tr height="50">		
-		<c:if test="${projectdto.isOngoing()}">
-			<td> 
-				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="50px"> <!-- 펀딩하기 버튼 -->
-				</a> 
+			<td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+				명이 좋아합니다
 			</td>
-		</c:if>
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+			<td>
+				<select style="width: 70%; height: 30px;" id="optionSelect">
+					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
+					<c:forEach items="${optionList }" var="opselect">
+						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		<td></td>
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> &nbsp;&nbsp;<!-- 하트 버튼 -->
-				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
-				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
+				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
+					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
+				<!-- </a> -->
+				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
+				</a>
 			</td>
 			</c:if>
 		</tr>
@@ -254,6 +236,32 @@ function sendLink() {
 		</tr>
 		</table>
    
+   
+	   <!-- 모달 -->
+	   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <img src="image/main/banner.jpg" width="120px;">
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">장바구니에 추가되었습니다!</label>
+	            <p>이제 <strong style="color: #8052f0">'${projectdto.title }'</strong>을 장바구니에서 만나보세요</p>
+	
+	          </div>
+	         
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mainBtn">이 페이지에 머무르기</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mypageBtn" onclick="location.href='myBasket.do?id=${login.id}'">장바구니 확인하기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
 		<div class="jbMenu">
@@ -263,6 +271,7 @@ function sendLink() {
 			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
 			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
 			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="review"><font class="menubar">후기<sup class="pupple"><b></b></sup></font></td>
 		</tr>
 		</table>
 		<hr>
@@ -275,6 +284,19 @@ function sendLink() {
 $(document).ready(function () {
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
+	$("#reviewContent").hide();
+	
+	$("#optionSelect").change(function(){
+	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
+	   
+	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
+	   
+	   
+	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
+	});
+	
+	
+	
 });
 
 
@@ -286,22 +308,28 @@ $(".menubar").mouseover(function () {
 //show and hide
 $(function () {
 	$("#story").click(function () {
-		//alert("스토리 클릭");
 		$("#storyContent").show();
 		$("#noticeContent").hide();
 		$("#feedbackContent").hide();
+		$("#reviewContent").hide();
 	});
 	$("#notice").click(function () {
-		//alert("새소식 클릭");	
 		$("#storyContent").hide();
 		$("#noticeContent").show();
 		$("#feedbackContent").hide();
+		$("#reviewContent").hide();
 	});
 	$("#feedback").click(function () {
-		//alert("피드백 클릭");	
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
 		$("#feedbackContent").show();
+		$("#reviewContent").hide();
+	});
+	$("#review").click(function () {
+		$("#reviewContent").show();
+		$("#storyContent").hide();
+		$("#noticeContent").hide();
+		$("#feedbackContent").hide();
 	});
 });
 
@@ -336,22 +364,28 @@ function heartClick(selector){
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
+        <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+				펀딩기간  <b>
+				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
+				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
+				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
+			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent"> <!-- 후기 혹은 QNA  -->
-			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
-				<jsp:include page="detailFeedback.jsp"/>
-			</c:if>
-			<c:if test="${projectdto.isOngoing() or projectdto.isPreparing()}">
-				<jsp:include page="qna.jsp"/>
-			</c:if>
+         <div class="col-lg-8" id="feedbackContent"> <!-- QNA  -->
+			<jsp:include page="qna.jsp"/>
         </div>
         
          <div class="col-lg-8" id="noticeContent">
 			<jsp:include page="detailNotice.jsp"/>
         </div>
-
+        
+        <div class="col-lg-8" id="reviewContent"> <!-- 후기  -->
+        	<jsp:include page="detailFeedback.jsp"/>
+		</div>
         <!-- Sidebar 전체-->
         <div class="col-lg-4">
         
@@ -371,8 +405,10 @@ function heartClick(selector){
             </div>
           </div>
           
-          <p class="strongGray"><b>리워드선택</b></p>
-          
+<!-- 리워드라면 -->
+ <c:if test="${projectdto.isReward()}">
+    <p class="strongGray"><b>리워드선택</b></p>
+</c:if> 
           <!-- Side 옵션 -->
           
           <c:forEach items="${optionList}" var="option"> 

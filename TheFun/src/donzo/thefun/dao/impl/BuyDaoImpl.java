@@ -17,6 +17,8 @@ public class BuyDaoImpl implements BuyDao {
 	SqlSessionTemplate sqlSession;
 	
 	String ns = "Buy.";
+	
+	String ns2 = "Basket";
 
 	@Override
 	public List<BuyDto> orderList(String id) {
@@ -39,5 +41,11 @@ public class BuyDaoImpl implements BuyDao {
 	@Override
 	public List<BuyDto> selectReviewList(int seq) {
 		return sqlSession.selectList(ns+"selectReviewList",seq);
+	}
+
+	@Override
+	public List<BuyDto> selectMyBasket(String id) {
+		return sqlSession.selectList(ns2+"myBasketList", id);
 	}	
+	
 }

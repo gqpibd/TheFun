@@ -1,5 +1,6 @@
 ﻿// update : 12/04 20:11 -- FUN_BUY에 PRICE추가(기부시 필요) FUN_BUY_VIEW 테이블 수정
 ﻿// update : 12/04 19:31 -- FUN_PROJECTALL 테이블에서 해당 펀딩 프로젝트의 총 리워드 갯수를 가져올 수 있는 OPTIONTOTAL 칼럼을 추가.
+﻿// update : 12/04 16:42 -- FUN_BUY 테이블에 CARDNUMBER ,BANKNAME, PRICE 추가
 // update : 12/03 20:58 -- FUN_BUY_VIEW 테이블에 PDATE, SHIPDATE 추가
 ﻿// update : 12/03 17:10 -- FUN_PROJECT 에서 CONTENT칼럼의 자료형을 VARCHAR2(4000)에서 CLOB칼럼으로 변경. 순서도 맨 마지막으로.
 // update : 12/03 03:28 -- FUN_PROJECTALL 변경 -- STATUS에 REJECT, REVISE 추가됨
@@ -152,6 +153,18 @@ ADD(
    POSTCODE VARCHAR2(10),
    ROADADDRESS VARCHAR2(100),
    DETAILADDRESS VARCHAR2(100)
+)
+
+--결제카드정보 추가
+ALTER TABLE FUN_BUY
+ADD(
+   CARDNUMBER VARCHAR2(50),
+   BANKNAME VARCHAR2(50)
+)
+
+ALTER TABLE FUN_BUY
+ADD(
+   PRICE NUMBER
 )
 
 -- PRICE 칼럼 삭제

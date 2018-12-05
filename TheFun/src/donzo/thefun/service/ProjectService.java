@@ -31,10 +31,10 @@ public interface ProjectService {
 	// 프로젝트&리워드 생성하기(프로젝트 dto, 리워드 list) ==> 생성한 프로젝트 seq 리턴 
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception;
 	
-	// 내 프로젝트 수정 (새 입력값 프로젝트 dto)
-	public void updateProject(ProjectDto myProjectDto) throws Exception;
+	// 내 프로젝트 수정 (수정 프로젝트 dto, 수정 리워드 리스트)
+	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist) throws Exception;
 	
-	// 내 프로젝트 삭제( 삭제할 프로젝트 seq )
+	// 내 프로젝트 삭제( 삭제할 프로젝트 seq ) 
 	public void deleteProject(int seq) throws Exception;
 	
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
