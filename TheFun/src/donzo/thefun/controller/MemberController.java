@@ -88,7 +88,7 @@ public class MemberController {
 		
 		req.getSession().invalidate();
 		req.getSession().setAttribute("login", mem);
-		return "redirect:/myInfo.do?id=" + mem.getId();
+		return "redirect:/myInfo.do";
 	}	
 	
 	// 로그아웃 처리

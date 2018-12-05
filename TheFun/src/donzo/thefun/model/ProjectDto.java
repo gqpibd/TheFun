@@ -269,7 +269,6 @@ public class ProjectDto implements Serializable {
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
 		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
-		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 	
 	public String getTag() {
