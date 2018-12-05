@@ -8,7 +8,7 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <style type="text/css">
 
-.pnt { 
+.pnt {  
    cursor: pointer; 
 }
  .pupple{
