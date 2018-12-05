@@ -31,6 +31,7 @@ import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import donzo.thefun.util.UtilFunctions;
 
 @Controller
 public class ProjectController {
@@ -275,7 +276,7 @@ public class ProjectController {
 		return "newProject.tiles";
 	}
 		
-	// 스마트 에디터 이미지 업로드 테스트중(승지)
+	// 스마트 에디터 이미지 업로드
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -313,8 +314,11 @@ public class ProjectController {
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
-		ProjectDto findProject = projectService.getProject(seq);
-		model.addAttribute("findPro", findProject);
+		// 수정할 펀딩
+		model.addAttribute("myProject", projectService.getProject(seq));
+		// 펀딩에 딸린 리워드들
+		model.addAttribute("optionList",projectService.getOptions(seq));
+		
 		return "projectUpdate.tiles";
 	}
 	
@@ -330,7 +334,7 @@ public class ProjectController {
 		logger.info("요약 = "+newProjectDto.getSummary());
 		logger.info("내용 = "+newProjectDto.getContent());
 		logger.info("은행 = "+newProjectDto.getBank());
-		logger.info("이미지 = "+newImage.getOriginalFilename());
+		logger.info("새 이미지 = "+newImage.getOriginalFilename());
 		
 		// DB 수정
 		projectService.updateProject(newProjectDto);
@@ -394,12 +398,20 @@ public class ProjectController {
 	public String getStatusWithMessage(int projectseq) throws Exception{
 		List<ProjectmsgDto> msgList = projectService.getMsgList(projectseq);
 		String messageData = "{\"items\":[";
+		String messageFrom = "";
 		for(int i=0;i<msgList.size();i++) {
+			
+			if(msgList.get(i).isResubmit()) {
+				messageFrom = "작성자";
+			}else {
+				messageFrom = "에디터";
+			}
 			messageData += "{\"seq\":\"" + msgList.get(i).getSeq() +"\",";
 			messageData += "\"proejctseq\":\"" + msgList.get(i).getProjectseq() +"\",";
+			messageData += "\"writer\":\"" + messageFrom +"\",";
 			messageData += "\"status\":\"" + msgList.get(i).getStatusKor() +"\",";
 			messageData += "\"message\":\"" + msgList.get(i).getMessage() +"\",";
-			messageData += "\"date\":\"" + msgList.get(i).getRegdate() +"\"}";
+			messageData += "\"date\":\"" + UtilFunctions.getDateFormKorean(msgList.get(i).getRegdate()) +"\"}";
 			if(i < msgList.size()-1) {
 				messageData += ",";
 			}

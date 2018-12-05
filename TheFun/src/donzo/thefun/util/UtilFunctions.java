@@ -24,5 +24,14 @@ public class UtilFunctions implements Serializable{
 		
 		return newdate;		
 	}
-
+	
+	public static String getDateFormKorean2(String datetime) {
+		String newdate = "";
+		// yyyy-MM-dd HH:mm:ss
+		newdate += datetime.substring(0, 4)+"년";
+		newdate += datetime.substring(5, 7)+"월";
+		newdate += datetime.substring(8, 10)+"일";
+		
+		return newdate;		
+	}
 }
