@@ -22,7 +22,7 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.orderList(id);
 	}
 
-	@Override
+	@Override 
 	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
 		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
@@ -62,7 +62,17 @@ public class BuyServiceImpl implements BuyService {
 	public List<BuyDto> selectMyBasket(String id) {
 		return buyDao.selectMyBasket(id);
 	}
-
+/////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		return buyDao._myOrderList(param);
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return buyDao.getOrderCount(param);
+//	}
+/////////
 }
 
  

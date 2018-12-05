@@ -46,6 +46,19 @@ public class BuyDaoImpl implements BuyDao {
 	@Override
 	public List<BuyDto> selectMyBasket(String id) {
 		return sqlSession.selectList(ns2+"myBasketList", id);
-	}	
+	}
+////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		List<BuyDto> blist = sqlSession.selectList(ns + "_myOrderList", param);
+//		return blist;
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return sqlSession.selectOne(ns + "getOrderCount", param);
+//	}	
+///////////////	
+	
 	
 }

@@ -427,6 +427,4 @@ public class BuyDto implements Serializable {
 				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
 				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + "]";
 	}
-
-	
 }
