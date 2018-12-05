@@ -12,9 +12,11 @@ public interface MemberService {
 
 	public MemberDto tryLogin(MemberDto dto);
 	
-	public MemberDto getMypage(MemberDto mem) throws Exception;
+	public MemberDto getUserInfo(String id) throws Exception;
 
 	public boolean updateMember(MemberDto mem);
+
+	public boolean addPoint(MemberDto mem);
 	
 	
 	

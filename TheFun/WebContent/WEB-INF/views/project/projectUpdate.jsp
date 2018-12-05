@@ -920,7 +920,10 @@ $("#btn_calcel").click(function () {
 //수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
 	alert("업뎃!");
-	
+	/* if('${myProject.isRevise()}' == 'true'){
+		console.log("수정상태");
+	} */
+		$("#messageModal").modal('show');
 	/* 공란 거르기 */
 	
 		// [1] 첫번째 탭 값
@@ -974,7 +977,6 @@ $("#btn_submit").click(function () {
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
 		formSubmit(bankname, accountNumber);
-		  
 	}
 	
 });
@@ -1071,5 +1073,33 @@ $("#mainImage").on("change", function (e) {
 })
 </script>
  
+ 
+<!-- 재승인요청인 경우 관리자에게 보내는 메시지 작성 -->
+ <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>프로젝트 승인 재요청</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">수정사항</label>
+            <input type="text" class="form-control" id="noticeTitle" name="title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">내용</label>
+            <textarea class="form-control" id="newNoticeContent" name="content"></textarea>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndSubmitNotice()">제출</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 

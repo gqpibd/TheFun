@@ -65,7 +65,7 @@ FROM FUN_BUY B;
 		SELECT *
 		FROM FUN_BUY_VIEW
 		WHERE ID=#{id}
-		ORDER BY REGDATE ASC
+		ORDER BY REGDATE DESC
 </select>
 
 <!-- add Order -->
@@ -78,15 +78,18 @@ FROM FUN_BUY B;
 <!-- 후기, 별점 등록 -->
 <insert id="addReview" parameterType="donzo.thefun.model.BuyDto">
 	UPDATE FUN_BUY
-	SET SCORE = ${score}, BCOMMENT = #{bcomment}
+	SET SCORE = ${score}
+	<if test="bcomment != null">
+		, BCOMMENT = #{bcomment}
+	</if>
 	WHERE SEQ = ${seq}
 </insert>
 <!-- replace(B.OCONTENT,CHR(13)||CHR(10),'/') -->
 <!-- 특정 프로젝트의 후기 목록 불러오기 -->
 <select id="selectReviewList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
-	SELECT B.SEQ, M.NICKNAME AS ID, B.REGDATE, B.OTITLE, B.OCONTENT, B.SCORE, B.BCOMMENT
-	FROM FUN_BUY_VIEW B, FUN_MEMBER M
-	WHERE B.PROJECTSEQ = #{seq} AND B.ID = M.ID AND B.SCORE IS NOT NULL	
+	SELECT SEQ, ID, REGDATE, OTITLE, OCONTENT, SCORE, BCOMMENT
+	FROM FUN_BUY_VIEW
+	WHERE PROJECTSEQ = #{seq} AND SCORE IS NOT NULL	
 </select>
 
 </mapper>

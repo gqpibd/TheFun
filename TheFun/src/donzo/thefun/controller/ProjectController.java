@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -50,7 +54,7 @@ public class ProjectController {
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectDetail(int seq,Model model,HttpServletRequest req) {
+	public String projectDetail(int seq, Model model, HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		logger.info("projectDetail project : " + projectService.getProject(seq) );
 		//현재 선택한 프로젝트 정보
@@ -90,7 +94,7 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,String type ,Model model) {
+	public String goSelectReward(int seq, String type ,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		String returnStr="";
 		//현재 선택한 프로젝트 정보
@@ -266,14 +270,14 @@ public class ProjectController {
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
 			String realFileName = mainImage.getOriginalFilename();
-			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
-			File file = new File(uploadPath + "/" + changedFileName);
-			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			//String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
+			File file = new File(uploadPath + "/" + projectSeq);
+			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
-		return "newProject.tiles";
+		return "redirect:/projectDetail.do?seq=" + projectSeq;
 	}
 		
 	// 스마트 에디터 이미지 업로드
@@ -526,4 +530,6 @@ public class ProjectController {
 		rmap.put("likeCount", likeCount);		
 		return rmap;
 	}
+	
+	
 }

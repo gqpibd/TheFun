@@ -13,7 +13,7 @@
  <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->
 <style type="text/css">
 
 </style>
@@ -289,7 +289,7 @@
 		<tr>
 			<td style="text-align: left;">주소</td>
 			<td >
-				<input class="input" type="text" id="myPostcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">		
+				<input class="input" type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode}" readonly="readonly">		
 			</td>
 			<td>
 				<input class="input" type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
@@ -298,7 +298,7 @@
 		<tr>
 			<td></td>
 			<td colspan="2">
-				<input class="input" type="text" id="myRoadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
+				<input class="input" type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress}"  readonly="readonly">
 			</td>
 		</tr>
 		<tr>

@@ -441,6 +441,7 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
 	public boolean isComplete_success() {
 		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
 			return true;
@@ -490,7 +491,8 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
-		public boolean isOnsubmission() {
+	
+	public boolean isOnsubmission() {
 		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
 			return true;
 		}else

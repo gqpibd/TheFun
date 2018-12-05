@@ -1,7 +1,6 @@
 package donzo.thefun.dao;
 
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.ProjectDto;
 
 public interface MemberDao {
 
@@ -13,10 +12,11 @@ public interface MemberDao {
 
 	public MemberDto tryLogin(MemberDto dto);
 	
-	/*getMypage*/
-	public MemberDto getMypage(MemberDto mem) throws Exception;
+	public MemberDto getUserInfo(String id) throws Exception;
 
 	public boolean updateMember(MemberDto mem);
+
+	public boolean addPoint(MemberDto mem);
 
 	
 	

@@ -34,13 +34,18 @@ public class MemberServiceImpl implements MemberService {
 	}	
 
 	@Override
-	public MemberDto getMypage(MemberDto mem) throws Exception{
-		return memberDao.getMypage(mem);
+	public MemberDto getUserInfo(String id) throws Exception{
+		return memberDao.getUserInfo(id);
 	}
 
 	@Override
 	public boolean updateMember(MemberDto mem) {
 		return memberDao.updateMember(mem);
+	}
+
+	@Override
+	public boolean addPoint(MemberDto mem) {
+		return memberDao.addPoint(mem);		
 	}
 
 	

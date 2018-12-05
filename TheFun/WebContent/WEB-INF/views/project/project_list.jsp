@@ -5,12 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>   
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->
 <style>
-/* 글씨체 */
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
 
 /* 
 th, td{

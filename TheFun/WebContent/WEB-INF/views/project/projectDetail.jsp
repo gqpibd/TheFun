@@ -17,154 +17,115 @@
 
  
 <style type="text/css">
-
-/* body{
-font-family: "Nanum Gothic", sans-serif;
-} */
-.pnt { 
-	cursor: pointer; 
+.pnt {
+	cursor: pointer;
 }
- .pupple{
- 	color:#8152f0;
- }
- .strongGray{
-  color: #5c5c5c;
-  
- }
- .liteGray{
-	 color: #c4c4c4;
- }
-.imgTd{
-	text-align:right;
+
+.pupple {
+	color: #8152f0;
+}
+
+.strongGray {
+	color: #5c5c5c;
+}
+
+.liteGray {
+	color: #c4c4c4;
+}
+
+.imgTd {
+	text-align: right;
 	padding: 20px;
 	width: 70%;
 }
-.sTd{
-	text-align:left;
+
+.sTd {
+	text-align: left;
 	width: 30%;
 	padding: 10px;
 }
 
-/* 버튼 */
-.fun_btn {
-	-moz-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	box-shadow:inset 0px 1px 0px 0px #d3c2ff;
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a78af2), color-stop(1, #8152f0));
-	background:-moz-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-webkit-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-o-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:-ms-linear-gradient(top, #a78af2 5%, #8152f0 100%);
-	background:linear-gradient(to bottom, #a78af2 5%, #8152f0 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a78af2', endColorstr='#8152f0',GradientType=0);
-	background-color:#a78af2;
-	-moz-border-radius:6px;
-	-webkit-border-radius:6px;
-	border-radius:6px;
-	border:1px solid #8152f0;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #7754d1;
-}
-.fun_btn:hover {
-	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8152f0), color-stop(1, #a78af2));
-	background:-moz-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-webkit-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-o-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:-ms-linear-gradient(top, #8152f0 5%, #a78af2 100%);
-	background:linear-gradient(to bottom, #8152f0 5%, #a78af2 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#8152f0', endColorstr='#a78af2',GradientType=0);
-	background-color:#8152f0;
-}
-.fun_btn:active {
-	position:relative;
-	top:1px;
-	
-}
-.fun_btn:focus{
-	outline: none;
-}
+
 /* 회사 이미지 */
-.profile_img{   
-    float: none;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin: 4px;
-    vertical-align: middle;
-    object-fit: cover;
+.profile_img {
+	float: none;
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	margin: 4px;
+	vertical-align: middle;
+	object-fit: cover;
 }
 
 /* 라디오버튼 - 승인거절시 */
 .option-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  position: relative;
-  top: 13.33333px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 40px;
-  width: 40px;
-  transition: all 0.15s ease-out 0s;
-  background: #cbd1d8;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  margin-right: 0.5rem;
-  outline: none;
-  position: relative;
-  z-index: 1000;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	position: relative;
+	top: 13.33333px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 40px;
+	width: 40px;
+	transition: all 0.15s ease-out 0s;
+	background: #cbd1d8;
+	border: none;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	margin-right: 0.5rem;
+	outline: none;
+	position: relative;
+	z-index: 1000;
 }
+
 .option-input:hover {
-  background: #9faab7;
+	background: #9faab7;
 }
+
 .option-input:checked {
-  background: #40e0d0;
+	background: #40e0d0;
 }
+
 .option-input:checked::before {
-  height: 40px;
-  width: 40px;
-  position: absolute;
-  content: '✔';
-  display: inline-block;
-  font-size: 26.66667px;
-  text-align: center;
-  line-height: 40px;
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	content: '✔';
+	display: inline-block;
+	font-size: 26.66667px;
+	text-align: center;
+	line-height: 40px;
 }
+
 .option-input:checked::after {
-  -webkit-animation: click-wave 0.65s;
-  -moz-animation: click-wave 0.65s;
-  animation: click-wave 0.65s;
-  background: #40e0d0;
-  content: '';
-  display: block;
-  position: relative;
-  z-index: 100;
+	-webkit-animation: click-wave 0.65s;
+	-moz-animation: click-wave 0.65s;
+	animation: click-wave 0.65s;
+	background: #40e0d0;
+	content: '';
+	display: block;
+	position: relative;
+	z-index: 100;
 }
+
 .option-input.radio {
-  border-radius: 50%;
+	border-radius: 50%;
 }
+
 .option-input.radio::after {
-  border-radius: 50%;
+	border-radius: 50%;
 }
 
 .label {
-  display: block;
-  line-height: 40px;
+	display: block;
+	line-height: 40px;
 }
-
- </style>
+</style>
 
 <!-- 카카오 링크 설정 -->
 <!-- 
@@ -207,13 +168,15 @@ function sendLink() {
  <!-- 카테고리 , 태그 -->
     <div class="container">
     <div align="center">
-    <c:if test="${projectdto.isWaiting() and login ne null and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
-    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
-    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
-    </c:if>
-    <c:if test="${projectdto.isOnsubmission() and login ne null and (login.isManager() or login.id eq proejctdto.id)}">
-    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
-    </c:if>
+    <c:if test="${login ne null}">
+ 	    <c:if test="${projectdto.isWaiting() and login.isManager()}"> <%-- 상태가 대기중 이면서 관리자가 로그인해서 보는 경우 --%>
+ 	    	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
+ 	    	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
+ 	    </c:if>
+ 	    <c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
+ 	    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
+ 	    </c:if>
+ 	</c:if>
     </div>
    	<br>
    	<div align="center">   		
@@ -381,7 +344,7 @@ function heartClick(selector){
 			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
 				<jsp:include page="detailFeedback.jsp"/>
 			</c:if>
-			<c:if test="${projectdto.isOngoing() or isPreparing()}">
+			<c:if test="${projectdto.isOngoing() or projectdto.isPreparing()}">
 				<jsp:include page="qna.jsp"/>
 			</c:if>
         </div>
@@ -466,26 +429,51 @@ function checkAndSendMessage(){
 	}
 }
 
-function viewStatus(){	
-	
+function viewStatus(){		
 	$.ajax({
 		url:"getStatusWithMessage.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
 		data:"projectseq=${projectdto.seq}", // 전송할 데이터
 		dataType :"json",
 		success:function(data){
-			console.log(data);
-			var msgBody = document.getElementById("msgBody");
-			var msgul = document.createElement('div');
+			//console.log(data);
+			
+			var msgBox = document.createElement('div');
+			
 			var items = data['items'];
-			for (i = 0; i < items.length; i++) {
-		      var listItem = document.createElement('div');
-		      listItem.textContent = items[i].status;
-		      listItem.textContent += items[i].message;
-		      listItem.textContent += items[i].date;
-		      msgul.appendChild(listItem);
-		    }			
-			msgBody.replaceChild(msgul,msgBody.childNodes[0]);
+			if(items.length>0){
+				for (i = 0; i < items.length; i++) {
+				  var msgContainer = document.createElement('div');
+				  msgContainer.classList.add("blog-container");
+	
+			      var author = document.createElement('div');
+			      author.classList.add("author");
+			      if(items[i].writer == "에디터"){
+			    	  console.log(items[i].writer);
+			    	  author.innerHTML = "<h4><i class='fas fa-user-astronaut'></i>에디터</h4>";
+			      }else{
+			    	  //console.log(items[i].writer);
+			    	  author.innerHTML = "<h4><i class='fas fa-reply'></i>작성자</h4>";
+			      }
+			      var body = document.createElement('div');
+			      body.classList.add("blog-body");			      
+			      body.innerHTML = "<span class='msgtitle'>" + items[i].status + "</span>" +
+			      				   "<div class='blog-summary' style='margin-top: 15px; margin-bottom: 15px'><i class='far fa-arrow-alt-circle-right'></i>&nbsp;" + 
+			      				   items[i].message +"</div>";
+			      var footer = document.createElement('div');
+			      footer.classList.add("blog-footer");
+			      footer.innerHTML = "<span class='published-date'>" + items[i].date +"<span>";
+			      
+			      msgContainer.appendChild(author);
+			      msgContainer.appendChild(body);
+			      msgContainer.appendChild(footer);
+			      
+			      msgBox.appendChild(msgContainer);
+			    }			
+				
+				var msgBody = document.getElementById("msgBody");
+				msgBody.replaceChild(msgBox, msgBody.childNodes[0]);
+			}
 			$("#readMsgModal").modal('show');
 		},
 		error:function(){ // 또는					 
@@ -493,7 +481,6 @@ function viewStatus(){
 		}
 	});	
 }
-
 </script>
 
 <!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->    

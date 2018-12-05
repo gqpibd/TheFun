@@ -45,6 +45,7 @@
 	        <mvc:mapping path="/mySchedule.do"/>		<!-- 내 일정 -->
 	        <mvc:mapping path="/projectUpdate.do"/>
 	        <mvc:mapping path="/viewAlarms.do"/>		<!-- 알람보기 -->
+	        <mvc:mapping path="/writeReview.do"/>		<!-- 알람보기 -->	        
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>

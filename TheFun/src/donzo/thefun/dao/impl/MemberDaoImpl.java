@@ -39,8 +39,8 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public MemberDto getMypage(MemberDto mem) throws Exception{
-		return sqlSession.selectOne(ns + "getMypage", mem);		
+	public MemberDto getUserInfo(String id) throws Exception{
+		return sqlSession.selectOne(ns + "getUserInfo", id);		
 	}
 
 	@Override
@@ -49,9 +49,12 @@ public class MemberDaoImpl implements MemberDao {
 		return  (n>0)?true:false;
 	}
 
-	
-	
-	
-	
+	@Override
+	public boolean addPoint(MemberDto mem) {
+		System.out.println("MemberDaoImpl" + mem.toString());
+		int n = sqlSession.update(ns+"addPoint",mem);
+		System.out.println(n);
+		return  (n>0)?true:false;
+	}
 	
 }

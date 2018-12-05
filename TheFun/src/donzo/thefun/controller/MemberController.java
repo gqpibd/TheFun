@@ -36,7 +36,10 @@ public class MemberController {
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
-		logger.info(loginType);
+		logger.info(loginType);		
+		
+		callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
+		logger.info(callback.toString());
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			loginUser = memberService.tryLogin(dto);
 			if(loginUser == null) { // 로그인 실패
@@ -110,13 +113,7 @@ public class MemberController {
 		}
 		return "redirect:/login.do?message='registered'";
 	}
- 
-
-	
-	
-	
-	
-	
+ 	
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사
 	@ResponseBody
@@ -189,7 +186,7 @@ public class MemberController {
 	
 	// 마이페이지로 이동
 	@RequestMapping(value="myPage.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getMypage(HttpServletRequest req, Model model) throws Exception{
+	public String getMypage() throws Exception{
 		logger.info("MemberController getMypage " + new Date());		
 		
 		return "MyPage.tiles";
@@ -197,7 +194,7 @@ public class MemberController {
 		
 	// 내 정보 보기, 수정하기 페이지로 이동
 	@RequestMapping(value="myInfo.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String getMyinfo(Model model) throws Exception{
+	public String getMyinfo() throws Exception{
 		logger.info("MemberController myInfo " + new Date());
 		
 		return "myInfo.tiles";	
