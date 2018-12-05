@@ -82,7 +82,9 @@ body{
       	<hr width="70%" color="#818181">
       	<table style="width: 70%">
       	<tr height="50px;">
-      		<td align="center" width="70%"> 기부금액  : <input class="pupple" type="text" name="opPrice" size="10" style="text-align: right;">원 </td>
+      		<td align="center" width="70%">
+      			 기부금액  <input class="pupple" type="text" id="amount" name="opPrice" size="10" style="text-align: right;" placeholder="0">원 
+      		</td>
       		<td width="30%"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
       		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
@@ -125,8 +127,7 @@ body{
      		</td>
      	</tr>
      	</table>
-</c:if>
-
+</c:if> <!-- 기부 끝 -->
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdto.isReward()}">
@@ -611,8 +612,10 @@ function goAddOrder( is ) {
 				$(this).val($(this).val().substring(0,6));
 			}
 		});
-		
-		
+		$("#amount").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+
+		});
 		
 		
 		
@@ -704,5 +707,26 @@ function autoHyphen(phoneField){
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 
+//기부 숫자에 자동으로 콤마
+function getNumber(obj){
+	
+  var num01;
+  var num02;
+  num01 = obj.value;
+  num02 = num01.replace(rgx1,"");
+  num01 = setComma(num02);
+  obj.value =  num01;
 
+}
+
+function setComma(inNum){
+  
+  var outNum;
+  outNum = inNum; 
+  while (rgx2.test(outNum)) {
+       outNum = outNum.replace(rgx2, '$1' + ',' + '$2');
+   }
+  return outNum;
+
+}
 </script>

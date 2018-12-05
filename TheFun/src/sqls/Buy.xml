@@ -88,14 +88,6 @@ FROM FUN_BUY B;
 	
 </insert>
 
-<!-- add Donation -->
-<insert id="addDonation" parameterType="donzo.thefun.model.BuyDonationDto">
-	INSERT INTO FUN_BUY
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},null,#{count},
-	SYSDATE,null,null,#{name},#{phone},
-	null,null,null,#{cardNumber},#{bankName},#{price})
-</insert>
-
 
 <!-- 후기, 별점 등록 -->
 <insert id="addReview" parameterType="donzo.thefun.model.BuyDto">
