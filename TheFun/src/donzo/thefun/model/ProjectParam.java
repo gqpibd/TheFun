@@ -39,144 +39,144 @@ public class ProjectParam implements Serializable {
 
 
 	
-	
-	public String getO_regdate() {
-		return o_regdate;
-	}
-
-
-
-
-	public void setO_regdate(String o_regdate) {
-		this.o_regdate = o_regdate;
-	}
-
-
-
-
-	public String getO_pdate() {
-		return o_pdate;
-	}
-
-
-
-
-	public void setO_pdate(String o_pdate) {
-		this.o_pdate = o_pdate;
-	}
-
-
-
-
-	public int getO_projectseq() {
-		return o_projectseq;
-	}
-
-
-
-
-	public void setO_projectseq(int o_projectseq) {
-		this.o_projectseq = o_projectseq;
-	}
-
-
-
-
-	public String getO_ptitle() {
-		return o_ptitle;
-	}
-
-
-
-
-	public void setO_ptitle(String o_ptitle) {
-		this.o_ptitle = o_ptitle;
-	}
-
-
-
-
-	public String getO_otitle() {
-		return o_otitle;
-	}
-
-
-
-
-	public void setO_otitle(String o_otitle) {
-		this.o_otitle = o_otitle;
-	}
-
-
-
-
-	public int getO_price() {
-		return o_price;
-	}
-
-
-
-
-	public void setO_price(int o_price) {
-		this.o_price = o_price;
-	}
-
-
-
-
-	public int getO_count() {
-		return o_count;
-	}
-
-
-
-
-	public void setO_count(int o_count) {
-		this.o_count = o_count;
-	}
-
-
-
-
-	public String getO_status() {
-		return o_status;
-	}
-
-
-
-
-	public void setO_status(String o_status) {
-		this.o_status = o_status;
-	}
-
-
-
-
-	public String getO_bcomment() {
-		return o_bcomment;
-	}
-
-
-
-
-	public void setO_bcomment(String o_bcomment) {
-		this.o_bcomment = o_bcomment;
-	}
-
-
-
-
-	public String getO_id() {
-		return o_id;
-	}
-
-
-
-
-	public void setO_id(String o_id) {
-		this.o_id = o_id;
-	}
-
+//	
+//	public String getO_regdate() {
+//		return o_regdate;
+//	}
+//
+//
+//
+//
+//	public void setO_regdate(String o_regdate) {
+//		this.o_regdate = o_regdate;
+//	}
+//
+//
+//
+//
+//	public String getO_pdate() {
+//		return o_pdate;
+//	}
+//
+//
+//
+//
+//	public void setO_pdate(String o_pdate) {
+//		this.o_pdate = o_pdate;
+//	}
+//
+//
+//
+//
+//	public int getO_projectseq() {
+//		return o_projectseq;
+//	}
+//
+//
+//
+//
+//	public void setO_projectseq(int o_projectseq) {
+//		this.o_projectseq = o_projectseq;
+//	}
+//
+//
+//
+//
+//	public String getO_ptitle() {
+//		return o_ptitle;
+//	}
+//
+//
+//
+//
+//	public void setO_ptitle(String o_ptitle) {
+//		this.o_ptitle = o_ptitle;
+//	}
+//
+//
+//
+//
+//	public String getO_otitle() {
+//		return o_otitle;
+//	}
+//
+//
+//
+//
+//	public void setO_otitle(String o_otitle) {
+//		this.o_otitle = o_otitle;
+//	}
+//
+//
+//
+//
+//	public int getO_price() {
+//		return o_price;
+//	}
+//
+//
+//
+//
+//	public void setO_price(int o_price) {
+//		this.o_price = o_price;
+//	}
+//
+//
+//
+//
+//	public int getO_count() {
+//		return o_count;
+//	}
+//
+//
+//
+//
+//	public void setO_count(int o_count) {
+//		this.o_count = o_count;
+//	}
+//
+//
+//
+//
+//	public String getO_status() {
+//		return o_status;
+//	}
+//
+//
+//
+//
+//	public void setO_status(String o_status) {
+//		this.o_status = o_status;
+//	}
+//
+//
+//
+//
+//	public String getO_bcomment() {
+//		return o_bcomment;
+//	}
+//
+//
+//
+//
+//	public void setO_bcomment(String o_bcomment) {
+//		this.o_bcomment = o_bcomment;
+//	}
+//
+//
+//
+//
+//	public String getO_id() {
+//		return o_id;
+//	}
+//
+//
+//
+//
+//	public void setO_id(String o_id) {
+//		this.o_id = o_id;
+//	}
+//
 
 
 
@@ -301,15 +301,17 @@ public class ProjectParam implements Serializable {
 				+ (s_sort != null ? "s_sort=" + s_sort + ", " : "")
 				+ (s_asc_desc != null ? "s_asc_desc=" + s_asc_desc + ", " : "")
 				+ (s_complete != null ? "s_complete=" + s_complete + ", " : "")
-				+ ", o_regdate=" + o_regdate + ", o_pdate=" + o_pdate + ", o_projectseq=" + o_projectseq
+				+ "]";
+	}
+
+/*
+ + ", o_regdate=" + o_regdate + ", o_pdate=" + o_pdate + ", o_projectseq=" + o_projectseq
 				+ ", o_ptitle=" + o_ptitle + ", o_otitle=" + o_otitle + ", o_price=" + o_price + ", o_count=" + o_count
 				+ ", o_status=" + o_status 
 				+ (o_bcomment != null ? "o_bcomment=" + o_bcomment + ", " : "")
 				+ ", o_id=" + o_id + ", recordCountPerPage="+ recordCountPerPage 
-				+ ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
-	}
-
-
+				+ ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end 
+ */
 	
 
 	

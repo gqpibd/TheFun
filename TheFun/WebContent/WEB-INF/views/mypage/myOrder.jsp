@@ -59,7 +59,7 @@ font-family: "Nanum Gothic", sans-serif;
 	<!--  class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'" -->
 	
 	<c:choose>
-		<c:when test="${order.isDeleted() eq false && order.isReject() eq false}">
+		<c:when test="${order.isDeleted() eq false}">
 			<tr>
 			<!-- 후원 일자 : 펀딩일 결제일 -->
 			<td><!-- white-space: nowrap;  word-break:break-all  -->		
@@ -94,7 +94,7 @@ font-family: "Nanum Gothic", sans-serif;
 						<c:when test="${order.isOngoing()}">진행 중</c:when>
 						<c:when test="${order.isComplete_success()}">
 							<c:choose>
-								<c:when test="${order.bcomment ne null }">구매 확정</c:when>
+								<c:when test="${order.otitle eq null || order.bcomment ne null}">구매 확정</c:when>
 								<c:when test="${order.bcomment eq null }">
 									<button type="button" id="latter" onclick="goLatter()">후기작성</button>
 								</c:when>

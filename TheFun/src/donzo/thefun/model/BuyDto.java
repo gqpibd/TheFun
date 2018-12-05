@@ -122,10 +122,6 @@ public class BuyDto implements Serializable {
 	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
 	public static final String DELETE = "delete"; // 삭제
 	
-	//public static final String APPROVE = "approve"; // 승인됨
-	public static final String REJECT = "reject"; // 거절됨
-	public static final String REVISE = "revise"; // 보완요청
-	
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -432,20 +428,6 @@ public class BuyDto implements Serializable {
 			return true;
 		}else
 			return false;
-	}
-	public boolean isRevise() {
-		if(status.equalsIgnoreCase(REVISE)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	public boolean isReject() {
-		if(status.equalsIgnoreCase(REJECT)) {
-			return true;
-		}else {
-			return false;
-		}
 	}
 	
 	@Override
