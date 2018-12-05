@@ -272,7 +272,7 @@ function sendLink() {
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
 				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> &nbsp;&nbsp;<!-- 하트 버튼 -->
-				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="location.href='myBasket.do'"/>&nbsp;	<!-- 장바구니추가 버튼 -->
+				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="location.href='myBasket.do?id=${login.id}'"/>&nbsp;	<!-- 장바구니추가 버튼 -->
 				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
 			</c:if>

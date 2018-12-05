@@ -18,7 +18,7 @@ public class BuyDaoImpl implements BuyDao {
 	
 	String ns = "Buy.";
 	
-	String ns2 = "Basket";
+	String ns2 = "Basket.";
 
 	@Override
 	public List<BuyDto> orderList(String id) {
