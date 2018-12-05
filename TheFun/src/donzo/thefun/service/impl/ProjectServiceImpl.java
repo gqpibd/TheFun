@@ -105,13 +105,14 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
-	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist) throws Exception {
+	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist, String message) throws Exception {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = myProjectDto.getEdate();
 		myProjectDto.setEdate(edate+" 23:59:59");
 		
 		// [1] 프로젝트 DB 수정
-		projectDao.updateProject(myProjectDto);
+		projectDao.updateProject(myProjectDto);		
+		
 		
 		// [2] 옵션 DB도 수정(리워드일 경우만)
 		if(myProjectDto.getFundtype().equals("reward")) {
@@ -120,6 +121,9 @@ public class ProjectServiceImpl implements ProjectService {
 			// [2]-2. 새 리워드 입력
 			optionDao.optionWrite(newPotionlist, myProjectDto.getSeq());
 		}
+		
+		// [3] 재승인 요청
+		projectmsgDao.insertProjectMsg(new ProjectmsgDto(myProjectDto.getSeq(),ProjectmsgDto.RESUBMIT,message));		
 	}
 	
 	@Override

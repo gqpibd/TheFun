@@ -915,7 +915,7 @@ $("#btn_calcel").click(function () {
 //수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
 	//alert("업뎃!");
-	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
+	
 	/* 공란 거르기 */
 	
 	// [1] 첫번째 탭 값
@@ -951,6 +951,7 @@ $("#btn_submit").click(function () {
 		alert("제목이 너무 깁니다. 줄여주세요.");
 		$("#home-tab").click();
 		$("#titleTap").click();
+		return;
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
 		$("#col_image").click();
@@ -963,6 +964,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
 		$("#home-tab").click();
 		$("#summarryTap").click();
+		return;
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
@@ -971,6 +973,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
+		return;
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");
 		$("#bankTap").click();
@@ -979,6 +982,7 @@ $("#btn_submit").click(function () {
 		alert("계좌번호가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#bankTap").click();
+		return;
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
 		// 2. 카테고리에 따른 공란판정
@@ -1027,7 +1031,6 @@ $("#btn_submit").click(function () {
 	}
 	
 });
-
 // form에 submit 최종실행 함수!
 function formSubmit(bankname, accountNumber) {
 	// 선택한 은행+계좌번호 가져와
@@ -1053,10 +1056,11 @@ function formSubmit(bankname, accountNumber) {
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
+	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
+	
 	// form 실행! 컨트롤러로~
-	$("#updateProjectFrom").submit();
+	// $("#updateProjectFrom").submit(); // 모달 창에서 submit 할 때 넘어가게 하자
 }
-
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
 	var curr = $(selector).val().length;
@@ -1069,7 +1073,6 @@ function checkLength (selector,messageSelector,maxlength){
 		$(messageSelector).css("color", "red");
 	}
 }
-
 //목표금액, 리워드 금액, 리워드 수량 전부 --> 숫자만 입력가능 + 콤마생성
 $("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() {
 	$(this).val(addCommas($(this).val().replace(/[^0-9]/g,"")));
@@ -1082,7 +1085,6 @@ $("#accountNumber").on("keyup", function() {
 function addCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 // 선택한 프로젝트 스케줄 날짜를 다시 리셋함.
 $("#btn_resetDates").click(function () {
 	$("#date1").val("");
@@ -1116,8 +1118,6 @@ $(":radio").click(function (e) {
 		$("#category").append(options[1]).append(options[3]);
 	}
 });
-
-
 // 대표이미지 미리보기
 $("#mainImage").on("change", function (e) {
 	var files = e.target.files;
@@ -1135,7 +1135,25 @@ $("#mainImage").on("change", function (e) {
 		}
 		reader.readAsDataURL(f);
 	})
-})
+});
+
+// 최종 서브밋은 여기서
+function checkAndResubmitProject(){
+	if($("#revisionMessage").val() == ''){
+		alert("변경된 사항을 간략히 적어주세요");
+		return;
+	}else{
+		var updateForm = document.forms['updateProjectFrom'];
+		var input   = document.createElement('input');
+		input.type   = 'hidden';
+		input.name  = 'message';
+		input.value  = $("#revisionMessage").val();
+
+		updateForm.appendChild(input);
+
+		$("#updateProjectFrom").submit();
+	}
+}
 </script>
  
  
@@ -1152,16 +1170,12 @@ $("#mainImage").on("change", function (e) {
       <div class="modal-body">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">수정사항</label>
-            <input type="text" class="form-control" id="noticeTitle" name="title">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">내용</label>
-            <textarea class="form-control" id="newNoticeContent" name="content"></textarea>
+            <textarea class="form-control" id="revisionMessage" name="content" placeholder="변경된 사항을 간략히 적어주세요"></textarea>
           </div>       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
-        <button type="button" class="btn fun_btn" onclick="checkAndSubmitNotice()">제출</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">제출</button>
       </div>
     </div>
   </div>

@@ -197,12 +197,9 @@ input.star:checked ~ .rev-box {
 			<td>
 				<div>
 					<c:choose>										
-						<c:when test="${order.isWaiting()}">승인 대기 중</c:when>
-						<c:when test="${order.isPreparing()}">준비 중</c:when>
 						<c:when test="${order.isOngoing()}">진행 중</c:when>
 						<c:when test="${order.isComplete_success()}">구매 확정</c:when>
 						<c:when test="${order.isComplete_fail()}">완료됨(실패)</c:when>
-						<c:when test="${order.isDeleted()}">삭제된 게시글</c:when>
 						<c:otherwise> 
 							${order.status} 
 						</c:otherwise>

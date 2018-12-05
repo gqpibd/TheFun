@@ -42,18 +42,18 @@ public class OptionDaoImpl implements OptionDao {
 	public OptionDto getSelectOptions(int seq) {	//옵션 seq
 		return sqlSession.selectOne(ns+"selectOptions",seq);
 	}
+	
+
+	@Override
+	public void deleteOptions(int seq) throws Exception {	// 프로젝트 seq
+		sqlSession.delete(ns+"deleteOptions", seq);
+		
+	}
 
 
 	@Override
 	public void updateStock(OptionDto opdto) {
 		sqlSession.update(ns+"updateStock",opdto);
-	}
-
-
-	@Override
-	public void deleteOptions(int seq) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

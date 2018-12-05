@@ -39,6 +39,7 @@
 $(document).ready(function(){
 	setReviewList();
 });
+
 function setReviewList(){
 	$.ajax({
 		url:"selectReviewList.do", // 접근대상
@@ -53,7 +54,7 @@ function setReviewList(){
 			
 			var items = data['reviews'];
 			$("#feedbackCnt").text(items.length);
-			console.log($("#feedbackCnt").text());
+			//console.log($("#feedbackCnt").text());
 			if(items.length>0){
 				for (i = 0; i < items.length; i++) {
 				  
@@ -96,8 +97,4 @@ function setReviewList(){
 		}
 	});		
 }
-
-
-
-
 </script>

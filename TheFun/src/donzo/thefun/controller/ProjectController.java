@@ -333,7 +333,7 @@ public class ProjectController {
 							int option_total,
 							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
-							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+							@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
 		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
@@ -342,6 +342,8 @@ public class ProjectController {
 		
 		// seq값 세팅
 		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
+		
+		
 		
 		// 리워드 입력값 배열 모두 list로 변환.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
@@ -366,7 +368,7 @@ public class ProjectController {
 		}
 		
 		// DB 수정
-		projectService.updateProject(newProjectDto, newPotionlist);
+		projectService.updateProject(newProjectDto, newPotionlist, message);
 		
 		
 		// 파일 수정

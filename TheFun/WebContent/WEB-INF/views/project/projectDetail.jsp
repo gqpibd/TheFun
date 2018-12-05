@@ -11,16 +11,24 @@
 <fmt:requestEncoding value="utf-8"/> 
  
 <title>The Fun_${projectdto.title }</title>
-
-<!-- 모달 css -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
 <!-- Custom styles for this template -->
 
  
 <style type="text/css">
+/* 탭부분 css */
+.tabSelect{
+	background: #8152f038;
+}
+.tabTable{
+	width: 100%;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    height: 50px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+/* 탭부분 css 끝 */
 .pnt { 
 	cursor: pointer; 
 }
@@ -163,7 +171,7 @@
 		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
-			<td class="strongGray sTd">
+			<td class="strongGray sTd"  >
 			<c:if test="${projectdto.isPreparing()}">
 				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
 			</c:if>
@@ -264,41 +272,32 @@
 
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
-		<div class="jbMenu">
-		<hr>
-		<table style="width: 100%; background-color: white;">
+		<!-- <div class="jbMenu"> -->
+		<table class="tabTable" style="width: 100%; background-color: white;">
 		<tr>
-			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="review"><font class="menubar">후기<sup class="pupple"><b></b></sup></font></td>
+			<td align="center" class="strongGray tabSelect" id="story" style="width: 25%;"><font class="menubar">스토리</font></td>
+			<td align="center" class="strongGray" id="notice" style="width: 25%;"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="qna" style="width: 25%;"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="review" style="width: 25%;"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
 		</tr>
 		</table>
-		<hr>
-		</div>
+		<!-- </div> -->
 	    </div>
 	 </div>
 	 
 	 
 <script type="text/javascript">
 $(document).ready(function () {
-	$("#feedbackContent").hide();
+	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
 	
 	$("#optionSelect").change(function(){
 	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
-	   
 	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
-	   
-	   
 	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
 	});
-	
-	
-	
 });
-
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	
@@ -308,28 +307,48 @@ $(".menubar").mouseover(function () {
 //show and hide
 $(function () {
 	$("#story").click(function () {
-		$("#storyContent").show();
+		$("#storyContent").show();		
 		$("#noticeContent").hide();
-		$("#feedbackContent").hide();
-		$("#reviewContent").hide();
+		$("#qnaContent").hide();
+		$("#reviewContent").hide();		
+
+		$("#story").addClass("tabSelect");		
+		$("#notice").removeClass("tabSelect");		
+		$("#qna").removeClass("tabSelect");	
+		$("#review").removeClass("tabSelect");	
 	});
 	$("#notice").click(function () {
 		$("#storyContent").hide();
 		$("#noticeContent").show();
-		$("#feedbackContent").hide();
+		$("#qnaContent").hide();
 		$("#reviewContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").addClass("tabSelect");		
+		$("#qna").removeClass("tabSelect");	
+		$("#review").removeClass("tabSelect");	
 	});
-	$("#feedback").click(function () {
+	$("#qna").click(function () {
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
-		$("#feedbackContent").show();
+		$("#qnaContent").show();
 		$("#reviewContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").removeClass("tabSelect");	
+		$("#qna").addClass("tabSelect");		
+		$("#review").removeClass("tabSelect");	
 	});
 	$("#review").click(function () {
 		$("#reviewContent").show();
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
-		$("#feedbackContent").hide();
+		$("#qnaContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").removeClass("tabSelect");	
+		$("#qna").removeClass("tabSelect");	
+		$("#review").addClass("tabSelect");		
 	});
 });
 
@@ -375,7 +394,7 @@ function heartClick(selector){
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent"> <!-- QNA  -->
+         <div class="col-lg-8" id="qnaContent"> <!-- QNA  -->
 			<jsp:include page="qna.jsp"/>
         </div>
         
