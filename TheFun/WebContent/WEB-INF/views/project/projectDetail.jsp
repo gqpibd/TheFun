@@ -321,7 +321,11 @@ $(document).ready(function () {
 	
 	$("#optionSelect").change(function(){
 	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
-	   $('#optionSelect').val('beginS');	//
+	   
+	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
+	   
+	   
+	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
 	});
 	
 	
