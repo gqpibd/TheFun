@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -34,7 +33,6 @@ import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
-import donzo.thefun.util.FUpUtil;
 import donzo.thefun.util.UtilFunctions;
 
 @Controller

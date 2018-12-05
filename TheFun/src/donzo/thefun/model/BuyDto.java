@@ -30,7 +30,9 @@ CREATE TABLE FUN_BUY(
    
    //결제카드정보
    CARDNUMBER VARCHAR2(50),
-   BANKNAME VARCHAR2(50)
+   BANKNAME VARCHAR2(50),
+   
+   PRICE NUMBER
 );
 
 CREATE SEQUENCE SEQ_BUY
@@ -91,14 +93,14 @@ ON DELETE CASCADE; -- 종속 삭제
 
 -------------- VIEW : 구매
 
-CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
+CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
 AS
-SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, 
+SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, B.CARDNUMBER, B.BANKNAME,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
     (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
     (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),    
     (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
-    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    NVL(B.PRICE,(SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)),
     (SELECT PDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ),
     (SELECT SHIPDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ)
 FROM FUN_BUY B;
@@ -115,17 +117,10 @@ FROM FUN_BASKET B;*/
 
 public class BuyDto implements Serializable {
 
-	public static final String WAITING = "waiting"; // 승인대기 
-	public static final String PREPARING = "preparing"; // 준비중
 	public static final String ONGOING = "ongoing"; // 진행중
 	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
 	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
-	public static final String DELETE = "delete"; // 삭제
-	
-	//public static final String APPROVE = "approve"; // 승인됨
-	public static final String REJECT = "reject"; // 거절됨
-	public static final String REVISE = "revise"; // 보완요청
-	
+		
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -197,7 +192,6 @@ public class BuyDto implements Serializable {
 
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
 			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName) {
-		super();
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
@@ -397,24 +391,13 @@ public class BuyDto implements Serializable {
 		this.bankName = bankName;
 	}
 
-	public boolean isWaiting() {
-		if(status.equalsIgnoreCase(WAITING)) {
-			return true;
-		}
-		return false;
-	}
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ONGOING)) {
 			return true;
 		}else
 			return false;
 	}
-	public boolean isPreparing() {
-		if(status.equalsIgnoreCase(PREPARING)) {
-			return true;
-		}else
-			return false;
-	}
+	
 	public boolean isComplete_success() {
 		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
 			return true;
@@ -427,26 +410,7 @@ public class BuyDto implements Serializable {
 		}else
 			return false;
 	}
-	public boolean isDeleted() {
-		if(status.equalsIgnoreCase(DELETE)) {
-			return true;
-		}else
-			return false;
-	}
-	public boolean isRevise() {
-		if(status.equalsIgnoreCase(REVISE)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	public boolean isReject() {
-		if(status.equalsIgnoreCase(REJECT)) {
-			return true;
-		}else {
-			return false;
-		}
-	}
+			
 	
 	@Override
 	public String toString() {

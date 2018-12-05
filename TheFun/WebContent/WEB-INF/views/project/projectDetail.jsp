@@ -13,7 +13,6 @@
 <title>The Fun_${projectdto.title }</title>
  
 <!-- Custom styles for this template -->
-<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> --><!-- portpolio.css랑 같은. header.jsp에 있음 -->
 
  
 <style type="text/css">
@@ -429,6 +428,7 @@ function checkAndSendMessage(){
 	}
 }
 
+/* 프로젝트의 관리자 승인 상태를 보자 */
 function viewStatus(){		
 	$.ajax({
 		url:"getStatusWithMessage.do", // 접근대상
@@ -522,20 +522,16 @@ function viewStatus(){
 <div class="modal fade" id="readMsgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">프로젝트 승인 현황</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="msgBody">
-        <div>
-        </div>
-      </div>
-      <div class="modal-footer">
+      <div class="modal-header" style="display: unset;">
+        <h5 class="modal-title" id="exampleModalLabel">프로젝트 승인 현황</h5>        
+			<div class="modal-body" id="msgBody">
+				에디터가 프로젝트 내용을 검토중입니다.			
+			</div>
+			<div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
+</div>
 </div>
     

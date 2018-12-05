@@ -46,19 +46,6 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	
-	
-	//주문완료
-	//@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	//public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
-	//	logger.info("BuyController addOrder 메소드 " + new Date());
-
-		//주문 insert
-	//	buyService.addOrders(newbuy, opSeq, opCount, opPrice);
-		
-	//	return "redirect:/myOrderList.do";
-	//}
-	
-	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
