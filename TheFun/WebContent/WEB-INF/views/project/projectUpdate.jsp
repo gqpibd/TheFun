@@ -222,7 +222,7 @@ $(document).ready(function() {
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">
 	<input type="hidden" id="bank" name="bank">
 	<input type="hidden" id="status" name="status" value="${myProject.status}">
-	<input type="hidden" name="proSeq" value="${myProject.seq }">	<!-- name을 seq로 하면 컨트롤러에서 각 dto를 매개변수로 받을 때 두 vo객체 모두 seq변수가 있어 충돌날거같아서 proSeq로 이름을 구분해 따로 매개변수에 넣음 -->
+	<input type="hidden" name="seq" value="${myProject.seq }">
 	<input type="hidden" id="originImage" name="originImage" value="${myProject.seq }.jpg">	<!-- 기존이미지이름 별로 필요없을듯. 어차피 파일 덮어쓰기 할거라... seq.jpg로 -->
 
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->

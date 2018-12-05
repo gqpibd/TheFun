@@ -335,23 +335,44 @@ public class ProjectController {
 	
 	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectUpdateAf(ProjectDto newProjectDto, String proSeq,
+	public String projectUpdateAf(ProjectDto newProjectDto,/* String proSeq,*/
+							int option_total,
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
 							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
 		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
-		logger.info("수정할 펀딩의 seq = " + proSeq);
+		/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
 		logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
 		
 		// seq값 세팅
-		newProjectDto.setSeq(Integer.parseInt(proSeq));
+		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
 		
-		// 프로젝트 DB 수정
-		projectService.updateProject(newProjectDto);
+		// 리워드 입력값 배열 모두 list로 변환.
+		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
 		
-		// 옵션 DB 수정(리워드일 경우만)
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!무제한");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), 0));
+				}
+			}
+			// 확인용
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리워드 리스트 : " + newPotionlist.get(i).toString());
+			}
+		}
 		
+		// DB 수정
+		projectService.updateProject(newProjectDto, newPotionlist);
 		
 		/*
 		// 파일 수정
