@@ -5,10 +5,8 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
-import donzo.thefun.model.ProjectDto;
 
 @Repository
 public class BuyDaoImpl implements BuyDao {
@@ -29,7 +27,7 @@ public class BuyDaoImpl implements BuyDao {
 	public void addOrders(BuyDto buy) {
 		sqlSession.insert(ns+"addOrders", buy);
 	}
-
+	
 	@Override
 	public boolean addReview(BuyDto buydto) {
 		int n= sqlSession.update(ns+"addReview",buydto);

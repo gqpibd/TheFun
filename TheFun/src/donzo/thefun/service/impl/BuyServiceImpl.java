@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import donzo.thefun.dao.BuyDao;
-import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
@@ -24,8 +23,9 @@ public class BuyServiceImpl implements BuyService {
 	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
 		if(fundtype.equals(ProjectDto.TYPE_DONATION)) {
+
 			BuyDto buydto=new BuyDto(
-						buy.getId(), buy.getProjectseq(), buy.getOptionseq(), buy.getCount(), opPrice[0], 
+						buy.getId(), buy.getProjectseq(), buy.getOptionseq(), 1, opPrice[0], 
 						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
 			System.out.println("addorders의 dto : "+buydto);
@@ -44,18 +44,16 @@ public class BuyServiceImpl implements BuyService {
 		
 	}
 
-	@Override
-	public boolean addReview(BuyDto buydto) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+   @Override
+   public boolean addReview(BuyDto buydto) {
+      return buyDao.addReview(buydto);
+   }
 
-	@Override
-	public List<BuyDto> selectReviewList(int seq) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+   @Override
+   public List<BuyDto> selectReviewList(int seq) {
+      return buyDao.selectReviewList(seq);
+   }
+
 	
 }
 

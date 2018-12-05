@@ -359,10 +359,8 @@ body{
 
 
 function goAddOrder( is ) {
- 	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
- 				  document.getElementById("card3").value+document.getElementById("card4").value;
-	document.getElementById("cardNumber").value=cardNum;
 	var iswhat = is;
+	
 	if(document.getElementById("card1").value.length<4){
 		alert("첫번째 카드번호가 4자리수 이하입니다");
 	}else if(document.getElementById("card2").value.length<4){
@@ -390,8 +388,20 @@ function goAddOrder( is ) {
 			alert("주소를 입력하여 주십시오");
 		}else if(document.getElementById("detailAddress").value==""){
 			alert("상세주소를 입력하여 주십시오");
-		} 
+		}else{
+			var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
+			  document.getElementById("card3").value+document.getElementById("card4").value;
+			document.getElementById("cardNumber").value=cardNum;
+			
+			alert("가자");
+			$("#orderfrm").attr("action","addOrder.do").submit();
+		}
 	}else{
+		
+		var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
+		  document.getElementById("card3").value+document.getElementById("card4").value;
+		document.getElementById("cardNumber").value=cardNum;
+		
 		alert("가자");
 		$("#orderfrm").attr("action","addOrder.do").submit();
 	} 

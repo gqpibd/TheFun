@@ -10,7 +10,6 @@
    OPTIONSEQ NUMBER(8),  // 기부인 경우는 OPTION이 없음
    
    COUNT NUMBER(8) NOT NULL,
-   PRICE NUMBER(8) NOT NULL,
    REGDATE DATE NOT NULL,
    
    // 배송지 정보
@@ -22,7 +21,12 @@
 
    // 후기 + 별점..
    SCORE NUMBER(2), 
-   BCOMMENT VARCHAR2(1000) 
+   BCOMMENT VARCHAR2(1000) ,
+   
+   //결제정보 및 가격 나중에 추가됨
+   CARDNUMBER VARCHAR2(50),
+   BANKNAME VARCHAR2(50),
+   PRICE NUMBER
 );
 
 CREATE SEQUENCE SEQ_BUY
@@ -72,10 +76,24 @@ FROM FUN_BUY B;
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
 	INSERT INTO FUN_BUY
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},null,#{count},
 	SYSDATE,null,null,#{name},#{phone},
-	#{postcode},#{roadaddress},#{detailaddress},#{cardNumber},#{bankName},#{price})
+	<if test="postcode == null">
+        null,null,null,
+    </if>
+    <if test="postcode != null">
+       #{postcode},#{roadaddress},#{detailaddress},
+    </if>
+	#{cardNumber},#{bankName},#{price})
 	
+</insert>
+
+<!-- add Donation -->
+<insert id="addDonation" parameterType="donzo.thefun.model.BuyDonationDto">
+	INSERT INTO FUN_BUY
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},null,#{count},
+	SYSDATE,null,null,#{name},#{phone},
+	null,null,null,#{cardNumber},#{bankName},#{price})
 </insert>
 
 
@@ -85,6 +103,7 @@ FROM FUN_BUY B;
 	SET SCORE = ${score}, BCOMMENT = #{bcomment}
 	WHERE SEQ = ${seq}
 </insert>
+
 <!-- replace(B.OCONTENT,CHR(13)||CHR(10),'/') -->
 <!-- 특정 프로젝트의 후기 목록 불러오기 -->
 <select id="selectReviewList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
