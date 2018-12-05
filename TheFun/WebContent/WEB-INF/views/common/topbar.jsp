@@ -94,7 +94,6 @@ window.fbAsyncInit = function() {
 .menu .hide{display:none;}
 
 
-
 /* megamenu */
 
 /* Reset */
@@ -126,7 +125,7 @@ window.fbAsyncInit = function() {
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
-	z-index: 11;
+	z-index: 1;
 }
 
 .cbp-hrmenu > ul > li {
@@ -276,12 +275,12 @@ $(document).ready(function () {
 
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
-<div align="center" style="cursor: pointer;padding: 0px;margin: 0px;">
+<div align="center" style="padding: 0px;margin: 0px;">
 <span>
-<img src="image/main/banner.jpg" width="150px" onclick="location.href='main.do'">
+<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;margin-top: -1%;" onclick="location.href='main.do'">
 </span>
 </div>
-<div class="main_menu" >
+<div class="main_menu">
 	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px;">
 		<ul class="navbar-nav ml-auto">
 			<li>
@@ -352,8 +351,8 @@ $(document).ready(function () {
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
 		    </button>
 		        
-		    <div class="collapse navbar-collapse" id="navbarResponsive" style="margin-right: 5%;">
-		      <ul class="navbar-nav ml-auto">
+		    <div class="collapse navbar-collapse" id="navbarResponsive">
+		      <ul class="navbar-nav ml-auto" style="margin-right: 15%;">
 		        <li class="nav-item">              
 					<c:if test="${login eq null}">
 					    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="30px"></a> <!-- 로그인 -->				

@@ -260,7 +260,7 @@ $(document).ready(function() {
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
-	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);z-index: -1;"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
+	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
@@ -289,7 +289,7 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [2] 대표 이미지 -->
-    <div class="card border-secondary mb-1" style="z-index: -1;">
+    <div class="card border-secondary mb-1">
     	<!-- 위 -->
 		<div class="card-header" id="headingTwo">        
 		  <h4 class="mb-0">
@@ -333,7 +333,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [3] 프로젝트 요약 -->
-    <div class="card border-secondary mb-1" style="z-index: -1;">
+    <div class="card border-secondary mb-1">
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
