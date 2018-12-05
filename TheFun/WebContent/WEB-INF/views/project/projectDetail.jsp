@@ -380,7 +380,7 @@ function heartClick(selector){
 			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
 				<jsp:include page="detailFeedback.jsp"/>
 			</c:if>
-			<c:if test="${projectdto.isOngoing() or isPreparing()}">
+			<c:if test="${projectdto.isOngoing() or projectdto.isPreparing()}">
 				<jsp:include page="qna.jsp"/>
 			</c:if>
         </div>

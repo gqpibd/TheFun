@@ -24,6 +24,11 @@ public class ProjectDaoImpl implements ProjectDao {
 		
 //		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
 		List<ProjectDto> list = sqlSession.selectList(ns + "searchProjectList", pParam);
+		
+		/*for (int i = 0; i < list.size(); i++) {
+			ProjectDto dto = list.get(i) ;
+			System.out.println("sqlSession.selectList 에서 나온 list : " + dto.toString());
+		}*/
 		return list;
 	}
 
