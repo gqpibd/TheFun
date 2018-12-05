@@ -24,6 +24,11 @@ public class ProjectDaoImpl implements ProjectDao {
 		
 //		System.out.println("searchProjectList로 들어가는 pParam :" + pParam.toString());
 		List<ProjectDto> list = sqlSession.selectList(ns + "searchProjectList", pParam);
+		
+		/*for (int i = 0; i < list.size(); i++) {
+			ProjectDto dto = list.get(i) ;
+			System.out.println("sqlSession.selectList 에서 나온 list : " + dto.toString());
+		}*/
 		return list;
 	}
 
@@ -53,9 +58,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public void updateProject(ProjectDto myProjectDto) throws Exception {
+	public boolean updateProject(ProjectDto myProjectDto) throws Exception {
 		// 내 프로젝트 업데이트하기(승지)
-		sqlSession.update(ns+"updateProject", myProjectDto);
+		return sqlSession.update(ns+"updateProject", myProjectDto)>0?true:false;
 	}
 	
 	@Override
@@ -91,6 +96,5 @@ public class ProjectDaoImpl implements ProjectDao {
 		int n = sqlSession.update(ns + "rejectProject", projectdto);		
 		return n>0?true:false;
 	}
-
 	
 }

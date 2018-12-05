@@ -69,7 +69,7 @@ CREATE TABLE FUN_MEMBER(
 </select>	
 
 <!-- 마이페이지 : 쿼리문 실행 확인 -->
-<select id="getMypage" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+<select id="getUserInfo" parameterType="String" resultType="donzo.thefun.model.MemberDto">
 	SELECT *
 	FROM FUN_MEMBER
 	WHERE ID=#{id}
@@ -86,11 +86,17 @@ CREATE TABLE FUN_MEMBER(
 	WHERE ID = #{id}	
 </update>
 
+<!-- 포인트 적립 -->
+<update id="addPoint" parameterType="donzo.thefun.model.MemberDto" >	
+	UPDATE FUN_MEMBER
+	SET POINT = NVL(POINT,0) + ${point}
+	WHERE ID = #{id}	
+</update>
 
-
-
-
-
-
-
+<!-- id찾기 -->
+<select id="find_id" parameterType="String" resultType="String">
+	SELECT COUNT(*) 
+	FROM FUN_MEMBER 
+	WHERE EMAIL = #{email}
+</select>
 </mapper>

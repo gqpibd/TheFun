@@ -28,5 +28,32 @@ public class BuyDaoImpl implements BuyDao {
 	@Override
 	public void addOrders(BuyDto buy) {
 		sqlSession.insert(ns+"addOrders", buy);
-	}	
+	}
+
+	@Override
+	public boolean addReview(BuyDto buydto) {
+		int n= sqlSession.update(ns+"addReview",buydto);
+		return n>0?true:false;
+	}
+
+	@Override
+	public List<BuyDto> selectReviewList(int seq) {
+		return sqlSession.selectList(ns+"selectReviewList",seq);
+	}
+
+	
+////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		List<BuyDto> blist = sqlSession.selectList(ns + "_myOrderList", param);
+//		return blist;
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return sqlSession.selectOne(ns + "getOrderCount", param);
+//	}	
+///////////////	
+	
+	
 }

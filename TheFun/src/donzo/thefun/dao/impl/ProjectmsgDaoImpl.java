@@ -18,8 +18,9 @@ public class ProjectmsgDaoImpl implements ProjectmsgDao {
 	String ns = "Projectmsg.";
 
 	@Override
-	public void insertProjectMsg(ProjectmsgDto projectmsgDto) {
-		sqlSession.insert(ns+"insertProjectMsg",projectmsgDto);		
+	public boolean insertProjectMsg(ProjectmsgDto projectmsgDto) {
+		int n = sqlSession.insert(ns+"insertProjectMsg",projectmsgDto);
+		return n>0?true:false;
 	}
 
 	@Override

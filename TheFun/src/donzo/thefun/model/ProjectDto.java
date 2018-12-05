@@ -16,8 +16,7 @@ CREATE TABLE FUN_PROJECT(
    
    FUNDTYPE VARCHAR2(50) NOT NULL, -- REWARD | DONATION
    CATEGORY VARCHAR2(50) NOT NULL, -- FOOD, ANIMAL, IT | ANIMAL, HUMAN
-   TITLE VARCHAR2(200) NOT NULL, 
-   
+   TITLE VARCHAR2(200) NOT NULL,       
    SUMMARY VARCHAR2(1000) NOT NULL,
    TAGS VARCHAR2(400), -- 태그를 넣는거는 선택사항으로? NOT NULL 없앰.
    BANK VARCHAR2(200) NOT NULL,
@@ -52,7 +51,7 @@ REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; -- 종속 삭제(참조하는 데이터가 삭제되면 함께 삭제)
 
 -------------- VIEW : 프로젝트 전체 내용 
-CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME)
+CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME, OPTIONTOTAL, REVIEWCOUNT)
 AS
 SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
@@ -72,7 +71,9 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
         ELSE 'complete_fail'  
      END AS "status" 
      FROM FUN_PROJECT WHERE SEQ = P.SEQ),
-    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = P.ID)
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = P.ID),
+    NVL((SELECT COUNT(*) FROM FUN_OPTION WHERE PROJECTSEQ = P.SEQ),0),
+    (SELECT COUNT(*) FROM FUN_BUY WHERE PROJECTSEQ= P.SEQ AND NVL(SCORE,0)>0)
 FROM FUN_PROJECT P;
 */
 
@@ -95,6 +96,7 @@ public class ProjectDto implements Serializable {
 	//public static final String APPROVE = "approve"; // 승인됨
 	public static final String REJECT = "reject"; // 거절됨
 	public static final String REVISE = "revise"; // 보완요청
+	public static final String RESUBMIT = "resubmit";	// 재승인요청(수정한 펀딩)
 	
 	int seq;  
 	String id; // 작성자
@@ -116,10 +118,12 @@ public class ProjectDto implements Serializable {
 	
 	int qnacount; // 댓글 갯수
 	int buycount; // 구매 갯수
+	int reviewcount; // 리뷰 갯수
 	int noticecount; // 공지 갯수
 	int likecount; // 좋아요 갯수
 	int fundachived; // 달성 모금액
 	String nickname; // 이름
+	String optiontotal;	// 보유 리워드 갯수
 	
 	public ProjectDto() {		
 		shipdate = "";
@@ -127,9 +131,10 @@ public class ProjectDto implements Serializable {
 	}
 
 	public ProjectDto(int seq, String id, String fundtype, String category, String title, String content,
-			String summary, String[] tags, String bank, int goalfund, String sdate, String edate, String pdate,
-			String shipdate, String regdate, String status, int qnacount, int buycount, int noticecount, int likecount,
-			int fundachived, String nickname) {
+			String summary, String[] tags, String tag, String bank, int goalfund, String sdate, String edate,
+			String pdate, String shipdate, String regdate, String status, int qnacount, int buycount, int noticecount,
+			int likecount, int fundachived, String nickname, String optiontotal) {
+		super();
 		this.seq = seq;
 		this.id = id;
 		this.fundtype = fundtype;
@@ -138,6 +143,7 @@ public class ProjectDto implements Serializable {
 		this.content = content;
 		this.summary = summary;
 		this.tags = tags;
+		this.tag = tag;
 		this.bank = bank;
 		this.goalfund = goalfund;
 		this.sdate = sdate;
@@ -152,6 +158,7 @@ public class ProjectDto implements Serializable {
 		this.likecount = likecount;
 		this.fundachived = fundachived;
 		this.nickname = nickname;
+		this.optiontotal = optiontotal;
 	}
 	public ProjectDto(String id, String fundtype, String category, String title, String content, String summary,
 			String tag, String bank, int goalfund, String sdate, String edate, String pdate, String shipdate, String nickname) {
@@ -263,7 +270,7 @@ public class ProjectDto implements Serializable {
 		}
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
-		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+		//System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 	
 	public String getTag() {
@@ -383,7 +390,7 @@ public class ProjectDto implements Serializable {
 	public void setFundachived(int fundachived) {
 		this.fundachived = fundachived;
 	}
-
+	
 	public String getDateForm(String datetime) {
 		String date = datetime;
 		if(datetime.lastIndexOf(' ')>-1) {
@@ -399,6 +406,11 @@ public class ProjectDto implements Serializable {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	
+	public String getOptiontotal() {
+		return optiontotal;
+	}
+
 	public String getCategoryKr() {		
 		switch(category.toLowerCase()) {
 		case CATEGORY_FOOD:
@@ -431,6 +443,7 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
 	public boolean isComplete_success() {
 		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
 			return true;
@@ -449,6 +462,23 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
+	
+	public boolean isDonation() {
+		if(fundtype.equalsIgnoreCase(TYPE_DONATION)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isReward() {
+		if(fundtype.equalsIgnoreCase(TYPE_REWARD)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	public boolean isRevise() {
 		if(status.equalsIgnoreCase(REVISE)) {
 			return true;
@@ -463,6 +493,7 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
+	
 	public boolean isOnsubmission() {
 		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
 			return true;
@@ -470,15 +501,27 @@ public class ProjectDto implements Serializable {
 			return false;
 	}
 	
+	
+	public int getReviewcount() {
+		return reviewcount;
+	}
+
+	public void setReviewcount(int reviewcount) {
+		this.reviewcount = reviewcount;
+	}
+
+	public void setOptiontotal(String optiontotal) {
+		this.optiontotal = optiontotal;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
 				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
 				+ Arrays.toString(tags) + ", tag=" + tag + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate="
 				+ sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate
-				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount="
-				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + ", nickname=" + nickname + "]";
+				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", reviewcount="
+				+ reviewcount + ", noticecount=" + noticecount + ", likecount=" + likecount + ", fundachived="
+				+ fundachived + ", nickname=" + nickname + ", optiontotal=" + optiontotal + "]";
 	}
-
-	
 }

@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
+
+
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
@@ -43,23 +47,21 @@
 	<br><br>
 	
 	<!-- id찾기 폼 -->
-	<form class="login-form" action="" method="post">
+	<form class="login-form" action="find_id.do" method="post" id="findid">
 		<div>
 			<h3>ID찾기</h3>
 		</div>
 		<div>
 			<p>
 				<label></label>
-				<input type="text" id="" name="" 
+				<input type="text" id="email" name="email" 
 				onkeyup="" maxlength="30" placeholder="email" />
 			</p>
 			<p>
-				<button style="background: #8152f0; cursor: ;" 
-				id="" disabled="disabled">찾기</button>
+				<button type="button" style="background: #8152f0; cursor: ;" id="findBtn" onclick="submit()">찾기</button>
 			</p>
 			<p>
-				<button style="background: #8152f0; cursor: ;" 
-				id=""  type="button" 
+				<button type="button" style="background: #8152f0; cursor: ;"  
 				onclick = "location.href='login.do'">취소</button>
 			</p>
 		</div>
@@ -71,11 +73,17 @@
 	</form>
 </div>
 </div>
+<script type="text/javascript">
+function submit(){
+	console.log("submit");
+	$("#findid").submit();
+}
+</script>
 
 
 
 
-
+	
 
 
 

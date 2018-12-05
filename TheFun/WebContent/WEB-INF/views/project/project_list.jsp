@@ -1,16 +1,12 @@
-<%@page import="java.util.Date"%>
+	<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>   
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->
 <style>
-/* 글씨체 */
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
 
 /* 
 th, td{
@@ -124,7 +120,7 @@ td{
 	<tr style="height: 20px;">
 	<td colspan="2">
 		<span style="text-align: left;">
-		<img class="img-fluid" style="width:100%;object-fit: cover;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'">
+		<img class="img-fluid" style="width:100%;height:250px;object-fit: cover;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'">
 		</span>
 	</td>
 	</tr>

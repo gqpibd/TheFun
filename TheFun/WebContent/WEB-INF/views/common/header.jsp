@@ -12,7 +12,8 @@
 
 <!-- bootstrap icon -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<!-- <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"> -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 
 
 <!-- Bootstrap core CSS -->
@@ -47,5 +48,91 @@
 <meta name="description" content="">
 <meta name="author" content=""> 
 
-<!-- Custom styles for this template -->
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<style type="text/css"> /* 공통 글씨체 */
+body{
+	font-family: "Nanum Gothic", sans-serif;
+}
+/* 버튼 */
+.fun_btn {
+	-moz-box-shadow: inset 0px 1px 0px 0px #d3c2ff;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #d3c2ff;
+	box-shadow: inset 0px 1px 0px 0px #d3c2ff;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a78af2
+		), color-stop(1, #8152f0));
+	background: -moz-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background: -webkit-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background: -o-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background: -ms-linear-gradient(top, #a78af2 5%, #8152f0 100%);
+	background: linear-gradient(to bottom, #a78af2 5%, #8152f0 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a78af2',
+		endColorstr='#8152f0', GradientType=0);
+	background-color: #a78af2;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #8152f0;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	padding: 6px 24px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #7754d1;
+}
+
+.fun_btn:hover {
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8152f0
+		), color-stop(1, #a78af2));
+	background: -moz-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background: -webkit-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background: -o-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background: -ms-linear-gradient(top, #8152f0 5%, #a78af2 100%);
+	background: linear-gradient(to bottom, #8152f0 5%, #a78af2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8152f0',
+		endColorstr='#a78af2', GradientType=0);
+	background-color: #8152f0;
+}
+
+.fun_btn:active {
+	position: relative;
+	top: 1px;
+}
+
+.fun_btn:focus .cancel_btn:focus{
+	outline: none;
+}
+
+
+.cancel_btn {
+    box-shadow: inset 0px 1px 0px 0px #a9a9a9;
+    background: linear-gradient(to bottom, #888888, #6c757d 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+.cancel_btn:hover {
+	  box-shadow: inset 0px 1px 0px 0px #bfbfbf;
+    background: linear-gradient(to bottom, #6c757d, #888888 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+</style>
+
+

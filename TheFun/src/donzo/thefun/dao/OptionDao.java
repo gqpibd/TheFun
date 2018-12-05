@@ -13,7 +13,9 @@ public interface OptionDao {
 	//주문시 내가 선택한 option들 ( 옵션 seq )
 	public OptionDto getSelectOptions(int seq); 
 	
-	public void optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception;
+	public boolean optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception;
+	
+	public boolean deleteOptions(int seq) throws Exception;
 
-	public void updateStock(OptionDto opdto);
+	public boolean updateStock(OptionDto opdto);
 }

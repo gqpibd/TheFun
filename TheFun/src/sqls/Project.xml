@@ -36,7 +36,7 @@ ON DELETE CASCADE; // 종속 삭제(참조하는 데이터가 삭제되면 함�
 
 // VIEW : 프로젝트 전체 내용 
 
-CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME)
+CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME, OPTIONTOTAL, REVIEWCOUNT)
 AS
 SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
@@ -56,7 +56,9 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
         ELSE 'complete_fail'  
      END AS "status" 
      FROM FUN_PROJECT WHERE SEQ = P.SEQ),
-    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = P.ID)
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = P.ID),
+    NVL((SELECT COUNT(*) FROM FUN_OPTION WHERE PROJECTSEQ = P.SEQ),0),
+    (SELECT COUNT(*) FROM FUN_BUY WHERE PROJECTSEQ= P.SEQ AND NVL(SCORE,0)>0)
 FROM FUN_PROJECT P;
 
  -->
@@ -76,11 +78,11 @@ FROM FUN_PROJECT P;
 
 <!-- 새 프로젝트 등록 후 현재 seq 받아서 리턴 : 주의! keyProperty에 seq는 parameter로 들어온 dto에 seq변수에 값을 넣어준다는 의미다. 따라서 값을 찾을때는 getSeq로 찾아야 올바른 값을 얻을 수 있다. -->
 <insert id="newWrite" parameterType="donzo.thefun.model.ProjectDto">
-	INSERT INTO FUN_PROJECT (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS)
+	INSERT INTO FUN_PROJECT (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, CONTENT)
 	VALUES(SEQ_PROJECT.NEXTVAL, #{id},
 			#{fundtype}, #{category}, 
 			#{title}, #{summary}, #{tag}, #{bank}, #{goalfund},
-			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd-hh24-mi-ss'), 
+			TO_DATE(#{sdate}, 'yyyy-mm-dd'), TO_DATE(#{edate}, 'yyyy-mm-dd hh24:mi:ss'), 
 			TO_DATE(#{pdate}, 'yyyy-mm-dd'), TO_DATE(#{shipdate}, 'yyyy-mm-dd'), SYSDATE, 
 			#{status}, #{content})
 	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
@@ -88,10 +90,13 @@ FROM FUN_PROJECT P;
 	</selectKey>
 </insert>
 
-<!-- 내 프로젝트 내용 수정(제목, 요약, 내용, 계좌 , +메인이미지 파일은 따로..) -->
+<!-- 내 프로젝트 내용 수정 -->
 <update id="updateProject" parameterType="donzo.thefun.model.ProjectDto">
 	UPDATE FUN_PROJECT
-	SET TITLE=#{title}, SUMMARY=#{summary}, CONTENT=#{content}, Bank=#{bank}
+	SET FUNDTYPE=#{fundtype}, CATEGORY=#{category}, TITLE=#{title}, SUMMARY=#{summary}, TAGS=#{tag}, Bank=#{bank},
+		GOALFUND=#{goalfund}, SDATE=TO_DATE(#{sdate}, 'yyyy-mm-dd'), EDATE=TO_DATE(#{edate}, 'yyyy-mm-dd hh24:mi:ss'), 
+		PDATE=TO_DATE(#{pdate}, 'yyyy-mm-dd'), SHIPDATE=TO_DATE(#{shipdate}, 'yyyy-mm-dd'), 
+		STATUS=#{WAITING}, CONTENT=#{content}
 	WHERE SEQ=#{seq}
 </update>
 
@@ -182,11 +187,12 @@ FROM FUN_PROJECT P;
 <!-- 내 일정 찾기 : 등록한 프로젝트 -->
 <select id="mySchedule" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, 
-			SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, 
-			FUNDACHIVED, STATUS
+				SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, 
+				FUNDACHIVED, STATUS, NICKNAME
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id}	
 	ORDER BY SDATE ASC, EDATE ASC
 </select>
+
 
 </mapper>

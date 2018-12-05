@@ -27,6 +27,12 @@ CREATE TABLE FUN_BUY(
    // 후기 + 별점..
    SCORE NUMBER(2), 
    BCOMMENT VARCHAR2(1000) 
+   
+   //결제카드정보
+   CARDNUMBER VARCHAR2(50),
+   BANKNAME VARCHAR2(50),
+   
+   PRICE NUMBER
 );
 
 CREATE SEQUENCE SEQ_BUY
@@ -48,69 +54,24 @@ FOREIGN KEY(ID)
 REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; 
 
--- 장바구니 테이블
 
-DROP TABLE FUN_BASKET
-CASCADE CONSTRAINTS;
-
-CREATE TABLE FUN_BASKET(
-   SEQ NUMBER(8) PRIMARY KEY, -- SEQ 추가
-   ID VARCHAR2(50) NOT NULL,
-   
-   PROJECTSEQ NUMBER(8) NOT NULL,
-   OPTIONSEQ NUMBER(8), -- 기부인 경우는 OPTION이 없음
-   
-   COUNT NUMBER(8) NOT NULL,
-   PRICE NUMBER(8) NOT NULL,
-   REGDATE DATE NOT NULL -- 필요할까?
-);
-
--- BASKET SEQ 추가
-CREATE SEQUENCE SEQ_BASKET
-START WITH 1
-INCREMENT BY 1;
-
-ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_PROJECTSEQ_FK
-FOREIGN KEY(PROJECTSEQ)
-REFERENCES FUN_PROJECT(SEQ)
-ON DELETE CASCADE; -- 종속 삭제
-
-ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_OPTIONSEQ_FK
-FOREIGN KEY(OPTIONSEQ)
-REFERENCES FUN_OPTION(SEQ)
-ON DELETE CASCADE; -- 종속 삭제
-
-ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_ID_FK
-FOREIGN KEY(ID)
-REFERENCES FUN_MEMBER(ID)
-ON DELETE CASCADE; -- 종속 삭제
 
 -------------- VIEW : 구매
 
-CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
+CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
 AS
-SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, 
+SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, B.CARDNUMBER, B.BANKNAME,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
     (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
     (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),    
     (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
-    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    NVL(B.PRICE,(SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)),
     (SELECT PDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ),
     (SELECT SHIPDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ)
 FROM FUN_BUY B;
+*/
 
-
--------------- VIEW : 장바구니
-CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, PTITLE, OTITLE, OCONTENT)
-AS
-SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE,
-    (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
-    (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
-    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ)
-FROM FUN_BASKET B;*/
-
-public class BuyDto implements Serializable {
-
+public class BuyDto implements Serializable {		
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -134,13 +95,17 @@ public class BuyDto implements Serializable {
 	String roadaddress; // 도로명주소
 	String detailaddress; // 상세주소
 	
+	//카드결제정보
+	String cardNumber;
+	String bankName;
 	
 	public BuyDto() {}
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
 			String bcomment, String ptitle, String otitle, String ocontent, String status, String pdate,
-			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress) {
+			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress,
+			String cardNumber, String bankName) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -162,6 +127,8 @@ public class BuyDto implements Serializable {
 		this.postcode = postcode;
 		this.roadaddress = roadaddress;
 		this.detailaddress = detailaddress;
+		this.cardNumber = cardNumber;
+		this.bankName = bankName;
 	}
 	
 	// 새 구매 또는 새 장바구니
@@ -173,9 +140,9 @@ public class BuyDto implements Serializable {
 	}		
 
 	//새 구매
+
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
-			String postcode, String roadaddress, String detailaddress) {
-		super();
+			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName) {
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
@@ -186,9 +153,10 @@ public class BuyDto implements Serializable {
 		this.postcode = postcode;
 		this.roadaddress = roadaddress;
 		this.detailaddress = detailaddress;
+		this.cardNumber = cardNumber;
+		this.bankName = bankName;
 	}
 
-	
 	
 	public String getPdate() {
 		return pdate;
@@ -307,7 +275,7 @@ public class BuyDto implements Serializable {
 	}
 
 	public void setOcontent(String ocontent) {
-		this.ocontent = ocontent;
+		this.ocontent = ocontent.trim();
 	}
 	
 	public String getDateForm(String datetime) {
@@ -357,16 +325,57 @@ public class BuyDto implements Serializable {
 	public void setDetailaddress(String detailaddress) {
 		this.detailaddress = detailaddress;
 	}
+	
+	public String getCardNumber() {
+		return cardNumber;
+	}
 
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public boolean isOngoing() {
+		if(status.equalsIgnoreCase(ProjectDto.ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
+	
+	public boolean isComplete_success() {
+		if(status.equalsIgnoreCase(ProjectDto.COMPLETE_SUCCESS)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_fail() {
+		if(status.equalsIgnoreCase(ProjectDto.COMPLETE_FAIL)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isDeleted() {
+		if(status.equalsIgnoreCase(ProjectDto.DELETE)) {
+			return true;
+		}else
+			return false;
+	}
+			
+	
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
 				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
 				+ status + ", pdate=" + pdate + ", shipdate=" + shipdate + ", name=" + name + ", phone=" + phone
-				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
+				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
+				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + "]";
 	}
-
-	
-	
 }

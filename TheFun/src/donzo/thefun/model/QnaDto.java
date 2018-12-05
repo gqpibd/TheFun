@@ -63,8 +63,6 @@ public class QnaDto implements Serializable {
 	String towhom;
 	String towhomnickname;
 	
-	
-
 	String nickname;
 	String profile; 
 	

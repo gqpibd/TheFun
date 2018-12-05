@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -34,7 +31,7 @@ import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
-
+import donzo.thefun.util.UtilFunctions;
 
 @Controller
 public class ProjectController {
@@ -53,7 +50,7 @@ public class ProjectController {
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectDetail(int seq,Model model,HttpServletRequest req) {
+	public String projectDetail(int seq, Model model, HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		logger.info("projectDetail project : " + projectService.getProject(seq) );
 		//현재 선택한 프로젝트 정보
@@ -93,27 +90,23 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,Model model) {
+	public String goSelectReward(int seq, String type ,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-
+		String returnStr="";
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
-		
-		//기부일 경우
-		
-		
-		//리워드일 경우
-		
-		//옵션들
-		model.addAttribute("optionList",projectService.getOptions(seq));
-		return "selectReward.tiles";
-	}
 	
-	@RequestMapping(value="basket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String basket(Model model) {
-		// 장바구니 페이지로 이동(승지)
+		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
+			
+			//옵션들
+			model.addAttribute("optionList",projectService.getOptions(seq));
+			returnStr= "selectReward.tiles";
 		
-		return "";
+		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
+			
+			returnStr= "orderReward.tiles";
+		}
+		return returnStr;
 	}
 	
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
@@ -138,13 +131,13 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
+		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
 		if(pParam.getS_category() == null) { pParam.setS_category(""); }
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
-		
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -163,6 +156,8 @@ public class ProjectController {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
 		}
+		
+		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -269,18 +264,16 @@ public class ProjectController {
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
-			String realFileName = mainImage.getOriginalFilename();
-			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
-			File file = new File(uploadPath + "/" + changedFileName);
-			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			File file = new File(uploadPath + "/" + projectSeq);
+			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
-		return "newProject.tiles";
+		return "redirect:/projectDetail.do?seq=" + projectSeq;
 	}
 		
-	// 스마트 에디터 이미지 업로드 테스트중(승지)
+	// 스마트 에디터 이미지 업로드
 	@ResponseBody	// <== ajax에 필수
 	@RequestMapping(value="summernotePhotoUpload.do",produces="application/String; charset=UTF-8",
 					method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -318,33 +311,67 @@ public class ProjectController {
 	@RequestMapping(value="projectUpdate.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectUpdate(int seq, Model model) throws Exception {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
-		ProjectDto findProject = projectService.getProject(seq);
-		model.addAttribute("findPro", findProject);
+		
+		// 수정할 펀딩
+		ProjectDto myProject = projectService.getProject(seq);
+		model.addAttribute("myProject", myProject);
+		
+		List<OptionDto> myOption = null;
+		if(myProject.getFundtype().equals("reward")) {
+			// 펀딩에 딸린 리워드들
+			myOption = projectService.getOptions(seq);
+		}
+		model.addAttribute("optionList", myOption);
+		
 		return "projectUpdate.tiles";
 	}
 	
 	// 실제로 수정하는 메소드(승지)
 	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectUpdateAf(ProjectDto newProjectDto,
+	public String projectUpdateAf(ProjectDto newProjectDto,/* String proSeq,*/
+							int option_total,
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
-							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+							@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
-		logger.info("SEQ = " +newProjectDto.getSeq());
-		logger.info("제목 = " +newProjectDto.getTitle());
-		logger.info("요약 = "+newProjectDto.getSummary());
-		logger.info("내용 = "+newProjectDto.getContent());
-		logger.info("은행 = "+newProjectDto.getBank());
-		logger.info("이미지 = "+newImage.getOriginalFilename());
+		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
+		/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
+		logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
+		
+		// seq값 세팅
+		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
+		
+		
+		
+		// 리워드 입력값 배열 모두 list로 변환.
+		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
+		
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!무제한");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), 0));
+				}
+			}
+			// 확인용
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리워드 리스트 : " + newPotionlist.get(i).toString());
+			}
+		}
 		
 		// DB 수정
-		projectService.updateProject(newProjectDto);
+		projectService.updateProject(newProjectDto, newPotionlist, message);
+		
 		
 		// 파일 수정
 		String uploadPath = req.getServletContext().getRealPath("/upload");
-		
-		String realFileName = newImage.getOriginalFilename();
-		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
 			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
@@ -363,7 +390,7 @@ public class ProjectController {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
 		projectService.deleteProject(seq);
 		
-		return "mySchedule.tiles";
+		return "redirect:/mySchedule.do";
 	}
 	
 	// 프로젝트 승인
@@ -399,12 +426,20 @@ public class ProjectController {
 	public String getStatusWithMessage(int projectseq) throws Exception{
 		List<ProjectmsgDto> msgList = projectService.getMsgList(projectseq);
 		String messageData = "{\"items\":[";
+		String messageFrom = "";
 		for(int i=0;i<msgList.size();i++) {
+			
+			if(msgList.get(i).isResubmit()) {
+				messageFrom = "작성자";
+			}else {
+				messageFrom = "에디터";
+			}
 			messageData += "{\"seq\":\"" + msgList.get(i).getSeq() +"\",";
 			messageData += "\"proejctseq\":\"" + msgList.get(i).getProjectseq() +"\",";
+			messageData += "\"writer\":\"" + messageFrom +"\",";
 			messageData += "\"status\":\"" + msgList.get(i).getStatusKor() +"\",";
 			messageData += "\"message\":\"" + msgList.get(i).getMessage() +"\",";
-			messageData += "\"date\":\"" + msgList.get(i).getRegdate() +"\"}";
+			messageData += "\"date\":\"" + UtilFunctions.getDateFormKorean(msgList.get(i).getRegdate()) +"\"}";
 			if(i < msgList.size()-1) {
 				messageData += ",";
 			}
@@ -493,10 +528,10 @@ public class ProjectController {
 	
 	//내 일정 이동 (내 프로젝트 보기)
 	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String mySchedule(Model model, String id) throws Exception{
+	public String mySchedule(Model model, HttpServletRequest req) throws Exception{
 		logger.info("ProjectController myCalendar " + new Date());
-		
-		List<ProjectDto> myschedule = projectService.mySchedule(id);
+		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
+		List<ProjectDto> myschedule = projectService.mySchedule(((MemberDto)req.getSession().getAttribute("login")).getId());
 		
 		for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);
