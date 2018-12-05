@@ -414,14 +414,14 @@ function heartClick(selector){
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td> 
+				<td rowspan="2" align="left" class="strongGray"><a href="#layer_2" class="btn-example"><img class="profile_img" src="${writer.profile}"></a></td> 
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
 				<td align="right" class="strongGray" style="font-size: 15px">${writer.email } </td> 
 			</tr>
 			</table>
-            </div>
+            </div> 
           </div>
           
 <!-- 리워드라면 -->
@@ -472,6 +472,132 @@ function heartClick(selector){
 
     </div>
     <!-- /.container -->
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 코드 -->
+ <div class="dim-layer">
+  <div class="dimBg"></div>
+    <div id="layer_2" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+                <!--content //-->
+                <p class="ctxt mb20">
+                		Thank you.<br><br> 						
+                    	${writer.info } <br>
+                   	<c:forEach items="${projectdto.tags }" var="tags">
+   		 			#${tags }
+   					 </c:forEach><br><br>
+
+                   	<span style="font-weight: bold;">${projectdto.title }</span><br>
+                   	프로젝트에 참여해주셔서 감사합니다!<br>
+
+                </p>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>   
+<!-- 판매자 정보 팝업창 코드 -->       
+<style>
+.pop-layer .pop-container {
+  padding: 20px 25px;
+}
+.pop-layer p.ctxt {
+  color: #666;
+  line-height: 25px;
+}
+.pop-layer .btn-r {
+  width: 100%;
+  margin: 10px 0 20px;
+  padding-top: 10px;
+  border-top: 1px solid #DDD;
+  text-align: right;
+}
+.pop-layer {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 410px;
+  height: auto;
+  background-color: #fff;
+  border: 5px solid #8152f0;
+  z-index: 10;
+}
+.dim-layer {
+  display: none;
+  position: fixed;
+  _position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.dim-layer .dimBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+.dim-layer .pop-layer {
+  display: block;
+}
+a.btn-layerClose {
+  display: inline-block;
+  height: 25px;
+  padding: 0 14px 0;
+  border: 1px solid #304a8a;
+  background-color: #8152f0;
+  font-size: 13px;
+  color: #fff;
+  line-height: 25px;
+}
+a.btn-layerClose:hover {
+  border: 1px solid #091940;
+  background-color: #1f326a;
+  color: #fff;
+}
+</style>      
+<!-- 판매자 정보 팝업창 코드 -->    
+<script type="text/javascript">
+$('.btn-example').click(function(){
+    var $href = $(this).attr('href');
+    layer_popup($href);
+});
+function layer_popup(el){
+    var $el = $(el);        //레이어의 id를 $el 변수에 저장
+    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+    var $elWidth = ~~($el.outerWidth()),
+        $elHeight = ~~($el.outerHeight()),
+        docWidth = $(document).width(),
+        docHeight = $(document).height();
+    // 화면의 중앙에 레이어를 띄운다.
+    if ($elHeight < docHeight || $elWidth < docWidth) {
+        $el.css({
+            marginTop: -$elHeight /2,
+            marginLeft: -$elWidth/2
+        })
+    } else {
+        $el.css({top: 0, left: 0});
+    }
+    $el.find('a.btn-layerClose').click(function(){
+        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+        return false;
+    });
+    $('.layer .dimBg').click(function(){
+        $('.dim-layer').fadeOut();
+        return false;
+    });
+}
+</script>  
+<!-- 판매자 정보 레이어팝업코드 -->    
     
 <script type="text/javascript">
 function checkAndSendMessage(){
