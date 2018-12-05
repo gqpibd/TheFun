@@ -11,6 +11,11 @@
 <fmt:requestEncoding value="utf-8"/> 
  
 <title>The Fun_${projectdto.title }</title>
+
+<!-- 모달 css -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
 <!-- Custom styles for this template -->
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
@@ -180,8 +185,13 @@ font-family: "Nanum Gothic", sans-serif;
     	<button class="fun_btn" onclick="location.href='approve.do?projectseq=${projectdto.seq}'">프로젝트 승인</button> 
     	<button class="fun_btn" data-toggle="modal" data-target="#messageModal">프로젝트 승인 거절</button>
     </c:if>
-    <c:if test="${projectdto.isOnsubmission() and login ne null and (login.isManager() or login.id eq proejctdto.id)}">
+    <c:if test="${projectdto.isOnsubmission() and login ne null and (login.isManager() or login.id eq proejctdto.id)}"><!-- 상태가 진행을 제외한 경우 관리자 or 작성자가 보는 경우 -->
     	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
+    	<button class="fun_btn" onclick="location.href='projectDelete.do?seq=${projectdto.seq}'">삭제</button>
+    	<button class="fun_btn" onclick="location.href='projectUpdate.do?seq=${projectdto.seq}'">수정</button>
+    </c:if>
+    <c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail() and (login.isManager() or login.id eq proejctdto.id)}"><!-- 프로젝트가 마감되었고 관리자 혹은 작성자가 보는경우 -->
+   	 	<button class="fun_btn" onclick="location.href='projectDelete.do?seq=${projectdto.seq}'">삭제</button>
     </c:if>
     </div>
    	<br>
@@ -195,7 +205,7 @@ font-family: "Nanum Gothic", sans-serif;
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable" border="1">
+		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
@@ -229,28 +239,62 @@ font-family: "Nanum Gothic", sans-serif;
 			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
 		<tr height="50">		
-		<c:if test="${projectdto.isOngoing()}">
 			<td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
 				명이 좋아합니다
 			</td>
-		</c:if>
 		</tr>
 		<tr height="50">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+			<td>
+				<select style="width: 70%; height: 30px;" id="optionSelect">
+					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
+					<c:forEach items="${optionList }" var="opselect">
+						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		<td></td>
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
-				<a href="addCart.do">
-					<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니 버튼 -->
-				</a>
+				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
+					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
+				<!-- </a> -->
 				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
 					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
-				</a> 
-				<!-- <img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> --> <!-- 공유하기 버튼 -->
+				</a>
 			</td>
 			</c:if>
 		</tr>
 		</table>
    
+   
+	   <!-- 모달 -->
+	   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <img src="image/main/banner.jpg" width="120px;">
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">장바구니에 추가되었습니다!</label>
+	            <p>이제 <strong style="color: #8052f0">'${projectdto.title }'</strong>을 장바구니에서 만나보세요</p>
+	
+	          </div>
+	         
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mainBtn">이 페이지에 머무르기</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mypageBtn" onclick="location.href='myBasket.do?id=${login.id}'">장바구니 확인하기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
 		<div class="jbMenu">
@@ -274,6 +318,14 @@ $(document).ready(function () {
 	$("#feedbackContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
+	
+	$("#optionSelect").change(function(){
+	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
+	   $('#optionSelect').val('beginS');	//
+	});
+	
+	
+	
 });
 
 

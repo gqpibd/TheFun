@@ -93,14 +93,27 @@ public class BuyController {
 		return listData; 
 	}	
 	
-	//카트에 넣기 addCart.do
-	@RequestMapping(value="addCart.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void addCart(BuyDto buydto) {
-		
-		//장바구니 insert
+	@RequestMapping(value="testbasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public void testbasket() {
+		logger.info("testbasket" + new Date());
+		System.out.println("●●●●●●잘들어왔슈~~~~~~~~~~~~~~~~~~~");
 		
 	}
 	
-	//페이지이동 카트로 이동 --------------------------
 	
+	//장바구니 넣기 addBasket.do
+	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public void addBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
+		logger.info(" BuyController addBasket" + new Date());
+		
+		System.out.println("id : "+id+" / projectSeq : ");
+		for(int i=0; i<optionCount.length;i++) {
+			System.out.println("옵션 시퀀스  : "+optionSeq[i] +"옵션 카운트 : "+optionCount[i]);
+		}
+
+		//장바구니 insert
+		
+		
+	}
+
 }  
