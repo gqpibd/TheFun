@@ -67,11 +67,9 @@ td{
 				</c:if>
          	
 		 	 <p class="liteGray">&nbsp; ${option.title }</p>
-		 	 <ul>
-			  <c:forEach items="${fn:split(option.content,'/')}" var="item">
+			 <c:forEach items="${option.content}" var="item">
 			   <li class="liteGray">${item}</li>
-			 </c:forEach>
-			 </ul>
+			 </c:forEach> 	
          	</td>
          	</tr>
           </table>

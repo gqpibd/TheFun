@@ -91,8 +91,6 @@ public class ProjectServiceImpl implements ProjectService {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = newProjectDto.getEdate();
 		newProjectDto.setEdate(edate+" 23:59:59");
-		// TAG 공백에 # 넣기
-		String tag = newProjectDto.getTag();
 		
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
@@ -103,13 +101,25 @@ public class ProjectServiceImpl implements ProjectService {
 			optionDao.optionWrite(newPotionlist, projectSeq);
 		}
 		
-		
 		return projectSeq;
 	}
 	
 	@Override
-	public void updateProject(ProjectDto myProjectDto) throws Exception {
+	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist) throws Exception {
+		// edate 종료일 자정직전까지 시간설정
+		String edate = myProjectDto.getEdate();
+		myProjectDto.setEdate(edate+" 23:59:59");
+		
+		// [1] 프로젝트 DB 수정
 		projectDao.updateProject(myProjectDto);
+		
+		// [2] 옵션 DB도 수정(리워드일 경우만)
+		if(myProjectDto.getFundtype().equals("reward")) {
+			// [2]-1. 기존 리워드 삭제
+			optionDao.deleteOptions(myProjectDto.getSeq());
+			// [2]-2. 새 리워드 입력
+			optionDao.optionWrite(newPotionlist, myProjectDto.getSeq());
+		}
 	}
 	
 	@Override

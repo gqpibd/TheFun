@@ -96,6 +96,7 @@ public class ProjectDto implements Serializable {
 	//public static final String APPROVE = "approve"; // 승인됨
 	public static final String REJECT = "reject"; // 거절됨
 	public static final String REVISE = "revise"; // 보완요청
+	public static final String RESUBMIT = "resubmit";	// 재승인요청(수정한 펀딩)
 	
 	int seq;  
 	String id; // 작성자

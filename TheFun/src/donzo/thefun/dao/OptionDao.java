@@ -14,6 +14,8 @@ public interface OptionDao {
 	public OptionDto getSelectOptions(int seq); 
 	
 	public void optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception;
+	
+	public void deleteOptions(int seq) throws Exception;
 
 	public void updateStock(OptionDto opdto);
 }
