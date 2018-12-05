@@ -111,6 +111,12 @@ public class MemberController {
 		return "redirect:/login.do?message='registered'";
 	}
  
+
+	
+	
+	
+	
+	
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사
 	@ResponseBody
@@ -159,6 +165,28 @@ public class MemberController {
 		return "login.tiles";
 	}
 	
+	// id찾기 폼으로 이동
+		@RequestMapping(value="find_id_from.do", method= {RequestMethod.GET, RequestMethod.POST})
+		public String find_id_from(Model model, String message, String callback) {
+			logger.info("MemberController login " + new Date());	
+			
+			model.addAttribute("message",message);
+			model.addAttribute("callback",callback);
+			
+			return "find_id_from.tiles";
+		}
+
+	// pw찾기 폼으로 이동
+		@RequestMapping(value="find_pw_from.do", method= {RequestMethod.GET, RequestMethod.POST})
+		public String find_pw_from(Model model, String message, String callback) {
+			logger.info("MemberController login " + new Date());	
+			
+			model.addAttribute("message",message);
+			model.addAttribute("callback",callback);
+			
+			return "find_pw_from.tiles";
+		}
+	
 	// 마이페이지로 이동
 	@RequestMapping(value="myPage.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String getMypage(HttpServletRequest req, Model model) throws Exception{
@@ -175,12 +203,12 @@ public class MemberController {
 		return "myInfo.tiles";	
 	}
 	
-	// 내 일정 보기 ( 캘린더 테스트..)
+/*	// 내 일정 보기 ( 캘린더 테스트..)
 	@RequestMapping(value="myCalendar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myCalendar(Model model) throws Exception{	
 		logger.info("MemberController myCalendar " + new Date());
 		
 		return "myCalendar.tiles";	
-	}
+	}*/
 	
 }

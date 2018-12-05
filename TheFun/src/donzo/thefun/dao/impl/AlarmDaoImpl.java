@@ -14,31 +14,37 @@ public class AlarmDaoImpl implements AlarmDao {
 
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+
 	String ns = "Alarm.";
 
 	@Override
 	public void addAlarm(AlarmDto alarmDto) {
-		sqlSession.insert(ns+"addAlarm",alarmDto);		
+		sqlSession.insert(ns + "addAlarm", alarmDto);
 	}
 
 	@Override
 	public int getAlarmCount(String id) {
-		return sqlSession.selectOne(ns+"getAlarmCount",id);
+		return sqlSession.selectOne(ns + "getAlarmCount", id);
 	}
 
 	@Override
 	public List<AlarmDto> getAlarmList(String id) {
-		return sqlSession.selectList(ns+"getAlarmList",id);
+		return sqlSession.selectList(ns + "getAlarmList", id);
 	}
 
 	@Override
 	public int deleteAlarm(int seq) {
-		return sqlSession.delete(ns+"deleteAlarm",seq);
+		return sqlSession.delete(ns + "deleteAlarm", seq);
 	}
 
 	@Override
 	public List<AlarmDto> getRelatedUserList(int projectseq) {
-		return sqlSession.selectList(ns+"getRelatedUserList",projectseq);
+		return sqlSession.selectList(ns + "getRelatedUserList", projectseq);
+	}
+
+	@Override
+	public boolean addSubmitStatusAlarm(AlarmDto alarmDto) {
+		int n = sqlSession.insert(ns + "addSubmitStatusAlarm", alarmDto);
+		return n > 0 ? true : false;
 	}
 }

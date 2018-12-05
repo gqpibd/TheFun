@@ -124,7 +124,7 @@ td{
 	<tr style="height: 20px;">
 	<td colspan="2">
 		<span style="text-align: left;">
-		<img class="img-fluid" style="width:100%;object-fit: cover;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'">
+		<img class="img-fluid" style="width:100%;height:250px;object-fit: cover;overflow:hidden" src="upload/${dto.seq}" alt="프로젝트 썸네일" onerror="this.onerror=null;this.src='image/main/mainImg7.PNG'">
 		</span>
 	</td>
 	</tr>

@@ -197,9 +197,11 @@ function sendLink() {
 
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date"/>
-<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly="true" var="nowDate"></fmt:parseNumber>
 <fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
 <fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+<fmt:parseDate value="${projectdto.sdate }" var="sDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:parseNumber value="${sDate.time / (1000*60*60*24)}" integerOnly="true" var="startDate"></fmt:parseNumber>
 
  <!-- 카테고리 , 태그 -->
     <div class="container">
@@ -227,15 +229,20 @@ function sendLink() {
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
 			<td class="strongGray sTd">
-				 <c:if test="${(endDate - strDate+1)<=0}">
+			<c:if test="${projectdto.isPreparing()}">
+				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
+			</c:if>
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	
 				 	<b style="font-size: 25px">종료된 리워드</b>
-				 </c:if>
-				 <c:if test="${(endDate - strDate+1)==1}">
+			</c:if>
+			<c:if test="${projectdto.isOngoing()}">
+				 <c:if test="${(endDate - nowDate)==0}">
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
-				 <c:if test="${(endDate - strDate+1)>1}">
-				 <b style="font-size: 25px">${endDate - strDate+1}일 남음</b>
+				 <c:if test="${(endDate - nowDate)>0}">
+				 <b style="font-size: 25px">${endDate-nowDate}일 남음</b>
 				 </c:if>
+			</c:if>
 			</td>
 		</tr>
 		<tr height="50">
@@ -369,9 +376,13 @@ function heartClick(selector){
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent"> <!-- 댓글  -->
-			<%-- <jsp:include page="detailFeedback.jsp"/> --%>
-			<jsp:include page="qna.jsp"/>
+         <div class="col-lg-8" id="feedbackContent"> <!-- 후기 혹은 QNA  -->
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
+				<jsp:include page="detailFeedback.jsp"/>
+			</c:if>
+			<c:if test="${projectdto.isOngoing() or isPreparing()}">
+				<jsp:include page="qna.jsp"/>
+			</c:if>
         </div>
         
          <div class="col-lg-8" id="noticeContent">

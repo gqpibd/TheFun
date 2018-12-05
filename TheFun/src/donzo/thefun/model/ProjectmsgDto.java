@@ -1,7 +1,20 @@
 package donzo.thefun.model;
 
 import java.io.Serializable;
+/*DROP TABLE FUN_PROJECTMSG CASCADE CONSTRAINTS;
+DROP SEQUENCE SEQ_PROJECTMSG;
 
+CREATE TABLE FUN_PROJECTMSG( 
+    SEQ NUMBER(8) PRIMARY KEY, 
+    PROJECTSEQ NUMBER(8) NOT NULL,
+    STATUS VARCHAR2(50) NOT NULL, // SUBMIT, APPROVE, REJECT, REVISE, RESUBMIT
+    MESSAGE VARCHAR2(3000),
+    REGDATE DATE,
+    CONSTRAINT FK_PROJECTSEQ_PROJECTMSG FOREIGN KEY(PROJECTSEQ) REFERENCES FUN_PROJECT(SEQ)
+);
+
+CREATE SEQUENCE SEQ_PROJECTMSG
+START WITH 1 INCREMENT BY 1;*/
 public class ProjectmsgDto implements Serializable {
 
 	// public static final String SUBMIT = "submit"; --> 기본으로 submit하면 메시지가 따로 필요 없으므로..
@@ -93,5 +106,13 @@ public class ProjectmsgDto implements Serializable {
 	public String toString() {
 		return "ProjectmsgDto [seq=" + seq + ", projectseq=" + projectseq + ", status=" + status + ", message="
 				+ message + ", regdate=" + regdate + "]";
+	}
+
+	public boolean isResubmit() {
+		if(status.equalsIgnoreCase(RESUBMIT)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 }

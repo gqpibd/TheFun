@@ -19,6 +19,7 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
+import donzo.thefun.service.ProjectService;
 
 
 @Controller
@@ -42,19 +43,64 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	
+	
 	//주문완료
-	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
-		logger.info("BuyController addOrder 메소드 " + new Date());
+	//@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	//public String addOrder(BuyDto newbuy, int[] opSeq, int[] opCount, int[] opPrice, Model model) {
+	//	logger.info("BuyController addOrder 메소드 " + new Date());
 
 		//주문 insert
-		buyService.addOrders(newbuy, opSeq, opCount, opPrice);
+	//	buyService.addOrders(newbuy, opSeq, opCount, opPrice);
+		
+	//	return "redirect:/myOrderList.do";
+	//}
+	
+	
+	//주문완료
+	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
+		logger.info("BuyController addOrder 메소드 " + new Date());
+		
+		System.out.println("buy 컨트롤러 dto : "+newbuy);
+		
+		//주문 insert
+		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		
 		return "redirect:/myOrderList.do";
+	}	
+	
+	// 후기 등록
+	@RequestMapping(value="addReview.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String addReview(BuyDto buydto) {
+		logger.info("addReview" + new Date());
+		
+		buyService.addReview(buydto);
+		
+		return "redirect:/projectDetail.do?seq=" + buydto.getProjectseq();
 	}
 	
-	/*-------------이 아래는 페이지 이동--------------*/
-	
+	// 후기 목록 가져오기	
+	@ResponseBody
+	@RequestMapping(value="selectReviewList.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String selectReviewList(int seq) {		
+		logger.info("selectReviewList" + new Date());
+		List<BuyDto> reviewList = buyService.selectReviewList(seq);
+		String listData = "{\"reviews\":[";		
+		for(int i=0;i<reviewList.size();i++) {			
+			listData += "{\"seq\":\"" + reviewList.get(i).getSeq() +"\",";
+			listData += "\"otitle\":\"" + reviewList.get(i).getOtitle() +"\","; // 옵션 제목
+			listData += "\"ocontent\":\"" + reviewList.get(i).getOcontent().replaceAll("\r\n", "/") +"\","; // 옵션 내용
+			listData += "\"nickname\":\"" + reviewList.get(i).getId() +"\","; // 아이디 대신 닉네임으로 가져왔음
+			listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(reviewList.get(i).getRegdate()) +"\",";
+			listData += "\"score\":\"" + reviewList.get(i).getScore() +"\",";			
+			listData += "\"comment\":\"" + reviewList.get(i).getBcomment() +"\"}";
+			if(i < reviewList.size()-1) {
+				listData += ",";
+			}
+		}
+		listData += "]}";
+		logger.info(listData);
 		
-	
+		return listData; 
+	}	
 }  

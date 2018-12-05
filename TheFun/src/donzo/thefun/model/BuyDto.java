@@ -27,6 +27,10 @@ CREATE TABLE FUN_BUY(
    // 후기 + 별점..
    SCORE NUMBER(2), 
    BCOMMENT VARCHAR2(1000) 
+   
+   //결제카드정보
+   CARDNUMBER VARCHAR2(50),
+   BANKNAME VARCHAR2(50)
 );
 
 CREATE SEQUENCE SEQ_BUY
@@ -111,6 +115,17 @@ FROM FUN_BASKET B;*/
 
 public class BuyDto implements Serializable {
 
+	public static final String WAITING = "waiting"; // 승인대기 
+	public static final String PREPARING = "preparing"; // 준비중
+	public static final String ONGOING = "ongoing"; // 진행중
+	public static final String COMPLETE_SUCCESS = "complete_success"; // 완료됨(성공)
+	public static final String COMPLETE_FAIL = "complete_fail"; // 완료됨(실패)
+	public static final String DELETE = "delete"; // 삭제
+	
+	//public static final String APPROVE = "approve"; // 승인됨
+	public static final String REJECT = "reject"; // 거절됨
+	public static final String REVISE = "revise"; // 보완요청
+	
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -134,13 +149,17 @@ public class BuyDto implements Serializable {
 	String roadaddress; // 도로명주소
 	String detailaddress; // 상세주소
 	
+	//카드결제정보
+	String cardNumber;
+	String bankName;
 	
 	public BuyDto() {}
 	
 	// 전체 다 있는거
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
 			String bcomment, String ptitle, String otitle, String ocontent, String status, String pdate,
-			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress) {
+			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress,
+			String cardNumber, String bankName) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -162,6 +181,8 @@ public class BuyDto implements Serializable {
 		this.postcode = postcode;
 		this.roadaddress = roadaddress;
 		this.detailaddress = detailaddress;
+		this.cardNumber = cardNumber;
+		this.bankName = bankName;
 	}
 	
 	// 새 구매 또는 새 장바구니
@@ -173,8 +194,9 @@ public class BuyDto implements Serializable {
 	}		
 
 	//새 구매
+
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
-			String postcode, String roadaddress, String detailaddress) {
+			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName) {
 		super();
 		this.id = id;
 		this.projectseq = projectseq;
@@ -186,9 +208,10 @@ public class BuyDto implements Serializable {
 		this.postcode = postcode;
 		this.roadaddress = roadaddress;
 		this.detailaddress = detailaddress;
+		this.cardNumber = cardNumber;
+		this.bankName = bankName;
 	}
 
-	
 	
 	public String getPdate() {
 		return pdate;
@@ -307,7 +330,7 @@ public class BuyDto implements Serializable {
 	}
 
 	public void setOcontent(String ocontent) {
-		this.ocontent = ocontent;
+		this.ocontent = ocontent.trim();
 	}
 	
 	public String getDateForm(String datetime) {
@@ -357,16 +380,83 @@ public class BuyDto implements Serializable {
 	public void setDetailaddress(String detailaddress) {
 		this.detailaddress = detailaddress;
 	}
+	
+	public String getCardNumber() {
+		return cardNumber;
+	}
 
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public boolean isWaiting() {
+		if(status.equalsIgnoreCase(WAITING)) {
+			return true;
+		}
+		return false;
+	}
+	public boolean isOngoing() {
+		if(status.equalsIgnoreCase(ONGOING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isPreparing() {
+		if(status.equalsIgnoreCase(PREPARING)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_success() {
+		if(status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isComplete_fail() {
+		if(status.equalsIgnoreCase(COMPLETE_FAIL)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isDeleted() {
+		if(status.equalsIgnoreCase(DELETE)) {
+			return true;
+		}else
+			return false;
+	}
+	public boolean isRevise() {
+		if(status.equalsIgnoreCase(REVISE)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isReject() {
+		if(status.equalsIgnoreCase(REJECT)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
 				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", score=" + score + ", bcomment="
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
 				+ status + ", pdate=" + pdate + ", shipdate=" + shipdate + ", name=" + name + ", phone=" + phone
-				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
+				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
+				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + "]";
 	}
 
-	
 	
 }

@@ -48,6 +48,10 @@ public class MemberDaoImpl implements MemberDao {
 		int n = sqlSession.update(ns+"updateMember",mem);
 		return  (n>0)?true:false;
 	}
+
+	
+	
+	
 	
 	
 }

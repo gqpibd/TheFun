@@ -18,4 +18,8 @@ public interface MemberDao {
 
 	public boolean updateMember(MemberDto mem);
 
+	
+	
+	
+	
 } 

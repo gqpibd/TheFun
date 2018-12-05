@@ -45,6 +45,7 @@ public class AlarmDto implements Serializable{
 	public static final String ATYPE_DELIVERY = "delivery";
 	public static final String ATYPE_NOTICE = "notice";
 	public static final String ATYPE_QNA = "qna";
+	public static final String ATYPE_SUBMISSION = "sumission";
 	public static final String BTYPE_LIKE = "like";
 	public static final String BTYPE_BASKET = "basket";
 	public static final String BTYPE_BUY = "buy";
@@ -75,6 +76,23 @@ public class AlarmDto implements Serializable{
 				}
 			}else {
 				message = "<b>" +fromnickname + "</b>님이 내 글에 답글을 달았어요<br><hr>";
+				if(acontent.length() >= 20) {
+					message +=  acontent.substring(0,20) + "...";
+				}else {
+					message +=  acontent;
+				}
+			}
+		}else if(atype.equals(ATYPE_SUBMISSION)) { // 프로젝트 승인 관련 내용인 경우
+			if(buytype.equals(BTYPE_MYPROJECT)) { // 내 프로젝트
+				message = "내 프로젝트 승인 정보가 변경되었어요<br><hr>";
+				message += "<b>에디터</b> ";
+				if(acontent.length() >= 20) {
+					message +=  acontent.substring(0,20) + "...";
+				}else {
+					message +=  acontent;
+				}
+			}else { // 관리자 입장에서.
+				message = "<b>" +fromnickname + "</b>님이 프로젝트 승인을 다시 요청했어요<br><hr>";
 				if(acontent.length() >= 20) {
 					message +=  acontent.substring(0,20) + "...";
 				}else {

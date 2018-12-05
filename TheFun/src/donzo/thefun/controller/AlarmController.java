@@ -38,8 +38,6 @@ public class AlarmController {
 		return "myAlarms.tiles";
 	}
 	
-	
-	
 	// 알람 읽고 해당 프로젝트로 이동
 	@RequestMapping(value="readAlarm.do", method= {RequestMethod.POST, RequestMethod.GET})
 	public String readAlarm(int seq, int projectseq) {

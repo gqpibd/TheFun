@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -34,7 +31,7 @@ import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
-
+import donzo.thefun.util.UtilFunctions;
 
 @Controller
 public class ProjectController {
@@ -93,27 +90,23 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,Model model) {
+	public String goSelectReward(int seq,String type ,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-
+		String returnStr="";
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(seq));
-		
-		//기부일 경우
-		
-		
-		//리워드일 경우
-		
-		//옵션들
-		model.addAttribute("optionList",projectService.getOptions(seq));
-		return "selectReward.tiles";
-	}
 	
-	@RequestMapping(value="basket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String basket(Model model) {
-		// 장바구니 페이지로 이동(승지)
+		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
+			
+			//옵션들
+			model.addAttribute("optionList",projectService.getOptions(seq));
+			returnStr= "selectReward.tiles";
 		
-		return "";
+		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
+			
+			returnStr= "orderReward.tiles";
+		}
+		return returnStr;
 	}
 	
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
@@ -145,6 +138,9 @@ public class ProjectController {
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
 		
+		if(pParam.getS_category() == null) {
+			pParam.setS_category("");
+		}
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -434,12 +430,20 @@ public class ProjectController {
 	public String getStatusWithMessage(int projectseq) throws Exception{
 		List<ProjectmsgDto> msgList = projectService.getMsgList(projectseq);
 		String messageData = "{\"items\":[";
+		String messageFrom = "";
 		for(int i=0;i<msgList.size();i++) {
+			
+			if(msgList.get(i).isResubmit()) {
+				messageFrom = "작성자";
+			}else {
+				messageFrom = "에디터";
+			}
 			messageData += "{\"seq\":\"" + msgList.get(i).getSeq() +"\",";
 			messageData += "\"proejctseq\":\"" + msgList.get(i).getProjectseq() +"\",";
+			messageData += "\"writer\":\"" + messageFrom +"\",";
 			messageData += "\"status\":\"" + msgList.get(i).getStatusKor() +"\",";
 			messageData += "\"message\":\"" + msgList.get(i).getMessage() +"\",";
-			messageData += "\"date\":\"" + msgList.get(i).getRegdate() +"\"}";
+			messageData += "\"date\":\"" + UtilFunctions.getDateFormKorean(msgList.get(i).getRegdate()) +"\"}";
 			if(i < msgList.size()-1) {
 				messageData += ",";
 			}

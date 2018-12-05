@@ -75,20 +75,23 @@ body{
       <p class="strongGray">${projectdto.title } </p>
       <br>
       
-      <!-- 기부일 경우 -->
-      <c:if test="${projectdto.isDonation()}">
-      	<table>
-      	<tr>
-      		<td colspan="2"> 기부금액 </td>
-      	</tr>
-      	<tr>
-      		<td colspan="2"><input type="text" name="donaPrice" size="10">원 </td>
+<!-- 기부일 경우 -->
+<c:if test="${projectdto.isDonation()}">
+		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
+      	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
+      	<hr width="70%" color="#818181">
+      	<table style="width: 70%">
+      	<tr height="50px;">
+      		<td align="center" width="70%"> 기부금액  : <input class="pupple" type="text" name="opPrice" size="10" style="text-align: right;">원 </td>
+      		<td width="30%"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
+      		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
       	</table>
-      </c:if>
+</c:if>
+      <br><br>
       
-      <!-- 리워드일 경우 -->
-      <c:if test="${projectdto.isReward()}">
+<!-- 리워드일 경우 -->
+<c:if test="${projectdto.isReward()}">
 		
 		<!-- 옵션테이블 -->
       <table style="width: 70%" >
@@ -143,7 +146,7 @@ body{
 	<br>
 	<hr width="70%">
 	<br><br>
-	 </c:if>
+</c:if><!-- 리워드일경우 끝 -->
 	
      <!-- 사용자정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -179,6 +182,9 @@ body{
      	
      	
 		<br><br>
+<!-- 리워드일 경우 -->
+<c:if test="${projectdto.isReward()}">
+		
 		<!-- 배송지정보 -->
 		
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -237,53 +243,76 @@ body{
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
 			<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
 		</ul>
-</div>
-<br><br>
-
-<!-- 결제정보입력 테이블 -->
-<table style="width: 70%">
-<tr>
-	<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
-</tr>
-<tr>
-	<td colspan="2">
-	<input class="numberCheck" type="text" name="card1" id="card1"> 
-	<input  class="numberCheck" type="password" name="card2" id="card2">
-	<input class="numberCheck"  type="password" name="card3" id="card3"> 
-	<input  class="numberCheck" type="text" name="card4" id="card4"> 
-	</td>
-</tr>
-<tr>
-	<td align="left" width="50%" class="cardInfo">유효기간 </td>
-	<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
-</tr>
-<tr>
-	<td><input type="text" class="liteGray numberCheck" name="validDate" value="mm/yy"></td>
-	<td><input type="password" class="liteGray numberCheck" name="cardPwd" ></td>
-</tr>
-<tr>
-	<td class="cardInfo" align="left" colspan="2">생년월일(주민번호 앞 6자리)</td>
-</tr>
-<tr>
-	<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
-</tr>
-</table>
-<br><br>
-<div style="width: 70%" align="left">
-	<p class="strongGray" align="left">결제 예약시 유의사항</p>
-	<ul class="liteGray" >
-		<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
-		<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
-		<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
-		<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
-	</ul>
-</div>
-<br><br>
+	</div>
+	<br><br>
+</c:if>
+	
+	<!-- 결제정보입력 테이블 -->
+	<table style="width: 70%">
+	<tr>
+		<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		<input class="numberCheck" type="text" name="card1" id="card1"> 
+		<input  class="numberCheck" type="password" name="card2" id="card2">
+		<input class="numberCheck"  type="password" name="card3" id="card3"> 
+		<input  class="numberCheck" type="text" name="card4" id="card4"> 
+		<input type="hidden" name="cardNumber" id="cardNumber">
+		</td>
+	</tr>
+	<tr>
+		<td align="left" width="50%" class="cardInfo">유효기간 </td>
+		<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
+	</tr>
+	<tr>
+		<td>
+			<input type="text" class="liteGray numberCheck" id="validDate1" name="validDate1" placeholder="mm" size="3">월
+			<input type="text" class="liteGray numberCheck" id="validDate2" name="validDate2" placeholder="yy" size="3">년
+		</td>
+		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
+	</tr>
+	<tr>
+		<td class="cardInfo" align="left">사용은행</td>
+		<td class="cardInfo" align="left">생년월일(주민번호 앞 6자리)</td>
+	</tr>
+	<tr>
+		<td><input class="liteGray numberCheck" type="text" name="bankName" id="bankName" readonly="readonly"></td>
+		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
+	</tr>
+	</table>
+	<br><br>
+	<div style="width: 70%" align="left">
+		<p class="strongGray" align="left">결제 예약시 유의사항</p>
+		<ul class="liteGray" >
+			<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
+			<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
+			<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
+			<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
+		</ul>
+	</div>
+	<br><br>
+<input type="hidden" name="fundtype" value="${projectdto.fundtype }">
 <input type="hidden" name="projectseq" value="${projectdto.seq }">
 <input type="hidden" name="id" value="${login.id }">
-<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="addOrder()" width="120px;">  <!-- 결제 예약하기 버튼 -->
-
+<!-- 기부일 경우 -->
+<c:if test="${projectdto.isDonation()}">
+	<input type="hidden" name="opSeq" value="0">
+	<input type="hidden" name="opCount" value="0">
+	<input type="hidden" name="name" value="${login.nickname}">
+	<input type="hidden" name="phone" value="${login.phone}">
+</c:if>
 </form>
+
+<!-- 리워드일 경우 -->
+<c:if test="${projectdto.isReward()}">
+	<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="addOrder()" width="120px;">  <!-- 결제 예약하기 버튼 -->
+</c:if>
+
+<!-- 기부일 경우 -->
+<c:if test="${projectdto.isDonation()}">
+	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder()" width="120px;">  <!-- 기부하기 버튼 -->
+</c:if>
      </div>
    </div>
    <!-- /.row -->
@@ -293,12 +322,43 @@ body{
 <script type="text/javascript">
 
 
-function addOrder() {
-	alert("go");
+function goAddOrder() {
+ 	var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
+	document.getElementById("cardNumber").value=cardNum;
+	
 	//배송지 이름, 전화번호, 주소
-	//결제 카드번호, 비밀번호, 생년월일, 유효기간
-	 //if(){} else{}
-	//$("#orderfrm").attr("action","addOrder.do").submit();
+	if(document.getElementById("card1").value.length<4){
+		alert("첫번째 카드번호가 4자리수 이하입니다");
+		$("#card1").focus();
+	}else if(document.getElementById("card2").value.length<4){
+		alert("두번째 카드번호가 4자리수 이하입니다");
+		$("#card2").focus();
+	}else if(document.getElementById("card3").value.length<4){
+		alert("세번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card4").value.length<4){
+		alert("네번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("cardPwd").value.length<4){
+		alert("카드번호가 4자리 이하입니다");
+	}else if(document.getElementById("birth").value.length<6){
+		alert("생년월일이 6자리 이하입니다");
+	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
+		alert("월의 유효기간이 맞지 않습니다");
+	}else if(document.getElementById("validDate2").value<=19){
+		alert("년도 유효기간이 맞지 않습니다");
+	}/* else if(document.getElementById("deliName").value==null){
+		alert("이름을 입력하여주십시오");
+	}else if(document.getElementById("deliPhone").value==null){
+		alert("연락처를 입력하여 주십시오");
+	}else if(document.getElementById("postcode").value==null){
+		alert("우편번호를 입력하여 주십시오");
+	}else if(document.getElementById("roadAddress").value==null){
+		alert("주소를 입력하여 주십시오");
+	}else if(document.getElementById("detailAddress").value==null){
+		alert("상세주소를 입력하여 주십시오");
+	} */else{
+		alert("넘어간다");
+		//$("#orderfrm").attr("action","addOrder.do").submit();
+	} 
 	
 }
 
@@ -430,8 +490,86 @@ function addOrder() {
 				$("#detailAddress").val("${login.detailaddress}");
 			}
 		});
-
-
+		
+		//유효성검사
+		$("#card1").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}else if($(this).val().length==4){
+				$("#card2").focus();	
+			}
+			if($("#card1").val()=="4119"){
+		    	$("#bankName").val("하나은행");
+		    } else if($("#card1").val()=="4579"){
+		    	$("#bankName").val("국민은행");
+		    }else if($("#card1").val()=="4364"||$("#card1").val()=="3562"||$("#card1").val()=="4499"){
+		    	$("#bankName").val("신한은행");
+		    }else if($("#card1").val()=="4214"||$("#card1").val()=="4061"||$("#card1").val()=="5389"||$("#card1").val()=="5387"){
+		    	$("#bankName").val("우리은행");
+		    }else if($("#card1").val()=="4404" ){
+		    	$("#bankName").val("씨티은행");
+		    } 
+		});
+		$("#card2").on("keyup",function(){
+			$("#card2").val($("#card2").val().replace(/[^0-9]/g,""));
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}else if($(this).val().length==4){
+				$("#card3").focus();
+			}
+		});
+		$("#card3").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}else if($(this).val().length==4){
+				$("#card4").focus();
+			}
+		});
+		$("#card4").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}else if($(this).val().length==4){
+				$("#validDate1").focus();
+			}
+		});
+		$("#validDate1").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>2){
+				$(this).val($(this).val().substring(0,2));
+			}else if($(this).val().length==2){
+				$("#validDate2").focus();
+			}
+		});
+		$("#validDate2").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>2){
+				$(this).val($(this).val().substring(0,2));
+			}else if($(this).val().length==2){
+				$("#cardPwd").focus();
+			}
+		});
+		$("#cardPwd").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>4){
+				$(this).val($(this).val().substring(0,4));
+			}else if($(this).val().length==4){
+				$("#birth").focus();
+			}
+		});
+		$("#birth").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			if($(this).val().length>6){
+				$(this).val($(this).val().substring(0,6));
+			}
+		});
+		
+		
+		
+		
+		
 	});
 	
 </script>
@@ -519,27 +657,6 @@ function autoHyphen(phoneField){
 	var _val = $(phoneField).val().trim();
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
-
-//영어와 한글만 가능한 유효성검사
-function nameCheck(nameField) {
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-	var name=$(nameField).val().trim();
-	$(nameField).val(name);
-}
-
-
-//숫자만 가능한 유효성 검사 (카드번호, 카드비밀번호,생년월일)
-$(".numberCheck").on("keyup", function() {
-    $(this).val($(this).val().replace(/[^0-9]/g,""));
-});
-
-//4자리
-
-//6자리
-
-//유효기간
-
-
 
 
 </script>

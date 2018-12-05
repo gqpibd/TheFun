@@ -42,6 +42,9 @@ public class MemberServiceImpl implements MemberService {
 	public boolean updateMember(MemberDto mem) {
 		return memberDao.updateMember(mem);
 	}
+
+	
+	
 	 
 	
 	

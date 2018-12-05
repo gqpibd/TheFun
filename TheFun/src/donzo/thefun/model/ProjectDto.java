@@ -16,8 +16,8 @@ CREATE TABLE FUN_PROJECT(
    
    FUNDTYPE VARCHAR2(50) NOT NULL, -- REWARD | DONATION
    CATEGORY VARCHAR2(50) NOT NULL, -- FOOD, ANIMAL, IT | ANIMAL, HUMAN
-   TITLE VARCHAR2(200) NOT NULL, 
-   
+   TITLE VARCHAR2(200) NOT NULL,
+   CONTENT VARCHAR2(4000) NOT NULL,
    SUMMARY VARCHAR2(1000) NOT NULL,
    TAGS VARCHAR2(400), -- 태그를 넣는거는 선택사항으로? NOT NULL 없앰.
    BANK VARCHAR2(200) NOT NULL,
@@ -270,6 +270,7 @@ public class ProjectDto implements Serializable {
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
 		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 	
 	public String getTag() {
@@ -389,7 +390,7 @@ public class ProjectDto implements Serializable {
 	public void setFundachived(int fundachived) {
 		this.fundachived = fundachived;
 	}
-
+	
 	public String getDateForm(String datetime) {
 		String date = datetime;
 		if(datetime.lastIndexOf(' ')>-1) {
@@ -460,6 +461,23 @@ public class ProjectDto implements Serializable {
 		}else
 			return false;
 	}
+	
+	
+	public boolean isDonation() {
+		if(fundtype.equalsIgnoreCase(TYPE_DONATION)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean isReward() {
+		if(fundtype.equalsIgnoreCase(TYPE_REWARD)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	public boolean isRevise() {
 		if(status.equalsIgnoreCase(REVISE)) {
 			return true;
@@ -474,12 +492,13 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
-	public boolean isOnsubmission() {
+		public boolean isOnsubmission() {
 		if(status.equalsIgnoreCase(WAITING) || status.equalsIgnoreCase(REJECT) || status.equalsIgnoreCase(REVISE) || status.equalsIgnoreCase(PREPARING)) {
 			return true;
 		}else
 			return false;
 	}
+	
 	
 	@Override
 	public String toString() {

@@ -1,6 +1,6 @@
 ﻿// update : 12/04 19:31 -- FUN_PROJECTALL 테이블에서 해당 펀딩 프로젝트의 총 리워드 갯수를 가져올 수 있는 OPTIONTOTAL 칼럼을 추가.
 // update : 12/03 20:58 -- FUN_BUY_VIEW 테이블에 PDATE, SHIPDATE 추가
-// update : 12/03 17:10 -- FUN_PROJECT 에서 CONTENT칼럼의 자료형을 VARCHAR2(4000)에서 CLOB칼럼으로 변경. 순서도 맨 마지막으로.
+﻿// update : 12/03 17:10 -- FUN_PROJECT 에서 CONTENT칼럼의 자료형을 VARCHAR2(4000)에서 CLOB칼럼으로 변경. 순서도 맨 마지막으로.
 // update : 12/03 03:28 -- FUN_PROJECTALL 변경 -- STATUS에 REJECT, REVISE 추가됨
 // update : 12/03 02:33 -- 프로젝트 승인, 거절 메시지 테이블( FUN_PROJECTMSG ) 생성
 // update : 12/02 00:50 -- FUN_ALARM 테이블에 FROMNICKNAME(알람생성자), CONTENT 추가

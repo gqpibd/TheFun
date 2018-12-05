@@ -16,4 +16,6 @@ public interface AlarmDao {
 
 	public List<AlarmDto> getRelatedUserList(int projectseq);
 
+	public boolean addSubmitStatusAlarm(AlarmDto alarmDto);
+
 }

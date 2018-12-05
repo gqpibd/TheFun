@@ -66,12 +66,31 @@ FROM FUN_BUY B;
 		SELECT *
 		FROM FUN_BUY_VIEW
 		WHERE ID=#{id}
+		ORDER BY REGDATE ASC
 </select>
 
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
 	INSERT INTO FUN_BUY
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE,null,null,#{name},#{phone},#{postcode},#{roadaddress},#{detailaddress})
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},
+	SYSDATE,null,null,#{name},#{phone},
+	#{postcode},#{roadaddress},#{detailaddress},#{cardNumber},#{bankName},#{price})
+	
 </insert>
+
+
+<!-- 후기, 별점 등록 -->
+<insert id="addReview" parameterType="donzo.thefun.model.BuyDto">
+	UPDATE FUN_BUY
+	SET SCORE = ${score}, BCOMMENT = #{bcomment}
+	WHERE SEQ = ${seq}
+</insert>
+<!-- replace(B.OCONTENT,CHR(13)||CHR(10),'/') -->
+<!-- 특정 프로젝트의 후기 목록 불러오기 -->
+<select id="selectReviewList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
+	SELECT B.SEQ, M.NICKNAME AS ID, B.REGDATE, B.OTITLE, B.OCONTENT, B.SCORE, B.BCOMMENT
+	FROM FUN_BUY_VIEW B, FUN_MEMBER M
+	WHERE B.PROJECTSEQ = #{seq} AND B.ID = M.ID AND B.SCORE IS NOT NULL	
+</select>
 
 </mapper>
