@@ -18,8 +18,6 @@ public interface BuyService {
 
 	public List<BuyDto> selectReviewList(int seq);
 	
-	// 장바구니 가져오기
-	public List<BuyDto> selectMyBasket(String id);
 //////페이징	
 //	public List<BuyDto> _myOrderList(ProjectParam param);
 //		

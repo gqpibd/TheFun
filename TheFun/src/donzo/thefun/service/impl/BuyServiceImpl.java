@@ -58,10 +58,6 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.selectReviewList(seq);
 	}
 	
-	@Override
-	public List<BuyDto> selectMyBasket(String id) {
-		return buyDao.selectMyBasket(id);
-	}
 /////////페이징
 //	@Override
 //	public List<BuyDto> _myOrderList(ProjectParam param) {
