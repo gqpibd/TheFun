@@ -1,5 +1,9 @@
 package donzo.thefun.service.impl;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +47,16 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updateMember(mem);
 	}
 
+	@Override
+	public String find_id(HttpServletResponse response, String email) throws Exception {
+		return memberDao.find_id(email);
+	}
+
 	
+	
+
+	
+
 	
 	 
 	

@@ -45,7 +45,24 @@ public class BuyServiceImpl implements BuyService {
 		}
 		
 	}
-	
+
+	@Override
+	public boolean addReview(BuyDto buydto) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<BuyDto> selectReviewList(int seq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
+
+
+
+
+
+
 

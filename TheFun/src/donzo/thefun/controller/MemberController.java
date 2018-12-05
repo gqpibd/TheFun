@@ -111,10 +111,13 @@ public class MemberController {
 		return "redirect:/login.do?message='registered'";
 	}
  
-
-	
-	
-	
+	// id찾기 처리
+	@RequestMapping(value = "find_id.do", method = RequestMethod.POST)
+	public String find_id(String email, Model md) throws Exception{
+		logger.info("find_id " + new Date());
+		//md.addAttribute("id", memberService.find_id("email", email));
+		return "find_id.tiles";
+	}
 	
 	
 	/*-------------Ajax--------------*/

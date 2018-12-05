@@ -48,6 +48,16 @@ public class MemberDaoImpl implements MemberDao {
 		int n = sqlSession.update(ns+"updateMember",mem);
 		return  (n>0)?true:false;
 	}
+	
+	//id찾기
+	@Override
+	public String find_id(String email) throws Exception {
+		
+		return sqlSession.selectOne(ns+"find_id", email);
+	}
+
+	
+	
 
 	
 	

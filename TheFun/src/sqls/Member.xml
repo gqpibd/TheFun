@@ -87,7 +87,12 @@ CREATE TABLE FUN_MEMBER(
 </update>
 
 
-
+<!-- id찾기 -->
+<select id="find_id" parameterType="String" resultType="String">
+	SELECT COUNT(*) 
+	FROM FUN_MEMBER 
+	WHERE EMAIL = #{email}
+</select>
 
 
 
