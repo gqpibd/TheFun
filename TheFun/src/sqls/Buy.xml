@@ -63,12 +63,33 @@ FROM FUN_BUY B;
 
 <!-- 내 후원내역 -->
 <select id="myOrderList" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
-		SELECT *
-		FROM FUN_BUY_VIEW
-		WHERE ID=#{id}
-		ORDER BY REGDATE ASC
-</select>
+		SELECT B.SEQ, P.ID AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE   
+		FROM FUN_BUY_VIEW B, FUN_PROJECT P
+		WHERE B.ID=#{id} AND B.PROJECTSEQ=P.SEQ
+		ORDER BY B.REGDATE DESC
+</select> 
 
+<!-- 
+<select id="_myOrderList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.BuyDto">
+	SELECT SEQ, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY REGDATE DESC) AS RNUM, 
+				 SEQ, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE                                              
+			  FROM FUN_BUY_VIEW
+			  WHERE ID=#{id}
+		  ) A		 
+	WHERE RNUM BETWEEN #{start} AND #{end}
+</select>
+ -->
+<!-- 후원 리스트 갯수 -->
+<select id="getOrderCount"
+	parameterType="donzo.thefun.model.ProjectParam"
+	resultType="java.lang.Integer">
+	
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM FUN_BUY
+	WHERE ID=#{id}
+</select>
+ 
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
 	INSERT INTO FUN_BUY

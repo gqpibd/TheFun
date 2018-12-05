@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import donzo.thefun.dao.BuyDao;
-import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.ProjectParam;
 import donzo.thefun.service.BuyService;
 
 @Service
@@ -45,7 +45,27 @@ public class BuyServiceImpl implements BuyService {
 		}
 		
 	}
-	
+
+	   @Override
+	   public boolean addReview(BuyDto buydto) {
+	      return buyDao.addReview(buydto);
+	   }
+
+	   @Override
+	   public List<BuyDto> selectReviewList(int seq) {
+	      return buyDao.selectReviewList(seq);
+	   }
+/////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		return buyDao._myOrderList(param);
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return buyDao.getOrderCount(param);
+//	}
+/////////	
 	
 }
 
