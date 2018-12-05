@@ -275,10 +275,10 @@
 		<!-- <div class="jbMenu"> -->
 		<table class="tabTable" style="width: 100%; background-color: white;">
 		<tr>
-			<td align="center" class="strongGray tabSelect" id="story" style="width: 25%;"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice" style="width: 25%;"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="qna" style="width: 25%;"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="review" style="width: 25%;"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
+			<td align="center" class="strongGray tabSelect" id="story" style="width: 25%; cursor:pointer"><font class="menubar">스토리</font></td>
+			<td align="center" class="strongGray" id="notice" style="width: 25%; cursor:pointer"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="qna" style="width: 25%; cursor:pointer"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="review" style="width: 25%; cursor:pointer"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
 		</tr>
 		</table>
 		<!-- </div> -->
@@ -508,7 +508,7 @@ function viewStatus(){
 			    	  author.innerHTML = "<h4><i class='fas fa-user-astronaut'></i>에디터</h4>";
 			      }else{
 			    	  //console.log(items[i].writer);
-			    	  author.innerHTML = "<h4><i class='fas fa-reply'></i>작성자</h4>";
+			    	  author.innerHTML = "<h4><i class='fas fa-wrench'></i></i>작성자</h4>";
 			      }
 			      var body = document.createElement('div');
 			      body.classList.add("blog-body");			      
@@ -523,6 +523,8 @@ function viewStatus(){
 			      msgContainer.appendChild(body);
 			      msgContainer.appendChild(footer);
 			      
+			      
+			      msgBox.appendChild(document.createElement('hr'));
 			      msgBox.appendChild(msgContainer);
 			    }			
 				

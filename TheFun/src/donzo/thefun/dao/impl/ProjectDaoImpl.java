@@ -58,9 +58,9 @@ public class ProjectDaoImpl implements ProjectDao {
 	}
 	
 	@Override
-	public void updateProject(ProjectDto myProjectDto) throws Exception {
+	public boolean updateProject(ProjectDto myProjectDto) throws Exception {
 		// 내 프로젝트 업데이트하기(승지)
-		sqlSession.update(ns+"updateProject", myProjectDto);
+		return sqlSession.update(ns+"updateProject", myProjectDto)>0?true:false;
 	}
 	
 	@Override

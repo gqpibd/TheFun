@@ -166,8 +166,7 @@ input.star:checked ~ .rev-box {
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">
 	<!--  class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'" -->
 	
-	<!-- <c:choose>
-		 <c:when test="${order.isDeleted() eq false }"> -->
+	<c:if test="${order.isDeleted() eq false }">
 			<tr>
 			<!-- 후원 일자 : 펀딩일 결제일 -->
 			<td><!-- white-space: nowrap;  word-break:break-all  -->		
@@ -198,13 +197,14 @@ input.star:checked ~ .rev-box {
 				<div>
 					<c:choose>										
 						<c:when test="${order.isOngoing()}">진행 중</c:when>
-						<c:when test="${order.isComplete_success()}">구매 확정</c:when>
+						<c:when test="${order.isComplete_success()}">
 							<c:choose>
 								<c:when test="${order.otitle eq null || order.score ne null}">구매 확정</c:when>
-								<c:when test="${order.otitle ne null && order.score eq null }">
+								<c:otherwise>
 									<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
-								</c:when>
+								</c:otherwise>
 							</c:choose>
+						</c:when>
 						<c:when test="${order.isComplete_fail()}">목표 미달성</c:when>
 						<c:otherwise> 
 							${order.status} 
@@ -214,8 +214,7 @@ input.star:checked ~ .rev-box {
 			</td>
 			<!-- 뭔가 더 추가할 어떤것 -->
 		</tr>
-		<!-- </c:when>
-	</c:choose> -->
+	</c:if>
 	
 	</c:forEach>
 	<tbody>
@@ -250,9 +249,9 @@ $(".hover_tr").mouseover(function () {
 	$(this).find("td").css("background-color","#ffffff");	
 	//$(this).first().css("background-color","#8152f0");
 });
-/* 
+
 /* 페이지 번호 클릭 했을때 */
-function goPage(pageNumber) {
+/*function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);
 	$("#_frmFormSearch").attr({"target":"_self", "action":"bbslist.do"}).submit();
 } */

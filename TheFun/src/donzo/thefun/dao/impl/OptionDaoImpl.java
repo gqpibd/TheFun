@@ -20,16 +20,17 @@ public class OptionDaoImpl implements OptionDao {
 	String ns = "Option.";
 
 	@Override
-	public void optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception {
-		
+	public boolean optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception {
+		int n=0;		
 		for (int i = 0; i < newPotionlist.size(); i++) {
 			// projectseq 컬럼 세팅
 			newPotionlist.get(i).setProjectseq(projectSeq);
 			// 옵션 값 확인
 			System.out.println(newPotionlist.get(i).toString());
 			// DB에 insert
-			sqlSession.insert(ns+"newWrite", newPotionlist.get(i));
+			n += sqlSession.insert(ns+"newWrite", newPotionlist.get(i));
 		}
+		return n>0?true:false;
 	}
 	
 	
@@ -45,15 +46,15 @@ public class OptionDaoImpl implements OptionDao {
 	
 
 	@Override
-	public void deleteOptions(int seq) throws Exception {	// 프로젝트 seq
-		sqlSession.delete(ns+"deleteOptions", seq);
+	public boolean deleteOptions(int seq) throws Exception {	// 프로젝트 seq
+		return sqlSession.delete(ns+"deleteOptions", seq)>0?true:false;
 		
 	}
 
 
 	@Override
-	public void updateStock(OptionDto opdto) {
-		sqlSession.update(ns+"updateStock",opdto);
+	public boolean updateStock(OptionDto opdto) {
+		return sqlSession.update(ns+"updateStock",opdto)>0?true:false;
 	}
 	
 }
