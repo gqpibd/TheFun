@@ -8,7 +8,7 @@ public class FUpUtil {
 	//f.substring(0,3) abc
 	
 	// 대표 이미지를 '프로젝트seq.jpg'로 변환(승지)
-	public static String getSeqFileName(String realFileName, int projectSeq){
+	/*public static String getSeqFileName(String realFileName, int projectSeq){
 		String newfilename="";
 		//String typeOfFile = "";
 		//String fre="";
@@ -20,7 +20,7 @@ public class FUpUtil {
 			newfilename=projectSeq+".jpg";
 		}
 		return newfilename;
-	}
+	}*/
 	
 	// myfile.txt ---> 현재시간.txt 또는 현재시간.back로 변환
 	public static String getNewFile(String f, String id){

@@ -272,7 +272,7 @@ function sendLink() {
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
 				<img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> &nbsp;&nbsp;<!-- 하트 버튼 -->
-				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="addCart()"/>&nbsp;	<!-- 장바구니추가 버튼 -->
+				<img class="pnt" height="50" src="image/detail/addcart3.jpg" onclick="location.href='myBasket.do'"/>&nbsp;	<!-- 장바구니추가 버튼 -->
 				<img class="pnt" id="shareBtn" height="50" src="image/detail/ShareBtn1.jpg"/> <!-- 공유하기 버튼 -->
 			</td>
 			</c:if>
@@ -380,10 +380,10 @@ function heartClick(selector){
 			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
 				<jsp:include page="detailFeedback.jsp"/>
 			</c:if>
-			<c:if test="${projectdto.isOngoing() or isPreparing()}">
+			<c:if test="${projectdto.isOngoing() or projectdto.isPreparing()}">
 				<jsp:include page="qna.jsp"/>
 			</c:if>
-        </div>
+        </div>Ss
         
          <div class="col-lg-8" id="noticeContent">
 			<jsp:include page="detailNotice.jsp"/>

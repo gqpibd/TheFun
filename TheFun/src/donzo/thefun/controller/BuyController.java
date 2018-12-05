@@ -13,13 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.OptionDto;
-import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
-import donzo.thefun.service.ProjectService;
+import donzo.thefun.util.UtilFunctions;
 
 
 @Controller
@@ -102,5 +101,19 @@ public class BuyController {
 		logger.info(listData);
 		
 		return listData; 
-	}	
+	}
+	
+	// 장바구니 창으로
+	@RequestMapping(value="myBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myBasket(String id, Model model) throws Exception {
+		logger.info("BuyController basket들어옴 " + new Date());
+		
+		// 내 장바구니 목록(view) 찾아오기(SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, PTITLE, OTITLE, OCONTENT)
+		List<BuyDto> myBasketList = buyService.selectMyBasket(id);
+		model.addAttribute("myBasket", myBasketList);
+		
+		return "basket.tiles";
+	}
+	
+	
 }  

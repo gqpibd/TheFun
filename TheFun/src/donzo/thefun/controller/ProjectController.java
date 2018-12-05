@@ -265,10 +265,8 @@ public class ProjectController {
 			logger.info("업로드 경로 : " + uploadPath);
 			
 			// [2]-2. 실제 파일명을 취득후, 프로젝트 seq값으로 변경(==> 중복파일명 오류를 피하기 위함)
-			String realFileName = mainImage.getOriginalFilename();
-			String changedFileName =FUpUtil.getSeqFileName(realFileName, projectSeq);
-			File file = new File(uploadPath + "/" + changedFileName);
-			logger.info("파일 : " + uploadPath + "/" + changedFileName);	// 경로확인
+			File file = new File(uploadPath + "/" + projectSeq);
+			logger.info("파일 : " + uploadPath + "/" + projectSeq);	// 경로확인
 
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
@@ -370,12 +368,9 @@ public class ProjectController {
 		// DB 수정
 		projectService.updateProject(newProjectDto, newPotionlist);
 		
-		/*
+		
 		// 파일 수정
 		String uploadPath = req.getServletContext().getRealPath("/upload");
-		
-		String realFileName = newImage.getOriginalFilename();
-		//String changedFileName = FUpUtil.getSeqFileName(realFileName, newProjectDto.getSeq());
 		
 		try {
 			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
@@ -384,7 +379,7 @@ public class ProjectController {
 		} catch(Exception e) {
 			logger.info("수정 이미지 파일 업로드에 실패했습니다");
 		}
-		*/
+		
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	
@@ -394,7 +389,7 @@ public class ProjectController {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
 		projectService.deleteProject(seq);
 		
-		return "mySchedule.tiles";
+		return "redirect:/mySchedule.do";
 	}
 	
 	// 프로젝트 승인

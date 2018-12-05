@@ -45,6 +45,21 @@ public class BuyServiceImpl implements BuyService {
 		}
 		
 	}
+
+	@Override
+	public boolean addReview(BuyDto buydto) {
+		return buyDao.addReview(buydto);
+	}
+	
+	@Override
+	public List<BuyDto> selectReviewList(int seq) {
+		return buyDao.selectReviewList(seq);
+	}
+
+	@Override
+	public List<BuyDto> selectMyBasket(String id) {
+		return buyDao.selectMyBasket(id);
+	}
 	
 	
 }

@@ -42,6 +42,12 @@ $(document).ready(function() {
 		console.log("카테고리 = ${myProject.category }");
 		// 기존 fundtype(라디오 버튼) / categoty(셀렉트 옵션) 값 설정
 		$('input:radio[name=fundtype]:input[value=${myProject.fundtype}]').attr('checked', true);
+		if("${myProject.fundtype}" == "donation"){
+			// 리워드 탭 사라지게.(기부는 선물을 주지 않으니까...)
+			$("#menu-tab2").hide();
+			// 배송일 사라지게.(기부는 선물을 배달하지 않으니까...)
+			$("#date4").hide();
+		}
 		$("#category option").each(function(){
 		    if($(this).val()=="${myProject.category}"){
 		      $(this).prop("selected","selected"); // attr적용안될경우 prop으로 
@@ -248,11 +254,11 @@ $(document).ready(function() {
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>프로젝트 개요</h1>
+  <!-- <h1>프로젝트 개요</h1> -->
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
@@ -318,8 +324,7 @@ $(document).ready(function() {
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
 						</td>
 						<td>
-							<img alt="#none" src="D:\springWithJava\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\TheFun\upload\${myProject.seq }.jpg" id="imgPreview" class="card-img-top" width="20px">
-							<!-- 또 로컬경로에 있는 이미지를 불러오지 못한다는 오류가 뜬다... Not allowed to load local resource -->
+							<img alt="#none" src="upload/${myProject.seq}" id="imgPreview" class="card-img-top" width="50%" height="30%">
 						</td>
 					</tr>
 				</table>
@@ -425,11 +430,11 @@ $(document).ready(function() {
 
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>스토리텔링</h1>
+  <!-- <h1>스토리텔링</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion1">
   	<!-- [5] 프로젝트 스토리(content) -->
@@ -673,11 +678,11 @@ $(document).ready(function() {
 
 <!-- (3) 세번째 탭 눌렀을 때 -->
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>리워드 등록</h1>
+  <!-- <h1>리워드 등록</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion2">
   	<!-- [10] 옵션 개수 선택 -->
