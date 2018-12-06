@@ -105,20 +105,28 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
-	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist) throws Exception {
+	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist, String message) throws Exception {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = myProjectDto.getEdate();
 		myProjectDto.setEdate(edate+" 23:59:59");
 		
 		// [1] 프로젝트 DB 수정
-		projectDao.updateProject(myProjectDto);
+		boolean success1 = projectDao.updateProject(myProjectDto);		
+		boolean success2 = false;
 		
 		// [2] 옵션 DB도 수정(리워드일 경우만)
 		if(myProjectDto.getFundtype().equals("reward")) {
 			// [2]-1. 기존 리워드 삭제
-			optionDao.deleteOptions(myProjectDto.getSeq());
+			success2 = optionDao.deleteOptions(myProjectDto.getSeq());
 			// [2]-2. 새 리워드 입력
-			optionDao.optionWrite(newPotionlist, myProjectDto.getSeq());
+			success2 = optionDao.optionWrite(newPotionlist, myProjectDto.getSeq());
+		}
+		if(success1 && success2) {
+			// [3] 재승인 요청
+			if(projectmsgDao.insertProjectMsg(new ProjectmsgDto(myProjectDto.getSeq(),ProjectmsgDto.RESUBMIT,message))) {			
+				// [4] 알람 작성
+				alarmDao.addSubmitStatusAlarm(new AlarmDto(myProjectDto.getSeq(), null, null , AlarmDto.ATYPE_SUBMISSION, AlarmDto.BTYPE_OTHER, message));
+			}
 		}
 	}
 	

@@ -28,9 +28,6 @@ window.fbAsyncInit = function() {
 <!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
-body{
-	font-family: "Nanum Gothic", sans-serif;
-}
 
 .profile {
 	float: none;
@@ -329,7 +326,7 @@ $(document).ready(function () {
 	</form>
 	
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="fas fa-bars" style="color:#8152f0"></span>
     </button>
         
     <div class="collapse navbar-collapse" id="navbarResponsive">

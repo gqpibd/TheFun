@@ -3,7 +3,8 @@ package donzo.thefun.service;
 import java.util.List;
 
 import donzo.thefun.model.BuyDto;
-import donzo.thefun.model.ProjectDto;
+
+import donzo.thefun.model.ProjectParam;
 
 public interface BuyService {
 
@@ -23,4 +24,9 @@ public interface BuyService {
 	// 장바구니 목록 삭제하기
 	public int deleteBasket(int seq);
 
+//////페이징	
+//	public List<BuyDto> _myOrderList(ProjectParam param);
+//		
+//	public int getOrderCount(ProjectParam param);
+///////////	
 }

@@ -2,24 +2,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
+<!-- 본문출력 묶는 태그 -->
+	<main class="s-layout__content">  		
+<!-- //본문출력 묶는 태그 -->
+
 <!-- 스케쥴 css -->
-<link rel="stylesheet" href="CSS/Calendar/calendar.css">
+<link rel="stylesheet" href="CSS/mainCss/calendar.css">
 <!-- Custom styles for this template -->
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
-<style type="text/css">
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
-</style>
-<br><br><br><br>
-<header id="cal_header">
+
+
+<header class="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY PROJECT</h1>
     <p>프로젝트</p>
   </div>
 </header>
 
-<body>
+
 <!-- 등록한 프로젝트가 없을때 -->
 <c:if test="${schedule.size() eq 0}">
 <br><br>
@@ -49,7 +48,7 @@ font-family: "Nanum Gothic", sans-serif;
 						<c:when test="${sche.isComplete_fail()}">완료됨(실패)</c:when>
 						<c:when test="${sche.isDeleted()}">삭제된 게시글</c:when>
 						<c:when test="${sche.isRevise() }">보안 요청</c:when>
-						<c:when test="${sche.isReject() }">승인  거절</c:when>
+						<c:when test="${sche.isReject() }">승인 거절</c:when>
 					</c:choose>
 				</div>
 		        
@@ -74,29 +73,15 @@ font-family: "Nanum Gothic", sans-serif;
 		        	</c:when>
 		        </c:choose>
 		        
-		        <a class="bnt-more" href="projectDetail.do?seq=${sche.seq }">More</a>    
+		        <a class="btnSche btn-more" href="projectDetail.do?seq=${sche.seq}">More</a>    
 		        <!-- 준비 중일 때만 업데이트 버튼 활성화 혹은 보이기? -->
 		        <c:choose>
-		        	<c:when test="${sche.isWaiting()}">
-		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
+		        	<c:when test="${sche.isWaiting() or sche.isPreparing() or sche.isRevise()}">
+		        		<a class="btnSche btn-update" href="projectUpdate.do?seq=${sche.seq }">Update</a>
+		        		<a class="btnSche btn-delete" href="projectDelete.do?seq=${sche.seq }">Delete</a>		        	
 		        	</c:when>
-		        	<c:when test="${sche.isPreparing() }">
-		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
-		        	</c:when>
-		        	<c:when test="${sche.isRevise() }">
-		        		<a class="bnt-more" href="projectUpdate.do?seq=${sche.seq }">Update</a>
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a>
-		        	</c:when>
-		        	<c:when test="${sche.isReject() }">
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
-		        	</c:when>
-		        	<c:when test="${sche.isComplete_fail() }">
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
-		        	</c:when>
-		        	<c:when test="${sche.isComplete_success() }">
-		        		<a class="bnt-more" href="projectDelete.do?seq=${sche.seq }">Delete</a> 
+		        	<c:when test="${sche.isReject() or sche.isComplete_fail() or sche.isComplete_success()}">
+		        		<a class="btnSche btn-delete" href="projectDelete.do?seq=${sche.seq }">Delete</a>		        	 
 		        	</c:when>
 		        </c:choose>  
 		      </div>
@@ -113,4 +98,8 @@ font-family: "Nanum Gothic", sans-serif;
 </div>
 </section>
 </c:if>  
-</body>
+
+<!-- 본문출력 묶는 태그 -->
+</main>
+</div> 
+<!-- //본문출력 묶는 태그 -->

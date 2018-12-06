@@ -910,9 +910,11 @@ function optionChange( me ) {
 $("#btn_calcel").click(function () {
 	location.href="mySchedule.do?id=${login.id}";
 });
+
+
 //수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
-	alert("업뎃!");
+	//alert("업뎃!");
 	
 	/* 공란 거르기 */
 	
@@ -949,6 +951,7 @@ $("#btn_submit").click(function () {
 		alert("제목이 너무 깁니다. 줄여주세요.");
 		$("#home-tab").click();
 		$("#titleTap").click();
+		return;
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
 		$("#col_image").click();
@@ -961,6 +964,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
 		$("#home-tab").click();
 		$("#summarryTap").click();
+		return;
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
@@ -969,6 +973,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
+		return;
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");
 		$("#bankTap").click();
@@ -977,6 +982,7 @@ $("#btn_submit").click(function () {
 		alert("계좌번호가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#bankTap").click();
+		return;
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
 		// 2. 카테고리에 따른 공란판정
@@ -1050,8 +1056,10 @@ function formSubmit(bankname, accountNumber) {
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
+	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
+	
 	// form 실행! 컨트롤러로~
-	$("#updateProjectFrom").submit();
+	// $("#updateProjectFrom").submit(); // 모달 창에서 submit 할 때 넘어가게 하자
 }
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
@@ -1098,6 +1106,7 @@ $("#fundtype1").click(function () {
 	// 배송일 보이게
 	$("#date4").show();
 })
+
 // fundtype(기부/리워드) 라디오버튼 클릭 시 category에 select option값도 각각맞게 세팅
 var options = $("#category option");
 $(":radio").click(function (e) {
@@ -1126,6 +1135,50 @@ $("#mainImage").on("change", function (e) {
 		}
 		reader.readAsDataURL(f);
 	})
-})
+});
+
+// 최종 서브밋은 여기서
+function checkAndResubmitProject(){
+	if($("#revisionMessage").val() == ''){
+		alert("변경된 사항을 간략히 적어주세요");
+		return;
+	}else{
+		var updateForm = document.forms['updateProjectFrom'];
+		var input   = document.createElement('input');
+		input.type   = 'hidden';
+		input.name  = 'message';
+		input.value  = $("#revisionMessage").val();
+
+		updateForm.appendChild(input);
+
+		$("#updateProjectFrom").submit();
+	}
+}
 </script>
  
+ 
+<!-- 재승인요청인 경우 관리자에게 보내는 메시지 작성 -->
+ <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>프로젝트 승인 재요청</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">수정사항</label>
+            <textarea class="form-control" id="revisionMessage" name="content" placeholder="변경된 사항을 간략히 적어주세요"></textarea>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">제출</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

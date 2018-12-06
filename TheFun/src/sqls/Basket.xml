@@ -2,8 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-// 장바구니 테이블
+<!-- 장바구니 테이블
 
 DROP TABLE FUN_BASKET
 CASCADE CONSTRAINTS;
@@ -66,9 +65,12 @@ FROM FUN_BASKET B;
 	ORDER BY REGDATE DESC
 </select>
 
-<delete id="deleteBasket" parameterType="java.lang.Integer">
-	DELETE FROM FUN_BASKET
-	WHERE SEQ=#{seq}
-</delete>
+<!-- 장바구니 insert -->
+<insert id="addBasket">
+	INSERT INTO FUN_BASKET 
+	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count})
+</insert>
 
-</mapper>
+
+
+</mapper> 

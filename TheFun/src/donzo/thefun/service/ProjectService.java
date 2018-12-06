@@ -32,9 +32,9 @@ public interface ProjectService {
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception;
 	
 	// 내 프로젝트 수정 (수정 프로젝트 dto, 수정 리워드 리스트)
-	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist) throws Exception;
+	public void updateProject(ProjectDto myProjectDto, List<OptionDto> newPotionlist, String message) throws Exception;
 	
-	// 내 프로젝트 삭제( 삭제할 프로젝트 seq )
+	// 내 프로젝트 삭제( 삭제할 프로젝트 seq ) 
 	public void deleteProject(int seq) throws Exception;
 	
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;

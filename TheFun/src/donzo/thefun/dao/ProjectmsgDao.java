@@ -6,7 +6,7 @@ import donzo.thefun.model.ProjectmsgDto;
 
 public interface ProjectmsgDao {
 
-	public void insertProjectMsg(ProjectmsgDto projectmsgDto);
+	public boolean insertProjectMsg(ProjectmsgDto projectmsgDto);
 
 	public List<ProjectmsgDto> getMsgList(int projectseq);
 

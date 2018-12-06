@@ -3,27 +3,6 @@
 }
 
 /* 타이틀 띠 CSS */
-/* .head_title {
-  font-size: 200%;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-
-#line_header {
-  background: #8152f0;
-  color: #FFFFFF;
-  padding: 80px;
-}
-
-#line_header p {
-  font-family: 'Allura';
-  color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 0;
-  font-size: 60px;
-  margin-top: -30px;
-} */
-
 body {
  overflow: hidden;
  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;

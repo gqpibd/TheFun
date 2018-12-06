@@ -50,7 +50,7 @@ public class ProjectController {
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectDetail(int seq,Model model,HttpServletRequest req) {
+	public String projectDetail(int seq, Model model, HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		logger.info("projectDetail project : " + projectService.getProject(seq) );
 		//현재 선택한 프로젝트 정보
@@ -90,7 +90,7 @@ public class ProjectController {
 		
 	// 옵션선택창으로 이동
 	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq,String type ,Model model) {
+	public String goSelectReward(int seq, String type ,Model model) {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		String returnStr="";
 		//현재 선택한 프로젝트 정보
@@ -131,16 +131,13 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
+		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
 		if(pParam.getS_category() == null) { pParam.setS_category(""); }
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
-		
-		if(pParam.getS_category() == null) {
-			pParam.setS_category("");
-		}
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -159,6 +156,8 @@ public class ProjectController {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
 		}
+		
+		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -271,7 +270,7 @@ public class ProjectController {
 			// [2]-3. 실제 업로드 부분
 			FileUtils.writeByteArrayToFile(file, mainImage.getBytes());
 		
-		return "newProject.tiles";
+		return "redirect:/projectDetail.do?seq=" + projectSeq;
 	}
 		
 	// 스마트 에디터 이미지 업로드
@@ -333,7 +332,7 @@ public class ProjectController {
 							int option_total,
 							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
-							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+							@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
 		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
@@ -342,6 +341,8 @@ public class ProjectController {
 		
 		// seq값 세팅
 		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
+		
+		
 		
 		// 리워드 입력값 배열 모두 list로 변환.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
@@ -366,7 +367,7 @@ public class ProjectController {
 		}
 		
 		// DB 수정
-		projectService.updateProject(newProjectDto, newPotionlist);
+		projectService.updateProject(newProjectDto, newPotionlist, message);
 		
 		
 		// 파일 수정
@@ -527,10 +528,10 @@ public class ProjectController {
 	
 	//내 일정 이동 (내 프로젝트 보기)
 	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String mySchedule(Model model, String id) throws Exception{
+	public String mySchedule(Model model, HttpServletRequest req) throws Exception{
 		logger.info("ProjectController myCalendar " + new Date());
-		
-		List<ProjectDto> myschedule = projectService.mySchedule(id);
+		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
+		List<ProjectDto> myschedule = projectService.mySchedule(((MemberDto)req.getSession().getAttribute("login")).getId());
 		
 		for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);

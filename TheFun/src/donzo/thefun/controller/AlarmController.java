@@ -1,7 +1,5 @@
 package donzo.thefun.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import donzo.thefun.model.AlarmDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.AlarmService;
 
@@ -30,7 +27,7 @@ public class AlarmController {
 	public String viewAlarms(Model model, HttpServletRequest req) {
 		MemberDto loginUser = (MemberDto) req.getSession().getAttribute("login");		
 		logger.info("viewAlarms.do");
-		List<AlarmDto> alist = alarmService.getAlarmList(loginUser.getId());
+		//List<AlarmDto> alist = alarmService.getAlarmList(loginUser.getId());
 		/*for(AlarmDto dto : alist) {
 			logger.info(dto.toString());
 		}*/

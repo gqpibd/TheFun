@@ -1,16 +1,12 @@
-<%@page import="java.util.Date"%>
+	<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>   
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->
 <style>
-/* 글씨체 */
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
 
 /* 
 th, td{
