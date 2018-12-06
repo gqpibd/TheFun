@@ -145,6 +145,7 @@ border-collapse: collapse;
 	display: block;
 	line-height: 40px;
 }
+<<<<<<< HEAD
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
 .selOpContent{
 	width: 20%;
@@ -161,6 +162,60 @@ border-collapse: collapse;
 	border:none;
 	text-align:left;
 }
+=======
+
+ /* 프로젝트 승인 상태 보기 */
+ .blog-container {
+  	background: #f6f6f6;
+     border-radius: 5px;
+     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
+     padding: 20px 0 20px 0;
+ }
+ 
+ .author {
+   margin: 0 auto;
+   padding-top: .125rem;
+   width: 80%;
+   color: #999999;
+ }
+ 
+ .blog-body {
+   margin: 0 auto;
+   width: 80%;
+ }
+ 
+ .msgtitle {
+   color: #8152f0;
+   font-weight: bold;
+   border: 1px solid #8152f0;
+   border-radius: 5px;
+   letter-spacing: 1px;
+   padding: 0 .5rem;
+ }
+ 
+ .blog-summary p {
+   color: #4d4d4d;
+ }
+ 
+ .blog-footer {
+   border-top: 1px solid #e6e6e6;
+   margin: 0 auto;
+   padding-bottom: .125rem;
+   width: 80%;
+ }
+ 
+ .published-date {
+   margin: 3px;
+   border: 1px solid #999999;
+   border-radius: 3px;
+   padding: 0.2rem;
+   color: #999999;
+   font-size: .75rem;
+   letter-spacing: 1px;
+   line-height: 1.9rem;
+   text-align: center;
+ }
+>>>>>>> refs/remotes/origin/dh
 </style>
 
 <!-- 남은날짜계산 -->
@@ -229,11 +284,18 @@ border-collapse: collapse;
 		<tr height="50">
 			<td class="strongGray sTd" colspan="3"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
+<<<<<<< HEAD
 		<tr height="50">		
 			<td colspan="3"> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+=======
+		<tr height="50">
+			<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%><!-- 하트 버튼 -->
+			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+>>>>>>> refs/remotes/origin/dh
 				명이 좋아합니다
 			</td>
 		</tr>
+<<<<<<< HEAD
 		<c:if test="${projectdto.isOngoing()}">
 		
 			<c:if test="${projectdto.isDonation()}"> <!-- 기부일때 (옵션 표시 x) -->
@@ -260,14 +322,37 @@ border-collapse: collapse;
 			</td>
 			
 		</tr>
+=======
+		<c:if test="${projectdto.isReward()}">
+			<tr height="50">
+				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td>
+					<select style="width: 70%; height: 30px;" id="optionSelect">
+						<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
+						<c:forEach items="${optionList }" var="opselect">
+							<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+		</c:if>
+>>>>>>> refs/remotes/origin/dh
 		<tr>
+<<<<<<< HEAD
 			<td></td>
 			<td colspan="3" style="text-align: center;">
+=======
+		<td></td>
+			<c:if test="${projectdto.isOngoing()}">
+			<td>
+				<c:if test="${projectdto.isReward()}">
+>>>>>>> refs/remotes/origin/dh
 				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
 					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
 				<!-- </a> -->
+				</c:if>
 				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
+					<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
 				</a>
 			</td>
 		</tr>
@@ -480,8 +565,6 @@ $(function () {
 });
 
 function heartClick(selector){	
-	var img1 = document.getElementById('hartBtn');
-	
 	if ('${login.id}' == ''){
 		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
 	} else {			
@@ -491,10 +574,10 @@ function heartClick(selector){
 			data:"id=${login.id}&projectseq=${projectdto.seq}", // 전송할 데이터
 			success:function(data){
 				if(data.isLike == true){ // 좋아요
-					img1.src = img1.src.replace('gray', 'red');
+					$(selector).css('color', 'red');
 					$("#likeCount").text(data.likeCount);
 				}else{ // 좋아요 취소				
-					img1.src = img1.src.replace('red', 'gray');
+					$(selector).css('color', 'gray');
 					$("#likeCount").text(data.likeCount);
 				}
 			},
@@ -569,14 +652,14 @@ function minusVal(seqNum) {
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
-        <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+        <%-- <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
 				펀딩기간  <b>
 				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
 				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
 				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
 			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font> --%>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
@@ -772,7 +855,7 @@ function viewStatus(){
 			      msgContainer.appendChild(footer);
 			      
 			      
-			      msgBox.appendChild(document.createElement('hr'));
+			      
 			      msgBox.appendChild(msgContainer);
 			    }			
 				

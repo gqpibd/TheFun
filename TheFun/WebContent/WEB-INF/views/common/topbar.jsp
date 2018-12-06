@@ -121,7 +121,7 @@ window.fbAsyncInit = function() {
 /* first level ul style */
 .cbp-hrmenu > ul,
 .cbp-hrmenu .cbp-hrsub-inner {
-	width: 90%;
+	/* width: 90%; */
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
@@ -199,6 +199,7 @@ window.fbAsyncInit = function() {
 	.cbp-hrmenu {
 		font-size: 80%;
 	}
+	
 
 }
 
@@ -237,7 +238,9 @@ window.fbAsyncInit = function() {
 	.cbp-hrsub h4 {
 		padding-top: 0.6em;
 	}
-
+	.logo{
+		display: none;
+	}
 }
 
 @media screen and (max-width: 36em) { 
@@ -246,21 +249,42 @@ window.fbAsyncInit = function() {
 		float: none;
 		padding: 0 2em;
 	}
+	
 }
 
 </style>
 
+<<<<<<< HEAD
 <!-- 탑바 메인 뷰 영역 -->
+=======
+<script type="text/javascript">
+var naverLogin;
+var loginAccount = "thefun"
+var profile = '${login.profile}';
+var auth1;
+
+$(document).ready(function () {		
+	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	/* 구글 로그인 정보를 초기화하기 위하여 init */
+	gapi.load('auth2', function() { 
+		auth1 = gapi.auth2.init();
+		if (auth1.isSignedIn.get()) {
+			loginAccount = "구글";
+		}
+	});
+});
+</script>
+>>>>>>> refs/remotes/origin/dh
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
-<div align="center" style="padding: 0px;margin: 0px;">
-<span>
-<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;margin-top: -1%;" onclick="location.href='main.do'">
-</span>
-</div>
-<div class="main_menu">
+
+<div class="main_menu" style="margin-bottom:30px">
 	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px;">
-		<ul class="navbar-nav ml-auto">
+		<ul class="navbar-nav" style="margin:0">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>
 				<div class="cbp-hrsub" style="z-index:11;">
@@ -275,6 +299,7 @@ window.fbAsyncInit = function() {
 								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 프로젝트</a></li>
 							</ul>
 						</div>
+						
 						<div>
 							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
 							<ul>
@@ -328,7 +353,9 @@ window.fbAsyncInit = function() {
 			</li>
 			
 		</ul>
-		
+		<div align="center" style="width:100%; position: absolute; z-index: -1" class="logo">			
+			<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;margin-top: -1%;" onclick="location.href='main.do'">
+		</div>
 			<button class="navbar-toggler navbar-nav ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
 		    </button>
