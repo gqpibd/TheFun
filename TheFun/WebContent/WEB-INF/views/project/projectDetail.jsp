@@ -144,6 +144,12 @@
 .selOpCount{
 	width: 10%
 }
+/* input text css */
+.Fee{
+	background-color:transparent;
+	border:none;
+	text-align:left;
+}
 </style>
 
 <!-- 남은날짜계산 -->
@@ -178,7 +184,7 @@
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable">
+		<table style="width: 100%;" id="sTable" border="1">
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" height="400px;"></td>
 			<td class="strongGray sTd" colspan="3">
@@ -216,6 +222,7 @@
 				명이 좋아합니다
 			</td>
 		</tr>
+		<c:if test="${projectdto.isOngoing()}">
 		<tr height="50" id="beginTr">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 			<td colspan="3">
@@ -228,8 +235,7 @@
 			</td>
 		</tr>
 		<tr>
-		<td></td>
-			<c:if test="${projectdto.isOngoing()}">
+			<td></td>
 			<td colspan="3">
 				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
 					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
@@ -238,8 +244,8 @@
 					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
 				</a>
 			</td>
-			</c:if>
 		</tr>
+		</c:if>
 		</table>
    
    
@@ -286,7 +292,7 @@
 	 
 <script type="text/javascript">
 
-//모든 옵션을 담을 배열 (json형태로 담을것)
+/* 옵션select 생성관련 코드 */
  var opArr = new Array();
  <c:forEach items='${optionList}' var = 'op' >
  	var Ojson = new Object ();
@@ -296,80 +302,95 @@
  	Ojson.price = '${op.price}';
  	opArr.push(Ojson);
  </c:forEach>
- //기존에 출력된 옵션시퀀스 보관
-var alreadySeq = new Array();
+
+var alreadySeq = new Array(); //기존에 출력된 옵션시퀀스 보관
 
 $(document).ready(function () {
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
-
+	
+	//옵션 select 선택시
 	$("#optionSelect").change(function(){
 
 	   var selectedSeq =  $(this).val();  //클릭한 옵션 시퀀스
 	   var str ="";	//테이블 셋팅구문
-	   console.log("★클릭한 시퀀스 : "+selectedSeq);
-	   console.log("★alreadySeq 길이 : "+alreadySeq.length);
+	   var isFirst="first";	//변수 
 	   
 	   //테이블 처음 생성시
 	   if(alreadySeq.length==0){
 		   
 		/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
 		   $.each(opArr,function(i,item){
-				console.log("case 1 start");
 				
 				if(item.seq==selectedSeq){
-					str = "<tr><td class='imgTd'></td><td class='selOpContent'>"+item.title+"<br>"+item.content+"</td>"+
-					 "<td class='selOpCount'align='right;'><button type='button'size='2px;'>+</button>"+
-					 "<input type='text' readOnly='readOnly' value='1' size='2'style='text-align: center;'>"+
-					 "<button type='button'size='2px;'>-</button></td>"+
-					 "<td class='selOpPrice'>"+item.price+"원</td></tr>";	
+					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					"<td class='imgTd'></td>"+
+					"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+					"</td>"+
+					"<td class='selOpCount'align='right;'>"+
+					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+					"</td>"+
+					"<td class='selOpPrice'>"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+					"</td></tr>"+
+					 "<tr><td></td><td colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<td><input type='text' readonly='readonly'value='"+item.price+"' class='Fee' size='6px;' id='finalPrice'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
 					 $('#beginTr').after(str);	//tr 생성
-					 console.log("alreadySeq에 들어갈 시퀀스 : "+item.seq);
-					 console.log("alreadySeq의 길이 : "+alreadySeq.length);
-					 console.log("case 1 end");
 					 return false;
 				}
-				
 			});	
 		   
 		//테이블 n번째 생성시
 	   }else if(alreadySeq.length>0){
-			$.each(alreadySeq,function(j,alSeq){
-				console.log("case 2 start");
-				
+
+		   /* 이미 생성된 옵션seq, 선택한 옵션을 비교 라여 isFirst에  저장 */
+			$.each(alreadySeq,function(j,alSeq){	
 				if (selectedSeq==alSeq){
-					console.log("선택한것이 이미 있음");
-					
-				}else {	//선택한것이 없을 때 
-					console.log("처음선택함");
-					
-	/* 				$.each(opArr,function(i,item){//고른 seq, 모든 seq 비교하기 loop
-						console.log("고른 seq, 모든 seq 비교하기 loop");
-						
+					isFirst="already";
+					return false;
+				}
+			});
+		   
+		   /* isFirst를 확인하여 fist생성이라면 */
+			if(isFirst=="first"){
+				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
+				   $.each(opArr,function(i,item){
 						if(item.seq==selectedSeq){
-							str = "<tr><td class='imgTd'></td><td class='selOpContent'>"+item.title+"<br>"+item.content+"</td>"+
-							 "<td class='selOpCount'align='right;'><button type='button'size='2px;'>+</button>"+
-							 "<input type='text' readOnly='readOnly' value='1' size='2'style='text-align: center;'>"+
-							 "<button type='button'size='2px;'>-</button></td>"+
-							 "<td class='selOpPrice'>"+item.price+"원</td></tr>";	
+							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+							"<td class='imgTd'></td>"+
+							"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+							"</td>"+
+							"<td class='selOpCount'align='right;'>"+
+							"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+							"</td>"+
+							"<td class='selOpPrice'>"+
+							"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+							"</td></tr>";
 							 
 							 alreadySeq[alreadySeq.length]=item.seq;
-							 console.log("alreadySeq에 들어갈 시퀀스 : "+item.seq);
-							 console.log("alreadySeq의 길이 : "+alreadySeq.length);
+							 //최종가격설정
+							 var pVal = Number($("#finalPrice").val());
+							 pVal= pVal+Number(item.price);
+							 $("#finalPrice").val(pVal);
 							 $('#beginTr').after(str);	//tr 생성
+							 return false;
 						}
-					});	 */
-					
-
-				}
-				console.log("case 2 end");
-				return false;
-			});
+						
+					});	
+				   
+			}else if(isFirst=="already"){
+				alert("중복된 옵션 선택은 불가능합니다!");
+			}
 	   }
-
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
 	
@@ -454,6 +475,65 @@ function heartClick(selector){
 				console.log("통신실패!");
 			}
 		});				
+	}
+}
+
+/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
+function plusVal(seqNum) {
+   	var count = Number(document.getElementById(seqNum).value);
+   	var stockCount = document.getElementById("stock_"+seqNum).value;
+   	
+   	if(stockCount<0){	//재고가 무제한이라면
+   		
+   		count+=1;
+     	document.getElementById(seqNum).value =count;
+       	//가격변환
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+       	var totalPrice = priceField+realPrice;
+       	document.getElementById("price_"+seqNum).value =totalPrice;
+       	
+       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
+    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+   		
+   	}else{		//재고가 무제한이 아니라면
+ 
+		if(count==stockCount){
+			alert("구매가능한 수량보다 많습니다.");
+		}else{
+			count+=1;
+	     	document.getElementById(seqNum).value =count;
+	       	//가격변환
+	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+	       	var totalPrice = priceField+realPrice;
+	       	document.getElementById("price_"+seqNum).value =totalPrice;
+	       	
+	       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+		}
+   	}
+}
+
+/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
+function minusVal(seqNum) {
+
+	var count = Number(document.getElementById(seqNum).value);
+	
+	if(count==1){
+		document.getElementById(seqNum).value ="1";
+	}else{
+		count-=1;
+       	document.getElementById(seqNum).value =count;
+       	
+       	//가격변환 
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
+       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
+       	var resultPrice = priceField-realPrice;								//셋팅할 가격
+       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
+       	
+       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
+    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 	}
 }
 </script>
