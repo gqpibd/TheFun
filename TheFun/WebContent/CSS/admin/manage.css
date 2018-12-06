@@ -52,11 +52,11 @@ table.type08 tbody th {
 	background: #ececec;
 }
 
-table.type08 td {
+/* table.type08 td {
 	padding: 10px;
 	vertical-align: top;
 	border: 0px solid #ccc;
-}
+} */
 table.type08 th.title {
 	text-align: center;
 }

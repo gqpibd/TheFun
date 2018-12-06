@@ -410,6 +410,16 @@ public class ProjectDto implements Serializable {
 	public String getOptiontotal() {
 		return optiontotal;
 	}
+	
+	public String getFundTypeKr() {		
+		switch(fundtype.toLowerCase()) {
+		case TYPE_DONATION:
+			return "기부";
+		case TYPE_REWARD:
+			return "리워드";
+		}
+		return "";
+	}
 
 	public String getCategoryKr() {		
 		switch(category.toLowerCase()) {
