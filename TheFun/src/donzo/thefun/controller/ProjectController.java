@@ -127,10 +127,9 @@ public class ProjectController {
 		
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String searchProjectList(Model model, ProjectParam pParam) throws Exception{
+	public String searchProjectList(Model model, ProjectParam pParam, String doc_title) throws Exception{
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
-		
 		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
@@ -138,6 +137,15 @@ public class ProjectController {
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
+		
+		model.addAttribute("s_sort", pParam.getS_sort());	// 우선 원래값 보냄
+		
+		// doc_title 설정 (들어온 대로 보낸다)
+		if(doc_title == null) {
+			doc_title = "";
+		}
+		
+		model.addAttribute("doc_title", doc_title);
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -175,24 +183,18 @@ public class ProjectController {
 		int totalRecordCount = projectService.getProjectCount(pParam);
 		
 		// 확인용
-		for (int i = 0; i < list.size(); i++) {
-			ProjectDto dto = list.get(i);
-			logger.info("list : " + dto.toString());
-		}
+//		for (int i = 0; i < list.size(); i++) {
+//			ProjectDto dto = list.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 		
-		if(pParam.getS_complete().equals("complete")) {
-			model.addAttribute("doc_title", "complete");
-		} else if(pParam.getS_complete().equals("")) {
-			model.addAttribute("doc_title", "search");
-		}
-		
+
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", pParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
 		
 		model.addAttribute("s_summary", pParam.getS_summary());
-		
 		model.addAttribute("s_type", pParam.getS_type());
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
@@ -454,6 +456,7 @@ public class ProjectController {
 	@RequestMapping(value="main.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goMain(Model model) throws Exception {
 		logger.info("ProjectController goMain 메소드 " + new Date());	
+		
 		ProjectParam mainParam = new ProjectParam();
 		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
@@ -553,5 +556,156 @@ public class ProjectController {
 		rmap.put("isLike", isLike);
 		rmap.put("likeCount", likeCount);		
 		return rmap;
+	}
+	
+	// 분야별 인기 프로젝트
+	@RequestMapping(value="hotProject.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String hotProject(Model model) throws Exception {
+		logger.info("ProjectController hotProject " + new Date());
+		
+		model.addAttribute("doc_title", "categoryBest");
+		
+		///////////////////////////////////////////////////////////////////////////////
+		// 기부 - 인권 프로젝트 1/5
+		ProjectParam human_Param = new ProjectParam();
+		
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(human_Param.getS_type() == null) { human_Param.setS_type(ProjectDto.TYPE_DONATION); }
+		if(human_Param.getS_category() == null) { human_Param.setS_category(ProjectDto.CATEGORY_HUMAN); }
+		if(human_Param.getS_keyword() == null) { human_Param.setS_keyword(""); }
+		if(human_Param.getS_summary() == null) { human_Param.setS_summary(""); }
+		if(human_Param.getS_complete() == null) { human_Param.setS_complete("");}
+		
+		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(human_Param.getS_sort() == null || human_Param.getS_sort().equals("")) {
+			human_Param.setS_sort("FUNDACHIVED");
+			human_Param.setS_asc_desc("DESC");
+		} 
+		
+//		4페이지씩 보여주려고
+		human_Param.setStart(1);
+		human_Param.setEnd(4);
+		human_Param.setRecordCountPerPage(8);
+		
+		List<ProjectDto> human_List = projectService.searchProjectList(human_Param);
+		
+		///////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////////////////////////////////////////////
+		// 기부 - 동물 프로젝트 2/5
+		ProjectParam dona_Animal_Param = new ProjectParam();
+		
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(dona_Animal_Param.getS_type() == null) { dona_Animal_Param.setS_type(ProjectDto.TYPE_DONATION); }
+		if(dona_Animal_Param.getS_category() == null) { dona_Animal_Param.setS_category(ProjectDto.CATEGORY_ANIMAL); }
+		if(dona_Animal_Param.getS_keyword() == null) { dona_Animal_Param.setS_keyword(""); }
+		if(dona_Animal_Param.getS_summary() == null) { dona_Animal_Param.setS_summary(""); }
+		if(dona_Animal_Param.getS_complete() == null) { dona_Animal_Param.setS_complete("");}
+		
+		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(dona_Animal_Param.getS_sort() == null || dona_Animal_Param.getS_sort().equals("")) {
+			dona_Animal_Param.setS_sort("FUNDACHIVED");
+			dona_Animal_Param.setS_asc_desc("DESC");
+		} 
+		
+//		4페이지씩 보여주려고
+		dona_Animal_Param.setStart(1);
+		dona_Animal_Param.setEnd(4);
+		dona_Animal_Param.setRecordCountPerPage(8);
+		
+		List<ProjectDto> dona_Animal_List = projectService.searchProjectList(dona_Animal_Param);
+		
+		///////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////////////////////////////////////////////
+		// 리워드 - 음식 프로젝트  3/5
+		ProjectParam food_Param = new ProjectParam();
+		
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(food_Param.getS_type() == null) { food_Param.setS_type(ProjectDto.TYPE_REWARD); }
+		if(food_Param.getS_category() == null) { food_Param.setS_category(ProjectDto.CATEGORY_FOOD); }
+		if(food_Param.getS_keyword() == null) { food_Param.setS_keyword(""); }
+		if(food_Param.getS_summary() == null) { food_Param.setS_summary(""); }
+		if(food_Param.getS_complete() == null) { food_Param.setS_complete("");}
+		
+		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(food_Param.getS_sort() == null || food_Param.getS_sort().equals("")) {
+			food_Param.setS_sort("FUNDACHIVED");
+			food_Param.setS_asc_desc("DESC");
+		} 
+		
+//		4페이지씩 보여주려고
+		food_Param.setStart(1);
+		food_Param.setEnd(4);
+		food_Param.setRecordCountPerPage(8);
+		
+		List<ProjectDto> food_List = projectService.searchProjectList(food_Param);
+		
+		///////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////////////////////////////////////////////
+		// 리워드 - IT / 전자 프로젝트  4/5
+		ProjectParam it_Param = new ProjectParam();
+		
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(it_Param.getS_type() == null) { it_Param.setS_type(ProjectDto.TYPE_REWARD); }
+		if(it_Param.getS_category() == null) { it_Param.setS_category(ProjectDto.CATEGORY_IT); }
+		if(it_Param.getS_keyword() == null) { it_Param.setS_keyword(""); }
+		if(it_Param.getS_summary() == null) { it_Param.setS_summary(""); }
+		if(it_Param.getS_complete() == null) { it_Param.setS_complete("");}
+		
+		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(it_Param.getS_sort() == null || it_Param.getS_sort().equals("")) {
+			it_Param.setS_sort("FUNDACHIVED");
+			it_Param.setS_asc_desc("DESC");
+		} 
+		
+//		4페이지씩 보여주려고
+		it_Param.setStart(1);
+		it_Param.setEnd(4);
+		it_Param.setRecordCountPerPage(8);
+		
+		List<ProjectDto> it_List = projectService.searchProjectList(it_Param);
+		
+		///////////////////////////////////////////////////////////////////////////////
+		
+		///////////////////////////////////////////////////////////////////////////////
+		// 리워드 - 동물 프로젝트  5/5
+		ProjectParam reward_animal_Param = new ProjectParam();
+		
+		// null 들어오면 xml 에서 오류 발생. 오류방지위함
+		if(reward_animal_Param.getS_type() == null) { reward_animal_Param.setS_type(ProjectDto.TYPE_REWARD); }
+		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_IT); }
+		if(reward_animal_Param.getS_keyword() == null) { reward_animal_Param.setS_keyword(""); }
+		if(reward_animal_Param.getS_summary() == null) { reward_animal_Param.setS_summary(""); }
+		if(reward_animal_Param.getS_complete() == null) { reward_animal_Param.setS_complete("");}
+		
+		
+		// split 으로 DESC 구분하면 좋을 것 같긴한데
+		if(reward_animal_Param.getS_sort() == null || reward_animal_Param.getS_sort().equals("")) {
+			reward_animal_Param.setS_sort("FUNDACHIVED");
+			reward_animal_Param.setS_asc_desc("DESC");
+		}
+		
+//		4페이지씩 보여주려고
+		reward_animal_Param.setStart(1);
+		reward_animal_Param.setEnd(4);
+		reward_animal_Param.setRecordCountPerPage(8);
+		
+		List<ProjectDto> reward_animal_List = projectService.searchProjectList(reward_animal_Param);
+		
+		///////////////////////////////////////////////////////////////////////////////
+		
+		model.addAttribute("human_List", human_List);
+		model.addAttribute("dona_Animal_List", dona_Animal_List);
+		model.addAttribute("food_List", food_List);
+		model.addAttribute("it_List", it_List);
+		model.addAttribute("reward_animal_List", reward_animal_List);
+		
+		return "hotProject.tiles";
 	}
 }

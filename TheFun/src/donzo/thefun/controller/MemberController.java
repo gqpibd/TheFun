@@ -34,29 +34,27 @@ public class MemberController {
 	// 로그인 처리
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
-		logger.info("loginAf " + new Date());
-		MemberDto loginUser=null;
-		logger.info(loginType);		
-		
-		callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
-		logger.info(callback.toString());
-		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
-			loginUser = memberService.tryLogin(dto);
-			if(loginUser == null) { // 로그인 실패
-				return "redirect:/login.do?message=retry&callback=" + callback;
-			}
-		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
-			loginUser = memberService.tryLogin(dto);			
-		}
-		loginUser.setAccount(loginType);
-		logger.info("로그인 결과: " + loginUser.toString());
-		req.getSession().setAttribute("login", loginUser);
-		
-		if(callback!=null) {
-			logger.info(callback);
-			return "redirect:/" + callback;
-		}
-		return "redirect:/main.do";
+	   logger.info("loginAf " + new Date());
+	   MemberDto loginUser=null;
+	   logger.info(loginType);      
+	   
+	   if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
+	      loginUser = memberService.tryLogin(dto);
+	      if(loginUser == null) { // 로그인 실패
+	         return "redirect:/login.do?message=retry&callback=" + callback;
+	      }
+	   }else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
+	      loginUser = memberService.tryLogin(dto);         
+	   }
+	   loginUser.setAccount(loginType);
+	   logger.info("로그인 결과: " + loginUser.toString());
+	   req.getSession().setAttribute("login", loginUser);
+	   
+	   if(callback!=null) {
+	      callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
+	      return "redirect:/" + callback;
+	   }
+	   return "redirect:/main.do";
 	}
 	
 	// 내 정보 수정

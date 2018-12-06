@@ -134,34 +134,7 @@
 function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());
-	/* alert(pageNumber); */
-	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do"}).submit();
+	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
 }
 </script>
-<!-- <script>
-$(document).ready(function () {
-	$("#search_Btn").click(function () {
-		$("#s_keywordTextField").text($("#s_keywordTextField").text());
-		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
-	});
-});
-   
-function search_Enter() {	// 엔터 쳤을 때 검색
-	$("#s_keywordTextField").text($("#s_keywordTextField").text());
-	$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
-}
-/* 페이지 번호를 클릭했을 때 */
-function goPage(pageNumber) {
-	$("#_pageNumber").val(pageNumber);
-	alert(pageNumber);
-	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do"}).submit();
-}
-   </script> -->
-<%-- <div style="float: left; width: 4%; text-align: center;">
-	<span style="font-size: 1em; color: #000000">
-	<%if(totalRecordCount != 0 ){%>
-		<%=pageNumber + 1%>/<%=totalPageCount%>
-	<%}%>
-	</span>
-</div> --%>
 

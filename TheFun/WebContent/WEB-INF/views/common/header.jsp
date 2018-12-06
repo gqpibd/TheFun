@@ -48,6 +48,9 @@
 <meta name="description" content="">
 <meta name="author" content=""> 
 
+<!-- 차트 css -->
+<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+
 <style type="text/css"> /* 공통 글씨체 */
 body{
 	font-family: "Nanum Gothic", sans-serif;
