@@ -16,7 +16,6 @@ $(document).ready(function () {
 		changeTotalPrice();
 	}
 	
-	
 });
 </script>
 
@@ -49,7 +48,7 @@ $(document).ready(function () {
 				  	<div class="custom-control custom-checkbox">
 					  	<input type="checkbox" class="custom-control-input" id="customCheck${status.count }" checked="checked">
 					  	<label class="custom-control-label" for="customCheck${status.count }">${basket.ptitle }</label>
-			  			<img alt="#삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" onclick="deleteBasket(${basket.seq})">
+			  			<img alt="삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" onclick="deleteBasket(${basket.seq})">
 			  		</div>
 			  </div>
 			  <div class="card-body">
