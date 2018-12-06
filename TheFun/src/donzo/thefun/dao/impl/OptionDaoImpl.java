@@ -57,11 +57,4 @@ public class OptionDaoImpl implements OptionDao {
 		return sqlSession.update(ns+"updateStock",opdto)>0?true:false;
 	}
 
-
-	@Override
-	public void deleteOptions(int seq) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }
