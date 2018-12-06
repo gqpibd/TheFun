@@ -13,8 +13,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 <script src="./js/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
 
-
-
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
 	/* font-family: 'Noto Sans KR', sans-serif;*/
@@ -22,7 +20,7 @@
 	/* font-family: 'Jua', sans-serif;  */
 	/* font-family: 'Noto Serif KR', sans-serif; */
 /* } */
-h1, h4, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
+h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
 #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
@@ -35,193 +33,140 @@ tr, td, input{
 </style>
 
 <script>
+var dayName=["일", "월", "화", "수", "목", "금", "토"];
+var monthName = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+function onDateSelect(d, selector){
+	// 연,월,일 구하기
+	// alert(d + "선택됐습니다");
+	var arr = d.split("-");
+	$(selector).text(arr[0]);
+	$(selector).append(arr[1]);
+	$(selector).append(arr[2]);
 	
+	// 요일 구하기
+	var date = new Date( $(selector).datepicker({dateFormat:'yy-mm-dd'}).val() );
+	//alert(selector+ " : "+date.getDay() );	// 0(일요일)~6(토요일)
+			
+	var week = new Array("일", "월", "화", "수", "목", "금", "토");
+	$(selector).append( week[ date.getDay() ] );
+}
+function onDatePicketClose(selectedDate, preDate, availDate){ // preDate: 앞에서 설정한 날짜. availDate: 앞으로 설정 가능한 날짜
+	if( selectedDate != "" ) {
+		// 펀딩 시작일은 내일날짜부터 선택가능하게
+		var curDate = $(preDate).datepicker("getDate");  // Date return
+		curDate.setDate( curDate.getDate() + 1 );
+		// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
+		$(availDate).datepicker("option", "minDate", curDate);
+		// 종료일 태그 활성화
+		$(availDate).attr("disabled", false);
+	}
+}
+
 $(document).ready(function() {
 	
-	 /* var $target = $('#category');
-	 $target.find('option:gt(2)').css('display', 'none'); */
+	/* var $target = $('#category');
+	$target.find('option:gt(2)').css('display', 'none'); */
 		
-		/* 각 리워드마다 하단 상세내용 보여주는 a태그 일단 비활성화 */
-		$(".changedOption").hide();
-		
-		
-		// 썸머노트 설정
-		  $('#summernote').summernote({
-				  height: 300,		// 기본 높이값
-				  placeholder : "Draw your dream!!",
-			        minHeight: null,	// 최소 높이값(null은 제한 없음)
-			        maxHeight: null,	// 최대 높이값(null은 제한 없음)
-			        focus: true,		// 페이지가 열릴때 포커스를 지정함
-			        lang : 'ko-KR',		// 한글설정
-			      	//onlmageUpload callback함수 -> 미설정시 data형태로 에디터 그대로 삽입
-			        callbacks: {
-			          onImageUpload: function(files, editor) {
-			        	  console.log("onImageUpload 업로드 이벤트 발생");
-			            //for (var i = files.length - 1; i >= 0; i--) {
-			              sendFile(files[0], this);
-			            //}
-			          }
-			        }	  
-		  });
-		  // 썸머노트 이미지 컨트롤러에 실시간 업로드할 AJAX 함수
-		  function sendFile(file, editor) {
-		      var form_data = new FormData();
-		      form_data.append('summerFile', file);
-		      $.ajax({
-		        data: form_data,
-		        type: "POST",
-		        url: 'summernotePhotoUpload.do',
-		        enctype: 'multipart/form-data',
-		        cache: false,
-		        contentType: false,
-		        processData: false,
-		        success: function(data) {
-		        	console.log("받은 데이터 = " + data);
-					$(editor).summernote('editor.insertImage', data);
-					//$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
-					//$(editor).summernote('editor.insertImage', data);
-					$('#summernote').append('<img src="'+data+'" width="480" height="auto"/>');
-		        }
-		      });
-		    }
-		  
-		  	/* 프로젝트 진행 스케줄 날짜 설정 */
-			// 시작일
-			$("#date1").datepicker({
-				minDate : 0,
-				dateFormat:"yy-mm-dd",
-				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-				onSelect:function( d ){
-					// 연,월,일 구하기
-					// alert(d + "선택됐습니다");
-					var arr = d.split("-");
-					$("#date1").text(arr[0]);
-					$("#date1").append(arr[1]);
-					$("#date1").append(arr[2]);
-					
-					// 요일 구하기
-					var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
-					// alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
-							
-					var week = new Array("일", "월", "화", "수", "목", "금", "토");
-					$("#date1").append( week[ date.getDay() ] );
-				},
-				onClose : function (selectedDate) {
-					if( selectedDate != "" ) {
-						// 펀딩 시작일은 내일날짜부터 선택가능하게
-						var curDate = $("#date1").datepicker("getDate");  // Date return
-						curDate.setDate( curDate.getDate() + 1 );
-						// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
-						$("#date2").datepicker("option", "minDate", curDate);
-						// 종료일 태그 활성화
-						$("#date2").attr("disabled", false);
-					}
-				}
-			});
-			// 종료일
-			$("#date2").datepicker({
-				dateFormat:"yy-mm-dd",
-				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-				onSelect:function( d ){
-					// 연,월,일 구하기
-//					alert(d + "선택됐습니다");
-					var arr = d.split("-");
-					$("#date2").text(arr[0]);
-					$("#date2").append(arr[1]);
-					$("#date2").append(arr[2]);
-					
-					// 요일 구하기
-					var date = new Date( $("#date2").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-					
-					var week = new Array("일", "월", "화", "수", "목", "금", "토");
-					$("#date2").append( week[ date.getDay() ] );
-				},
-				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-		            if( selectedDate != "" ) {
-		                // xxx의 maxDate를 yyy의 날짜로 설정
-		                $("#date1").datepicker("option", "maxDate", selectedDate);
-		                
-		             	// 정산일(결제일)은 종료일 담날부터 가능
-						var curDate = $("#date2").datepicker("getDate");  // Date return
-						curDate.setDate( curDate.getDate() + 1 );
-						$("#date3").datepicker("option", "minDate", curDate);
-						// 정산일 태그 활성화
-						$("#date3").attr("disabled", false);
-		            }
-		        }
-			});
-			// 정산일
-			$("#date3").datepicker({
-				dateFormat:"yy-mm-dd",
-				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-				onSelect:function( d ){
-					// 연,월,일 구하기
-//					alert(d + "선택됐습니다");
-					var arr = d.split("-");
-					$("#date3").text(arr[0]);
-					$("#date3").append(arr[1]);
-					$("#date3").append(arr[2]);
-					
-					// 요일 구하기
-					var date = new Date( $("#date3").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-					
-					var week = new Array("일", "월", "화", "수", "목", "금", "토");
-					$("#date3").append( week[ date.getDay() ] );
-				},
-				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-		            if( selectedDate != "" ) {
-		                // xxx의 maxDate를 yyy의 날짜로 설정
-		                $("#date2").datepicker("option", "maxDate", selectedDate);
-		                
-		             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
-						var curDate = $("#date3").datepicker("getDate");  // Date return
-						curDate.setDate( curDate.getDate() + 1 );
-						$("#date4").datepicker("option", "minDate", curDate);
-						// 배송일 태그 활성화
-						$("#date4").attr("disabled", false);
-		            }
-		        }
-			});
-			// 배송일
-			$("#date4").datepicker({
-				dateFormat:"yy-mm-dd",
-				dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-				monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-				onSelect:function( d ){
-					// 연,월,일 구하기
-//					alert(d + "선택됐습니다");
-					var arr = d.split("-");
-					$("#date4").text(arr[0]);
-					$("#date4").append(arr[1]);
-					$("#date4").append(arr[2]);
-					
-					// 요일 구하기
-					var date = new Date( $("#date4").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//					alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-					
-					var week = new Array("일", "월", "화", "수", "목", "금", "토");
-					$("#date4").append( week[ date.getDay() ] );
-				},
-				onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-		            if( selectedDate != "" ) {
-		                // xxx의 maxDate를 yyy의 날짜로 설정
-		                $("#date3").datepicker("option", "maxDate", selectedDate);
-		                
-		            }
-		        }
-			});
-			
-});
-	
+	/* 각 리워드마다 하단 상세내용 보여주는 a태그 일단 비활성화 */
+	$(".changedOption").hide();
+
+
+	// 썸머노트 설정
+	$('#summernote').summernote({
+		height: 300,		// 기본 높이값
+		placeholder : "Draw your dream!!",
+		minHeight: null,	// 최소 높이값(null은 제한 없음)
+		maxHeight: null,	// 최대 높이값(null은 제한 없음)
+		focus: true,		// 페이지가 열릴때 포커스를 지정함
+		lang : 'ko-KR',		// 한글설정
+     	//onlmageUpload callback함수 -> 미설정시 data형태로 에디터 그대로 삽입
+		callbacks: {
+        	onImageUpload: function(files, editor) {
+	       	  	console.log("onImageUpload 업로드 이벤트 발생");
+	           	//for (var i = files.length - 1; i >= 0; i--) {
+	             sendFile(files[0], this);
+	           	//}
+         	}
+       }	  
+	});										
+	// 썸머노트 이미지 컨트롤러에 실시간 업로드할 AJAX 함수
+	function sendFile(file, editor) {
+		var form_data = new FormData();
+		form_data.append('summerFile', file);
+		$.ajax({
+			data: form_data,
+			type: "POST",
+			url: 'summernotePhotoUpload.do',
+			enctype: 'multipart/form-data',
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				console.log("받은 데이터 = " + data);
+				$(editor).summernote('editor.insertImage', data);
+				//$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+				//$(editor).summernote('editor.insertImage', data);
+				$('#summernote').append('<img src="'+data+'" width="480" height="auto"/>');
+			}
+		});
+	}
+  
+  	/* 프로젝트 진행 스케줄 날짜 설정 */
+	// 시작일
+	$("#date1").datepicker({
+		minDate : 0,
+		dateFormat:"yy-mm-dd",
+		dayNamesMin:dayName,
+		monthNames: monthName,
+		onSelect:function( d ){
+			onDateSelect(d,"#date1");
+		},
+		onClose : function (selectedDate) {
+			 onDatePicketClose(selectedDate,"#date1","#date2");		     
+		}
+	});
+	// 종료일
+	$("#date2").datepicker({
+		dateFormat:"yy-mm-dd",
+		dayNamesMin:dayName,				
+		monthNames: monthName,
+		onSelect:function( d ){
+			onDateSelect(d,"#date2");
+		},
+		onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+			onDatePicketClose(selectedDate,"#date2","#date3");
+        }
+	});
+	// 정산일
+	$("#date3").datepicker({
+		dateFormat:"yy-mm-dd",
+		dayNamesMin:dayName,				
+		monthNames: monthName,
+		onSelect:function( d ){
+			onDateSelect(d,"#date3");
+		},
+        onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+			onDatePicketClose(selectedDate,"#date3","#date4");
+        }
+	});
+	// 배송일
+	$("#date4").datepicker({
+		dateFormat:"yy-mm-dd",
+		dayNamesMin:dayName,				
+		monthNames: monthName,
+		onSelect:function( d ){
+			onDateSelect(d,"#date4");
+		},
+		onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
+            if( selectedDate != "" ) {
+                // xxx의 maxDate를 yyy의 날짜로 설정
+                $("#date3").datepicker("option", "maxDate", selectedDate);
+                
+            }
+        }
+	});			
+});	
 </script>
-
-
-
 
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="createProjectFrom" method="post" action="newProjectAf.do" enctype="multipart/form-data">
@@ -252,11 +197,11 @@ $(document).ready(function() {
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
-<div class="container">
-  <h1>프로젝트 개요</h1>
+<div class="container" >
+  <!-- <h1>프로젝트 개요</h1> -->
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
@@ -318,7 +263,7 @@ $(document).ready(function() {
 						          <li>텍스트 및 로고 삽입 금지 </li>
 						        </ul>
 							</div>
-							<input type="file" id="mainImage" name="fileload" style=" margin-left: 6%;"
+							<input type="file" id="mainImage" name="fileload" style=" margin-left: 6%;" 
 									accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
 									<!-- 이미지는 type이 file! -->
 									<!-- accept를 사용해 파일찾기 클릭해서 탐색창이 나올때 이밎 외에 파일은 모이지 않게 막는다. -->
@@ -424,11 +369,11 @@ $(document).ready(function() {
 
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>스토리텔링</h1>
+  <!-- <h1>스토리텔링</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion1">
   	<!-- [5] 프로젝트 스토리(content) -->
@@ -657,11 +602,11 @@ $(document).ready(function() {
 
 <!-- (3) 세번째 탭 눌렀을 때 -->
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
-<br>
+<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
-  <h1>리워드 등록</h1>
+  <!-- <h1>리워드 등록</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion2">
   	<!-- [10] 옵션 개수 선택 -->
@@ -850,8 +795,6 @@ $("#btn_submit").click(function () {
 			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
 			" optionSelected = " + optionSelected + " option_total = " + option_total);
 		
-	alert("내용 길이 = " + summernote.length);
-	
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
 		alert("제목을 입력해주세요");
@@ -886,7 +829,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
 	} else if(tag == null || tag == ""){
-		alert("검색용 태그를 등록해주세요");	// #붙여주는 함수 따로 만들자.
+		alert("검색용 태그를 등록해주세요");
 		$("#menu-tab1").click();
 		$("#tagTap").click();
 		return;
@@ -895,12 +838,12 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#tagTap").click();
 	} else if(goalfund == null || goalfund == ""){
-		alert("프로젝트 달성 목표 금액을 등록해주세요");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		alert("프로젝트 달성 목표 금액을 등록해주세요");
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
 	} else if(goalfund.length > 10){
-		alert("프로젝트 목표금액이 너무 큽니다. 줄여주세요.");	// 숫자외는 거르는 판별식? 유효성 검사 추가하기
+		alert("프로젝트 목표금액이 너무 큽니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#goalfundTap").click();
 		return;
@@ -914,7 +857,7 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#bankTap").click();
 	} else if(date1 == null || date1 == "" || date2 == null || date2 == "" || date3 == null || date3 == ""){
-		alert("프로젝트 진행 스케줄을 모두 등록해주세요");	// 다시 처음주터 날짜를 선택하고 싶을 때를 위해 '취소하기' 버튼 추가하기.
+		alert("프로젝트 진행 스케줄을 모두 등록해주세요");
 		$("#menu-tab1").click();
 		$("#dateTap").click();
 		return;
@@ -922,7 +865,7 @@ $("#btn_submit").click(function () {
 		
 		// 2. 카테고리에 따른 공란판정
 		if(fundtype == "donation") {	// 기부 선택했을 경우(==> 리워드 등록 불필요)
-			alert("당신은 기부왕!");
+			console.log("기부를 선택하셨습니다");
 			formSubmit();	// form에 submit 실행~
 			return;
 		} else if(fundtype == "reward" && optionSelected == "NO"){	// 상품선택하고, 리워드 갯수 선택안함
@@ -959,8 +902,7 @@ $("#btn_submit").click(function () {
 					return;
 				}
 			}
-			
-			alert("총액 = " +  totalPrice);
+			console.log("총액 = " +  totalPrice);
 			
 			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
 				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)

@@ -5,6 +5,17 @@
 <fmt:requestEncoding value="utf-8"/> 
 
 <style type="text/css">
+.pupple {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #8152f0;
+	font-weight: bold;
+}
+
+.strongGray {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #5c5c5c;
+	font-weight: bold;
+}
 
 .list_reply{
 	padding-inline-start: 5px;
@@ -213,13 +224,11 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 }
 </style>
 
+<p class="strongGray">QnA <span class="pupple">${qnaList.size()}</span>건</p>
+<hr>
+
 <!-- 댓글 창 -->
 <ul id="replies" class="list_reply"> 
-	<c:choose>
-	<c:when test="${qnaList eq null or qnaList.size() == 0}"><!-- list가 null 일 때 -->
-		<li style="text-align: center;">등록된 댓글이 없습니다. 첫 번째 댓글을 남겨주세요</li>
-	</c:when>
-	<c:otherwise>	<!-- 댓글이 하나라도 있을 때 -->	
 	<c:forEach items="${qnaList}" var="item" varStatus="vs">		
 		<li class="reply">		
 		<c:if test="${item.seq ne item.refseq}">	<!-- 대댓일 때 표시 --> 
@@ -241,8 +250,8 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 						<!-- <span class="fas fa-stroopwafel" aria-hidden="true" width="3px" align="right" style="cursor: pointer" ></span> -->
 						
 						<span class="mtooltiptext">
-						<label class="lablehover" onclick="modify('${item.seq }','${item.content }','${item.isHidden()}')" id="${item.seq}" class="aTag">수정</label><br>
-						<label class="lablehover" onclick="deleteReply(${item.seq})" class="aTag">삭제</label><br>						
+							<label class="lablehover" onclick="modify('${item.seq }','${item.content }','${item.isHidden()}')" id="${item.seq}" class="aTag">수정</label><br>
+							<label class="lablehover" onclick="deleteReply(${item.seq})" class="aTag">삭제</label><br>						
 						</span>
 					</div> 
 				</c:if>	
@@ -283,8 +292,6 @@ input[type="checkbox"]:checked ~ .checkDiv .checkLabel::after{
 		</c:choose>
 		</li>
 	</c:forEach>
-	</c:otherwise>
-	</c:choose>
 </ul>
 	<c:choose>
 	

@@ -22,6 +22,12 @@
 	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
 </insert>
 
+<!-- 옵션 삭제 -->
+<delete id="deleteOptions" parameterType="java.lang.Integer">
+	DELETE FROM FUN_OPTION
+	WHERE PROJECTSEQ=#{seq}
+</delete>
+
 <!-- updateStock 없음 -->
 <!-- 옵션 재고 수정 (프로젝트 없데이트시)용으로 작성하면 될 듯  -->
 

@@ -51,7 +51,7 @@ REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; -- 종속 삭제(참조하는 데이터가 삭제되면 함께 삭제)
 
 -------------- VIEW : 프로젝트 전체 내용 
-CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME, OPTIONTOTAL)
+CREATE OR REPLACE VIEW FUN_PROJECTALL (SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, STATUS, NICKNAME, OPTIONTOTAL, REVIEWCOUNT)
 AS
 SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAGS, P.BANK, P.GOALFUND, P.SDATE, P.EDATE, P.PDATE, P.SHIPDATE, P.REGDATE,
    NVL((SELECT COUNT(*) FROM FUN_QNA  GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
@@ -72,7 +72,8 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
      END AS "status" 
      FROM FUN_PROJECT WHERE SEQ = P.SEQ),
     (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = P.ID),
-    NVL((SELECT COUNT(*) FROM FUN_OPTION WHERE PROJECTSEQ = P.SEQ),0)
+    NVL((SELECT COUNT(*) FROM FUN_OPTION WHERE PROJECTSEQ = P.SEQ),0),
+    (SELECT COUNT(*) FROM FUN_BUY WHERE PROJECTSEQ= P.SEQ AND NVL(SCORE,0)>0)
 FROM FUN_PROJECT P;
 */
 
@@ -95,6 +96,7 @@ public class ProjectDto implements Serializable {
 	//public static final String APPROVE = "approve"; // 승인됨
 	public static final String REJECT = "reject"; // 거절됨
 	public static final String REVISE = "revise"; // 보완요청
+	public static final String RESUBMIT = "resubmit";	// 재승인요청(수정한 펀딩)
 	
 	int seq;  
 	String id; // 작성자
@@ -116,6 +118,7 @@ public class ProjectDto implements Serializable {
 	
 	int qnacount; // 댓글 갯수
 	int buycount; // 구매 갯수
+	int reviewcount; // 리뷰 갯수
 	int noticecount; // 공지 갯수
 	int likecount; // 좋아요 갯수
 	int fundachived; // 달성 모금액
@@ -267,7 +270,7 @@ public class ProjectDto implements Serializable {
 		}
 		this.tags = tempList.toArray(new String[tempList.size()]);
 		//System.out.println(tags);
-		System.out.println("수정한 태그: " + Arrays.toString(this.tags));
+		//System.out.println("수정한 태그: " + Arrays.toString(this.tags));
 	}
 	
 	public String getTag() {
@@ -499,15 +502,26 @@ public class ProjectDto implements Serializable {
 	}
 	
 	
+	public int getReviewcount() {
+		return reviewcount;
+	}
+
+	public void setReviewcount(int reviewcount) {
+		this.reviewcount = reviewcount;
+	}
+
+	public void setOptiontotal(String optiontotal) {
+		this.optiontotal = optiontotal;
+	}
+
 	@Override
 	public String toString() {
 		return "ProjectDto [seq=" + seq + ", id=" + id + ", fundtype=" + fundtype + ", category=" + category
 				+ ", title=" + title + ", content=" + content + ", summary=" + summary + ", tags="
 				+ Arrays.toString(tags) + ", tag=" + tag + ", bank=" + bank + ", goalfund=" + goalfund + ", sdate="
 				+ sdate + ", edate=" + edate + ", pdate=" + pdate + ", shipdate=" + shipdate + ", regdate=" + regdate
-				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", noticecount="
-				+ noticecount + ", likecount=" + likecount + ", fundachived=" + fundachived + ", nickname=" + nickname + "]";
+				+ ", status=" + status + ", qnacount=" + qnacount + ", buycount=" + buycount + ", reviewcount="
+				+ reviewcount + ", noticecount=" + noticecount + ", likecount=" + likecount + ", fundachived="
+				+ fundachived + ", nickname=" + nickname + ", optiontotal=" + optiontotal + "]";
 	}
-
-	
 }

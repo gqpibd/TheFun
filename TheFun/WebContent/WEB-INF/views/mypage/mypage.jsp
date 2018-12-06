@@ -50,7 +50,7 @@ a.mpa {
    /* background: #3d2484; */
    background: #e5e0f7;
    color: #311388;
-   z-index: 1;
+   z-index: 2;
    
 }
 
@@ -109,6 +109,10 @@ a.mpa {
    left: 50%;
    transform: translate(-50%, -50%);
 }
+.white_logo {
+   	display: inline-flex;
+   	float: right;
+}
 
 /* Mobile First */
 @media (min-width: 42em) {
@@ -132,7 +136,11 @@ a.mpa {
    .s-sidebar__trigger:focus + .s-sidebar__nav {
       width: 15em;
    }
+   .white_logo {
+   	display: none;
+   }
 }
+
 
 @media (min-width: 68em) {
    .s-layout__content {
@@ -151,6 +159,9 @@ a.mpa {
    .s-sidebar__nav ul {
       top: 1.3em;
    }
+   
+   
+   
 }
 
 /* 프로필 사진 */
@@ -164,6 +175,7 @@ a.mpa {
     vertical-align: middle;
     object-fit: cover;
 }
+
 </style>
  
 <div class="s-layout">
@@ -171,6 +183,7 @@ a.mpa {
 <div class="s-layout__sidebar">
   <a class="s-sidebar__trigger mpa" href="#0">
      <i class="fa fa-bars"></i>
+     <img src="image/main/banner_white.png" class="white_logo" style="height:100%">
   </a>
 
   <nav class="s-sidebar__nav">
@@ -204,3 +217,8 @@ a.mpa {
 </main>
 </div> -->
  
+ 
+<!-- 본문출력 묶는 태그 -->
+	<main class="s-layout__content">  	
+	<jsp:include page="../common/topbar.jsp"/>
+<!-- //본문출력 묶는 태그 -->

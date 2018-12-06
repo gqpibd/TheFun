@@ -11,16 +11,24 @@
 <fmt:requestEncoding value="utf-8"/> 
  
 <title>The Fun_${projectdto.title }</title>
-
-<!-- 모달 css -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
 <!-- Custom styles for this template -->
 
- 
+  
 <style type="text/css">
+/* 탭부분 css */
+.tabSelect{ 
+	background: #8152f038;
+}
+.tabTable{
+	width: 100%;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    height: 50px;
+    margin-top: 1em;
+    margin-bottom: 1em; 
+}
+/* 탭부분 css 끝 */
 .pnt { 
 	cursor: pointer; 
 }
@@ -126,6 +134,58 @@
 	display: block;
 	line-height: 40px;
 }
+
+ /* 프로젝트 승인 상태 보기 */
+ .blog-container {
+  	background: #f6f6f6;
+     border-radius: 5px;
+     box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
+     padding: 20px 0 20px 0;
+ }
+ 
+ .author {
+   margin: 0 auto;
+   padding-top: .125rem;
+   width: 80%;
+   color: #999999;
+ }
+ 
+ .blog-body {
+   margin: 0 auto;
+   width: 80%;
+ }
+ 
+ .msgtitle {
+   color: #8152f0;
+   font-weight: bold;
+   border: 1px solid #8152f0;
+   border-radius: 5px;
+   letter-spacing: 1px;
+   padding: 0 .5rem;
+ }
+ 
+ .blog-summary p {
+   color: #4d4d4d;
+ }
+ 
+ .blog-footer {
+   border-top: 1px solid #e6e6e6;
+   margin: 0 auto;
+   padding-bottom: .125rem;
+   width: 80%;
+ }
+ 
+ .published-date {
+   margin: 3px;
+   border: 1px solid #999999;
+   border-radius: 3px;
+   padding: 0.2rem;
+   color: #999999;
+   font-size: .75rem;
+   letter-spacing: 1px;
+   line-height: 1.9rem;
+   text-align: center;
+ }
 </style>
 
 <!-- 남은날짜계산 -->
@@ -163,7 +223,7 @@
 		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
-			<td class="strongGray sTd">
+			<td class="strongGray sTd"  >
 			<c:if test="${projectdto.isPreparing()}">
 				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
 			</c:if>
@@ -193,31 +253,36 @@
 		<tr height="50">
 			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
-		<tr height="50">		
-			<td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+		<tr height="50">
+			<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%><!-- 하트 버튼 -->
+			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
 				명이 좋아합니다
 			</td>
 		</tr>
-		<tr height="50">
-			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
-			<td>
-				<select style="width: 70%; height: 30px;" id="optionSelect">
-					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
-					<c:forEach items="${optionList }" var="opselect">
-						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
+		<c:if test="${projectdto.isReward()}">
+			<tr height="50">
+				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td>
+					<select style="width: 70%; height: 30px;" id="optionSelect">
+						<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
+						<c:forEach items="${optionList }" var="opselect">
+							<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+		</c:if>
 		<tr>
 		<td></td>
 			<c:if test="${projectdto.isOngoing()}">
 			<td>
+				<c:if test="${projectdto.isReward()}">
 				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
 					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
 				<!-- </a> -->
+				</c:if>
 				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="20px"> <!-- 펀딩하기 버튼 -->
+					<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
 				</a>
 			</td>
 			</c:if>
@@ -264,41 +329,32 @@
 
 		<!-- 메뉴바 -->
 		<div style="background-color: white;">
-		<div class="jbMenu">
-		<hr>
-		<table style="width: 100%; background-color: white;">
+		<!-- <div class="jbMenu"> -->
+		<table class="tabTable" style="width: 100%; background-color: white;">
 		<tr>
-			<td align="center" class="strongGray" id="story"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="feedback"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="review"><font class="menubar">후기<sup class="pupple"><b></b></sup></font></td>
+			<td align="center" class="strongGray tabSelect" id="story" style="width: 25%; cursor:pointer"><font class="menubar">스토리</font></td>
+			<td align="center" class="strongGray" id="notice" style="width: 25%; cursor:pointer"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="qna" style="width: 25%; cursor:pointer"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="review" style="width: 25%; cursor:pointer"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
 		</tr>
 		</table>
-		<hr>
-		</div>
+		<!-- </div> -->
 	    </div>
 	 </div>
 	 
 	 
 <script type="text/javascript">
 $(document).ready(function () {
-	$("#feedbackContent").hide();
+	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
 	
 	$("#optionSelect").change(function(){
 	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
-	   
 	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
-	   
-	   
 	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
 	});
-	
-	
-	
 });
-
 
 //마우스커서 모양변환
 $(".menubar").mouseover(function () {	
@@ -308,34 +364,52 @@ $(".menubar").mouseover(function () {
 //show and hide
 $(function () {
 	$("#story").click(function () {
-		$("#storyContent").show();
+		$("#storyContent").show();		
 		$("#noticeContent").hide();
-		$("#feedbackContent").hide();
-		$("#reviewContent").hide();
+		$("#qnaContent").hide();
+		$("#reviewContent").hide();		
+
+		$("#story").addClass("tabSelect");		
+		$("#notice").removeClass("tabSelect");		
+		$("#qna").removeClass("tabSelect");	
+		$("#review").removeClass("tabSelect");	
 	});
 	$("#notice").click(function () {
 		$("#storyContent").hide();
 		$("#noticeContent").show();
-		$("#feedbackContent").hide();
+		$("#qnaContent").hide();
 		$("#reviewContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").addClass("tabSelect");		
+		$("#qna").removeClass("tabSelect");	
+		$("#review").removeClass("tabSelect");	
 	});
-	$("#feedback").click(function () {
+	$("#qna").click(function () {
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
-		$("#feedbackContent").show();
+		$("#qnaContent").show();
 		$("#reviewContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").removeClass("tabSelect");	
+		$("#qna").addClass("tabSelect");		
+		$("#review").removeClass("tabSelect");	
 	});
 	$("#review").click(function () {
 		$("#reviewContent").show();
 		$("#storyContent").hide();
 		$("#noticeContent").hide();
-		$("#feedbackContent").hide();
+		$("#qnaContent").hide();
+		
+		$("#story").removeClass("tabSelect");	
+		$("#notice").removeClass("tabSelect");	
+		$("#qna").removeClass("tabSelect");	
+		$("#review").addClass("tabSelect");		
 	});
 });
 
 function heartClick(selector){	
-	var img1 = document.getElementById('hartBtn');
-	
 	if ('${login.id}' == ''){
 		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
 	} else {			
@@ -345,10 +419,10 @@ function heartClick(selector){
 			data:"id=${login.id}&projectseq=${projectdto.seq}", // 전송할 데이터
 			success:function(data){
 				if(data.isLike == true){ // 좋아요
-					img1.src = img1.src.replace('gray', 'red');
+					$(selector).css('color', 'red');
 					$("#likeCount").text(data.likeCount);
 				}else{ // 좋아요 취소				
-					img1.src = img1.src.replace('red', 'gray');
+					$(selector).css('color', 'gray');
 					$("#likeCount").text(data.likeCount);
 				}
 			},
@@ -364,18 +438,18 @@ function heartClick(selector){
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
-        <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+        <%-- <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
 				펀딩기간  <b>
 				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
 				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
 				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
 			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font> --%>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
-         <div class="col-lg-8" id="feedbackContent"> <!-- QNA  -->
+         <div class="col-lg-8" id="qnaContent"> <!-- QNA  -->
 			<jsp:include page="qna.jsp"/>
         </div>
         
@@ -395,14 +469,14 @@ function heartClick(selector){
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><img class="profile_img" src="${writer.profile}"></td> 
+				<td rowspan="2" align="left" class="strongGray"><a href="#layer_2" class="btn-example"><img class="profile_img" src="${writer.profile}"></a></td> 
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
 				<td align="right" class="strongGray" style="font-size: 15px">${writer.email } </td> 
 			</tr>
 			</table>
-            </div>
+            </div> 
           </div>
           
 <!-- 리워드라면 -->
@@ -453,6 +527,132 @@ function heartClick(selector){
 
     </div>
     <!-- /.container -->
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 코드 -->
+ <div class="dim-layer">
+  <div class="dimBg"></div>
+    <div id="layer_2" class="pop-layer">
+        <div class="pop-container">
+            <div class="pop-conts">
+                <!--content //-->
+                <p class="ctxt mb20">
+                		Thank you.<br><br> 						
+                    	${writer.info } <br>
+                   	<c:forEach items="${projectdto.tags }" var="tags">
+   		 			#${tags }
+   					 </c:forEach><br><br>
+
+                   	<span style="font-weight: bold;">${projectdto.title }</span><br>
+                   	프로젝트에 참여해주셔서 감사합니다!<br>
+
+                </p>
+                <div class="btn-r">
+                    <a href="#" class="btn-layerClose">Close</a>
+                </div>
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>   
+<!-- 판매자 정보 팝업창 코드 -->       
+<style>
+.pop-layer .pop-container {
+  padding: 20px 25px;
+}
+.pop-layer p.ctxt {
+  color: #666;
+  line-height: 25px;
+}
+.pop-layer .btn-r {
+  width: 100%;
+  margin: 10px 0 20px;
+  padding-top: 10px;
+  border-top: 1px solid #DDD;
+  text-align: right;
+}
+.pop-layer {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 410px;
+  height: auto;
+  background-color: #fff;
+  border: 5px solid #8152f0;
+  z-index: 10;
+}
+.dim-layer {
+  display: none;
+  position: fixed;
+  _position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
+.dim-layer .dimBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .5;
+  filter: alpha(opacity=50);
+}
+.dim-layer .pop-layer {
+  display: block;
+}
+a.btn-layerClose {
+  display: inline-block;
+  height: 25px;
+  padding: 0 14px 0;
+  border: 1px solid #304a8a;
+  background-color: #8152f0;
+  font-size: 13px;
+  color: #fff;
+  line-height: 25px;
+}
+a.btn-layerClose:hover {
+  border: 1px solid #091940;
+  background-color: #1f326a;
+  color: #fff;
+}
+</style>      
+<!-- 판매자 정보 팝업창 코드 -->    
+<script type="text/javascript">
+$('.btn-example').click(function(){
+    var $href = $(this).attr('href');
+    layer_popup($href);
+});
+function layer_popup(el){
+    var $el = $(el);        //레이어의 id를 $el 변수에 저장
+    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+    var $elWidth = ~~($el.outerWidth()),
+        $elHeight = ~~($el.outerHeight()),
+        docWidth = $(document).width(),
+        docHeight = $(document).height();
+    // 화면의 중앙에 레이어를 띄운다.
+    if ($elHeight < docHeight || $elWidth < docWidth) {
+        $el.css({
+            marginTop: -$elHeight /2,
+            marginLeft: -$elWidth/2
+        })
+    } else {
+        $el.css({top: 0, left: 0});
+    }
+    $el.find('a.btn-layerClose').click(function(){
+        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+        return false;
+    });
+    $('.layer .dimBg').click(function(){
+        $('.dim-layer').fadeOut();
+        return false;
+    });
+}
+</script>  
+<!-- 판매자 정보 레이어팝업코드 -->    
     
 <script type="text/javascript">
 function checkAndSendMessage(){
@@ -489,7 +689,7 @@ function viewStatus(){
 			    	  author.innerHTML = "<h4><i class='fas fa-user-astronaut'></i>에디터</h4>";
 			      }else{
 			    	  //console.log(items[i].writer);
-			    	  author.innerHTML = "<h4><i class='fas fa-reply'></i>작성자</h4>";
+			    	  author.innerHTML = "<h4><i class='fas fa-wrench'></i></i>작성자</h4>";
 			      }
 			      var body = document.createElement('div');
 			      body.classList.add("blog-body");			      
@@ -503,6 +703,8 @@ function viewStatus(){
 			      msgContainer.appendChild(author);
 			      msgContainer.appendChild(body);
 			      msgContainer.appendChild(footer);
+			      
+			      
 			      
 			      msgBox.appendChild(msgContainer);
 			    }			

@@ -13,8 +13,6 @@
 <title>더펀:더 나은 세상을 위한 펀딩</title>
 <tiles:insertAttribute name="header"/> <!-- views/common파일 위치에 header.jsp 생성 -->
 
-<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/style.css"> --%>
-
 </head>
 <body>
 
@@ -22,8 +20,6 @@
 <div>	<!-- 로고 검색 로그인 회원가입 -->
 	<tiles:insertAttribute name="topbar" /> 
 </div>
-
-<div style="margin-top: 60px;"></div> <!-- 간격 -->
 
 <!-- 메인 -->
 <div style="display: grid"> <!-- 메인뷰 디테일 뉴프로젝트 -->

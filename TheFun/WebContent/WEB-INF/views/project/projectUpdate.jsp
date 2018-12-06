@@ -27,9 +27,35 @@ tr, td, input{
 </style>
 
 <script>
+var dayName=["일", "월", "화", "수", "목", "금", "토"];
+var monthName = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+function onDateSelect(d, selector){
+	// 연,월,일 구하기
+	var arr = d.split("-");
+	$(selector).text(arr[0]);
+	$(selector).append(arr[1]);
+	$(selector).append(arr[2]);
 	
-$(document).ready(function() {
+	// 요일 구하기
+	var date = new Date( $(selector).datepicker({dateFormat:'yy-mm-dd'}).val() );
+	//alert(selector+ " : "+date.getDay() );	// 0(일요일)~6(토요일)
+			
+	var week = new Array("일", "월", "화", "수", "목", "금", "토");
+	$(selector).append( week[ date.getDay() ] );
+}
+function onDatePicketClose(selectedDate, preDate, availDate){ // preDate: 앞에서 설정한 날짜. availDate: 앞으로 설정 가능한 날짜
+	if( selectedDate != "" ) {
+		// 펀딩 시작일은 내일날짜부터 선택가능하게
+		var curDate = $(preDate).datepicker("getDate");  // Date return
+		curDate.setDate( curDate.getDate() + 1 );
+		// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
+		$(availDate).datepicker("option", "minDate", curDate);
+		// 종료일 태그 활성화
+		$(availDate).attr("disabled", false);
+	}
+}
 	
+$(document).ready(function() {	
 		console.log("옵션 토탈 = ${myProject.optiontotal }");
 		// 등록된 리워드 갯수까지만 row 보이기
 		for (var i = 1; i <= 10; i++) {
@@ -84,33 +110,13 @@ $(document).ready(function() {
 		$("#date1").datepicker({
 			minDate : 0,
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-				// alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date1").text(arr[0]);
-				$("#date1").append(arr[1]);
-				$("#date1").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
-				// alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
-						
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date1").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date1");
 			},
 			onClose : function (selectedDate) {
-				if( selectedDate != "" ) {
-					// 펀딩 시작일은 내일날짜부터 선택가능하게
-					var curDate = $("#date1").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
-					$("#date2").datepicker("option", "minDate", curDate);
-					// 종료일 태그 활성화
-					$("#date2").attr("disabled", false);
-				}
+				 onDatePicketClose(selectedDate,"#date1","#date2");		     
 			}
 		});
 		// 기존에 입력한 스케줄로 날짜 세팅
@@ -121,108 +127,44 @@ $(document).ready(function() {
 		// 종료일
 		$("#date2").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date2").text(arr[0]);
-				$("#date2").append(arr[1]);
-				$("#date2").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date2").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date2").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date2");
 			},
-			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-	            if( selectedDate != "" ) {
-	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date1").datepicker("option", "maxDate", selectedDate);
-	                
-	             	// 정산일(결제일)은 종료일 담날부터 가능
-					var curDate = $("#date2").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					$("#date3").datepicker("option", "minDate", curDate);
-					// 정산일 태그 활성화
-					$("#date3").attr("disabled", false);
-	            }
+			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+				onDatePicketClose(selectedDate,"#date2","#date3");
 	        }
 		});
 		// 정산일
 		$("#date3").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date3").text(arr[0]);
-				$("#date3").append(arr[1]);
-				$("#date3").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date3").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date3").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date3");
 			},
-			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-	            if( selectedDate != "" ) {
-	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date2").datepicker("option", "maxDate", selectedDate);
-	                
-	             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
-					var curDate = $("#date3").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					$("#date4").datepicker("option", "minDate", curDate);
-					// 배송일 태그 활성화
-					$("#date4").attr("disabled", false);
-	            }
+	        onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+				onDatePicketClose(selectedDate,"#date3","#date4");
 	        }
 		});
 		// 배송일
 		$("#date4").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date4").text(arr[0]);
-				$("#date4").append(arr[1]);
-				$("#date4").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date4").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date4").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date4");
 			},
 			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
 	            if( selectedDate != "" ) {
 	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date3").datepicker("option", "maxDate", selectedDate);
-	                
+	                $("#date3").datepicker("option", "maxDate", selectedDate);	                
 	            }
 	        }
 		});
-		
-		
-		
 });
 </script>
-
-
-
-
 
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">
@@ -915,7 +857,7 @@ $("#btn_calcel").click(function () {
 //수정하기 버튼 눌렀을 때
 $("#btn_submit").click(function () {
 	//alert("업뎃!");
-	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
+	
 	/* 공란 거르기 */
 	
 	// [1] 첫번째 탭 값
@@ -951,6 +893,7 @@ $("#btn_submit").click(function () {
 		alert("제목이 너무 깁니다. 줄여주세요.");
 		$("#home-tab").click();
 		$("#titleTap").click();
+		return;
 	} else if(mainImage == null || mainImage == ""){
 		alert("이미지를 등록주세요");
 		$("#col_image").click();
@@ -963,6 +906,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
 		$("#home-tab").click();
 		$("#summarryTap").click();
+		return;
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
@@ -971,6 +915,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
+		return;
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");
 		$("#bankTap").click();
@@ -979,6 +924,7 @@ $("#btn_submit").click(function () {
 		alert("계좌번호가 너무 깁니다. 줄여주세요.");
 		$("#menu-tab1").click();
 		$("#bankTap").click();
+		return;
 	} else{	// 공통 입력사항을 모두 기입했을 때
 		
 		// 2. 카테고리에 따른 공란판정
@@ -1027,7 +973,6 @@ $("#btn_submit").click(function () {
 	}
 	
 });
-
 // form에 submit 최종실행 함수!
 function formSubmit(bankname, accountNumber) {
 	// 선택한 은행+계좌번호 가져와
@@ -1053,8 +998,10 @@ function formSubmit(bankname, accountNumber) {
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
 	
+	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
+	
 	// form 실행! 컨트롤러로~
-	$("#updateProjectFrom").submit();
+	// $("#updateProjectFrom").submit(); // 모달 창에서 submit 할 때 넘어가게 하자
 }
 
 /* 글자 길이 확인 */
@@ -1069,7 +1016,6 @@ function checkLength (selector,messageSelector,maxlength){
 		$(messageSelector).css("color", "red");
 	}
 }
-
 //목표금액, 리워드 금액, 리워드 수량 전부 --> 숫자만 입력가능 + 콤마생성
 $("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() {
 	$(this).val(addCommas($(this).val().replace(/[^0-9]/g,"")));
@@ -1082,7 +1028,6 @@ $("#accountNumber").on("keyup", function() {
 function addCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
 // 선택한 프로젝트 스케줄 날짜를 다시 리셋함.
 $("#btn_resetDates").click(function () {
 	$("#date1").val("");
@@ -1116,8 +1061,6 @@ $(":radio").click(function (e) {
 		$("#category").append(options[1]).append(options[3]);
 	}
 });
-
-
 // 대표이미지 미리보기
 $("#mainImage").on("change", function (e) {
 	var files = e.target.files;
@@ -1135,7 +1078,25 @@ $("#mainImage").on("change", function (e) {
 		}
 		reader.readAsDataURL(f);
 	})
-})
+});
+
+// 최종 서브밋은 여기서
+function checkAndResubmitProject(){
+	if($("#revisionMessage").val() == ''){
+		alert("변경된 사항을 간략히 적어주세요");
+		return;
+	}else{
+		var updateForm = document.forms['updateProjectFrom'];
+		var input   = document.createElement('input');
+		input.type   = 'hidden';
+		input.name  = 'message';
+		input.value  = $("#revisionMessage").val();
+
+		updateForm.appendChild(input);
+
+		$("#updateProjectFrom").submit();
+	}
+}
 </script>
  
  
@@ -1152,16 +1113,12 @@ $("#mainImage").on("change", function (e) {
       <div class="modal-body">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">수정사항</label>
-            <input type="text" class="form-control" id="noticeTitle" name="title">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">내용</label>
-            <textarea class="form-control" id="newNoticeContent" name="content"></textarea>
+            <textarea class="form-control" id="revisionMessage" name="content" placeholder="변경된 사항을 간략히 적어주세요"></textarea>
           </div>       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
-        <button type="button" class="btn fun_btn" onclick="checkAndSubmitNotice()">제출</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">제출</button>
       </div>
     </div>
   </div>

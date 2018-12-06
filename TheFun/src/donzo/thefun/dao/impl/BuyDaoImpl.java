@@ -17,8 +17,6 @@ public class BuyDaoImpl implements BuyDao {
 	SqlSessionTemplate sqlSession;
 	
 	String ns = "Buy.";
-	
-	String ns2 = "Basket";
 
 	@Override
 	public List<BuyDto> orderList(String id) {
@@ -43,9 +41,19 @@ public class BuyDaoImpl implements BuyDao {
 		return sqlSession.selectList(ns+"selectReviewList",seq);
 	}
 
-	@Override
-	public List<BuyDto> selectMyBasket(String id) {
-		return sqlSession.selectList(ns2+"myBasketList", id);
-	}	
+	
+////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		List<BuyDto> blist = sqlSession.selectList(ns + "_myOrderList", param);
+//		return blist;
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return sqlSession.selectOne(ns + "getOrderCount", param);
+//	}	
+///////////////	
+	
 	
 }

@@ -131,16 +131,13 @@ public class ProjectController {
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
+		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
 		if(pParam.getS_category() == null) { pParam.setS_category(""); }
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
-		
-		if(pParam.getS_category() == null) {
-			pParam.setS_category("");
-		}
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
@@ -159,6 +156,8 @@ public class ProjectController {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
 		}
+		
+		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -333,7 +332,7 @@ public class ProjectController {
 							int option_total,
 							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 							HttpServletRequest req,
-							@RequestParam(value="fileload", required=false) MultipartFile newImage) throws Exception {
+							@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
 		logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 		// 업데이트 값 확인
 		logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
@@ -342,6 +341,8 @@ public class ProjectController {
 		
 		// seq값 세팅
 		/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
+		
+		
 		
 		// 리워드 입력값 배열 모두 list로 변환.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
@@ -366,7 +367,7 @@ public class ProjectController {
 		}
 		
 		// DB 수정
-		projectService.updateProject(newProjectDto, newPotionlist);
+		projectService.updateProject(newProjectDto, newPotionlist, message);
 		
 		
 		// 파일 수정
@@ -376,6 +377,7 @@ public class ProjectController {
 			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+			//logger.info("업로드 경로: " +uploadPath);
 		} catch(Exception e) {
 			logger.info("수정 이미지 파일 업로드에 실패했습니다");
 		}

@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
-<!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  		
-<!-- //본문출력 묶는 태그 -->
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
@@ -144,7 +141,7 @@ input.star:checked ~ .rev-box {
 	<thead>
 		<c:if test="${empty orderlist }">
 		<tr>
-			<th colspan="6">구매 내역이 없습니다</th>
+			<th colspan="6">후원 내역이 없습니다</th>
 		</tr>	
 		</c:if>
 	</thead>
@@ -166,8 +163,7 @@ input.star:checked ~ .rev-box {
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">
 	<!--  class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'" -->
 	
-	<c:choose>
-		<c:when test="${order.isDeleted() eq false }">
+	<c:if test="${order.isDeleted() eq false }">
 			<tr>
 			<!-- 후원 일자 : 펀딩일 결제일 -->
 			<td><!-- white-space: nowrap;  word-break:break-all  -->		
@@ -191,42 +187,47 @@ input.star:checked ~ .rev-box {
 			</td>
 			
 			<!-- 프로젝트 작성자 -->
-			<td>작성자</td>
+			<td>${order.id }</td>
 			
 			<!-- 프로젝트 상태 -->
 			<td>
 				<div>
 					<c:choose>										
-						<c:when test="${order.isWaiting()}">승인 대기 중</c:when>
-						<c:when test="${order.isPreparing()}">준비 중</c:when>
 						<c:when test="${order.isOngoing()}">진행 중</c:when>
-						<c:when test="${order.isComplete_success()}">구매 확정</c:when>
-						<c:when test="${order.isComplete_fail()}">완료됨(실패)</c:when>
-						<c:when test="${order.isDeleted()}">삭제된 게시글</c:when>
+						<c:when test="${order.isComplete_success()}">
+							<c:choose>
+								<c:when test="${order.otitle eq null || order.score ne null}">구매 확정</c:when>
+								<c:otherwise>
+									<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
+								</c:otherwise>
+							</c:choose>
+						</c:when>
+						<c:when test="${order.isComplete_fail()}">목표 미달성</c:when>
 						<c:otherwise> 
 							${order.status} 
 						</c:otherwise>
 					 </c:choose>
-				 </div>	
-				 <div>
-				 	<c:choose>
-						<c:when test="${order.isComplete_success() && order.bcomment eq null}">						
-							<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
-						</c:when>
-					</c:choose>
-				 </div>			
+				 </div>					 	
 			</td>
 			<!-- 뭔가 더 추가할 어떤것 -->
 		</tr>
-		</c:when>
-	</c:choose>
+	</c:if>
 	
 	</c:forEach>
 	<tbody>
 
 </table>
-<!-- </form> -->
-
+<%-- 
+<div id="paging_wrap">	
+	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+		<jsp:param value="${pageNumber }" name="pageNumber"/>		
+		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>	
+	</jsp:include>	
+</div>
+ --%>
+</div>
 
 <script type="text/javascript">
 function addReview(seq,buytotal) { // 후기 작성
@@ -245,6 +246,12 @@ $(".hover_tr").mouseover(function () {
 	$(this).find("td").css("background-color","#ffffff");	
 	//$(this).first().css("background-color","#8152f0");
 });
+
+/* 페이지 번호 클릭 했을때 */
+/*function goPage(pageNumber) {
+	$("#_pageNumber").val(pageNumber);
+	$("#_frmFormSearch").attr({"target":"_self", "action":"bbslist.do"}).submit();
+} */
 
 //textarea 자동 크기 조절			
 //동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.

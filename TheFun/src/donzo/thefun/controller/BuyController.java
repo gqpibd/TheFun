@@ -23,7 +23,7 @@ import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.util.UtilFunctions;
 
-
+ 
 @Controller
 public class BuyController {
 	
@@ -104,29 +104,7 @@ public class BuyController {
 		logger.info(listData);
 		
 		return listData; 
-	}	
-	
-	@RequestMapping(value="testbasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void testbasket() {
-		logger.info("testbasket" + new Date());
-		logger.info("●●●●●●잘들어왔슈~~~~~~~~~~~~~~~~~~~");
-		
 	}
 	
-	
-	//장바구니 넣기 addBasket.do
-	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void addBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
-		logger.info(" BuyController addBasket" + new Date());
-		
-		System.out.println("id : "+id+" / projectSeq : ");
-		for(int i=0; i<optionCount.length;i++) {
-			logger.info("옵션 시퀀스  : "+optionSeq[i] +"옵션 카운트 : "+optionCount[i]);
-		}
-
-		//장바구니 insert
-		
-		
-	}
-
+ 
 }  

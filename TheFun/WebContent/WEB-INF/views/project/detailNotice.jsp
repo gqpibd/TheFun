@@ -6,60 +6,33 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <style type="text/css">
- .pupple{
- font-family: "Nanum Gothic", sans-serif;
- 	color:#8152f0;
- 	font-weight: bold;
- }
- .strongGray{
- font-family: "Nanum Gothic", sans-serif;
-  color: #5c5c5c;
-  font-weight: bold;
-  
- }
- .liteGray{
- font-family: "Nanum Gothic", sans-serif;
-	 color: #818181;
- }
+.pupple {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #8152f0;
+	font-weight: bold;
+}
 
-.cancel_btn {
-    box-shadow: inset 0px 1px 0px 0px #a9a9a9;
-    background: linear-gradient(to bottom, #888888, #6c757d 100%);
-    border-radius: 6px;
-    border: 1px solid #656565;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 6px 24px;
-    text-decoration: none;
+.strongGray {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #5c5c5c;
+	font-weight: bold;
 }
-.cancel_btn:hover {
-	  box-shadow: inset 0px 1px 0px 0px #bfbfbf;
-    background: linear-gradient(to bottom, #6c757d, #888888 100%);
-    border-radius: 6px;
-    border: 1px solid #656565;
-    display: inline-block;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 6px 24px;
-    text-decoration: none;
+
+.liteGray {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #818181;
 }
+
 .mtextarea {
 	/* margin-left: 20px; */
 	margin-top: 10px;
-	width:100%;
+	width: 100%;
 	resize: none;
 	overflow-y: hidden; /* prevents scroll bar flash */
-	padding: 0.7em;  /* prevents text jump on Enter keypress */	
+	padding: 0.7em; /* prevents text jump on Enter keypress */
 	line-height: 1.1;
 	border-radius: 3px;
-	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+	outline: none; /* 포커스 되었을 때 아웃라인 없앰 */
 	height: 100%;
 }
 </style>
@@ -69,12 +42,12 @@
 	
 	<!-- if 작성자라면 공지 작성 가능-->
 	<c:if test="${login ne null and login.id eq projectdto.id}">
-		<td align="right" class="pupple"> <img src="image/detail/writeBtn.jpg" width="100px" style="cursor: pointer" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"> </td>
+		<td align="right" class="pupple"> <img src="image/detail/writeBtn.jpg" width="100px" style="cursor: pointer" onclick="openNoticeModal()"> </td>
 	</c:if>
 	<!-- if부분 -->
 </tr>
 </table>
-
+<hr>
  <!-- main content -->
 
 <br><br>
@@ -104,16 +77,6 @@
 </table>
 
 <script type="text/javascript">
-$('#exampleModal').on('show.bs.modal', function (event) {
-	var button = $(event.relatedTarget) // Button that triggered the modal
-	var recipient = button.data('whatever') // Extract info from data-* attributes
-	// If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-	// Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-	var modal = $(this)
-	//modal.find('.modal-title').text('New message to ' + recipient)
-	//modal.find('.modal-body input').val(recipient)
-});
-
 function checkAndSubmitNotice(){
 	var ntitle = $("#noticeTitle").val().trim();
 	var ncontent = $("#newNoticeContent").val().trim();
@@ -155,16 +118,18 @@ function checkAndSubmitNotice(){
 			}		
 		});	
 	}	
-} 
+}
+
+function openNoticeModal() {
+	$("#noticeModal").modal('show');
+}
 </script>
 
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> -->
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><b>공지사항 작성</b></h5>
+        <h5 class="modal-title" id="noticeModalLabel"><b>공지사항 작성</b></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -1,8 +1,10 @@
 package donzo.thefun.dao;
 
 import java.util.List;
-import donzo.thefun.model.BuyDto;
 
+
+import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.ProjectParam;
 
 public interface BuyDao {
 
@@ -15,7 +17,10 @@ public interface BuyDao {
 	public boolean addReview(BuyDto buydto);
 
 	public List<BuyDto> selectReviewList(int seq);
-
-	public List<BuyDto> selectMyBasket(String id);
-		
+	
+///////페이징		
+//	public List<BuyDto> _myOrderList(ProjectParam param);
+//	
+//	public int getOrderCount(ProjectParam param);
+/////////////	
 }

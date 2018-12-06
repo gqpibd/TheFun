@@ -100,8 +100,38 @@ body{
 	top: 1px;
 }
 
-.fun_btn:focus {
+.fun_btn:focus .cancel_btn:focus{
 	outline: none;
+}
+
+
+.cancel_btn {
+    box-shadow: inset 0px 1px 0px 0px #a9a9a9;
+    background: linear-gradient(to bottom, #888888, #6c757d 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+.cancel_btn:hover {
+	  box-shadow: inset 0px 1px 0px 0px #bfbfbf;
+    background: linear-gradient(to bottom, #6c757d, #888888 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
 }
 </style>
 

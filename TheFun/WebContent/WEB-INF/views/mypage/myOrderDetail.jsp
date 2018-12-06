@@ -7,11 +7,6 @@
 
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
-<style type="text/css">
-body{
-font-family: "Nanum Gothic", sans-serif;
-}
-</style>
 
 <div align="center">
 

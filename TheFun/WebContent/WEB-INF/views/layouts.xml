@@ -24,6 +24,11 @@
 		<put-attribute name="topbar" value="/WEB-INF/views/account/top.jsp"/>
 		<put-attribute name="main" value="/WEB-INF/views/account/find_id_from.jsp"/>
 	</definition>
+	<definition name="find_id.tiles" extends="home.tiles"> 
+		<put-attribute name="topbar" value="/WEB-INF/views/account/top.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/account/find_id.jsp"/>
+	</definition>
+	
 	
 	<!-- pw 찾기 뷰 -->
 	<definition name="find_pw_from.tiles" extends="home.tiles"> 
@@ -33,32 +38,31 @@
 	
 	
 	<!-- 마이페이지 -->
-	<definition name="MyPage.tiles" extends="home.tiles">
+	<definition name="MyPage.tiles" template="/WEB-INF/views/layouts-tiles.jsp">	
+ 		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>
+ 		<put-attribute name="topbar" value=""/>
 		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
  		<put-attribute name="main" value="/WEB-INF/views/mypage/mypageHome.jsp"/>
+ 		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
 	</definition>
 	
 	<!-- 개인정보수정 -->
-	<definition name="myInfo.tiles" extends="home.tiles">
-		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+	<definition name="myInfo.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>		
 	</definition>
 	
 	<!-- 나의 후원내역 -->
-	<definition name="myOrder.tiles" extends="home.tiles">
-		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+	<definition name="myOrder.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
  
 	<!-- 내 프로젝트  보기 schedule -->
-	<definition name="mySchedule.tiles" extends="home.tiles">
-		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+	<definition name="mySchedule.tiles" extends="MyPage.tiles">		
 		<put-attribute name="main" value="/WEB-INF/views/mypage/mySchedule.jsp"/>
 	</definition>
 	
 	<!-- 일정 보기 ( 캘린더 ) -->
-	<definition name="myCalendar.tiles" extends="home.tiles">
-		<put-attribute name="tabs" value="/WEB-INF/views/mypage/mypage.jsp"/>
+	<definition name="myCalendar.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
 	</definition>
 	

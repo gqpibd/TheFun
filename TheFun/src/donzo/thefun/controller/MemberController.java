@@ -38,8 +38,6 @@ public class MemberController {
 		MemberDto loginUser=null;
 		logger.info(loginType);		
 		
-		callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
-		logger.info(callback.toString());
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			loginUser = memberService.tryLogin(dto);
 			if(loginUser == null) { // 로그인 실패
@@ -53,7 +51,7 @@ public class MemberController {
 		req.getSession().setAttribute("login", loginUser);
 		
 		if(callback!=null) {
-			logger.info(callback);
+			callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
 			return "redirect:/" + callback;
 		}
 		return "redirect:/main.do";
@@ -114,6 +112,16 @@ public class MemberController {
 		return "redirect:/login.do?message='registered'";
 	}
  	
+ 
+	// id찾기 처리
+	@RequestMapping(value = "find_id.do", method = RequestMethod.POST)
+	public String find_id(String email, Model md) throws Exception{
+		logger.info("find_id " + new Date());
+		//md.addAttribute("id", memberService.find_id("email", email));
+		return "find_id.tiles";
+	}
+	
+	
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사
 	@ResponseBody

@@ -1,9 +1,12 @@
 package donzo.thefun.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import donzo.thefun.dao.BuyDao;
+import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.BuyService;
@@ -19,7 +22,7 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.orderList(id);
 	}
 
-	@Override
+	@Override 
 	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
 		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
@@ -29,7 +32,7 @@ public class BuyServiceImpl implements BuyService {
 						buy.getCardNumber(), buy.getBankName());
 			//System.out.println("addorders의 dto : "+buydto);
 			buyDao.addOrders(buydto);	
-			
+			 
 		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
 			for(int i=0; i<opSeq.length; i++) {		
 				BuyDto buydto = new BuyDto(
@@ -55,11 +58,18 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.selectReviewList(seq);
 	}
 	
-	@Override
-	public List<BuyDto> selectMyBasket(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+/////////페이징
+//	@Override
+//	public List<BuyDto> _myOrderList(ProjectParam param) {
+//		return buyDao._myOrderList(param);
+//	}
+//
+//	@Override
+//	public int getOrderCount(ProjectParam param) {
+//		return buyDao.getOrderCount(param);
+//	}
+/////////
 }
 
+ 
