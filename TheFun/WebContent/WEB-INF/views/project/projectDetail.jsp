@@ -284,18 +284,18 @@ border-collapse: collapse;
 		<tr height="50">
 			<td class="strongGray sTd" colspan="3"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
-<<<<<<< HEAD
+
 		<tr height="50">		
 			<td colspan="3"> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
-=======
+
 		<tr height="50">
 			<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%><!-- 하트 버튼 -->
 			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
->>>>>>> refs/remotes/origin/dh
+
 				명이 좋아합니다
 			</td>
 		</tr>
-<<<<<<< HEAD
+
 		<c:if test="${projectdto.isOngoing()}">
 		
 			<c:if test="${projectdto.isDonation()}"> <!-- 기부일때 (옵션 표시 x) -->
@@ -303,7 +303,7 @@ border-collapse: collapse;
 				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 				<td colspan="3">
 					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-						<img src="image/detail/donationBtn.jpg" width="120px"> <!-- 펀딩하기 버튼 -->
+						<img src="image/detail/donationBtn.jpg" width="120px"> <!-- 기부하기 버튼 -->
 					</a>
 				</td>
 			</tr>
@@ -321,9 +321,7 @@ border-collapse: collapse;
 				</select>
 			</td>
 			
-		</tr>
-=======
-		<c:if test="${projectdto.isReward()}">
+			</tr>
 			<tr height="50">
 				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 				<td>
@@ -335,28 +333,18 @@ border-collapse: collapse;
 					</select>
 				</td>
 			</tr>
-		</c:if>
->>>>>>> refs/remotes/origin/dh
-		<tr>
-<<<<<<< HEAD
-			<td></td>
-			<td colspan="3" style="text-align: center;">
-=======
-		<td></td>
-			<c:if test="${projectdto.isOngoing()}">
-			<td>
-				<c:if test="${projectdto.isReward()}">
->>>>>>> refs/remotes/origin/dh
-				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
-					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
-				<!-- </a> -->
-				</c:if>
-				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
-				</a>
-			</td>
-		</tr>
-		</c:if>
+			<tr>
+				<td></td>
+				<td colspan="3">
+					<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
+						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
+					<!-- </a> -->	
+					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+						<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
+					</a>
+				</td>
+			</tr>
+			</c:if>
 		</c:if>
 		</table>
    

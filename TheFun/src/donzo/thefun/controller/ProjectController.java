@@ -573,8 +573,8 @@ public class ProjectController {
 		rmap.put("likeCount", likeCount);		
 		return rmap;
 	}
-<<<<<<< HEAD
-	
+
+////////////////////////////////////////////////////////////////	
 	// 분야별 인기 프로젝트
 	@RequestMapping(value="hotProject.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String hotProject(Model model) throws Exception {
@@ -726,6 +726,6 @@ public class ProjectController {
 		return "hotProject.tiles";
 	}
 }
-=======
+
 }
->>>>>>> refs/remotes/origin/seungji
+
