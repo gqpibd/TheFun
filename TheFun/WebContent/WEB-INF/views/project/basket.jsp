@@ -13,11 +13,12 @@ $(document).ready(function () {
 	// 장바구니 리스트 길이가 0보다 크면(즉, 장바구니 추가된 상품이 하나라도 있을 때)
 	if("${fn:length(myBasket)}" > 0){
 		console.log("리스트 길이 = ${fn:length(myBasket)}");
+		changeTotalPrice();
 	}
+	
 	
 });
 </script>
-
 
 
 
@@ -39,13 +40,16 @@ $(document).ready(function () {
 			</div><br>
 		</c:when>
 		<c:otherwise>
+		<form action="updateBasket.do" method="post" id="updateForm">
 			<c:forEach items="${myBasket }" var="basket" varStatus="status">
+				<input type="hidden" name="seq" value="${basket.seq }">
+				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">
 			<div class="card">
 			  <div class="card-header">
 				  	<div class="custom-control custom-checkbox">
 					  	<input type="checkbox" class="custom-control-input" id="customCheck${status.count }" checked="checked">
 					  	<label class="custom-control-label" for="customCheck${status.count }">${basket.ptitle }</label>
-			  			<img alt="#삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" onclick="deleteBasket.do?seq=${basket.seq}">	<!-- 각 리워드의 삭제버튼을 누르면 바로 삭제. -->
+			  			<img alt="#삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" onclick="deleteBasket(${basket.seq})">
 			  		</div>
 			  </div>
 			  <div class="card-body">
@@ -55,7 +59,7 @@ $(document).ready(function () {
 			  		</colgroup>
 			  		<tr>
 			  			<td width="60%" rowspan="2">
-			  				<img alt="#플젝대표이미지" src="./image/thumbnail/1.jpg">
+			  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" src="upload/${basket.seq}">
 			  			</td>
 			  			<td>
 			  				<h6 class="card-title">선택 리워드 : ${basket.otitle }</h6>
@@ -74,15 +78,16 @@ $(document).ready(function () {
 			  		<tr>
 			  			<td></td>
 			  			<td style="text-align: right; vertical-align: bottom;">
-			  				<h5><strong id="price${status.count }">${basket.price }</strong><strong> 원</strong></h5>
+			  				<h3>
+			  				<input type="text" id="price${status.count }" value="${basket.price * basket.count } 원" style="background-color:transparent; border: none; text-align: right;">
+			  				</h3>
 			  			</td>
 			  		</tr>
 			    </table><hr>
-			    <select class="custom-select" id="amountSelect${status.count }" style="width: 40%">
+			    <select class="custom-select" name="count" id="amountSelect${status.count }" onchange="changeAmount(${status.count })" style="width: 40%">
 			    	<!-- 수량 일단 10개까지 선택할 수 있게함 -->	<!-- JSTL을 사용해 특정(내가 담아놓은) select option값을 기본선택되게 함. -->
 			    	<c:forEach var="x" begin="1" end="10" step="1">
-					    <option value="${x }" <c:if test="${basket.count eq x}">selected</c:if> 
-					    	onclick="changeEachPrice(${x }, ${status.count }, ${basket.price })">${x }</option>
+					    <option value="${x }" <c:if test="${basket.count eq x}">selected</c:if>>${x }</option>
 				    </c:forEach>
 				 </select>
 			 	<div align="right" style="float: right; ">
@@ -91,6 +96,7 @@ $(document).ready(function () {
 			  </div>
 			</div><br>
 			</c:forEach>
+			</form>
 		</c:otherwise>
 	</c:choose>
 	
@@ -110,13 +116,13 @@ $(document).ready(function () {
 				</tr>
 				<tr>
 					<td>
-						<h1 class="display-4" id="finalPrice">0</h1><h1> 원</h1>
+						<h1>
+							<input class="display-4" id="totalPrice" type="text" value="0 원" style="background-color:transparent; border: none;">
+						</h1>
 					</td>
-					<td rowspan="2">
-						<div align="right" >
-			    			<a href="#" class="btn btn-primary" style="background-color: black;" id="updateBasket.do">수정하기</a>
-			    		</div>
-						<div align="right" >
+					<td >
+						<div align="right"> 
+			    			<button class="btn btn-primary" style="background-color: black;" id="updateBtn">수정하기</button>
 			    			<a href="#" class="btn btn-primary" style="background-color: black;">주문하기</a>
 			    		</div>
 					</td>
@@ -130,36 +136,37 @@ $(document).ready(function () {
 </div>
 
 <script>
-function changedFinalPrice() {
-	var originFinalPrice = $("#finalPrice").val();
-	for (var i = 1; i <= '${fn:length(myBasket)'; i++) {
-		var eachPrice = $("#price"+i).val();
-		originFinalPrice += eachPrice;
-	}
-	$("#finalPrice").val(originFinalPrice);
-};
-
-function changeEachPrice( selectAmount, priceIndex, originPrice ) {
-	var changedPrice = selectAmount * originPrice;
-	$("#price"+priceIndex).val(changedPrice);
-	changedFinalPrice();
+// 수량 선택하면 바로바로 가격 바뀌게
+function changeAmount(index) {
+	//console.log("index = " + index);
+	//console.log("값 = " + $("#amountSelect"+index).val());
+	//console.log("originPrice = " + $("#originPrice"+index).val());
+	var selectedOption = $("#amountSelect"+index).val();
+	var originPrice = $("#originPrice"+index).val();
+	var changedPrice = selectedOption*originPrice;
+	console.log("changedPrice = " + changedPrice);
+	$("#price"+index).val(changedPrice + " 원");
 	
-};
-/* function deleteBasket( seq ) {
-	// AJAX로 선택한 장바구니 목록 삭제? ==> 그럼 리스트도 다시 업뎃이 안되나..? 안된다 ㅠㅠ 그냥 컨트롤러로 바로 갔다가 새로고침하게 만들어주자.
-	$.ajax({
-		data : "seq="+seq,
-		type : "POST",
-		url : "deleteBasket.do",
-		success : function (data) {
-			console.log("받은 데이터 = " + data);
-			if(data == 1){
-				console.log("삭제 성공!");
-			}else{
-				console.log("삭제 실패!");
-			}
-		}
-	});
-} */
+}
+function changeTotalPrice() {
+	
+	var totalPrice = 0;
+	
+	<c:forEach var="ba" items="${myBasket}" varStatus="status">
+	   totalPrice += ${ba.count * ba.price};
+	</c:forEach>
+	console.log("총액 = " + totalPrice);
+	$("#totalPrice").val(totalPrice + " 원");
+}
+
+$("#updateBtn").click(function () {
+	console.log("업데이트!");
+	$("#updateForm").attr("action", "updateBasket.do?id=${login.id}").submit();
+});
+
+function deleteBasket(seq) {
+	location.href="deleteBasket.do?seq="+seq+"&id=${login.id}";
+}
 </script>
+
 

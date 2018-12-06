@@ -1,5 +1,6 @@
 package donzo.thefun.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,8 +74,24 @@ public class BasketController {
 	
 	// 장바구니 업데이트
 	@RequestMapping(value="updateBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String updateBasket(String id) throws Exception{
-		logger.info("BuyController deleteBasket 들어옴 " + new Date());
+	public String updateBasket(String id, String seq[], String count[]/* BasketDto basketDto*/) throws Exception{
+		logger.info("BuyController updateBasket 들어옴 " + new Date());
+		//seq랑 count만 알면됨
+		
+		logger.info("id = " + id);
+		
+		List<BasketDto> list = new ArrayList<BasketDto>();
+		for (int i = 0; i < seq.length; i++) {
+			logger.info("업뎃에 들어온 "+i+"번째 seq = " + seq[i]);
+			logger.info("업뎃에 들어온 "+i+"번째  count = " + count[i]);
+			BasketDto updateDto = new BasketDto();
+			updateDto.setSeq(Integer.parseInt(seq[i]));
+			updateDto.setCount(Integer.parseInt(count[i]));
+			list.add(updateDto);
+		}
+		
+		// DB 장바구니 업데이트
+		basketService.updateBasket(list);
 		
 		return "redirect:myBasket.do?id="+id;
 	}

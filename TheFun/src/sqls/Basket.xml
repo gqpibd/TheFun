@@ -58,7 +58,7 @@ FROM FUN_BASKET B;
 <mapper namespace="Basket">
 
 <!-- 내 장바구니 목록 불러오기 -->
-<select id="myBasketList" parameterType="java.lang.String" resultType="donzo.thefun.model.BuyDto">
+<select id="myBasketList" parameterType="java.lang.String" resultType="donzo.thefun.model.BasketDto">
 	SELECT * 
 	FROM FUN_BASKET_VIEW
 	WHERE ID=#{id}
@@ -75,5 +75,11 @@ FROM FUN_BASKET B;
 	DELETE FROM FUN_BASKET
 	WHERE SEQ=#{seq}
 </delete>
+
+<update id="updateBasket" parameterType="donzo.thefun.model.BasketDto">
+	UPDATE FUN_BASKET
+	SET COUNT = #{count}
+	WHERE SEQ=#{seq}
+</update>
 
 </mapper> 

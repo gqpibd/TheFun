@@ -12,5 +12,8 @@ public interface BasketDao {
 	
 	// 장바구니 목록 삭제하기
 	public int deleteBasket(int seq);
+	
+	// 장바구니 업데이트
+	public void updateBasket(BasketDto basketDto);
 
 }

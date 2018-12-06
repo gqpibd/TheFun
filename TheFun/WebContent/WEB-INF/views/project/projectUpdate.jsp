@@ -952,10 +952,6 @@ $("#btn_submit").click(function () {
 		$("#home-tab").click();
 		$("#titleTap").click();
 		return;
-	} else if(mainImage == null || mainImage == ""){
-		alert("이미지를 등록주세요");
-		$("#col_image").click();
-		return;
 	} else if(summary == null || summary == ""){
 		alert("프로젝트 요약을 등록해주세요");
 		$("#summarryTap").click();

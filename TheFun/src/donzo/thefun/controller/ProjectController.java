@@ -30,7 +30,6 @@ import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
-import donzo.thefun.util.FUpUtil;
 import donzo.thefun.util.UtilFunctions;
 
 @Controller
@@ -370,17 +369,21 @@ public class ProjectController {
 		projectService.updateProject(newProjectDto, newPotionlist, message);
 		
 		
-		// 파일 수정
-		String uploadPath = req.getServletContext().getRealPath("/upload");
-		
-		try {
-			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
-			// 실제 업로드
-			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
-		} catch(Exception e) {
-			logger.info("수정 이미지 파일 업로드에 실패했습니다");
+		if(!newImage.isEmpty()) {	// 파일이 있을때		
+			// 파일 수정
+	/*		String uploadPath = req.getServletContext().getRealPath("/upload");
+			
+			try {
+				File file = new File(uploadPath + "/" + newProjectDto.getSeq());
+				// 실제 업로드
+				FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+			} catch(Exception e) {
+				logger.info("수정 이미지 파일 업로드에 실패했습니다");
+			}
+			*/
+		}else {
+			System.out.println("들어온 이미지 파일이 없습니다");
 		}
-		
 		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 	}
 	

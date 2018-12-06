@@ -25,6 +25,10 @@ public class BasketDaoImpl implements BasketDao {
 	public int deleteBasket(int seq) {
 		return sqlSession.delete(ns+"deleteBasket", seq);
 	}
-	
+
+	@Override
+	public void updateBasket(BasketDto basketDto) {
+		sqlSession.update(ns+"updateBasket", basketDto);
+	}
 	
 }

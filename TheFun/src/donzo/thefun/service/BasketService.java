@@ -12,4 +12,7 @@ public interface BasketService {
 		
 	// 장바구니 목록 삭제하기
 	public int deleteBasket(int seq);
+	
+	// 장바구니 목록 업데이트
+	public void updateBasket(List<BasketDto> basketDto);
 }
