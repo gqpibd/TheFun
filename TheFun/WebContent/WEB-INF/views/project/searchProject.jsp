@@ -341,7 +341,8 @@ ${totalRecordCount } 건
 
 </div>
 </div>
-
+<div class="container" style="z-index: -1">
+<div class="row">
 <!-- list jsp:include로 보내려면 이렇게 설정해서 보내주면 된다.-->
 <c:set var="list" value="${list }" scope="request"/>
 
@@ -360,6 +361,10 @@ ${totalRecordCount } 건
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
 <br>
+
+</div>
+</div>
+
 <!-- 페이징 처리 -->     
 <div id="paging_wrap" align="center"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">

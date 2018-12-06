@@ -88,7 +88,7 @@ td{
 <div class="row">
 <c:if test="${list.size() ne 0}">
 <c:forEach items="${list }" var="dto" varStatus="i">
-<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;background-color: white;">
+<div class="col-md-3 col-sm-6 mb-4" onmouseover="shadow(this)" onmouseout="noShadow(this)" style="padding:10px;border-left: 1px solid #80808030;border-right: 1px solid #80808030;border-top: 1px solid #80808030;border-bottom: 1px solid #80808030;padding: 10px;background-color: white;z-index: 0;">
 	<table style="height: 480px;table-layout: fixed;cursor: pointer;" onclick="location.href='projectDetail.do?seq=${dto.seq }'">
 	<col width="30%;"><col width="70%">
 	<tr>

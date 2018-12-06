@@ -1,3 +1,4 @@
+<%@page import="donzo.thefun.model.ProjectDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -81,125 +82,6 @@ window.fbAsyncInit = function() {
 	transition: all .55s ease;
 }
 
-/* MENU */
-.nav {
-	text-align: center;
-	/* background: #e5e5e5; */
-	float: left;
-	margin: 0;
-	padding: 0;
-	/* border: 1px solid white; */
-	/* border-bottom: none; */
-}
-
-.nav li a, .nav li {
-	float: left;
-}
-
-.nav li {
-	list-style: none;
-	position: relative;
-}
-
-.nav li a {
-	/* padding: 1em 2em; */
-	text-decoration: none;
-	color: #8152f0;
-	background: #FFF;
-	background: -moz-linear-gradient(top, black, #fff 1px, #fff 25px);
-	background: -webkit-gradient(linear, left top, left 25, from(#fff),
-		color-stop(4%, #fff), to(#fff));
-	/* border-right: 1px solid #3c3c3c;
- border-left: 1px solid #292929;
- border-bottom: 1px solid #232323;
- border-top: 1px solid #545454; */
-}
-
-.nav li a:hover {
-	/* background: #fff; */
-	background: -moz-linear-gradient(top, #fff, #fff);
-	background: -webkit-gradient(linear, left top, left bottom, from(#fff),
-		to(#fff));
-}
-
-/* Submenu */
-
-/* .hasChildren {
-	position: absolute;
-	width: 5px; height: 5px;
-	background: black;
-	right : 0;
-	bottom: 0;
-} */
-.nav li ul {
-	display: none;
-	position: absolute;
-	left: 0;
-	top: 100%;
-	padding: 0;
-	margin: 0;
-}
-
-.nav li:hover>ul {
-	display: block;
-}
-
-.nav li ul li, .nav li ul li a {
-	float: none;
-}
-
-.nav li ul li {
-	/* _display: inline; /* for IE6 */ */
-	display: table;
-	margin: 0px auto 0px auto;
-}
-
-.nav li ul li a {
-	/*  width: 150px; */
-	display: block;
-}
-/* SUBSUB Menu */
-.nav li ul li ul {
-	display: none;
-}
-
-.nav li ul li:hover ul {
-	left: 100%;
-	top: 0;
-}
-.nav li ul
-/* megamenu : 둘러보기 css */
-.mega-menu {
-	padding: 10px 0px ! important;
-	width: 540px;
-  border-radius: 0;
-  /* margin-top: 0px; */
-	}
-
-	.mega-menu li {
-		display: inline-block;
-		float: left;
-		font-size: 0.94rem;
-		/* padding: 3px 0px; */
-		}
-
-		.mega-menu li.mega-menu-column {
-			/* margin-right: 20px; */
-			/* width: 700px;
-			height: 600px; */
-			z-index: 6;
-			background: #FFF;
-			}
-
-			.mega-menu .nav-header {
-			padding: 0 !important;
-			/* margin-bottom: 10px; */
-			display: inline-block;
-			width: 100%;
-			/* border-bottom: 1px solid #ddd; */
-			}
-      .mega-menu img { /* padding-bottom: 10px; */}
-      
 .table_content{
 	color: #949494;
 	text-align: left;
@@ -210,6 +92,161 @@ window.fbAsyncInit = function() {
 /* 햄버거메뉴 */
 .menu a{cursor:pointer;}
 .menu .hide{display:none;}
+
+
+/* megamenu */
+
+/* Reset */
+*,
+*:after,
+*:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.cbp-hrmenu {
+	width: 100%;
+	/* margin-top: 2em; */
+	border-bottom: 4px solid #8152f0;
+}
+
+/* general ul style */
+.cbp-hrmenu ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+/* first level ul style */
+.cbp-hrmenu > ul,
+.cbp-hrmenu .cbp-hrsub-inner {
+	width: 90%;
+	max-width: 70em;
+	margin: 0 auto;
+	padding: 0 1.875em;
+	z-index: 1;
+}
+
+.cbp-hrmenu > ul > li {
+	display: inline-block;
+}
+
+.cbp-hrmenu > ul > li > a {
+	text-decoration:none;
+	font-weight: 700;
+	padding: 1em 2em;
+	color: #8152f0;
+	display: inline-block;
+}
+
+.cbp-hrmenu > ul > li > a:hover a:not(.navbar-brand) {
+	color: #8152f0;
+}
+
+.cbp-hrmenu > ul > li.cbp-hropen a:not(.navbar-brand),
+.cbp-hrmenu > ul > li.cbp-hropen > a:hover a:not(.navbar-brand) {
+	color: #fff;
+	background: #8152f0;
+}
+
+/* sub-menu */
+.cbp-hrmenu .cbp-hrsub {
+	display: none;
+	position: absolute;
+	background: #8152f0;
+	width: 100%;
+	left: 0;
+}
+
+.cbp-hropen .cbp-hrsub {
+	display: block;
+	padding-bottom: 3em;
+}
+
+.cbp-hrmenu .cbp-hrsub-inner > div {
+	width: 33%;
+	float: left;
+	padding: 0 2em 0;
+}
+
+.cbp-hrmenu .cbp-hrsub-inner:before,
+.cbp-hrmenu .cbp-hrsub-inner:after {
+	content: " ";
+	display: table;
+}
+
+.cbp-hrmenu .cbp-hrsub-inner:after {
+	clear: both;
+}
+
+.cbp-hrmenu .cbp-hrsub-inner > div a {
+	line-height: 2em;
+}
+
+.cbp-hrsub h4 {
+	color: #afdefa;
+	padding: 2em 0 0.6em;
+	margin: 0;
+	font-size: 160%;
+	font-weight: 300;
+}
+
+/* Examples for media queries */
+
+@media screen and (max-width: 52.75em) { 
+
+	.cbp-hrmenu {
+		font-size: 80%;
+	}
+
+}
+
+@media screen and (max-width: 43em) { 
+
+	.cbp-hrmenu {
+		font-size: 120%;
+		border: none;
+	}
+
+	.cbp-hrmenu > ul,
+	.cbp-hrmenu .cbp-hrsub-inner {
+		width: 100%;
+		padding: 0;
+	}
+
+	.cbp-hrmenu .cbp-hrsub-inner {
+		padding: 0 2em;
+		font-size: 75%;
+	}
+
+	.cbp-hrmenu > ul > li {
+		display: block;
+		border-bottom: 4px solid #8152f0;
+	}
+
+	.cbp-hrmenu > ul > li > a { 
+		display: block;
+		padding: 1em 3em;
+	}
+
+	.cbp-hrmenu .cbp-hrsub { 
+		position: relative;
+	}
+
+	.cbp-hrsub h4 {
+		padding-top: 0.6em;
+	}
+
+}
+
+@media screen and (max-width: 36em) { 
+	.cbp-hrmenu .cbp-hrsub-inner > div {
+		width: 100%;
+		float: none;
+		padding: 0 2em;
+	}
+}
 
 </style>
 
@@ -238,6 +275,116 @@ $(document).ready(function () {
 
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
+<div align="center" style="padding: 0px;margin: 0px;">
+<span>
+<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;margin-top: -1%;" onclick="location.href='main.do'">
+</span>
+</div>
+<div class="main_menu">
+	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px;">
+		<ul class="navbar-nav ml-auto">
+			<li>
+				<a href="#none">프로젝트 둘러보기</a>
+				<div class="cbp-hrsub" style="z-index:11;">
+					<div class="cbp-hrsub-inner"> 
+						<div>
+							<h4>더 펀 메이커</h4>
+							<ul>
+								<li><a href="searchProjectList.do">모든 프로젝트</a></li>
+								<li><a href="#">분야별 인기 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=edateASC">마감 앞둔 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=sdateDESC">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_type=donation&s_complete=complete">종료된 프로젝트</a></li>
+							</ul>
+						</div>
+						<div>
+							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
+							<ul>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_HUMAN}">인권</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_ANIMAL}">동물</a></li>
+							</ul>
+							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</h4>
+							<ul>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}">음식</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}">IT / 전자</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_ANIMAL	}">동물</a></li>
+							</ul>
+						</div>
+						<div>
+							<h4>검색</h4>
+							<form id="_frmFormSearch" name="frmForm1">
+								<div class="box">
+									<div class="container-4">
+										<input class="field" type="text" placeholder="Search..."
+										style="width: 230px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
+										name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
+										<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
+									</div>
+								</div>
+							 	
+								<!-- controller로 넘겨주기 위한 값 -->
+								<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
+								<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
+								<input type="hidden" name="s_type" value="${s_type }">
+								<input type="hidden" name="s_category" value="${s_category }">
+								<input type="hidden" name="s_complete" value="${s_complete }">
+							</form>
+							<h4>더 펀 소개</h4>
+							<ul>
+								<li><a href="#">더 펀 이야기</a></li>
+								<li><a href="#">더 펀 파트너</a></li>
+							</ul>
+						</div>
+						
+					</div><!-- /cbp-hrsub-inner -->
+					
+				</div><!-- /cbp-hrsub -->
+					
+			</li>
+			<li style="float: right;">
+				<a href="#none" onclick="location.href='newProject.do'">새 프로젝트</a>
+			</li>
+			
+		</ul>
+		
+			<button class="navbar-toggler navbar-nav ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="fas fa-bars" style="color:#8152f0"></span>
+		    </button>
+		        
+		    <div class="collapse navbar-collapse" id="navbarResponsive">
+		      <ul class="navbar-nav ml-auto" style="margin-right: 15%;">
+		        <li class="nav-item">              
+					<c:if test="${login eq null}">
+					    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="30px"></a> <!-- 로그인 -->				
+					</c:if>
+					<c:if test="${login ne null}">
+						<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
+						<span onclick="location.href='myPage.do?id=${login.id}'" style="cursor: pointer;">${login.nickname}님</span>
+						&nbsp;&nbsp;
+						<a href="viewAlarms.do" class="notification" title="새소식">
+						  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+						  <span class="badge">${alarmCount}</span>
+						  <span class="badge" id="alarmcount"></span>
+						</a>								
+						<c:choose>			
+							<c:when test="${login.isManager()}">
+								<a href="projectManage.do"  class="notification" title="대기중인 프로젝트">
+									<span class="fas fa-eye" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
+									<span class="badge" id="waitcount"></span>
+								</a>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+						<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->			
+					</c:if>
+		        </li>
+		      </ul>
+		    </div>
+	</nav>
+</div>
+
+<%-- 원본
 <nav class="navbar navbar-expand-lg navbar-dark top-menu">
   <div class="container" style="background-color: white;">
 		<a class="navbar-brand" href="main.do"><img src="image/main/banner.jpg" width="130px" ></a><!--  배너 -->
@@ -340,7 +487,7 @@ $(document).ready(function () {
 				<span>${login.nickname}님</span>
 				<a href="viewAlarms.do" class="notification" title="새소식">
 				  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
-				  <%-- <span class="badge">${alarmCount}</span> --%>
+				  <span class="badge">${alarmCount}</span>
 				  <span class="badge" id="alarmcount"></span>
 				</a>								
 				<c:choose>			
@@ -360,6 +507,7 @@ $(document).ready(function () {
     </div>
   </div>
 </nav>
+ --%>
     
 
 <script type="text/javascript">
@@ -531,5 +679,31 @@ new site();
             }
         });
     });  
+
+
+/* 메가메뉴 */
+var cbpHorizontalMenu=(function(){
+	var b=$("#cbp-hrmenu > ul > li"),g=b.children("a"),c=$("body"),d=-1;
+	function f(){g.on("click",a);
+	
+	b.on("click",function(h){h.stopPropagation()})}function a(j){
+		if(d!==-1){b.eq(d).removeClass("cbp-hropen")}
+		var i=$(j.currentTarget).parent("li"),h=i.index();
+		
+		if(d===h){
+			i.removeClass("cbp-hropen");
+			d=-1;
+		}else{
+			i.addClass("cbp-hropen");
+			d=h;
+			c.off("click").on("click",e)}return false
+		}function e(h){
+			b.eq(d).removeClass("cbp-hropen");
+			d=-1;
+		}return{init:f}})();
+
+$(function() {
+	cbpHorizontalMenu.init();
+});
 
 </script>
