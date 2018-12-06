@@ -20,4 +20,16 @@ public class BasketServiceImpl implements BasketService{
 		return basketDao.selectMyBasket(id);
 	}
 
+	@Override
+	public int deleteBasket(int seq) {
+		return basketDao.deleteBasket(seq);
+	}
+
+	@Override
+	public void updateBasket(List<BasketDto> basketDto) {
+		for (int i = 0; i < basketDto.size(); i++) {
+			basketDao.updateBasket(basketDto.get(i));
+		}
+	}
+	
 }

@@ -370,6 +370,7 @@ $(document).ready(function () {
 						<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
 						<span onclick="location.href='myPage.do?id=${login.id}'" style="cursor: pointer;">${login.nickname}님</span>
 						&nbsp;&nbsp;
+						<a href="myBasket.do?id=${login.id }" class="badge badge-light">장바구니</a>
 						<a href="viewAlarms.do" class="notification" title="새소식">
 						  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
 						  <span class="badge">${alarmCount}</span>

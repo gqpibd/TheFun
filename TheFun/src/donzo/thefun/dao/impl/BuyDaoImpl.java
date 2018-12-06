@@ -41,7 +41,6 @@ public class BuyDaoImpl implements BuyDao {
 		return sqlSession.selectList(ns+"selectReviewList",seq);
 	}
 
-	
 ////////페이징
 	@Override
 	public List<BuyDto> myOrderPageList(buyParam param) {

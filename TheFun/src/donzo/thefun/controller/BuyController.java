@@ -22,7 +22,7 @@ import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.util.UtilFunctions;
 
- 
+
 @Controller
 public class BuyController {
 	
@@ -150,5 +150,7 @@ public class BuyController {
 		return listData; 
 	}
 	
- 
+	
+	
+	
 }  
