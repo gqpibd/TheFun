@@ -125,7 +125,7 @@ window.fbAsyncInit = function() {
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
-	z-index: 1;
+	z-index: 5;
 }
 
 .cbp-hrmenu > ul > li {
@@ -279,7 +279,7 @@ $(document).ready(function () {
 <!-- Navigation 헤더 -->
 
 <div class="main_menu" style="margin-bottom:30px">
-	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px;">
+	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px; display: inline-flex;">
 		<ul class="navbar-nav" style="margin:0">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>
@@ -345,15 +345,15 @@ $(document).ready(function () {
 			</li>
 			
 		</ul>
-		<div align="center" style="width:100%; position: absolute; z-index: -1" class="logo">			
-			<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;margin-top: -1%;" onclick="location.href='main.do'">
+		<div align="center" style="margin:auto;" class="logo">			
+			<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;" onclick="location.href='main.do'">
 		</div>
 			<button class="navbar-toggler navbar-nav ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
 		    </button>
 		        
-		    <div class="collapse navbar-collapse" id="navbarResponsive">
-		      <ul class="navbar-nav ml-auto" style="margin-right: 15%;">
+		    <div class="collapse navbar-collapse" id="navbarResponsive" style="flex-grow: 0.1;">
+		      <ul class="navbar-nav ml-auto" style="margin-right: 2%; float: right;">
 		        <li class="nav-item">              
 					<c:if test="${login eq null}">
 					    <a class="nav-link" href="login.do"><img src="image/main/mainLogin.jpg" height="30px"></a> <!-- 로그인 -->				
@@ -382,7 +382,9 @@ $(document).ready(function () {
 		        </li>
 		      </ul>
 		    </div>
+		    
 	</nav>
+	
 </div>
 
 <%-- 원본

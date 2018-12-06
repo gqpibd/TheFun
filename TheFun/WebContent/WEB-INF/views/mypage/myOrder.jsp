@@ -131,7 +131,7 @@ input.star:checked ~ .rev-box {
 </header>
 
 <br><br>
-
+<div align="center">
 <table class="type07" id="myOrderlist">
 	<col width="200">
 	<col width="410">
