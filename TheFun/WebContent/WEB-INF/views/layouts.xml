@@ -115,5 +115,9 @@
 	<definition name="search.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
 	</definition>
+	
+	<definition name="hotProject.tiles" extends="home.tiles"> 
+		<put-attribute name="main" value="/WEB-INF/views/project/hotProject.jsp"/>
+	</definition>
 
 </tiles-definitions>

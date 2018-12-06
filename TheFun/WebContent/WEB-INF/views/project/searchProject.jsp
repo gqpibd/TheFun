@@ -69,34 +69,199 @@ ul.tab li.selected{
 
 </style>
 
-<!-- 차트 css -->
-<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
-
 <!-- 몇 건인지 표시하려고 -->
 <div style="background: #fff;">
 
-
 <div style="background: #fff;padding-top: -3%;padding-bottom: 3%;">
 <c:choose>
+
+	<c:when test="${doc_title eq 'all'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>진행 중인 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'edateASC'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>마감 앞둔 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'sdateDESC'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>최신 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
 	<c:when test="${doc_title eq 'complete'}">
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">HISTORY</h1> -->
 	<p>종료된 프로젝트</p>
-	<%-- <h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5> --%>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+
+	<c:when test="${doc_title eq ProjectDto.TYPE_DONATION}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>기부 전체</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
 	</div>
 	</header>
 	</c:when>
 	
-	<c:when test="${doc_title eq 'search'}">
+	<c:when test="${doc_title eq 'donationHuman'}">
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>검색 결과</p>
-	<%-- <h5 style="font-family: 'Allura';">${totalRecordCount } 건</h5> --%>
+	<p>기부 - 인권 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
 	</div>
 	</header>
 	</c:when>
+	
+	<c:when test="${doc_title eq 'donationAnimal'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>기부 - 동물 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq ProjectDto.TYPE_REWARD}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>리워드 전체</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'rewardFood'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>리워드 - 음식 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'rewardIt'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>리워드 - IT / 전자 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
+	<c:when test="${doc_title eq 'rewardAnimal'}">
+	<header id="line_header">
+	<div class="container text-center">
+	<!-- <h1 class="head_title">SEARCH</h1> -->
+	<p>리워드 - 동물 프로젝트</p>
+	<c:choose>
+	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
+	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
+	</c:when>
+	<c:otherwise>
+	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	</c:otherwise>
+	</c:choose>
+	</div>
+	</header>
+	</c:when>
+	
 </c:choose>
 </div>
 
@@ -328,20 +493,19 @@ $(document).ready(function () {
 --%>
 
 <div class="container">
-${totalRecordCount } 건
 <div class="row">
 <div class="tab">
     <ul class="tab">
-     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=buycountDESC">참여 순</a></li>
-     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=fundachivedDESC">모금순</a></li>
-     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=edateASC">마감 순</a></li>
+     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=buycountDESC&doc_title=${doc_title}">참여 순</a></li>
+     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=fundachivedDESC&doc_title=${doc_title}">모금 순</a></li>
+     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=edateASC&doc_title=${doc_title}">마감 순</a></li>
     </ul>
 </div>
 </div>
 
 </div>
 </div>
-<div class="container" style="z-index: -1">
+<div class="container" style="margin-bottom: 3%;">
 <div class="row">
 <!-- list jsp:include로 보내려면 이렇게 설정해서 보내주면 된다.-->
 <c:set var="list" value="${list }" scope="request"/>
@@ -360,7 +524,6 @@ ${totalRecordCount } 건
 	
 	<jsp:param value="${list }" name="list"/>
 </jsp:include>
-<br>
 
 </div>
 </div>
