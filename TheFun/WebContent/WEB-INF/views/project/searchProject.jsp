@@ -69,6 +69,9 @@ ul.tab li.selected{
 
 </style>
 
+<!-- 차트 css -->
+<link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
+
 <!-- 몇 건인지 표시하려고 -->
 <div style="background: #fff;">
 
