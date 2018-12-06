@@ -250,29 +250,7 @@ window.fbAsyncInit = function() {
 
 </style>
 
-<script type="text/javascript">
-var naverLogin;
-var loginAccount = "thefun"
-var profile = '${login.profile}';
-var auth1;
-
-$(document).ready(function () {		
-	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
-	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
-	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
-	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
-	/* 구글 로그인 정보를 초기화하기 위하여 init */
-	gapi.load('auth2', function() { 
-		auth1 = gapi.auth2.init();
-		if (auth1.isSignedIn.get()) {
-			loginAccount = "구글";
-		}
-	});
-});
-</script>
-
+<!-- 탑바 메인 뷰 영역 -->
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
 <div align="center" style="padding: 0px;margin: 0px;">
@@ -387,6 +365,7 @@ $(document).ready(function () {
 		    </div>
 	</nav>
 </div>
+<!-- 탑바 메인 뷰 영역 -->
 
 
 
@@ -514,15 +493,64 @@ $(document).ready(function () {
   </div>
 </nav>
  --%>
-    
 
+<!-- 스크립트01 -->
 <script type="text/javascript">
-$(document).ready(function(){
+window.fbAsyncInit = function() {
+	FB.init({
+		appId : '2123794117640622',
+		cookie : true,
+		xfbml : true,
+		version : 'v3.2'
+	});	
+	window.fbApiInit = true; //init flag
+}; 
+//Load the SDK Asynchronously
+ (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/" + 
+     "en_US" +
+     "/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+ }(document));
+</script>
+<!-- 스크립트01 -->
+
+<!-- 스크립트02 -->
+<script type="text/javascript">
+var naverLogin;
+var loginAccount = "thefun"
+var profile = '${login.profile}';
+var auth1;
+
+$(document).ready(function () {		
+
 	setAlarmCount();
 	if (document.getElementById('waitcount')) { // 관리자 모드인 경우
 		setWaitCount();
 	}
-})
+	
+	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
+	/* 구글 로그인 정보를 초기화하기 위하여 init */
+	gapi.load('auth2', function() { 
+		auth1 = gapi.auth2.init();
+		if (auth1.isSignedIn.get()) {
+			loginAccount = "구글";
+		}
+	});
+});
+</script>
+<!-- 스크립트02 -->
+
+<!-- 스크립트03 -->
+<script type="text/javascript">
+
 function setAlarmCount(){ // 알람 갯수
 	$.ajax({
 		type:"get",
@@ -545,76 +573,80 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
 		}
 	});	
 }
-	/* 로그아웃 */
-	function logout() {
-		//console.log("로그아웃");
-		console.log("로그인 계정: " +getLoginAccount());
-		/* 네이버 로그아웃 */
-		naverLogin.logout(function(response) { 
-					console.log("네이버 로그아웃");
-				}); 
-		/* naverLogin.getLoginStatus(function (status) {
-			if (status) { // 로그인 상태가 "true" 인 경우 
-				naverLogin.logout(function(response) { 
-					console.log("네이버 로그아웃");
-				});
-				
-			}
-		});		 */
-		/* 페이스북 로그아웃 */
-		FB.getLoginStatus(function(response) {
-  			if (response.status === 'connected') {
-				FB.logout(function(response) { 
-					console.log("페이스북 로그아웃");
-				});
-  			}
-		});
-		/* 카카오 로그아웃 */
-		Kakao.Auth.getStatus(function(statusObj){
-			if(statusObj.status == "connected"){
-				Kakao.Auth.logout(function(response) { 
-					console.log("카카오 로그아웃");
-				});
-			}
-		})
-		/* 구글 로그아웃  */
-        if (auth1.isSignedIn.get()) {
-        	console.log("구글 로그아웃");
-        	auth1.signOut(function(response) { 
-				console.log("구글 로그아웃");
-			});
-        }    
-		location.href="logout.do";		
-	}
 
-	function getLoginAccount() {
-		/* 네이버 */
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
-				loginAccount = "naver";
-				return "naver";
-			}
-		});		
-		/* 페이스북 */
-		FB.getLoginStatus(function(response) {
-  			if (response.status === 'connected') {
-  				loginAccount = "facebook"; 
-  			}
+/* 로그아웃 */
+function logout() {
+	//console.log("로그아웃");
+	console.log("로그인 계정: " +getLoginAccount());
+	/* 네이버 로그아웃 */
+	naverLogin.logout(function(response) { 
+				console.log("네이버 로그아웃");
+			}); 
+	/* naverLogin.getLoginStatus(function (status) {
+		if (status) { // 로그인 상태가 "true" 인 경우 
+			naverLogin.logout(function(response) { 
+				console.log("네이버 로그아웃");
+			});
+			
+		}
+	});		 */
+	/* 페이스북 로그아웃 */
+	FB.getLoginStatus(function(response) {
+ 			if (response.status === 'connected') {
+			FB.logout(function(response) { 
+				console.log("페이스북 로그아웃");
+			});
+ 			}
+	});
+	/* 카카오 로그아웃 */
+	Kakao.Auth.getStatus(function(statusObj){
+		if(statusObj.status == "connected"){
+			Kakao.Auth.logout(function(response) { 
+				console.log("카카오 로그아웃");
+			});
+		}
+	})
+	/* 구글 로그아웃  */
+       if (auth1.isSignedIn.get()) {
+       	console.log("구글 로그아웃");
+       	auth1.signOut(function(response) { 
+			console.log("구글 로그아웃");
 		});
-		/* 카카오 */
-		Kakao.Auth.getStatus(function(statusObj){
-			if(statusObj.status == "connected"){
-				loginAccount = "kakao";
-			}
-		})
-		/* 구글  */
-       /*  if (auth1.isSignedIn.get()) {
-        	login = "google";
-			count++;
-        } */
-		return loginAccount;
-	}
-	
+       }    
+	location.href="logout.do";		
+}
+/* 로그아웃 */
+
+/*  */
+function getLoginAccount() {
+	/* 네이버 */
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			loginAccount = "naver";
+			return "naver";
+		}
+	});		
+	/* 페이스북 */
+	FB.getLoginStatus(function(response) {
+ 			if (response.status === 'connected') {
+ 				loginAccount = "facebook"; 
+ 			}
+	});
+	/* 카카오 */
+	Kakao.Auth.getStatus(function(statusObj){
+		if(statusObj.status == "connected"){
+			loginAccount = "kakao";
+		}
+	})
+	/* 구글  */
+      /*  if (auth1.isSignedIn.get()) {
+       	login = "google";
+		count++;
+       } */
+	return loginAccount;
+}
+/*  */
+
 	/* 검색버튼 */
      $(document).ready(function () {
     	$("#search_Btn").click(function () {
@@ -630,9 +662,8 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
  		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
  	}
     
-// 상단바 js 부분
-    
-/* var site = function() {
+// 상단바 js 부분 
+var site = function() {
 this.navLi = $('.nav li').children('ul').hide().end();
 this.init();
 };
@@ -666,9 +697,7 @@ site.prototype = {
 	}
 }
 
-new site(); */
-
-
+new site();
 
 /* 햄버거버튼 */
    // html dom 이 다 로딩된 후 실행된다.

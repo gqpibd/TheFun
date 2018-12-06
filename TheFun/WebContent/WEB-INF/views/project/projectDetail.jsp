@@ -12,6 +12,11 @@
  
 <title>The Fun_${projectdto.title }</title>
  
+<!-- 프로젝트디테일 css 링크 -->
+<link rel="stylesheet" href="CSS/project/projectDetail.css">
+ 
+ 
+ 
 <!-- Custom styles for this template -->
 
   
@@ -653,7 +658,8 @@ function minusVal(seqNum) {
 
     </div>
     <!-- /.container -->
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 코드 -->
+    
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
  <div class="dim-layer">
   <div class="dimBg"></div>
     <div id="layer_2" class="pop-layer">
@@ -678,74 +684,9 @@ function minusVal(seqNum) {
             </div>
         </div>
     </div>
-</div>   
-<!-- 판매자 정보 팝업창 코드 -->       
-<style>
-.pop-layer .pop-container {
-  padding: 20px 25px;
-}
-.pop-layer p.ctxt {
-  color: #666;
-  line-height: 25px;
-}
-.pop-layer .btn-r {
-  width: 100%;
-  margin: 10px 0 20px;
-  padding-top: 10px;
-  border-top: 1px solid #DDD;
-  text-align: right;
-}
-.pop-layer {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 410px;
-  height: auto;
-  background-color: #fff;
-  border: 5px solid #8152f0;
-  z-index: 10;
-}
-.dim-layer {
-  display: none;
-  position: fixed;
-  _position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-}
-.dim-layer .dimBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: .5;
-  filter: alpha(opacity=50);
-}
-.dim-layer .pop-layer {
-  display: block;
-}
-a.btn-layerClose {
-  display: inline-block;
-  height: 25px;
-  padding: 0 14px 0;
-  border: 1px solid #304a8a;
-  background-color: #8152f0;
-  font-size: 13px;
-  color: #fff;
-  line-height: 25px;
-}
-a.btn-layerClose:hover {
-  border: 1px solid #091940;
-  background-color: #1f326a;
-  color: #fff;
-}
-</style>      
-<!-- 판매자 정보 팝업창 코드 -->    
+</div>
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
+<!-- 판매자 정보 팝업창 스크립트 코드 -->    
 <script type="text/javascript">
 $('.btn-example').click(function(){
     var $href = $(this).attr('href');
@@ -778,7 +719,7 @@ function layer_popup(el){
     });
 }
 </script>  
-<!-- 판매자 정보 레이어팝업코드 -->    
+<!-- 판매자 정보 팝업창 스크립트 코드 -->    
     
 <script type="text/javascript">
 function checkAndSendMessage(){

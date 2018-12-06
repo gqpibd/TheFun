@@ -48,16 +48,6 @@ public class MemberDaoImpl implements MemberDao {
 		int n = sqlSession.update(ns+"updateMember",mem);
 		return  (n>0)?true:false;
 	}
-	
-	//id찾기
-	@Override
-	public String find_id(String email) throws Exception {
-		
-		return sqlSession.selectOne(ns+"find_id", email);
-	}
-
-	
-	
 
 	@Override
 	public boolean addPoint(MemberDto mem) {
@@ -65,6 +55,11 @@ public class MemberDaoImpl implements MemberDao {
 		int n = sqlSession.update(ns+"addPoint",mem);
 		System.out.println(n);
 		return  (n>0)?true:false;
+	}
+
+	@Override
+	public MemberDto find_idpw(MemberDto dto) {
+		return sqlSession.selectOne(ns+"find_idpw",dto);
 	}
 	
 }
