@@ -113,11 +113,6 @@ $(document).ready(function() {
 				}
 			}
 		});
-		// 기존에 입력한 스케줄로 날짜 세팅
-		/* var _sdate = "${myProject.sdate}";
-		var sdate = _sdate.trim().substring(0,10);
-		console.log("sdate == " + sdate);
-		$("#date1").datepicker( "setDate" , sdate); */
 		// 종료일
 		$("#date2").datepicker({
 			dateFormat:"yy-mm-dd",
