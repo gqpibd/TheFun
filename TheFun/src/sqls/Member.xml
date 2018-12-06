@@ -94,9 +94,29 @@ CREATE TABLE FUN_MEMBER(
 </update>
 
 <!-- id찾기 -->
-<select id="find_id" parameterType="String" resultType="String">
-	SELECT COUNT(*) 
+<select id="find_idpw" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
+	SELECT * 
 	FROM FUN_MEMBER 
-	WHERE EMAIL = #{email}
+	WHERE EMAIL = #{email} AND PHONE = #{phone}
 </select>
+
+
+
+
+
+
+
+
+
 </mapper>
+
+
+
+
+
+
+
+
+
+
+

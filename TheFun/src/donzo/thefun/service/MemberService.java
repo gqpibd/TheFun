@@ -20,8 +20,8 @@ public interface MemberService {
 
 	public boolean addPoint(MemberDto mem);
 	
-	//id 찾기
-	public String find_id(HttpServletResponse response, String email) throws Exception;
+	//idpw 찾기
+	public MemberDto find_idpw(MemberDto dto);
 	
 }
  

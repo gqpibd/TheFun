@@ -18,8 +18,7 @@ public interface MemberDao {
 
 	public boolean addPoint(MemberDto mem);
 
-	
-	//id찾기
-	public String find_id(String email) throws Exception;
+	//idpw찾기
+	public MemberDto find_idpw(MemberDto dto);
 	
 } 

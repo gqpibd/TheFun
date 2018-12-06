@@ -5,97 +5,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <fmt:requestEncoding value="UTF-8"/>
 
-<script type="text/javascript">
-window.fbAsyncInit = function() {
-	FB.init({
-		appId : '2123794117640622',
-		cookie : true,
-		xfbml : true,
-		version : 'v3.2'
-	});	
-	window.fbApiInit = true; //init flag
-}; 
-//Load the SDK Asynchronously
- (function(d){
-     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/" + 
-     "en_US" +
-     "/all.js";
-     d.getElementsByTagName('head')[0].appendChild(js);
- }(document));
-</script>
-
 <!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
+
+<!-- 메가메뉴 css -->
 <style type="text/css">
-
-.profile {
-	float: none;
-	width: 44px;
-	height: 44px;
-	border-radius: 33px;
-	margin: 5px;
-	vertical-align: middle;
-	object-fit: cover;
-}
-
-.container-4 {
-	overflow: hidden;
-	width: 300px;
-	vertical-align: middle;
-	white-space: nowrap;
-}
-
-.container-4 input#search {
-	width: 250px;
-	height: 40px;
-	background: #F6F6F6;
-	border: none;
-	font-size: 10pt;
-	float: left;
-	color: #000000;
-	padding-left: 15px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-.container-4 button.icon {
-	-webkit-border-top-right-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-moz-border-radius-topright: 5px;
-	-moz-border-radius-bottomright: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border: none;
-	background: #F6F6F6;
-	height: 50px;
-	width: 50px;
-	color: #4f5b66;
-	opacity: 0;
-	font-size: 10pt;
-	-webkit-transition: all .55s ease;
-	-moz-transition: all .55s ease;
-	-ms-transition: all .55s ease;
-	-o-transition: all .55s ease;
-	transition: all .55s ease;
-}
-
-.table_content{
-	color: #949494;
-	text-align: left;
-	padding-left: 10px;
-	cursor: pointer;
-}
-      
-/* 햄버거메뉴 */
-.menu a{cursor:pointer;}
-.menu .hide{display:none;}
-
-
 /* megamenu */
-
 /* Reset */
 *,
 *:after,
@@ -191,88 +106,9 @@ window.fbAsyncInit = function() {
 	font-size: 160%;
 	font-weight: 300;
 }
-
-/* Examples for media queries */
-
-@media screen and (max-width: 52.75em) { 
-
-	.cbp-hrmenu {
-		font-size: 80%;
-	}
-
-}
-
-@media screen and (max-width: 43em) { 
-
-	.cbp-hrmenu {
-		font-size: 120%;
-		border: none;
-	}
-
-	.cbp-hrmenu > ul,
-	.cbp-hrmenu .cbp-hrsub-inner {
-		width: 100%;
-		padding: 0;
-	}
-
-	.cbp-hrmenu .cbp-hrsub-inner {
-		padding: 0 2em;
-		font-size: 75%;
-	}
-
-	.cbp-hrmenu > ul > li {
-		display: block;
-		border-bottom: 4px solid #8152f0;
-	}
-
-	.cbp-hrmenu > ul > li > a { 
-		display: block;
-		padding: 1em 3em;
-	}
-
-	.cbp-hrmenu .cbp-hrsub { 
-		position: relative;
-	}
-
-	.cbp-hrsub h4 {
-		padding-top: 0.6em;
-	}
-
-}
-
-@media screen and (max-width: 36em) { 
-	.cbp-hrmenu .cbp-hrsub-inner > div {
-		width: 100%;
-		float: none;
-		padding: 0 2em;
-	}
-}
-
 </style>
 
-<script type="text/javascript">
-var naverLogin;
-var loginAccount = "thefun"
-var profile = '${login.profile}';
-var auth1;
-
-$(document).ready(function () {		
-	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
-	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
-	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
-	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
-	/* 구글 로그인 정보를 초기화하기 위하여 init */
-	gapi.load('auth2', function() { 
-		auth1 = gapi.auth2.init();
-		if (auth1.isSignedIn.get()) {
-			loginAccount = "구글";
-		}
-	});
-});
-</script>
-
+<!-- 탑바 메인 뷰 영역 -->
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
 <div align="center" style="padding: 0px;margin: 0px;">
@@ -318,10 +154,11 @@ $(document).ready(function () {
 										<input class="field" type="text" placeholder="Search..."
 										style="width: 230px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
 										name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
+										<span></span>
 										<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
 									</div>
-								</div>
-							 	
+								</div>												 														 	
+						 	
 								<!-- controller로 넘겨주기 위한 값 -->
 								<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 								<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
@@ -383,6 +220,7 @@ $(document).ready(function () {
 		    </div>
 	</nav>
 </div>
+<!-- 탑바 메인 뷰 영역 -->
 
 <%-- 원본
 <nav class="navbar navbar-expand-lg navbar-dark top-menu">
@@ -508,8 +346,56 @@ $(document).ready(function () {
   </div>
 </nav>
  --%>
-    
 
+<!-- 스크립트01 -->
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+	FB.init({
+		appId : '2123794117640622',
+		cookie : true,
+		xfbml : true,
+		version : 'v3.2'
+	});	
+	window.fbApiInit = true; //init flag
+}; 
+//Load the SDK Asynchronously
+ (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/" + 
+     "en_US" +
+     "/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+ }(document));
+</script>
+<!-- 스크립트01 -->
+
+<!-- 스크립트02 -->
+<script type="text/javascript">
+var naverLogin;
+var loginAccount = "thefun"
+var profile = '${login.profile}';
+var auth1;
+
+$(document).ready(function () {		
+	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
+	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
+	naverLogin.init();	
+	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
+	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
+	//Kakao.init('e53f47e84dfa687f87346382fb232397'); // 다슬
+	/* 구글 로그인 정보를 초기화하기 위하여 init */
+	gapi.load('auth2', function() { 
+		auth1 = gapi.auth2.init();
+		if (auth1.isSignedIn.get()) {
+			loginAccount = "구글";
+		}
+	});
+});
+</script>
+<!-- 스크립트02 -->
+
+<!-- 스크립트03 -->
 <script type="text/javascript">
 $(document).ready(function(){
 	setAlarmCount();
@@ -539,76 +425,80 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
 		}
 	});	
 }
-	/* 로그아웃 */
-	function logout() {
-		//console.log("로그아웃");
-		console.log("로그인 계정: " +getLoginAccount());
-		/* 네이버 로그아웃 */
-		naverLogin.logout(function(response) { 
-					console.log("네이버 로그아웃");
-				}); 
-		/* naverLogin.getLoginStatus(function (status) {
-			if (status) { // 로그인 상태가 "true" 인 경우 
-				naverLogin.logout(function(response) { 
-					console.log("네이버 로그아웃");
-				});
-				
-			}
-		});		 */
-		/* 페이스북 로그아웃 */
-		FB.getLoginStatus(function(response) {
-  			if (response.status === 'connected') {
-				FB.logout(function(response) { 
-					console.log("페이스북 로그아웃");
-				});
-  			}
-		});
-		/* 카카오 로그아웃 */
-		Kakao.Auth.getStatus(function(statusObj){
-			if(statusObj.status == "connected"){
-				Kakao.Auth.logout(function(response) { 
-					console.log("카카오 로그아웃");
-				});
-			}
-		})
-		/* 구글 로그아웃  */
-        if (auth1.isSignedIn.get()) {
-        	console.log("구글 로그아웃");
-        	auth1.signOut(function(response) { 
-				console.log("구글 로그아웃");
-			});
-        }    
-		location.href="logout.do";		
-	}
 
-	function getLoginAccount() {
-		/* 네이버 */
-		naverLogin.getLoginStatus(function (status) {
-			if (status) {
-				loginAccount = "naver";
-				return "naver";
-			}
-		});		
-		/* 페이스북 */
-		FB.getLoginStatus(function(response) {
-  			if (response.status === 'connected') {
-  				loginAccount = "facebook"; 
-  			}
+/* 로그아웃 */
+function logout() {
+	//console.log("로그아웃");
+	console.log("로그인 계정: " +getLoginAccount());
+	/* 네이버 로그아웃 */
+	naverLogin.logout(function(response) { 
+				console.log("네이버 로그아웃");
+			}); 
+	/* naverLogin.getLoginStatus(function (status) {
+		if (status) { // 로그인 상태가 "true" 인 경우 
+			naverLogin.logout(function(response) { 
+				console.log("네이버 로그아웃");
+			});
+			
+		}
+	});		 */
+	/* 페이스북 로그아웃 */
+	FB.getLoginStatus(function(response) {
+ 			if (response.status === 'connected') {
+			FB.logout(function(response) { 
+				console.log("페이스북 로그아웃");
+			});
+ 			}
+	});
+	/* 카카오 로그아웃 */
+	Kakao.Auth.getStatus(function(statusObj){
+		if(statusObj.status == "connected"){
+			Kakao.Auth.logout(function(response) { 
+				console.log("카카오 로그아웃");
+			});
+		}
+	})
+	/* 구글 로그아웃  */
+       if (auth1.isSignedIn.get()) {
+       	console.log("구글 로그아웃");
+       	auth1.signOut(function(response) { 
+			console.log("구글 로그아웃");
 		});
-		/* 카카오 */
-		Kakao.Auth.getStatus(function(statusObj){
-			if(statusObj.status == "connected"){
-				loginAccount = "kakao";
-			}
-		})
-		/* 구글  */
-       /*  if (auth1.isSignedIn.get()) {
-        	login = "google";
-			count++;
-        } */
-		return loginAccount;
-	}
-	
+       }    
+	location.href="logout.do";		
+}
+/* 로그아웃 */
+
+/*  */
+function getLoginAccount() {
+	/* 네이버 */
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			loginAccount = "naver";
+			return "naver";
+		}
+	});		
+	/* 페이스북 */
+	FB.getLoginStatus(function(response) {
+ 			if (response.status === 'connected') {
+ 				loginAccount = "facebook"; 
+ 			}
+	});
+	/* 카카오 */
+	Kakao.Auth.getStatus(function(statusObj){
+		if(statusObj.status == "connected"){
+			loginAccount = "kakao";
+		}
+	})
+	/* 구글  */
+      /*  if (auth1.isSignedIn.get()) {
+       	login = "google";
+		count++;
+       } */
+	return loginAccount;
+}
+/*  */
+
 	/* 검색버튼 */
      $(document).ready(function () {
     	$("#search_Btn").click(function () {
@@ -624,8 +514,7 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
  		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
  	}
     
-// 상단바 js 부분
-    
+// 상단바 js 부분 
 var site = function() {
 this.navLi = $('.nav li').children('ul').hide().end();
 this.init();
@@ -661,8 +550,6 @@ site.prototype = {
 }
 
 new site();
-
-
 
 /* 햄버거버튼 */
    // html dom 이 다 로딩된 후 실행된다.
@@ -707,3 +594,4 @@ $(function() {
 });
 
 </script>
+<!-- 스크립트03 -->
