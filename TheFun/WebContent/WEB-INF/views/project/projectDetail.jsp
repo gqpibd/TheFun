@@ -162,7 +162,7 @@ border-collapse: collapse;
 	border:none;
 	text-align:left;
 }
-=======
+
 
  /* 프로젝트 승인 상태 보기 */
  .blog-container {
@@ -284,14 +284,10 @@ border-collapse: collapse;
 		<tr height="50">
 			<td class="strongGray sTd" colspan="3"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
-
-		<tr height="50">		
-			<td colspan="3"> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
-
 		<tr height="50">
 			<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%><!-- 하트 버튼 -->
-			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
-
+			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i>
+				<span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
 				명이 좋아합니다
 			</td>
 		</tr>
@@ -319,18 +315,6 @@ border-collapse: collapse;
 						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
 					</c:forEach>
 				</select>
-			</td>
-			
-			</tr>
-			<tr height="50">
-				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
-				<td>
-					<select style="width: 70%; height: 30px;" id="optionSelect">
-						<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
-						<c:forEach items="${optionList }" var="opselect">
-							<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
-						</c:forEach>
-					</select>
 				</td>
 			</tr>
 			<tr>
@@ -640,14 +624,14 @@ function minusVal(seqNum) {
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
-        <%-- <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+         <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
 				펀딩기간  <b>
 				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
 				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
 				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
 			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font> --%>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         

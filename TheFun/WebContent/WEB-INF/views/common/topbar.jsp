@@ -254,31 +254,8 @@ window.fbAsyncInit = function() {
 
 </style>
 
-<<<<<<< HEAD
 <!-- 탑바 메인 뷰 영역 -->
-=======
-<script type="text/javascript">
-var naverLogin;
-var loginAccount = "thefun"
-var profile = '${login.profile}';
-var auth1;
 
-$(document).ready(function () {		
-	naverLogin = new naver.LoginWithNaverId("vb6UHNxUFoBsi487fDmI", "http://localhost:8090/TheFun/");	
-	/* 네아로 로그인 정보를 초기화하기 위하여 init을 호출 */
-	naverLogin.init();	
-	/* 카카오 로그인 정보를 초기화하기 위하여 init을 호출 */
-	Kakao.init('062de807a7680278db82ca44cf5eed29'); //도현
-	/* 구글 로그인 정보를 초기화하기 위하여 init */
-	gapi.load('auth2', function() { 
-		auth1 = gapi.auth2.init();
-		if (auth1.isSignedIn.get()) {
-			loginAccount = "구글";
-		}
-	});
-});
-</script>
->>>>>>> refs/remotes/origin/dh
 <!-- <div class="top-menu"> -->
 <!-- Navigation 헤더 -->
 
