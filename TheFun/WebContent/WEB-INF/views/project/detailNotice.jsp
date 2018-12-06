@@ -6,32 +6,33 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <style type="text/css">
- .pupple{
- font-family: "Nanum Gothic", sans-serif;
- 	color:#8152f0;
- 	font-weight: bold;
- }
- .strongGray{
- font-family: "Nanum Gothic", sans-serif;
-  color: #5c5c5c;
-  font-weight: bold;
-  
- }
- .liteGray{
- font-family: "Nanum Gothic", sans-serif;
-	 color: #818181;
- }
+.pupple {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #8152f0;
+	font-weight: bold;
+}
+
+.strongGray {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #5c5c5c;
+	font-weight: bold;
+}
+
+.liteGray {
+	font-family: "Nanum Gothic", sans-serif;
+	color: #818181;
+}
 
 .mtextarea {
 	/* margin-left: 20px; */
 	margin-top: 10px;
-	width:100%;
+	width: 100%;
 	resize: none;
 	overflow-y: hidden; /* prevents scroll bar flash */
-	padding: 0.7em;  /* prevents text jump on Enter keypress */	
+	padding: 0.7em; /* prevents text jump on Enter keypress */
 	line-height: 1.1;
 	border-radius: 3px;
-	outline:none; /* 포커스 되었을 때 아웃라인 없앰 */	
+	outline: none; /* 포커스 되었을 때 아웃라인 없앰 */
 	height: 100%;
 }
 </style>
@@ -46,7 +47,7 @@
 	<!-- if부분 -->
 </tr>
 </table>
-
+<hr>
  <!-- main content -->
 
 <br><br>

@@ -377,6 +377,7 @@ public class ProjectController {
 			File file = new File(uploadPath + "/" + newProjectDto.getSeq());
 			// 실제 업로드
 			FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+			logger.info("업로드 경로: " +uploadPath);
 		} catch(Exception e) {
 			logger.info("수정 이미지 파일 업로드에 실패했습니다");
 		}
