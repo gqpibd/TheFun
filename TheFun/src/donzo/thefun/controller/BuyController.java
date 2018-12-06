@@ -106,7 +106,7 @@ public class BuyController {
 	// 장바구니 창으로
 	@RequestMapping(value="myBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myBasket(String id, Model model) throws Exception {
-		logger.info("BuyController basket들어옴 " + new Date());
+		logger.info("BuyController basket 들어옴 " + new Date());
 		logger.info("아이디 = " + id);
 		// 내 장바구니 목록(view) 찾아오기(SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
 		List<BuyDto> myBasketList = buyService.selectMyBasket(id);
@@ -117,6 +117,32 @@ public class BuyController {
 		model.addAttribute("myBasket", myBasketList);
 		
 		return "basket.tiles";
+	}
+	
+	@RequestMapping(value="deleteBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String deleteBasket(int seq, String id) throws Exception{
+		logger.info("BuyController deleteBasket 들어옴 " + new Date());
+		logger.info("삭제할 장바구니의 seq값 = " + seq);
+		logger.info("삭제할 장바구니의 주인 id = " + id);
+		
+		// 장바구니 DB에서 해당 리워드 삭제
+		int success = buyService.deleteBasket(seq);
+		if(success > 0) {
+			logger.info("장바구니 삭제에 성공했습니다");
+		}else {
+			logger.info("장바구니 삭제에 실패했습니다");
+		}
+		
+		return "redirect:myBasket.do?id="+id;
+	}
+	
+	@RequestMapping(value="updateBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String updateBasket(int seq, String id) throws Exception{
+		logger.info("BuyController deleteBasket 들어옴 " + new Date());
+		logger.info("삭제할 장바구니의 seq값 = " + seq);
+		logger.info("삭제할 장바구니의 주인 id = " + id);
+		
+		return "redirect:myBasket.do?id="+id;
 	}
 	
 	

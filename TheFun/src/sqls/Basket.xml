@@ -66,4 +66,9 @@ FROM FUN_BASKET B;
 	ORDER BY REGDATE DESC
 </select>
 
+<delete id="deleteBasket" parameterType="java.lang.Integer">
+	DELETE FROM FUN_BASKET
+	WHERE SEQ=#{seq}
+</delete>
+
 </mapper>

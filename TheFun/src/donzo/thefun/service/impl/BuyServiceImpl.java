@@ -60,6 +60,11 @@ public class BuyServiceImpl implements BuyService {
 	public List<BuyDto> selectMyBasket(String id) {
 		return buyDao.selectMyBasket(id);
 	}
+
+	@Override
+	public int deleteBasket(int seq) {
+		return buyDao.deleteBasket(seq);
+	}
 	
 	
 }

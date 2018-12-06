@@ -19,5 +19,8 @@ public interface BuyDao {
 	
 	// 장바구니 불러오기
 	public List<BuyDto> selectMyBasket(String id);
+	
+	// 장바구니 목록 삭제하기
+	public int deleteBasket(int seq);
 		
 }
