@@ -40,13 +40,14 @@ $(document).ready(function () {
 				 </div>
 				 <div class="card-body">
 				   <h5 class="card-title"><strong>ㅠㅠ조금 더 분발해주세요!ㅠㅠ</strong></h5>
-				   <a href="main.do" class="btn btn-primary">상품 보러가기</a>
+				   <a href="main.do" class="btn btn-outline-danger">상품 보러가기</a>
 				</div>
 			</div><br>
 		</c:when>
 		<c:otherwise>
 		<form action="updateBasket.do" method="post" id="updateForm">
 			<c:forEach items="${myBasket }" var="basket" varStatus="status">
+			<c:if test="${basket.isOngoing() }">	<!-- 정상 진행중인 프로젝트의 경우에만 출력해라 -->
 				<input type="hidden" name="seq" value="${basket.seq }">
 				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">	<!-- 상품 당 개당가를 저장해줄 변수 -->
 			<div class="card">
@@ -102,6 +103,7 @@ $(document).ready(function () {
 		    	</div>
 			  </div>
 			</div><br>
+			</c:if>
 			</c:forEach>
 			</form>
 		</c:otherwise>
