@@ -32,6 +32,12 @@
 .pnt { 
 	cursor: pointer; 
 }
+#sTable{
+border-collapse: collapse;
+}
+.opTd{
+	border-bottom: 1px solid #444444;
+}
  .pupple{
  	color:#8152f0;
  }
@@ -184,17 +190,18 @@
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable" border="1">
+		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" height="400px;"></td>
 			<td class="strongGray sTd" colspan="3">
-			<c:if test="${projectdto.isPreparing()}">
+			
+			<c:if test="${projectdto.isPreparing()}"><!-- 프로젝트 준비중 -->
 				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
 			</c:if>
-			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	<!-- 프로젝트 종료 -->
 				 	<b style="font-size: 25px">종료된 리워드</b>
 			</c:if>
-			<c:if test="${projectdto.isOngoing()}">
+			<c:if test="${projectdto.isOngoing()}"><!-- 프로젝트 실행중 -->
 				 <c:if test="${(endDate - nowDate)==0}">
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
@@ -223,20 +230,34 @@
 			</td>
 		</tr>
 		<c:if test="${projectdto.isOngoing()}">
-		<tr height="50" id="beginTr">
-			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
-			<td colspan="3">
-				<select style="width: 70%; height: 30px;" id="optionSelect">
+		
+			<c:if test="${projectdto.isDonation()}"> <!-- 기부일때 (옵션 표시 x) -->
+			<tr height="50" id="beginTr">
+				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td colspan="3">
+					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+						<img src="image/detail/donationBtn.jpg" width="120px"> <!-- 펀딩하기 버튼 -->
+					</a>
+				</td>
+			</tr>
+			</c:if>
+			
+			<c:if test="${projectdto.isReward()}"> <!-- 리워드일때 (옵션선택) -->
+			<tr height="50" id="beginTr">
+				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td colspan="3">
+				<select style="width: 80%; height: 30px;" id="optionSelect">
 					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 					<c:forEach items="${optionList }" var="opselect">
 						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
 					</c:forEach>
 				</select>
 			</td>
+			
 		</tr>
 		<tr>
 			<td></td>
-			<td colspan="3">
+			<td colspan="3" style="text-align: center;">
 				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
 					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
 				<!-- </a> -->
@@ -245,6 +266,7 @@
 				</a>
 			</td>
 		</tr>
+		</c:if>
 		</c:if>
 		</table>
    
@@ -326,19 +348,19 @@ $(document).ready(function () {
 				if(item.seq==selectedSeq){
 					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
-					"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
 					"</td>"+
-					"<td class='selOpCount'align='right;'>"+
+					"<td class='selOpCount opTd'align='right;'>"+
 					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
 					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
 					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 					"</td>"+
-					"<td class='selOpPrice'>"+
+					"<td class='selOpPrice opTd'>"+
 					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
-					 "<tr><td></td><td colspan='2' style='text-align: left;'>총 금액</td>"+
-					 "<td><input type='text' readonly='readonly'value='"+item.price+"' class='Fee' size='6px;' id='finalPrice'>원</td></tr>";	
+					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
 					 $('#beginTr').after(str);	//tr 생성
