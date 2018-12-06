@@ -20,4 +20,11 @@ public class BasketDaoImpl implements BasketDao {
 	public List<BasketDto> selectMyBasket(String id) {
 		return sqlSession.selectList(ns+"myBasketList", id);
 	}
+
+	@Override
+	public int deleteBasket(int seq) {
+		return sqlSession.delete(ns+"deleteBasket", seq);
+	}
+	
+	
 }

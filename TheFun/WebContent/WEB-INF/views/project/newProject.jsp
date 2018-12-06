@@ -879,10 +879,6 @@ $("#btn_submit").click(function () {
 		$("#menu-tab1").click();
 		$("#summernoteTap").click();
 		return;
-	} else if(summernote.length > 4000){
-		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
-		$("#menu-tab1").click();
-		$("#summernoteTap").click();
 	} else if(tag == null || tag == ""){
 		alert("검색용 태그를 등록해주세요");
 		$("#menu-tab1").click();

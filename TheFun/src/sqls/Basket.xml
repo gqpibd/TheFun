@@ -71,6 +71,9 @@ FROM FUN_BASKET B;
 	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count})
 </insert>
 
-
+<delete id="deleteBasket" parameterType="java.lang.Integer">
+	DELETE FROM FUN_BASKET
+	WHERE SEQ=#{seq}
+</delete>
 
 </mapper> 

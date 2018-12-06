@@ -17,12 +17,6 @@ public interface BuyService {
 	public boolean addReview(BuyDto buydto);
 
 	public List<BuyDto> selectReviewList(int seq);
-	
-	// 장바구니 가져오기
-	public List<BuyDto> selectMyBasket(String id);
-	
-	// 장바구니 목록 삭제하기
-	public int deleteBasket(int seq);
 
 //////페이징	
 //	public List<BuyDto> _myOrderList(ProjectParam param);

@@ -20,4 +20,9 @@ public class BasketServiceImpl implements BasketService{
 		return basketDao.selectMyBasket(id);
 	}
 
+	@Override
+	public int deleteBasket(int seq) {
+		return basketDao.deleteBasket(seq);
+	}
+	
 }

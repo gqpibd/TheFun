@@ -17,11 +17,6 @@ public interface BuyDao {
 
 	public List<BuyDto> selectReviewList(int seq);
 	
-	// 장바구니 불러오기
-	public List<BuyDto> selectMyBasket(String id);
-	
-	// 장바구니 목록 삭제하기
-	public int deleteBasket(int seq);
 		
 ///////페이징		
 //	public List<BuyDto> _myOrderList(ProjectParam param);
