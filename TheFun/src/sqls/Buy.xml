@@ -65,24 +65,36 @@ FROM FUN_BUY B;
 <mapper namespace="Buy">
 
 <!-- 내 후원내역 --><!-- 기왕이면 닉네임으로 가져오자 -->
-<select id="myOrderList" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
-		SELECT B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE   
+<!-- <select id="myOrderList" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+		SELECT 
+		B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE   
 		FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M
 		WHERE B.ID=#{id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID
 		ORDER BY B.REGDATE DESC
-</select> 
-
-<!-- 
-<select id="_myOrderList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.BuyDto">
-	SELECT SEQ, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
-	FROM (SELECT ROW_NUMBER() OVER(ORDER BY REGDATE DESC) AS RNUM, 
-				 SEQ, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE                                              
-			  FROM FUN_BUY_VIEW
-			  WHERE ID=#{id}
-		  ) A		 
-	WHERE RNUM BETWEEN #{start} AND #{end}
+</select>  -->
+ 
+<!-- paging -->
+<select id="myOrderPageList" parameterType="donzo.thefun.model.buyParam" resultType="donzo.thefun.model.BuyDto">
+	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
+	FROM 
+		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
+				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
+		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID 
+		 ) A
+	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
- -->
+
+<select id="getOrderCount"
+	parameterType="donzo.thefun.model.buyParam"
+	resultType="java.lang.Integer">
+
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM FUN_BUY_VIEW
+	WHERE ID=#{o_id}
+</select>
+
+ 
  
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">

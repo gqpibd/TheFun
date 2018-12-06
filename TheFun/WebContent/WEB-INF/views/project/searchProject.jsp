@@ -341,7 +341,7 @@ ${totalRecordCount } 건
 
 </div>
 </div>
-<div class="container" style="z-index: -1">
+<div class="container" >
 <div class="row">
 <!-- list jsp:include로 보내려면 이렇게 설정해서 보내주면 된다.-->
 <c:set var="list" value="${list }" scope="request"/>
