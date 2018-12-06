@@ -172,7 +172,7 @@ input.star:checked ~ .rev-box {
 			<td><!-- white-space: nowrap;  word-break:break-all  -->		
 				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
 				<div>결제 날짜 : ${order.getDateForm(order.pdate) }</div>
-				<div><a href="projectDetail.do?seq=${order.projectseq}">상세내역</a></div>
+				<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}">상세내역</a></div>
 			</td>
 			
 			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->

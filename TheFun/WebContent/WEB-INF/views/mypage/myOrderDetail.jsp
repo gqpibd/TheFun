@@ -4,18 +4,127 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
+<!-- 본문출력 묶는 태그 -->
+	<main class="s-layout__content">  		
+<!-- //본문출력 묶는 태그 -->
 
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+
 <style type="text/css">
-body{
-font-family: "Nanum Gothic", sans-serif;
+/* 별점 + 후기 */
+.cont {
+	width: 93%;
+	max-width: 350px;
+	text-align: center;
+	margin: auto;
+	padding: 15px 0;
+	overflow: hidden;
 }
+
+div.stars {
+	width: 270px;
+	display: inline-block;
+}
+
+input.star {
+	display: none;
+}
+
+label.star {
+	float: right;
+	padding: 10px;
+	font-size: 36px;
+	color: #444;
+	transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+	content: '\f005';
+	color: #FD4;
+	transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+	color: #FE7;
+	text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before {
+	color: #F62;
+}
+
+label.star:hover {
+	transform: rotate(-15deg) scale(1.3);
+}
+
+label.star:before {
+	content: '\f006';
+	font-family: FontAwesome;
+}
+
+.rev-box {
+	overflow: hidden;
+	height: 0;
+	width: 100%;
+	transition: all .25s;
+}
+
+textarea.review {
+	border: 1px solid #adadad;
+	resize: none;
+	width: 100%;
+	max-width: 100%;
+	padding: 10px;
+	box-sizing: border-box;	
+	overflow-y: hidden; /* prevents scroll bar flash */
+	padding: 0.7em; /* prevents text jump on Enter keypress */
+	line-height: 1.1;
+	border-radius: 3px;
+	outline: none; /* 포커스 되었을 때 아웃라인 없앰 */
+}
+
+label.review {
+	display: block;
+	transition: opacity .25s;
+}
+
+input.star:checked ~ .rev-box {
+	height: 125px;
+	overflow: visible;
+}
+
+.cancel_btn {
+    box-shadow: inset 0px 1px 0px 0px #a9a9a9;
+    background: linear-gradient(to bottom, #888888, #6c757d 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+.cancel_btn:hover {
+	  box-shadow: inset 0px 1px 0px 0px #bfbfbf;
+    background: linear-gradient(to bottom, #6c757d, #888888 100%);
+    border-radius: 6px;
+    border: 1px solid #656565;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+}
+
 </style>
 
-<div align="center">
-
-<br><br><br><br>
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY SUPPORT DETAIL</h1>

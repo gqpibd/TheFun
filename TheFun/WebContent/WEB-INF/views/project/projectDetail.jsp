@@ -134,6 +134,16 @@
 	display: block;
 	line-height: 40px;
 }
+/* 옵션 셀렉트 수량 컨텐츠 길이*/
+.selOpContent{
+	width: 20%;
+}
+.selOpPrice{
+	width: 10%
+}
+.selOpCount{
+	width: 10%
+}
 </style>
 
 <!-- 남은날짜계산 -->
@@ -168,10 +178,10 @@
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
-		<table style="width: 100%;" id="sTable" >
+		<table style="width: 100%;" id="sTable">
 		<tr height="50">
-			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
-			<td class="strongGray sTd"  >
+			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" height="400px;"></td>
+			<td class="strongGray sTd" colspan="3">
 			<c:if test="${projectdto.isPreparing()}">
 				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
 			</c:if>
@@ -183,32 +193,32 @@
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
 				 <c:if test="${(endDate - nowDate)>0}">
-				 <b style="font-size: 25px">${endDate-nowDate}일 남음</b>
+				 <b style="font-size: 25px">${endDate-nowDate+1}일 남음</b>
 				 </c:if>
 			</c:if>
 			</td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd">
+			<td class="strongGray sTd" colspan="3">
 				<b style="font-size: 20px"><fmt:formatNumber value="${(projectdto.fundachived div projectdto.goalfund)*100 }" pattern="0"/>
 				</b>% 달성
 			</td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd">
+			<td class="strongGray sTd" colspan="3">
 			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
+			<td class="strongGray sTd" colspan="3"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
 		<tr height="50">		
-			<td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+			<td colspan="3"> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
 				명이 좋아합니다
 			</td>
 		</tr>
-		<tr height="50">
+		<tr height="50" id="beginTr">
 			<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
-			<td>
+			<td colspan="3">
 				<select style="width: 70%; height: 30px;" id="optionSelect">
 					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 					<c:forEach items="${optionList }" var="opselect">
@@ -220,7 +230,7 @@
 		<tr>
 		<td></td>
 			<c:if test="${projectdto.isOngoing()}">
-			<td>
+			<td colspan="3">
 				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
 					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
 				<!-- </a> -->
@@ -229,18 +239,6 @@
 				</a>
 			</td>
 			</c:if>
-		</tr>
-		<tr height="50" style="padding: 50px">
-			<td align="left">
-			<p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
-				펀딩기간  <b>
-				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
-				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
-				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
-				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
-			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font></td>
-			<td><div id="shareField"></div> </td>
 		</tr>
 		</table>
    
@@ -287,16 +285,97 @@
 	 
 	 
 <script type="text/javascript">
+
+//모든 옵션을 담을 배열 (json형태로 담을것)
+ var opArr = new Array();
+ <c:forEach items='${optionList}' var = 'op' >
+ 	var Ojson = new Object ();
+ 	Ojson.seq = '${op.seq}';
+ 	Ojson.title = '${op.title}';
+ 	Ojson.content = '${op.content}';
+ 	Ojson.price = '${op.price}';
+ 	opArr.push(Ojson);
+ </c:forEach>
+ //기존에 출력된 옵션시퀀스 보관
+var alreadySeq = new Array();
+
 $(document).ready(function () {
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
-	
+
 	$("#optionSelect").change(function(){
-	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
-	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
-	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
+
+	   var selectedSeq =  $(this).val();  //클릭한 옵션 시퀀스
+	   var str ="";	//테이블 셋팅구문
+	   console.log("★클릭한 시퀀스 : "+selectedSeq);
+	   console.log("★alreadySeq 길이 : "+alreadySeq.length);
+	   
+	   //테이블 처음 생성시
+	   if(alreadySeq.length==0){
+		   
+		/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
+		   $.each(opArr,function(i,item){
+				console.log("case 1 start");
+				
+				if(item.seq==selectedSeq){
+					str = "<tr><td class='imgTd'></td><td class='selOpContent'>"+item.title+"<br>"+item.content+"</td>"+
+					 "<td class='selOpCount'align='right;'><button type='button'size='2px;'>+</button>"+
+					 "<input type='text' readOnly='readOnly' value='1' size='2'style='text-align: center;'>"+
+					 "<button type='button'size='2px;'>-</button></td>"+
+					 "<td class='selOpPrice'>"+item.price+"원</td></tr>";	
+					 
+					 alreadySeq[alreadySeq.length]=item.seq;
+					 $('#beginTr').after(str);	//tr 생성
+					 console.log("alreadySeq에 들어갈 시퀀스 : "+item.seq);
+					 console.log("alreadySeq의 길이 : "+alreadySeq.length);
+					 console.log("case 1 end");
+					 return false;
+				}
+				
+			});	
+		   
+		//테이블 n번째 생성시
+	   }else if(alreadySeq.length>0){
+			$.each(alreadySeq,function(j,alSeq){
+				console.log("case 2 start");
+				
+				if (selectedSeq==alSeq){
+					console.log("선택한것이 이미 있음");
+					
+				}else {	//선택한것이 없을 때 
+					console.log("처음선택함");
+					
+	/* 				$.each(opArr,function(i,item){//고른 seq, 모든 seq 비교하기 loop
+						console.log("고른 seq, 모든 seq 비교하기 loop");
+						
+						if(item.seq==selectedSeq){
+							str = "<tr><td class='imgTd'></td><td class='selOpContent'>"+item.title+"<br>"+item.content+"</td>"+
+							 "<td class='selOpCount'align='right;'><button type='button'size='2px;'>+</button>"+
+							 "<input type='text' readOnly='readOnly' value='1' size='2'style='text-align: center;'>"+
+							 "<button type='button'size='2px;'>-</button></td>"+
+							 "<td class='selOpPrice'>"+item.price+"원</td></tr>";	
+							 
+							 alreadySeq[alreadySeq.length]=item.seq;
+							 console.log("alreadySeq에 들어갈 시퀀스 : "+item.seq);
+							 console.log("alreadySeq의 길이 : "+alreadySeq.length);
+							 $('#beginTr').after(str);	//tr 생성
+						}
+					});	 */
+					
+
+				}
+				console.log("case 2 end");
+				return false;
+			});
+	   }
+
+		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
+	
+	
+	
+	
 });
 
 //마우스커서 모양변환
