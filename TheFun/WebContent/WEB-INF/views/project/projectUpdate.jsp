@@ -230,7 +230,11 @@ $(document).ready(function() {
 	<input type="hidden" id="status" name="status" value="${myProject.status}">
 	<input type="hidden" name="seq" value="${myProject.seq }">
 	<input type="hidden" id="originImage" name="originImage" value="${myProject.seq }.jpg">	<!-- 기존이미지이름 별로 필요없을듯. 어차피 파일 덮어쓰기 할거라... seq.jpg로 -->
-
+	<input type="hidden" name="sdate" id="_sdate" value="${myProject.sdate }">
+	<input type="hidden" name="edate" id="_edate"  value="${myProject.edate }">
+	<input type="hidden" name="pdate" id="_pdate"  value="${myProject.pdate }">
+	<input type="hidden" name="shipdate" id="_shipdate"  value="${myProject.shipdate }">
+	
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 70%; margin: 0 auto;">
 
@@ -610,7 +614,7 @@ $(document).ready(function() {
 					</td>
 					<td>
 						<fmt:parseDate value="${myProject.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
-						<input type="text" class="date" id="date1" name="sdate" 
+						<input type="text" class="date" id="date1" 
 							value="<fmt:formatDate value="${sdate}" pattern="yyyy-MM-dd"/>" 
 							placeholder="오늘부터 선택 가능합니다" size="30%" autocomplete="off">
 						  <!-- autocomplete="off" : 자동완성 끄기 -->
@@ -624,7 +628,7 @@ $(document).ready(function() {
 					</td>
 					<td>
 						<fmt:parseDate value="${myProject.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
-						<input type="text" class="date" id="date2" name="edate" placeholder="시작일의 다음날부터 선택 가능합니다" 
+						<input type="text" class="date" id="date2" placeholder="시작일의 다음날부터 선택 가능합니다" 
 							value="<fmt:formatDate value="${edate}" pattern="yyyy-MM-dd"/>" 
 							size="30%" autocomplete="off" disabled="disabled">
 					</td>
@@ -637,7 +641,7 @@ $(document).ready(function() {
 					</td>
 					<td>
 						<fmt:parseDate value="${myProject.pdate }" pattern="yyyy-MM-dd HH:mm:ss" var="pdate" />
-						<input type="text" class="date" id="date3" name="pdate" placeholder="종료일의 다음날부터 선택 가능합니다"
+						<input type="text" class="date" id="date3" placeholder="종료일의 다음날부터 선택 가능합니다"
 							value="<fmt:formatDate value="${pdate}" pattern="yyyy-MM-dd"/>" 
 							size="30%" autocomplete="off" disabled="disabled">
 					</td>
@@ -650,7 +654,7 @@ $(document).ready(function() {
 					</td>
 					<td>
 						<fmt:parseDate value="${myProject.shipdate }" pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
-						<input type="text" class="date" id="date4" name="shipdate" placeholder="정산일의 다음날부터 선택 가능합니다"
+						<input type="text" class="date" id="date4" placeholder="정산일의 다음날부터 선택 가능합니다"
 							value="<fmt:formatDate value="${shipdate}" pattern="yyyy-MM-dd"/>" 
 							size="30%" autocomplete="off" disabled="disabled">
 					</td>
@@ -1051,6 +1055,16 @@ function formSubmit(bankname, accountNumber) {
 	// 목표금액에 들어간 콤마 전부 없애기
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
+	
+	// date 스케줄값 전부 hidden에 세팅
+	var date1 = $("#date1").val();
+	var date2 = $("#date2").val();
+	var date3 = $("#date3").val();
+	var date4 = $("#date4").val();
+	$("#_sdate").val(date1);
+	$("#_edate").val(date2);
+	$("#_pdate").val(date3);
+	$("#_shipdate").val(date4);
 	
 	$("#messageModal").modal('show'); // 관리자에게 수정사항 보고하기
 	

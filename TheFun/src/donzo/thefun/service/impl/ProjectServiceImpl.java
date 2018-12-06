@@ -90,7 +90,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = newProjectDto.getEdate();
-		newProjectDto.setEdate(edate+" 23:59:59");
+		if(newProjectDto.getEdate() != null && !newProjectDto.getEdate().equals("")) {
+			newProjectDto.setEdate(edate+" 23:59:59");
+		}
 		
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);

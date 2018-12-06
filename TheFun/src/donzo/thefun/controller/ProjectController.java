@@ -371,7 +371,7 @@ public class ProjectController {
 		
 		if(!newImage.isEmpty()) {	// 파일이 있을때		
 			// 파일 수정
-	/*		String uploadPath = req.getServletContext().getRealPath("/upload");
+			String uploadPath = req.getServletContext().getRealPath("/upload");
 			
 			try {
 				File file = new File(uploadPath + "/" + newProjectDto.getSeq());
@@ -380,7 +380,7 @@ public class ProjectController {
 			} catch(Exception e) {
 				logger.info("수정 이미지 파일 업로드에 실패했습니다");
 			}
-			*/
+			
 		}else {
 			System.out.println("들어온 이미지 파일이 없습니다");
 		}
