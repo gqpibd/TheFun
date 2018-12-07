@@ -3,7 +3,7 @@ package donzo.thefun.util;
 import java.io.Serializable;
 
 public class UtilFunctions implements Serializable{
-
+	
 	public static String getDateForm(String datetime) {
 		String date = datetime;
 		if(datetime.lastIndexOf(' ')>-1) {

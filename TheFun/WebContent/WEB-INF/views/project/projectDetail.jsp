@@ -12,6 +12,11 @@
  
 <title>The Fun_${projectdto.title }</title>
  
+<!-- 프로젝트디테일 css 링크 -->
+<link rel="stylesheet" href="CSS/project/projectDetail.css">
+ 
+ 
+ 
 <!-- Custom styles for this template -->
 
   
@@ -31,6 +36,12 @@
 /* 탭부분 css 끝 */
 .pnt { 
 	cursor: pointer; 
+}
+#sTable{
+border-collapse: collapse;
+}
+.opTd{
+	border-bottom: 1px solid #444444;
 }
  .pupple{
  	color:#8152f0;
@@ -134,6 +145,24 @@
 	display: block;
 	line-height: 40px;
 }
+<<<<<<< HEAD
+/* 옵션 셀렉트 수량 컨텐츠 길이*/
+.selOpContent{
+	width: 20%;
+}
+.selOpPrice{
+	width: 10%
+}
+.selOpCount{
+	width: 10%
+}
+/* input text css */
+.Fee{
+	background-color:transparent;
+	border:none;
+	text-align:left;
+}
+
 
  /* 프로젝트 승인 상태 보기 */
  .blog-container {
@@ -186,6 +215,7 @@
    line-height: 1.9rem;
    text-align: center;
  }
+>>>>>>> refs/remotes/origin/dh
 </style>
 
 <!-- 남은날짜계산 -->
@@ -222,83 +252,84 @@
 <!-- 프로젝트 타이틀 -->
 		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
-			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" width="600px;"></td>
-			<td class="strongGray sTd"  >
-			<c:if test="${projectdto.isPreparing()}">
+			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" height="400px;"></td>
+			<td class="strongGray sTd" colspan="3">
+			
+			<c:if test="${projectdto.isPreparing()}"><!-- 프로젝트 준비중 -->
 				 	<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
 			</c:if>
-			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	
+			<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">	<!-- 프로젝트 종료 -->
 				 	<b style="font-size: 25px">종료된 리워드</b>
 			</c:if>
-			<c:if test="${projectdto.isOngoing()}">
+			<c:if test="${projectdto.isOngoing()}"><!-- 프로젝트 실행중 -->
 				 <c:if test="${(endDate - nowDate)==0}">
 				 <b style="font-size: 25px">오늘마감</b>
 				 </c:if>
 				 <c:if test="${(endDate - nowDate)>0}">
-				 <b style="font-size: 25px">${endDate-nowDate}일 남음</b>
+				 <b style="font-size: 25px">${endDate-nowDate+1}일 남음</b>
 				 </c:if>
 			</c:if>
 			</td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd">
+			<td class="strongGray sTd" colspan="3">
 				<b style="font-size: 20px"><fmt:formatNumber value="${(projectdto.fundachived div projectdto.goalfund)*100 }" pattern="0"/>
 				</b>% 달성
 			</td>
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd">
+			<td class="strongGray sTd" colspan="3">
 			<b style="font-size: 20px"><fmt:formatNumber value="${projectdto.fundachived }" type="number"/></b>&nbsp;원 펀딩
 		</tr>
 		<tr height="50">
-			<td class="strongGray sTd"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
+			<td class="strongGray sTd" colspan="3"><b style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 		</tr>
 		<tr height="50">
 			<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%><!-- 하트 버튼 -->
-			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i><span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
+			<td > <i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}" onclick="heartClick(this)"></i>
+				<span id="likeCount">${projectdto.likecount}</span><!-- 하트 버튼 -->
 				명이 좋아합니다
 			</td>
 		</tr>
-		<c:if test="${projectdto.isReward()}">
-			<tr height="50">
+
+		<c:if test="${projectdto.isOngoing()}">
+		
+			<c:if test="${projectdto.isDonation()}"> <!-- 기부일때 (옵션 표시 x) -->
+			<tr height="50" id="beginTr">
 				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
-				<td>
-					<select style="width: 70%; height: 30px;" id="optionSelect">
-						<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
-						<c:forEach items="${optionList }" var="opselect">
-							<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
-						</c:forEach>
-					</select>
+				<td colspan="3">
+					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+						<img src="image/detail/donationBtn.jpg" width="120px"> <!-- 기부하기 버튼 -->
+					</a>
 				</td>
 			</tr>
-		</c:if>
-		<tr>
-		<td></td>
-			<c:if test="${projectdto.isOngoing()}">
-			<td>
-				<c:if test="${projectdto.isReward()}">
-				<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
-					<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
-				<!-- </a> -->
-				</c:if>
-				<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-					<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
-				</a>
-			</td>
 			</c:if>
-		</tr>
-		<tr height="50" style="padding: 50px">
-			<td align="left">
-			<p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
-				펀딩기간  <b>
-				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
-				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
-				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
-				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
-			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font></td>
-			<td><div id="shareField"></div> </td>
-		</tr>
+			
+			<c:if test="${projectdto.isReward()}"> <!-- 리워드일때 (옵션선택) -->
+			<tr height="50" id="beginTr">
+				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td colspan="3">
+				<select style="width: 80%; height: 30px;" id="optionSelect">
+					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
+					<c:forEach items="${optionList }" var="opselect">
+						<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+					</c:forEach>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="3">
+					<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
+						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
+					<!-- </a> -->	
+					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
+						<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
+					</a>
+				</td>
+			</tr>
+			</c:if>
+		</c:if>
 		</table>
    
    
@@ -344,16 +375,112 @@
 	 
 	 
 <script type="text/javascript">
+
+/* 옵션select 생성관련 코드 */
+ var opArr = new Array();
+ <c:forEach items='${optionList}' var = 'op' >
+ 	var Ojson = new Object ();
+ 	Ojson.seq = '${op.seq}';
+ 	Ojson.title = '${op.title}';
+ 	Ojson.content = '${op.content}';
+ 	Ojson.price = '${op.price}';
+ 	opArr.push(Ojson);
+ </c:forEach>
+
+var alreadySeq = new Array(); //기존에 출력된 옵션시퀀스 보관
+
 $(document).ready(function () {
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
 	
+	//옵션 select 선택시
 	$("#optionSelect").change(function(){
-	   var selectOptionSeq =  $(this).val();  //선택된 옵션 시퀀스 
-	   //옵션 시퀀스 값 얻어서 테블 밑에 td 더 생성 / x 누르면 remove
-	   $('#optionSelect').val('beginS');	//기본값으로 되돌림
+
+	   var selectedSeq =  $(this).val();  //클릭한 옵션 시퀀스
+	   var str ="";	//테이블 셋팅구문
+	   var isFirst="first";	//변수 
+	   
+	   //테이블 처음 생성시
+	   if(alreadySeq.length==0){
+		   
+		/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
+		   $.each(opArr,function(i,item){
+				
+				if(item.seq==selectedSeq){
+					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					"<td class='imgTd'></td>"+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
+					"</td>"+
+					"<td class='selOpCount opTd'align='right;'>"+
+					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+					"</td>"+
+					"<td class='selOpPrice opTd'>"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+					"</td></tr>"+
+					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
+					 
+					 alreadySeq[alreadySeq.length]=item.seq;
+					 $('#beginTr').after(str);	//tr 생성
+					 return false;
+				}
+			});	
+		   
+		//테이블 n번째 생성시
+	   }else if(alreadySeq.length>0){
+
+		   /* 이미 생성된 옵션seq, 선택한 옵션을 비교 라여 isFirst에  저장 */
+			$.each(alreadySeq,function(j,alSeq){	
+				if (selectedSeq==alSeq){
+					isFirst="already";
+					return false;
+				}
+			});
+		   
+		   /* isFirst를 확인하여 fist생성이라면 */
+			if(isFirst=="first"){
+				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
+				   $.each(opArr,function(i,item){
+						if(item.seq==selectedSeq){
+							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+							"<td class='imgTd'></td>"+
+							"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+							"</td>"+
+							"<td class='selOpCount'align='right;'>"+
+							"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+							"</td>"+
+							"<td class='selOpPrice'>"+
+							"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+							"</td></tr>";
+							 
+							 alreadySeq[alreadySeq.length]=item.seq;
+							 //최종가격설정
+							 var pVal = Number($("#finalPrice").val());
+							 pVal= pVal+Number(item.price);
+							 $("#finalPrice").val(pVal);
+							 $('#beginTr').after(str);	//tr 생성
+							 return false;
+						}
+						
+					});	
+				   
+			}else if(isFirst=="already"){
+				alert("중복된 옵션 선택은 불가능합니다!");
+			}
+	   }
+		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
+	
+	
+	
+	
 });
 
 //마우스커서 모양변환
@@ -432,20 +559,79 @@ function heartClick(selector){
 		});				
 	}
 }
+
+/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
+function plusVal(seqNum) {
+   	var count = Number(document.getElementById(seqNum).value);
+   	var stockCount = document.getElementById("stock_"+seqNum).value;
+   	
+   	if(stockCount<0){	//재고가 무제한이라면
+   		
+   		count+=1;
+     	document.getElementById(seqNum).value =count;
+       	//가격변환
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+       	var totalPrice = priceField+realPrice;
+       	document.getElementById("price_"+seqNum).value =totalPrice;
+       	
+       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
+    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+   		
+   	}else{		//재고가 무제한이 아니라면
+ 
+		if(count==stockCount){
+			alert("구매가능한 수량보다 많습니다.");
+		}else{
+			count+=1;
+	     	document.getElementById(seqNum).value =count;
+	       	//가격변환
+	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
+	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+	       	var totalPrice = priceField+realPrice;
+	       	document.getElementById("price_"+seqNum).value =totalPrice;
+	       	
+	       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
+	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+		}
+   	}
+}
+
+/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
+function minusVal(seqNum) {
+
+	var count = Number(document.getElementById(seqNum).value);
+	
+	if(count==1){
+		document.getElementById(seqNum).value ="1";
+	}else{
+		count-=1;
+       	document.getElementById(seqNum).value =count;
+       	
+       	//가격변환 
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
+       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
+       	var resultPrice = priceField-realPrice;								//셋팅할 가격
+       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
+       	
+       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
+    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
+	}
+}
 </script>
 
       <div class="row">
 
         <!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
         <div class="col-lg-8" id="storyContent">
-        <%-- <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
+         <p class="pupple" style="font-size: 15px;">목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }" type="number"/></b>원 &nbsp;&nbsp; 
 				펀딩기간  <b>
 				<fmt:parseDate value="${projectdto.sdate }" pattern="yyyy-MM-dd HH:mm:ss" var="sdate" />
 				<fmt:formatDate value="${sdate }" pattern="yyyy.MM.dd"/>~
 				<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 				<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/></b></p>
 			<b style="font-size:15 px;">100%이상 모이면 펀딩이  성공되는 프로젝트</b><br>
-			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font> --%>
+			<font size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
 			<jsp:include page="detailStory.jsp"/>
         </div>
         
@@ -527,7 +713,8 @@ function heartClick(selector){
 
     </div>
     <!-- /.container -->
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 코드 -->
+    
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
  <div class="dim-layer">
   <div class="dimBg"></div>
     <div id="layer_2" class="pop-layer">
@@ -552,74 +739,9 @@ function heartClick(selector){
             </div>
         </div>
     </div>
-</div>   
-<!-- 판매자 정보 팝업창 코드 -->       
-<style>
-.pop-layer .pop-container {
-  padding: 20px 25px;
-}
-.pop-layer p.ctxt {
-  color: #666;
-  line-height: 25px;
-}
-.pop-layer .btn-r {
-  width: 100%;
-  margin: 10px 0 20px;
-  padding-top: 10px;
-  border-top: 1px solid #DDD;
-  text-align: right;
-}
-.pop-layer {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 410px;
-  height: auto;
-  background-color: #fff;
-  border: 5px solid #8152f0;
-  z-index: 10;
-}
-.dim-layer {
-  display: none;
-  position: fixed;
-  _position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-}
-.dim-layer .dimBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: .5;
-  filter: alpha(opacity=50);
-}
-.dim-layer .pop-layer {
-  display: block;
-}
-a.btn-layerClose {
-  display: inline-block;
-  height: 25px;
-  padding: 0 14px 0;
-  border: 1px solid #304a8a;
-  background-color: #8152f0;
-  font-size: 13px;
-  color: #fff;
-  line-height: 25px;
-}
-a.btn-layerClose:hover {
-  border: 1px solid #091940;
-  background-color: #1f326a;
-  color: #fff;
-}
-</style>      
-<!-- 판매자 정보 팝업창 코드 -->    
+</div>
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
+<!-- 판매자 정보 팝업창 스크립트 코드 -->    
 <script type="text/javascript">
 $('.btn-example').click(function(){
     var $href = $(this).attr('href');
@@ -652,7 +774,7 @@ function layer_popup(el){
     });
 }
 </script>  
-<!-- 판매자 정보 레이어팝업코드 -->    
+<!-- 판매자 정보 팝업창 스크립트 코드 -->    
     
 <script type="text/javascript">
 function checkAndSendMessage(){

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
-import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.buyParam;
 
 @Repository
 public class BuyDaoImpl implements BuyDao {
@@ -41,18 +41,17 @@ public class BuyDaoImpl implements BuyDao {
 		return sqlSession.selectList(ns+"selectReviewList",seq);
 	}
 
-	
 ////////페이징
-//	@Override
-//	public List<BuyDto> _myOrderList(ProjectParam param) {
-//		List<BuyDto> blist = sqlSession.selectList(ns + "_myOrderList", param);
-//		return blist;
-//	}
-//
-//	@Override
-//	public int getOrderCount(ProjectParam param) {
-//		return sqlSession.selectOne(ns + "getOrderCount", param);
-//	}	
+	@Override
+	public List<BuyDto> myOrderPageList(buyParam param) {
+		List<BuyDto> blist = sqlSession.selectList(ns + "myOrderPageList", param);
+		return blist;
+	}
+
+	@Override
+	public int getOrderCount(buyParam param) {
+		return sqlSession.selectOne(ns + "getOrderCount", param);
+	}	
 ///////////////	
 	
 	

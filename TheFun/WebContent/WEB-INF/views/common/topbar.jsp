@@ -288,25 +288,25 @@ $(document).ready(function () {
 						<div>
 							<h4>더 펀 메이커</h4>
 							<ul>
-								<li><a href="searchProjectList.do">모든 프로젝트</a></li>
-								<li><a href="#">분야별 인기 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=edateASC">마감 앞둔 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=sdateDESC">최신 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_type=donation&s_complete=complete">종료된 프로젝트</a></li>
+								<li><a href="searchProjectList.do?doc_title=all">진행 중인 프로젝트</a></li>
+								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC">마감 앞둔 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=sdateDESC">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 프로젝트</a></li>
 							</ul>
 						</div>
 						
 						<div>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
+							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
 							<ul>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_HUMAN}">인권</a></li>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_ANIMAL}">동물</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_HUMAN}&doc_title=donationHuman">인권</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_ANIMAL}&doc_title=donationAnimal">동물</a></li>
 							</ul>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</h4>
+							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</h4>
 							<ul>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}">음식</a></li>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}">IT / 전자</a></li>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_ANIMAL	}">동물</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}&doc_title=rewardFood">음식</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}&doc_title=rewardIt">IT / 전자</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_ANIMAL}&doc_title=rewardAnimal">동물</a></li>
 							</ul>
 						</div>
 						<div>
@@ -314,7 +314,7 @@ $(document).ready(function () {
 							<form id="_frmFormSearch" name="frmForm1">
 								<div class="box">
 									<div class="container-4">
-										<input class="field" type="text" placeholder="Search..."
+										<input class="field" type="text" placeholder=" Search..."
 										style="width: 230px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
 										name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
 										<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
@@ -326,7 +326,11 @@ $(document).ready(function () {
 								<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
 								<input type="hidden" name="s_type" value="${s_type }">
 								<input type="hidden" name="s_category" value="${s_category }">
+								<input type="hidden" name="s_summary" value="${s_summary }">
+								<input type="hidden" name="s_sort" value="${s_sort }">
+								<input type="hidden" name="s_asc_desc" value="${s_asc_desc }">
 								<input type="hidden" name="s_complete" value="${s_complete }">
+								<input type="hidden" name="doc_title" value="${doc_title }">
 							</form>
 							<h4>더 펀 소개</h4>
 							<ul>
@@ -629,7 +633,7 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
     
 // 상단바 js 부분
     
-var site = function() {
+/* var site = function() {
 this.navLi = $('.nav li').children('ul').hide().end();
 this.init();
 };
@@ -663,7 +667,7 @@ site.prototype = {
 	}
 }
 
-new site();
+new site(); */
 
 
 

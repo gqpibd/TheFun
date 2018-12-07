@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.OptionDto;
-import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.buyParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.util.UtilFunctions;
 
- 
+
 @Controller
 public class BuyController {
 	
@@ -37,17 +36,62 @@ public class BuyController {
 	
 	// 내 주문 내역 목록 (myOrderHistory)
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myOrderList(HttpServletRequest req, Model model) {
+	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
+		logger.info("myOrderList.do 로 들어온 param : " + param.toString());
+		
+		//null 들어오면 빈문자열
+//		if(param.getO_bcomment() == null) { param.setO_bcomment(""); }
+//		if(param.getO_pdate() == null) { param.setO_pdate(""); }
+//		if(param.getO_projectseq() == 0) { param.setO_projectseq(0); }
+//		if(param.getO_ptitle() == null) { param.setO_ptitle(""); }
+//		if(param.getO_otitle() == null) { param.setO_otitle(""); }
+//		if(param.getO_price() == 0) { param.setO_price(0); }
+//		if(param.getO_count() == 0) { param.setO_count(0); }
+//		if(param.getO_status() == null) { param.setO_status(""); }
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-		List<BuyDto> orderlist = buyService.orderList(user.getId());
-		model.addAttribute("orderlist", orderlist);
 
+		// paging 처리
+		int sn = param.getPageNumber();
+		int start = (sn) * param.getRecordCountPerPage() + 1;
+		int end = (sn+1) * param.getRecordCountPerPage();
+		
+		param.setStart(start);
+		param.setEnd(end);
+		param.setO_id(user.getId());
+		
+		List<BuyDto> orderlist = buyService.myOrderPageList(param);
+		int totalRecordCount = buyService.getOrderCount(param);
+		
+		//리스트 확인용
+		for (int i = 0; i < orderlist.size(); i++) {
+			BuyDto dto = orderlist.get(i);
+			logger.info("후원내역 리스트 확인 : " + dto.toString());
+		}
+		
+		model.addAttribute("pageNumber", sn);
+		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
+		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
+		model.addAttribute("totalRecordCount", totalRecordCount);
+
+		model.addAttribute("orderlist", orderlist);
+		
 		return "myOrder.tiles";
 	} 
 	
+/*	//내 주문내역 상세보기
+	@RequestMapping(value="myOrderDetail.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myOrderDetail(int projectSeq, HttpServletRequest req, Model model) {
+		
+		//프로젝트정보 seq
+		//프로젝트옵션정보 n개 
+		//작성자정보
+		//결제정보
+		
+	}
+*/	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
@@ -106,5 +150,7 @@ public class BuyController {
 		return listData; 
 	}
 	
- 
+	
+	
+	
 }  

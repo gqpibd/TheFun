@@ -61,12 +61,12 @@ public class BasketDto implements Serializable {
 	int projectseq; // 프로젝트 번호
 	int optionseq; // 옵션 번호
 	int count; // 구매수량
-	int price; // 단가
 	String regdate;
 	
 	String ptitle; // 프로젝트 이름 -- view에서 가져옴
 	String otitle; // 옵션 이름 -- view에서 가져옴
 	String ocontent; // 옵션 내용 -- view에서 가져옴
+	int price; // 단가
 	String status;	
 	
 	public BasketDto() {}
@@ -111,14 +111,6 @@ public class BasketDto implements Serializable {
 		this.count = count;
 	}
 
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public String getRegdate() {
 		return regdate;
 	}
@@ -149,6 +141,14 @@ public class BasketDto implements Serializable {
 
 	public void setOcontent(String ocontent) {
 		this.ocontent = ocontent;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public String getStatus() {

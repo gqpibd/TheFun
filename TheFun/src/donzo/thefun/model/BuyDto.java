@@ -286,6 +286,18 @@ public class BuyDto implements Serializable {
 		return date;
 	}
 	
+	//제목이 길때 뒤에 ... 해주는 거
+	public String dot3(String msg){
+		String s="";
+		if(msg.length()>=15){
+			s=msg.substring(0,15);
+			s+="...";
+		}else{
+			s=msg.trim();
+		}
+		return s;
+	}
+	
 	public String getName() {
 		return name;
 	}
