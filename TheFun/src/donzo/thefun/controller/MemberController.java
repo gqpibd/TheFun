@@ -55,7 +55,7 @@ public class MemberController {
 			return "redirect:/" + callback;
 		}
 		return "redirect:/main.do";
-	}
+	}  
 	
 	// 내 정보 수정
 	@RequestMapping(value="updateInfo.do", method= RequestMethod.POST)
