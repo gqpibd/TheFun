@@ -38,8 +38,15 @@
 	        <mvc:mapping path="/goSelectReward.do"/>
 	        <mvc:mapping path="/goOrderReward.do"/>
 	        <mvc:mapping path="/order.do"/>
-	        <mvc:mapping path="/newProject.do"/>
+	        <mvc:mapping path="/newProject.do"/>	<!-- 새 프로젝트 -->
 	        <mvc:mapping path="/newProjectAf.do"/>
+	        <mvc:mapping path="summernotePhotoUpload.do"/>
+	        <mvc:mapping path="projectUpdate.do"/>
+	        <mvc:mapping path="projectUpdateAf.do"/>
+	        <mvc:mapping path="projectDelete.do"/>
+	        <mvc:mapping path="myBasket.do"/>		<!-- 장바구니 -->
+	        <mvc:mapping path="updateBasket.do"/>
+	        <mvc:mapping path="deleteBasket.do"/>
 	        <mvc:mapping path="/myOrder.do"/>		<!-- 내 후원 내역 -->
 	        <mvc:mapping path="/myOrderList.do"/>	<!-- 내 후원 내역 controller -->
 	        <mvc:mapping path="/mySchedule.do"/>		<!-- 내 일정 -->
