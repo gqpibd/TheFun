@@ -140,7 +140,6 @@ border-collapse: collapse;
 	display: block;
 	line-height: 40px;
 }
-<<<<<<< HEAD
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
 .selOpContent{
 	width: 20%;
@@ -210,7 +209,6 @@ border-collapse: collapse;
    line-height: 1.9rem;
    text-align: center;
  }
->>>>>>> refs/remotes/origin/dh
 </style>
 
 <!-- 남은날짜계산 -->
@@ -444,15 +442,15 @@ $(document).ready(function () {
 						if(item.seq==selectedSeq){
 							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 							"<td class='imgTd'></td>"+
-							"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 							"</td>"+
-							"<td class='selOpCount'align='right;'>"+
+							"<td class='selOpCount opTd'align='right;'>"+
 							"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
 							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 							"</td>"+
-							"<td class='selOpPrice'>"+
-							"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<td class='selOpPrice opTd'>"+
+							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
 							 

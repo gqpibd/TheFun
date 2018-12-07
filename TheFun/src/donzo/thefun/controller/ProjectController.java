@@ -92,11 +92,11 @@ public class ProjectController {
 	public String goOrderReward(int projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
 		
-		//확인
+/*		//확인
 		System.out.println("프로젝트시퀀스 : "+projectSeq);
 		for(int i=0; i<selectOpSeq.length;i++) {
-			System.out.println("옵션시퀀스 : "+selectOpSeq+" 옵션카운트 : "+optionCount);
-		}
+			System.out.println("옵션시퀀스 : "+selectOpSeq[i]+" 옵션카운트 : "+optionCount[i]);
+		}*/
 		
 		//현재 선택한 프로젝트 정보
 		ProjectDto projectdto = projectService.getProject(projectSeq);
@@ -105,15 +105,15 @@ public class ProjectController {
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
 		
-		if(projectdto.getFundtype().equals(projectdto.TYPE_REWARD)) {
+		if(projectdto.getFundtype().equals(projectdto.TYPE_REWARD)) {//리워드일경우
 			
+			logger.info("ProjectController goOrder 메소드 리워드일경우 " + new Date());	
 			//선택한 옵션정보
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
 			
 			//선택한 옵션 갯수 
 			model.addAttribute("optionCount",optionCount);
-			
 		}
 		
 		return "orderReward.tiles";
