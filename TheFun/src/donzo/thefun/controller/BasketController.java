@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.BasketService;
 
 @Controller
@@ -26,16 +29,18 @@ public class BasketController {
 	
 	//장바구니 넣기 addBasket.do
 	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void addBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
+	public void addBasket(int projectSeq, int[] optionSeq, int[] optionCount, HttpServletRequest req) {
 		logger.info(" BuyController addBasket" + new Date());
 		
-		System.out.println("id : "+id+" / projectSeq : ");
+		String id = ((MemberDto)req.getSession().getAttribute("login")).getId();
+		
+		System.out.println("id : "+id+" / projectSeq : "+projectSeq);
 		for(int i=0; i<optionCount.length;i++) {
 			logger.info("옵션 시퀀스  : "+optionSeq[i] +"옵션 카운트 : "+optionCount[i]);
 		}
 
 		//장바구니 insert
-		 
+		
 	}
 	
 	// 장바구니 창으로
