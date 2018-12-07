@@ -179,7 +179,7 @@ $('input:checkbox[id="_chk_save_id"]').change(function(){
 				아직도 더펀 계정이 없으신가요? <a href="#" style="color: #8152f0">회원가입</a>
 			</p>
 			<p class="message">
-				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기 / 비밀번호 찾기</a>
+				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기 / 비밀번호 변경</a>
 			</p>
 		</div>
 	</form>

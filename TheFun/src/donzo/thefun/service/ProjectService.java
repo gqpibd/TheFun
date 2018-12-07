@@ -65,6 +65,8 @@ public interface ProjectService {
 
 	public List<ProjectmsgDto> getMsgList(int projectseq);
 
+	//판매자의 프로젝트 리스트
+	public List<ProjectDto> getProjectList(String id);
 	
 	
 }

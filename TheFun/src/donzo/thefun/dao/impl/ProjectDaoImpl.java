@@ -97,4 +97,15 @@ public class ProjectDaoImpl implements ProjectDao {
 		return n>0?true:false;
 	}
 	
+	////판매자의 프로젝트리스트
+	@Override
+	public List<ProjectDto> getProjectList(String id) {
+		List<ProjectDto> list = sqlSession.selectList(ns + "getProjectList", id);
+		return list;
+	}
+	
+	
+	
+	
+	
 }

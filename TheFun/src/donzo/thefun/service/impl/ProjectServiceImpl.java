@@ -203,7 +203,18 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectmsgDto> getMsgList(int projectseq) {		
 		return projectmsgDao.getMsgList(projectseq);
-	}	
+	}
+	
+	//판매자의 프로젝트리스트
+	@Override
+	public List<ProjectDto> getProjectList(String id) {		
+		return projectDao.getProjectList(id);
+	}
+	
+	
+	
+	
+	
 	
 	
 }

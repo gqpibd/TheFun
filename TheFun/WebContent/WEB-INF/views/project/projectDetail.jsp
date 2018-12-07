@@ -698,7 +698,7 @@ function minusVal(seqNum) {
             <div class="card-body">   
 			<table style="width: 100%">
 			<tr>
-				<td rowspan="2" align="left" class="strongGray"><a href="#layer_2" class="btn-example"><img class="profile_img" src="${writer.profile}"></a></td> 
+				<td rowspan="2" align="left" class="strongGray"><a href="#layer_2" class="btn-example" onclick="getMakerInfo()"><img class="profile_img" src="${writer.profile}"></a></td> 
 				<td align="right" class="strongGray">${writer.nickname } </td>
 			</tr>
 			<tr>
@@ -765,14 +765,18 @@ function minusVal(seqNum) {
             <div class="pop-conts">
                 <!--content //-->
                 <p class="ctxt mb20">
-                		Thank you.<br><br> 						
-                    	${writer.info } <br>
-                   	<c:forEach items="${projectdto.tags }" var="tags">
-   		 			#${tags }
-   					 </c:forEach><br><br>
-
-                   	<span style="font-weight: bold;">${projectdto.title }</span><br>
-                   	프로젝트에 참여해주셔서 감사합니다!<br>
+                		Thank you.<br> 						
+                   		<span style="font-weight: bold;">${projectdto.title }</span> 프로젝트에<br>
+                   		참여해주셔서 감사합니다!  <br>
+                   						    <br>
+                    	${writer.info }     <br>
+      <c:forEach items="${projectdto.tags }" var="tags">
+   		 			   #${tags }
+   	  </c:forEach>                          <br><br>
+	  <c:forEach items="${projectlist.id }" var="ptitle">
+   		 			   #${ptitle}			
+   	  </c:forEach> 					
+             
 
                 </p>
                 <div class="btn-r">
@@ -816,6 +820,31 @@ function layer_popup(el){
         return false;
     });
 }
+
+//판매자의 다른 프로젝트 리스트 출력
+function getMakerInfo() {
+	 $.ajax({
+		url:"", // 접근대상
+		type:"get",		// 데이터 전송 방식
+		data:"", 
+		success:function(data, status, xhr){
+			var id = data.trim();
+			console.log(id);
+			
+		},
+		error:function(){ // 또는					 
+			console.log("통신실패!");
+		}
+	});	 
+}
+
+
+
+
+
+
+
+
 </script>  
 <!-- 판매자 정보 팝업창 스크립트 코드 -->    
     

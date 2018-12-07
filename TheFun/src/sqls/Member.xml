@@ -101,11 +101,12 @@ CREATE TABLE FUN_MEMBER(
 </select>
 
 
-
-
-
-
-
+<!-- 비밀번호 변경 -->
+<select id="change_pw" parameterType="donzo.thefun.model.MemberDto">
+	UPDATE FUN_MEMBER
+	SET PWD = #{pwd}
+	WHERE ID = #{id}
+</select>
 
 
 </mapper>

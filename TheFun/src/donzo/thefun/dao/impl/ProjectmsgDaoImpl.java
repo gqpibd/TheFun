@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.ProjectmsgDao;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectmsgDto;
 
 @Repository
@@ -27,4 +28,6 @@ public class ProjectmsgDaoImpl implements ProjectmsgDao {
 	public List<ProjectmsgDto> getMsgList(int projectseq) {		
 		return sqlSession.selectList(ns+"getMsgList",projectseq);
 	}
+
+	
 }
