@@ -682,7 +682,7 @@ public class ProjectController {
 		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(reward_animal_Param.getS_type() == null) { reward_animal_Param.setS_type(ProjectDto.TYPE_REWARD); }
-		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_IT); }
+		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_ANIMAL); }
 		if(reward_animal_Param.getS_keyword() == null) { reward_animal_Param.setS_keyword(""); }
 		if(reward_animal_Param.getS_summary() == null) { reward_animal_Param.setS_summary(""); }
 		if(reward_animal_Param.getS_complete() == null) { reward_animal_Param.setS_complete("");}
@@ -711,4 +711,18 @@ public class ProjectController {
 		
 		return "hotProject.tiles";
 	}
+	
+	/*내가 진행 중인 프로젝트 참여 현황*/
+	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String participant(int seq, Model model) throws Exception {
+		logger.info("ProjectController participant 들어옴 " + new Date());
+		
+		ProjectDto dto = projectService.getProject(seq);
+		
+		model.addAttribute("ProjectDto", dto);
+		
+		return "participant.tiles";
+	}
+	
+	
 }
