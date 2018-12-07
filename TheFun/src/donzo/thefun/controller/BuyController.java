@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
@@ -150,7 +151,18 @@ public class BuyController {
 		return listData; 
 	}
 	
-	
+	/*내가 진행 중인 프로젝트 참여 현황*/
+	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String participant(int seq, Model model, String title) throws Exception {
+		logger.info("ProjectController participant 들어옴 " + new Date());
+		
+		/*List<ProjectDto> participant_List = buyService.getMyParticipantList(seq);*/
+		
+		/*model.addAttribute("participant_List", participant_List);*/
+		model.addAttribute("title", title);
+		
+		return "project_participant.tiles";
+	}
 	
 	
 }  

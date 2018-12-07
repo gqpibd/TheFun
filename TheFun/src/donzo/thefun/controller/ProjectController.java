@@ -143,7 +143,7 @@ public class ProjectController {
 		if(doc_title == null) {
 			doc_title = "";
 		}
-		
+		logger.info("보낼 doc_title : " + doc_title);
 		model.addAttribute("doc_title", doc_title);
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
@@ -711,4 +711,5 @@ public class ProjectController {
 		
 		return "hotProject.tiles";
 	}
+	
 }

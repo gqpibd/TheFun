@@ -236,6 +236,7 @@ border-collapse: collapse;
  	    </c:if>
  	    <c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
  	    	<button class="fun_btn" onclick="viewStatus()">상태확인</button>
+ 	    	<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
  	    </c:if>
  	</c:if>
     </div>
