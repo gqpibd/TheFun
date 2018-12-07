@@ -69,7 +69,6 @@
     <div align="center" >
     <form action="addOrder.do" id="orderfrm"  method="post" >
     
-    
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">    
     <!-- 메인 -->
