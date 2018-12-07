@@ -123,7 +123,7 @@ public class ProjectController {
 		return "orderReward.tiles";
 
 	}
-		
+		 
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProjectList(Model model, ProjectParam pParam, String doc_title) throws Exception{

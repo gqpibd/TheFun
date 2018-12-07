@@ -373,6 +373,7 @@ public class BuyDto implements Serializable {
 		}else
 			return false;
 	}
+			
 	public boolean isDeleted() {
 		if(status.equalsIgnoreCase(ProjectDto.DELETE)) {
 			return true;

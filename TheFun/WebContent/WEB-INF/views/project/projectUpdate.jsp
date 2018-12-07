@@ -1008,6 +1008,7 @@ function formSubmit(bankname, accountNumber) {
 	// form 실행! 컨트롤러로~
 	// $("#updateProjectFrom").submit(); // 모달 창에서 submit 할 때 넘어가게 하자
 }
+
 /* 글자 길이 확인 */
 function checkLength (selector,messageSelector,maxlength){
 	var curr = $(selector).val().length;

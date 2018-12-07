@@ -58,6 +58,7 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.selectReviewList(seq);
 	}
 	
+
 /////////페이징
 	@Override
 	public List<BuyDto> myOrderPageList(buyParam param) {
