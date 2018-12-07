@@ -70,5 +70,12 @@ public class BuyServiceImpl implements BuyService {
 		return buyDao.getOrderCount(param);
 	}
 /////////
+
+	@Override
+	public List<BuyDto> myOrderDetail(BuyDto buy) {
+		return buyDao.myOrderDetail(buy);
+	}
+	
+	
 }
 

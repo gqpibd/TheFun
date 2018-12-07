@@ -43,6 +43,11 @@
 	<definition name="myOrder.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
+	
+	<!-- 나의 후원내역 상세보기 -->
+	<definition name="myOrderDetail.tiles" extends="MyPage.tiles">		
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrderDetail.jsp"/>
+	</definition>
  
 	<!-- 내 프로젝트  보기 schedule -->
 	<definition name="mySchedule.tiles" extends="MyPage.tiles">		

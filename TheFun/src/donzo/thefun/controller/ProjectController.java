@@ -86,40 +86,29 @@ public class ProjectController {
 		model.addAttribute("pList",pList);
 		return "projectManage.tiles";
 	}
-		
-	// 옵션선택창으로 이동
-	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq, String type ,Model model) {
-		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-		String returnStr="";
-		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(seq));
-	
-		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
-			
-			//옵션들
-			model.addAttribute("optionList",projectService.getOptions(seq));
-			returnStr= "selectReward.tiles";
-		
-		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
-			
-			returnStr= "orderReward.tiles";
-		}
-		return returnStr;
-	}
-	
+
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int projectSeq, int[] check, Model model) {
+	public String goOrderReward(int projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrder 메소드 " + new Date());	
-
-		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(projectSeq));
 		
-		//선택한 옵션정보
-		List<OptionDto> optionList = projectService.getSelectOptions(check);
-		model.addAttribute("selectOptions",optionList);
-
+		//현재 선택한 프로젝트 정보
+		ProjectDto projectdto = projectService.getProject(projectSeq);
+		model.addAttribute("projectdto",projectdto);
+		
+		//로그인정보
+		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
+		
+		if(projectdto.getFundtype().equals(projectdto.TYPE_REWARD)) {//리워드일경우
+			
+			//선택한 옵션정보
+			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
+			model.addAttribute("selectOptions",optionList);
+			
+			//선택한 옵션 갯수 
+			model.addAttribute("optionCount",optionCount);
+		}
+		
 		return "orderReward.tiles";
 
 	}

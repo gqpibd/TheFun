@@ -30,6 +30,10 @@ h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOpt
 tr, td, input{
 	font-size: 17px;
 }
+
+.cardLabel{
+	margin:0;
+}
 </style>
 
 <script>
@@ -198,7 +202,6 @@ $(document).ready(function() {
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container" >
@@ -210,7 +213,7 @@ $(document).ready(function() {
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
-	        <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
+	        <label class="cardLabel cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
         	<span id="titleChecked" style="float: right;opacity:0;color:green">✔</span>
         </h4>        
       </div>
@@ -240,7 +243,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingTwo">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="col_image">대표 이미지</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="col_image">대표 이미지</label>
 		  	<span id="imageChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -285,7 +288,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarryTap">프로젝트 요약</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarryTap">프로젝트 요약</label>
 		  	<span id="summaryChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -317,7 +320,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingFour">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>
 		  	<span id="categoryChecked" style="float: right;opacity:1;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -374,7 +377,6 @@ $(document).ready(function() {
 
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">
@@ -416,7 +418,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingSix">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>
 		  	<span id="tagChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -446,7 +448,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingSeven">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>
 		  	<span id="goalfundChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -476,7 +478,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingEight">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>
 		  	<span id="accountChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -528,7 +530,7 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingNine">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>
+		  	<label class="collapsed cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>
 		  	<span id="scheduleChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
@@ -604,15 +606,8 @@ $(document).ready(function() {
 </div>
 
 
-
-
-
-
-
-
 <!-- (3) 세번째 탭 눌렀을 때 -->
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container">

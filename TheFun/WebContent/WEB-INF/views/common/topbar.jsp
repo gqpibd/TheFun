@@ -7,13 +7,13 @@
 
 <script type="text/javascript">
 window.fbAsyncInit = function() {
-	FB.init({
-		appId : '2123794117640622',
-		cookie : true,
-		xfbml : true,
-		version : 'v3.2'
-	});	
-	window.fbApiInit = true; //init flag
+   FB.init({
+      appId : '2123794117640622',
+      cookie : true,
+      xfbml : true,
+      version : 'v3.2'
+   });   
+   window.fbApiInit = true; //init flag
 }; 
 //Load the SDK Asynchronously
  (function(d){
@@ -199,7 +199,6 @@ window.fbAsyncInit = function() {
 	.cbp-hrmenu {
 		font-size: 80%;
 	}
-	
 
 }
 
@@ -249,7 +248,6 @@ window.fbAsyncInit = function() {
 		float: none;
 		padding: 0 2em;
 	}
-	
 }
 
 </style>

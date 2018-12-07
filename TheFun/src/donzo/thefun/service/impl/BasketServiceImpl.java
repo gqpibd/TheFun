@@ -31,5 +31,14 @@ public class BasketServiceImpl implements BasketService{
 			basketDao.updateBasket(basketDto.get(i));
 		}
 	}
+
+	@Override
+	public void insertBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
+
+		for(int i=0; i<optionSeq.length;i++) {
+			BasketDto basket = new BasketDto(id, projectSeq, optionSeq[i], optionCount[i]);
+			basketDao.insertBasket(basket);
+		}
+	}
 	
 }

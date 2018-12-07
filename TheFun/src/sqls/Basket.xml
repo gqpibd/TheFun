@@ -66,21 +66,16 @@ FROM FUN_BASKET B;
 </select>
 
 <!-- 장바구니 insert -->
-<insert id="addBasket">
+<insert id="addBasket" parameterType="donzo.thefun.model.BasketDto">
 	INSERT INTO FUN_BASKET 
-	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count})
+	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE)
 </insert>
 
-<<<<<<< HEAD
 <delete id="deleteBasket" parameterType="java.lang.Integer">
 	DELETE FROM FUN_BASKET
 	WHERE SEQ=#{seq}
 </delete>
-=======
  
->>>>>>> refs/remotes/origin/dh_home
-
-<<<<<<< HEAD
 <update id="updateBasket" parameterType="donzo.thefun.model.BasketDto">
 	UPDATE FUN_BASKET
 	SET COUNT = #{count}
@@ -88,6 +83,3 @@ FROM FUN_BASKET B;
 </update>
 
 </mapper> 
-=======
-</mapper>
->>>>>>> refs/remotes/origin/dh_home

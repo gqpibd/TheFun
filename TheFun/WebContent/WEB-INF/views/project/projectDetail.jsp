@@ -14,12 +14,7 @@
  
 <!-- 프로젝트디테일 css 링크 -->
 <link rel="stylesheet" href="CSS/project/projectDetail.css">
- 
- 
- 
 <!-- Custom styles for this template -->
-
-  
 <style type="text/css">
 /* 탭부분 css */
 .tabSelect{ 
@@ -145,7 +140,6 @@ border-collapse: collapse;
 	display: block;
 	line-height: 40px;
 }
-<<<<<<< HEAD
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
 .selOpContent{
 	width: 20%;
@@ -215,7 +209,6 @@ border-collapse: collapse;
    line-height: 1.9rem;
    text-align: center;
  }
->>>>>>> refs/remotes/origin/dh
 </style>
 
 <!-- 남은날짜계산 -->
@@ -250,6 +243,8 @@ border-collapse: collapse;
    		 <p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 <!-- 프로젝트 타이틀 -->
+<form id="goAnywhere" action="goOrderReward.do">
+<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 		<table style="width: 100%;" id="sTable" >
 		<tr height="50">
 			<td rowspan="5" class="imgTd" align="center"> <img src="upload/${projectdto.seq}" height="400px;"></td>
@@ -298,16 +293,16 @@ border-collapse: collapse;
 			<tr height="50" id="beginTr">
 				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
 				<td colspan="3">
-					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-						<img src="image/detail/donationBtn.jpg" width="120px"> <!-- 기부하기 버튼 -->
-					</a>
+					<input type="hidden" name="selectOpSeq" value="1"><input type="hidden" name="optionCount" value="1">
+					<img src="image/detail/donationBtn.jpg" width="120px" id="donaBtn"> <!-- 기부하기 버튼 -->
 				</td>
 			</tr>
 			</c:if>
 			
 			<c:if test="${projectdto.isReward()}"> <!-- 리워드일때 (옵션선택) -->
+			
 			<tr height="50" id="beginTr">
-				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td class="strongGray imgTd">${projectdto.summary }&nbsp;&nbsp;</td>
 				<td colspan="3">
 				<select style="width: 80%; height: 30px;" id="optionSelect">
 					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
@@ -317,21 +312,18 @@ border-collapse: collapse;
 				</select>
 				</td>
 			</tr>
+			
 			<tr>
 				<td></td>
 				<td colspan="3">
-					<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
-						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
-					<!-- </a> -->	
-					<a href="goSelectReward.do?seq=${projectdto.seq }&type=${projectdto.fundtype}">
-						<img src="image/detail/fundBtn.jpg" height="40px"> <!-- 펀딩하기 버튼 -->
-					</a>
+						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg" id="basketBtn"/><!-- 장바구니 버튼 -->
+						<img src="image/detail/fundBtn.jpg" height="40px" id="fundBtn"> <!-- 펀딩하기 버튼 -->
 				</td>
 			</tr>
 			</c:if>
 		</c:if>
 		</table>
-   
+   </form>
    
 	   <!-- 모달 -->
 	   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -396,7 +388,7 @@ $(document).ready(function () {
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
 	
-	//옵션 select 선택시
+	/* 옵션 select 선택구문 */
 	$("#optionSelect").change(function(){
 
 	   var selectedSeq =  $(this).val();  //클릭한 옵션 시퀀스
@@ -412,15 +404,15 @@ $(document).ready(function () {
 				if(item.seq==selectedSeq){
 					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
-					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 					"</td>"+
 					"<td class='selOpCount opTd'align='right;'>"+
 					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
 					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 					"</td>"+
 					"<td class='selOpPrice opTd'>"+
-					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
 					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
@@ -450,15 +442,15 @@ $(document).ready(function () {
 						if(item.seq==selectedSeq){
 							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 							"<td class='imgTd'></td>"+
-							"<td class='selOpContent'><b>"+item.title+"</b><br>"+item.content+
+							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 							"</td>"+
-							"<td class='selOpCount'align='right;'>"+
+							"<td class='selOpCount opTd'align='right;'>"+
 							"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
 							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 							"</td>"+
-							"<td class='selOpPrice'>"+
-							"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<td class='selOpPrice opTd'>"+
+							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
 							 
@@ -479,6 +471,58 @@ $(document).ready(function () {
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
+	/* 옵션 select 선택구문 끝*/
+	
+	//기부하기 클릭
+	$(document).on("click","#donaBtn",function (){
+		$("#goAnywhere").attr("action","goOrderReward.do").submit();
+	});
+
+	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+		if($("input[name='selectOpSeq']").length<=0){
+			alert ("옵션을 선택하여주십시오");
+		}else{
+			$("#goAnywhere").attr("action","goOrderReward.do").submit();	
+		}
+	});
+	
+	/* 장바구니로 가기 */
+	$(document).on("click","#basketBtn",function (){
+		if(${login.id eq null}){
+			//인터셉트
+		}else if($("input[name='selectOpSeq']").length<=0){
+			//$("#basketBtn").attr("data-toggle",""); //모달창 꺼놔야하는뎅..
+			alert ("옵션을 선택하여주십시오");
+			//$("#basketBtn").attr("data-toggle","modal");
+			
+		}else{
+			var OpSeqArr = [];	//옵션시퀀스배열
+		    $("input[name='selectOpSeq']").each(function(i) {
+		    	OpSeqArr.push($(this).val());
+		    });
+		    
+		    var OpCountArr = [];	//옵션 카운트 배열
+		    $("input[name='optionCount']").each(function(i) {
+		    	OpCountArr.push($(this).val());
+		    });
+
+		    $.ajax({
+		    	url:"addBasket.do",
+		    	type:"post",
+		    	data:"projectSeq=${projectdto.seq}&selectOpSeq="+OpSeqArr+"&optionCount="+OpCountArr,
+		    	success:function(data){
+		    		console.log("통신성공");
+		    		console.log("data");
+		    	},error:function(){
+		    		console.log("통신실패");
+		    	}
+		    });
+		} 
+	
+	});/* 장바구니로가기 끝 */
+	
 });
 
 //마우스커서 모양변환
