@@ -721,7 +721,7 @@ public class ProjectController {
 		
 		model.addAttribute("ProjectDto", dto);
 		
-		return "participant.tiles";
+		return "project_participant.tiles";
 	}
 	
 	

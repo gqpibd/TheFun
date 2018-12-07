@@ -631,46 +631,6 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
        $("#_frmFormSearch").attr("action","searchProjectList.do").submit();
     }
     
-// 상단바 js 부분
-    
-/* var site = function() {
-this.navLi = $('.nav li').children('ul').hide().end();
-this.init();
-};
-site.prototype = {
-       
-   init : function() {
-      this.setMenu();
-   },
-   
-   // Enables the slidedown menu, and adds support for IE6
-   
-   setMenu : function() {
-   
-   $.each(this.navLi, function() {
-      if ( $(this).children('ul')[0] ) {
-         $(this)
-            .append('<span />')
-            .children('span')
-            .addClass('hasChildren');
-      }
-   });
-   
-   this.navLi.hover(function() {
-      // mouseover
-   $(this).find('> ul').stop(true, true).slideDown('slow');
-   }, function() {
-      // mouseout
-   $(this).find('> ul').stop(true, true).hide();       
-   });
-      
-   }
-}
-
-new site(); */
-
-
-
 /* 햄버거버튼 */
    // html dom 이 다 로딩된 후 실행된다.
     $(document).ready(function(){

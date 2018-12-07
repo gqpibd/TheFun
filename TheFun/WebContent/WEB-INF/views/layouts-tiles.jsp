@@ -17,8 +17,9 @@
 <body>
 
 <!-- 탑바 -->
-<div>	<!-- 로고 검색 로그인 회원가입 -->
-	<tiles:insertAttribute name="topbar" /> 
+<!-- 로고 검색 로그인 회원가입 -->
+<div>	
+	<tiles:insertAttribute name="top_bar" ignore="false"/> 
 </div>
 
 <!-- 메인 -->
