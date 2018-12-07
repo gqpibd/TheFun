@@ -73,7 +73,7 @@
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">    
     <!-- 메인 -->
-      <p class="strongGray">${projectdto.title } </p>
+      <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
@@ -278,7 +278,7 @@
      	<ul class="liteGray" >
 			<li>쇼핑하기처럼 바로 결제되지 않습니다. 프로젝트의 성공여부에 따라 결제가 실행됩니다.</li>
 			<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
-			<li>프로젝트 종료일(<fmt:parseDate value="${projectdto.edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
+			<li>프로젝트 종료일(<fmt:parseDate value="${projectdtoList[0].edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
 			<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
 		</ul>
@@ -336,8 +336,8 @@
 	</div>
 </c:if>
 	<br><br>
-<input type="hidden" name="fundtype" value="${projectdto.fundtype }">
-<input type="hidden" name="projectseq" value="${projectdto.seq }">
+<input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
+<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 <input type="hidden" name="id" value="${login.id }">
 
 </form>
