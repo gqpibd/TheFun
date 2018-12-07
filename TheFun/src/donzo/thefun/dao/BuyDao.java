@@ -17,6 +17,7 @@ public interface BuyDao {
 
 	public List<BuyDto> selectReviewList(int seq);
 	
+		
 ///////페이징		
 	public List<BuyDto> myOrderPageList(buyParam param);
 	

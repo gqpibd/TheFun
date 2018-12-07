@@ -217,12 +217,7 @@
      		</td>
      	</tr>
      	</table>
-     	
-</c:if><!-- 리워드일경우 끝 --> 	
-		<br><br>
-<!-- 리워드일 경우 -->
-<c:if test="${projectdto.isReward()}">
-		
+		<br><br>		
 		<!-- 배송지정보 -->
 		
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -281,12 +276,13 @@
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
 			<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
 		</ul>
-	</div>
-	<br><br>
 </c:if>
-	
+	<br><br>
 	<!-- 결제정보입력 테이블 -->
 	<table style="width: 70%">
+	<tr>
+	<td style="padding-bottom: 30px;"><img src="image/detail/payinfo.jpg" width="120px;"></td>
+	</tr>
 	<tr>
 		<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
 	</tr>
@@ -375,7 +371,7 @@ function goAddOrder( is ) {
 		alert("생년월일이 6자리 이하입니다");
 	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
 		alert("월의 유효기간이 맞지 않습니다");
-	}else if(document.getElementById("validDate2").value<=19 || document.getElementById("validDate2").value>30){
+	}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
 		alert("년도 유효기간이 맞지 않습니다");
 	}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
 		alert("이름을 입력하여주십시오");
@@ -393,7 +389,6 @@ function goAddOrder( is ) {
 			  document.getElementById("card3").value+document.getElementById("card4").value;
 			document.getElementById("cardNumber").value=cardNum;
 			
-			alert("가자");
 			$("#orderfrm").attr("action","addOrder.do").submit();
 		}
 	}else{
@@ -402,7 +397,6 @@ function goAddOrder( is ) {
 		  document.getElementById("card3").value+document.getElementById("card4").value;
 		document.getElementById("cardNumber").value=cardNum;
 		
-		alert("가자");
 		$("#orderfrm").attr("action","addOrder.do").submit();
 	} 
 	

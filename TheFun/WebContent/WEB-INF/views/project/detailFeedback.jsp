@@ -28,7 +28,7 @@
 }
 </style>
 
-<p class="strongGray">피드백 <span class="pupple" id="feedbackCnt"></span></p>
+<p class="strongGray">피드백 <span class="pupple" id="feedbackCnt"></span>건</p>
 <hr>
 
 <div id="reviewBody">

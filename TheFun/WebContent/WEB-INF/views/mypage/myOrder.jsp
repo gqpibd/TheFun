@@ -4,9 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
-<!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  		
-<!-- //본문출력 묶는 태그 -->
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
@@ -169,7 +166,7 @@ input.star:checked ~ .rev-box {
 			<td>		
 				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
 				<div>결제 날짜 : ${order.getDateForm(order.pdate) }</div>
-				<div><a href="projectDetail.do?seq=${order.projectseq}">상세내역</a></div>
+				<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}">상세내역</a></div>
 			</td>
 			
 			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->

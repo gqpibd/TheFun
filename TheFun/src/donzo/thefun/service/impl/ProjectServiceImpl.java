@@ -90,7 +90,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public int projectWrite(ProjectDto newProjectDto, List<OptionDto> newPotionlist) throws Exception {
 		// edate 종료일 자정직전까지 시간설정
 		String edate = newProjectDto.getEdate();
-		newProjectDto.setEdate(edate+" 23:59:59");
+		if(newProjectDto.getEdate() != null && !newProjectDto.getEdate().equals("")) {
+			newProjectDto.setEdate(edate+" 23:59:59");
+		}
 		
 		// [1] 프로젝트 insert + 생성한 프로젝트 seq값 찾아오기
 		int projectSeq = projectDao.projectWrite(newProjectDto);
@@ -112,16 +114,17 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		// [1] 프로젝트 DB 수정
 		boolean success1 = projectDao.updateProject(myProjectDto);		
-		boolean success2 = false;
+		boolean success2 = true;
 		
 		// [2] 옵션 DB도 수정(리워드일 경우만)
 		if(myProjectDto.getFundtype().equals("reward")) {
 			// [2]-1. 기존 리워드 삭제
-			success2 = optionDao.deleteOptions(myProjectDto.getSeq());
+			optionDao.deleteOptions(myProjectDto.getSeq());
 			// [2]-2. 새 리워드 입력
 			success2 = optionDao.optionWrite(newPotionlist, myProjectDto.getSeq());
 		}
 		if(success1 && success2) {
+			System.out.println("승인 요청 알람 생성");
 			// [3] 재승인 요청
 			if(projectmsgDao.insertProjectMsg(new ProjectmsgDto(myProjectDto.getSeq(),ProjectmsgDto.RESUBMIT,message))) {			
 				// [4] 알람 작성
