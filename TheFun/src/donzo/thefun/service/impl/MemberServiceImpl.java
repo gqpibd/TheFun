@@ -53,7 +53,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String find_id(HttpServletResponse response, String email) throws Exception {
-		return memberDao.find_id(email);
+	public MemberDto find_idpw(MemberDto dto) {
+		return memberDao.find_idpw(dto);
 	}
+
+	
 }

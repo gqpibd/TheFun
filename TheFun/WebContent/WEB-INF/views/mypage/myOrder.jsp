@@ -4,13 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
-<!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  		
-<!-- //본문출력 묶는 태그 -->
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
-
 <style type="text/css">
 /* 별점 + 후기 */
 .cont {
@@ -122,9 +118,7 @@ input.star:checked ~ .rev-box {
     padding: 6px 24px;
     text-decoration: none;
 }
-
 </style>
-
 
 <header class="line_header">
   <div class="container text-center">
@@ -155,8 +149,8 @@ input.star:checked ~ .rev-box {
 			<th>후원일자</th>
 			<th colspan="2">후원 프로젝트 정보</th>
 			<th>후원금액(수량)</th>
-			<th>프로젝트 주인</th>
-			<th>프로젝트 상태</th>
+			<th>작성자</th>
+			<th>상태</th>
 			<!-- <th>추가할 어떤 것</th> -->
 		</tr>	
 		</c:if>
@@ -169,23 +163,28 @@ input.star:checked ~ .rev-box {
 	<c:if test="${order.isDeleted() eq false }">
 			<tr>
 			<!-- 후원 일자 : 펀딩일 결제일 -->
-			<td><!-- white-space: nowrap;  word-break:break-all  -->		
+			<td>		
 				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
 				<div>결제 날짜 : ${order.getDateForm(order.pdate) }</div>
-				<div><a href="projectDetail.do?seq=${order.projectseq}">상세내역</a></div>
+				<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}">상세내역</a></div>
 			</td>
 			
 			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->
 			<td colspan="2" >
-				<div class="proTitle" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
-					<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">${order.ptitle }
+				<div class="proTitle" style="cursor:pointer; font-weight: bold;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
+					<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">
+					<c:choose>
+						<c:when test="${order.otitle eq null }">[기부]</c:when>
+						<c:otherwise>[리워드]</c:otherwise>
+					</c:choose>
+					${order.dot3(order.ptitle) }
 				</div>
 				<div class="opTitle" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>
 			</td>
 			
 			<!-- 총 금액 ( 수량 ) -->
 			<td>
-				<div><fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
+				<div>총 <fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
 				 <div>(${order.count }개)</div>
 			</td>
 			
@@ -220,16 +219,16 @@ input.star:checked ~ .rev-box {
 	<tbody>
 
 </table>
-<%-- 
+
 <div id="paging_wrap">	
-	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+	<jsp:include page="/WEB-INF/views/mypage/myPaging.jsp" flush="false">
 		<jsp:param value="${pageNumber }" name="pageNumber"/>		
 		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
 		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
 		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>	
 	</jsp:include>	
 </div>
- --%>
+ 
 </div>
 
 <script type="text/javascript">
@@ -249,12 +248,6 @@ $(".hover_tr").mouseover(function () {
 	$(this).find("td").css("background-color","#ffffff");	
 	//$(this).first().css("background-color","#8152f0");
 });
-
-/* 페이지 번호 클릭 했을때 */
-/*function goPage(pageNumber) {
-	$("#_pageNumber").val(pageNumber);
-	$("#_frmFormSearch").attr({"target":"_self", "action":"bbslist.do"}).submit();
-} */
 
 //textarea 자동 크기 조절			
 //동적으로 생성된 태그에 이벤트를 적용하기 위해서는 $(document).on()으로 해줘야 한다.
@@ -277,6 +270,7 @@ function checkAndSendReview(){
 	}
 	$("#reviewForm").submit();
 }
+
 </script>
 
 

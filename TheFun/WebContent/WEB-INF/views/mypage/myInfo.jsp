@@ -5,12 +5,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  		
-<!-- //본문출력 묶는 태그 -->
 
 
- <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
+<link rel="stylesheet" href="CSS/mainCss/myInfo.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 
 <!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->

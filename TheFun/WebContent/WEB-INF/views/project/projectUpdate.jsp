@@ -27,9 +27,35 @@ tr, td, input{
 </style>
 
 <script>
+var dayName=["일", "월", "화", "수", "목", "금", "토"];
+var monthName = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+function onDateSelect(d, selector){
+	// 연,월,일 구하기
+	var arr = d.split("-");
+	$(selector).text(arr[0]);
+	$(selector).append(arr[1]);
+	$(selector).append(arr[2]);
 	
-$(document).ready(function() {
+	// 요일 구하기
+	var date = new Date( $(selector).datepicker({dateFormat:'yy-mm-dd'}).val() );
+	//alert(selector+ " : "+date.getDay() );	// 0(일요일)~6(토요일)
+			
+	var week = new Array("일", "월", "화", "수", "목", "금", "토");
+	$(selector).append( week[ date.getDay() ] );
+}
+function onDatePicketClose(selectedDate, preDate, availDate){ // preDate: 앞에서 설정한 날짜. availDate: 앞으로 설정 가능한 날짜
+	if( selectedDate != "" ) {
+		// 펀딩 시작일은 내일날짜부터 선택가능하게
+		var curDate = $(preDate).datepicker("getDate");  // Date return
+		curDate.setDate( curDate.getDate() + 1 );
+		// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
+		$(availDate).datepicker("option", "minDate", curDate);
+		// 종료일 태그 활성화
+		$(availDate).attr("disabled", false);
+	}
+}
 	
+$(document).ready(function() {	
 		console.log("옵션 토탈 = ${myProject.optiontotal }");
 		// 등록된 리워드 갯수까지만 row 보이기
 		for (var i = 1; i <= 10; i++) {
@@ -84,140 +110,56 @@ $(document).ready(function() {
 		$("#date1").datepicker({
 			minDate : 0,
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-				// alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date1").text(arr[0]);
-				$("#date1").append(arr[1]);
-				$("#date1").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date1").datepicker({dateFormat:'yy-mm-dd'}).val() );
-				// alert("date1 : "+date.getDay() );	// 0(일요일)~6(토요일)
-						
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date1").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date1");
 			},
 			onClose : function (selectedDate) {
-				if( selectedDate != "" ) {
-					// 펀딩 시작일은 내일날짜부터 선택가능하게
-					var curDate = $("#date1").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					// 펀딩 종료일은 선택된 시작일 담날부터 가능하게
-					$("#date2").datepicker("option", "minDate", curDate);
-					// 종료일 태그 활성화
-					$("#date2").attr("disabled", false);
-				}
+				 onDatePicketClose(selectedDate,"#date1","#date2");		     
 			}
 		});
 		// 종료일
 		$("#date2").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date2").text(arr[0]);
-				$("#date2").append(arr[1]);
-				$("#date2").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date2").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date2").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date2");
 			},
-			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-	            if( selectedDate != "" ) {
-	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date1").datepicker("option", "maxDate", selectedDate);
-	                
-	             	// 정산일(결제일)은 종료일 담날부터 가능
-					var curDate = $("#date2").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					$("#date3").datepicker("option", "minDate", curDate);
-					// 정산일 태그 활성화
-					$("#date3").attr("disabled", false);
-	            }
+			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+				onDatePicketClose(selectedDate,"#date2","#date3");
 	        }
 		});
 		// 정산일
 		$("#date3").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date3").text(arr[0]);
-				$("#date3").append(arr[1]);
-				$("#date3").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date3").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date3").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date3");
 			},
-			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
-	            if( selectedDate != "" ) {
-	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date2").datepicker("option", "maxDate", selectedDate);
-	                
-	             	// 정산일(결제일)은 펀딩 종료일 다음날부터 가능하게
-					var curDate = $("#date3").datepicker("getDate");  // Date return
-					curDate.setDate( curDate.getDate() + 1 );
-					$("#date4").datepicker("option", "minDate", curDate);
-					// 배송일 태그 활성화
-					$("#date4").attr("disabled", false);
-	            }
+	        onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행		           
+				onDatePicketClose(selectedDate,"#date3","#date4");
 	        }
 		});
 		// 배송일
 		$("#date4").datepicker({
 			dateFormat:"yy-mm-dd",
-			dayNamesMin:["일", "월", "화", "수", "목", "금", "토"],	// 배열을 잡은것.
-			monthNames:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+			dayNamesMin:dayName,				
+			monthNames: monthName,
 			onSelect:function( d ){
-				// 연,월,일 구하기
-//				alert(d + "선택됐습니다");
-				var arr = d.split("-");
-				$("#date4").text(arr[0]);
-				$("#date4").append(arr[1]);
-				$("#date4").append(arr[2]);
-				
-				// 요일 구하기
-				var date = new Date( $("#date4").datepicker({dateFormat:'yy-mm-dd'}).val() );
-//				alert("this : "+date.getDay() );	// 0(일요일)~6(토요일)
-				
-				var week = new Array("일", "월", "화", "수", "목", "금", "토");
-				$("#date4").append( week[ date.getDay() ] );
+				onDateSelect(d,"#date4");
 			},
 			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
 	            if( selectedDate != "" ) {
 	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date3").datepicker("option", "maxDate", selectedDate);
-	                
+	                $("#date3").datepicker("option", "maxDate", selectedDate);	                
 	            }
 	        }
 		});
-		
-		
-		
 });
 </script>
-
-
-
-
 
 <!-- 프로젝트 생성에 필요한 입력값을 컨트롤러에 전송하기 위한 큰 form -->
 <form id="updateProjectFrom" method="post" action="projectUpdateAf.do" enctype="multipart/form-data">

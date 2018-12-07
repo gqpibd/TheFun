@@ -18,16 +18,12 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <!-- <script src="js/postcode/postcode.v2.js"></script>
 <script src="js/postcode/180928.js"></script> -->
-<link href="CSS/logincss/login.css" rel="stylesheet"> <!-- 로그인폼 css -->
-  
+
+<!-- 로그인폼 css -->
+<link href="CSS/logincss/login.css" rel="stylesheet">
+ 
+<!-- 아이디 쿠키 저장 jquery코드 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.cookie.js"></script>
-
-
-<style type="text/css">
-.form .register-form {
-  display: none;
-}
-</style>
 
 <!-- 페이스북 로그인에 필요하 스크립트 -->
 <script type="text/javascript">
@@ -76,7 +72,7 @@ function statusChangeCallback(response) {
    });
 } */
 
-//id저장
+//id쿠키저장
 $(document).ready(function(){
 
 var user_id = $.cookie("user_id");
@@ -151,9 +147,11 @@ $('input:checkbox[id="_chk_save_id"]').change(function(){
 		<input type="hidden" name="loginType" value="normal">
 		
 		<!-- 아이디 쿠키 저장 -->
+		<div align="right">
 		<span title="아이디저장" style="font-size: small; color: #747474;">
-			아이디 저장하기<input type="checkbox" id="_chk_save_id">	
+			아이디 저장하기<input type="checkbox" id="_chk_save_id" style="width: 5%">
 		</span>
+		</div>
 		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" value="" />
 		
 		<input type="password" id="loginPwd" name="pwd" onkeyup="loginCheck()" maxlength="12" placeholder="비밀번호" />
@@ -181,12 +179,13 @@ $('input:checkbox[id="_chk_save_id"]').change(function(){
 				아직도 더펀 계정이 없으신가요? <a href="#" style="color: #8152f0">회원가입</a>
 			</p>
 			<p class="message">
-				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기</a> / <a href="find_pw_from.do" style="color: #8152f0">비밀번호 찾기</a>
+				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기 / 비밀번호 찾기</a>
 			</p>
 		</div>
 	</form>
 </div>
 </div>
+
 <!-- 회원가입 -->
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function(){
