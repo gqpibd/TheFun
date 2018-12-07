@@ -302,7 +302,7 @@ border-collapse: collapse;
 			<c:if test="${projectdto.isReward()}"> <!-- 리워드일때 (옵션선택) -->
 			
 			<tr height="50" id="beginTr">
-				<td class="strongGray imgTd">${projectdto.summary } &nbsp;&nbsp;</td>
+				<td class="strongGray imgTd">${projectdto.summary }&nbsp;&nbsp;</td>
 				<td colspan="3">
 				<select style="width: 80%; height: 30px;" id="optionSelect">
 					<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
@@ -316,9 +316,7 @@ border-collapse: collapse;
 			<tr>
 				<td></td>
 				<td colspan="3">
-					<%-- <a href="addBasket.do?proSeq=${projectdto.seq }&id=${login.id}&opSeq&count"> --%>
-						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg"/><!-- 장바구니 버튼 -->
-					<!-- </a> -->	
+						<img data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" class="pnt" height="50" src="image/detail/addcart3.jpg" id="basketBtn"/><!-- 장바구니 버튼 -->
 						<img src="image/detail/fundBtn.jpg" height="40px" id="fundBtn"> <!-- 펀딩하기 버튼 -->
 				</td>
 			</tr>
@@ -346,7 +344,7 @@ border-collapse: collapse;
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mainBtn">이 페이지에 머무르기</button>
-	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mypageBtn">장바구니 확인하기</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" id="mypageBtn" onclick="location.href='myBasket.do?id=${login.id}'">장바구니 확인하기</button>
 	      </div>
 	    </div>
 	  </div>
@@ -388,7 +386,7 @@ $(document).ready(function () {
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
 	
-	//옵션 select 선택시
+	/* 옵션 select 선택구문 */
 	$("#optionSelect").change(function(){
 
 	   var selectedSeq =  $(this).val();  //클릭한 옵션 시퀀스
@@ -471,6 +469,7 @@ $(document).ready(function () {
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
+	/* 옵션 select 선택구문 끝*/
 	
 	$(document).on("click","#donaBtn",function (){
 		$("#goAnywhere").attr("action","goOrderReward.do").submit();
@@ -479,7 +478,38 @@ $(document).ready(function () {
 		$("#goAnywhere").attr("action","goOrderReward.do").submit();
 	});
 	
+	/* 장바구니로 가기 */
+	$(document).on("click","#basketBtn",function (){
+		//인터셉트 로그인
+		
+		if($("input[name='selectOpSeq']").length<=0){
+			alert ("옵션을 선택하여주십시오");
+			
+		}else{
+			var OpSeqArr = [];	//옵션시퀀스배열
+		    $("input[name='selectOpSeq']").each(function(i) {
+		    	OpSeqArr.push($(this).val());
+		    });
+		    
+		    var OpCountArr = [];	//옵션 카운트 배열
+		    $("input[name='optionCount']").each(function(i) {
+		    	OpCountArr.push($(this).val());
+		    });
+
+		    $.ajax({
+		    	url:"addBasket.do",
+		    	type:"post",
+		    	data:"projectSeq=${projectdto.seq}&selectOpSeq="+OpSeqArr+"&optionCount="+OpCountArr,
+		    	success:function(data){
+		    		console.log("통신성공");
+		    		console.log("data");
+		    	},error:function(){
+		    		console.log("통신실패");
+		    	}
+		    });
+		} 
 	
+	});/* 장바구니로가기 끝 */
 	
 });
 

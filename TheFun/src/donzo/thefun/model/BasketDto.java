@@ -69,7 +69,17 @@ public class BasketDto implements Serializable {
 	int price; // 단가
 	String status;	
 	
+	
 	public BasketDto() {}
+	
+	//장바구니넣기
+	public BasketDto(String id, int projectseq, int optionseq, int count) {
+		super();
+		this.id = id;
+		this.projectseq = projectseq;
+		this.optionseq = optionseq;
+		this.count = count;
+	}
 
 	public int getSeq() {
 		return seq;

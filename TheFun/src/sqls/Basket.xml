@@ -66,7 +66,7 @@ FROM FUN_BASKET B;
 </select>
 
 <!-- 장바구니 insert -->
-<insert id="addBasket">
+<insert id="addBasket" parameterType="donzo.thefun.model.BasketDto">
 	INSERT INTO FUN_BASKET 
 	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count})
 </insert>

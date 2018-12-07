@@ -1,6 +1,7 @@
 package donzo.thefun.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
@@ -28,19 +30,19 @@ public class BasketController {
 	
 	
 	//장바구니 넣기 addBasket.do
+	@ResponseBody
 	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void addBasket(int projectSeq, int[] optionSeq, int[] optionCount, HttpServletRequest req) {
+	public String addBasket(int projectSeq, int[] selectOpSeq, int[] optionCount, HttpServletRequest req) {
 		logger.info(" BuyController addBasket" + new Date());
+		logger.info("플젝시퀀스 : "+projectSeq);
+		logger.info("옵션시퀀스 : "+Arrays.toString(selectOpSeq));
+		logger.info("옵션시퀀스 : "+Arrays.toString(optionCount));
 		
 		String id = ((MemberDto)req.getSession().getAttribute("login")).getId();
 		
-		System.out.println("id : "+id+" / projectSeq : "+projectSeq);
-		for(int i=0; i<optionCount.length;i++) {
-			logger.info("옵션 시퀀스  : "+optionSeq[i] +"옵션 카운트 : "+optionCount[i]);
-		}
-
 		//장바구니 insert
-		
+		basketService.insertBasket(id, projectSeq, selectOpSeq, optionCount);
+		return "YES";
 	}
 	
 	// 장바구니 창으로
