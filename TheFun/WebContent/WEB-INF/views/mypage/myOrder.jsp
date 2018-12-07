@@ -134,10 +134,10 @@ input.star:checked ~ .rev-box {
 
 <table class="type07" id="myOrderlist">
 	<col width="200">
-	<col width="410">
+	<col width="360">
 	<col width="150">
 	<col width="150">
-	<col width="150">
+	<col width="150"> 
 	<thead>
 		<c:if test="${empty orderlist }">
 		<tr>
