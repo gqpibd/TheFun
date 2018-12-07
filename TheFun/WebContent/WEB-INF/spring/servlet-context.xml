@@ -50,6 +50,7 @@
 	        <mvc:mapping path="/myOrder.do"/>		<!-- 내 후원 내역 -->
 	        <mvc:mapping path="/myOrderList.do"/>	<!-- 내 후원 내역 controller -->
 	        <mvc:mapping path="/mySchedule.do"/>		<!-- 내 일정 -->
+	        <mvc:mapping path="/myChart.do"/>		<!-- 내 통계보기 -->
 	        <mvc:mapping path="/projectUpdate.do"/>
 	        <mvc:mapping path="/viewAlarms.do"/>		<!-- 알람보기 -->
 	        <mvc:mapping path="/writeReview.do"/>		<!-- 알람보기 -->	        

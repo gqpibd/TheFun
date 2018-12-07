@@ -59,6 +59,11 @@
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myAlarms.jsp"/>
 	</definition>
 	
+	<!-- 차트보기 -->
+	<definition name="myChart.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myChart.jsp"/>
+	</definition>
+	
 	
 	
 	<!-- 프로젝트 -->

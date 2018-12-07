@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
 
 
@@ -199,6 +200,17 @@ public class MemberController {
 		logger.info("MemberController myInfo " + new Date());
 		
 		return "myInfo.tiles";	
+	}
+	
+	@RequestMapping(value="myChart.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myChart(String id, Model model) throws Exception{
+		// 유저 정보 가져오기
+		logger.info("유저 id = " + id);
+		MemberDto user = memberService.getUserInfo(id);
+		logger.info("유저 정보 = " + user.toString());
+		model.addAttribute("user", user);
+		
+		return "myChart.tiles";
 	}
 	
 /*	// 내 일정 보기 ( 캘린더 테스트..)
