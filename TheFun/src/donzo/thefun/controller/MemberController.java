@@ -124,7 +124,14 @@ public class MemberController {
 		return find_idpw.getId();
 	}
 	
-	
+	//pw변경 처리
+	@RequestMapping(value="change_pw.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String change_pw(MemberDto mem) {
+		logger.info("change_pw" + new Date());
+		memberService.change_pw(mem);
+		
+		return "redirect:/login.do";
+	}
 	
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사

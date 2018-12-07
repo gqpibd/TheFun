@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -711,4 +713,32 @@ public class ProjectController {
 		
 		return "hotProject.tiles";
 	}
+	
+	//판매자의 프로젝트리스트
+	@ResponseBody
+	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String sellerPList(String id) {
+		logger.info("ProjectController sellerPList " + new Date());
+		
+		List<ProjectDto> pList = projectService.getProjectList(id);
+		String listData = "{\"title\":[";		
+		for(int i=0;i<pList.size();i++) {		
+			/*listData += "{\"seq\":\"" + pList.get(i).getSeq() +"\",";*/
+			//listData += "\"otitle\":\"" + pList.get(i).getOtitle() +"\","; // 옵션 제목
+			//listData += "\"ocontent\":\"" + pList.get(i).getOcontent().replaceAll("\r\n", "/") +"\","; // 옵션 내용
+			/*listData += "\"nickname\":\"" + member.getNickname() +"\",";*/ // 아이디 대신 닉네임으로 가져왔음
+			/*listData += "\"profile\":\"" + member.getProfile() +"\",";*/ // 프로필 사진 출력용
+			/*listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(pList.get(i).getRegdate()) +"\",";*/
+			/*listData += "\"score\":\"" + pList.get(i).getScore() +"\",";*/			
+			listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
+			if(i < pList.size()-1) {
+				listData += ",";
+			}
+		}
+		listData += "]}";
+		
+		return pList.
+	}
+	
+	
 }

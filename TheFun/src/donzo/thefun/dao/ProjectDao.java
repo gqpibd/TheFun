@@ -26,4 +26,7 @@ public interface ProjectDao {
 	public int getWaitCount();
 	public boolean rejectProject(ProjectDto projectdto);
 
+	////판매자의 프로젝트리스트
+	public List<ProjectDto> getProjectList(String id);
+	
 }

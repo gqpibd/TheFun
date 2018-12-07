@@ -23,5 +23,8 @@ public interface MemberService {
 	//idpw 찾기
 	public MemberDto find_idpw(MemberDto dto);
 	
+	//pw변경
+	public boolean change_pw(MemberDto mem);
+	
 }
  
