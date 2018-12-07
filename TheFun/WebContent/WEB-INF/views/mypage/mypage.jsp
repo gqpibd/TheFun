@@ -240,6 +240,11 @@ a.mpa {
               <i class="fas fa-calendar"></i></i><em>나의 프로젝트</em>
            </a>
         </li>
+        <li>
+           <a class="s-sidebar__nav-link mpa" href="myChart.do?id=${login.id }">
+              <i class="fas fa-chart-pie"></i><em>나의 통계보기</em>
+           </a>
+        </li>
      </ul>
   </nav>
 </div>

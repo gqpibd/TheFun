@@ -12,6 +12,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 <script src="./js/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
+<script src="./js/jquery.splendid.textchange.js"></script>
 
 <style type="text/css">
 /* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
@@ -31,8 +32,24 @@ tr, td, input{
 	font-size: 17px;
 }
 
+.fundingBox{
+	box-shadow: 5px 5px 10px 0px #c3c3c380;
+	padding: 0;
+	margin: 30px 0 30px 0;
+}
+
 .cardLabel{
 	margin:0;
+}
+
+.accordion{
+	border-top: 5px solid #8152f0;
+	border-radius: 0;
+}
+
+.card{
+	border:0;
+	border-bottom: 1px solid rgba(0,0,0,.125);
 }
 </style>
 
@@ -91,7 +108,10 @@ $(document).ready(function() {
 	           	//for (var i = files.length - 1; i >= 0; i--) {
 	             sendFile(files[0], this);
 	           	//}
-         	}
+         	},
+		 	onChange: function() { 
+		 		summernoteCheck(); 
+		 	}
        }	  
 	});										
 	// 썸머노트 이미지 컨트롤러에 실시간 업로드할 AJAX 함수
@@ -186,30 +206,37 @@ $(document).ready(function() {
 <ul class="nav nav-tabs">  
   <%-- <li class="active"> --%>
   <li class="nav-item">
-  	<a class= "nav-link active" href="#home" id="home-tab" data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="home" aria-selected="true">프로젝트 개요</a>
+  	<a class= "nav-link active" href="#home" id="home-tab" data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="home" aria-selected="true">프로젝트 개요
+  		<span id="introChecked" style="margin-left: 10px;float: right;display:none;color:green">✔</span>
+  	</a>
   </li>  
   <li class="nav-item">
-  	<a class= "nav-link" href="#menu1" id="menu-tab1"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu1" aria-selected="false">스토리텔링</a>
+  	<a class= "nav-link" href="#menu1" id="menu-tab1"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu1" aria-selected="false">스토리텔링
+  		<span id="storytellingChecked" style="margin-left: 10px;float: right;display:none;color:green">✔</span>
+  	</a>
+  	
   </li>
   <li class="nav-item">
-  	<a class= "nav-link" href="#menu2" id="menu-tab2"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu2" aria-selected="false">리워드 등록</a>
+  	<a class= "nav-link" href="#menu2" id="menu-tab2"  data-toggle="tab" style="font-size: 2em" role="tab" aria-controls="menu2" aria-selected="false">리워드 등록
+  		<span id="rewardChecked" style="margin-left: 10px;float: right;display:none;color:green">✔</span>
+  	</a>
   </li>
 </ul>
 
 <!-- 탭 하단에 나오는 내용 div -->
-<div class="tab-content">
+<div class="tab-content" align="center">
 
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
 
 <!-- 큰 테두리 -->
-<div class="container" >
+<div class="container fundingBox" >
   <!-- <h1>프로젝트 개요</h1> -->
   <!-- card 샘플 시작 : 탭 하나 누르면 다른 탭은 자동으로 닫히는 기능 여기서 시작. accordion의 id값을 각 탭의 data-parent로 넣어주면 된다. -->
   <div class="accordion" id="accordionExample">
   	<!-- [1] 프로젝트 제목 -->
-	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);"> <!-- 아래 항목 사이의 여백 없애려면 mb-3 삭제 -->
+	<div class="card">
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
@@ -239,7 +266,7 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [2] 대표 이미지 -->
-    <div class="card border-secondary mb-1">
+    <div class="card">
     	<!-- 위 -->
 		<div class="card-header" id="headingTwo">        
 		  <h4 class="mb-0">
@@ -276,7 +303,7 @@ $(document).ready(function() {
 									<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
 						<td>
-							<img alt="#none" src="" id="imgPreview" class="card-img-top" width="20px">
+							<img src="" id="imgPreview" class="card-img-top" width="20px" style="object-fit: cover;">
 						</td>
 					</tr>
 				</table>
@@ -284,7 +311,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [3] 프로젝트 요약 -->
-    <div class="card border-secondary mb-1">
+    <div class="card">
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
@@ -316,7 +343,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [4] 카테고리 선택 -->
-    <div class="card border-secondary mb-1">
+    <div class="card ">
     	<!-- 위 -->
 		<div class="card-header" id="headingFour">        
 		  <h4 class="mb-0">
@@ -371,24 +398,20 @@ $(document).ready(function() {
 <!-- 첫번째 탭 끝 -->
 
 
-
-
-
-
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
 
 <!-- 큰 테두리 -->
-<div class="container">
+<div class="container fundingBox">
   <!-- <h1>스토리텔링</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion1">
   	<!-- [5] 프로젝트 스토리(content) -->
-	<div class="card border-secondary mb-1"   style="border: 1px solid rgba(0,0,0,.125);">
+	<div class="card">
     <!-- 위 -->
       <div class="card-header" id="headionFive">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>
+	       <label class="cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>
 	       <span id="summernoteChecked" style="float: right;opacity:0;color:green">✔</span>		
         </h4>
       </div>
@@ -406,7 +429,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-							<textarea id="summernote" name="content" onblur="summernoteCheck()"></textarea>
+						<textarea id="summernote" name="content" oninput="summernoteCheck()"></textarea>
 					</td>
 				</tr>
 			</table>
@@ -414,7 +437,7 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [6] 태그 -->
-    <div class="card border-secondary mb-1">
+    <div class="card  ">
     	<!-- 위 -->
 		<div class="card-header" id="headingSix">        
 		  <h4 class="mb-0">
@@ -444,7 +467,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [7] 목표 금액 설정 -->
-    <div class="card border-secondary mb-1">
+    <div class="card  ">
     	<!-- 위 -->
 		<div class="card-header" id="headingSeven">        
 		  <h4 class="mb-0">
@@ -474,7 +497,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [8] 계좌 등록 -->
-    <div class="card border-secondary mb-1">
+    <div class="card  ">
     	<!-- 위 -->
 		<div class="card-header" id="headingEight">        
 		  <h4 class="mb-0">
@@ -526,7 +549,7 @@ $(document).ready(function() {
       </div>
     </div>
     <!-- [9] 프로젝트 진행 스케줄 -->
-    <div class="card border-secondary mb-1">
+    <div class="card ">
     	<!-- 위 -->
 		<div class="card-header" id="headingNine">        
 		  <h4 class="mb-0">
@@ -610,16 +633,16 @@ $(document).ready(function() {
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
 
 <!-- 큰 테두리 -->
-<div class="container">
+<div class="container fundingBox">
   <!-- <h1>리워드 등록</h1> -->
   <!-- card 샘플 시작 -->
   <div class="accordion" id="accordion2">
   	<!-- [10] 옵션 개수 선택 -->
-	<div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+	<div class="card ">
     <!-- 위 -->
       <div class="card-header" id="headionTen">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="optiontotalTap">
+	       <label class="cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="optiontotalTap">
 	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">옵션 개수 선택</a>	       	
 	       </label>	
 	       <span id="optionAllChecked" style="float: right;opacity:0;color:green">✔</span>	
@@ -660,7 +683,7 @@ $(document).ready(function() {
 			%>
 	    <div id="_option<%=(i+10 + "")%>">
 	    
-	    <div class="card border-secondary mb-1" style="border: 1px solid rgba(0,0,0,.125);">
+	    <div class="card ">
 			    <div class="panel panel-default">
 			    	<!-- 위 -->
 				    <div class="card-header" id="headion<%=(i + "") %>">
@@ -715,16 +738,11 @@ $(document).ready(function() {
 			        </div>
 			      </div>
 		    </div>
-	    </div>
-	    
-	    
+	    </div>	    
 	    </div>
 	    	<%
 		}
 		%>
-    
-    
-	
 </div>
 
 </div>
@@ -823,6 +841,7 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 요약이 너무 깁니다. 줄여주세요");
 		$("#home-tab").click();
 		$("#summarryTap").click();
+		return;
 	} else if(summernote == null || summernote == ""){
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#menu-tab1").click();
@@ -837,6 +856,7 @@ $("#btn_submit").click(function () {
 		alert("태그가 너무 깁니다. 줄여주세요");
 		$("#menu-tab1").click();
 		$("#tagTap").click();
+		return;
 	} else if(goalfund == null || goalfund == ""){
 		alert("프로젝트 달성 목표 금액을 등록해주세요");
 		$("#menu-tab1").click();
@@ -1028,49 +1048,88 @@ $("#mainImage").on("change", function (e) {
 		reader.onload = function (e) {
 			$("#imgPreview").attr("src", e.target.result);
 			$("#imageChecked").css("opacity","1");
+			imgOk=true;
+			checkIntro();
 		}
 		reader.readAsDataURL(f);
 	})
 })
+var titleOk = false;
+var summaryOk = false;
+var imgOk = false;
 
-function checkTitle(){
-	console.log("titleCheck");
+// 프로젝트 개요 체크
+function checkIntro(){
+	if(titleOk && summaryOk && imgOk){
+		$("#introChecked").css("display","block");		
+	}else{
+		$("#introChecked").css("display","none");
+	}
+}
+
+function checkTitle(){	
 	var title = $("#title").val();
 	if(title != "" && title.length <= 30){		
 		$("#titleChecked").css("opacity","1");
+		titleOk = true;
 	}else{
-		$("#titleChecked").css("opacity","0");		
+		$("#titleChecked").css("opacity","0");
+		titleOk = false;
 	}
+	checkIntro();	
 };
 
-var optionSelected = $("#optionSelected").val();	// 상품-리워드 갯수 선택했을때 "OK" / 기부or상품-리워드 갯수 선택안했을 때 "NO"
-var option_total = $("#option_total").val();
+
 function checkSummary(){	
 	var summary = $("#summary").val();
 	if( summary != "" && summary.length <= 100){
-		$("#summaryChecked").css("opacity","1");		
+		$("#summaryChecked").css("opacity","1");
+		summaryOk=true;
 	}else{
-		$("#summaryChecked").css("opacity","0");			
+		$("#summaryChecked").css("opacity","0");
+		summaryOk=false;
 	}
+	checkIntro();
 } 
 
-function summernoteCheck(){
-	console.log("summernoteCheck")
+
+var storyOk = false;
+var tagOk = false;
+var goalfundOk = false;
+var accountOk = false;
+var scheduleOk = false;
+
+// 스토리텔링 체크
+function checkStorytelling(){
+	if(storyOk && tagOk && goalfundOk && accountOk && scheduleOk){
+		$("#storytellingChecked").css("display","block");		
+	}else{
+		$("#storytellingChecked").css("display","none");
+	}
+}
+
+function summernoteCheck(){	
 	var summernote = $("#summernote").val();
-	if(summernote != ""){
-		$("#summernoteChecked").css("opacity","1");	
+	if(summernote.length>0){
+		$("#summernoteChecked").css("opacity","1");
+		storyOk = true;
 	}else{
 		$("#summernoteChecked").css("opacity","0");
+		storyOk = false;
 	}
+	checkStorytelling();
 }
 
 function tagCheck(){	
 	var tag = $("#tag").val();
 	if(tag != "" && tag.length <= 400){
 		$("#tagChecked").css("opacity","1");	
+		tagOk = true;
 	}else{
 		$("#tagChecked").css("opacity","0");
+		tagOk = false;
 	}
+	checkStorytelling();
 }
 
 function goalfundCheck(){	
@@ -1078,30 +1137,26 @@ function goalfundCheck(){
 	var goalfund = _goalfund.replace(/,/gi, "");
 	if(goalfund != "" && goalfund.length <= 10){
 		$("#goalfundChecked").css("opacity","1");	
+		goalfundOk = true;
 	}else{
 		$("#goalfundChecked").css("opacity","0");
+		goalfundOk = false;
 	}
 	optionCheck();
+	checkStorytelling();
 }
 
 function accountCheck(){	
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
 	if(bankname != "" && bankname != "은행을 선택하세요" && accountNumber != "" && accountNumber.length <= 15){
-		$("#accountChecked").css("opacity","1");	
+		$("#accountChecked").css("opacity","1");
+		accountOk = true;
 	}else{
 		$("#accountChecked").css("opacity","0");
+		accountOk = false;
 	}
-}
-
-function accountCheck(){	
-	var bankname = $("#bankname").val();
-	var accountNumber = $("#accountNumber").val();
-	if(bankname != "" && bankname != "은행을 선택하세요" && accountNumber != "" && accountNumber.length <= 15){
-		$("#accountChecked").css("opacity","1");	
-	}else{
-		$("#accountChecked").css("opacity","0");
-	}
+	checkStorytelling();
 }
 
 function scheduleCheck(){
@@ -1109,18 +1164,20 @@ function scheduleCheck(){
 	var date2 = $("#date2").val();
 	var date3 = $("#date3").val();
 	var date4 = $("#date4").val();
-	console.log(date1 + date2 +date3 +date4);
 	if(date1 != "" && date2 != "" && date3 != ""){
 		var fundtype = $("input[name='fundtype']:checked").val();
-		console.log(fundtype);
 		if((fundtype == 'reward' && date4 != "") || fundtype == 'donation'){
 			$("#scheduleChecked").css("opacity","1");	
+			scheduleOk = true;
 		}else {
 			$("#scheduleChecked").css("opacity","0");
+			scheduleOk = false;
 		}		
 	}else{
 		$("#scheduleChecked").css("opacity","0");
+		scheduleOk = false;
 	}
+	checkStorytelling();
 }
 
 function optionCheck(){	
@@ -1155,10 +1212,11 @@ function optionCheck(){
 		}
 		
 		if((unlimited || parseInt(totalPrice) >= parseInt(goalfund)) && optionCheckedCount==option_total) {
-			console.log("??:");
 			$("#optionAllChecked").css("opacity","1");
+			$("#rewardChecked").css("display","block");
 		}else{
 			$("#optionAllChecked").css("opacity","0");
+			$("#rewardChecked").css("display","none");
 		}
 	}		
 }

@@ -40,5 +40,10 @@ public class BasketServiceImpl implements BasketService{
 			basketDao.insertBasket(basket);
 		}
 	}
+
+	@Override
+	public int getBasketCount(String id) {
+		return basketDao.getBasketCount(id);
+	}
 	
 }

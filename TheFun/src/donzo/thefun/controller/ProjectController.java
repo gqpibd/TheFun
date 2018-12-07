@@ -86,6 +86,26 @@ public class ProjectController {
 		model.addAttribute("pList",pList);
 		return "projectManage.tiles";
 	}
+	// 옵션선택창으로 이동
+	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goSelectReward(int seq, String type ,Model model) {
+		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+		String returnStr="";
+		//현재 선택한 프로젝트 정보
+		model.addAttribute("projectdto",projectService.getProject(seq));
+	
+		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
+			
+			//옵션들
+			model.addAttribute("optionList",projectService.getOptions(seq));
+			returnStr= "selectReward.tiles";
+		
+		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
+			
+			returnStr= "orderReward.tiles";
+		}
+		return returnStr;
+	}
 
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -110,6 +130,31 @@ public class ProjectController {
 		}
 		
 		return "orderReward.tiles";
+
+	}
+	
+	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
+	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderFromBasket(String projectSeq[], String optionSeq[], String count[], String id, Model model) {
+		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("내 아이디 " + id);	
+		logger.info("체크한 옵션 갯수 = " + optionSeq.length);
+		logger.info("프로젝트 갯수 = " + projectSeq.length);
+		logger.info("구매희망 갯수 count = " + count.length);
+		for (int i = 0; i < optionSeq.length; i++) {
+			logger.info("체크한 리워드 프로젝트 seq = " + projectSeq[i]);
+			logger.info("체크한 리워드 옵션 seq = " + optionSeq[i]);
+			logger.info("선택한 구매개수 count = " + count[i]);
+			//현재 선택한 프로젝트 정보
+			//model.addAttribute("projectdto",projectService.getProject(optionSeq[i]));
+		}
+		
+/*
+		//선택한 옵션정보
+		List<OptionDto> optionList = projectService.getSelectOptions(check);
+		model.addAttribute("selectOptions",optionList);
+*/
+		return "redirect:/myBasket.do?id="+id;	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
 
 	}
 		 

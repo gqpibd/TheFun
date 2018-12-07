@@ -25,5 +25,5 @@ public interface ProjectDao {
 	public void deleteProject(int seq) throws Exception;
 	public int getWaitCount();
 	public boolean rejectProject(ProjectDto projectdto);
-
+	
 }
