@@ -102,7 +102,7 @@
      		<td class="profile">
      			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
      			<input type="hidden" name="opSeq" value="0">
-				<input type="hidden" name="opCount" value="0">
+				<input type="hidden" name="opCount" value="1">
      		</td>
      	</tr>
      	<tr>

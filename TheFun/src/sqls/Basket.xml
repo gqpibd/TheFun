@@ -68,7 +68,7 @@ FROM FUN_BASKET B;
 <!-- 장바구니 insert -->
 <insert id="addBasket" parameterType="donzo.thefun.model.BasketDto">
 	INSERT INTO FUN_BASKET 
-	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count})
+	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE)
 </insert>
 
 <delete id="deleteBasket" parameterType="java.lang.Integer">

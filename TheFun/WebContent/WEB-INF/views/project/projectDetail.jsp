@@ -471,11 +471,18 @@ $(document).ready(function () {
 	});
 	/* 옵션 select 선택구문 끝*/
 	
+	//기부하기 클릭
 	$(document).on("click","#donaBtn",function (){
 		$("#goAnywhere").attr("action","goOrderReward.do").submit();
 	});
+	
+	//펀딩하기 클릭
 	$(document).on("click","#fundBtn",function (){
-		$("#goAnywhere").attr("action","goOrderReward.do").submit();
+		if($("input[name='selectOpSeq']").length<=0){
+			alert ("옵션을 선택하여주십시오");
+		}else{
+			$("#goAnywhere").attr("action","goOrderReward.do").submit();	
+		}
 	});
 	
 	/* 장바구니로 가기 */
@@ -483,7 +490,9 @@ $(document).ready(function () {
 		//인터셉트 로그인
 		
 		if($("input[name='selectOpSeq']").length<=0){
+			//$("#basketBtn").attr("data-toggle",""); //모달창 꺼놔야하는뎅..
 			alert ("옵션을 선택하여주십시오");
+			//$("#basketBtn").attr("data-toggle","modal");
 			
 		}else{
 			var OpSeqArr = [];	//옵션시퀀스배열

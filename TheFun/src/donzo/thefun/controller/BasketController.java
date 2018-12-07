@@ -33,11 +33,8 @@ public class BasketController {
 	@ResponseBody
 	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addBasket(int projectSeq, int[] selectOpSeq, int[] optionCount, HttpServletRequest req) {
-		logger.info(" BuyController addBasket" + new Date());
-		logger.info("플젝시퀀스 : "+projectSeq);
-		logger.info("옵션시퀀스 : "+Arrays.toString(selectOpSeq));
-		logger.info("옵션시퀀스 : "+Arrays.toString(optionCount));
-		
+	
+		logger.info(" BuyController addBasket" + new Date());	
 		String id = ((MemberDto)req.getSession().getAttribute("login")).getId();
 		
 		//장바구니 insert

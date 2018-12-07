@@ -81,17 +81,22 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	
-/*	//내 주문내역 상세보기
+	//내 후원 상세보기
 	@RequestMapping(value="myOrderDetail.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myOrderDetail(int projectSeq, HttpServletRequest req, Model model) {
+	public String myOrderDetail(int projectSeq, String regiDate, HttpServletRequest req, Model model) {
+		logger.info("BuyController myOrderDetail 메소드 " + new Date());
 		
-		//프로젝트정보 seq
-		//프로젝트옵션정보 n개 
-		//작성자정보
-		//결제정보
+		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+		model.addAttribute("login",user);
 		
+		//xml 보낼 dto
+		BuyDto buy = new BuyDto(user.getId(), projectSeq, 1, regiDate.substring(0, 19));		
+		List<BuyDto> buydto = buyService.myOrderDetail(buy);
+		model.addAttribute("buydto",buydto);
+		
+		return "myOrderDetail.tiles";
 	}
-*/	
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {

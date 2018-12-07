@@ -157,6 +157,14 @@ public class BuyDto implements Serializable {
 		this.bankName = bankName;
 	}
 
+	//내 후원 상세보기 쿼리문에 넣기위함
+	public BuyDto(String id, int projectseq, int optionseq, String regdate) {
+		super();
+		this.id = id;
+		this.projectseq = projectseq;
+		this.optionseq = optionseq;
+		this.regdate = regdate;
+	}
 	
 	public String getPdate() {
 		return pdate;

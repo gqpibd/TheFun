@@ -129,4 +129,10 @@ FROM FUN_BUY B;
 	WHERE PROJECTSEQ = #{seq} AND SCORE IS NOT NULL	
 </select>
 
+<!-- 내 후원 상세내역   -->
+<select id="myOrderDetail" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+ SELECT * FROM FUN_BUY_VIEW WHERE PROJECTSEQ=#{projectseq} AND ID=#{id} AND REGDATE=TO_DATE(#{regdate},'yyyy-mm-dd hh24:mi:ss')
+</select>
+
+
 </mapper>
