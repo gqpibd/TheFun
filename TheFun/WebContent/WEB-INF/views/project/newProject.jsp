@@ -59,6 +59,7 @@ function onDatePicketClose(selectedDate, preDate, availDate){ // preDate: 앞에
 		$(availDate).datepicker("option", "minDate", curDate);
 		// 종료일 태그 활성화
 		$(availDate).attr("disabled", false);
+		scheduleCheck(); // 검사
 	}
 }
 
@@ -160,8 +161,8 @@ $(document).ready(function() {
 		onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
             if( selectedDate != "" ) {
                 // xxx의 maxDate를 yyy의 날짜로 설정
-                $("#date3").datepicker("option", "maxDate", selectedDate);
-                
+                $("#date3").datepicker("option", "maxDate", selectedDate);  
+                scheduleCheck();
             }
         }
 	});			
@@ -209,8 +210,9 @@ $(document).ready(function() {
     <!-- 위 -->
       <div class="card-header" id="headionOne">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
-        </h4>
+	        <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
+        	<span id="titleChecked" style="float: right;opacity:0;color:green">✔</span>
+        </h4>        
       </div>
     <!-- 아래 -->
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -218,7 +220,7 @@ $(document).ready(function() {
         	<table class="card-text" style="width: 100%">
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)">
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)" onblur="checkTitle()">
 					</td>
 				</tr>
 				<tr>
@@ -238,7 +240,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingTwo">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="col_image">대표 이미지</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="col_image">대표 이미지</label>
+		  	<span id="imageChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -282,7 +285,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingThree">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarryTap">프로젝트 요약</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="summarryTap">프로젝트 요약</label>
+		  	<span id="summaryChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -293,7 +297,7 @@ $(document).ready(function() {
 					<td>
 						<div class="form-group">
 						  <label for="comment">Comment:</label>
-						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)"></textarea>
+						  <textarea class="form-control" rows="5" id="summary" name="summary" onkeyup="checkLength(this,'#commentLength',100)" onblur="checkSummary()"></textarea>
 						</div>
 					</td>
 				</tr>
@@ -313,7 +317,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingFour">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="categoryTap">프로젝트 카테고리</label>
+		  	<span id="categoryChecked" style="float: right;opacity:1;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -381,7 +386,8 @@ $(document).ready(function() {
     <!-- 위 -->
       <div class="card-header" id="headionFive">
         <h4 class="mb-0">    				
-	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>		
+	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive" id="summernoteTap">프로젝트 스토리</label>
+	       <span id="summernoteChecked" style="float: right;opacity:0;color:green">✔</span>		
         </h4>
       </div>
     <!-- 아래 -->
@@ -398,7 +404,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-							<textarea id="summernote" name="content"></textarea>
+							<textarea id="summernote" name="content" onblur="summernoteCheck()"></textarea>
 					</td>
 				</tr>
 			</table>
@@ -410,7 +416,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingSix">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix" id="tagTap">검색용 태그</label>
+		  	<span id="tagChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -427,7 +434,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="태그는 #으로 구분해주세요. 띄어쓰기 시 자동으로 #이 입력됩니다." id="tag" name="tag" size="100%">
+						<input type="text" class="form-control" placeholder="태그는 #으로 구분해주세요. 띄어쓰기 시 자동으로 #이 입력됩니다." id="tag" name="tag" size="100%" onblur="tagCheck()">
 					</td>
 				</tr>
 			</table>
@@ -439,7 +446,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingSeven">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven" id="goalfundTap">목표 금액 설정</label>
+		  	<span id="goalfundChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -453,7 +461,7 @@ $(document).ready(function() {
 						</div>
 					</td>
 					<td>
-						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%">
+						<input type="text" class="form-control" placeholder="0" id="goalfund" name="goalfund" size="70%" onblur="goalfundCheck()">
 					</td>
 					<td>
 						원
@@ -468,7 +476,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingEight">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight" id="bankTap">계좌 등록</label>
+		  	<span id="accountChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -486,7 +495,7 @@ $(document).ready(function() {
 					<td>
 						<div class="form-group">
 						  <label for="sel1">거래은행</label>
-						  <select class="form-control" id="bankname" style="font-size: 1em; height: 10%">
+						  <select class="form-control" id="bankname" style="font-size: 1em; height: 10%" onchange="accountCheck()">
 						    <option>은행을 선택하세요</option>
 						    <option>IBK기업은행</option>
 						    <option>KB국민은행</option>
@@ -506,7 +515,7 @@ $(document).ready(function() {
 					<td>
 						<div class="form-group">
 						  <label for="sel1">계좌 번호</label>
-						  <input type="text" class="form-control" id="accountNumber" placeholder="중간바(-)는 빼고 숫자만 입력해주세요" style="font-size: 15px" size="100%">
+						  <input type="text" class="form-control" id="accountNumber" placeholder="중간바(-)는 빼고 숫자만 입력해주세요" style="font-size: 15px" size="100%" onblur="accountCheck()">
 						</div>
 					</td>
 				</tr>
@@ -519,7 +528,8 @@ $(document).ready(function() {
     	<!-- 위 -->
 		<div class="card-header" id="headingNine">        
 		  <h4 class="mb-0">
-		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>          
+		  	<label class="collapsed" style="cursor:pointer" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine" id="dateTap">프로젝트 진행 스케줄</label>
+		  	<span id="scheduleChecked" style="float: right;opacity:0;color:green">✔</span>          
 		  </h4>
 		</div>
       	<!-- 아래 -->
@@ -615,8 +625,9 @@ $(document).ready(function() {
       <div class="card-header" id="headionTen">
         <h4 class="mb-0">    				
 	       <label style="cursor:pointer" data-toggle="collapse" data-target="#collapseTen" aria-expanded="true" aria-controls="collapseTen" id="optiontotalTap">
-	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">옵션 개수 선택</a>
-	       </label>		
+	       	<a data-toggle="collapse" data-parent="#accordion2" href="#collapseTen">옵션 개수 선택</a>	       	
+	       </label>	
+	       <span id="optionAllChecked" style="float: right;opacity:0;color:green">✔</span>	
         </h4>
       </div>
     <!-- 아래 -->
@@ -636,7 +647,7 @@ $(document).ready(function() {
 							    <%
 								for(int i=1; i <= 10; i++){
 									%>
-									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>"><%=i%></option>
+									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>" ><%=i%></option>
 									<%
 								}
 								%>
@@ -659,9 +670,9 @@ $(document).ready(function() {
 			    	<!-- 위 -->
 				    <div class="card-header" id="headion<%=(i + "") %>">
 				        <h5 class="mb-0">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>
-			
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>			
 				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" id="option<%=i %>" class="changedOption"><%=(i + "") %>번째 선물</a>
+				          		<span id="optionChecked<%=i%>" style="float: right;opacity:0;color:green">✔</span>
 				      	</h5>
 				    </div>
 			    <!-- 아래 -->
@@ -679,7 +690,7 @@ $(document).ready(function() {
 								<td colspan="2">
 									<div class="form-group">
 									  <label for="sel1">옵션 제목</label>
-									  <input type="text" class="form-control" id="op_title<%=i %>" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%">
+									  <input type="text" class="form-control" id="op_title<%=i %>" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" style="font-size: 15px" size="100%" onblur="optionCheck()">
 									</div>
 								</td>
 							</tr>
@@ -687,7 +698,7 @@ $(document).ready(function() {
 								<td colspan="2">
 									<div class="form-group">
 									  <label for="sel1">아이템</label>
-									  <textarea class="form-control" rows="5" id="op_content<%=i %>" name="op_content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."></textarea>
+									  <textarea class="form-control" rows="5" id="op_content<%=i %>" name="op_content" style="font-size: 15px" placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요."  onblur="optionCheck()"></textarea>
 									</div>
 								</td>
 							</tr>
@@ -695,13 +706,13 @@ $(document).ready(function() {
 								<td>
 									<div class="form-group">
 									  <label for="sel1">후원 금액</label>
-									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%" maxlength="8">
+									  <input type="text" class="form-control" id="op_price<%=i %>" name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
 									</div>
 								</td>
 								<td>
 									<div class="form-group">
 									  <label for="sel1">보유 수량</label>
-									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%" maxlength="8">
+									  <input type="text" class="form-control" id="op_stock<%=i %>" name="op_stock" placeholder="재고 제한이 없는 경우 공란으로 비워두세요" style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
 									</div>
 								</td>
 							</tr>
@@ -732,9 +743,6 @@ $(document).ready(function() {
 
 </div>
 </div>
-
-
-
 </form>
 
 <script>
@@ -757,7 +765,8 @@ function optionChange( me ) {
 	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
 		$("#_option" + (i+10)).show();
 		$("#col_content").click();
-	}		
+	}
+	optionCheck();
 }
 //전송버튼 눌렀을 때
 $("#btn_submit").click(function () {
@@ -1023,8 +1032,139 @@ $("#mainImage").on("change", function (e) {
 		var reader = new FileReader();
 		reader.onload = function (e) {
 			$("#imgPreview").attr("src", e.target.result);
+			$("#imageChecked").css("opacity","1");
 		}
 		reader.readAsDataURL(f);
 	})
 })
+
+function checkTitle(){
+	console.log("titleCheck");
+	var title = $("#title").val();
+	if(title != "" && title.length <= 30){		
+		$("#titleChecked").css("opacity","1");
+	}else{
+		$("#titleChecked").css("opacity","0");		
+	}
+};
+
+var optionSelected = $("#optionSelected").val();	// 상품-리워드 갯수 선택했을때 "OK" / 기부or상품-리워드 갯수 선택안했을 때 "NO"
+var option_total = $("#option_total").val();
+function checkSummary(){	
+	var summary = $("#summary").val();
+	if( summary != "" && summary.length <= 100){
+		$("#summaryChecked").css("opacity","1");		
+	}else{
+		$("#summaryChecked").css("opacity","0");			
+	}
+} 
+
+function summernoteCheck(){
+	console.log("summernoteCheck")
+	var summernote = $("#summernote").val();
+	if(summernote != ""){
+		$("#summernoteChecked").css("opacity","1");	
+	}else{
+		$("#summernoteChecked").css("opacity","0");
+	}
+}
+
+function tagCheck(){	
+	var tag = $("#tag").val();
+	if(tag != "" && tag.length <= 400){
+		$("#tagChecked").css("opacity","1");	
+	}else{
+		$("#tagChecked").css("opacity","0");
+	}
+}
+
+function goalfundCheck(){	
+	var _goalfund = $("#goalfund").val();
+	var goalfund = _goalfund.replace(/,/gi, "");
+	if(goalfund != "" && goalfund.length <= 10){
+		$("#goalfundChecked").css("opacity","1");	
+	}else{
+		$("#goalfundChecked").css("opacity","0");
+	}
+	optionCheck();
+}
+
+function accountCheck(){	
+	var bankname = $("#bankname").val();
+	var accountNumber = $("#accountNumber").val();
+	if(bankname != "" && bankname != "은행을 선택하세요" && accountNumber != "" && accountNumber.length <= 15){
+		$("#accountChecked").css("opacity","1");	
+	}else{
+		$("#accountChecked").css("opacity","0");
+	}
+}
+
+function accountCheck(){	
+	var bankname = $("#bankname").val();
+	var accountNumber = $("#accountNumber").val();
+	if(bankname != "" && bankname != "은행을 선택하세요" && accountNumber != "" && accountNumber.length <= 15){
+		$("#accountChecked").css("opacity","1");	
+	}else{
+		$("#accountChecked").css("opacity","0");
+	}
+}
+
+function scheduleCheck(){
+	var date1 = $("#date1").val();
+	var date2 = $("#date2").val();
+	var date3 = $("#date3").val();
+	var date4 = $("#date4").val();
+	console.log(date1 + date2 +date3 +date4);
+	if(date1 != "" && date2 != "" && date3 != ""){
+		var fundtype = $("input[name='fundtype']:checked").val();
+		console.log(fundtype);
+		if((fundtype == 'reward' && date4 != "") || fundtype == 'donation'){
+			$("#scheduleChecked").css("opacity","1");	
+		}else {
+			$("#scheduleChecked").css("opacity","0");
+		}		
+	}else{
+		$("#scheduleChecked").css("opacity","0");
+	}
+}
+
+function optionCheck(){	
+	var optionSelected = $("#optionSelected").val();	// 상품-리워드 갯수 선택했을때 "OK" / 기부or상품-리워드 갯수 선택안했을 때 "NO"
+	var option_total = $("#option_total").val();
+	var goalfund = parseInt($("#goalfund").val().replace(/,/gi, ""));
+	
+	if(optionSelected == "OK"){	// 상품선택하고, 리워드 갯수 선택안함
+		var totalPrice = 0;
+	    var unlimited = false;
+	    var optionCheckedCount = 0;
+
+		for(var i=1; i<=option_total; i++){
+			var op_title = $("#op_title" + i).val();
+			var op_content = $("#op_content" + i).val();
+			var op_price = $("#op_price" + i).val().replace(/,/gi, "");
+			var op_stock = $("#op_stock" + i).val().replace(/,/gi, "");
+					
+			// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+			if(op_stock != ""){
+				totalPrice = totalPrice + (op_price*op_stock);
+			}else{
+				unlimited = true;
+			}
+			
+			if(op_title != "" && op_content != "" && op_price != ""){
+				$("#optionChecked"+i).css("opacity","1");	
+				optionCheckedCount++;
+			}else{
+				$("#optionChecked"+i).css("opacity","0");	
+			}
+		}
+		
+		if((unlimited || parseInt(totalPrice) >= parseInt(goalfund)) && optionCheckedCount==option_total) {
+			console.log("??:");
+			$("#optionAllChecked").css("opacity","1");
+		}else{
+			$("#optionAllChecked").css("opacity","0");
+		}
+	}		
+}
 </script>

@@ -149,8 +149,4 @@ public class BuyController {
 		
 		return listData; 
 	}
-	
-	
-	
-	
 }  

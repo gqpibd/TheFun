@@ -363,10 +363,12 @@ border-collapse: collapse;
 		<!-- <div class="jbMenu"> -->
 		<table class="tabTable" style="width: 100%; background-color: white;">
 		<tr>
-			<td align="center" class="strongGray tabSelect" id="story" style="width: 25%; cursor:pointer"><font class="menubar">스토리</font></td>
-			<td align="center" class="strongGray" id="notice" style="width: 25%; cursor:pointer"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="qna" style="width: 25%; cursor:pointer"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
-			<td align="center" class="strongGray" id="review" style="width: 25%; cursor:pointer"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
+			<td align="center" class="strongGray tabSelect" id="story" style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer"><font class="menubar">스토리</font></td>
+			<td align="center" class="strongGray" id="notice" style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer"><font class="menubar">판매자 공지<sup class="pupple" id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
+			<td align="center" class="strongGray" id="qna" style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer"><font class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
+			<c:if test="${projectdto.isReward()}">
+				<td align="center" class="strongGray" id="review" style="width: 25%; cursor:pointer"><font class="menubar">후기<sup class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
+			</c:if>
 		</tr>
 		</table>
 		<!-- </div> -->
@@ -477,10 +479,6 @@ $(document).ready(function () {
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
-	
-	
-	
-	
 });
 
 //마우스커서 모양변환
@@ -533,6 +531,7 @@ $(function () {
 		$("#notice").removeClass("tabSelect");	
 		$("#qna").removeClass("tabSelect");	
 		$("#review").addClass("tabSelect");		
+		setReviewList();
 	});
 });
 

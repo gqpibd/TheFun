@@ -50,7 +50,7 @@ a.mpa {
 	/* background: #3d2484; */
 	background: #e5e0f7;
 	color: #311388;
-	z-index: 2;
+	z-index: 6;
 }
 
 .s-sidebar__nav:hover, .s-sidebar__nav:focus, .s-sidebar__trigger:focus+.s-sidebar__nav,
