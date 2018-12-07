@@ -48,6 +48,15 @@
 			</c:choose>
 		</tbody>
 	</table>
+	
+	<div id="paging_wrap">	
+	<jsp:include page="/WEB-INF/views/admin/adminPaging.jsp" flush="false">
+		<jsp:param value="${pageNumber }" name="pageNumber"/>		
+		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>	
+	</jsp:include>	
+	
 	<%-- <jsp:include page="paging.jsp">
 		<jsp:param name="actionPath" value="bbslist.jsp" />
 		<jsp:param name="nowPage"
@@ -59,6 +68,8 @@
 		<jsp:param name="blockCount"
 			value="<%=String.valueOf(paging.getBlockCount())%>" />		
 	</jsp:include> --%>
+	
+	
 </div>
 <script type="text/javascript">
 $(".hover_tr").mouseover(function () {

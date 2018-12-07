@@ -229,7 +229,7 @@ input.star:checked ~ .rev-box {
 	</jsp:include>	
 </div>
  
-</div>
+
 
 <script type="text/javascript">
 function addReview(seq,buytotal) { // 후기 작성

@@ -4,6 +4,18 @@ import java.io.Serializable;
 
 public class UtilFunctions implements Serializable{
 	
+	//제목이 길때 뒤에 ... 해주는 거
+	public static String dot3(String msg){
+		String s="";
+		if(msg.length()>=18){
+			s=msg.substring(0,18); 
+			s+="...";
+		}else{
+			s=msg.trim();
+		}
+		return s;
+	}
+	
 	public static String getDateForm(String datetime) {
 		String date = datetime;
 		if(datetime.lastIndexOf(' ')>-1) {

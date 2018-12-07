@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
+import donzo.thefun.model.StatCountParam;
+import donzo.thefun.model.adminParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
@@ -80,10 +83,28 @@ public class ProjectController {
 	
 	// 프로젝트 관리 창으로 이동	
 	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectManage(Model model) {
+	public String projectManage(Model model, adminParam aParam) {
 		logger.info("ProjectController projectManage 메소드 " + new Date());
-		List<ProjectDto> pList = projectService.getWaitingList();
+		
+		// paging 처리
+		int sn = aParam.getPageNumber();
+		int start = (sn) * aParam.getRecordCountPerPage() + 1;
+		int end = (sn+1) * aParam.getRecordCountPerPage();
+		
+		aParam.setStart(start);
+		aParam.setEnd(end);
+		aParam.setStatus("wating");
+		
+		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
+		int totalRecordCount = projectService.getWaitCount();
+		
+		model.addAttribute("pageNumber", sn);
+		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
+		model.addAttribute("recordCountPerPage", aParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		
 		model.addAttribute("pList",pList);
+		
 		return "projectManage.tiles";
 	}
 		
@@ -534,16 +555,38 @@ public class ProjectController {
 	
 	//내 일정 이동 (내 프로젝트 보기)
 	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String mySchedule(Model model, HttpServletRequest req) throws Exception{
-		logger.info("ProjectController myCalendar " + new Date());
+	public String mySchedule(Model model, HttpServletRequest req, StatCountParam sParam) throws Exception{
+		logger.info("ProjectController mySchedule " + new Date());
+		logger.info("ProjectController getStatusCount " + new Date());
+		
+		MemberDto user = (MemberDto)req.getSession().getAttribute("login");
+		sParam.setId(user.getId());
+		
+		sParam.setStatus("preparing");
+		int preCount = projectService.getStatusCount(sParam);
+		model.addAttribute("preCount", preCount);
+		
+		sParam.setStatus("ongoing");
+		int onCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("onCount", onCount);
+		
+		sParam.setStatus("complete_success");
+		int sucCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("sucCount", sucCount);
+		
+		sParam.setStatus("complete_fail");
+		int failCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("failCount", failCount);
+		
 		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
-		List<ProjectDto> myschedule = projectService.mySchedule(((MemberDto)req.getSession().getAttribute("login")).getId());
+		List<ProjectDto> myschedule = projectService.mySchedule(user.getId());
 		
 		for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);
 			logger.info("Schedule list : " + dto.toString());
 		}
 		model.addAttribute("schedule", myschedule);
+		
 		return "mySchedule.tiles";
 	}
 	

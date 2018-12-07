@@ -49,11 +49,6 @@
 		<put-attribute name="main" value="/WEB-INF/views/mypage/mySchedule.jsp"/>
 	</definition>
 	
-	<!-- 일정 보기 ( 캘린더 ) -->
-	<definition name="myCalendar.tiles" extends="MyPage.tiles">
-		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
-	</definition>
-	
 	<!-- 알람보기 -->
 	<definition name="myAlarms.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myAlarms.jsp"/>

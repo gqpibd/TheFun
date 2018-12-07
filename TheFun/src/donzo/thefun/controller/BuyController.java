@@ -38,17 +38,7 @@ public class BuyController {
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
-		logger.info("myOrderList.do 로 들어온 param : " + param.toString());
-		
-		//null 들어오면 빈문자열
-//		if(param.getO_bcomment() == null) { param.setO_bcomment(""); }
-//		if(param.getO_pdate() == null) { param.setO_pdate(""); }
-//		if(param.getO_projectseq() == 0) { param.setO_projectseq(0); }
-//		if(param.getO_ptitle() == null) { param.setO_ptitle(""); }
-//		if(param.getO_otitle() == null) { param.setO_otitle(""); }
-//		if(param.getO_price() == 0) { param.setO_price(0); }
-//		if(param.getO_count() == 0) { param.setO_count(0); }
-//		if(param.getO_status() == null) { param.setO_status(""); }
+		logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
