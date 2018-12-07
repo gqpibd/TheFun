@@ -179,14 +179,18 @@ input.star:checked ~ .rev-box {
 <tr>
 	<td class="20width">상품금액</td>
 	<td class="20width">할인금액</td>
-	<td class="30width">상품금액</td>
-	<td class="30width">n원</td>
+	<td class="20width">상품금액</td>
+	<c:if test="${empty buydto[0].ocontent}">
+	<td class="20width">n원</td>
+	</c:if>
 </tr>
 <tr>
 	<td style="text-align: right;">n원</td>
 	<td style="text-align: right;">n원</td>
 	<td>할인금액</td>
+	<c:if test="${empty buydto[0].ocontent}">
 	<td>(-)n원</td>
+	</c:if>
 </tr>
 <tr>
 <td>카드결제</td>

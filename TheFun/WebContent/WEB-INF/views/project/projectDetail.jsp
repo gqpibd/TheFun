@@ -487,9 +487,9 @@ $(document).ready(function () {
 	
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
-		//인터셉트 로그인
-		
-		if($("input[name='selectOpSeq']").length<=0){
+		if(${login.id eq null}){
+			//인터셉트
+		}else if($("input[name='selectOpSeq']").length<=0){
 			//$("#basketBtn").attr("data-toggle",""); //모달창 꺼놔야하는뎅..
 			alert ("옵션을 선택하여주십시오");
 			//$("#basketBtn").attr("data-toggle","modal");
