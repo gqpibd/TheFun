@@ -23,7 +23,7 @@
 	text-decoration: none;
 }
 
-.notification .badge {
+/* .notification .badge {
    position: relative;
    top: -13px;
    right: 13px;
@@ -32,6 +32,15 @@
    background-color: tomato;
    color: white;
    font-size: 0.8em;    
+} */
+
+.notification .badge {
+    position: relative;    
+    padding: 2px 4px;
+    border-radius: 50%;
+    background-color: tomato;
+    color: white;
+    font-size: 0.5em;    
 }
 
 /* Examples for media queries */

@@ -22,6 +22,7 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import donzo.thefun.util.UtilFunctions;
 
 
 @Controller
@@ -33,7 +34,7 @@ public class MemberController {
 	MemberService memberService;
 	
 	//로그인 처리
-	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	/*@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
@@ -48,7 +49,7 @@ public class MemberController {
 			loginUser = memberService.tryLogin(dto);			
 		}
 		loginUser.setAccount(loginType);
-		logger.info("로그인 결과: " + loginUser.toString());
+		
 		req.getSession().setAttribute("login", loginUser);
 		
 		if(callback!=null) {
@@ -56,7 +57,34 @@ public class MemberController {
 			return "redirect:/" + callback;
 		}
 		return "redirect:/main.do";
-	}  
+	}*/  
+	
+
+	
+	@ResponseBody
+	@RequestMapping(value="loginAf.do", method=RequestMethod.POST) 
+	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
+		logger.info("loginAf " + new Date());
+		MemberDto loginUser=null;
+		logger.info(loginType);				
+		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
+			loginUser = memberService.tryLogin(dto);
+			if(loginUser == null) { // 로그인 실패
+				return "{\"message\":\"retry\",\"callback\":\""+ callback + "\"}";
+			}
+		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
+			loginUser = memberService.tryLogin(dto);			
+		}
+		loginUser.setAccount(loginType);
+		
+		req.getSession().setAttribute("login", loginUser);
+		
+		if(callback!=null && callback.trim().length()>0) {
+			callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
+			return "{\"message\":\"signedin\",\"callback\":\""+ callback + "\"}";
+		}
+		return "{\"message\":\"signedin\",\"callback\":\"main.do\"}";
+	}
 	
 	// 내 정보 수정
 	@RequestMapping(value="updateInfo.do", method= RequestMethod.POST)

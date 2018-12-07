@@ -3,21 +3,8 @@
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%
-	String message = (String) request.getAttribute("message");
-	if(message != null){
-		if(message.equals("retry")){
-			out.print("<script>alert('아이디 또는 비밀번호가 일치하지 않습니다')</script>");
-		}else if(message.equals("registered")){
-			out.print("<script>alert('회원가입이 완료되었습니다. 로그인해 주십시오')</script>");
-		}
-	}
-%>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
-<!-- <script src="js/postcode/postcode.v2.js"></script>
-<script src="js/postcode/180928.js"></script> -->
 
 <!-- 로그인폼 css -->
 <link href="CSS/logincss/login.css" rel="stylesheet">
@@ -39,8 +26,6 @@ function checkLoginState(){
 }
 
 function statusChangeCallback(response) {
-	//console.log('statusChangeCallback');
-	//console.log(response);	
 	if (response.status === 'connected') {
 		var uid = response.authResponse.userID;
 	    var accessToken = response.authResponse.accessToken;
@@ -58,54 +43,33 @@ function statusChangeCallback(response) {
 	}
 }
 
-/* 페이스북에 포스팅하는거 -- 필요하면 쓰기 */
-/* function posting() {
-    FB.api(
-           '/me/feed','post', {"message" : "안녕하세요?"}, 
-           function(response) {
-                console.log('facebook-response:', response);
-                if (response && !response.error) {
-                    alert("포스팅 성공!");
-                } else {
-                    console.log("포스팅 실패!");
-                }
-   });
-} */
-
 //id쿠키저장
 $(document).ready(function(){
-
-var user_id = $.cookie("user_id");
-
-if(user_id != null){
-	$("#loginId").val(user_id);
-	$("#_chk_save_id").attr("checked", "checked");
-}
-
-//$("#_chk_save_id").change(function() {
-$('input:checkbox[id="_chk_save_id"]').change(function(){
-	console.log("아이디저장하자");
-	if($('input:checkbox[id="_chk_save_id"]').is(":checked")){
-		console.log("체크");
-		if($("#loginId").val() == ""){
-			console.log("아이디없음");
-			$(this).prop("checked", false);
-			alert("아이디를 입력해 주십시오");
-		}else{
-			console.log("아이디 있음");
-			$.cookie("user_id", $("#loginId").val(), { expires: 7, path: '/' });
-		}		
-	}else{
-		console.log("체크 해제");
-		$.removeCookie("user_id", { path:'/' });
+	var user_id = $.cookie("user_id");
+	
+	if(user_id != null){
+		$("#loginId").val(user_id);
+		$("#_chk_save_id").attr("checked", "checked");
 	}
-}); 
+	
+	$("#_chk_save_id").change(function() {
+	//$('input:checkbox[id="_chk_save_id"]').change(function(){
+		if($('input:checkbox[id="_chk_save_id"]').is(":checked")){
+			if($("#loginId").val() == ""){
+				$(this).prop("checked", false);
+			}else{
+				$.cookie("user_id", $("#loginId").val(), { expires: 7, path: '/' });
+			}		
+		}else{
+			$.removeCookie("user_id", { path:'/' });
+		}
+	}); 
 })
 
 </script>
 
 <div>
-<div class="form">
+<div class="form" style="margin-top:30px">
 	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	<!-- 회원가입 폼 -->
 	<form action="regiAf.do" class="register-form" method="post">
@@ -142,20 +106,20 @@ $('input:checkbox[id="_chk_save_id"]').change(function(){
 	</form>
 	
 	<!-- 로그인 폼 -->
-	<form class="login-form" action="loginAf.do" method="post">
+	<form class="login-form" action="loginAf.do" id="loginForm" method="post">
 		<input type="hidden" name="callback" value="${callback}">
-		<input type="hidden" name="loginType" value="normal">
+		<input type="hidden" name="loginType" value="normal">		
 		
-		<!-- 아이디 쿠키 저장 -->
-		<div align="right">
-		<span title="아이디저장" style="font-size: small; color: #747474;">
-			아이디 저장하기<input type="checkbox" id="_chk_save_id" style="width: 5%">
-		</span>
-		</div>
 		<input type="text" id="loginId" name="id" onkeyup="loginCheck()" maxlength="12" placeholder="아이디" value="" />
 		
 		<input type="password" id="loginPwd" name="pwd" onkeyup="loginCheck()" maxlength="12" placeholder="비밀번호" />
-		<button style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
+		<!-- 아이디 쿠키 저장 -->
+		<div align="left">
+		<span title="아이디저장" style="font-size: small; color: #747474;">
+			<input type="checkbox" id="_chk_save_id" style="width: 5%">아이디 저장하기
+		</span>
+		</div>
+		<button type="button" style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
 		<div style="margin: auto; display: table-cell;">
 			
@@ -179,15 +143,41 @@ $('input:checkbox[id="_chk_save_id"]').change(function(){
 				아직도 더펀 계정이 없으신가요? <a href="#" style="color: #8152f0">회원가입</a>
 			</p>
 			<p class="message">
-				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디 찾기 / 비밀번호 변경</a>
+				계정을 잊어버리셨나요? <a href="find_id_from.do" style="color: #8152f0">아이디/비밀번호 찾기</a>
 			</p>
 		</div>
 	</form>
 </div>
 </div>
 
-<!-- 회원가입 -->
+
 <script type="text/javascript">
+/* 로그인 처리 */
+$("#loginBtn").click(function(){
+	var formData = $("#loginForm").serialize(); /* 이렇게 하면 폼 데이터를 ajax로 보낼 수 있다@@ */
+	$.ajax({
+		type : "post",
+		url : "loginAf.do",
+		cache : false,
+		data : formData,
+		async:true, // 비동기
+		dataType:'json',
+		success:function(data){	
+			if(data.message!=null && data.message=='retry'){
+				alert("아이디 또는 비밀번호가 틀렸습니다. 다시 시도해 주세요");
+				$("input[name='callback']").val(data.callback);
+			}else{
+				//console.log(data.callback);
+				location.href=data.callback;
+			}
+		},
+		error:function(req, stu, err){
+			alert("통신실패");
+		}
+	});
+});
+	  
+/* 회원가입 */
 document.addEventListener("DOMContentLoaded", function(){
 	$("#option").hide();	
 });
@@ -285,7 +275,6 @@ function onSignIn(googleUser) {
 <script type="text/javascript">
 function willYouSignUp(id,nickname,email,profile,account){
 	//profile
-	/* $.noConflict(); */
 	$.ajax({
 		type:"get",
 		url:"idCheck.do",
@@ -307,24 +296,24 @@ function willYouSignUp(id,nickname,email,profile,account){
 }
 /* confirm창 콜백 처리 */
 var modalConfirm = function(callback) {
-	$("#exampleModal").modal('show');
+	$("#confirmModal").modal('show');
 	$("#join").on("click", function() {
 		callback(true);
-		$("#exampleModal").modal('hide');
+		$("#confirmModal").modal('hide');
 	});
 
 	$("#cancel").on("click", function() {
 		callback(false);
-		$("#exampleModal").modal('hide');
+		$("#confirmModal").modal('hide');
 	});
 };
 </script>	
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">간편 회원가입</h5>
+        <h5 class="modal-title" id="confirmModalLabel">간편 회원가입</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -339,8 +328,6 @@ var modalConfirm = function(callback) {
     </div>
   </div>
 </div>
-
-
 
 
 <script type="text/javascript">
@@ -451,22 +438,6 @@ function detailAddressCheck() {
 	//console.log(text);
 	$("#detailAddress").val(text);	
 }
-/* function phoneCheck(){
-	//colsole.log()
-	var text = $("#newPhone").val();
-	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-	//text = text.replace(/[^0-9]/g, '');
-	//$("#newPhone").val(text);
-	if (!text.match(regExp) && $("#newPhone").val().length != 0) {
-		$("#phoneCheckMessage").text("전화번호 형식:XXX-XXXX-XXXX");
-		phoneOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#phoneCheckMessage").text("");
-		phoneOk = true;
-		checkSubmitActivation();
-	}
-} */
 
 function emailCheck() {
 	var emailVal = $("#newEmail").val();

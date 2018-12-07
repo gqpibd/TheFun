@@ -97,7 +97,10 @@ CREATE TABLE FUN_MEMBER(
 <select id="find_idpw" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
 	SELECT * 
 	FROM FUN_MEMBER 
-	WHERE EMAIL = #{email} AND PHONE = #{phone}
+	WHERE EMAIL = #{email} AND PWD IS NOT NULL
+	<if test="phone != null">
+		AND PHONE = #{phone}
+	</if>
 </select>
 
 
