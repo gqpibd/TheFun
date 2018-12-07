@@ -298,12 +298,12 @@ $(document).ready(function () {
 							</ul>
 						</div>
 						<div>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
+							<h4><span onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</span></h4>
 							<ul>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_HUMAN}&doc_title=donationHuman">인권</a></li>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_ANIMAL}&doc_title=donationAnimal">동물</a></li>
 							</ul>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</h4>
+							<h4><span onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</span></h4>
 							<ul>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}&doc_title=rewardFood">음식</a></li>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}&doc_title=rewardIt">IT / 전자</a></li>
