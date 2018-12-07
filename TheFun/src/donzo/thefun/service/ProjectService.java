@@ -14,7 +14,7 @@ import donzo.thefun.model.QnaDto;
 public interface ProjectService {
 	
 	//프로젝트 디테일 select (프로젝트 seq)
-	public ProjectDto getProject(int seq);
+	public List<ProjectDto> getProject(int[] seq);
 	
 	//프로젝트 작성자 select (프로젝트 seq)
 	public MemberDto getWriter(int seq);

@@ -69,12 +69,12 @@
     <div align="center" >
     <form action="addOrder.do" id="orderfrm"  method="post" >
     
+    
+<!-- 기부일 경우 -->
+<c:if test="${projectdtoList[0].isDonation()}">    
     <!-- 메인 -->
       <p class="strongGray">${projectdto.title } </p>
       <br>
-      
-<!-- 기부일 경우 -->
-<c:if test="${projectdto.isDonation()}">
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#818181">
@@ -128,38 +128,44 @@
 </c:if> <!-- 기부 끝 -->
 
 <!-- 리워드일 경우 -->
-<c:if test="${projectdto.isReward()}">
+<c:if test="${projectdtoList[0].isReward()}">
 		
 		<!-- 옵션테이블 -->
       <table style="width: 70%" >
-      <c:forEach items="${selectOptions }" var="options" varStatus="status">
-		<tr id="tr_${options.seq}">
+      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
+      <tr>
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
+      </tr>
+      <c:forEach items="${selectOptions }" var="options" varStatus="status"> <!-- 프로젝트seq에따른 옵션 loop -->
+       <c:if test="${options.projectseq eq projectdto.seq }">
+	  <tr id="tr_${options.seq}">
 			<td class="pupple"align="left" colspan="3">
-			<input type="hidden" name="opSeq" value="${options.seq}">
-				<p><input type="checkbox" value="${options.seq}" name="checkboxs" id="checkbox_${status.count }"> 
-					${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font></p>
-					<input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
+				<input type="hidden" name="opSeq" value="${options.seq}">
+				<p><input type="checkbox" value="${options.seq}" name="checkboxs"> 
+				${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font>
+				</p><input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
 			</td>
 		</tr>
 		<tr id="tr2_${options.seq}">
 			<td class="liteGray td1">
-			<ul>
-			 <c:forEach items="${options.content}" var="item">
-		  		<li class="liteGray">${item}</li>
-		 	 </c:forEach>
-		 	 </ul>
-		</td>
-		<td class="td2 liteGray">
-		
-			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
-			<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
-			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
-		</td>
-		<td class="liteGray td3">
-			<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-			<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
-		</td>
+				<ul>
+			 	<c:forEach items="${options.content}" var="item">
+		  			<li class="liteGray">${item}</li>
+		 	 	</c:forEach>
+		 	 	</ul>
+			</td>
+			<td class="td2 liteGray">
+				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
+				<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
+				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
+			</td>
+			<td class="liteGray td3">
+				<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
+				<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
+			</td>
 		</tr>
+		</c:if>
+		</c:forEach>
 	</c:forEach>
 	<tr>
 		<td align="right" style="padding-top: 20px;" colspan="3">
@@ -276,6 +282,7 @@
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
 			<li>포인트를 사용하여 총 결제금액이 0원인 경우에는 결제정보를 입력할 필요 없이 결제완료로 처리됩니다.</li>
 		</ul>
+		</div>
 </c:if>
 	<br><br>
 	<!-- 결제정보입력 테이블 -->
@@ -317,7 +324,7 @@
 	</table>
 	<br><br>
 	<!-- 리워드일경우 -->
-<c:if test="${projectdto.isReward()}">
+<c:if test="${projectdtoList[0].isReward()}">
 	<div style="width: 70%" align="left">
 		<p class="strongGray" align="left">결제 예약시 유의사항</p>
 		<ul class="liteGray" >
@@ -336,12 +343,12 @@
 </form>
 
 <!-- 리워드일 경우 -->
-<c:if test="${projectdto.isReward()}">
+<c:if test="${projectdtoList[0].isReward()}">
 	<input type="image" class="pnt" src="image/detail/orderBtn.jpg" onclick="goAddOrder(2)" width="120px;">  <!-- 결제 예약하기 버튼 -->
 </c:if>
 
 <!-- 기부일 경우 -->
-<c:if test="${projectdto.isDonation()}">
+<c:if test="${projectdtoList[0].isDonation()}">
 	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder(1)" width="120px;">  <!-- 기부하기 버튼 -->
 </c:if>
 
