@@ -9,6 +9,12 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> <!-- 결제api -->
 <style type="text/css">
 
+.underline { /* 포인트 */
+	border-color:#999999; background-color:#FFFFFF; border-style:solid;
+    border-top-width:0px; border-bottom-width:1px; border-left-width:0px; border-right-width:0px;
+    color:#0000FF;
+    text-align: right;
+} 
 .pnt { 
 	cursor: pointer; 
 }
@@ -131,7 +137,7 @@
 <c:if test="${projectdtoList[0].isReward()}">
 		
 		<!-- 옵션테이블 -->
-      <table style="width: 70%" >
+      <table style="width: 70%">
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
       <tr>
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
@@ -173,40 +179,35 @@
 		</td>
 	</tr>
 	<tr>
-	<td colspan="3">
-		<hr>
-	</td>
+	<td colspan="3"> <hr> </td>
 	</tr>
-	<tr style="border-top: 1px solid black;">
-		<td class='liteGray' align="left" width="10">
+	<tr style="padding: 20px;" >
+		<td class='liteGray' align="left" width="10%" style="padding-top: 20px;">
 			보유 포인트 
 		</td>
-		<td></td>
-		<td class='liteGray'align="left" width="60">
-			<input type="text" readonly="readonly" value="${login.point }" class="Fee liteGray" size="10" id="usablePoint"> point
+		<td class='liteGray'align="right" width="60%" colspan="2" style="padding-top: 20px;">
+			<input type="text" readonly="readonly" value="${login.point }" class="underline liteGray" size="10" id="usablePoint"> point
 		</td>
 	</tr>
 	<tr>
-		<td class='liteGray' align="left"  width="10">
+		<td class='liteGray' align="left"  width="10%">
 			사용할 포인트
 		</td>
-		<td></td>
-		<td class='liteGray'align="right"  width="60">
-			<input type="text" readonly="readonly"class="Fee liteGray" size="10" id="usePoint">원 
+		<td class='liteGray'align="right"  width="60%" colspan="2">
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
 		</td>
 	</tr>
+	<tr><td colspan="3"></td></tr>
 	<tr>
-		<td class="pupple"align="left" >
+		<td class="pupple"align="left" style="padding-top: 20px;">
 			총 결제 금액
 		</td>
-		<td></td>
-		<td class="pupple"align="right" >
+		<td class="pupple"align="right" colspan="2" style="padding-top: 20px;">
 			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원 
 		</td>
 	</tr>
 	</table>
 	<br>
-	<hr width="70%">
 	<br><br>
 
 	
@@ -250,8 +251,8 @@
      	</tr>
      	<tr>
 	     	<td>
-	     	<label for="infoDeli" class="pnt"><input type="radio" id="infoDeli" name="delivery" value="infoDeli" checked="checked">기본정보 배송지</label>  
-	     	<label for="newDeli" class="pnt"><input name="delivery" id="newDeli" type="radio" value="newDeli">새로운 배송지</label> 
+	     	<label for="infoDeli" class="pnt"><input type="radio" name="delivery" value="infoDeli" checked="checked">기본정보 배송지</label>  
+	     	<label for="newDeli" class="pnt"><input  type="radio" name="delivery" value="newDeli">새로운 배송지</label> 
 	     	</td>
      	</tr>
      	<tr>
@@ -294,7 +295,7 @@
      	<div style="width: 70%" align="left">
      	<p class="strongGray" style="">THE FUN 리워드 펀딩은 이니시스결제 시스템을 이용합니다.</p>
      	<ul class="liteGray" >
-			<li>프로젝트의 성공여부에 따라 결제가 실행되야하지만 100원만 바로 결제가 실행됩니다.</li>
+			<li>프로젝트의 성공여부에 따라 결제가 실행되며 자동결제시 결제대기금100원을 지불받습니다.</li>
 			<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
 			<li>프로젝트 종료일(<fmt:parseDate value="${projectdtoList[0].edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
@@ -302,13 +303,22 @@
 		</ul>
 		</div>
 </c:if>
-	<br><br>
-	<!-- 결제정보입력 테이블 -->
-	<table style="width: 70%">
-	<tr>
-	<td style="padding-bottom: 30px;"><img src="image/detail/payinfo.jpg" width="120px;"></td>
-	</tr>
-	<tr>
+
+  <div align="left" style="padding-top:20px; padding-bottom:20px; width: 70%">
+	<img src="image/detail/payinfo.jpg" width="120px;" style="text-align: left;"><br><br>
+    <label for="autoPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">개인결제</label> 
+    <label for="autoPay" class="pnt"><input type="radio" name="purchase" id="autoPay" value="auto">자동결제</label>  
+  </div>
+  
+  <div id="autopayDiv"> <!-- 자동결제선택시 show -->
+  	결제예약 버튼을 누르시면 결제가 진행됩니다.
+  	<input type="hidden" name="cardNumber" value="****************">
+  	<input type="hidden" name="bankName" value="자동결제">
+  </div>
+  
+  <div id="handpayDiv"><!-- 개인결제 선택시 show 결제정보 입력 테이블 -->
+	<table style="width: 70%"> 
+	<tr >
 		<td class="cardInfo" align="left" colspan="2">신용(체크)카드번호</td>
 	</tr>
 	<tr>
@@ -321,8 +331,8 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="left" width="50%" class="cardInfo">유효기간 </td>
-		<td align="left" width="50%" class="cardInfo">카드 비밀번호 </td>
+		<td align="left" width="50%" class="cardInfo" style="padding-top: 10px;">유효기간 </td>
+		<td align="left" width="50%" class="cardInfo" style="padding-top: 10px;">카드 비밀번호 </td>
 	</tr>
 	<tr>
 		<td>
@@ -332,14 +342,29 @@
 		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
 	</tr>
 	<tr>
-		<td class="cardInfo" align="left">사용은행</td>
-		<td class="cardInfo" align="left">생년월일(주민번호 앞 6자리)</td>
+		<td class="cardInfo" align="left" style="padding-top: 10px;">사용은행</td>
+		<td class="cardInfo" align="left" style="padding-top: 10px;">생년월일(주민번호 앞 6자리)</td>
 	</tr>
 	<tr>
-		<td><input class="liteGray numberCheck" type="text" name="bankName" id="bankName" readonly="readonly"></td>
+		<td>
+		<select name="bankName" id="bankName">
+			<option selected="selected">은행을 선택하세요</option>
+		    <option>IBK기업은행</option>
+		    <option>KB국민은행</option>
+		    <option>NH농협</option>
+		    <option>KEB하나은행</option>
+		    <option>신한은행</option>
+		    <option>씨티은행</option>
+		    <option>카카오뱅크</option>
+		    <option>새마을금고</option>
+		    <option>우리은행</option>
+		    <option>우체국</option>
+		</select>
+		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
 	</tr>
 	</table>
+	</div>
 	<br><br>
 	<!-- 리워드일경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
@@ -348,7 +373,6 @@
 		<ul class="liteGray" >
 			<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
 			<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
-			<li>결제  예약 이후 결제할 카드를 변경하려면 마이페이지>나의 후원내역에서 카드정보를 변경해주세요</li>
 			<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
 		</ul>
 	</div>
@@ -379,9 +403,10 @@
 <script type="text/javascript">
 
 
-function goAddOrder( is ) {
+function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
 	
+	//자동결제인지 div확인하고
 	if(document.getElementById("card1").value.length<4){
 		alert("첫번째 카드번호가 4자리수 이하입니다");
 	}else if(document.getElementById("card2").value.length<4){
@@ -402,6 +427,8 @@ function goAddOrder( is ) {
 		alert("이름을 입력하여주십시오");
 	}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 		alert("연락처를 입력하여 주십시오");
+	}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
+		alert("은행을 선택하여 주십시오");
 	}else if(iswhat=="2"){
 		if(document.getElementById("postcode").value=""){
 			alert("우편번호를 입력하여 주십시오");
@@ -419,7 +446,6 @@ function goAddOrder( is ) {
 			//requestPay();
 		}
 	}else{
-		
 		var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
 		  document.getElementById("card3").value+document.getElementById("card4").value;
 		document.getElementById("cardNumber").value=cardNum;
@@ -430,14 +456,12 @@ function goAddOrder( is ) {
 	} 
 	
 }
-
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
 	   	var count = Number(document.getElementById(seqNum).value);
 	   	var stockCount = document.getElementById("stock_"+seqNum).value;
 	   	
 	   	if(stockCount<0){	//재고가 무제한이라면
-	   		
 	   		count+=1;
 	     	document.getElementById(seqNum).value =count;
 	       	//가격변환
@@ -449,8 +473,7 @@ function goAddOrder( is ) {
 	       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
 	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
 	   		
-	   	}else{		//재고가 무제한이 아니라면
-	 
+	   	}else{		//재고가 무제한이 아니라면 
 			if(count==stockCount){
 				alert("구매가능한 수량보다 많습니다.");
 			}else{
@@ -467,17 +490,14 @@ function goAddOrder( is ) {
 			}
 	   	}
 	}
-	
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
 	function minusVal(seqNum) {
 		var count = Number(document.getElementById(seqNum).value);
-		
 		if(count==1){
 			document.getElementById(seqNum).value ="1";
 		}else{
 			count-=1;
 	       	document.getElementById(seqNum).value =count;
-	       	
 	       	//가격변환 
 	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
 	       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
@@ -490,7 +510,7 @@ function goAddOrder( is ) {
 	}
 
 	$(document).ready(function (){
-		
+		$("#autopayDiv").hide();
 		var size = $("input[name='priceName']").length;
 		var priceArr = new Array(size);
 		var tPrice=0;
@@ -559,8 +579,18 @@ function goAddOrder( is ) {
 				$("#detailAddress").val("${login.detailaddress}");
 			}
 		});
-		
-		//유효성검사
+		//구매 라디오버튼
+		$("input:radio[name=purchase]").click(function(){
+			var purchase =$(':radio[name="purchase"]:checked').val();
+			if(purchase=="auto"){	//자동결제
+				$("#autopayDiv ").show();
+				$("#handpayDiv").hide();
+			}else if (purchase=="hand"){	//수동결제
+				$("#handpayDiv").show();
+				$("#autopayDiv ").hide();
+			}
+		});
+		//유효성검사 및 포커스이동
 		$("#card1").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>4){
@@ -568,17 +598,6 @@ function goAddOrder( is ) {
 			}else if($(this).val().length==4){
 				$("#card2").focus();	
 			}
-			if($("#card1").val()=="4119"){
-		    	$("#bankName").val("하나은행");
-		    } else if($("#card1").val()=="4579"){
-		    	$("#bankName").val("국민은행");
-		    }else if($("#card1").val()=="4364"||$("#card1").val()=="3562"||$("#card1").val()=="4499"){
-		    	$("#bankName").val("신한은행");
-		    }else if($("#card1").val()=="4214"||$("#card1").val()=="4061"||$("#card1").val()=="5389"||$("#card1").val()=="5387"){
-		    	$("#bankName").val("우리은행");
-		    }else if($("#card1").val()=="4404" ){
-		    	$("#bankName").val("씨티은행");
-		    } 
 		});
 		$("#card2").on("keyup",function(){
 			$("#card2").val($("#card2").val().replace(/[^0-9]/g,""));
@@ -637,6 +656,15 @@ function goAddOrder( is ) {
 		$("#amount").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 
+		});
+		$("#usePoint").on("keyup",function(){
+			$(this).val($(this).val().replace(/[^0-9]/g,""));
+			var havePoint=Number($("#usePoint").val());	//보유 포인트
+			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			if(havePoint<=usePoint){
+				$("#usePoint").val(havePoint);
+			}
+			
 		});
 		
 		
@@ -779,6 +807,4 @@ function requestPay() {
 
 
 }
-
-
 </script>
