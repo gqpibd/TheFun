@@ -554,6 +554,22 @@ function autoHyphen(phoneField){
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 
+//엔터키로 로그인
+var inputId = document.getElementById("loginId");
+var inputPwd = document.getElementById("loginPwd");
+inputId.addEventListener("keyup", function(event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    document.getElementById("loginBtn").click();
+  }
+});
+inputPwd.addEventListener("keyup", function(event) {
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    document.getElementById("loginBtn").click();
+  }
+});
+
 
 
 </script>
