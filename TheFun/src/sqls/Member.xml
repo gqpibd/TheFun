@@ -59,7 +59,7 @@ CREATE TABLE FUN_MEMBER(
 	SELECT * 
 	FROM FUN_MEMBER 
 	<choose>			
-		<when test="pwd != null"> <!-- 일반 로그인 -->
+		<when test="pwd != null and pwd !='' "> <!-- 일반 로그인 -->
 			WHERE ID = #{id} AND PWD = #{pwd}
 		</when>
 		<otherwise> <!-- 계정 연동 로그인 -->

@@ -29,68 +29,20 @@ window.fbAsyncInit = function() {
 <!-- topbar css파일 링크 -->
 <link rel="stylesheet" href="CSS/common/topbar.css">
 <style type="text/css">
-
-.profile {
+/* 프로필 사진 */
+.topprofile {
 	float: none;
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
-	/* margin: 5px; */
+	margin: 5px;
 	vertical-align: middle;
 	object-fit: cover;
 	background: white;
 }
+/* /프로필 사진 */
 
-.container-4 {
-	overflow: hidden;
-	width: 300px;
-	vertical-align: middle;
-	white-space: nowrap;
-}
-
-.container-4 input#search {
-	width: 250px;
-	height: 40px;
-	background: #F6F6F6;
-	border: none;
-	font-size: 10pt;
-	float: left;
-	color: #000000;
-	padding-left: 15px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-
-.container-4 button.icon {
-	-webkit-border-top-right-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-moz-border-radius-topright: 5px;
-	-moz-border-radius-bottomright: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-right-radius: 5px;
-	border: none;
-	background: #F6F6F6;
-	height: 50px;
-	width: 50px;
-	color: #4f5b66;
-	opacity: 0;
-	font-size: 10pt;
-	-webkit-transition: all .55s ease;
-	-moz-transition: all .55s ease;
-	-ms-transition: all .55s ease;
-	-o-transition: all .55s ease;
-	transition: all .55s ease;
-}
-
-.table_content{
-	color: #949494;
-	text-align: left;
-	padding-left: 10px;
-	cursor: pointer;
-}
 /* megamenu */
-
 /* Reset */
 *,
 *:after,
@@ -119,7 +71,7 @@ window.fbAsyncInit = function() {
 /* first level ul style */
 .cbp-hrmenu > ul,
 .cbp-hrmenu .cbp-hrsub-inner {
-	width: 90%;
+	/* width: 90%; *//* 나머지 요소 가림 */
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
@@ -190,75 +142,18 @@ window.fbAsyncInit = function() {
 	font-weight: 300;
 }
 
-/* Examples for media queries */
-
-@media screen and (max-width: 52.75em) { 
-
-	.cbp-hrmenu {
-		font-size: 80%;
-	}
-
-}
-
-@media screen and (max-width: 43em) { 
-
-	.cbp-hrmenu {
-		font-size: 120%;
-		border: none;
-	}
-
-	.cbp-hrmenu > ul,
-	.cbp-hrmenu .cbp-hrsub-inner {
-		width: 100%;
-		padding: 0;
-	}
-
-	.cbp-hrmenu .cbp-hrsub-inner {
-		padding: 0 2em;
-		font-size: 75%;
-	}
-
-	.cbp-hrmenu > ul > li {
-		display: block;
-		border-bottom: 4px solid #8152f0;
-	}
-
-	.cbp-hrmenu > ul > li > a { 
-		display: block;
-		padding: 1em 3em;
-	}
-
-	.cbp-hrmenu .cbp-hrsub { 
-		position: relative;
-	}
-
-	.cbp-hrsub h4 {
-		padding-top: 0.6em;
-	}
-	.logo{
-		display: none;
-	}
-}
-
-@media screen and (max-width: 36em) { 
-	.cbp-hrmenu .cbp-hrsub-inner > div {
-		width: 100%;
-		float: none;
-		padding: 0 2em;
-	}
-}
-
 /* 드랍다운 메뉴 */
 .drop-down{
     display: inline-block;
     position: relative;
+    z-index: 6
 }
 
 .drop-down__button{
   /* background: linear-gradient(to right,#3d6def, #8FADFE); */
   background: linear-gradient(to right,#3a2525, #4c1010);
   display: inline-block;
-  padding: 0 25px;
+  padding: 0 15px;
   text-align: left;
   border-radius: 4px;
   box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.2);
@@ -266,11 +161,11 @@ window.fbAsyncInit = function() {
 }
 
 .drop-down__name {
-    font-size: 9px;
-    text-transform: uppercase;
+	font-size: 14px;
     color: #fff;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 2px;
+    padding: 5px
 }
 
 .drop-down__icon {
@@ -331,13 +226,13 @@ opacity: 0;
 .drop-down__item {
 	width: 95%;
     font-size: 13px;
-    padding: 8px 8px;
-    text-align: left;
+    padding: 8px 8px;    
     font-weight: 500;
     color: #909dc2;
     cursor: pointer;
     position: relative;
-    border-bottom: 1px solid #e0e2e9;
+    border-bottom: 1px solid #e0e2e9; 
+    text-align: left;	
 }
 
 .drop-down__item-icon {
@@ -384,27 +279,45 @@ transform: translateY(-50%);
   display:block;
 }
 
-/* 로그인 버튼 */
-.loginbtn{
-	display: inline-block;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    border: 1px solid transparent;
-    font-size: 1rem;
-    border-radius: .5rem;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    color: #8152f0;
-    background-color: transparent;
-    border-color: #8152f0;
+@media screen and (max-width: 43em) { 
+	.logo{
+		display: none;
+	}
+	.hideWhenSmall{
+		display: none;
+	}
+	.drop-down__item{			
+		padding: 8px 0;
+	}
+	.drop-down__icon{
+		margin: 0;
+		margin-left: 14px;
+	}
+	.topprofile{
+		width: 40px;
+		height: 40px;
+	}
+	.drop-down__button{
+		background: #fff;
+		box-shadow: 0;
+	}
 }
-.loginbtn:hover{
-    color: #fff;
-    background-color: #8152f0;
-    border-color: #8152f0;
-	outline: none;
-	cursor:pointer;
-}
+@media screen and (max-width: 36em) { 
+	.cbp-hrmenu .cbp-hrsub-inner > div {
+		width: 100%;
+		float: none;
+		padding: 0 2em;
+	}
+	
+	.hideWhenSmall{
+		display: none;
+	}
+	.drop-down__icon{
+		margin: auto
+	}
+	
+} 
+
 </style>
 
 <script type="text/javascript">
@@ -433,7 +346,7 @@ $(document).ready(function () {
 
 <div class="main_menu" style="margin-bottom:30px">
 	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px; display: inline-flex;">
-		<ul class="navbar-nav" style="margin:0; width:33%">
+		<ul class="navbar-nav" style="margin:0;">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>
 				<div class="cbp-hrsub" style="z-index:11;">
@@ -509,33 +422,34 @@ $(document).ready(function () {
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
 		    </button> -->
 		        
-		    <div id="navbarResponsive" style="width:15%;position:absolute;right:0;margin: auto;">		      
+		    <div id="navbarResponsive" style="width:20%;position:absolute;right:0;margin: auto;">		      
 		    <c:if test="${login eq null}">
 					    <button class="loginbtn" onclick="location.href='login.do'" style="width:85%">
-					    	<img class="profile" src="image/profile/default.jpg">로그인/회원가입
+					    	<img class="topprofile" src="image/profile/default.jpg">로그인/회원가입
 					    </button> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
 		      	<div class="drop-down">
-  				<div id="dropDown" class="drop-down__button">
-   				 <span class="drop-down__name">${login.id}</span> 
+  				<div id="dropDown" class="drop-down__button" align="center">
+   				 <span class="drop-down__name hideWhenSmall">${login.nickname} 님</span> 
    				 <span class="drop-down__icon">
-   				 	<img class="profile" src="${login.profile}">
+   				 	<img class="topprofile" src="${login.profile}">
    				 </span>
   				</div>
          
 				<div class="drop-down__menu-box">
 		  			<ul class="drop-down__menu">
-		  			<c:if test="${!login.isManager()}">
+		  			
 		  				<li class="drop-down__item"  onclick="location.href='myPage.do'">
-					    	마이페이지
-							<span class="drop-down__item-icon notification">					    		
+					    	<span class="">마이페이지</span>
+							<span class="drop-down__item-icon notification hideWhenSmall">					    		
 								<span class="fas fa-user" style="font-size:1.5em;"></span>
 							</span>
 					    </li>
+					 <c:if test="${!login.isManager()}">
 					    <li class="drop-down__item"  onclick="location.href='myBasket.do'">
-					    	장바구니
-							<span class="drop-down__item-icon notification">
+					    	<span class="">장바구니</span>
+							<span class="drop-down__item-icon notification hideWhenSmall">
 					    		<!-- <a href="myBasket.do" class="notification" title="장바구니" > -->
 									  <span class="fas fa-shopping-cart" style="font-size:1.5em;"></span>
 									  <span class="badge" id="basketcount" style="top: -30px; right: -15px;"></span>
@@ -544,8 +458,8 @@ $(document).ready(function () {
 					    </li>
 					</c:if>
 					    <li class="drop-down__item" onclick="location.href='viewAlarms.do'">
-					    	새소식
-							<span class="drop-down__item-icon notification">
+					    	<span class="">새소식</span>
+							<span class="drop-down__item-icon notification hideWhenSmall">
 						    	<!-- <a href="viewAlarms.do" class="notification" title="새소식"> -->
 								  <span class="fas fa-bell" style="font-size:1.5em;"></span>
 								  <span class="badge" id="alarmcount" style="top: -30px; right: -10px;"></span>
@@ -554,8 +468,8 @@ $(document).ready(function () {
 					    </li>
 					   <c:if test="${login.isManager()}">
 							<li class="drop-down__item" onclick="location.href='projectManage.do'">
-					    		프로젝트 관리
-					    		<span class="drop-down__item-icon notification">
+					    		<span class="">프로젝트 관리</span>
+					    		<span class="drop-down__item-icon notification hideWhenSmall">
 									<!-- <a href="projectManage.do"  class="notification" title="대기중인 프로젝트"> -->
 										<span class="fas fa-eye" style="font-size:1.5em;"></span>
 										<span class="badge" id="waitcount" style="top: -30px; right: -12px;"></span>
@@ -564,8 +478,8 @@ $(document).ready(function () {
 							</li>
 						</c:if>
 					    <li class="drop-down__item" onclick="logout()">
-					    	로그아웃					    	
-						    <span class="drop-down__item-icon">
+					    	<span class="">로그아웃	</span>				    	
+						    <span class="drop-down__item-icon hideWhenSmall">
 						    	<span class="fas fa-door-open"style="font-size:1.5em;"></span>
 						    </span>
 					    </li>            

@@ -309,10 +309,9 @@
 				<tr height="50">
 					<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%>
 					<!-- 하트 버튼 -->
-					<td><i class="fas fa-heart" id="hartBtn"
-						style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}"
-						onclick="heartClick(this)"></i> <span id="likeCount">${projectdto.likecount}</span>
-					<!-- 하트 버튼 --> 명이 좋아합니다</td>
+					<td><i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}"
+						onclick="heartClick(this)"></i> 	<!-- 하트 버튼 -->
+						<span id="likeCount">${projectdto.likecount}</span> 명이 좋아합니다</td>
 				</tr>
 
 				<c:if test="${projectdto.isOngoing()}">
@@ -322,10 +321,11 @@
 						<tr height="50" id="beginTr">
 							<td class="strongGray imgTd">${projectdto.summary }
 								&nbsp;&nbsp;</td>
-							<td colspan="3"><input type="hidden" name="selectOpSeq"
-								value="1"><input type="hidden" name="optionCount"
-								value="1"> <img src="image/detail/donationBtn.jpg"
-								width="120px" id="donaBtn"> <!-- 기부하기 버튼 --></td>
+							<td colspan="3">
+								<input type="hidden" name="selectOpSeq"value="1">
+								<input type="hidden" name="optionCount" value="1"> 
+								<img class="pnt" src="image/detail/donationBtn.jpg"	width="120px" id="donaBtn"> <!-- 기부하기 버튼 -->
+							</td>
 						</tr>
 					</c:if>
 
@@ -346,10 +346,10 @@
 
 						<tr>
 							<td></td>
-							<td colspan="3"><img class="pnt" height="50"
-								src="image/detail/addcart3.jpg" id="basketBtn" />
-							<!-- 장바구니 버튼 --> <img src="image/detail/fundBtn.jpg"
-								height="40px" id="fundBtn"> <!-- 펀딩하기 버튼 --></td>
+							<td colspan="3">
+								<img class="pnt" height="50" src="image/detail/addcart3.jpg" id="basketBtn" /> <!-- 장바구니 버튼 -->
+								<img class="pnt" src="image/detail/fundBtn.jpg" height="40px" id="fundBtn"> <!-- 펀딩하기 버튼 -->
+							</td>
 						</tr>
 					</c:if>
 				</c:if>
@@ -539,13 +539,11 @@ $(document).ready(function () {
 	
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
-		if(${login.id eq null} == true){
+		if('${login.id eq null}' == 'true'){
 			return;
 			//인터셉트
 		}else if($("input[name='selectOpSeq']").length<=0){
-			//$("#basketBtn").attr("data-toggle",""); //모달창 꺼놔야하는뎅..
-			alert ("옵션을 선택하여주십시오");
-			//$("#basketBtn").attr("data-toggle","modal");
+			alert ("옵션을 선택하여주십시오");			
 			return;
 		}else{
 			var OpSeqArr = [];	//옵션시퀀스배열

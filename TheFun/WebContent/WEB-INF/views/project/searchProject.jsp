@@ -523,7 +523,7 @@ $(document).ready(function () {
 </div>
 
 <!-- 페이징 처리 -->     
-<div id="paging_wrap" align="center"><!-- flush 는 갱신의 의미 -->
+<div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 	
 		<jsp:param value="${s_keyword }" name="s_keyword"/>	

@@ -5,116 +5,62 @@
 <fmt:requestEncoding value="utf-8"/> 
 
 <link rel="stylesheet" href="CSS/admin/manage.css">
-<style type="text/css">
-@media only screen and (max-width: 760px), (min-device-width: 768px) 
-   and (max-device-width: 1024px)  {
-	/* Force table to not be like tables anymore */
-	table, thead, tbody, th, td, tr {
-		display: block;
-	}
-
-	/* Hide table headers (but not display: none;, for accessibility) */
-	thead tr {
-		position: absolute;
-		/* top: -9999px;
-		left: -9999px; */
-		opacity:0;
-	}
-
-   tr {
-     margin: 0 0 1rem 0;
-   }
-     
-   tr:nth-child(odd) {
-     background: #ccc;
-   }
-   
-	td {
-		/* Behave  like a "row" */
-		border: none;
-		border-bottom: 1px solid #eee;
-		position: relative;
-		padding-left: 50%;
-	}
-
-	td:before {
-		/* Now like a table header */
-		position: absolute;
-		/* Top/left values mimic padding */
-		top: 0;
-		left: 6px;
-		width: 45%;
-		padding-right: 10px;
-		white-space: nowrap;
-	}
-/*Label the data
-   You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
-	*/
-	td:nth-of-type(1):before { content: "펀드 타입"; }
-	td:nth-of-type(2):before { content: "카테고리"; }
-	td:nth-of-type(3):before { content: "제목"; }
-	td:nth-of-type(4):before { content: "등록일"; }
-	td:nth-of-type(5):before { content: "시작일"; }
-	td:nth-of-type(6):before { content: "작성자"; }
-}
-</style>
-<div align="center" id="bbsTable">
+<div align="center">
 	<div class="h1">
 		<h1>관리자 페이지</h1>
 	</div>
 	<span>승인을 기다리는 프로젝트가 <span id="waitcount1"></span>개 있습니다.</span>
-	<table class="type08">
-		<col width="150">
-		<col width="150">
-		<col width="450">
-		<col width="150">
-		<col width="150">
-		<col width="150">
-		<thead>
-			<tr>
-				
-				<th>펀드 타입</th>
-				<th>카테고리</th>
-				<th>제목</th>
-				<th>등록일</th>
-				<th>시작일</th>
-				<th>작성자</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:choose>
-			<c:when test="${pList eq null}">			
-				<tr>
-					<td colspan="4">작성된 글이 없습니다</td>
+	<div class="container-table100">
+	<div class="wrap-table100">
+	<div class="table100">
+		<table class="funTable">
+			<thead>
+				<tr class="table100-head">					
+					<th class="column1">펀드 타입</th>
+					<th class="column2">카테고리</th>
+					<th class="column3">제목</th>
+					<th class="column4">목표금액</th>
+					<th class="column5">등록일</th>
+					<th class="column6">시작일</th>
+					<th class="column7">작성자</th>
 				</tr>
-			</c:when>
-			<c:otherwise>
-			<c:forEach items="${pList}" var="project" varStatus="i">			
-			<tr class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${project.seq}'">
-				
-				<td>${project.getFundTypeKr()}</td>
-				<td>${project.getCategoryKr()}</td>
-				<td>${project.title}</td>
-				<td>${project.getDateForm(project.regdate)}</td>				
-				<td>${project.getDateForm(project.sdate)}</td>
-				<td>${project.nickname}</td>
-			</tr>
-			</c:forEach>
-
-			</c:otherwise>
-			</c:choose>
-		</tbody>
-	</table>
+			</thead>
+			<tbody class="funTbody">
+				<c:choose>
+				<c:when test="${pList eq null}">			
+					<tr>
+						<td colspan="4">작성된 글이 없습니다</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+				<c:forEach items="${pList}" var="project" varStatus="i">			
+				<tr style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${project.seq}'">					
+					<td class="column1">${project.getFundTypeKr()}</td>
+					<td class="column2">${project.getCategoryKr()}</td>
+					<td class="column3">${project.title}</td>
+					<td class="column4">${project.goalfund}</td>
+					<td class="column5">${project.getDateForm(project.regdate)}</td>				
+					<td class="column6">${project.getDateForm(project.sdate)}</td>
+					<td class="column7">${project.nickname}</td>
+				</tr>
+				</c:forEach>
 	
-	<div id="paging_wrap">	
-	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
-		<jsp:param value="${pageNumber }" name="pageNumber"/>		
-		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
-		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
-		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>		
-		<jsp:param value="projectManage.do" name="actionPath"/>	
-	</jsp:include>	
-		
+				</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
+		</div>
+	</div>	
+	<div class="">	
+		<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+			<jsp:param value="${pageNumber }" name="pageNumber"/>		
+			<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+			<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+			<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>		
+			<jsp:param value="projectManage.do" name="actionPath"/>	
+		</jsp:include>	
+	</div>
+	</div>
 </div>
 <script type="text/javascript">
 $(".hover_tr").mouseover(function () {

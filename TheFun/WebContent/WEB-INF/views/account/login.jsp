@@ -3,7 +3,14 @@
 <%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%
+	String message = (String) request.getAttribute("message");
+	if(message != null){
+		if(message.equals("registered")){
+			out.print("<script>alert('회원가입이 완료되었습니다. 로그인해 주십시오')</script>");
+		}
+	}
+%>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 
 <!-- 로그인폼 css -->
@@ -47,25 +54,22 @@ function statusChangeCallback(response) {
 $(document).ready(function(){
 	var user_id = $.cookie("user_id");
 	
-	if(user_id != null){
+	if(user_id != null){ // 저장된 쿠키가 있는 경우 셋팅
 		$("#loginId").val(user_id);
 		$("#_chk_save_id").attr("checked", "checked");
 	}
-	
-	$("#_chk_save_id").change(function() {
-	//$('input:checkbox[id="_chk_save_id"]').change(function(){
-		if($('input:checkbox[id="_chk_save_id"]').is(":checked")){
-			if($("#loginId").val() == ""){
-				$(this).prop("checked", false);
-			}else{
-				$.cookie("user_id", $("#loginId").val(), { expires: 7, path: '/' });
-			}		
-		}else{
-			$.removeCookie("user_id", { path:'/' });
-		}
+	//$("#_chk_save_id").change(function() {
+	$('input:checkbox[id="_chk_save_id"]').change(function(){		
+		saveId();
 	}); 
 })
-
+function saveId(){ // 아이디를 쿠키에 저장하거나 삭제하는 함수	--> 함수로 만들어서 로그인 버튼을 누를 때도 호출되도록 사용
+	if($('input:checkbox[id="_chk_save_id"]').is(":checked")){
+		$.cookie("user_id", $("#loginId").val(), { expires: 7, path: '/' });
+	}else{
+		$.removeCookie("user_id", { path:'/' });
+	}
+}
 </script>
 
 <div>
@@ -154,6 +158,10 @@ $(document).ready(function(){
 <script type="text/javascript">
 /* 로그인 처리 */
 $("#loginBtn").click(function(){
+	saveId(); // 아이디 저장 체크박스를 확인하고 아이디 저장 처리
+	tryLogin();
+});
+function tryLogin(){
 	var formData = $("#loginForm").serialize(); /* 이렇게 하면 폼 데이터를 ajax로 보낼 수 있다@@ */
 	$.ajax({
 		type : "post",
@@ -175,7 +183,7 @@ $("#loginBtn").click(function(){
 			alert("통신실패");
 		}
 	});
-});
+}
 	  
 /* 회원가입 */
 document.addEventListener("DOMContentLoaded", function(){
@@ -274,6 +282,7 @@ function onSignIn(googleUser) {
 <!-- 회원가입 할래? -->
 <script type="text/javascript">
 function willYouSignUp(id,nickname,email,profile,account){
+	var callback = $("input[name='callback']").val();
 	//profile
 	$.ajax({
 		type:"get",
@@ -282,11 +291,11 @@ function willYouSignUp(id,nickname,email,profile,account){
 		
 		success:function(data){						
 			if(data.trim() != "OK"){ // 등록되어 있으면 바로 로그인 시킴
-				window.location.replace("loginAf.do?id=" + id +"&loginType=" + account);				
+				location.href="simpleLogin.do?id=" + id +"&loginType=" + account +"&callback=" + callback;				
 			}else{ // 등록되어 있지 않으면 바로 회원가입 시킴
 				modalConfirm(function(confirm){
 					if(confirm){
-						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile +"&account="+account;
+						location.href="regiAf.do?id=" + id +"&nickname=" + nickname +"&email="+email+"&profile="+profile +"&account="+account +"&callback=" + callback;
 						//console.log("yes");
 					}
 				});		
