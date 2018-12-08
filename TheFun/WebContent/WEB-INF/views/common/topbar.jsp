@@ -89,12 +89,6 @@ window.fbAsyncInit = function() {
 	padding-left: 10px;
 	cursor: pointer;
 }
-      
-/* 햄버거메뉴 */
-.menu a{cursor:pointer;}
-.menu .hide{display:none;}
-
-
 /* megamenu */
 
 /* Reset */
@@ -110,9 +104,9 @@ window.fbAsyncInit = function() {
 	width: 100%;
 	/* margin-top: 2em; */
 	border-bottom: 4px solid #8152f0;
-	padding: 0px;
+	/* padding: 0px; */
     /* display: inline-flex; */
-    background: #8152f0;
+    /* background: #8152f0; */
 }
 
 /* general ul style */
@@ -125,7 +119,7 @@ window.fbAsyncInit = function() {
 /* first level ul style */
 .cbp-hrmenu > ul,
 .cbp-hrmenu .cbp-hrsub-inner {
-	/* width: 90%; */
+	width: 90%;
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 0 1.875em;
@@ -140,7 +134,7 @@ window.fbAsyncInit = function() {
 	text-decoration:none;
 	font-weight: 700;
 	padding: 1em 2em;
-	color: white;
+	color: #8152f0;
 	display: inline-block;
 }
 
@@ -264,7 +258,7 @@ window.fbAsyncInit = function() {
   /* background: linear-gradient(to right,#3d6def, #8FADFE); */
   background: linear-gradient(to right,#3a2525, #4c1010);
   display: inline-block;
-  padding: 0 18px;
+  padding: 0 25px;
   text-align: left;
   border-radius: 4px;
   box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.2);
@@ -363,8 +357,6 @@ opacity: 0;
   color: #3d6def;
 }
 
-
-
 .drop-down__item:last-of-type{
   border-bottom: 0;
 }
@@ -392,7 +384,27 @@ transform: translateY(-50%);
   display:block;
 }
 
-
+/* 로그인 버튼 */
+.loginbtn{
+	display: inline-block;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    font-size: 1rem;
+    border-radius: .5rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    color: #8152f0;
+    background-color: transparent;
+    border-color: #8152f0;
+}
+.loginbtn:hover{
+    color: #fff;
+    background-color: #8152f0;
+    border-color: #8152f0;
+	outline: none;
+	cursor:pointer;
+}
 </style>
 
 <script type="text/javascript">
@@ -421,7 +433,7 @@ $(document).ready(function () {
 
 <div class="main_menu" style="margin-bottom:30px">
 	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px; display: inline-flex;">
-		<ul class="navbar-nav" style="margin:0">
+		<ul class="navbar-nav" style="margin:0; width:33%">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>
 				<div class="cbp-hrsub" style="z-index:11;">
@@ -490,50 +502,25 @@ $(document).ready(function () {
 			</li>
 			
 		</ul>
-		<div align="center" style="margin:auto;" class="logo">			
+		<div align="center" style="width:100%; position: absolute; z-index: 0" class="logo">			
 			<img src="image/main/banner.jpg" width="150px" style="cursor: pointer;" onclick="location.href='main.do'">
 		</div>
-			<button class="navbar-toggler navbar-nav ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			<!-- <button class="navbar-toggler navbar-nav ml-auto" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
-		    </button>
+		    </button> -->
 		        
-		    <div class="collapse navbar-collapse" id="navbarResponsive" style="flex-grow: 0.1;">
-		      <%-- <ul class="navbar-nav ml-auto" style="margin-right: 2%; float: right;">
-		        <li class="nav-item">              
-					<c:if test="${login eq null}">
-					    <a class="nav-link btn  btn-default" href="login.do">로그인/회원가입</a> <!-- 로그인 -->				
-					</c:if>
-					<c:if test="${login ne null}">
-						<span id="profile"><img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;"></span>
-						<span onclick="location.href='myPage.do?id=${login.id}'" style="cursor: pointer;">${login.nickname}님</span>
-						&nbsp;&nbsp;
-						<a href="myBasket.do" class="notification mr-1" title="장바구니" >
-						  <span class="fas fa-shopping-cart" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
-						  <span class="badge" id="basketcount"></span>
-						</a>
-						<a href="viewAlarms.do" class="notification" title="새소식">
-						  <span class="fas fa-bell" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
-						  <span class="badge" id="alarmcount"></span>
-						</a>					
-							<c:if test="${login.isManager()}">
-								<a href="projectManage.do"  class="notification" title="대기중인 프로젝트">
-									<span class="fas fa-eye" style="font-size:1.5em; color:#ab9f9d" onmouseover="$(this).css('color','black')" onmouseout="$(this).css('color','#ab9f9d')"></span>
-									<span class="badge" id="waitcount"></span>
-								</a>
-							</c:if>
-						<a href="#" onclick="logout()">로그아웃</a> <!-- 로그인 -->			
-					</c:if>
-		        </li>
-		      </ul> --%>
+		    <div id="navbarResponsive" style="width:15%;position:absolute;right:0;margin: auto;">		      
 		    <c:if test="${login eq null}">
-					    <a class="nav-link btn  btn-default" href="login.do">로그인/회원가입</a> <!-- 로그인 -->				
+					    <button class="loginbtn" onclick="location.href='login.do'" style="width:85%">
+					    	<img class="profile" src="image/profile/default.jpg">로그인/회원가입
+					    </button> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
 		      	<div class="drop-down">
   				<div id="dropDown" class="drop-down__button">
    				 <span class="drop-down__name">${login.id}</span> 
    				 <span class="drop-down__icon">
-   				 	<img class="profile" src="${login.profile}" onclick="location.href='myPage.do?id=${login.id}'" title="마이페이지로 이동" style="cursor: pointer;">
+   				 	<img class="profile" src="${login.profile}">
    				 </span>
   				</div>
          
@@ -571,7 +558,7 @@ $(document).ready(function () {
 					    		<span class="drop-down__item-icon notification">
 									<!-- <a href="projectManage.do"  class="notification" title="대기중인 프로젝트"> -->
 										<span class="fas fa-eye" style="font-size:1.5em;"></span>
-										<span class="badge" id="waitcount"></span>
+										<span class="badge" id="waitcount" style="top: -30px; right: -12px;"></span>
 									<!-- </a> -->
 								</span>
 							</li>
@@ -618,7 +605,8 @@ function setWaitCount(){ // 대기중인 프로젝트 갯수
 		type:"get",
 		url:"getWaitCount.do",		
 		success:function(data){						
-			$("#waitcount").text(data);
+			$("#waitcount").text(data);			
+			$("#waitcount1").text(data); // 이건 관리자 페이지에서만 보임			
 		}
 	});	
 }
@@ -719,24 +707,6 @@ function setBasketCount(){ // 대기중인 프로젝트 갯수
  		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
  	}
     
-
-
-/* 햄버거버튼 */
-   // html dom 이 다 로딩된 후 실행된다.
-    $(document).ready(function(){
-        // menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
-        $(".menu>a").click(function(){
-            var submenu = $(this).next("ul");
- 
-            // submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
-            if( submenu.is(":visible") ){
-                submenu.slideUp();
-            }else{
-                submenu.slideDown();
-            }
-        });
-    });  
-
 /* dropdown 메뉴 설정 */
 $('#dropDown').click(function(){
     $('.drop-down').toggleClass('drop-down--active');
@@ -768,5 +738,5 @@ $(function() {
 	cbpHorizontalMenu.init();
 });
 
-</script>
+</script> 
 

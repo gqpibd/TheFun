@@ -124,16 +124,8 @@ input.star:checked ~ .rev-box {
     padding: 6px 24px;
     text-decoration: none;
 }
-/* 결제내역테이블css */
-.30width{
-	width: 30%
-}
-.20width{
-	width: 20%
-}
-</style>
 
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
+</style>
 
 <header id="line_header">
   <div class="container text-center">

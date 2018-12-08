@@ -62,7 +62,7 @@
 	<div class="h1">
 		<h1>관리자 페이지</h1>
 	</div>
-	<span>승인을 기다리는 프로젝트가 ${pList.size()}개 있습니다.</span>
+	<span>승인을 기다리는 프로젝트가 <span id="waitcount1"></span>개 있습니다.</span>
 	<table class="type08">
 		<col width="150">
 		<col width="150">
@@ -97,7 +97,7 @@
 				<td>${project.title}</td>
 				<td>${project.getDateForm(project.regdate)}</td>				
 				<td>${project.getDateForm(project.sdate)}</td>
-				<td>${project.id}</td>
+				<td>${project.nickname}</td>
 			</tr>
 			</c:forEach>
 
@@ -105,17 +105,16 @@
 			</c:choose>
 		</tbody>
 	</table>
-	<%-- <jsp:include page="paging.jsp">
-		<jsp:param name="actionPath" value="bbslist.jsp" />
-		<jsp:param name="nowPage"
-			value="<%=String.valueOf(paging.getNowPage())%>" />
-		<jsp:param name="totalCount"
-			value="<%=String.valueOf(paging.getTotalCount())%>" />
-		<jsp:param name="countPerPage"
-			value="<%=String.valueOf(paging.getCountPerpage())%>" />
-		<jsp:param name="blockCount"
-			value="<%=String.valueOf(paging.getBlockCount())%>" />		
-	</jsp:include> --%>
+	
+	<div id="paging_wrap">	
+	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+		<jsp:param value="${pageNumber }" name="pageNumber"/>		
+		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>		
+		<jsp:param value="projectManage.do" name="actionPath"/>	
+	</jsp:include>	
+		
 </div>
 <script type="text/javascript">
 $(".hover_tr").mouseover(function () {

@@ -522,6 +522,18 @@ public class ProjectDto implements Serializable {
 	public void setOptiontotal(String optiontotal) {
 		this.optiontotal = optiontotal;
 	}
+	
+	//제목이 길때 뒤에 ... 해주는 거
+	public String dot3(String msg){
+		String s="";
+		if(msg.length()>=18){
+			s=msg.substring(0,18); 
+			s+="...";
+		}else{
+			s=msg.trim();
+		}
+		return s;
+	}
 
 	@Override
 	public String toString() {

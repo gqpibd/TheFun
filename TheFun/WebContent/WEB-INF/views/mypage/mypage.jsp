@@ -232,12 +232,17 @@ a.mpa {
         </li>
         <li>
            <a class="s-sidebar__nav-link mpa" href="myOrderList.do">
-             <i class="far fa-credit-card"></i><em>나의 후원 내역</em>
+             <i class="far fa-credit-card"></i><em>나의 후원내역</em>
            </a>
         </li>
         <li>
            <a class="s-sidebar__nav-link mpa" href="mySchedule.do">
-              <i class="fas fa-calendar"></i></i><em>나의 프로젝트</em>
+              <i class="fas fa-calendar"></i><em>나의 프로젝트</em>
+           </a>
+        </li>
+        <li>
+           <a class="s-sidebar__nav-link mpa" href="myChart.do">
+              <i class="fas fa-chart-pie"></i><em>나의 통계보기</em>
            </a>
         </li>
         <li>
@@ -253,7 +258,7 @@ a.mpa {
 <!-- <main class="s-layout__content">  		
 </main>
 </div> -->
- 
+
  
 <!-- 본문출력 묶는 태그 -->
 	<main class="s-layout__content">  	

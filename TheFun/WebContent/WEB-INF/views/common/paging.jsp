@@ -5,6 +5,7 @@
 	int pageNumber;			// 현재 페이지 : 현재 페이지의 번호	23 개의 글 -> 3 페이지	0 1 2
 	int pageCountPerScreen;	// 스크린당 페이지 수
 	int recordCountPerPage;	// 페이지 당 글수
+	String actionPath = request.getParameter("actionPath");;	// 페이징을 보함하고 있는 현재 페이지
 	
 	/*
 	
@@ -134,7 +135,8 @@
 function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());
-	$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
+	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
+	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();
 }
 </script>
 
