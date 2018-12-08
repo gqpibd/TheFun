@@ -6,6 +6,7 @@
 <fmt:requestEncoding value="utf-8"/> 
 <title>The Fun_orderReward</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> <!-- 결제api -->
 <style type="text/css">
 
 .pnt { 
@@ -176,6 +177,24 @@
 		<hr>
 	</td>
 	</tr>
+	<tr style="border-top: 1px solid black;">
+		<td class='liteGray' align="left" width="10">
+			보유 포인트 
+		</td>
+		<td></td>
+		<td class='liteGray'align="left" width="60">
+			<input type="text" readonly="readonly" value="${login.point }" class="Fee liteGray" size="10" id="usablePoint"> point
+		</td>
+	</tr>
+	<tr>
+		<td class='liteGray' align="left"  width="10">
+			사용할 포인트
+		</td>
+		<td></td>
+		<td class='liteGray'align="right"  width="60">
+			<input type="text" readonly="readonly"class="Fee liteGray" size="10" id="usePoint">원 
+		</td>
+	</tr>
 	<tr>
 		<td class="pupple"align="left" >
 			총 결제 금액
@@ -273,9 +292,9 @@
      	
      	<br><br>
      	<div style="width: 70%" align="left">
-     	<p class="strongGray" style="">더펀 리워드 펀딩은 결제예약 시스템을 이용합니다.</p>
+     	<p class="strongGray" style="">THE FUN 리워드 펀딩은 이니시스결제 시스템을 이용합니다.</p>
      	<ul class="liteGray" >
-			<li>쇼핑하기처럼 바로 결제되지 않습니다. 프로젝트의 성공여부에 따라 결제가 실행됩니다.</li>
+			<li>프로젝트의 성공여부에 따라 결제가 실행되야하지만 100원만 바로 결제가 실행됩니다.</li>
 			<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
 			<li>프로젝트 종료일(<fmt:parseDate value="${projectdtoList[0].edate }" pattern="yyyy-MM-dd HH:mm:ss" var="edate" />
 			<fmt:formatDate value="${edate }" pattern="yyyy.MM.dd"/>) 의 다음 영업일에 펀딩 성공여부에 따라 결제실행/결제취소가 진행됩니다.</li>
@@ -396,6 +415,8 @@ function goAddOrder( is ) {
 			document.getElementById("cardNumber").value=cardNum;
 			
 			$("#orderfrm").attr("action","addOrder.do").submit();
+			//결제 api호출
+			//requestPay();
 		}
 	}else{
 		
@@ -404,6 +425,8 @@ function goAddOrder( is ) {
 		document.getElementById("cardNumber").value=cardNum;
 		
 		$("#orderfrm").attr("action","addOrder.do").submit();
+		//결제 api호출
+		//requestPay();
 	} 
 	
 }
@@ -661,15 +684,13 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 	
-	/* 상세 주소 */
-	function detailAddressCheck() {
-		console.log("detailAddressCheck");
-		var text = $("#detailAddress").val();
-		//var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-		text = text.replace(/[<(+>]/g, '');
-		//console.log(text);
-		$("#detailAddress").val(text);	
-	}
+/* 상세 주소 */
+function detailAddressCheck() {
+	console.log("detailAddressCheck");
+	var text = $("#detailAddress").val();
+	text = text.replace(/[<(+>]/g, '');
+	$("#detailAddress").val(text);	
+}
 	
 
 function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
@@ -706,26 +727,58 @@ function autoHyphen(phoneField){
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
 
-//기부 숫자에 자동으로 콤마
-function getNumber(obj){
-	
-  var num01;
-  var num02;
-  num01 = obj.value;
-  num02 = num01.replace(rgx1,"");
-  num01 = setComma(num02);
-  obj.value =  num01;
+
+
+/* 결제 api */
+ // 사용 가이드 : https://docs.iamport.kr/implementation/payment
+ //아이엠포트 식별코드 등 확인하는곳 : https://admin.iamport.kr , ID : fnvlektmf@naver.com, PW : k3216261 
+var IMP = window.IMP; // 생략가능
+IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+
+function requestPay() {
+	//IMP.request_pay(param, callback) 호출
+	IMP.request_pay({
+	    pg : 'html5_inicis', // version 1.1.0부터 지원. PG사명
+	    pay_method : 'card',	//결제수단 card==신용카드
+	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
+	    name : '주문명:결제테스트',	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
+	    amount : 100,	//가격
+	    buyer_email : 'iamport@siot.do',
+	    buyer_name : '구매자이름',
+	    buyer_tel : '010-1234-5678',
+	    buyer_addr : '서울특별시 강남구 삼성동',
+	    buyer_postcode : '123-456',
+	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
+	}, function(rsp) {
+	    if ( rsp.success ) {
+	        var msg = '결제가 완료되었습니다.';
+	        msg += '고유ID : ' + rsp.imp_uid;
+	        msg += '상점 거래ID : ' + rsp.merchant_uid;
+	        msg += '결제 금액 : ' + rsp.paid_amount;
+	        msg += '카드 승인번호 : ' + rsp.apply_num;
+	/*         
+	     // jQuery로 HTTP 요청
+	        jQuery.ajax({
+	            url: "https://www.myservice.com/payments/complete", // 가맹점 서버
+	            method: "POST",
+	            headers: { "Content-Type": "application/json" },
+	            data: {
+	                imp_uid: rsp.imp_uid,
+	                merchant_uid: rsp.merchant_uid
+	            }
+	        }).done(function (data) {
+
+	        }) */
+	    } else {
+	        var msg = '결제에 실패하였습니다.';
+	        msg += '에러내용 : ' + rsp.error_msg;
+	    }
+	    alert(msg);
+	});
+
 
 }
 
-function setComma(inNum){
-  
-  var outNum;
-  outNum = inNum; 
-  while (rgx2.test(outNum)) {
-       outNum = outNum.replace(rgx2, '$1' + ',' + '$2');
-   }
-  return outNum;
 
-}
 </script>
