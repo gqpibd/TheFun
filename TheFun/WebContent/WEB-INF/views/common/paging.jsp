@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link href="CSS/common/pagination.css" rel="stylesheet">
 <%
 	int totalRecordCount;	// 전체 글 수
 	int pageNumber;			// 현재 페이지 : 현재 페이지의 번호	23 개의 글 -> 3 페이지	0 1 2
@@ -78,8 +79,36 @@
 	}
 %>
 
+<div class="pagination__wrapper">
+  <ul class="pagination">
+
+    <li><button class="prev" title="이전 페이지" onclick="goPage('<%= pageNumber>0?pageNumber-1:0 %>');">&#10094;</button></li>
+
+	<%	for (int i = screenStartPageIndex; i < screenEndPageIndex; i++) {
+			if(i == pageNumber){ // 현재페이지
+			%>
+				<li><button class="active" ><%= i + 1 %></button></li>
+			<%
+			}else{
+				%>
+				<li>
+			      <button onclick="goPage(<%=i%>)"><%= i + 1 %></button>
+			    </li>				
+				<%
+			}
+		}
+		int end_page = 0;
+		
+		if(totalPageCount > 0){
+			end_page = totalPageCount - 1;
+		}
+	%>	
+    <li><button class="next" title="next page" onclick="goPage(<%=pageNumber<end_page?pageNumber+1:end_page%>)">&#10095;</button></li>
+  </ul>
+</div>
+
 <!-- float: left -->
-<div style="width: 96%; text-align: center;" align="center">
+<%-- <div style="width: 96%; text-align: center;" align="center">
 	<a href="#none" title="처음 페이지" onclick="goPage('0');">
 		<img alt="처음 페이지" src="image/common/angle-double-left-solid.svg" style="width: 11px; height: 11px;">
 	</a>&nbsp;
@@ -129,7 +158,7 @@
 		<img alt="마지막 페이지" src="image/common/angle-double-right-solid.svg" style="width: 11px; height: 11px;">
 	</a>
 
-</div>
+</div> --%>
 <script>
 /* 페이지 번호를 클릭했을 때 */
 function goPage(pageNumber) {

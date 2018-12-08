@@ -16,27 +16,7 @@
 </style>
 
 <script type="text/javascript">
-$(document).ready(function(){ 
-	/* $("#phone").focus(function () {
-		$("#phone").attr("placeholder","010-XXXX-XXXX");
-	});
-	$("#phone").focusout (function () {
-		$("#phone").attr("placeholder","");
-	});
-	$("#email").focus(function () {
-		$("#email").attr("placeholder","hello@sagong.com");
-	});
-	$("#email").focusout (function () {
-		$("#email").attr("placeholder","");
-	}); */
-		
-	function checkWidth() { // 윈도우 사이즈가 바뀔 때 보여주는 아이템 변경
-		$("[name='large']").toggle($(window).width() >= 900);
-		$("[name='small']").toggle($(window).width() < 900);
-	}
-	checkWidth();
-	$(window).resize(checkWidth);
-	
+$(document).ready(function(){ 		
 	// 아이디 비밀번호 확인
 	$("#forpassword").click(function() { 
 		console.log("forpassword");

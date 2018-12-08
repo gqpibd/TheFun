@@ -575,12 +575,6 @@ public class ProjectController {
 	}
 	
 	/*------------- 화면만 이동 -------------*/
-	// 피드백
-	/*@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String feedBack() {
-		logger.info("ProjectController feedBack " + new Date());	
-		return "project/detailFeedback";
-	}*/
 	
 	// 새 프로젝트 창으로 이동
 	@RequestMapping(value="newProject.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -798,7 +792,7 @@ public class ProjectController {
 		logger.info("ProjectController sellerPList " + new Date());
 		
 		List<ProjectDto> pList = projectService.getProjectList(id);
-		String listData = "{\"title\":[";		
+		String listData = "{\"projects\":[";		
 		for(int i=0;i<pList.size();i++) {		
 			/*listData += "{\"seq\":\"" + pList.get(i).getSeq() +"\",";*/
 			//listData += "\"otitle\":\"" + pList.get(i).getOtitle() +"\","; // 옵션 제목

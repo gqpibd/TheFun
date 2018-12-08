@@ -33,36 +33,9 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
-	//로그인 처리
-	/*@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
-		logger.info("loginAf " + new Date());
-		MemberDto loginUser=null;
-		logger.info(loginType);		
-		
-		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
-			loginUser = memberService.tryLogin(dto);
-			if(loginUser == null) { // 로그인 실패
-				return "redirect:/login.do?message=retry&callback=" + callback;
-			}
-		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
-			loginUser = memberService.tryLogin(dto);			
-		}
-		loginUser.setAccount(loginType);
-		
-		req.getSession().setAttribute("login", loginUser);
-		
-		if(callback!=null) {
-			callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
-			return "redirect:/" + callback;
-		}
-		return "redirect:/main.do";
-	}*/  
-	
-
-	
+	// 로그인 처리 --> ajax로 함
 	@ResponseBody
-	@RequestMapping(value="loginAf.do", method=RequestMethod.POST) 
+	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
@@ -129,16 +102,17 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
-	// 회원가입 처리
+	// 회원가입 처리 --> ajax
+	@ResponseBody
 	@RequestMapping(value="regiAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String regiAf(HttpServletResponse resp, MemberDto dto) {
 		logger.info("regiAf " + new Date());
 		logger.info("dto = " + dto);
 		memberService.addAccount(dto);
 		if(dto.getPwd() == null) { // 연동로그인인 경우 바로 로그인시켜준다
-			return "redirect:/loginAf.do?id="+dto.getId() +"&loginType=" + dto.getAccount();
+			return "loginType=" + dto.getAccount();
 		}
-		return "redirect:/login.do?message='registered'";
+		return "resistered";
 	}
 	
 	//idpw찾기 처리
@@ -247,13 +221,4 @@ public class MemberController {
 		
 		return "myChart.tiles";
 	}
-	
-/*	// 내 일정 보기 ( 캘린더 테스트..)
-	@RequestMapping(value="myCalendar.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myCalendar(Model model) throws Exception{	
-		logger.info("MemberController myCalendar " + new Date());
-		
-		return "myCalendar.tiles";	
-	}*/
-	
 }

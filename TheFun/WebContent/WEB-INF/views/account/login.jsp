@@ -308,7 +308,7 @@ var modalConfirm = function(callback) {
 	});
 };
 </script>	
-<!-- Modal -->
+<!-- 회원가입 Modal -->
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -328,7 +328,6 @@ var modalConfirm = function(callback) {
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
 /* 회원가입 유효성 검사 */
