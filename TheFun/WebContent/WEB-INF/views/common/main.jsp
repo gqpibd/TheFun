@@ -11,10 +11,11 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
  <!-- 메인 css -->
- <link rel="stylesheet" href="CSS/common/main.css"> 
-
+ <link rel="stylesheet" href="CSS/common/main.css">
+  
+<!-- 
 <div class="container">	 
-	<!-- 메인 배너 슬라이드 -->
+	메인 배너 슬라이드
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
 	  <ol class="carousel-indicators">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -50,12 +51,23 @@
 	  </a>
 	</div>
 
-	 <!-- /.row -->	
+	
+</div>
+ -->
+ <!-- 한줄 띄어쓰기 -->
 	<div style="margin-bottom: 10px;"></div>
 	
+ <style>
+/*  슬라이드 css 적용 중 */
+</style>
+ <!-- 슬라이드 시작 -->
+<!-- 슬라이드 끝 -->
+
+
+<div class="container">
 	<!-- 리스트 -->
-	<h3 class="my-4">HOT 프로젝트(모금액순)</h3>
-	<div align="right"><a href="searchProjectList.do">see all</a></div>&nbsp;
+	<h3 class="my-4">HOT 프로젝트</h3>
+	<div align="right"><a href="searchProjectList.do">see all</a></div>
 </div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->

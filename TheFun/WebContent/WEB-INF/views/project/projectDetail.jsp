@@ -145,7 +145,6 @@ border-collapse: collapse;
 	display: block;
 	line-height: 40px;
 }
-<<<<<<< HEAD
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
 .selOpContent{
 	width: 20%;
@@ -215,7 +214,6 @@ border-collapse: collapse;
    line-height: 1.9rem;
    text-align: center;
  }
->>>>>>> refs/remotes/origin/dh
 </style>
 
 <!-- 남은날짜계산 -->
