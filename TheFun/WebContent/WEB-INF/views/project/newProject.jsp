@@ -12,15 +12,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
 <script src="./js/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
-<script src="./js/jquery.splendid.textchange.js"></script>
 
 <style type="text/css">
-/* h2{ 아래와 같은 폰트를 전부 사용할 수 있다.*/ 
-	/* font-family: 'Noto Sans KR', sans-serif;*/
-	/* font-family: 'Do Hyeon', sans-serif; */
-	/* font-family: 'Jua', sans-serif;  */
-	/* font-family: 'Noto Serif KR', sans-serif; */
-/* } */
 h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
