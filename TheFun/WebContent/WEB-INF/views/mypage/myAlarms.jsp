@@ -5,6 +5,7 @@
 <fmt:requestEncoding value="utf-8"/> 
 
 <link rel="stylesheet" href="http://storage.googleapis.com/code.getmdl.io/1.0.1/material.teal-red.min.css">
+
 <style type="text/css">
 
 .mdl-grid {

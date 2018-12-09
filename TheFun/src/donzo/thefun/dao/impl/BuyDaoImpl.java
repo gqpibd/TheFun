@@ -53,6 +53,11 @@ public class BuyDaoImpl implements BuyDao {
 		return sqlSession.selectOne(ns + "getOrderCount", param);
 	}	
 ///////////////	
+
+	@Override
+	public List<BuyDto> myOrderDetail(BuyDto buy) {
+		return sqlSession.selectList(ns+"myOrderDetail",buy);
+	}
 	
 	
 }

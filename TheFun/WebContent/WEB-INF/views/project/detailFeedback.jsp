@@ -36,10 +36,6 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function(){
-	setReviewList();
-});
-
 function setReviewList(){
 	$.ajax({
 		url:"selectReviewList.do", // 접근대상

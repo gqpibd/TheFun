@@ -47,7 +47,6 @@ ul.tab li.selected{
 .tabcontent.current {
 	display: block;
 }
-
 .head_title {
   font-size: 200%;
   text-transform: uppercase;
@@ -59,14 +58,11 @@ ul.tab li.selected{
   color: #00000090;
   padding: 20px;
 }
-
 #line_header p {
   font-family: 'Allura';
   color: #00000090;
   font-size: 40px;
 }
-
-
 </style>
 
 <!-- 차트 css -->
@@ -270,15 +266,11 @@ ul.tab li.selected{
 
 
 <%-- 
-
 MyBatis에 foreach 써서 list가 들어가는 줄을 몰랐네 바보다
-
 <!-- 검색 조건	 -->
 <div align="center" style="margin-bottom: 30px;margin-top: 30px;">
 <form action="searchProjectList.do" > <!-- post로 바꿀 예정 -->
-
 	<input type="hidden" id="s_keyword_hidden" name="s_keyword" value="${s_keyword }">
-
 	<table style="width: 50%;" cellpadding="5px" id="search_option">
 	<col width="15%"><col width="10%"><col width="10%;"><col width="10%;">
 	<tr id="type_option">
@@ -344,7 +336,6 @@ $(document).ready(function () {
 	var s_complete_before_size = document.getElementsByName("s_complete_before").length;
 	
 	//////////////////////////////////
-
 	/* 하드 코딩하기 싫은데 생각이 떠오르질 않아요 */
 	/* s_type 정리 */
 	for (i = 0; i < s_type_before_size ; i++) {
@@ -535,12 +526,12 @@ $(document).ready(function () {
 <div id="paging_wrap" align="center"><!-- flush 는 갱신의 의미 -->
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 	
-		<jsp:param value="${s_keyword }" name="s_keyword"/>
-	
+		<jsp:param value="${s_keyword }" name="s_keyword"/>	
 		<jsp:param value="${pageNumber }" name="pageNumber"/>
 		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
 		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
 		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>
+		<jsp:param value="searchProjectList.do" name="actionPath"/>
 	</jsp:include>
 </div>
 
@@ -556,4 +547,3 @@ $(function() {
 	});
 });
 </script>
-

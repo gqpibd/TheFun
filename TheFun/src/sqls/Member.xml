@@ -97,15 +97,19 @@ CREATE TABLE FUN_MEMBER(
 <select id="find_idpw" parameterType="donzo.thefun.model.MemberDto" resultType="donzo.thefun.model.MemberDto">
 	SELECT * 
 	FROM FUN_MEMBER 
-	WHERE EMAIL = #{email} AND PHONE = #{phone}
+	WHERE EMAIL = #{email} AND PWD IS NOT NULL
+	<if test="phone != null">
+		AND PHONE = #{phone}
+	</if>
 </select>
 
 
-
-
-
-
-
+<!-- 비밀번호 변경 -->
+<select id="change_pw" parameterType="donzo.thefun.model.MemberDto">
+	UPDATE FUN_MEMBER
+	SET PWD = #{pwd}
+	WHERE ID = #{id}
+</select>
 
 
 </mapper>

@@ -10,6 +10,8 @@ import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
+import donzo.thefun.model.StatCountParam;
+import donzo.thefun.model.adminParam;
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {
@@ -69,9 +71,14 @@ public class ProjectDaoImpl implements ProjectDao {
 		sqlSession.update(ns+"deleteProject", seq);		
 	}
 
+//	@Override
+//	public List<ProjectDto> getWaitingList() {
+//		return sqlSession.selectList(ns+"getWaitingList");
+//	}
+
 	@Override
-	public List<ProjectDto> getWaitingList() {
-		return sqlSession.selectList(ns+"getWaitingList");
+	public List<ProjectDto> getWaitingPagingList(adminParam aParam) {
+		return sqlSession.selectList(ns+"getWaitingPagingList", aParam);
 	}
 	
 	@Override
@@ -85,6 +92,12 @@ public class ProjectDaoImpl implements ProjectDao {
 	public List<ProjectDto> mySchedule(String id) throws Exception {
 		return sqlSession.selectList(ns + "mySchedule", id);
 	}
+	
+	//내 프로젝트 요약 건 수
+	@Override
+	public int getStatusCount(StatCountParam sParam) throws Exception {
+		return sqlSession.selectOne(ns + "getStatusCount", sParam);
+	}
 
 	@Override
 	public int getWaitCount() {		
@@ -96,5 +109,16 @@ public class ProjectDaoImpl implements ProjectDao {
 		int n = sqlSession.update(ns + "rejectProject", projectdto);		
 		return n>0?true:false;
 	}
+	
+	////판매자의 프로젝트리스트
+	@Override
+	public List<ProjectDto> getProjectList(String id) {
+		List<ProjectDto> list = sqlSession.selectList(ns + "getProjectList", id);
+		return list;
+	}
+	
+	
+	
+	
 	
 }

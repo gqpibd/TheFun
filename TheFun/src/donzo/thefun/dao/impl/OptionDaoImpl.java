@@ -56,5 +56,5 @@ public class OptionDaoImpl implements OptionDao {
 	public boolean updateStock(OptionDto opdto) {
 		return sqlSession.update(ns+"updateStock",opdto)>0?true:false;
 	}
-	
+
 }

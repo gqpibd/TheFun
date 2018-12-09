@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
+import donzo.thefun.util.UtilFunctions;
 
 
 @Controller
@@ -31,30 +33,30 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
-	//로그인 처리
+	// 로그인 처리 --> ajax로 함
+	@ResponseBody
 	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
-		logger.info(loginType);		
-		
+		logger.info(loginType);				
 		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
 			loginUser = memberService.tryLogin(dto);
 			if(loginUser == null) { // 로그인 실패
-				return "redirect:/login.do?message=retry&callback=" + callback;
+				return "{\"message\":\"retry\",\"callback\":\""+ callback + "\"}";
 			}
 		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
 			loginUser = memberService.tryLogin(dto);			
 		}
 		loginUser.setAccount(loginType);
-		logger.info("로그인 결과: " + loginUser.toString());
+		
 		req.getSession().setAttribute("login", loginUser);
 		
-		if(callback!=null) {
+		if(callback!=null && callback.trim().length()>0) {
 			callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
-			return "redirect:/" + callback;
+			return "{\"message\":\"signedin\",\"callback\":\""+ callback + "\"}";
 		}
-		return "redirect:/main.do";
+		return "{\"message\":\"signedin\",\"callback\":\"main.do\"}";
 	}
 	
 	// 내 정보 수정
@@ -100,16 +102,17 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
-	// 회원가입 처리
+	// 회원가입 처리 --> ajax
+	@ResponseBody
 	@RequestMapping(value="regiAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String regiAf(HttpServletResponse resp, MemberDto dto) {
 		logger.info("regiAf " + new Date());
 		logger.info("dto = " + dto);
 		memberService.addAccount(dto);
 		if(dto.getPwd() == null) { // 연동로그인인 경우 바로 로그인시켜준다
-			return "redirect:/loginAf.do?id="+dto.getId() +"&loginType=" + dto.getAccount();
+			return "loginType=" + dto.getAccount();
 		}
-		return "redirect:/login.do?message='registered'";
+		return "resistered";
 	}
 	
 	//idpw찾기 처리
@@ -124,7 +127,14 @@ public class MemberController {
 		return find_idpw.getId();
 	}
 	
-	
+	//pw변경 처리
+	@RequestMapping(value="change_pw.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String change_pw(MemberDto mem) {
+		logger.info("change_pw" + new Date());
+		memberService.change_pw(mem);
+		
+		return "redirect:/login.do";
+	}
 	
 	/*-------------Ajax--------------*/
 	// 아이디 중복 검사
@@ -201,12 +211,14 @@ public class MemberController {
 		return "myInfo.tiles";	
 	}
 	
-/*	// 내 일정 보기 ( 캘린더 테스트..)
-	@RequestMapping(value="myCalendar.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myCalendar(Model model) throws Exception{	
-		logger.info("MemberController myCalendar " + new Date());
+	@RequestMapping(value="myChart.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String myChart(String id, Model model) throws Exception{
+		// 유저 정보 가져오기
+		logger.info("유저 id = " + id);
+		MemberDto user = memberService.getUserInfo(id);
+		logger.info("유저 정보 = " + user.toString());
+		model.addAttribute("user", user);
 		
-		return "myCalendar.tiles";	
-	}*/
-	
+		return "myChart.tiles";
+	}
 }

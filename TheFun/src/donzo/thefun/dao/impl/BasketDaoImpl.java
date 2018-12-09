@@ -30,5 +30,15 @@ public class BasketDaoImpl implements BasketDao {
 	public void updateBasket(BasketDto basketDto) {
 		sqlSession.update(ns+"updateBasket", basketDto);
 	}
+
+	@Override
+	public void insertBasket(BasketDto basketDto) {
+		sqlSession.insert(ns+"addBasket",basketDto);
+	}
+
+	@Override
+	public int getBasketCount(String id) {
+		return sqlSession.selectOne(ns+"getBasketCount",id);
+	}
 	
 }

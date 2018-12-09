@@ -24,6 +24,8 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
+import donzo.thefun.model.StatCountParam;
+import donzo.thefun.model.adminParam;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -148,9 +150,14 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectDao.getProjectCount(pParam);
 	}
 
+//	@Override
+//	public List<ProjectDto> getWaitingList() {
+//		return projectDao.getWaitingList();
+//	}
+
 	@Override
-	public List<ProjectDto> getWaitingList() {
-		return projectDao.getWaitingList();
+	public List<ProjectDto> getWaitingPagingList(adminParam aParam) {
+		return projectDao.getWaitingPagingList(aParam);
 	}
 
 	@Override
@@ -162,6 +169,12 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectDto> mySchedule(String id) throws Exception {
 		return projectDao.mySchedule(id);
+	}
+	
+	//내 프로젝트 요약 건 수
+	@Override
+	public int getStatusCount(StatCountParam sParam) throws Exception {
+		return projectDao.getStatusCount(sParam);
 	}
 
 	// 프로젝트 승인
@@ -203,7 +216,18 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectmsgDto> getMsgList(int projectseq) {		
 		return projectmsgDao.getMsgList(projectseq);
-	}	
+	}
+	
+	//판매자의 프로젝트리스트
+	@Override
+	public List<ProjectDto> getProjectList(String id) {		
+		return projectDao.getProjectList(id);
+	}
+	
+	
+	
+	
+	
 	
 	
 }

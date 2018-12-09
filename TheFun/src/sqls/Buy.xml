@@ -80,7 +80,7 @@ FROM FUN_BUY B;
 		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
 				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
-		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID 
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID
 		 ) A
 	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
@@ -128,5 +128,11 @@ FROM FUN_BUY B;
 	FROM FUN_BUY_VIEW
 	WHERE PROJECTSEQ = #{seq} AND SCORE IS NOT NULL	
 </select>
+
+<!-- 내 후원 상세내역   -->
+<select id="myOrderDetail" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+ SELECT * FROM FUN_BUY_VIEW WHERE PROJECTSEQ=#{projectseq} AND ID=#{id} AND REGDATE=TO_DATE(#{regdate},'yyyy-mm-dd hh24:mi:ss')
+</select>
+
 
 </mapper>

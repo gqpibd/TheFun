@@ -43,23 +43,26 @@
 	<definition name="myOrder.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrder.jsp"/>
 	</definition>
+	
+	<!-- 나의 후원내역 상세보기 -->
+	<definition name="myOrderDetail.tiles" extends="MyPage.tiles">		
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myOrderDetail.jsp"/>
+	</definition>
  
 	<!-- 내 프로젝트  보기 schedule -->
 	<definition name="mySchedule.tiles" extends="MyPage.tiles">		
 		<put-attribute name="main" value="/WEB-INF/views/mypage/mySchedule.jsp"/>
 	</definition>
 	
-	<!-- 일정 보기 ( 캘린더 ) -->
-	<definition name="myCalendar.tiles" extends="MyPage.tiles">
-		<put-attribute name="main" value="/WEB-INF/views/mypage/myCalendar.jsp"/>
+	<!-- 차트보기 -->
+	<definition name="myChart.tiles" extends="MyPage.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/mypage/myChart.jsp"/>
 	</definition>
 	
 	<!-- 알람보기 -->
 	<definition name="myAlarms.tiles" extends="home.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myAlarms.jsp"/>
 	</definition>
-	
-	
 	
 	<!-- 프로젝트 -->
 	
@@ -112,5 +115,5 @@
 	<definition name="project_participant.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/project_participant.jsp"/>
 	</definition>
-
+ 
 </tiles-definitions>

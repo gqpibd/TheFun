@@ -11,9 +11,8 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
  <!-- 메인 css -->
- <link rel="stylesheet" href="CSS/common/main.css">
-  
-<!-- 
+ <!-- <link rel="stylesheet" href="CSS/common/main.css">  -->
+
 <div class="container">	 
 	메인 배너 슬라이드
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
@@ -51,20 +50,9 @@
 	  </a>
 	</div>
 
-	
-</div>
- -->
- <!-- 한줄 띄어쓰기 -->
+	 <!-- /.row -->	
 	<div style="margin-bottom: 10px;"></div>
 	
- <style>
-/*  슬라이드 css 적용 중 */
-</style>
- <!-- 슬라이드 시작 -->
-<!-- 슬라이드 끝 -->
-
-
-<div class="container">
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트</h3>
 	<div align="right"><a href="searchProjectList.do">see all</a></div>
@@ -85,6 +73,7 @@
 	<jsp:param value="${s_summary }" name="s_summary"/>
 	
 	<jsp:param value="${list }" name="list"/>
+	<jsp:param value="main.do" name="actionPath"/>
 </jsp:include>
 
 <br>

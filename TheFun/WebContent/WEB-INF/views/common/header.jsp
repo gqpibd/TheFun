@@ -17,7 +17,7 @@
 <!-- Bootstrap core CSS -->
 <link href="CSS/mainVendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- v4.1.1  -->
 <!-- Custom styles for this template -->
-<link href="CSS/mainCss/portfolio-item.css" rel="stylesheet">
+<!-- <link href="CSS/mainCss/portfolio-item.css" rel="stylesheet"> -->
 <!-- mainCSS 설정 끝 -->
 
 <!-- Bootstrap core JavaScript -->

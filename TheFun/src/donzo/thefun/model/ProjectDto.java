@@ -58,7 +58,7 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
    NVL((SELECT COUNT(DISTINCT ID) FROM FUN_BUY GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),      
    NVL((SELECT COUNT(*) FROM FUN_NOTICE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
    NVL((SELECT COUNT(*) FROM FUN_LIKE GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
-   NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0),
+   (SELECT SUM(NVL(B.PRICE,(SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)) * B.COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),
    (SELECT 
     CASE 
         WHEN LOWER(STATUS) = 'waiting' THEN 'waiting'
@@ -67,7 +67,7 @@ SELECT P.SEQ, P.ID, P.FUNDTYPE, P.CATEGORY, P.TITLE, P.CONTENT, P.SUMMARY, P.TAG
         WHEN LOWER(STATUS) = 'revise' THEN 'revise'
         WHEN SDATE >= SYSDATE THEN 'preparing' 
         WHEN EDATE-SYSDATE >= 0 THEN 'ongoing' 
-        WHEN NVL((SELECT SUM((SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ) * COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ),0) >=  GOALFUND THEN 'complete_success'         
+        WHEN (SELECT SUM(NVL(B.PRICE,(SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)) * B.COUNT) FROM FUN_BUY B GROUP BY PROJECTSEQ HAVING PROJECTSEQ = P.SEQ) >=  GOALFUND THEN 'complete_success'         
         ELSE 'complete_fail'  
      END AS "status" 
      FROM FUN_PROJECT WHERE SEQ = P.SEQ),
@@ -96,7 +96,6 @@ public class ProjectDto implements Serializable {
 	//public static final String APPROVE = "approve"; // 승인됨
 	public static final String REJECT = "reject"; // 거절됨
 	public static final String REVISE = "revise"; // 보완요청
-	public static final String RESUBMIT = "resubmit";	// 재승인요청(수정한 펀딩)
 	
 	int seq;  
 	String id; // 작성자
@@ -410,6 +409,16 @@ public class ProjectDto implements Serializable {
 	public String getOptiontotal() {
 		return optiontotal;
 	}
+	
+	public String getFundTypeKr() {		
+		switch(fundtype.toLowerCase()) {
+		case TYPE_DONATION:
+			return "기부";
+		case TYPE_REWARD:
+			return "리워드";
+		}
+		return "";
+	}
 
 	public String getCategoryKr() {		
 		switch(category.toLowerCase()) {
@@ -512,6 +521,18 @@ public class ProjectDto implements Serializable {
 
 	public void setOptiontotal(String optiontotal) {
 		this.optiontotal = optiontotal;
+	}
+	
+	//제목이 길때 뒤에 ... 해주는 거
+	public String dot3(String msg){
+		String s="";
+		if(msg.length()>=18){
+			s=msg.substring(0,18); 
+			s+="...";
+		}else{
+			s=msg.trim();
+		}
+		return s;
 	}
 
 	@Override

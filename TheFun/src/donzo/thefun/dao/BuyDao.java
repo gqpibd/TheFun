@@ -2,6 +2,7 @@ package donzo.thefun.dao;
 
 import java.util.List;
 
+
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.buyParam;
 
@@ -23,4 +24,7 @@ public interface BuyDao {
 	
 	public int getOrderCount(buyParam param);
 /////////////	
+	
+	//내가 주문한 건의 디테일
+	public List<BuyDto> myOrderDetail(BuyDto buy);
 }
