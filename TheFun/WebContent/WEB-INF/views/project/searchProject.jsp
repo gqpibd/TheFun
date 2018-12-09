@@ -266,7 +266,7 @@ ul.tab li.selected{
 <%-- 
 <div align="right" style="margin-right: 15%;">
 	<input type="search" placeholder=" 결과 내 검색" name="s_keyword" value="${s_keyword }" id="s_keywordTextField" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
-</div>
+</div> 
  --%>
 
 <%-- 
