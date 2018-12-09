@@ -28,9 +28,6 @@ public class BasketController {
 	@Autowired
 	BasketService basketService;
 	
-	
-	
-	
 	//장바구니 넣기 addBasket.do
 	@ResponseBody
 	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -81,7 +78,7 @@ public class BasketController {
 		}else {
 			logger.info("장바구니 삭제에 실패했습니다");
 		}
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 	// 장바구니 업데이트
@@ -105,7 +102,7 @@ public class BasketController {
 		// DB 장바구니 업데이트
 		basketService.updateBasket(list);
 		
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 }

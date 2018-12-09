@@ -154,7 +154,8 @@ $(document).ready(function() {
 			onClose : function( selectedDate ) {  // 날짜를 설정 후 달력이 닫힐 때 실행
 	            if( selectedDate != "" ) {
 	                // xxx의 maxDate를 yyy의 날짜로 설정
-	                $("#date3").datepicker("option", "maxDate", selectedDate);	                
+	                $("#date3").datepicker("option", "maxDate", selectedDate);
+	                scheduleCheck();
 	            }
 	        }
 		});
