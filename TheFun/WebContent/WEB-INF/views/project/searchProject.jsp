@@ -146,7 +146,7 @@ ul.tab li.selected{
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>기부 전체</p>
+	<p>기부</p>
 	<c:choose>
 	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
@@ -197,7 +197,7 @@ ul.tab li.selected{
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>리워드 전체</p>
+	<p>리워드</p>
 	<c:choose>
 	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
@@ -263,7 +263,11 @@ ul.tab li.selected{
 	
 </c:choose>
 </div>
-
+<%-- 
+<div align="right" style="margin-right: 15%;">
+	<input type="search" placeholder=" 결과 내 검색" name="s_keyword" value="${s_keyword }" id="s_keywordTextField" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
+</div>
+ --%>
 
 <%-- 
 MyBatis에 foreach 써서 list가 들어가는 줄을 몰랐네 바보다

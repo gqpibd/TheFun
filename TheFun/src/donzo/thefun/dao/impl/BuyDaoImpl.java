@@ -58,6 +58,13 @@ public class BuyDaoImpl implements BuyDao {
 	public List<BuyDto> myOrderDetail(BuyDto buy) {
 		return sqlSession.selectList(ns+"myOrderDetail",buy);
 	}
+
+	// 참여 현황
+	@Override
+	public List<BuyDto> getParticipantList(int seq) {
+		return sqlSession.selectList(ns + "participant_List", seq);
+	}
+	
 	
 	
 }

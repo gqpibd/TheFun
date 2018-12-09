@@ -75,6 +75,12 @@ public class BuyServiceImpl implements BuyService {
 	public List<BuyDto> myOrderDetail(BuyDto buy) {
 		return buyDao.myOrderDetail(buy);
 	}
+
+	// 참여 현황
+	@Override
+	public List<BuyDto> getParticipantList(int seq) {
+		return buyDao.getParticipantList(seq);
+	}
 	
 	
 }

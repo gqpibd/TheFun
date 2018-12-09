@@ -27,4 +27,7 @@ public interface BuyDao {
 	
 	//내가 주문한 건의 디테일
 	public List<BuyDto> myOrderDetail(BuyDto buy);
+	
+	// 참여 현황
+	public List<BuyDto> getParticipantList(int seq);
 }

@@ -197,8 +197,8 @@ public class ProjectController {
 		model.addAttribute("s_sort", pParam.getS_sort());	// 우선 원래값 보냄
 		
 		// doc_title 설정 (들어온 대로 보낸다)
-		if(doc_title == null) {
-			doc_title = "";
+		if(doc_title == null || doc_title.equals("")) {
+			doc_title = "all";
 		}
 		
 		model.addAttribute("doc_title", doc_title);
@@ -568,8 +568,18 @@ public class ProjectController {
 		mainParam.setS_sort("EDATE");
 		mainParam.setS_asc_desc("ASC");
 		
-		List<ProjectDto> edateList = projectService.searchProjectList(mainParam);
-		model.addAttribute("edate_list", edateList);
+		List<ProjectDto> edate_list = projectService.searchProjectList(mainParam);
+		model.addAttribute("edate_list", edate_list);
+		
+		///////////////////////////////////
+		// 메인 이미지 올린 4개 프로젝트
+		// 성공한 프로젝트 중 모금액순
+		mainParam.setS_sort("BUYCOUNT");
+		mainParam.setS_asc_desc("DESC");
+		mainParam.setS_complete("complete");
+		
+		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
+		model.addAttribute("success_list", success_list);
 				
 		return "home.tiles";
 	}

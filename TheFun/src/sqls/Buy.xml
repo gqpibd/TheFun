@@ -134,5 +134,12 @@ FROM FUN_BUY B;
  SELECT * FROM FUN_BUY_VIEW WHERE PROJECTSEQ=#{projectseq} AND ID=#{id} AND REGDATE=TO_DATE(#{regdate},'yyyy-mm-dd hh24:mi:ss')
 </select>
 
+<!-- 참여현황 -->
+<select id="participant_List" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
+	SELECT * 
+	FROM FUN_BUY_VIEW
+	WHERE PROJECTSEQ = #{seq}
+	ORDER BY REGDATE DESC
+</select>
 
 </mapper>

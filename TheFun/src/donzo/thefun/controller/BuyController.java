@@ -21,6 +21,7 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.UtilFunctions;
 
 
@@ -34,6 +35,9 @@ public class BuyController {
 	 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	ProjectService projectService; 
 	
 	// 내 주문 내역 목록 (myOrderHistory)
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
@@ -149,12 +153,16 @@ public class BuyController {
 	/*내가 진행 중인 프로젝트 참여 현황*/
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String participant(int seq, Model model, String title) throws Exception {
-		logger.info("ProjectController participant 들어옴 " + new Date());
+		logger.info("ProjectController participant.do 들어옴 " + new Date());
 		
-		/*List<ProjectDto> participant_List = buyService.getMyParticipantList(seq);*/
+		ProjectDto participant_Dto = projectService.getProject(seq);
+		List<BuyDto> participant_List = buyService.getParticipantList(seq);
 		
-		/*model.addAttribute("participant_List", participant_List);*/
+		model.addAttribute("participant_Dto", participant_Dto);
+		model.addAttribute("participant_List", participant_List);
+		
 		model.addAttribute("title", title);
+		model.addAttribute("seq", seq);
 		
 		return "project_participant.tiles";
 	}
