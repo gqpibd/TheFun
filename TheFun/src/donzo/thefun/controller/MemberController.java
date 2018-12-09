@@ -20,9 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.MemberService;
-import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
-import donzo.thefun.util.UtilFunctions;
 
 
 @Controller
@@ -33,28 +31,38 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
+	
+	// 로그인 처리 --> 간편 로그인
+	@RequestMapping(value="simpleLogin.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String simpleLogin(HttpServletRequest req,MemberDto dto, String loginType, String callback) throws Exception {
+		logger.info("simpleLogin.do " + new Date());
+		MemberDto loginUser = memberService.tryLogin(dto);
+		loginUser.setAccount(loginType);
+		req.getSession().setAttribute("login", loginUser);
+		if(callback!=null && callback.trim().length()>0) {			
+			return "redirect:/" + getCallbackUrl(callback);
+		}
+		return "redirect:/main.do";
+	}
+	
 	// 로그인 처리 --> ajax로 함
 	@ResponseBody
-	@RequestMapping(value="loginAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String loginAf(HttpServletRequest req, Model model, MemberDto dto, String loginType, String callback) throws Exception {
+	@RequestMapping(value="loginAf.do", method= RequestMethod.POST) 
+	public String loginAf(HttpServletRequest req, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
 		logger.info(loginType);				
-		if(dto.getPwd() != null && loginType.equals("normal")) { // 계정 연동 로그인이 아닌 경우
-			loginUser = memberService.tryLogin(dto);
-			if(loginUser == null) { // 로그인 실패
-				return "{\"message\":\"retry\",\"callback\":\""+ callback + "\"}";
-			}
-		}else if(loginType.equals("kakao") || loginType.equals("naver") ||loginType.equals("google") || loginType.equals("facebook")){ // 계정 연동 로그인인 경우
-			loginUser = memberService.tryLogin(dto);			
+		logger.info(dto+"");				
+		loginUser = memberService.tryLogin(dto);
+		if(loginUser == null) { // 로그인 실패
+			return "{\"message\":\"retry\",\"callback\":\""+ callback + "\"}";
 		}
 		loginUser.setAccount(loginType);
 		
 		req.getSession().setAttribute("login", loginUser);
 		
-		if(callback!=null && callback.trim().length()>0) {
-			callback = callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌
-			return "{\"message\":\"signedin\",\"callback\":\""+ callback + "\"}";
+		if(callback!=null && callback.trim().length()>0) {			
+			return "{\"message\":\"signedin\",\"callback\":\""+ getCallbackUrl(callback) + "\"}";
 		}
 		return "{\"message\":\"signedin\",\"callback\":\"main.do\"}";
 	}
@@ -102,17 +110,16 @@ public class MemberController {
 		return "redirect:/main.do";
 	}
 	
-	// 회원가입 처리 --> ajax
-	@ResponseBody
+	// 회원가입 처리
 	@RequestMapping(value="regiAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String regiAf(HttpServletResponse resp, MemberDto dto) {
+	public String regiAf(HttpServletResponse resp, MemberDto dto, String callback) {
 		logger.info("regiAf " + new Date());
 		logger.info("dto = " + dto);
 		memberService.addAccount(dto);
 		if(dto.getPwd() == null) { // 연동로그인인 경우 바로 로그인시켜준다
-			return "loginType=" + dto.getAccount();
+			return "redirect:/simpleLogin.do?id="+dto.getId() +"&loginType=" + dto.getAccount() +"&callback=" + callback;
 		}
-		return "resistered";
+		return "redirect:/login.do?message='registered'?callback="+callback;
 	}
 	
 	//idpw찾기 처리
@@ -220,5 +227,9 @@ public class MemberController {
 		model.addAttribute("user", user);
 		
 		return "myChart.tiles";
+	}
+	
+	private String getCallbackUrl(String callback) {		
+		return callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌 
 	}
 }

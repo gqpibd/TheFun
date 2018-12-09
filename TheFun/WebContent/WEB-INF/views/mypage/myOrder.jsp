@@ -220,7 +220,7 @@ input.star:checked ~ .rev-box {
 
 </table>
 
-<div id="paging_wrap">	
+<div id="paging_wrap" align="center">	
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 		<jsp:param value="${pageNumber }" name="pageNumber"/>		
 		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>

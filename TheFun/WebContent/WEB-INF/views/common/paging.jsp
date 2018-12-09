@@ -79,7 +79,7 @@
 	}
 %>
 
-<div class="pagination__wrapper">
+<!-- <div class="pagination__wrapper"> -->
   <ul class="pagination">
 
     <li><button class="prev" title="이전 페이지" onclick="goPage('<%= pageNumber>0?pageNumber-1:0 %>');">&#10094;</button></li>
@@ -105,7 +105,7 @@
 	%>	
     <li><button class="next" title="next page" onclick="goPage(<%=pageNumber<end_page?pageNumber+1:end_page%>)">&#10095;</button></li>
   </ul>
-</div>
+<!-- </div> -->
 
 <!-- float: left -->
 <%-- <div style="width: 96%; text-align: center;" align="center">

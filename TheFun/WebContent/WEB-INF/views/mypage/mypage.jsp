@@ -20,6 +20,7 @@ a.mpa {
 	justify-content: center;
 	align-items: center;
 	flex: 1;
+	padding-top: 64px;  /* 기존 탑바랑 겹치지 않게 여백을 줌  */  
 }
 
 /* Sidebar */
@@ -143,6 +144,7 @@ a.mpa {
 @media ( min-width : 43em) { /* 중간크기 화면 */
 	.s-layout__content {
 		margin-left: 4em;
+		padding-top: 0px;
 	}
 
 	/* Sidebar */
@@ -176,6 +178,7 @@ a.mpa {
 @media ( min-width : 68em) { /* 제일 큰 화면 */
 	.s-layout__content {
 		margin-left: 15em;
+		padding-top: 0px;
 	}
 
 	/* Sidebar */
@@ -256,6 +259,6 @@ a.mpa {
 
  
 <!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  	
+	<main class="s-layout__content">	
 	<jsp:include page="../common/topbar.jsp"/>
 <!-- //본문출력 묶는 태그 -->
