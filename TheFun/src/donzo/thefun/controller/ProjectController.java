@@ -299,7 +299,7 @@ public class ProjectController {
 				}else {
 					logger.info("재고가 없어!!!");
 					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-							Integer.parseInt(op_price[i]), 0));
+							Integer.parseInt(op_price[i]), -1));
 				}
 				
 			}

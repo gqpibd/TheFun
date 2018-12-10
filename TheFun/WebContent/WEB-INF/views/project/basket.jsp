@@ -39,7 +39,9 @@ $(document).ready(function () {
 				 </div>
 				 <div class="card-body">
 				   <h5 class="card-title"><strong>ㅠㅠ조금 더 분발해주세요!ㅠㅠ</strong></h5>
+				   	<div align="right">
 				   <a href="main.do" class="btn btn-outline-danger">상품 보러가기</a>
+				   </div>
 				</div>
 			</div><br>
 		</c:when>
@@ -50,30 +52,29 @@ $(document).ready(function () {
 				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
 				<input type="hidden" name="projectSeq" value="${basket.projectseq }">
 				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">	<!-- 상품 당 개당가를 저장해줄 변수 -->
-			<div class="card">
+			<div class="card" >
+				<!-- 상단바 -->
 			  <div class="card-header">
 				  	<div class="custom-control custom-checkbox">
-					  	<input type="checkbox" class="custom-control-input"  value="${basket.optionseq }" 
+					  	<input type="checkbox"  value="${basket.optionseq }" 
 					  		id="customCheck${status.count }" checked="checked" name="optionSeq" onclick="changePrice()">	<!-- 상품별 체크박스 -->
-					  	<label class="custom-control-label" for="customCheck${status.count }">${basket.ptitle }</label>	<!-- 리워드 제목 -->
+					  	<label for="customCheck${status.count }">${basket.ptitle }</label>	<!-- 리워드 제목 -->
 			  			<img alt="삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" 
 			  				onclick="deleteBasket(${basket.seq})" onmouseover="this.style.cursor='pointer'">
 			  		</div>
 			  </div>
-			  <div class="card-body">
-			  	<table border="1">
-			  		<colgroup>
-			  			<col width="200"><col width="400"><col width="400">
-			  		</colgroup>
+			  	<!-- 하단 내용 -->
+			  <!-- <div class="card-body"> -->
+			  	<table class="table table-sm">
 			  		<tr>
-			  			<td width="60%" rowspan="3">
+			  			<td width="40%" rowspan="3">
 			  				<!-- 이미지 안나올때를 대비한 대체 이미지는 onerror에 넣어줘야 한다. 앞에 this.onerror=null; 이 없으면 무한로딩 오류가 난다고,,, -->
 			  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" 
-			  					src="upload/${basket.seq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
-			  					onmouseover="this.style.cursor='pointer'" style="max-height: 60%; max-width: 70%">
+			  					src="upload/${basket.projectseq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
+			  					onmouseover="this.style.cursor='pointer'" style="max-height: 35%; max-width: 100%">
 			  			</td>
-			  			<td colspan="2">
-			  				<h3 class="card-title">선택 리워드 : ${basket.otitle }</h3>	<!-- 리워드 제목 -->
+			  			<td width="60%" colspan="2">
+			  				<h5 class="card-title">선택 리워드 : ${basket.otitle }</h5>	<!-- 리워드 제목 -->
 			  			</td>
 			  		</tr>
 			  		<tr>
@@ -81,16 +82,18 @@ $(document).ready(function () {
 			  				<span class="card-text">
 			  					<!-- 토큰 /으로 잘라서 출력 -->	<!-- 리워드 내용/구성 -->
 			  					<c:forTokens items="${basket.ocontent}" delims="/" var="content">
-								    <li class="liteGray list-group-item" style="font-size: 12px">${content}</li>
+								    <li  style="font-size: 12px">${content}</li>
+								    <!-- class="liteGray list-group-item" -->
 								</c:forTokens>
 			  				</span>
 			  			</td>
 			  		</tr>
 			  		<tr>
-			  			<td>
+			  			<td width="40%">
 							<!-- 구매수량 선택 -->
 							<button type='button' size='2px;' onclick="changeAmountPlus(${status.count})">+</button>
 								<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='optionCount' id="amountSelect${status.count }">
+								<input type="hidden" id="stock${status.count }" value="${basket.stock }">
 							<button type='button'size='2px;'onclick='changeAmountMinus(${status.count})'>-</button>
 						</td>
 			  			<td style="text-align: right; vertical-align: bottom;">
@@ -110,7 +113,7 @@ $(document).ready(function () {
 			 	<div align="right" style="float: right; ">
 		    		<button type="button" onclick="buyNow(${status.count})" class="btn btn-outline-secondary">즉시구매</button>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
 		    	</div> --%>
-			  </div>
+			  <!-- </div> -->
 			</div><br>
 			</c:if>
 			</c:forEach>
@@ -167,12 +170,33 @@ function buyNow( i ) {
 	location.href="updateAndBuy.do?id=${login.id}&seq="+seq+"&count="+count;
 };
 
-// 수량선택 + 증가버튼 눌렀을 때
+// [1] 수량선택 + 증가버튼 눌렀을 때
 function changeAmountPlus( index ) {
 	console.log("변화 index = " + index);
 	// 기존수량에 +1
 	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
 	
+	var stock = $("#stock"+index).val();
+	console.log("재고 = " + stock);
+	if(stock < 0){	// 재고 무제한(리워드 옵션 재고 무제한일시 0으로 잘못 넣었었는데 -1로 바꿈.)
+		setPlusAmount(index);
+		return false;
+	}else {	// 재고 제한이 있음
+		
+		if(stock >= selectedAmount){	// 재고 충분
+			setPlusAmount(index);
+		}else{	// 재고 모자름
+			alert("재고가 모자랍니다");
+			return false;
+		}
+	}
+	
+	
+}
+// [1]-1. 증가된 수량으로 세팅해주는 함수 + ajax로 새 수량값 DB에 저장해주기 (추가할것!)
+function setPlusAmount(index) {
+	// 기존수량에 +1
+	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
 	// 증가한 수량으로 세팅
 	$("#amountSelect"+index).val(selectedAmount);
 	
@@ -184,17 +208,10 @@ function changeAmountPlus( index ) {
 	$("#price"+index).val(changedPrice + " 원");
 	
 	// 총액 바뀌게
-	var totalPrice = 0;
-	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
-		if( $("input:checkbox[name='optionSeq']").is(":checked")){	// 체크된 상품만 총액바뀌게
-			var eachPrice = $("#price"+i).val().replace(" 원", "");
-			console.log(i + "번째 리워드 총액 = " + eachPrice);
-			totalPrice += + eachPrice;
-		}
-	}
-	$("#totalPrice").val(totalPrice + " 원");
+	changePrice();
 }
-//수량선택 - 증가버튼 눌렀을 때
+
+// [2] 수량선택 - 감소버튼 눌렀을 때
 function changeAmountMinus( index ) {
 	console.log("변화 index = " + index);
 	// 기존수량에 -1
@@ -214,46 +231,14 @@ function changeAmountMinus( index ) {
 	$("#price"+index).val(changedPrice + " 원");
 	
 	// 총액 바뀌게
-	var totalPrice = 0;
-	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
-		if( $("input:checkbox[name='optionSeq']").is(":checked")){	// 체크된 상품만 총액바뀌게
-			var eachPrice = $("#price"+i).val().replace(" 원", "");
-			console.log(i + "번째 리워드 총액 = " + eachPrice);
-			totalPrice += + eachPrice;
-		}
-	}
-	$("#totalPrice").val(totalPrice + " 원");
+	changePrice();
 }
 
-// 수량 선택하면 가격 바로바로 바뀌게(플러스버튼)
-function changeAmount(index) {
-	//console.log("index = " + index);
-	//console.log("값 = " + $("#amountSelect"+index).val());
-	//console.log("originPrice = " + $("#originPrice"+index).val());
-	
-	// 개당가격 바뀌게
-	var selectedOption = $("#amountSelect"+index).val();
-	var originPrice = $("#originPrice"+index).val();
-	var changedPrice = selectedOption*originPrice;
-	console.log("changedPrice = " + changedPrice);
-	$("#price"+index).val(changedPrice + " 원");
-	
-	// 총액 바뀌게
-	var totalPrice = 0;
-	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
-		if( $("input:checkbox[name='optionSeq']").is(":checked")){	/* 체크된 상품만 총액바뀌게 */
-			var eachPrice = $("#price"+i).val().replace(" 원", "");
-			console.log(i + "번째 리워드 총액 = " + eachPrice);
-			totalPrice += + eachPrice;
-		}
-	}
-	$("#totalPrice").val(totalPrice + " 원");
-	
-}
 
 // 수정하기 버튼 클릭했을때
 $("#updateBtn").click(function () {
 	console.log("업데이트!");
+	// 여기 ajax로 바꾸자
 	$("#updateForm").attr("action", "updateBasket.do?id=${login.id}").submit();
 });
 // 주문하기 버튼(최종) 클릭했을때
@@ -283,7 +268,7 @@ function changePrice() {
 	console.log("체크박스 클릭");
 	var totalPrice = 0;
 	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
-		if( $("input:checkbox[name='optionSeq']").is(":checked")){	/* 체크된 상품만 총액바뀌게 */
+		if( $("#customCheck"+i).is(":checked")){	/* 체크된 상품만 총액바뀌게 */
 			var eachPrice = $("#price"+i).val().replace(" 원", "");
 			console.log(i + "번째 리워드 총액 = " + eachPrice);
 			totalPrice += + eachPrice;

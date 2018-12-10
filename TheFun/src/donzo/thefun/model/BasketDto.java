@@ -43,14 +43,15 @@ REFERENCES FUN_MEMBER(ID)
 ON DELETE CASCADE; -- 종속 삭제
 
 -------------- VIEW : 장바구니
-CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
+CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, STOCK)
 AS
 SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE,
     (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
     (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
     (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),
     (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
-    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)
+    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT STOCK FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)
 FROM FUN_BASKET B;
 */
 
@@ -68,6 +69,7 @@ public class BasketDto implements Serializable {
 	String ocontent; // 옵션 내용 -- view에서 가져옴
 	int price; // 단가
 	String status;	
+	int stock;
 	
 	
 	public BasketDto() {}
@@ -79,6 +81,23 @@ public class BasketDto implements Serializable {
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
 		this.count = count;
+	}
+
+	public BasketDto(int seq, String id, int projectseq, int optionseq, int count, String regdate, String ptitle,
+			String otitle, String ocontent, int price, String status, int stock) {
+		super();
+		this.seq = seq;
+		this.id = id;
+		this.projectseq = projectseq;
+		this.optionseq = optionseq;
+		this.count = count;
+		this.regdate = regdate;
+		this.ptitle = ptitle;
+		this.otitle = otitle;
+		this.ocontent = ocontent;
+		this.price = price;
+		this.status = status;
+		this.stock = stock;
 	}
 
 	public int getSeq() {
@@ -195,11 +214,21 @@ public class BasketDto implements Serializable {
 		}else
 			return false;
 	}
+	
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
 
 	@Override
 	public String toString() {
 		return "BasketDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
-				+ ", count=" + count + ", price=" + price + ", regdate=" + regdate + ", ptitle=" + ptitle + ", otitle="
-				+ otitle + ", ocontent=" + ocontent + ", status=" + status + "]";
+				+ ", count=" + count + ", regdate=" + regdate + ", ptitle=" + ptitle + ", otitle=" + otitle
+				+ ", ocontent=" + ocontent + ", price=" + price + ", status=" + status + ", stock=" + stock + "]";
 	}
+
+	
 }
