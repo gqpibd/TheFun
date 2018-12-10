@@ -192,15 +192,15 @@ public class MemberController {
 	}
 	
 	// idpw찾기 폼으로 이동
-		@RequestMapping(value="find_id_from.do", method= {RequestMethod.GET, RequestMethod.POST})
-		public String find_id_from(Model model, String message, String callback) {
-			logger.info("MemberController login " + new Date());	
-			
-			model.addAttribute("message",message);
-			model.addAttribute("callback",callback);
-			
-			return "find_id_from.tiles";
-		}
+	@RequestMapping(value="find_id_from.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String find_id_from(Model model, String message, String callback) {
+		logger.info("MemberController login " + new Date());	
+		
+		model.addAttribute("message",message);
+		model.addAttribute("callback",callback);
+		
+		return "find_id_from.tiles";
+	}
 	
 	// 마이페이지로 이동
 	@RequestMapping(value="myPage.do", method= {RequestMethod.GET, RequestMethod.POST})

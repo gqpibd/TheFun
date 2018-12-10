@@ -50,7 +50,8 @@
 			</tbody>
 		</table>
 		</div>
-	</div>	
+	</div>		
+	</div>
 	<div class="">	
 		<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 			<jsp:param value="${pageNumber }" name="pageNumber"/>		
@@ -59,7 +60,6 @@
 			<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>		
 			<jsp:param value="projectManage.do" name="actionPath"/>	
 		</jsp:include>	
-	</div>
 	</div>
 </div>
 <script type="text/javascript">
