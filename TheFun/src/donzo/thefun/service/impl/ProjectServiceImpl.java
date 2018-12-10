@@ -203,7 +203,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectmsgDto> getMsgList(int projectseq) {		
 		return projectmsgDao.getMsgList(projectseq);
+	}
+
+	@Override
+	public List<ProjectDto> myAllProject(String id) {
+		return projectDao.myAllProject(id);
 	}	
-	
 	
 }

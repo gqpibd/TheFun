@@ -64,7 +64,8 @@ public interface ProjectService {
 	public int getLikeCount(int projectseq);
 
 	public List<ProjectmsgDto> getMsgList(int projectseq);
-
 	
+	// 내 모든 프로젝트 가져오기(승지 : 차트구현)
+	public List<ProjectDto> myAllProject(String id);
 	
 }

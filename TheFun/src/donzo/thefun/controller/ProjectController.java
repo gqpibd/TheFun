@@ -111,7 +111,7 @@ public class ProjectController {
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int projectSeq, int[] check, Model model) {
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 
 		//현재 선택한 프로젝트 정보
 		model.addAttribute("projectdto",projectService.getProject(projectSeq));
@@ -127,7 +127,7 @@ public class ProjectController {
 	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderFromBasket(String projectSeq[], String optionSeq[], String count[], String id, Model model) {
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("ProjectController goOrderFromBasket 메소드 " + new Date());	
 		logger.info("내 아이디 " + id);	
 		logger.info("체크한 옵션 갯수 = " + optionSeq.length);
 		logger.info("프로젝트 갯수 = " + projectSeq.length);

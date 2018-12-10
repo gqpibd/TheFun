@@ -48,6 +48,7 @@ $(document).ready(function () {
 			<c:forEach items="${myBasket }" var="basket" varStatus="status">
 			<c:if test="${basket.isOngoing() or basket.isPreparing()}">	<!-- 정상 진행중이거나 준비중인 프로젝트의 경우에만 출력해라 -->
 				<input type="hidden" name="id" value="${login.id }">
+				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
 				<input type="hidden" name="projectSeq" value="${basket.projectseq }">
 				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">	<!-- 상품 당 개당가를 저장해줄 변수 -->
 			<div class="card">
@@ -103,7 +104,7 @@ $(document).ready(function () {
 				    </c:forEach>
 				 </select>
 			 	<div align="right" style="float: right; ">
-		    		<a href="#" class="btn btn-outline-danger">즉시구매</a>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
+		    		<button type="button" onclick="buyNow(${status.count})" class="btn btn-outline-danger">즉시구매</button>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
 		    	</div>
 			  </div>
 			</div><br>
@@ -150,6 +151,19 @@ $(document).ready(function () {
 </div>
 
 <script>
+//즉시구매 버튼 눌렀을때
+function buyNow( i ) {
+	// 선택한 단일상품의 seq와 수량 값을 받아옴
+	console.log("즉시구매");
+
+	var seq = $('#seq'+i).val();
+	var count = $('#amountSelect'+i).val();
+	console.log("seq = " + seq);
+	console.log("count = " + count);
+	
+	location.href="updateAndBuy.do?id=${login.id}&seq="+seq+"&count="+count;
+};
+
 // 수량 선택하면 바로바로 가격 바뀌게
 function changeAmount(index) {
 	//console.log("index = " + index);
@@ -222,6 +236,8 @@ function changePrice() {
 function deleteBasket(seq) {
 	location.href="deleteBasket.do?seq="+seq+"&id=${login.id}";
 }
+
+
 </script>
 
 

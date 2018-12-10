@@ -26,4 +26,7 @@ public interface ProjectDao {
 	public int getWaitCount();
 	public boolean rejectProject(ProjectDto projectdto);
 	
+	// 내 모든 프로젝트 가져오기(승지 : 차트구현)
+	public List<ProjectDto> myAllProject(String id);
+	
 }

@@ -96,4 +96,30 @@ public class BasketController {
 		return "redirect:myBasket.do?id="+id;
 	}
 	
+	// 즉시결제 : 장바구니 업데이트 후 바로 주문하기 페이지로
+	@RequestMapping(value="updateAndBuy.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String updateAndBuy(String id, String seq, String count/* BasketDto basketDto*/) throws Exception{
+		logger.info("BuyController updateAndBuy 들어옴 " + new Date());
+		//seq랑 count만 알면됨
+		
+		logger.info("id = " + id);
+		logger.info("seq = " + seq);
+		logger.info("count = " + count);
+		
+		//List<BasketDto> list = new ArrayList<BasketDto>();
+		/*for (int i = 0; i < seq.length; i++) {
+			logger.info("업뎃에 들어온 "+i+"번째 seq = " + seq[i]);
+			logger.info("업뎃에 들어온 "+i+"번째  count = " + count[i]);
+			BasketDto updateDto = new BasketDto();
+			updateDto.setSeq(Integer.parseInt(seq[i]));
+			updateDto.setCount(Integer.parseInt(count[i]));
+			list.add(updateDto);
+		}*/
+		
+		// DB 장바구니 업데이트
+		//basketService.updateBasket(list);
+		
+		return "redirect:myBasket.do?id="+id;
+	}
+	
 }
