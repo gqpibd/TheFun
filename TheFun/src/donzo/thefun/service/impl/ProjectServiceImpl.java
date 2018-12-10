@@ -53,8 +53,14 @@ public class ProjectServiceImpl implements ProjectService {
 	AlarmDao alarmDao;
 
 	@Override
-	public ProjectDto getProject(int seq) {
-		return projectDao.getProject(seq);
+	public List<ProjectDto> getProject(int[] seq) {
+		
+		List<ProjectDto> dtolist= new ArrayList<>();
+		for(int i=0; i<seq.length;i++) {
+			ProjectDto dto= projectDao.getProject(seq[i]);
+			dtolist.add(dto);
+		}
+		return dtolist;
 	}
 
 	@Override
