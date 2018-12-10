@@ -2,7 +2,7 @@ package donzo.thefun.model;
 
 import java.io.Serializable;
 
-public class ProjectParam implements Serializable {
+public class ProjectParam extends pageParam implements Serializable {
 	
 	// --------- search
 	private String s_type;		// reward, donation
@@ -12,13 +12,6 @@ public class ProjectParam implements Serializable {
 	private String s_sort;		// 정렬 구분 1순위 정렬은
 	private String s_asc_desc;	// 오름차순 내림차순
 	private String s_complete;	// 성공여부 	
-	
-	// --------- paging
-	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
-	private int pageNumber = 0;				// 페이지 넘버
-	
-	private int start = 1;
-	private int end = 8;
 
 	
 	public ProjectParam() {	}
@@ -94,48 +87,6 @@ public class ProjectParam implements Serializable {
 	}
 
 
-	public int getRecordCountPerPage() {
-		return recordCountPerPage;
-	}
-
-
-	public void setRecordCountPerPage(int recordCountPerPage) {
-		this.recordCountPerPage = recordCountPerPage;
-	}
-
-
-	public int getPageNumber() {
-		return pageNumber;
-	}
-
-
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
-	}
-
-
-	public int getStart() {
-		return start;
-	}
-
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-
-	public int getEnd() {
-		return end;
-	}
-
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
-
-
-
-
 	@Override
 	public String toString() {
 		return "ProjectParam [" + (s_type != null ? "s_type=" + s_type + ", " : "")
@@ -147,16 +98,5 @@ public class ProjectParam implements Serializable {
 				+ (s_complete != null ? "s_complete=" + s_complete + ", " : "")
 				+ "]";
 	}
-
-/*
- + ", o_regdate=" + o_regdate + ", o_pdate=" + o_pdate + ", o_projectseq=" + o_projectseq
-				+ ", o_ptitle=" + o_ptitle + ", o_otitle=" + o_otitle + ", o_price=" + o_price + ", o_count=" + o_count
-				+ ", o_status=" + o_status 
-				+ (o_bcomment != null ? "o_bcomment=" + o_bcomment + ", " : "")
-				+ ", o_id=" + o_id + ", recordCountPerPage="+ recordCountPerPage 
-				+ ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end 
- */
-	
-
 	
 }

@@ -25,7 +25,7 @@ import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -156,7 +156,7 @@ public class ProjectServiceImpl implements ProjectService {
 //	}
 
 	@Override
-	public List<ProjectDto> getWaitingPagingList(adminParam aParam) {
+	public List<ProjectDto> getWaitingPagingList(pageParam aParam) {
 		return projectDao.getWaitingPagingList(aParam);
 	}
 
