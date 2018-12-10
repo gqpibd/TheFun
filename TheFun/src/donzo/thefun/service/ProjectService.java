@@ -10,6 +10,8 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
+import donzo.thefun.model.StatCountParam;
+import donzo.thefun.model.adminParam;
     
 public interface ProjectService {
 	
@@ -42,8 +44,8 @@ public interface ProjectService {
 	public int getProjectCount(ProjectParam pParam) throws Exception;
 	
 	// 승인 대기중인 프로젝트 목록(관리자)
-	public List<ProjectDto> getWaitingList();
-	
+//	public List<ProjectDto> getWaitingList();
+	public List<ProjectDto> getWaitingPagingList(adminParam aParam);
 	// Qna목록
 	public List<QnaDto> getQna(int seq);
 
@@ -59,13 +61,17 @@ public interface ProjectService {
 	//schedule
 	public List<ProjectDto> mySchedule(String id) throws Exception;
 
+	//내 프로젝트 요약 건 수
+	public int getStatusCount(StatCountParam sParam) throws Exception;
+	
 	public boolean changeLike(LikeDto like);
 
 	public int getLikeCount(int projectseq);
 
 	public List<ProjectmsgDto> getMsgList(int projectseq);
+
+	//판매자의 프로젝트 리스트
+	public List<ProjectDto> getProjectList(String id);
 	
-	// 내 모든 프로젝트 가져오기(승지 : 차트구현)
-	public List<ProjectDto> myAllProject(String id);
 	
 }

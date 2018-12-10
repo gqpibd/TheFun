@@ -38,17 +38,7 @@ public class BuyController {
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
-		logger.info("myOrderList.do 로 들어온 param : " + param.toString());
-		
-		//null 들어오면 빈문자열
-//		if(param.getO_bcomment() == null) { param.setO_bcomment(""); }
-//		if(param.getO_pdate() == null) { param.setO_pdate(""); }
-//		if(param.getO_projectseq() == 0) { param.setO_projectseq(0); }
-//		if(param.getO_ptitle() == null) { param.setO_ptitle(""); }
-//		if(param.getO_otitle() == null) { param.setO_otitle(""); }
-//		if(param.getO_price() == 0) { param.setO_price(0); }
-//		if(param.getO_count() == 0) { param.setO_count(0); }
-//		if(param.getO_status() == null) { param.setO_status(""); }
+		logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
@@ -81,17 +71,22 @@ public class BuyController {
 		return "myOrder.tiles";
 	} 
 	
-/*	//내 주문내역 상세보기
+	//내 후원 상세보기
 	@RequestMapping(value="myOrderDetail.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myOrderDetail(int projectSeq, HttpServletRequest req, Model model) {
+	public String myOrderDetail(int projectSeq, String regiDate, HttpServletRequest req, Model model) {
+		logger.info("BuyController myOrderDetail 메소드 " + new Date());
 		
-		//프로젝트정보 seq
-		//프로젝트옵션정보 n개 
-		//작성자정보
-		//결제정보
+		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+		model.addAttribute("login",user);
 		
+		//xml 보낼 dto
+		BuyDto buy = new BuyDto(user.getId(), projectSeq, 1, regiDate.substring(0, 19));		
+		List<BuyDto> buydto = buyService.myOrderDetail(buy);
+		model.addAttribute("buydto",buydto);
+		
+		return "myOrderDetail.tiles";
 	}
-*/	
+	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
@@ -149,8 +144,4 @@ public class BuyController {
 		
 		return listData; 
 	}
-	
-	
-	
-	
 }  

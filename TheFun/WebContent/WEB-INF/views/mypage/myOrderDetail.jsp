@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <fmt:requestEncoding value="utf-8"/>    
 <!-- 본문출력 묶는 태그 -->
 	<main class="s-layout__content">  		
@@ -10,7 +12,6 @@
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="CSS/mainCss/myOrder.css">
-<<<<<<< HEAD
 
 <style type="text/css">
 /* 별점 + 후기 */
@@ -125,9 +126,6 @@ input.star:checked ~ .rev-box {
 }
 
 </style>
-=======
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
->>>>>>> refs/remotes/origin/dh
 
 <header id="line_header">
   <div class="container text-center">
@@ -135,46 +133,85 @@ input.star:checked ~ .rev-box {
     <p>상세내역</p>
   </div>
 </header>
-<!-- 진행중....... -->
+
 <h2>결제상세정보</h2>
-<table>
-<tr>
-	<td>결제 일자</td>
-	<td> 날짜~</td>
-</tr>
-</table>
+<p>결제일자 : 
+	<fmt:parseDate value="${buydto[0].regdate}" pattern="yyyy-MM-dd HH:mm:ss" var="rDate" />
+	<fmt:formatDate value="${rDate}" pattern="yyyy년MM월dd일"/>
+</p>
+
 <hr>
-<table>
+<table border="1" style="width: 80%">
 <tr>
 	<td colspan="2">상품정보</td>
 	<td>상품금액 (수량)</td>
 	<td>판매자</td>
 	<td>진행상태</td>
 </tr>
+<c:forEach items="${buydto}" var="buy">
 <tr>
-	<td>img</td>
-	<td>선택한옵션title <br> 선택한옵션 content</td>
-	<td>선택한옵션금액 (수량)</td>
+	<td><img src="upload/${buy.projectseq}" height="80px;"></td>
+	<td>
+		<b style="text-align: center;">${buy.ptitle}</b><br>
+		${buy.otitle}<br>  
+		<c:forEach items="${fn:split(buy.ocontent,'/')}" var="item">
+		 <li>${item}</li>
+		</c:forEach>
+	</td>
+	<td>${buy.price}원 (${buy.count})</td>
 	<td>판매자이름 <br> 판매자 전화번호</td>
-	<td>진행상태</td>
+	<td>${buy.status}</td>
 </tr>
+</c:forEach>
 </table>
-<ul>
-<li>THE FUN 에서 결제한 경우 결제 완료만 표시되고 별도 거래완료 여부는 표시되지 않습니다.</li>
-</ul>
+
 <br>
 <h3>결제금액정보</h3>
-<table>
+<table border="1" style="width: 80%">
 <tr>
-<td>카드결제</td>
+	<td class="20width">상품금액</td>
+	<td class="20width">할인금액</td>
+	<td class="20width">상품금액</td>
+	<c:if test="${empty buydto[0].ocontent}">
+	<td class="20width">n원</td>
+	</c:if>
 </tr>
 <tr>
-<td>은행명 ( 카드번호 - **** -****-****) 일시불 <br>
-	결제 년월일
+	<td style="text-align: right;">n원</td>
+	<td style="text-align: right;">n원</td>
+	<td>할인금액</td>
+	<c:if test="${empty buydto[0].ocontent}">
+	<td>(-)n원</td>
+	</c:if>
+</tr>
+<tr>
+<td>카드결제</td>
+<td>${buydto[0].bankName} (${buydto[0].cardNumber}) 일시불 <br>
+	<fmt:parseDate value="${buydto[0].pdate}" pattern="yyyy-MM-dd HH:mm:ss" var="pDate" />
+	<fmt:formatDate value="${pDate}" pattern="yyyy년MM월dd일"/>
 </td>
+<td>결제금액</td>
+<td>n원</td>
 </tr>
 </table>
 
+<c:if test="${not empty buydto[0].ocontent}">
+<br><br>
+<h3>배송지 정보</h3>
+<table border="1" style="width: 80%">
+<tr>
+	<td style="width: 15%">수령인 </td>
+	<td>000</td>
+</tr>
+<tr>
+	<td style="width: 15%">연락처</td>
+	<td style="text-align: left;">000</td>
+</tr>
+<tr>
+	<td style="width: 15%">배송지</td>
+	<td>000</td>
+</tr>
 
+</table>
 
-</div>
+</c:if>

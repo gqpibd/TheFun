@@ -14,12 +14,14 @@
   </div>
 </header>
 
+<p id="yoyak" style="text-align: center;">준비중 : ${preCount}건&nbsp;&nbsp;진행중 : ${onCount}건&nbsp;&nbsp;성공 : ${sucCount}건&nbsp;&nbsp;실패 : ${failCount}건</p>
 
 <!-- 등록한 프로젝트가 없을때 -->
 <c:if test="${schedule.size() eq 0}">
 <br><br>
 <p style="text-align: center;">등록하신 프로젝트가 없습니다.</p>
 </c:if>
+
 
 <!-- 등록한 프로젝트가 있다 -->
 <c:if test="${schedule.size() ne 0}">
@@ -32,7 +34,7 @@
 		      <div class="timeline-img"></div>
 		
 		      <div class="timeline-content">
-		        <br><br><h2>${sche.title }</h2>
+		        <br><br><h2>${sche.dot3(sche.title) }</h2>
 		        <div class="date"> ${sche.getDateForm(sche.sdate) } ~ ${sche.getDateForm(sche.edate) }</div>
 		        <div style="text-align: right;">
 					<!-- 진행 상태 status 한글화 -->
@@ -76,7 +78,7 @@
 		        		<a class="btnSche btn-update" href="projectUpdate.do?seq=${sche.seq }">Update</a>
 		        		<a class="btnSche btn-delete" href="projectDelete.do?seq=${sche.seq }">Delete</a>		        	
 		        	</c:when>
-		        	<c:when test="${sche.isReject() or sche.isComplete_fail() or sche.isComplete_success()}">
+		        	<c:when test="${sche.isReject()}">
 		        		<a class="btnSche btn-delete" href="projectDelete.do?seq=${sche.seq }">Delete</a>		        	 
 		        	</c:when>
 		        </c:choose>  

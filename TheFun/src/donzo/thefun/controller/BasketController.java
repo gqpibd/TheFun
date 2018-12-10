@@ -1,8 +1,11 @@
 package donzo.thefun.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.MemberDto;
 import donzo.thefun.service.BasketService;
 
 @Controller
@@ -23,28 +28,33 @@ public class BasketController {
 	@Autowired
 	BasketService basketService;
 	
+	//장바구니 넣기 addBasket.do
+	@ResponseBody
+	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String addBasket(int projectSeq, int[] selectOpSeq, int[] optionCount, HttpServletRequest req) {
+	
+		logger.info(" BuyController addBasket" + new Date());	
+		String id = ((MemberDto)req.getSession().getAttribute("login")).getId();
+		
+		//장바구니 insert
+		basketService.insertBasket(id, projectSeq, selectOpSeq, optionCount);
+		return "YES";
+	}
 	
 	//장바구니 넣기 addBasket.do
-	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public void addBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
-		logger.info(" BuyController addBasket" + new Date());
-		
-		System.out.println("id : "+id+" / projectSeq : ");
-		for(int i=0; i<optionCount.length;i++) {
-			logger.info("옵션 시퀀스  : "+optionSeq[i] +"옵션 카운트 : "+optionCount[i]);
-		}
-
-		//장바구니 insert
-		 
+	@ResponseBody
+	@RequestMapping(value="getBasketCount.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String getBasketCount(String id) {		
+		return basketService.getBasketCount(id)+"";
 	}
 	
 	// 장바구니 창으로
 	@RequestMapping(value="myBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myBasket(String id, Model model) throws Exception {
-		logger.info("BuyController basket 들어옴 " + new Date());
-		logger.info("아이디 = " + id);
+	public String myBasket(HttpServletRequest req, Model model) throws Exception {
+		logger.info("myBasket " + new Date());
+		MemberDto user = (MemberDto) req.getSession().getAttribute("login");
 		// 내 장바구니 목록(view) 찾아오기(SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
-		List<BasketDto> myBasketList = basketService.selectMyBasket(id);
+		List<BasketDto> myBasketList = basketService.selectMyBasket(user.getId());
 		logger.info("찾아온 장바구니 목록 개수 = " + myBasketList.size());
 		for (int i = 0; i < myBasketList.size(); i++) {
 			logger.info("찾아온 장바구니 = " + myBasketList.toString());
@@ -68,8 +78,7 @@ public class BasketController {
 		}else {
 			logger.info("장바구니 삭제에 실패했습니다");
 		}
-		
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 	// 장바구니 업데이트
@@ -93,7 +102,7 @@ public class BasketController {
 		// DB 장바구니 업데이트
 		basketService.updateBasket(list);
 		
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 	// 즉시결제 : 장바구니 업데이트 후 바로 주문하기 페이지로

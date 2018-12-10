@@ -64,5 +64,13 @@ public class MemberDaoImpl implements MemberDao {
 	public MemberDto find_idpw(MemberDto dto) {
 		return sqlSession.selectOne(ns+"find_idpw",dto);
 	}
+
+	@Override
+	public boolean change_pw(MemberDto mem) {
+		int n = sqlSession.update(ns+"change_pw",mem);
+		return (n>0)?true:false;
+	}
+	
+	
 	
 }

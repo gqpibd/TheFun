@@ -22,7 +22,8 @@
 </div>
 
 <!-- 메인 -->
-<div style="display: grid"> <!-- 메인뷰 디테일 뉴프로젝트 -->
+<!-- <div style="display: grid"> --> <!-- 메인뷰 디테일 뉴프로젝트 -->
+<div> <!-- 메인뷰 디테일 뉴프로젝트 -->
 	<tiles:insertAttribute name="tabs"/>		
 	<tiles:insertAttribute name="main"/>		
 </div>

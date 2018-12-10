@@ -257,3 +257,9 @@ Highcharts.chart('container', {
 });
 
 </script>
+
+
+<!-- 본문출력 묶는 태그 -->
+	</main>
+	</div> 
+<!-- //본문출력 묶는 태그 -->

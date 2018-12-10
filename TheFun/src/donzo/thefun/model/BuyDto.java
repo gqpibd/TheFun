@@ -157,6 +157,14 @@ public class BuyDto implements Serializable {
 		this.bankName = bankName;
 	}
 
+	//내 후원 상세보기 쿼리문에 넣기위함
+	public BuyDto(String id, int projectseq, int optionseq, String regdate) {
+		super();
+		this.id = id;
+		this.projectseq = projectseq;
+		this.optionseq = optionseq;
+		this.regdate = regdate;
+	}
 	
 	public String getPdate() {
 		return pdate;
@@ -289,8 +297,8 @@ public class BuyDto implements Serializable {
 	//제목이 길때 뒤에 ... 해주는 거
 	public String dot3(String msg){
 		String s="";
-		if(msg.length()>=15){
-			s=msg.substring(0,15);
+		if(msg.length()>=18){
+			s=msg.substring(0,18); 
 			s+="...";
 		}else{
 			s=msg.trim();
@@ -373,6 +381,7 @@ public class BuyDto implements Serializable {
 		}else
 			return false;
 	}
+			
 	public boolean isDeleted() {
 		if(status.equalsIgnoreCase(ProjectDto.DELETE)) {
 			return true;

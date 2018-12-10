@@ -102,7 +102,7 @@
      		<td class="profile">
      			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
      			<input type="hidden" name="opSeq" value="0">
-				<input type="hidden" name="opCount" value="0">
+				<input type="hidden" name="opCount" value="1">
      		</td>
      	</tr>
      	<tr>
@@ -152,11 +152,11 @@
 		<td class="td2 liteGray">
 		
 			<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
-			<input type="text" id="${options.seq}" name="opCount" value="1" size="3" readonly="readonly" style="text-align: center;">
+			<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
 			<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 		</td>
 		<td class="liteGray td3">
-			<input type="text" readonly="readonly" value="${options.price}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
+			<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
 			<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
 		</td>
 		</tr>
@@ -288,10 +288,10 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-		<input class="numberCheck" type="text" name="card1" id="card1"> 
-		<input  class="numberCheck" type="password" name="card2" id="card2">
-		<input class="numberCheck"  type="password" name="card3" id="card3"> 
-		<input  class="numberCheck" type="text" name="card4" id="card4"> 
+		<input class="numberCheck" width="50px" type="text" name="card1" id="card1"> 
+		<input  class="numberCheck" width="50px" type="password" name="card2" id="card2">
+		<input class="numberCheck"  width="50px" type="password" name="card3" id="card3"> 
+		<input  class="numberCheck" width="50px" type="text" name="card4" id="card4"> 
 		<input type="hidden" name="cardNumber" id="cardNumber">
 		</td>
 	</tr>
