@@ -312,8 +312,6 @@
   
   <div id="autopayDiv"> <!-- 자동결제선택시 show -->
   	결제예약 버튼을 누르시면 결제가 진행됩니다.
-  	<input type="hidden" name="cardNumber" value="****************">
-  	<input type="hidden" name="bankName" value="자동결제">
   </div>
   
   <div id="handpayDiv"><!-- 개인결제 선택시 show 결제정보 입력 테이블 -->
@@ -401,59 +399,83 @@
 </div>  
 
 <script type="text/javascript">
-
-
 function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
 	
-	//자동결제인지 div확인하고
-	if(document.getElementById("card1").value.length<4){
-		alert("첫번째 카드번호가 4자리수 이하입니다");
-	}else if(document.getElementById("card2").value.length<4){
-		alert("두번째 카드번호가 4자리수 이하입니다");
-	}else if(document.getElementById("card3").value.length<4){
-		alert("세번째 카드번호가 4자리수 이하입니다");
-	}else if(document.getElementById("card4").value.length<4){
-		alert("네번째 카드번호가 4자리수 이하입니다");
-	}else if(document.getElementById("cardPwd").value.length<4){
-		alert("카드번호가 4자리 이하입니다");
-	}else if(document.getElementById("birth").value.length<6){
-		alert("생년월일이 6자리 이하입니다");
-	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
-		alert("월의 유효기간이 맞지 않습니다");
-	}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
-		alert("년도 유효기간이 맞지 않습니다");
-	}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
-		alert("이름을 입력하여주십시오");
-	}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
-		alert("연락처를 입력하여 주십시오");
-	}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
-		alert("은행을 선택하여 주십시오");
-	}else if(iswhat=="2"){
-		if(document.getElementById("postcode").value=""){
-			alert("우편번호를 입력하여 주십시오");
-		}else if(document.getElementById("roadAddress").value==""){
-			alert("주소를 입력하여 주십시오");
-		}else if(document.getElementById("detailAddress").value==""){
-			alert("상세주소를 입력하여 주십시오");
-		}else{
-			var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
-			  document.getElementById("card3").value+document.getElementById("card4").value;
-			document.getElementById("cardNumber").value=cardNum;
-			
-			$("#orderfrm").attr("action","addOrder.do").submit();
-			//결제 api호출
-			//requestPay();
-		}
-	}else{
-		var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+
-		  document.getElementById("card3").value+document.getElementById("card4").value;
+	//라디오버튼확인 
+	if($('input:radio[id=handPay]').is(':checked')){	//수동결제
+		
+		//카드번호 설정
+		var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
 		document.getElementById("cardNumber").value=cardNum;
 		
-		$("#orderfrm").attr("action","addOrder.do").submit();
-		//결제 api호출
-		//requestPay();
-	} 
+		//결제 유효성검사
+		if(document.getElementById("card1").value.length<4){
+			alert("첫번째 카드번호가 4자리수 이하입니다");
+		}else if(document.getElementById("card2").value.length<4){
+			alert("두번째 카드번호가 4자리수 이하입니다");
+		}else if(document.getElementById("card3").value.length<4){
+			alert("세번째 카드번호가 4자리수 이하입니다");
+		}else if(document.getElementById("card4").value.length<4){
+			alert("네번째 카드번호가 4자리수 이하입니다");
+		}else if(document.getElementById("cardPwd").value.length<4){
+			alert("카드번호가 4자리 이하입니다");
+		}else if(document.getElementById("birth").value.length<6){
+			alert("생년월일이 6자리 이하입니다");
+		}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
+			alert("월의 유효기간이 맞지 않습니다");
+		}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
+			alert("년도 유효기간이 맞지 않습니다");
+		}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
+			alert("이름을 입력하여주십시오");
+		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
+			alert("연락처를 입력하여 주십시오");
+		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
+			alert("은행을 선택하여 주십시오");
+		}else if(iswhat=="2"){	//리워드일때
+			if(document.getElementById("postcode").value=""){
+				alert("우편번호를 입력하여 주십시오");
+			}else if(document.getElementById("roadAddress").value==""){
+				alert("주소를 입력하여 주십시오");
+			}else if(document.getElementById("detailAddress").value==""){
+				alert("상세주소를 입력하여 주십시오");
+			}else{		
+				$("#orderfrm").attr("action","addOrder.do").submit();
+			}
+		}else if(iswhat=="1"){	//기부일때
+			$("#orderfrm").attr("action","addOrder.do").submit();
+		} 
+		
+	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
+		
+		//bankName cardNumber 셋팅
+		document.getElementById("bankName").value="간편결제";
+		document.getElementById("cardNumber").value="****************";
+		
+		if(iswhat=="2"){	//리워드일때
+			if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
+				alert("이름을 입력하여주십시오");
+			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
+				alert("연락처를 입력하여 주십시오");
+			}else if(document.getElementById("postcode").value=""){
+				alert("우편번호를 입력하여 주십시오");
+			}else if(document.getElementById("roadAddress").value==""){
+				alert("주소를 입력하여 주십시오");
+			}else if(document.getElementById("detailAddress").value==""){
+				alert("상세주소를 입력하여 주십시오");
+			}else{
+
+				requestPay();
+			}
+		}else if(iswhat=="1"){	//기부일때
+			if(document.getElementById("deliPhone").value==""){
+				alert("연락처를 입력하여 주십시오");
+			}else{
+				requestPay();
+			}
+				
+		} //기부일때 끝
+	}//간편결제 끝
 	
 }
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
@@ -765,18 +787,15 @@ IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코�
 
 
 function requestPay() {
-	//IMP.request_pay(param, callback) 호출
+	var goodstitle="${projectdtoList[0].title}";
+	var usertel="${login.phone}";
 	IMP.request_pay({
 	    pg : 'html5_inicis', // version 1.1.0부터 지원. PG사명
 	    pay_method : 'card',	//결제수단 card==신용카드
 	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
-	    name : '주문명:결제테스트',	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
+	    name : goodstitle,	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
 	    amount : 100,	//가격
-	    buyer_email : 'iamport@siot.do',
-	    buyer_name : '구매자이름',
-	    buyer_tel : '010-1234-5678',
-	    buyer_addr : '서울특별시 강남구 삼성동',
-	    buyer_postcode : '123-456',
+	    buyer_tel : usertel,	//누락시에러발생가능성있음
 	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
 	}, function(rsp) {
 	    if ( rsp.success ) {
@@ -785,19 +804,9 @@ function requestPay() {
 	        msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        msg += '결제 금액 : ' + rsp.paid_amount;
 	        msg += '카드 승인번호 : ' + rsp.apply_num;
-	/*         
-	     // jQuery로 HTTP 요청
-	        jQuery.ajax({
-	            url: "https://www.myservice.com/payments/complete", // 가맹점 서버
-	            method: "POST",
-	            headers: { "Content-Type": "application/json" },
-	            data: {
-	                imp_uid: rsp.imp_uid,
-	                merchant_uid: rsp.merchant_uid
-	            }
-	        }).done(function (data) {
-
-	        }) */
+		
+	        $("#orderfrm").attr("action","addOrder.do").submit();
+	        
 	    } else {
 	        var msg = '결제에 실패하였습니다.';
 	        msg += '에러내용 : ' + rsp.error_msg;

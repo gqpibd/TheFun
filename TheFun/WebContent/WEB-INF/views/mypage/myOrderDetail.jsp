@@ -159,9 +159,19 @@ input.star:checked ~ .rev-box {
 		 <li>${item}</li>
 		</c:forEach>
 	</td>
-	<td style="padding: 10px;">${buy.price}원 (${buy.count}개)</td>
+	<td style="padding: 10px;"><font>${buy.price}</font>원 (${buy.count}개)</td>
 	<td style="padding: 10px;">판매자이름 <br> 판매자 전화번호</td>
-	<td style="padding: 10px;">${buy.status}</td>
+	<td style="padding: 10px;">
+		<c:if test="${buy.status eq 'ongoing'}">
+			결제대기
+		</c:if>
+		<c:if test="${buy.status eq 'complete_success'}">
+			결제완료
+		</c:if>
+		<c:if test="${buy.status eq 'complete_fail'}">
+			결제취소
+		</c:if>
+	</td>
 </tr>
 </c:forEach>
 </table>
@@ -170,30 +180,24 @@ input.star:checked ~ .rev-box {
 <h3>결제상세정보</h3>
 <table style="width: 80%;">
 <tr style="border-bottom: 1px solid gray;">
-	<td width="10%" style="padding: 10px; background-color: #f9f8ef;">상품금액</td>
-	<td width="50%" style="padding: 10px; background-color: #f9f8ef;" >할인금액</td>
-	<td width="10%" style="padding: 10px; background-color: #ede5ff;">상품금액</td>
-	<td width="10%" style="text-align: right; padding: 10px; background-color: #ede5ff;">n원</td>
+	<td width="20%" style="padding: 10px; ">상품금액</td>
+	<td style="text-align: left; padding: 10px;"><font id="productPrice"></font>원</tr>
+
+<c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드일때 -->
+<tr style="border-bottom: 1px solid gray;">	
+	<td style="padding: 10px;">할인금액</td> <!-- 포인트사용 내역 -->
+	<td style="text-align: left;padding: 10px; ">n원</td>
+</tr>
+</c:if>
+
+<tr style="border-bottom: 1px solid gray;">
+<td style="padding: 10px;padding: 10px; ">결제예정금액</td>
+<td style="text-align: left;padding: 10px; "><b style="color: #8152f0;">n원</b></td>
 </tr>
 <tr style="border-bottom: 1px solid gray;">
-	<td style="text-align: left;padding: 10px; background-color: #f9f8ef;">n원</td>
-	<td style="text-align: left;padding: 10px; background-color: #f9f8ef;">n원</td>
-	<c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드일때 -->
-	<td style="padding: 10px; background-color: #ede5ff;">할인금액</td> <!-- 포인트사용 -->
-	<td style="text-align: right;padding: 10px; background-color: #ede5ff;">n원</td>
-	</c:if>
-	<c:if test="${empty buydto[0].ocontent}">	<!-- 기부일때 -->
-	<td></td><td></td>
-	</c:if>
-</tr>
-<tr style="border-bottom: 1px solid gray;">
-<td style="padding: 10px; background-color: #f9f8ef;">결제예약정보</td>
-<td style="padding: 10px; background-color: #f9f8ef;">${buydto[0].bankName} (${buydto[0].cardNumber}) <br>
-	<fmt:parseDate value="${buydto[0].pdate}" pattern="yyyy-MM-dd HH:mm:ss" var="pDate" />
-	<fmt:formatDate value="${pDate}" pattern="yyyy년MM월dd일"/>
-</td>
-<td style="padding: 10px;padding: 10px; background-color: #ede5ff;">결제금액</td>
-<td style="text-align: right;padding: 10px; background-color: #ede5ff;">n원</td>
+	<td style="padding: 10px;padding: 10px; ">결제예정수단</td>
+	<td  style="padding: 10px;padding: 10px; ">${buydto[0].bankName} 
+	(${fn:substring(buydto[0].cardNumber,0,4) } - ${fn:substring(buydto[0].cardNumber,4,6)}** - **** - **** )</td>
 </tr>
 </table>
 
@@ -217,3 +221,20 @@ input.star:checked ~ .rev-box {
 </table>
 
 </c:if>
+
+<script>
+
+$(document).ready(function (){
+	var len = "${fn:length(buydto)}";
+	
+	if(len==1){
+		
+		$("#productPrice").val();	
+	}else if(len>1){
+		$("#productPrice").val();		
+	}
+	
+});
+
+
+</script>

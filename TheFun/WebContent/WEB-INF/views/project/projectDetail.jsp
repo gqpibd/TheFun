@@ -654,16 +654,16 @@ function heartClick(selector){
 
 /* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 function plusVal(seqNum) {
-   	var count = Number(document.getElementById(seqNum).value);
-   	var stockCount = document.getElementById("stock_"+seqNum).value;
+   	var count = Number(document.getElementById(seqNum).value);	//수량찍혀있는 input text
+   	var stockCount = document.getElementById("stock_"+seqNum).value;	//현재존재하는 재고 
    	
    	if(stockCount<0){	//재고가 무제한이라면
    		
    		count+=1;
      	document.getElementById(seqNum).value =count;
        	//가격변환
-       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//단가
+       	var priceField =Number(document.getElementById("price_"+seqNum).value);	//현재 찍혀있는 금액
        	var totalPrice = priceField+realPrice;
        	document.getElementById("price_"+seqNum).value =totalPrice;
        	
@@ -907,13 +907,6 @@ function getMakerInfo() {
 		}
 	});	 
 }
-
-
-
-
-
-
-
 
 </script>
 <!-- 판매자 정보 팝업창 스크립트 코드 -->

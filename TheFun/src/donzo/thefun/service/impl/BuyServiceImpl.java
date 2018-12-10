@@ -30,7 +30,7 @@ public class BuyServiceImpl implements BuyService {
 						buy.getId(), buy.getProjectseq(), opSeq[0], 1, opPrice[0], 
 						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
-			//System.out.println("addorders의 dto : "+buydto);
+			System.out.println("addorders의 dto : "+buydto);
 			buyDao.addOrders(buydto);	
 			 
 		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
