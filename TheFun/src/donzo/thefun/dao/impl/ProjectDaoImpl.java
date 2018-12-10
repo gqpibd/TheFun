@@ -109,11 +109,6 @@ public class ProjectDaoImpl implements ProjectDao {
 		int n = sqlSession.update(ns + "rejectProject", projectdto);		
 		return n>0?true:false;
 	}
-
-	@Override
-	public List<ProjectDto> myAllProject(String id) {
-		return sqlSession.selectList(ns+"myAllProject", id);
-	}
 	
 	////판매자의 프로젝트리스트
 	@Override

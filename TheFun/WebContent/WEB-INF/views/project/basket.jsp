@@ -47,7 +47,6 @@ $(document).ready(function () {
 		<form action="goOrderFromBasket.do" method="post" id="updateForm">
 			<c:forEach items="${myBasket }" var="basket" varStatus="status">
 			<c:if test="${basket.isOngoing() or basket.isPreparing()}">	<!-- 정상 진행중이거나 준비중인 프로젝트의 경우에만 출력해라 -->
-				<input type="hidden" name="id" value="${login.id }">
 				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
 				<input type="hidden" name="projectSeq" value="${basket.projectseq }">
 				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">	<!-- 상품 당 개당가를 저장해줄 변수 -->
@@ -62,23 +61,23 @@ $(document).ready(function () {
 			  		</div>
 			  </div>
 			  <div class="card-body">
-			  	<table>
+			  	<table border="1">
 			  		<colgroup>
-			  			<col width="600"><col width="400">
+			  			<col width="200"><col width="400"><col width="400">
 			  		</colgroup>
 			  		<tr>
-			  			<td width="60%" rowspan="2">
+			  			<td width="60%" rowspan="3">
 			  				<!-- 이미지 안나올때를 대비한 대체 이미지는 onerror에 넣어줘야 한다. 앞에 this.onerror=null; 이 없으면 무한로딩 오류가 난다고,,, -->
 			  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" 
 			  					src="upload/${basket.seq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
-			  					onmouseover="this.style.cursor='pointer'" height="30%" width="80%">
+			  					onmouseover="this.style.cursor='pointer'" style="max-height: 60%; max-width: 70%">
 			  			</td>
-			  			<td>
+			  			<td colspan="2">
 			  				<h3 class="card-title">선택 리워드 : ${basket.otitle }</h3>	<!-- 리워드 제목 -->
 			  			</td>
 			  		</tr>
 			  		<tr>
-			  			<td>
+			  			<td colspan="2">
 			  				<span class="card-text">
 			  					<!-- 토큰 /으로 잘라서 출력 -->	<!-- 리워드 내용/구성 -->
 			  					<c:forTokens items="${basket.ocontent}" delims="/" var="content">
@@ -88,7 +87,12 @@ $(document).ready(function () {
 			  			</td>
 			  		</tr>
 			  		<tr>
-			  			<td></td>
+			  			<td>
+							<!-- 구매수량 선택 -->
+							<button type='button' size='2px;' onclick="changeAmountPlus(${status.count})">+</button>
+								<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='optionCount' id="amountSelect${status.count }">
+							<button type='button'size='2px;'onclick='changeAmountMinus(${status.count})'>-</button>
+						</td>
 			  			<td style="text-align: right; vertical-align: bottom;">
 			  				<h3>
 			  					<!-- 개별 리워드 당 총액 출력. (개당가*선택한 갯수)한 값. -->
@@ -96,16 +100,16 @@ $(document).ready(function () {
 			  				</h3>
 			  			</td>
 			  		</tr>
-			    </table><hr>
-			    <select class="custom-select" name="count" id="amountSelect${status.count }" onchange="changeAmount(${status.count })" style="width: 40%">
+			    </table>
+			    <%-- <select class="custom-select" name="count" id="amountSelect${status.count }" onchange="changeAmount(${status.count })" style="width: 40%">
 			    	<!-- 수량 일단 10개까지 선택할 수 있게함 -->	<!-- JSTL을 사용해 특정(내가 담아놓은) select option값(선택한 갯수)을 기본선택되게 함. -->
 			    	<c:forEach var="x" begin="1" end="10" step="1">
 					    <option value="${x }" <c:if test="${basket.count eq x}">selected</c:if>>${x }</option>
 				    </c:forEach>
 				 </select>
 			 	<div align="right" style="float: right; ">
-		    		<button type="button" onclick="buyNow(${status.count})" class="btn btn-outline-danger">즉시구매</button>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
-		    	</div>
+		    		<button type="button" onclick="buyNow(${status.count})" class="btn btn-outline-secondary">즉시구매</button>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
+		    	</div> --%>
 			  </div>
 			</div><br>
 			</c:if>
@@ -114,7 +118,7 @@ $(document).ready(function () {
 		</c:otherwise>
 	</c:choose>
 	
-	<hr style="border: solid 2px #FFBF00;">
+	<hr style="border: solid 2px #3A01DF;">
 	
 	<!-- 최종결제칸 -->
 	<div class="card">
@@ -137,8 +141,7 @@ $(document).ready(function () {
 					</td>
 					<td>
 						<div align="right">
-			    			<button class="btn btn-outline-warning" id="updateBtn">수정하기</button>
-			    			<button class="btn btn-outline-warning" id="finalOrderBtn">주문하기</button>
+			    			<button type="button" class="btn btn-outline-secondary" id="finalOrderBtn">주문하기</button>
 			    		</div>
 					</td>
 				</tr>
@@ -164,7 +167,65 @@ function buyNow( i ) {
 	location.href="updateAndBuy.do?id=${login.id}&seq="+seq+"&count="+count;
 };
 
-// 수량 선택하면 바로바로 가격 바뀌게
+// 수량선택 + 증가버튼 눌렀을 때
+function changeAmountPlus( index ) {
+	console.log("변화 index = " + index);
+	// 기존수량에 +1
+	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
+	
+	// 증가한 수량으로 세팅
+	$("#amountSelect"+index).val(selectedAmount);
+	
+	// 개당가격 바뀌게
+	var originPrice = $("#originPrice"+index).val();
+	console.log("원가 = " + originPrice);
+	var changedPrice = selectedAmount*originPrice;
+	console.log("원가*수량 = " + changedPrice);
+	$("#price"+index).val(changedPrice + " 원");
+	
+	// 총액 바뀌게
+	var totalPrice = 0;
+	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
+		if( $("input:checkbox[name='optionSeq']").is(":checked")){	// 체크된 상품만 총액바뀌게
+			var eachPrice = $("#price"+i).val().replace(" 원", "");
+			console.log(i + "번째 리워드 총액 = " + eachPrice);
+			totalPrice += + eachPrice;
+		}
+	}
+	$("#totalPrice").val(totalPrice + " 원");
+}
+//수량선택 - 증가버튼 눌렀을 때
+function changeAmountMinus( index ) {
+	console.log("변화 index = " + index);
+	// 기존수량에 -1
+	var selectedAmount = Number($("#amountSelect"+index).val())-Number(1);
+	if(selectedAmount==0){
+		alert("수량은 최소 1개 이상을 선택해야 합니다");
+		return false;
+	}
+	// 감소한 수량으로 세팅
+	$("#amountSelect"+index).val(selectedAmount);
+	
+	// 개당가격 바뀌게
+	var originPrice = $("#originPrice"+index).val();
+	console.log("원가 = " + originPrice);
+	var changedPrice = selectedAmount*originPrice;
+	console.log("원가*수량 = " + changedPrice);
+	$("#price"+index).val(changedPrice + " 원");
+	
+	// 총액 바뀌게
+	var totalPrice = 0;
+	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
+		if( $("input:checkbox[name='optionSeq']").is(":checked")){	// 체크된 상품만 총액바뀌게
+			var eachPrice = $("#price"+i).val().replace(" 원", "");
+			console.log(i + "번째 리워드 총액 = " + eachPrice);
+			totalPrice += + eachPrice;
+		}
+	}
+	$("#totalPrice").val(totalPrice + " 원");
+}
+
+// 수량 선택하면 가격 바로바로 바뀌게(플러스버튼)
 function changeAmount(index) {
 	//console.log("index = " + index);
 	//console.log("값 = " + $("#amountSelect"+index).val());
@@ -189,6 +250,7 @@ function changeAmount(index) {
 	$("#totalPrice").val(totalPrice + " 원");
 	
 }
+
 // 수정하기 버튼 클릭했을때
 $("#updateBtn").click(function () {
 	console.log("업데이트!");
@@ -208,9 +270,6 @@ $("#finalOrderBtn").click(function () {
 				$("#updateFrorm[name='projectSeq']").attr("disabled", true);
 				$("#updateFrorm[name='count']").attr("disabled", true);
 			}
-			/* if(f.elements['optionSeq'][i].checked == false){
-				f.elements['projectSeq'][i].disabled = true;
-			} */
 		}
 	}else{
 		alert("주문할 상품을 1개 이상 선택해주세요!");
