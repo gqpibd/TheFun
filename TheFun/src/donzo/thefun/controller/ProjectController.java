@@ -787,7 +787,7 @@ public class ProjectController {
 	
 	//판매자의 프로젝트리스트
 	@ResponseBody
-	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String sellerPList(String id) {
 		logger.info("ProjectController sellerPList " + new Date());
 		

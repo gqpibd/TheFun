@@ -151,7 +151,7 @@ window.fbAsyncInit = function() {
 
 .drop-down__button{
   /* background: linear-gradient(to right,#3d6def, #8FADFE); */
-  background: linear-gradient(to right,#3a2525, #4c1010);
+  background: linear-gradient(to right,#8152f0, #F7EEF8);
   display: inline-block;
   padding: 0 15px;
   text-align: left;
