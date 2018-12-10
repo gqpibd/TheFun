@@ -59,7 +59,7 @@ table.type07 td {
 	padding: 10px;
 	vertical-align: top;
 	border: 0px solid #ccc;
-	
+	word-break:break-all;
 }
 table.type07 th.title {
 	text-align: center;

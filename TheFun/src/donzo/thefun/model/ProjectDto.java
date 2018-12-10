@@ -96,7 +96,6 @@ public class ProjectDto implements Serializable {
 	//public static final String APPROVE = "approve"; // 승인됨
 	public static final String REJECT = "reject"; // 거절됨
 	public static final String REVISE = "revise"; // 보완요청
-	public static final String RESUBMIT = "resubmit";	// 재승인요청(수정한 펀딩)
 	
 	int seq;  
 	String id; // 작성자
@@ -410,6 +409,16 @@ public class ProjectDto implements Serializable {
 	public String getOptiontotal() {
 		return optiontotal;
 	}
+	
+	public String getFundTypeKr() {		
+		switch(fundtype.toLowerCase()) {
+		case TYPE_DONATION:
+			return "기부";
+		case TYPE_REWARD:
+			return "리워드";
+		}
+		return "";
+	}
 
 	public String getCategoryKr() {		
 		switch(category.toLowerCase()) {
@@ -512,6 +521,18 @@ public class ProjectDto implements Serializable {
 
 	public void setOptiontotal(String optiontotal) {
 		this.optiontotal = optiontotal;
+	}
+	
+	//제목이 길때 뒤에 ... 해주는 거
+	public String dot3(String msg){
+		String s="";
+		if(msg.length()>=18){
+			s=msg.substring(0,18); 
+			s+="...";
+		}else{
+			s=msg.trim();
+		}
+		return s;
 	}
 
 	@Override

@@ -57,5 +57,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.find_idpw(dto);
 	}
 
+	@Override
+	public boolean change_pw(MemberDto mem) {
+		return memberDao.change_pw(mem);
+	}
+
+	
+	
 	
 }

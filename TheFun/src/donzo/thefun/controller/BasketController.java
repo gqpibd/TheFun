@@ -28,7 +28,6 @@ public class BasketController {
 	@Autowired
 	BasketService basketService;
 	
-	
 	//장바구니 넣기 addBasket.do
 	@ResponseBody
 	@RequestMapping(value="addBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -42,13 +41,20 @@ public class BasketController {
 		return "YES";
 	}
 	
+	//장바구니 넣기 addBasket.do
+	@ResponseBody
+	@RequestMapping(value="getBasketCount.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String getBasketCount(String id) {		
+		return basketService.getBasketCount(id)+"";
+	}
+	
 	// 장바구니 창으로
 	@RequestMapping(value="myBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myBasket(String id, Model model) throws Exception {
-		logger.info("BuyController basket 들어옴 " + new Date());
-		logger.info("아이디 = " + id);
+	public String myBasket(HttpServletRequest req, Model model) throws Exception {
+		logger.info("myBasket " + new Date());
+		MemberDto user = (MemberDto) req.getSession().getAttribute("login");
 		// 내 장바구니 목록(view) 찾아오기(SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
-		List<BasketDto> myBasketList = basketService.selectMyBasket(id);
+		List<BasketDto> myBasketList = basketService.selectMyBasket(user.getId());
 		logger.info("찾아온 장바구니 목록 개수 = " + myBasketList.size());
 		for (int i = 0; i < myBasketList.size(); i++) {
 			logger.info("찾아온 장바구니 = " + myBasketList.toString());
@@ -72,8 +78,7 @@ public class BasketController {
 		}else {
 			logger.info("장바구니 삭제에 실패했습니다");
 		}
-		
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 	// 장바구니 업데이트
@@ -97,7 +102,7 @@ public class BasketController {
 		// DB 장바구니 업데이트
 		basketService.updateBasket(list);
 		
-		return "redirect:myBasket.do?id="+id;
+		return "redirect:/myBasket.do";
 	}
 	
 }

@@ -18,4 +18,7 @@ public interface BasketService {
 	
 	//장바구니 insert 
 	public void insertBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount);
+	
+	//장바구니 물건 갯수
+	public int getBasketCount(String id);
 }

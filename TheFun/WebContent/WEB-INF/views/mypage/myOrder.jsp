@@ -128,13 +128,13 @@ input.star:checked ~ .rev-box {
 </header>
 
 <br><br>
-
+<div align="center">
 <table class="type07" id="myOrderlist">
 	<col width="200">
-	<col width="410">
+	<col width="360">
 	<col width="150">
 	<col width="150">
-	<col width="150">
+	<col width="150"> 
 	<thead>
 		<c:if test="${empty orderlist }">
 		<tr>
@@ -220,16 +220,17 @@ input.star:checked ~ .rev-box {
 
 </table>
 
-<div id="paging_wrap">	
-	<jsp:include page="/WEB-INF/views/mypage/myPaging.jsp" flush="false">
+<div id="paging_wrap" align="center">	
+	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 		<jsp:param value="${pageNumber }" name="pageNumber"/>		
 		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
 		<jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
 		<jsp:param value="${totalRecordCount }" name="totalRecordCount"/>	
+		<jsp:param value="myOrderList.do" name="actionPath"/>	
 	</jsp:include>	
 </div>
  
-</div>
+
 
 <script type="text/javascript">
 function addReview(seq,buytotal) { // 후기 작성

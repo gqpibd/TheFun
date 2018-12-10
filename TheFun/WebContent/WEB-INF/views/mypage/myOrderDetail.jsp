@@ -128,8 +128,6 @@ input.star:checked ~ .rev-box {
 
 </style>
 
-<link href="CSS/detailcss/blog-post.css" rel="stylesheet">
-
 <header id="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY SUPPORT DETAIL</h1>

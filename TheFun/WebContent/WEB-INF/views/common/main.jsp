@@ -11,11 +11,11 @@
 <link rel="stylesheet" href="https://cdn.rawgit.com/theus/chart.css/v1.0.0/dist/chart.css" />
 
  <!-- 메인 css -->
- <link rel="stylesheet" href="CSS/common/main.css"> 
+ <!-- <link rel="stylesheet" href="CSS/common/main.css">  -->
 
 <div class="container">	 
 	<!-- 메인 배너 슬라이드 -->
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 100%; z-index:-1" >
 	  <ol class="carousel-indicators">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -73,6 +73,7 @@
 	<jsp:param value="${s_summary }" name="s_summary"/>
 	
 	<jsp:param value="${list }" name="list"/>
+	<jsp:param value="main.do" name="actionPath"/>
 </jsp:include>
 
 <br>

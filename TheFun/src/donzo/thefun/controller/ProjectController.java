@@ -21,12 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
+import donzo.thefun.model.StatCountParam;
+import donzo.thefun.model.adminParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
@@ -84,11 +88,50 @@ public class ProjectController {
 	
 	// 프로젝트 관리 창으로 이동	
 	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectManage(Model model) {
+	public String projectManage(Model model, adminParam aParam) {
 		logger.info("ProjectController projectManage 메소드 " + new Date());
-		List<ProjectDto> pList = projectService.getWaitingList();
+		
+		// paging 처리
+		int sn = aParam.getPageNumber();
+		int start = (sn) * aParam.getRecordCountPerPage() + 1;
+		int end = (sn+1) * aParam.getRecordCountPerPage();
+		
+		aParam.setStart(start);
+		aParam.setEnd(end);
+		aParam.setStatus("wating");
+		
+		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
+		int totalRecordCount = projectService.getWaitCount();
+		
+		model.addAttribute("pageNumber", sn);
+		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
+		model.addAttribute("recordCountPerPage", aParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		
 		model.addAttribute("pList",pList);
+		
 		return "projectManage.tiles";
+	}
+		
+	// 옵션선택창으로 이동
+	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goSelectReward(int seq, String type ,Model model) {
+		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+		String returnStr="";
+		//현재 선택한 프로젝트 정보
+		model.addAttribute("projectdto",projectService.getProject(seq));
+	
+		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
+			
+			//옵션들
+			model.addAttribute("optionList",projectService.getOptions(seq));
+			returnStr= "selectReward.tiles";
+		
+		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
+			
+			returnStr= "orderReward.tiles";
+		}
+		return returnStr;
 	}
 
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
@@ -116,7 +159,32 @@ public class ProjectController {
 		return "orderReward.tiles";
 
 	}
+	
+	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
+	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String goOrderFromBasket(String projectSeq[], String optionSeq[], String count[], String id, Model model) {
+		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("내 아이디 " + id);	
+		logger.info("체크한 옵션 갯수 = " + optionSeq.length);
+		logger.info("프로젝트 갯수 = " + projectSeq.length);
+		logger.info("구매희망 갯수 count = " + count.length);
+		for (int i = 0; i < optionSeq.length; i++) {
+			logger.info("체크한 리워드 프로젝트 seq = " + projectSeq[i]);
+			logger.info("체크한 리워드 옵션 seq = " + optionSeq[i]);
+			logger.info("선택한 구매개수 count = " + count[i]);
+			//현재 선택한 프로젝트 정보
+			//model.addAttribute("projectdto",projectService.getProject(optionSeq[i]));
+		}
 		
+/*
+		//선택한 옵션정보
+		List<OptionDto> optionList = projectService.getSelectOptions(check);
+		model.addAttribute("selectOptions",optionList);
+*/
+		return "redirect:/myBasket.do?id="+id;	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
+
+	}
+		 
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProjectList(Model model, ProjectParam pParam, String doc_title) throws Exception{
@@ -514,12 +582,6 @@ public class ProjectController {
 	}
 	
 	/*------------- 화면만 이동 -------------*/
-	// 피드백
-	/*@RequestMapping(value="feedBack.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String feedBack() {
-		logger.info("ProjectController feedBack " + new Date());	
-		return "project/detailFeedback";
-	}*/
 	
 	// 새 프로젝트 창으로 이동
 	@RequestMapping(value="newProject.do", method= {RequestMethod.GET, RequestMethod.POST}) 
@@ -530,16 +592,38 @@ public class ProjectController {
 	
 	//내 일정 이동 (내 프로젝트 보기)
 	@RequestMapping(value="mySchedule.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String mySchedule(Model model, HttpServletRequest req) throws Exception{
-		logger.info("ProjectController myCalendar " + new Date());
+	public String mySchedule(Model model, HttpServletRequest req, StatCountParam sParam) throws Exception{
+		logger.info("ProjectController mySchedule " + new Date());
+		logger.info("ProjectController getStatusCount " + new Date());
+		
+		MemberDto user = (MemberDto)req.getSession().getAttribute("login");
+		sParam.setId(user.getId());
+		
+		sParam.setStatus("preparing");
+		int preCount = projectService.getStatusCount(sParam);
+		model.addAttribute("preCount", preCount);
+		
+		sParam.setStatus("ongoing");
+		int onCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("onCount", onCount);
+		
+		sParam.setStatus("complete_success");
+		int sucCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("sucCount", sucCount);
+		
+		sParam.setStatus("complete_fail");
+		int failCount =  projectService.getStatusCount(sParam);
+		model.addAttribute("failCount", failCount);
+		
 		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
-		List<ProjectDto> myschedule = projectService.mySchedule(((MemberDto)req.getSession().getAttribute("login")).getId());
+		List<ProjectDto> myschedule = projectService.mySchedule(user.getId());
 		
 		for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);
 			logger.info("Schedule list : " + dto.toString());
 		}
 		model.addAttribute("schedule", myschedule);
+		
 		return "mySchedule.tiles";
 	}
 	
@@ -707,4 +791,32 @@ public class ProjectController {
 		
 		return "hotProject.tiles";
 	}
+	
+	//판매자의 프로젝트리스트
+	@ResponseBody
+	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String sellerPList(String id) {
+		logger.info("ProjectController sellerPList " + new Date());
+		
+		List<ProjectDto> pList = projectService.getProjectList(id);
+		String listData = "{\"projects\":[";		
+		for(int i=0;i<pList.size();i++) {		
+			/*listData += "{\"seq\":\"" + pList.get(i).getSeq() +"\",";*/
+			//listData += "\"otitle\":\"" + pList.get(i).getOtitle() +"\","; // 옵션 제목
+			//listData += "\"ocontent\":\"" + pList.get(i).getOcontent().replaceAll("\r\n", "/") +"\","; // 옵션 내용
+			/*listData += "\"nickname\":\"" + member.getNickname() +"\",";*/ // 아이디 대신 닉네임으로 가져왔음
+			/*listData += "\"profile\":\"" + member.getProfile() +"\",";*/ // 프로필 사진 출력용
+			/*listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(pList.get(i).getRegdate()) +"\",";*/
+			/*listData += "\"score\":\"" + pList.get(i).getScore() +"\",";*/			
+			listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
+			if(i < pList.size()-1) {
+				listData += ",";
+			}
+		}
+		listData += "]}";
+		
+		return listData;
+	}
+	
+	
 }

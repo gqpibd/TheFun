@@ -323,10 +323,10 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-		<input class="numberCheck" type="text" name="card1" id="card1"> 
-		<input  class="numberCheck" type="password" name="card2" id="card2">
-		<input class="numberCheck"  type="password" name="card3" id="card3"> 
-		<input  class="numberCheck" type="text" name="card4" id="card4"> 
+		<input class="numberCheck" width="50px" type="text" name="card1" id="card1"> 
+		<input  class="numberCheck" width="50px" type="password" name="card2" id="card2">
+		<input class="numberCheck"  width="50px" type="password" name="card3" id="card3"> 
+		<input  class="numberCheck" width="50px" type="text" name="card4" id="card4"> 
 		<input type="hidden" name="cardNumber" id="cardNumber">
 		</td>
 	</tr>
