@@ -159,7 +159,7 @@ input.star:checked ~ .rev-box {
 		 <li>${item}</li>
 		</c:forEach>
 	</td>
-	<td style="padding: 10px;"><font>${buy.price}</font>원 (${buy.count}개)</td>
+	<td style="padding: 10px;"><font><fmt:formatNumber value="${buy.price}" type="number"/></font>원 (${buy.count}개)</td>
 	<td style="padding: 10px;">판매자이름 <br> 판매자 전화번호</td>
 	<td style="padding: 10px;">
 		<c:if test="${buy.status eq 'ongoing'}">
@@ -178,6 +178,15 @@ input.star:checked ~ .rev-box {
 
 <br><br>
 <h3>결제상세정보</h3>
+
+
+	<c:set var="totalprice" value="0"/>
+
+<c:forEach items="${buydto}" var="buy"> <!-- 총주문금액 설정 -->
+	<c:set var="process" value="${buy.price * buy.count }"/>
+	<c:set var="totalprice" value="${totalprice + process}"/>
+</c:forEach>
+
 <table style="width: 80%;">
 <tr style="border-bottom: 1px solid gray;">
 	<td width="20%" style="padding: 10px; ">상품금액</td>
@@ -191,8 +200,10 @@ input.star:checked ~ .rev-box {
 </c:if>
 
 <tr style="border-bottom: 1px solid gray;">
-<td style="padding: 10px;padding: 10px; ">결제예정금액</td>
-<td style="text-align: left;padding: 10px; "><b style="color: #8152f0;">n원</b></td>
+	<td style="padding: 10px;padding: 10px; ">결제예정금액</td>
+	<td style="text-align: left;padding: 10px; ">	<!-- 포인트 db생기면 - 포인트 추가 -->
+	<b style="color: #8152f0;"><fmt:formatNumber value="${totalprice }" type="number"/>원</b>
+	</td>
 </tr>
 <tr style="border-bottom: 1px solid gray;">
 	<td style="padding: 10px;padding: 10px; ">결제예정수단</td>
@@ -207,15 +218,15 @@ input.star:checked ~ .rev-box {
 <table style="width: 80%">
 <tr style="border-bottom: 1px solid gray;">
 	<td style="width: 15%; padding: 10px;">수령인 </td>
-	<td style="padding: 10px;">000</td>
+	<td style="padding: 10px;">${buydto[0].name} </td>
 </tr>
 <tr style="border-bottom: 1px solid gray;">
 	<td style="width: 15%; padding: 10px;">연락처</td>
-	<td style="text-align: left; padding: 10px;">000</td>
+	<td style="text-align: left; padding: 10px;">${buydto[0].phone} </td>
 </tr>
 <tr style="border-bottom: 1px solid gray;">
 	<td style="width: 15%; padding: 10px;">배송지</td>
-	<td  style="padding: 10px;">000</td>
+	<td  style="padding: 10px;">${buydto[0].roadaddress}${buydto[0].detailaddress}</td>
 </tr>
 
 </table>

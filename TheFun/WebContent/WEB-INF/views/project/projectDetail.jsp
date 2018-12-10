@@ -451,7 +451,7 @@ $(document).ready(function () {
 		   $.each(opArr,function(i,item){
 				
 				if(item.seq==selectedSeq){
-					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
 					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 					"</td>"+
@@ -462,6 +462,7 @@ $(document).ready(function () {
 					"</td>"+
 					"<td class='selOpPrice opTd'>"+
 					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
 					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
@@ -489,7 +490,7 @@ $(document).ready(function () {
 				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
 				   $.each(opArr,function(i,item){
 						if(item.seq==selectedSeq){
-							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+							str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 							"<td class='imgTd'></td>"+
 							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 							"</td>"+
@@ -500,6 +501,7 @@ $(document).ready(function () {
 							"</td>"+
 							"<td class='selOpPrice opTd'>"+
 							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
 							 
@@ -627,6 +629,16 @@ $(function () {
 		setReviewList();
 	});
 });
+
+function delOption(opSeq){
+	//tr 제거 
+	var trname= "tr_"+opSeq;
+	$("#"+trname).remove();	
+	
+	//총금액 변경
+	
+	//배열 초기화 for문으로
+}
 
 function heartClick(selector){	
 	if ('${login.id}' == ''){

@@ -433,7 +433,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("postcode").value=""){
+			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
@@ -536,7 +536,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		var size = $("input[name='priceName']").length;
 		var priceArr = new Array(size);
 		var tPrice=0;
-		
+
 		//  총금액 첫 출력 설정
 		$("input[name='priceName']").each(function (i) {
             priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
