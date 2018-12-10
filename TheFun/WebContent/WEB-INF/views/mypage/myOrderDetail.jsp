@@ -124,13 +124,8 @@ input.star:checked ~ .rev-box {
     padding: 6px 24px;
     text-decoration: none;
 }
-/* 결제내역테이블css */
-.30width{
-	width: 30%
-}
-.20width{
-	width: 20%
-}
+
+
 </style>
 
 <link href="CSS/detailcss/blog-post.css" rel="stylesheet">
@@ -142,82 +137,83 @@ input.star:checked ~ .rev-box {
   </div>
 </header>
 
-<h2>결제상세정보</h2>
-<p>결제일자 : 
+<h2>주문상세정보</h2>
+<p>주문일자 : 
 	<fmt:parseDate value="${buydto[0].regdate}" pattern="yyyy-MM-dd HH:mm:ss" var="rDate" />
 	<fmt:formatDate value="${rDate}" pattern="yyyy년MM월dd일"/>
 </p>
 
 <hr>
-<table border="1" style="width: 80%">
-<tr>
-	<td colspan="2">상품정보</td>
-	<td>상품금액 (수량)</td>
-	<td>판매자</td>
-	<td>진행상태</td>
+<table style="width: 80%">
+<tr style="border-bottom: 1px solid gray;">
+	<td colspan="2" style="padding: 10px;">상품정보</td>
+	<td style="padding: 10px;">상품금액 (수량)</td>
+	<td style="padding: 10px;">판매자</td>
+	<td style="padding: 10px;">진행상태</td>
 </tr>
 <c:forEach items="${buydto}" var="buy">
-<tr>
-	<td><img src="upload/${buy.projectseq}" height="80px;"></td>
-	<td>
+<tr style="border-bottom: 1px solid gray;">
+	<td style="padding: 10px;"><img src="upload/${buy.projectseq}" height="80px;"></td>
+	<td style="padding: 10px;">
 		<b style="text-align: center;">${buy.ptitle}</b><br>
 		${buy.otitle}<br>  
 		<c:forEach items="${fn:split(buy.ocontent,'/')}" var="item">
 		 <li>${item}</li>
 		</c:forEach>
 	</td>
-	<td>${buy.price}원 (${buy.count})</td>
-	<td>판매자이름 <br> 판매자 전화번호</td>
-	<td>${buy.status}</td>
+	<td style="padding: 10px;">${buy.price}원 (${buy.count}개)</td>
+	<td style="padding: 10px;">판매자이름 <br> 판매자 전화번호</td>
+	<td style="padding: 10px;">${buy.status}</td>
 </tr>
 </c:forEach>
 </table>
 
-<br>
-<h3>결제금액정보</h3>
-<table border="1" style="width: 80%">
-<tr>
-	<td class="20width">상품금액</td>
-	<td class="20width">할인금액</td>
-	<td class="20width">상품금액</td>
-	<c:if test="${empty buydto[0].ocontent}">
-	<td class="20width">n원</td>
+<br><br>
+<h3>결제상세정보</h3>
+<table style="width: 80%;">
+<tr style="border-bottom: 1px solid gray;">
+	<td width="10%" style="padding: 10px; background-color: #f9f8ef;">상품금액</td>
+	<td width="50%" style="padding: 10px; background-color: #f9f8ef;" >할인금액</td>
+	<td width="10%" style="padding: 10px; background-color: #ede5ff;">상품금액</td>
+	<td width="10%" style="text-align: right; padding: 10px; background-color: #ede5ff;">n원</td>
+</tr>
+<tr style="border-bottom: 1px solid gray;">
+	<td style="text-align: left;padding: 10px; background-color: #f9f8ef;">n원</td>
+	<td style="text-align: left;padding: 10px; background-color: #f9f8ef;">n원</td>
+	<c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드일때 -->
+	<td style="padding: 10px; background-color: #ede5ff;">할인금액</td> <!-- 포인트사용 -->
+	<td style="text-align: right;padding: 10px; background-color: #ede5ff;">n원</td>
+	</c:if>
+	<c:if test="${empty buydto[0].ocontent}">	<!-- 기부일때 -->
+	<td></td><td></td>
 	</c:if>
 </tr>
-<tr>
-	<td style="text-align: right;">n원</td>
-	<td style="text-align: right;">n원</td>
-	<td>할인금액</td>
-	<c:if test="${empty buydto[0].ocontent}">
-	<td>(-)n원</td>
-	</c:if>
-</tr>
-<tr>
-<td>카드결제</td>
-<td>${buydto[0].bankName} (${buydto[0].cardNumber}) 일시불 <br>
+<tr style="border-bottom: 1px solid gray;">
+<td style="padding: 10px; background-color: #f9f8ef;">결제예약정보</td>
+<td style="padding: 10px; background-color: #f9f8ef;">${buydto[0].bankName} (${buydto[0].cardNumber}) <br>
 	<fmt:parseDate value="${buydto[0].pdate}" pattern="yyyy-MM-dd HH:mm:ss" var="pDate" />
 	<fmt:formatDate value="${pDate}" pattern="yyyy년MM월dd일"/>
 </td>
-<td>결제금액</td>
-<td>n원</td>
+<td style="padding: 10px;padding: 10px; background-color: #ede5ff;">결제금액</td>
+<td style="text-align: right;padding: 10px; background-color: #ede5ff;">n원</td>
 </tr>
 </table>
 
 <c:if test="${not empty buydto[0].ocontent}">
 <br><br>
 <h3>배송지 정보</h3>
-<table border="1" style="width: 80%">
-<tr>
-	<td style="width: 15%">수령인 </td>
-	<td>000</td>
+<table style="width: 80%">
+<tr style="border-bottom: 1px solid gray;">
+	<td style="width: 15%; padding: 10px;">수령인 </td>
+	<td style="padding: 10px;">000</td>
 </tr>
-<tr>
-	<td style="width: 15%">연락처</td>
-	<td style="text-align: left;">000</td>
+<tr style="border-bottom: 1px solid gray;">
+	<td style="width: 15%; padding: 10px;">연락처</td>
+	<td style="text-align: left; padding: 10px;">000</td>
 </tr>
-<tr>
-	<td style="width: 15%">배송지</td>
-	<td>000</td>
+<tr style="border-bottom: 1px solid gray;">
+	<td style="width: 15%; padding: 10px;">배송지</td>
+	<td  style="padding: 10px;">000</td>
 </tr>
 
 </table>

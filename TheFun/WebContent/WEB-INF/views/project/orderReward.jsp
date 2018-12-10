@@ -243,16 +243,16 @@
      	</tr>
      	</table>
 		<br><br>		
-		<!-- 배송지정보 -->
 		
+		<!-- 배송지정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/deli.jpg" width="120px;"></td>
      	</tr>
      	<tr>
 	     	<td>
-	     	<label for="infoDeli" class="pnt"><input type="radio" name="delivery" value="infoDeli" checked="checked">기본정보 배송지</label>  
-	     	<label for="newDeli" class="pnt"><input  type="radio" name="delivery" value="newDeli">새로운 배송지</label> 
+	     	<label for="infoDeli" class="pnt"><input type="radio" name="delivery" id="infoDeli" value="infoDeli" checked="checked">기본정보 배송지</label>  
+	     	<label for="newDeli" class="pnt"><input  type="radio" name="delivery" id="newDeli" value="newDeli">새로운 배송지</label> 
 	     	</td>
      	</tr>
      	<tr>
@@ -293,7 +293,7 @@
      	
      	<br><br>
      	<div style="width: 70%" align="left">
-     	<p class="strongGray" style="">THE FUN 리워드 펀딩은 이니시스결제 시스템을 이용합니다.</p>
+     	<p class="strongGray" style="">THE FUN 리워드 펀딩은 결제예약 시스템을 이용합니다.</p>
      	<ul class="liteGray" >
 			<li>프로젝트의 성공여부에 따라 결제가 실행되며 자동결제시 결제대기금100원을 지불받습니다.</li>
 			<li>결제정보 입력 후 결제예약을 완료하시면, 결제대기중으로 예약상태로 등록됩니다.</li>
@@ -306,8 +306,8 @@
 
   <div align="left" style="padding-top:20px; padding-bottom:20px; width: 70%">
 	<img src="image/detail/payinfo.jpg" width="120px;" style="text-align: left;"><br><br>
-    <label for="autoPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">개인결제</label> 
-    <label for="autoPay" class="pnt"><input type="radio" name="purchase" id="autoPay" value="auto">자동결제</label>  
+    <label for="handPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">수동결제</label> 
+    <label for="autoPay" class="pnt"><input type="radio" name="purchase" id="autoPay" value="auto">간편결제</label>  
   </div>
   
   <div id="autopayDiv"> <!-- 자동결제선택시 show -->
