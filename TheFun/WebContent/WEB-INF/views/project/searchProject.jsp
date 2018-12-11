@@ -71,14 +71,14 @@ ul.tab li.selected{
 <!-- 몇 건인지 표시하려고 -->
 <div style="background: #fff;">
 
-<div style="background: #fff;padding-top: -3%;padding-bottom: 3%;">
+<div style="background: #fff;margin-top: 3%;padding-bottom: 3%;">
 <c:choose>
 
 	<c:when test="${doc_title eq 'all'}">
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>진행 중인 프로젝트</p>
+	<p>진행 중인 모든 프로젝트</p>
 	<c:choose>
 	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
@@ -95,13 +95,13 @@ ul.tab li.selected{
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>마감 앞둔 프로젝트</p>
+	<p>곧 끝나는 프로젝트</p>
 	<c:choose>
 	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
 	</c:when>
 	<c:otherwise>
-	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	<%-- <h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5> --%>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -112,13 +112,13 @@ ul.tab li.selected{
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
-	<p>최신 프로젝트</p>
+	<p>최근  프로젝트</p>
 	<c:choose>
 	<c:when test="${ !empty s_keyword or s_keyword ne ''}">
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
 	</c:when>
 	<c:otherwise>
-	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	<%-- <h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5> --%>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -135,7 +135,7 @@ ul.tab li.selected{
 	<h5 style="font-family: 'Allura';">"${s_keyword }" 의 검색 결과 ${totalRecordCount } 건</h5>
 	</c:when>
 	<c:otherwise>
-	<h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5>
+	<%-- <h5 style="font-family: 'Allura';">총 ${totalRecordCount } 건</h5> --%>
 	</c:otherwise>
 	</c:choose>
 	</div>
@@ -494,9 +494,10 @@ $(document).ready(function () {
 <div class="row">
 <div class="tab">
     <ul class="tab">
-     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=buycountDESC&doc_title=${doc_title}">참여 순</a></li>
-     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=fundachivedDESC&doc_title=${doc_title}">모금 순</a></li>
-     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_sort=edateASC&doc_title=${doc_title}">마감 순</a></li>
+     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=buycountDESC&doc_title=${doc_title}">참여 많은 순</a></li>
+     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=fundachivedDESC&doc_title=${doc_title}">모금액 많은 순</a></li>
+     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=edateASC&doc_title=${doc_title}">곧 종료되는 순</a></li>
+     <li data-tab="tab4" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=regdateDESC&doc_title=${doc_title}">최근 등록된 순</a></li>
     </ul>
 </div>
 </div>

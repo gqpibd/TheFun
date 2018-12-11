@@ -78,8 +78,8 @@ public class BuyServiceImpl implements BuyService {
 
 	// 참여 현황
 	@Override
-	public List<BuyDto> getParticipantList(int seq) {
-		return buyDao.getParticipantList(seq);
+	public List<BuyDto> getParticipantList(BuyDto buyDto) {
+		return buyDao.getParticipantList(buyDto);
 	}
 	
 	

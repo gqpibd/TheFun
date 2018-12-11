@@ -36,9 +36,6 @@ public class BuyController {
 	@Autowired
 	MemberService memberService;
 	
-	@Autowired
-	ProjectService projectService; 
-	
 	// 내 주문 내역 목록 (myOrderHistory)
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
@@ -152,17 +149,17 @@ public class BuyController {
 	
 	/*내가 진행 중인 프로젝트 참여 현황*/
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String participant(int seq, Model model, String title) throws Exception {
+	public String participant(BuyDto buyDto, Model model, String title) throws Exception {
 		logger.info("ProjectController participant.do 들어옴 " + new Date());
 		
-		ProjectDto participant_Dto = projectService.getProject(seq);
-		List<BuyDto> participant_List = buyService.getParticipantList(seq);
+//		ProjectDto participant_Dto = projectService.getProject(seq); // 프로젝트 정보가 필요해서... 생성 일단 보류
+		List<BuyDto> participant_List = buyService.getParticipantList(buyDto); // 참여자 정보가 필요해서
 		
-		model.addAttribute("participant_Dto", participant_Dto);
+		/*model.addAttribute("participant_Dto", participant_Dto);*/
 		model.addAttribute("participant_List", participant_List);
 		
 		model.addAttribute("title", title);
-		model.addAttribute("seq", seq);
+		model.addAttribute("seq", buyDto.getSeq());
 		
 		return "project_participant.tiles";
 	}

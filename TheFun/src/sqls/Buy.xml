@@ -135,7 +135,7 @@ FROM FUN_BUY B;
 </select>
 
 <!-- 참여현황 -->
-<select id="participant_List" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
+<select id="participant_List" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
 	SELECT * 
 	FROM FUN_BUY_VIEW
 	WHERE PROJECTSEQ = #{seq}

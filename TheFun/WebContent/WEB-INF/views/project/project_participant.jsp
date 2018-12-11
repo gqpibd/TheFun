@@ -19,12 +19,6 @@
 }
 
 /* 테이블 CSS */
-/* $baseColor: #8152f0;
-$borderRadius: 10px;
-$imageBig: 100px;
-$imageSmall: 60px;
-$padding: 10px; */
-
 .parti_header {
    background-color: #8152f0;
    color: white;
@@ -193,71 +187,24 @@ table.parti_table {
 	<!-- <h1 class="head_title">SEARCH</h1> -->
 	<p>참여 현황</p>
 	<div align="right"  style="margin-top: 5%;margin-bottom: 3%;">
-	<a href="projectDetail.do?seq=${participant_Dto.seq }" class="btn btn-primary">프로젝트 보러가기</a>
+	<a href="projectDetail.do?seq=${seq }" class="btn btn-primary">프로젝트 보러가기</a>
 	</div>
 	</div>
 	</header>
 	
 <div class="container">
-<%-- <div class="card" >
-	 <div class="card-header">
-	 <span onclick="location.href='projectDetail.do?seq=${seq }'"><strong>${participant_Dto.title} 프로젝트</strong></span>
-	 입금받을 계좌 번호 : ${participant_Dto.bank }
-	 </div>
-	 <div class="card-body" style="overflow-y: scroll;height: 500px;">
-	   <h5 class="card-title"><!-- 기능하자 승재야 --></h5>
-	   <!-- 내용 -->
-	   
-    <table class="type07" style="width: 100%;text-align: center;" border="1">
-	<thead>
-		<c:if test="${empty participant_List }">
-		<tr>
-			<th colspan="5">후원 내역이 없습니다</th>
-		</tr>	
-		</c:if>
-	</thead>
-	
-	<thead>
-		<c:if test="${!empty participant_List }">
-		 <tr>
-         <th>번호</th>
-         <th>참여자</th>
-         <th>후원일자</th>
-         <th>상품 / 옵션 정보</th>
-         <th>상태</th>
-         </tr>
-		</c:if>
-	</thead><!-- head -->
-	<tbody> --%>
-		<%-- <!-- list jsp:include로 보내려면 이렇게 -->
-		  <c:set var="part_List" value="${participant_List }" scope="request"/>
-		  
-	      <jsp:include page="/WEB-INF/views/project/project_participant_list.jsp" flush="false">
-	      	<jsp:param value="${part_List }" name="part_List"/>
-	      </jsp:include> --%>
-	<!-- </tbody>
-	</table> -->
-	   
-   <!-- 
-   <div class="table-users">
-   <div class="header">참여 리스트</div>
-	  
-	   
-	   
-	</div> -->
-	
-	
-	
 	<div class="table-users">
 		<!-- 테이블 헤더 부분 -->
-	   <div class="parti_header">
+	   <%-- <div class="parti_header">
 	   " <c:set var="str" value="${participant_Dto.title }"/>
 		<c:set var="len" value="${fn:length(str)}"/>
 		<c:choose>
 		<c:when test="${len ge 30}"><strong>&nbsp;${fn:substring(str,0,30) } ...</strong></c:when>
 		<c:otherwise><strong>&nbsp;${str }</strong></c:otherwise>
 		</c:choose>
-	 " 프로젝트 참여 목록</div>
+	 " 프로젝트 참여 목록</div> --%>
+	 
+	 	<div class="parti_header">프로젝트 참여 목록</div>
 	   
 	   <table class="parti_table" style="text-align: center;overflow-y: scroll;max-height: 10px;vertical-align: middle;" cellpadding="5px">
 	   <colgroup>

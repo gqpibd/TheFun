@@ -157,7 +157,7 @@ FROM FUN_PROJECT P;
 <!-- 프로젝트 검색 -->
 <select id="searchProjectList" parameterType="donzo.thefun.model.ProjectParam" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, NICKNAME
-	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${s_sort} ${s_asc_desc}) AS RNUM, 
+	FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${s_sort} ${s_asc_desc}, FUNDACHIVED DESC ) AS RNUM, 
 				 SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, SDATE, EDATE, PDATE, SHIPDATE, REGDATE, STATUS, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, FUNDACHIVED, NICKNAME                                              
 		  FROM FUN_PROJECTALL
 		  WHERE 1=1
@@ -176,6 +176,14 @@ FROM FUN_PROJECT P;
 		  <if test="s_keyword != ''">
 		  AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
 	   	  </if>
+	   	  <if test="s_condition != ''">
+		 	 <if test="s_condition == 'reg_seven_date'">
+		 	 	AND (REGDATE BETWEEN SYSDATE-7 AND SYSDATE)
+		 	 </if>
+		 	 <if test="s_condition == 'end_seven_date'">
+		 	 	AND (SYSDATE BETWEEN EDATE-7 AND EDATE)
+		 	 </if>
+		 </if>
 		  ) A		 
 	WHERE RNUM BETWEEN #{start} AND #{end}
 </select>
@@ -200,6 +208,14 @@ FROM FUN_PROJECT P;
 	<if test="s_keyword != ''">
 	AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
    	</if>
+   	<if test="s_condition != ''">
+		<if test="s_condition == 'reg_seven_date'">
+			AND (REGDATE BETWEEN SYSDATE-7 AND SYSDATE)
+		</if>
+		<if test="s_condition == 'end_seven_date'">
+			AND (SYSDATE BETWEEN EDATE-7 AND EDATE)
+		</if>
+	</if>
 </select>
 
 <!-- 내 일정 찾기 : 등록한 프로젝트 -->

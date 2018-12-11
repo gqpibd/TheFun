@@ -86,7 +86,7 @@
 
 	<!-- list 4개짜리 받아서 돌림 -->
   <c:forEach items="${success_list }" var="suc" varStatus="suc_i"> 
-    <div class="slide" style="text-align: center;background: linear-gradient(to bottom, #a78af2, #fff);">
+    <div class="slide" style="text-align: center;">
 	  <div><img src="upload/${suc.seq}" onerror="this.onerror=null;this.src='image/main/mainImg1.PNG'" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;"></div>
       <br><p><a href="projectDetail.do?seq=${suc.seq}">${suc.title }</a></p><br><p>${suc.summary }</p><br>
     </div>
@@ -97,7 +97,7 @@
 
 <div class="container" style="margin-top: 3%;">	 
 	<!-- 메인 배너 슬라이드 -->
-	<!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 500px">
+	<!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
 	  <ol class="carousel-indicators">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -132,9 +132,11 @@
 	  </a>
 	</div> -->
 
+</div>
 	 <!-- /.row -->	
 	<div style="margin-bottom: 10px;"></div>
 	
+<div class="container" style="margin-top: 3%;">	
 	<!-- 리스트 -->
 	<h3 class="my-4">HOT 프로젝트</h3>
 	<div align="right"><a href="searchProjectList.do">see all</a></div>
@@ -164,7 +166,7 @@
 	<!-- 리스트 -->
 	
 	<h3 class="my-4">곧 마감되는 프로젝트</h3>
-	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>&nbsp;
+	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->
 <c:set var="list" value="${edate_list }" scope="request"/>

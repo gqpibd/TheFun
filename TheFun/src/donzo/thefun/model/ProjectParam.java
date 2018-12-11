@@ -12,6 +12,7 @@ public class ProjectParam implements Serializable {
 	private String s_sort;		// 정렬 구분 1순위 정렬은
 	private String s_asc_desc;	// 오름차순 내림차순
 	private String s_complete;	// 성공여부 	
+	private String s_condition;	// 조건 : reg_seven_date(최근 7일 내 작성), end_seven_date(7일 내 종료)
 	
 	// --------- paging
 	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
@@ -94,6 +95,16 @@ public class ProjectParam implements Serializable {
 	}
 
 
+	public String getS_condition() {
+		return s_condition;
+	}
+
+
+	public void setS_condition(String s_condition) {
+		this.s_condition = s_condition;
+	}
+
+
 	public int getRecordCountPerPage() {
 		return recordCountPerPage;
 	}
@@ -133,9 +144,6 @@ public class ProjectParam implements Serializable {
 		this.end = end;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "ProjectParam [" + (s_type != null ? "s_type=" + s_type + ", " : "")
@@ -145,7 +153,8 @@ public class ProjectParam implements Serializable {
 				+ (s_sort != null ? "s_sort=" + s_sort + ", " : "")
 				+ (s_asc_desc != null ? "s_asc_desc=" + s_asc_desc + ", " : "")
 				+ (s_complete != null ? "s_complete=" + s_complete + ", " : "")
-				+ "]";
+				+ (s_condition != null ? "s_condition=" + s_condition + ", " : "") + "recordCountPerPage="
+				+ recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
 	}
 
 /*

@@ -354,11 +354,11 @@ $(document).ready(function () {
 						<div>
 							<h4>더 펀 메이커</h4>
 							<ul>
-								<li><a href="searchProjectList.do?doc_title=all">진행 중인 프로젝트</a></li>
+								<li><a href="searchProjectList.do?doc_title=all">진행 중인 모든 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC">마감 앞둔 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=sdateDESC">최신 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=regdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 모든 프로젝트</a></li>
 							</ul>
 						</div>
 						
@@ -396,6 +396,7 @@ $(document).ready(function () {
 								<input type="hidden" name="s_sort" value="${s_sort }">
 								<input type="hidden" name="s_asc_desc" value="${s_asc_desc }">
 								<input type="hidden" name="s_complete" value="${s_complete }">
+								<input type="hidden" name="s_condition" value="${s_condition }">
 								<input type="hidden" name="doc_title" value="${doc_title }">
 							</form>
 							<h4>더 펀 소개</h4>

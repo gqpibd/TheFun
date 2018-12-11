@@ -27,5 +27,5 @@ public interface BuyService {
 	public List<BuyDto> myOrderDetail(BuyDto buy);
 	
 	// 참여 현황
-	public List<BuyDto> getParticipantList(int seq);
+	public List<BuyDto> getParticipantList(BuyDto buyDto);
 }

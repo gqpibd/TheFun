@@ -193,6 +193,7 @@ public class ProjectController {
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
+		if(pParam.getS_condition() == null) { pParam.setS_condition(""); }
 		
 		model.addAttribute("s_sort", pParam.getS_sort());	// 우선 원래값 보냄
 		
@@ -219,9 +220,12 @@ public class ProjectController {
 		} else if(pParam.getS_sort().equals("edateASC")) {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
+		} else if(pParam.getS_sort().equals("regdateDESC")) {
+			pParam.setS_sort("REGDATE");
+			pParam.setS_asc_desc("DESC");
 		}
 		
-		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
+//		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -255,6 +259,7 @@ public class ProjectController {
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
 		model.addAttribute("s_complete", pParam.getS_complete());
+		model.addAttribute("s_condition", pParam.getS_condition());
 		
 //		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
 //		model.addAttribute("s_asc_desc", pParam.getS_asc_desc());	// 내림 오름 차순 기준
