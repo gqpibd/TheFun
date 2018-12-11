@@ -41,13 +41,13 @@
 	<td style="padding: 10px;"><font><fmt:formatNumber value="${buy.price}" type="number"/></font>원 (${buy.count}개)</td>
 	<td style="padding: 10px;">판매자이름 <br> 판매자 전화번호</td>
 	<td style="padding: 10px;">
-		<c:if test="${buy.status eq 'ongoing'}">
+		<c:if test="${buy.status eq ProjectDto.ONGOING}">
 			결제대기
 		</c:if>
-		<c:if test="${buy.status eq 'complete_success'}">
+		<c:if test="${buy.status eq ProjectDto.COMPLETE_SUCCESS}">
 			결제완료
 		</c:if>
-		<c:if test="${buy.status eq 'complete_fail'}">
+		<c:if test="${buy.status eq ProjectDto.COMPLETE_FAIL}">
 			결제취소
 		</c:if>
 	</td>
