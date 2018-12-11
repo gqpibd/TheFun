@@ -30,7 +30,7 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
@@ -84,7 +84,7 @@ public class ProjectController {
 	
 	// 프로젝트 관리 창으로 이동	
 	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectManage(Model model, adminParam aParam) {
+	public String projectManage(Model model, pageParam aParam) {
 		logger.info("ProjectController projectManage 메소드 " + new Date());
 		
 		// paging 처리
@@ -94,7 +94,6 @@ public class ProjectController {
 		
 		aParam.setStart(start);
 		aParam.setEnd(end);
-		aParam.setStatus("wating");
 		
 		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
 		int totalRecordCount = projectService.getWaitCount();

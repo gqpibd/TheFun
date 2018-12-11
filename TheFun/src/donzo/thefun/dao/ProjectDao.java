@@ -7,7 +7,7 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 
 public interface ProjectDao { 
 	
@@ -19,7 +19,7 @@ public interface ProjectDao {
 	public int getProjectCount(ProjectParam pParam) throws Exception;
 
 //	public List<ProjectDto> getWaitingList();
-	public List<ProjectDto> getWaitingPagingList(adminParam aParam);
+	public List<ProjectDto> getWaitingPagingList(pageParam aParam);
 	public int getWaitCount();
 	public boolean approveProject(int projectseq);
 	

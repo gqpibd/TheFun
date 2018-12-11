@@ -118,7 +118,7 @@ FROM FUN_PROJECT P;
 </select> -->
 
 <!-- 페이징 추가한 승인 대기 프로젝트 목록 -->
-<select id="getWaitingPagingList" parameterType="donzo.thefun.model.adminParam" resultType="donzo.thefun.model.ProjectDto">
+<select id="getWaitingPagingList" parameterType="donzo.thefun.model.pageParam" resultType="donzo.thefun.model.ProjectDto">
 	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, 
 				SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, 
 				FUNDACHIVED, STATUS, NICKNAME
