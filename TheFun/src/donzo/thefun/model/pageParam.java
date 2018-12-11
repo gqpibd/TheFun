@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class pageParam implements Serializable{
 
+	private String status;
+	
 	// --------- paging
 	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
 	private int pageNumber = 0;				// 페이지 넘버
@@ -44,13 +46,20 @@ public class pageParam implements Serializable{
 	public void setEnd(int end) {
 		this.end = end;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
-		return "pageParam [recordCountPerPage=" + recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start
-				+ ", end=" + end + "]";
+		return "pageParam [" + (status != null ? "status=" + status + ", " : "") + "recordCountPerPage="
+				+ recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
 	}
-	
 	
 	
 }

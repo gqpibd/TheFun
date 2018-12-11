@@ -67,7 +67,6 @@ public class BuyController {
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
-
 		model.addAttribute("orderlist", orderlist);
 		
 		return "myOrder.tiles";
@@ -95,7 +94,12 @@ public class BuyController {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
 		System.out.println("buy 컨트롤러 dto : "+newbuy);
-		
+		for(int i=0; i<opSeq.length;i++) {
+			System.out.println("옵션시퀀스 : "+opSeq[i]);
+			System.out.println("옵션시퀀스 : "+opPrice[i]);
+			System.out.println("옵션시퀀스 : "+opCount[i]);
+		}
+				
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		

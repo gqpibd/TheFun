@@ -329,7 +329,7 @@
 							</td>
 						</tr>
 					</c:if>
-			
+
 					<c:if test="${projectdto.isReward()}">
 						<!-- 리워드일때 (옵션선택) -->
 
@@ -355,7 +355,9 @@
 					</c:if>
 				</c:if>
 			</table>
-		</form>		<!-- 장바구니 모달 -->
+		</form>
+
+		<!-- 장바구니 모달 -->
 		<div class="modal fade" id="basketModal" tabindex="-1" role="dialog"
 			aria-labelledby="basketModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -414,9 +416,9 @@
 			<!-- </div> -->
 		</div>
 	</div>
-	 
-	 
-<script type="text/javascript">
+
+
+	<script type="text/javascript">
 
 /* 옵션select 생성관련 코드 */
  var opArr = new Array();
@@ -450,7 +452,7 @@ $(document).ready(function () {
 		   $.each(opArr,function(i,item){
 				
 				if(item.seq==selectedSeq){
-					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
 					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
 					"</td>"+
@@ -461,9 +463,10 @@ $(document).ready(function () {
 					"</td>"+
 					"<td class='selOpPrice opTd'>"+
 					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
-					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
 					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
@@ -488,7 +491,7 @@ $(document).ready(function () {
 				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
 				   $.each(opArr,function(i,item){
 						if(item.seq==selectedSeq){
-							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+							str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 							"<td class='imgTd'></td>"+
 							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 							"</td>"+
@@ -499,6 +502,7 @@ $(document).ready(function () {
 							"</td>"+
 							"<td class='selOpPrice opTd'>"+
 							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
 							 
@@ -613,6 +617,24 @@ $(function () {
 	});
 });
 
+function delOption(opSeq){
+	//선택한 옵션 tr 제거 
+	$("#tr_"+opSeq).remove();	
+	
+	//선택한 옵션금액 - 총금액 변경
+	var opPrice = $("#price"+opId).val();
+	
+	var finalPrice=$("#finalPrice").val();
+	$("#finalPrice").val(finalPrice-opPrice);
+	
+	if(finalPrice==0){ //모든옵션삭제하면 최종금액도 없어짐
+		$("#trFinal").remove();	
+	}
+	
+	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
+	
+}
+
 function heartClick(selector){	
 	if ('${login.id}' == ''){
 		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
@@ -639,16 +661,16 @@ function heartClick(selector){
 
 /* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 function plusVal(seqNum) {
-   	var count = Number(document.getElementById(seqNum).value);
-   	var stockCount = document.getElementById("stock_"+seqNum).value;
+   	var count = Number(document.getElementById(seqNum).value);	//수량찍혀있는 input text
+   	var stockCount = document.getElementById("stock_"+seqNum).value;	//현재존재하는 재고 
    	
    	if(stockCount<0){	//재고가 무제한이라면
    		
    		count+=1;
      	document.getElementById(seqNum).value =count;
        	//가격변환
-       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//단가
+       	var priceField =Number(document.getElementById("price_"+seqNum).value);	//현재 찍혀있는 금액
        	var totalPrice = priceField+realPrice;
        	document.getElementById("price_"+seqNum).value =totalPrice;
        	
@@ -899,13 +921,6 @@ function getMakerInfo() {
 		}
 	});	 
 }
-
-
-
-
-
-
-
 
 </script>
 <!-- 판매자 정보 팝업창 스크립트 코드 -->

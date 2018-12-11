@@ -55,9 +55,13 @@ public class ProjectController {
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDetail(int seq, Model model, HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
-		logger.info("projectDetail project : " + projectService.getProject(seq) );
+		
 		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(seq));
+		int[] seqArr = new int[1];
+		seqArr[0]=seq;
+		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
+		ProjectDto projectdto = myProjectlist.get(0);
+		model.addAttribute("projectdto",projectdto);
 		
 		//회사 정보
 		model.addAttribute("writer",projectService.getWriter(seq));
@@ -94,6 +98,7 @@ public class ProjectController {
 		
 		aParam.setStart(start);
 		aParam.setEnd(end);
+		aParam.setStatus("waiting");
 		
 		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
 		int totalRecordCount = projectService.getWaitCount();
@@ -108,46 +113,25 @@ public class ProjectController {
 		return "projectManage.tiles";
 	}
 		
-	// 옵션선택창으로 이동
-	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq, String type ,Model model) {
-		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-		String returnStr="";
-		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(seq));
-	
-		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
-			
-			//옵션들
-			model.addAttribute("optionList",projectService.getOptions(seq));
-			returnStr= "selectReward.tiles";
-		
-		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
-			
-			returnStr= "orderReward.tiles";
-		}
-		return returnStr;
-	}
-
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
+	public String goOrderReward(int[] projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
-		//현재 선택한 프로젝트 정보
-		ProjectDto projectdto = projectService.getProject(projectSeq);
-		model.addAttribute("projectdto",projectdto);
+		//현재 선택한 프로젝트 정보 복수
+		List<ProjectDto> projectdtolist = projectService.getProject(projectSeq);
+		model.addAttribute("projectdtoList",projectdtolist);
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
 		
-		if(projectdto.getFundtype().equals(projectdto.TYPE_REWARD)) {//리워드일경우
+		if(projectdtolist.get(0).getFundtype().equals(projectdtolist.get(0).TYPE_REWARD)) {//리워드일경우
 			
-			//선택한 옵션정보
+			//선택한 옵션정보 
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
 			
-			//선택한 옵션 갯수 
+			//선택한 옵션 갯수, 해시맵 옵션seq : 갯수 value 으로 바꿀것
 			model.addAttribute("optionCount",optionCount);
 		}
 		
@@ -375,7 +359,10 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		
 		// 수정할 펀딩
-		ProjectDto myProject = projectService.getProject(seq);
+		int[] seqArr = new int[1];
+		seqArr[0]=seq;
+		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
+		ProjectDto myProject = myProjectlist.get(0);
 		model.addAttribute("myProject", myProject);
 		
 		List<OptionDto> myOption = null;
