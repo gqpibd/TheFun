@@ -6,7 +6,7 @@
 <fmt:requestEncoding value="utf-8"/>    
 
 <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
-<link rel="stylesheet" href="CSS/common/table.css">
+
 <style type="text/css">
 /* 별점 + 후기 */
 .cont {
@@ -163,7 +163,7 @@ input.star:checked ~ .rev-box {
   }
 }
 </style>
-
+<link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
 <header class="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY SUPPORT</h1>
@@ -230,7 +230,7 @@ input.star:checked ~ .rev-box {
 			<td class="column4 c">${order.id}</td>
 			
 			<!-- 프로젝트 상태 -->
-			<td class="column5 cS">
+			<td class="column5 c">
 				<div>
 					<c:choose>										
 						<c:when test="${order.isOngoing()}">진행 중</c:when>

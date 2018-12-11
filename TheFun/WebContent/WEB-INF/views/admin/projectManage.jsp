@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<link rel="stylesheet" href="CSS/common/table.css">
 <style type="text/css">
 /* 머릿글css */
 .h1 {
@@ -83,6 +82,8 @@
   }
 }
 </style>
+<link rel="stylesheet" href="CSS/common/table.css">
+
 <div align="center">
 	<div class="h1">
 		<h1>관리자 페이지</h1>
