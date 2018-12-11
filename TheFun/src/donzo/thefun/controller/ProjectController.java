@@ -132,7 +132,7 @@ public class ProjectController {
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
 		//현재 선택한 프로젝트 정보
 		ProjectDto projectdto = projectService.getProject(projectSeq);
@@ -158,7 +158,7 @@ public class ProjectController {
 	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderFromBasket(String projectSeq[], String optionSeq[], String count[], String id, Model model) {
-		logger.info("ProjectController goOrder 메소드 " + new Date());	
+		logger.info("ProjectController goOrderFromBasket 메소드 " + new Date());	
 		logger.info("내 아이디 " + id);	
 		logger.info("체크한 옵션 갯수 = " + optionSeq.length);
 		logger.info("프로젝트 갯수 = " + projectSeq.length);
@@ -179,7 +179,7 @@ public class ProjectController {
 		return "redirect:/myBasket.do?id="+id;	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
 
 	}
-		 
+		
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String searchProjectList(Model model, ProjectParam pParam, String doc_title) throws Exception{
@@ -303,7 +303,7 @@ public class ProjectController {
 				}else {
 					logger.info("재고가 없어!!!");
 					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-							Integer.parseInt(op_price[i]), 0));
+							Integer.parseInt(op_price[i]), -1));
 				}
 				
 			}

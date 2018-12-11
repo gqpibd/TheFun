@@ -1,11 +1,14 @@
 package donzo.thefun.dao.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.MemberDao;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.ProjectDto;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {

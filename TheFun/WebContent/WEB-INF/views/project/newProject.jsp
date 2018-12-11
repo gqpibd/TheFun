@@ -24,26 +24,6 @@ h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOpt
 tr, td, input{
 	font-size: 17px;
 }
-
-.fundingBox{
-	box-shadow: 5px 5px 10px 0px #c3c3c380;
-	padding: 0;
-	margin: 30px 0 30px 0;
-}
-
-.cardLabel{
-	margin:0;
-}
-
-.accordion{
-	border-top: 5px solid #8152f0;
-	border-radius: 0;
-}
-
-.card{
-	border:0;
-	border-bottom: 1px solid rgba(0,0,0,.125);
-}
 </style>
 
 <script>
@@ -275,8 +255,35 @@ $(document).ready(function() {
 						<td colspan="2">
 							<div class="desc projectimg">
 								메이커와 리워드가 함께 있거나, 프로젝트의 성격이 한눈에 드러나는 사진이 좋습니다.
-								<a href="#none" onclick="openImgGuide('2');">가이드</a>를 확인하세요.
-								<!-- 나중에 시간나면 openImgGuide()함수 만들어서 가이드가 모달창으로 뜨게 해주자 -->
+								<!-- Button trigger modal -->
+							<a href="#none" data-toggle="modal" data-target="#exampleModalCenter">
+								가이드
+							</a>를 확인해주세요
+							<!-- Modal창 내용 -->
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							  <div class="modal-dialog modal-dialog-centered" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLongTitle" style="color: #FF8000">프로젝트 대표 이미지 가이드라인</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        	프로젝트 대표 이미지는 프로젝트 카드의 가장 중요한 시각적 요소입니다. 후원자들이 프로젝트를 쉽게 발견하고 더 편안한 경험을 할 수 있도록 하기 위해 THE FUN에서는 대표 이미지에 다음과 같은 가이드라인을 적용하고 있습니다.<br><br>
+							        	<ul style="color: #585858">
+							        		<li>제공할 선물 또는 창작 활동이 잘 드러나는 이미지를 사용해야 합니다. 프로젝트의 내용과 무관하거나 후원자를 호도할 수 있는 대표 이미지는 사용할 수 없습니다.</li>
+							        		<li>작은 사이즈에서도 잘 보일 수 있도록 복잡하지 않게 구성하세요. 모바일 기기에서 대표 이미지는 손톱만한 크기로 줄어듭니다. 단순한 이미지여야 작아도 잘 보입니다.</li>
+							        	</ul>
+							      </div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+							      </div>
+							    </div>
+							  </div>
+							</div>
+							<!-- Modal창 끝 -->
 							</div>
 						</td>
 					</tr>
@@ -352,14 +359,16 @@ $(document).ready(function() {
 					<td>
 						<div class="desc projectimg">
 								프로젝트의 성격에 맞는 카테고리를 선택해 주세요.<br>
-								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정권고를 받을 수 있습니다.)
+								Reward는 후원자분들께 드릴 선물 구성을 등록해야 합니다.<br>
+								Donation은 목표금액이 달성되면 후원금 전액을 목표한 곳에 기부해야 합니다.<br>
+								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정권고를 받을 수 있습니다)<br>
 						</div>
 					</td>
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
 						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
-						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
+						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked="checked"> Reward (상품)
 						</label>
 						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
 						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
@@ -372,9 +381,8 @@ $(document).ready(function() {
 						  <span for="sel1">Project Category(택 1):</span>
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
 						    <option>Food</option>
-						    <option>Animal</option>
-						    <option>IT</option>
-						    <option style="display: none;">Human</option>
+							<option>Animal</option>
+							<option>IT</option>
 						  </select>
 						</div>
 					</td>
@@ -1014,14 +1022,13 @@ $("#fundtype1").click(function () {
 })
 
 // fundtype(기부/리워드) 라디오버튼 클릭 시 category에 select option값도 각각맞게 세팅
-var options = $("#category option");
 $(":radio").click(function (e) {
 	$("#category option").remove();
 	if($(this).attr("id")== "fundtype1"){	// Food, Animal, IT
-		$("#category").append(options[0]).append(options[1]).append(options[2]);
+		$("#category").append("<option>Food</option>").append("<option>Animal</option>").append("<option>IT</option>");
 	}
 	if($(this).attr("id")== "fundtype2"){	// Human, Animal
-		$("#category").append(options[1]).append(options[3]);
+		$("#category").append("<option>Human</option>").append("<option>Animal</option>");
 	}
 });
 
@@ -1047,6 +1054,8 @@ $("#mainImage").on("change", function (e) {
 		reader.readAsDataURL(f);
 	})
 })
+
+
 var titleOk = false;
 var summaryOk = false;
 var imgOk = false;

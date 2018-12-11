@@ -228,6 +228,11 @@ FROM FUN_PROJECT P;
 	ORDER BY REGDATE DESC, SDATE ASC
 </select>
 
+<!-- 내 프로젝트 정보 전부 가져오기(승지 : 통계구현) -->
+<select id="myAllProject" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
+	SELECT * FROM FUN_PROJECTALL WHERE ID=#{id}
+</select>
+
 <!-- 판매자의 프로젝트리스트 -->
 <select id="getProjectList" resultType="donzo.thefun.model.ProjectDto">
 	SELECT * 
