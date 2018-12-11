@@ -4,7 +4,85 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<link rel="stylesheet" href="CSS/admin/manage.css">
+<link rel="stylesheet" href="CSS/common/table.css">
+<style type="text/css">
+/* 머릿글css */
+.h1 {
+	font-size: 250%; 
+	font-weight: bold; 
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
+	color: #666; 
+	border-bottom: 2px solid #F7EEF8; 
+	border-left: 10px solid #8152f0; 
+	text-height:200%; 
+	padding: 3px 5px; 
+	margin: 5px 0; 
+	letter-spacing: 1px; 
+	word-spacing: 3px; 
+	width: 75%;
+	text-align: left;
+}
+
+.column1 {
+  width: 120px;
+  padding-left: 40px;
+  text-align: center;
+}
+
+.column2 {
+  width: 120px;
+  text-align: center;
+}
+
+.column3 {
+  width: 280px;
+}
+
+.column4 {
+  width: 120px;
+  text-align: center;
+}
+
+.column5 {
+  width: 170px;
+  text-align: center;
+}
+
+.column6 {
+  width: 170px;
+  text-align: center;  
+}
+
+.column7 {
+  width: 130px;
+  text-align: left;
+  /* padding-right: 62px; */
+}
+
+@media screen and (max-width: 992px) {
+  .funTable tbody tr td:nth-child(1):before {
+     content: "펀드 타입";
+  }
+  .funTable tbody tr td:nth-child(2):before {
+    content: "카테고리";
+  }
+  .funTable tbody tr td:nth-child(3):before {
+    content: "제목";
+  }
+  .funTable tbody tr td:nth-child(4):before {
+    content: "목표금액(원)";
+  }
+  .funTable tbody tr td:nth-child(5):before {
+    content: "등록일";
+  }
+  .funTable tbody tr td:nth-child(6):before {
+    content: "시작일";
+  }
+  .funTable tbody tr td:nth-child(7):before {
+    content: "작성자";
+  }
+}
+</style>
 <div align="center">
 	<div class="h1">
 		<h1>관리자 페이지</h1>

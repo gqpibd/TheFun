@@ -5,8 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="CSS/mainCss/myOrder.css">
+<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="CSS/common/table.css">
 <style type="text/css">
 /* 별점 + 후기 */
 .cont {
@@ -118,6 +118,50 @@ input.star:checked ~ .rev-box {
     padding: 6px 24px;
     text-decoration: none;
 }
+
+.column1 {
+  width: 200px;
+  padding-left: 40px;
+}
+
+.column2 {
+  width: 350px;
+}
+
+.column3 {
+  width: 180px;
+}
+
+.column4 {
+  width: 140px;
+}
+
+.column5 {
+  width: 140px;
+}
+
+.funTable tbody tr {
+    height: 80px;
+}
+
+/* 테이블 화면 작아졌을 때 */
+@media screen and (max-width: 992px) {
+  .funTable tbody tr td:nth-child(1):before {
+     content: "후원일자";
+  }
+  .funTable tbody tr td:nth-child(2):before {
+    content: "후원 프로젝트 정보";
+  }
+  .funTable tbody tr td:nth-child(3):before {
+    content: "후원금액(수량)";
+  }
+  .funTable tbody tr td:nth-child(4):before {
+    content: "작성자";
+  }
+  .funTable tbody tr td:nth-child(5):before {
+    content: "상태";
+  }
+}
 </style>
 
 <header class="line_header">
@@ -129,70 +173,64 @@ input.star:checked ~ .rev-box {
 
 <br><br>
 <div align="center">
-<table class="type07" id="myOrderlist">
-	<col width="200">
-	<col width="360">
-	<col width="150">
-	<col width="150">
-	<col width="150"> 
+<div class="container-table100">
+<div class="wrap-table100">
+<div class="table100">
+<table class="funTable" id="myOrderlist">
 	<thead>
-		<c:if test="${empty orderlist }">
-		<tr>
+		<c:if test="${empty orderlist}">
+		<tr class="table100-head">
 			<th colspan="6">후원 내역이 없습니다</th>
 		</tr>	
 		</c:if>
-	</thead>
-	
-	<thead>
 		<c:if test="${not empty orderlist }">
-		<tr>
-			<th>후원일자</th>
-			<th colspan="2">후원 프로젝트 정보</th>
-			<th>후원금액(수량)</th>
-			<th>작성자</th>
-			<th>상태</th>
-			<!-- <th>추가할 어떤 것</th> -->
+		<tr class="table100-head">
+			<th class="column1 c">후원일자</th>
+			<th class="column2 c">후원 프로젝트 정보</th>
+			<th class="column3 c">후원금액(수량)</th>
+			<th class="column4 c">작성자</th>
+			<th class="column5 c">상태</th>
 		</tr>	
 		</c:if>
 	</thead><!-- head -->
 	
-	<tbody>
+	<tbody class="funTbody">
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">
-	<!--  class="hover_tr" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'" -->
-	
 	<c:if test="${order.isDeleted() eq false }">
-			<tr>
+		<tr>
 			<!-- 후원 일자 : 펀딩일 결제일 -->
-			<td>		
+			<td class="column1 c">		
 				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
-				<div>결제 날짜 : ${order.getDateForm(order.pdate) }</div>
+				<div>결제 날짜 : ${order.getDateForm(order.pdate)}</div>
 				<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}&regiDate=${order.regdate}">상세내역</a></div>
 			</td>
 			
 			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->
-			<td colspan="2" >
-				<div class="proTitle" style="cursor:pointer; font-weight: bold;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">
-					<img alt="썸네일이미지" src="upload/${order.projectseq }" style="border-radius: 50%; height: 30px;">
+			<td class="column2 l">
+				<div style="display: inline-flex;">
+				<img src="upload/${order.projectseq }" style="border-radius: 50%; height: 50px; width: 50px; margin:5px; object-fit: cover;">
+				<div class="proTitle" style="cursor:pointer; font-weight: bold;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">					
 					<c:choose>
 						<c:when test="${order.otitle eq null }">[기부]</c:when>
 						<c:otherwise>[리워드]</c:otherwise>
 					</c:choose>
 					${order.dot3(order.ptitle) }
+					<div style="cursor:pointer;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>				
 				</div>
-				<div class="opTitle" style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>
+				</div>
 			</td>
 			
 			<!-- 총 금액 ( 수량 ) -->
-			<td>
+			<td class="column3 c">
 				<div>총 <fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
 				 <div>(${order.count }개)</div>
 			</td>
 			
 			<!-- 프로젝트 작성자 -->
-			<td>${order.id }</td>
+			<td class="column4 c">${order.id}</td>
 			
 			<!-- 프로젝트 상태 -->
-			<td>
+			<td class="column5 cS">
 				<div>
 					<c:choose>										
 						<c:when test="${order.isOngoing()}">진행 중</c:when>
@@ -208,7 +246,7 @@ input.star:checked ~ .rev-box {
 						<c:otherwise> 
 							${order.status} 
 						</c:otherwise>
-					 </c:choose>
+					</c:choose>
 				 </div>					 	
 			</td>
 			<!-- 뭔가 더 추가할 어떤것 -->
@@ -219,6 +257,9 @@ input.star:checked ~ .rev-box {
 	<tbody>
 
 </table>
+</div>
+</div>
+</div>
 
 <div id="paging_wrap" align="center">	
 	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
