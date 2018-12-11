@@ -97,7 +97,7 @@
 </section>
 --%>
 
-<div class="container" style="margin-top: 3%;">	 
+<!-- <div class="container" style="margin-top: 3%;">	  -->
 	<!-- 메인 배너 슬라이드 -->
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
 	  <ol class="carousel-indicators">
@@ -134,7 +134,7 @@
 	  </a>
 	</div>
 
-</div>
+<!-- </div> -->
 	 <!-- /.row -->	
 	<div style="margin-bottom: 10px;"></div>
 	
@@ -190,7 +190,7 @@
 </div>
 <script type="text/javascript">
 /* 배너이미지 시간차 변경코드 */
-/* $('section.awSlider .carousel').carousel({
+$('section.awSlider .carousel').carousel({
 	pause: "hover",
   interval: 2000  
 });
@@ -199,11 +199,11 @@ $('section.awSlider').append('<img src="' + startImage + '">');
 $('section.awSlider .carousel').on('slid.bs.carousel', function () {
  var bscn = $(this).find('.item.active > img').attr('src');
 	$('section.awSlider > img').attr('src',bscn);
-}); */
+});
 
 
 /* 배너 js */
-function Carousel(element) {
+/* function Carousel(element) {
 	  this._autoDuration = 0;
 	  this._container = element.querySelector('.main_container');
 	  this._interval = null;
@@ -323,7 +323,7 @@ function Carousel(element) {
 
 	var carousels = Array.prototype.map.call(document.querySelectorAll('.carousel'), function (element) {
 	  var carousel = new Carousel(element);
-	  carousel.auto(3700); /* 여기로 시간 조정 */
+	  carousel.auto(3700);
 	  return carousel;
-	});
+	}); */
 </script>
