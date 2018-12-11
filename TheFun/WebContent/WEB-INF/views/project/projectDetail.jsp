@@ -822,15 +822,15 @@ function minusVal(seqNum) {
 				<!--content //-->
 				<p class="ctxt mb20">
 					Thank you.<br> <span style="font-weight: bold;">${projectdto.title }</span>
-					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> ${writer.info } <br>
+					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
+					${writer.info } <br>
 					<c:forEach items="${projectdto.tags }" var="tags">
    		 			   #${tags }
    	  </c:forEach>
 					<br>
 					<br>
-					<c:forEach items="${projectlist.id }" var="ptitle">
-   		 			   #${ptitle}			
-   	  </c:forEach>
+					<span style="font-weight: bold;">판매자의 인기 프로젝트 목록</span><br>
+					<span id="title"></span>
 
 
 				</p>
@@ -879,13 +879,20 @@ function layer_popup(el){
 //판매자의 다른 프로젝트 리스트 출력
 function getMakerInfo() {
 	 $.ajax({
-		url:"", // 접근대상
+		url:"sellerPList.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
-		data:"", 
-		success:function(data, status, xhr){
-			var id = data.trim();
-			console.log(id);
+		data:"id=${writer.id }", 
+		dataType :"json",
+		success:function(data){		
+			$("#title").empty();
 			
+			var items = data['projects']; 
+			if(items.length>0){
+				for(i = 0; i<items.length; i++){
+					var title = items[i].title;	
+					$("#title").append(title + "<br>");
+				}
+			}
 		},
 		error:function(){ // 또는					 
 			console.log("통신실패!");

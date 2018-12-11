@@ -25,7 +25,7 @@ $(document).ready(function(){
 		$.ajax({
 			url:"find_idpw.do", // 접근대상
 			type:"get",		// 데이터 전송 방식
-			data:"command=find_idpw&email="+email+"&phone="+phone, 
+			data:"email="+email+"&phone="+phone, 
 			success:function(data, status, xhr){
 				var id = data.trim();
 				console.log(id);
