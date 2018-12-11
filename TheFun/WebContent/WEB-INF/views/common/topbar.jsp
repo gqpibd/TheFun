@@ -289,10 +289,6 @@ transform: translateY(-50%);
 	.drop-down__item{			
 		padding: 8px 0;
 	}
-	.drop-down__icon{
-		margin: 0;
-		margin-left: 14px;
-	}
 	.topprofile{
 		width: 40px;
 		height: 40px;
@@ -300,6 +296,9 @@ transform: translateY(-50%);
 	.drop-down__button{
 		background: #fff;
 		box-shadow: 0;
+	}
+	.drop-down__icon{
+		margin: auto
 	}
 }
 @media screen and (max-width: 36em) { 
@@ -353,7 +352,7 @@ $(document).ready(function () {
 					<div class="cbp-hrsub-inner"> 
 						<div>
 							<h4>더 펀 메이커</h4>
-							<ul>
+							<ul class="">
 								<li><a href="searchProjectList.do?doc_title=all">진행 중인 모든 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>

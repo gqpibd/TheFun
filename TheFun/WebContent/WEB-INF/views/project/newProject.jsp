@@ -197,7 +197,7 @@ $(document).ready(function() {
 </ul>
 
 <!-- 탭 하단에 나오는 내용 div -->
-<div class="tab-content" align="center">
+<div class="tab-content">
 
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
@@ -211,13 +211,13 @@ $(document).ready(function() {
   	<!-- [1] 프로젝트 제목 -->
 	<div class="card">
     <!-- 위 -->
-      <div class="card-header" id="headionOne">
-        <h4 class="mb-0">    				
-	        <label class="cardLabel cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
-        	<span id="titleChecked" style="float: right;opacity:0;color:green">✔</span>
-        </h4>        
+       <div class="card-header" id="headionOne">
+         <h4 class="mb-0">    				
+	       <label class="cardLabel cardLabel" style="cursor:pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="titleTap">프로젝트 제목</label>		
+	       <span id="titleChecked" style="float: right;opacity:0;color:green">✔</span>
+	     </h4>        
       </div>
-    <!-- 아래 -->
+      <!-- 아래 -->
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
         <div class="card-body">
         	<table class="card-text" style="width: 100%">
@@ -231,7 +231,6 @@ $(document).ready(function() {
 						<span style="color: #4B088A; margin-left: 2%;">
 							<span id="titleLen">30자 남았습니다.</span>
 						</span>
-						
 					</td>
 				</tr>
 			</table>
@@ -438,7 +437,7 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [6] 태그 -->
-    <div class="card  ">
+    <div class="card">
     	<!-- 위 -->
 		<div class="card-header" id="headingSix">        
 		  <h4 class="mb-0">
@@ -663,13 +662,11 @@ $(document).ready(function() {
 							<div class="form-group">
 							  <label for="sel1">옵션 총 개수</label>
 							  <select class="form-control" id="option_total" name="option_total" onchange="optionChange(this)" style="font-size: 1em; height: 10%">
-							    <%
-								for(int i=1; i <= 10; i++){
+							    <%for(int i=1; i <= 10; i++){
 									%>
 									<option <%=(10+"").equals(i+"")?"selected='selected'":"" %> value="<%=i%>" ><%=i%></option>
 									<%
-								}
-								%>
+								}%>
 							  </select>
 							</div>
 						</td>

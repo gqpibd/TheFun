@@ -5,17 +5,17 @@ import java.io.Serializable;
 public class buyParam extends pageParam implements Serializable {
 
 		// --------- orderlist
-		private String o_id;				// 프로젝트 작성자 아이디
+	private String o_id;				// 프로젝트 작성자 아이디
 		
 		public buyParam() {}
 
-		public String getO_id() {
-			return o_id;
-		}
+	public String getO_id() {
+		return o_id;
+	}
 
-		public void setO_id(String o_id) {
-			this.o_id = o_id;
-		}
+	public void setO_id(String o_id) {
+		this.o_id = o_id;
+	}
 
 		@Override
 		public String toString() {

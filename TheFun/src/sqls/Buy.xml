@@ -73,14 +73,14 @@ FROM FUN_BUY B;
 		ORDER BY B.REGDATE DESC
 </select>  -->
  
-<!-- paging -->
+<!-- 내 주문내역 목록 paging -->
 <select id="myOrderPageList" parameterType="donzo.thefun.model.buyParam" resultType="donzo.thefun.model.BuyDto">
 	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
 	FROM 
 		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
 				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
-		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete'
 		 ) A
 	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
@@ -91,7 +91,7 @@ FROM FUN_BUY B;
 
 	SELECT NVL(COUNT(*), 0) AS CNT
 	FROM FUN_BUY_VIEW
-	WHERE ID=#{o_id}
+	WHERE ID=#{o_id} AND STATUS != 'delete'
 </select>
 
  
