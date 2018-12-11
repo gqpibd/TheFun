@@ -127,13 +127,7 @@
     text-align:left;
   }  
 
-  .column4,
-  .column5,
-  .column6,
-  .column1,
-  .column2,
-  .column3,
-  .column7 {
+  .column4,.column5,.column6,.column1,.column2,.column3,.column7 {
     width: 100%;
   }
 

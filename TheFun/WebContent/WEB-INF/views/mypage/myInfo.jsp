@@ -137,7 +137,7 @@
 
 <br><br>
 
-<form action="updateInfo.do" method="post" style="display: list-item;" enctype="multipart/form-data">
+<form action="updateInfo.do" method="post" style="display: flow-root;" enctype="multipart/form-data">
 <input type="hidden" name="id" value="${login.id}"/>
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <input type="hidden" name="profile" value="${login.profile}">

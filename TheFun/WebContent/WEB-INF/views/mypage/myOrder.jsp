@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/>    
 
-<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 <style type="text/css">
 /* 별점 + 후기 */
@@ -143,7 +143,9 @@ input.star:checked ~ .rev-box {
 .funTable tbody tr {
     height: 80px;
 }
-
+</style>
+<link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
+<style type="text/css">
 /* 테이블 화면 작아졌을 때 */
 @media screen and (max-width: 992px) {
   .funTable tbody tr td:nth-child(1):before {
@@ -161,13 +163,16 @@ input.star:checked ~ .rev-box {
   .funTable tbody tr td:nth-child(5):before {
     content: "상태";
   }
+  .funTable td.c {
+    text-align: left;
+  }
 }
 </style>
-<link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
+
 <header class="line_header">
   <div class="container text-center">
-    <h1 class="head_title">MY SUPPORT</h1>
-    <p>내 후원</p>
+    <h1 class="head_title">MY FUNDING HISTORY</h1>
+    <p>내 후원 내역</p>
   </div>
 </header>
 
@@ -178,80 +183,78 @@ input.star:checked ~ .rev-box {
 <div class="table100">
 <table class="funTable" id="myOrderlist">
 	<thead>
-		<c:if test="${empty orderlist}">
 		<tr class="table100-head">
-			<th colspan="6">후원 내역이 없습니다</th>
+		<c:choose>
+		<c:when test="${empty orderlist}">
+			<th class="column2 c">후원 내역이 없습니다</th>
+		</c:when>
+		<c:otherwise>
+			<th class="column1">후원일자</th>
+			<th class="column2">후원 프로젝트 정보</th>
+			<th class="column3">후원금액(수량)</th>
+			<th class="column4">작성자</th>
+			<th class="column5">상태</th>
+		</c:otherwise>
+		</c:choose>
 		</tr>	
-		</c:if>
-		<c:if test="${not empty orderlist }">
-		<tr class="table100-head">
-			<th class="column1 c">후원일자</th>
-			<th class="column2 c">후원 프로젝트 정보</th>
-			<th class="column3 c">후원금액(수량)</th>
-			<th class="column4 c">작성자</th>
-			<th class="column5 c">상태</th>
-		</tr>	
-		</c:if>
 	</thead><!-- head -->
 	
 	<tbody class="funTbody">
 	<c:forEach items="${orderlist}" var="order" varStatus="vs">
-	<c:if test="${order.isDeleted() eq false }">
-		<tr>
-			<!-- 후원 일자 : 펀딩일 결제일 -->
-			<td class="column1 c">		
-				<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
-				<div>결제 날짜 : ${order.getDateForm(order.pdate)}</div>
-				<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}&regiDate=${order.regdate}">상세내역</a></div>
-			</td>
-			
-			<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->
-			<td class="column2 l">
-				<div style="display: inline-flex;">
-				<img src="upload/${order.projectseq }" style="border-radius: 50%; height: 50px; width: 50px; margin:5px; object-fit: cover;">
-				<div class="proTitle" style="cursor:pointer; font-weight: bold;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">					
-					<c:choose>
-						<c:when test="${order.otitle eq null }">[기부]</c:when>
-						<c:otherwise>[리워드]</c:otherwise>
-					</c:choose>
-					${order.dot3(order.ptitle) }
-					<div style="cursor:pointer;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>				
-				</div>
-				</div>
-			</td>
-			
-			<!-- 총 금액 ( 수량 ) -->
-			<td class="column3 c">
-				<div>총 <fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
-				 <div>(${order.count }개)</div>
-			</td>
-			
-			<!-- 프로젝트 작성자 -->
-			<td class="column4 c">${order.id}</td>
-			
-			<!-- 프로젝트 상태 -->
-			<td class="column5 c">
-				<div>
-					<c:choose>										
-						<c:when test="${order.isOngoing()}">진행 중</c:when>
-						<c:when test="${order.isComplete_success()}">
-							<c:choose>
-								<c:when test="${order.otitle eq null || order.score ne null}">구매 확정</c:when>
-								<c:otherwise>
-									<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
-								</c:otherwise>
-							</c:choose>
-						</c:when>
-						<c:when test="${order.isComplete_fail()}">목표 미달성</c:when>
-						<c:otherwise> 
-							${order.status} 
-						</c:otherwise>
-					</c:choose>
-				 </div>					 	
-			</td>
-			<!-- 뭔가 더 추가할 어떤것 -->
-		</tr>
-	</c:if>
+	<tr>
+		<!-- 후원 일자 : 펀딩일 결제일 -->
+		<td class="column1 c">		
+			<div>후원 날짜 : ${order.getDateForm(order.regdate)}</div>
+			<div>결제 날짜 : ${order.getDateForm(order.pdate)}</div>
+			<div><a href="myOrderDetail.do?projectSeq=${order.projectseq}&regiDate=${order.regdate}">상세내역</a></div>
+		</td>
+		
+		<!-- 프로젝트 정보 : 썸네일 , 제목-옵션이름 -->
+		<td class="column2">
+			<div style="display: inline-flex;">
+			<img src="upload/${order.projectseq }" style="border-radius: 50%; height: 50px; width: 50px; margin:5px; object-fit: cover;">
+			<div class="proTitle" style="cursor:pointer; font-weight: bold; margin: auto; color: black" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">					
+				<c:choose>
+					<c:when test="${order.otitle eq null }">[기부]</c:when>
+					<c:otherwise>[리워드]</c:otherwise>
+				</c:choose>
+				${order.dot3(order.ptitle) }
+				<div style="cursor:pointer; color:#8a7777ad;" onclick="location.href='projectDetail.do?seq=${order.projectseq}'">${order.otitle }</div>				
+			</div>
+			</div>
+		</td>
+		
+		<!-- 총 금액 ( 수량 ) -->
+		<td class="column3 c">
+			<div>총 <fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
+			 <div>(${order.count }개)</div>
+		</td>
+		
+		<!-- 프로젝트 작성자 -->
+		<td class="column4 c">${order.id}</td>
+		
+		<!-- 프로젝트 상태 -->
+		<td class="column5 c">
+			<div>
+				<c:choose>										
+					<c:when test="${order.isOngoing()}">진행 중</c:when>
+					<c:when test="${order.isComplete_success()}">
+						<c:choose>
+							<c:when test="${order.otitle eq null || order.score ne null}">구매 확정</c:when>
+							<c:otherwise>
+								<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:when test="${order.isComplete_fail()}">목표 미달성</c:when>
+					<c:otherwise> 
+						${order.status} 
+					</c:otherwise>
+				</c:choose>
+			 </div>					 	
+		</td>
+		<!-- 뭔가 더 추가할 어떤것 -->
+	</tr>
 	
 	</c:forEach>
 	<tbody>

@@ -4,9 +4,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-<link rel="stylesheet" href="http://storage.googleapis.com/code.getmdl.io/1.0.1/material.teal-red.min.css">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.amber-deep_purple.min.css"> -->
+<link rel="stylesheet" href="CSS/mainCss/alarm.css">
 
 <style type="text/css">
+/* 위에 참조한 css링크 때문에 충돌나는 부분 처리 */
+/* ????? */
+/* /위에 참조한 css링크 때문에 충돌나는 부분 처리 */
 
 .mdl-grid {
 	max-width: 1200px;
@@ -26,7 +30,9 @@
 	margin-right: 3px;
 	margin-left: 3px;
 }
-
+.mdl-button.mdl-button--colored {
+    color: rgb(50, 202, 147);
+}
 .mdl-button:focus{
 	outline:none;
 }
@@ -108,4 +114,5 @@ function deleteAlarm(seq,selector){ // 알람을 읽지 않고 삭제하는 경�
 		
 	</c:otherwise>
 </c:choose>
+</div>
  
