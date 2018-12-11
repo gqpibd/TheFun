@@ -465,7 +465,7 @@ $(document).ready(function () {
 					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
-					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
 					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
@@ -631,13 +631,21 @@ $(function () {
 });
 
 function delOption(opSeq){
-	//tr 제거 
-	var trname= "tr_"+opSeq;
-	$("#"+trname).remove();	
+	//선택한 옵션 tr 제거 
+	$("#tr_"+opSeq).remove();	
 	
-	//총금액 변경
+	//선택한 옵션금액 - 총금액 변경
+	var opPrice = $("#price"+opId).val();
 	
-	//배열 초기화 for문으로
+	var finalPrice=$("#finalPrice").val();
+	$("#finalPrice").val(finalPrice-opPrice);
+	
+	if(finalPrice==0){ //모든옵션삭제하면 최종금액도 없어짐
+		$("#trFinal").remove();	
+	}
+	
+	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
+	
 }
 
 function heartClick(selector){	
