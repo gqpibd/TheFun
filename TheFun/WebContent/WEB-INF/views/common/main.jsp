@@ -80,6 +80,7 @@
 }
  </style>
  
+<%--
 <section class="carousel">
   <nav style="top: 100%;margin-bottom: 3%;"></nav><!-- 이게 indicator -->
   <div class="main_container ">
@@ -94,10 +95,11 @@
    
   </div>
 </section>
+--%>
 
 <div class="container" style="margin-top: 3%;">	 
 	<!-- 메인 배너 슬라이드 -->
-	<!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
 	  <ol class="carousel-indicators">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -130,7 +132,7 @@
 	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
 	    <span class="sr-only">다음</span>
 	  </a>
-	</div> -->
+	</div>
 
 </div>
 	 <!-- /.row -->	
