@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 옵션 -->  
+<mapper namespace="Option">
+
+<!-- 옵션list 가져오기 -->
+<select id="getOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto">
+	SELECT * FROM FUN_OPTION_VIEW WHERE PROJECTSEQ=#{seq} ORDER BY SEQ ASC
+</select>
+
+<!-- 구매할 옵션list 가져오기-->
+<select id="selectOptions" parameterType="Integer" resultType="donzo.thefun.model.OptionDto" >
+	SELECT * FROM FUN_OPTION_VIEW WHERE SEQ=#{seq}
+</select>
+
+<!-- 옵션 추가 -->
+<insert id="newWrite" parameterType="donzo.thefun.model.OptionDto">
+	INSERT INTO FUN_OPTION(SEQ, PROJECTSEQ, TITLE, CONTENT, PRICE, STOCK)
+	VALUES(SEQ_OPTION.NEXTVAL, #{projectseq}, #{title}, #{content}, #{price}, #{stock})
+</insert>
+
+<!-- 옵션 삭제 -->
+<delete id="deleteOptions" parameterType="java.lang.Integer">
+	DELETE FROM FUN_OPTION
+	WHERE PROJECTSEQ=#{seq}
+</delete>
+
+<!-- updateStock 없음 -->
+<!-- 옵션 재고 수정 (프로젝트 없데이트시)용으로 작성하면 될 듯  -->
+
+</mapper>

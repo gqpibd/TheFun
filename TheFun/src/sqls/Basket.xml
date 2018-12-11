@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 장바구니 테이블
+
+DROP TABLE FUN_BASKET
+CASCADE CONSTRAINTS;
+
+CREATE TABLE FUN_BASKET(
+   SEQ NUMBER(8) PRIMARY KEY, // SEQ 추가
+   ID VARCHAR2(50) NOT NULL,
+   
+   PROJECTSEQ NUMBER(8) NOT NULL,
+   OPTIONSEQ NUMBER(8), // 기부인 경우는 OPTION이 없음
+   
+   COUNT NUMBER(8) NOT NULL,
+   REGDATE DATE NOT NULL // 필요할까?
+);
+
+// PRICE 칼럼 삭제
+ALTER TABLE FUN_BASKET
+DROP COLUMN PRICE CASCADE CONSTRAINTS;
+
+// BASKET SEQ 추가
+CREATE SEQUENCE SEQ_BASKET
+START WITH 1
+INCREMENT BY 1;
+
+ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_PROJECTSEQ_FK
+FOREIGN KEY(PROJECTSEQ)
+REFERENCES FUN_PROJECT(SEQ)
+ON DELETE CASCADE; // 종속 삭제
+
+ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_OPTIONSEQ_FK
+FOREIGN KEY(OPTIONSEQ)
+REFERENCES FUN_OPTION(SEQ)
+ON DELETE CASCADE; // 종속 삭제
+
+ALTER TABLE FUN_BASKET ADD CONSTRAINT BASKET_ID_FK
+FOREIGN KEY(ID)
+REFERENCES FUN_MEMBER(ID)
+ON DELETE CASCADE; // 종속 삭제
+
+
+// VIEW : 장바구니
+CREATE OR REPLACE VIEW FUN_BASKET_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
+AS
+SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE,
+    (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
+    (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),
+    (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
+    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ)
+FROM FUN_BASKET B;
+-->
+
+<mapper namespace="Basket">
+
+<!-- 내 장바구니 목록 불러오기 -->
+<select id="myBasketList" parameterType="java.lang.String" resultType="donzo.thefun.model.BasketDto">
+	SELECT * 
+	FROM FUN_BASKET_VIEW
+	WHERE ID=#{id}
+	ORDER BY REGDATE DESC
+</select>
+
+<!-- 장바구니 insert -->
+<insert id="addBasket" parameterType="donzo.thefun.model.BasketDto">
+	INSERT INTO FUN_BASKET 
+	VALUES(SEQ_BASKET.NEXTVAL,#{id},#{projectseq},#{optionseq},#{count},SYSDATE)
+</insert>
+
+<!-- 장바구니에서 물건 삭제 -->
+<delete id="deleteBasket" parameterType="java.lang.Integer">
+	DELETE FROM FUN_BASKET
+	WHERE SEQ=#{seq}
+</delete>
+ 
+<!-- 장바구니 업데이트 -->
+<update id="updateBasket" parameterType="donzo.thefun.model.BasketDto">
+	UPDATE FUN_BASKET
+	SET COUNT = #{count}
+	WHERE SEQ=#{seq}
+</update>
+
+<!-- 장바구니 담은 물건 수 가져오기 -->
+<select id="getBasketCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM FUN_BASKET
+	WHERE ID=#{ID}
+</select>
+
+</mapper> 

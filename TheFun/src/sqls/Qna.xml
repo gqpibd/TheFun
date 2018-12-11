@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+DROP TABLE FUN_QNA
+CASCADE CONSTRAINTS;
+
+DROP SEQUENCE SEQ_QNA;
+
+CREATE TABLE FUN_QNA(
+   SEQ NUMBER(8) PRIMARY KEY,
+   PROJECTSEQ NUMBER(8) NOT NULL,
+   ID VARCHAR2(50) NOT NULL,
+   
+   REFSEQ NUMBER(8) NOT NULL, // 대댓일 때 원래 댓글
+   CONTENT VARCHAR2(1000) NOT NULL,
+   STATUS VARCHAR2(50) NOT NULL, // 1. 일반, 2. 비밀, 3 삭제
+   
+   REGDATE DATE NOT NULL,
+   TOWHOM VARCHAR2(50)
+);
+
+CREATE SEQUENCE SEQ_QNA
+START WITH 1
+INCREMENT BY 1;
+
+ALTER TABLE FUN_QNA ADD CONSTRAINT QNA_PROJECTSEQ_FK
+FOREIGN KEY(PROJECTSEQ)
+REFERENCES FUN_PROJECT(SEQ)
+ON DELETE CASCADE; // 종속 삭제
+
+ALTER TABLE FUN_QNA ADD CONSTRAINT QNA_ID_FK
+FOREIGN KEY(ID)
+REFERENCES FUN_MEMBER(ID)
+ON DELETE CASCADE; // 종속 삭제
+
+// REFSEQ 왜래키 추가
+ALTER TABLE FUN_QNA ADD CONSTRAINT QNA_REFSEQ_FK
+FOREIGN KEY(REFSEQ)
+REFERENCES FUN_QNA(SEQ)
+ON DELETE CASCADE; // 종속 삭제
+
+CREATE OR REPLACE VIEW FUN_QNA_VIEW (SEQ, PROJECTSEQ, ID, REFSEQ, CONTENT, STATUS, REGDATE, TOWHOM, NICKNAME, PROFILE, TOWHOMNICKNAME)
+AS
+SELECT Q.SEQ, Q.PROJECTSEQ, Q.ID, Q.REFSEQ, Q.CONTENT, Q.STATUS, Q.REGDATE, Q.TOWHOM, 
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.ID),
+    (SELECT PROFILE FROM FUN_MEMBER WHERE ID = Q.ID),
+    (SELECT NICKNAME FROM FUN_MEMBER WHERE ID = Q.TOWHOM)
+FROM FUN_QNA Q;
+-->
+
+<!-- 질문&답변 -->  
+<mapper namespace="Qna">
+
+<!-- 질문 목록 가져오기 -->
+<select id="getQnaList" parameterType="int" resultType="donzo.thefun.model.QnaDto">
+	SELECT * 
+	FROM FUN_QNA_VIEW
+	WHERE PROJECTSEQ = #{seq}
+	ORDER BY REFSEQ ASC, SEQ ASC
+</select>
+
+<!-- 새 댓글 추가 -->
+<insert id="addNewQna" parameterType="donzo.thefun.model.QnaDto"> 
+	INSERT INTO FUN_QNA
+	<choose>
+	<when test="refseq > 0"> <!-- 대댓일 때 -->
+		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, #{refseq}, #{content}, #{status}, SYSDATE, #{towhom})
+	</when>
+	<otherwise> <!-- 첫 댓글일 때 -->
+		VALUES (SEQ_QNA.NEXTVAL, #{projectseq}, #{id}, SEQ_QNA.CURRVAL, #{content}, #{status}, SYSDATE, #{towhom})
+	</otherwise> 
+	</choose>	
+</insert>
+
+<!-- 댓글 삭제 -->
+<update id="delQna" parameterType="int">
+	UPDATE FUN_QNA
+	SET STATUS='delete'
+	WHERE SEQ = #{seq}
+</update>
+
+<!-- 댓글 수정 -->
+<update id="updateQna" parameterType="donzo.thefun.model.QnaDto">
+	UPDATE FUN_QNA
+	SET CONTENT=#{content}, STATUS = #{status}
+	WHERE SEQ = #{seq}
+</update>
+
+<!-- 원댓글 작성자 아이디 -->
+<select id="getRefWriter" parameterType="Integer" resultType="String">
+	SELECT ID
+	FROM FUN_QNA
+	WHERE SEQ=#{refseq}
+</select>
+
+</mapper>

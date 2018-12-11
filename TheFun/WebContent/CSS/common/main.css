@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.pTitle{
+ 	font-weight: bold;
+ 	color: black;
+ 	font-size: large;
+ }
+ .pName{
+ 	color: gray;
+ 	font-size: small;
+ }

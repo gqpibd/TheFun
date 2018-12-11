@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/* 프로필사진크기설정 */
+/* .profile_img{   
+    float: none;
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 200px;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+} */
+
+/* 프로필사진크기설정 */
+.profile_img{   
+    float: none;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    margin: 5px;
+    vertical-align: middle;
+    object-fit: cover;
+}
+
+/* 버튼 */
+.btn_MyPage {
+	border: 2px;
+	border-radius: 20px;
+	width: 125px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.btn_MyPage:focus {
+	outline: none;
+}
+
+
+/* 타이틀 띠 CSS */
+.head_title {
+  font-family: inherit;
+  font-size: 200%;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.line_header {
+  background: #8152f0;
+  color: #FFFFFF;
+  padding: 10px;
+}
+
+.line_header p {
+  font-family: 'Allura';
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 0;
+  font-size: 60px;
+  margin-top: -30px;
+}

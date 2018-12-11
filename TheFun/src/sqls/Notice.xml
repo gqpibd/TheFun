@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 공지사항▤ -->  
+<mapper namespace="Notice">
+
+<!-- 새소식list 가져오기 -->
+<select id="noticeInfo" parameterType="Integer" resultType="donzo.thefun.model.NoticeDto"> 
+	SELECT * FROM FUN_NOTICE WHERE PROJECTSEQ=#{seq} ORDER BY SEQ DESC
+</select>
+
+<!-- 새 공지 등록 후 현재 번호랑 등록이 리턴 -->
+<insert id="addNotice" parameterType="donzo.thefun.model.NoticeDto"> 
+	INSERT INTO FUN_NOTICE
+	VALUES(SEQ_NOTICE.NEXTVAL, #{projectseq}, #{title}, #{content}, SYSDATE)
+	<selectKey keyProperty="seq" resultType="Integer" order="AFTER"> 
+		SELECT SEQ_NOTICE.CURRVAL FROM dual 
+	</selectKey>
+</insert> 
+
+<!-- 방금 등록한 공지 날짜랑 번호(출력번호) 가져오기 -->
+<select id="selectNotice" parameterType="donzo.thefun.model.NoticeDto" resultType="donzo.thefun.model.NoticeDto"> 
+	SELECT (SELECT COUNT(*) FROM FUN_NOTICE WHERE PROJECTSEQ = #{projectseq} ) seq, regdate
+	FROM FUN_NOTICE 
+	WHERE SEQ=#{seq}
+</select>
+
+</mapper>

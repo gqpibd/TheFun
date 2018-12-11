@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- CREATE TABLE FUN_BUY( 
+   SEQ NUMBER(8) PRIMARY KEY, 
+   ID VARCHAR2(50) NOT NULL,
+   
+   PROJECTSEQ NUMBER(8) NOT NULL,
+   OPTIONSEQ NUMBER(8),  // 기부인 경우는 OPTION이 없음
+   
+   COUNT NUMBER(8) NOT NULL,
+   REGDATE DATE NOT NULL,
+   
+   // 배송지 정보
+   NAME VARCHAR2(50),
+   PHONE VARCHAR2(50),
+   POSTCODE VARCHAR2(10),
+   ROADADDRESS VARCHAR2(100),
+   DETAILADDRESS VARCHAR2(100),   
+
+   // 후기 + 별점..
+   SCORE NUMBER(2), 
+   BCOMMENT VARCHAR2(1000) ,
+   
+   //결제정보 및 가격 나중에 추가됨
+   CARDNUMBER VARCHAR2(50),
+   BANKNAME VARCHAR2(50),
+   PRICE NUMBER
+);
+
+CREATE SEQUENCE SEQ_BUY
+START WITH 1
+INCREMENT BY 1;
+
+ALTER TABLE FUN_BUY ADD CONSTRAINT BUY_PROJECTSEQ_FK
+FOREIGN KEY(PROJECTSEQ)
+REFERENCES FUN_PROJECT(SEQ)
+ON DELETE CASCADE; 
+
+ALTER TABLE FUN_BUY ADD CONSTRAINT BUY_OPTIONSEQ_FK
+FOREIGN KEY(OPTIONSEQ)
+REFERENCES FUN_OPTION(SEQ)
+ON DELETE CASCADE; 
+
+ALTER TABLE FUN_BUY ADD CONSTRAINT BUY_ID_FK
+FOREIGN KEY(ID)
+REFERENCES FUN_MEMBER(ID)
+ON DELETE CASCADE; 
+
+CREATE OR REPLACE VIEW FUN_BUY_VIEW (SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, SCORE, BCOMMENT, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, PTITLE, OTITLE, OCONTENT, STATUS, PRICE, PDATE, SHIPDATE)
+AS
+SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BCOMMENT, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, 
+    (SELECT TITLE FROM FUN_PROJECT WHERE SEQ = B.PROJECTSEQ),
+    (SELECT TITLE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT CONTENT FROM FUN_OPTION WHERE SEQ= B.OPTIONSEQ),    
+    (SELECT STATUS FROM FUN_PROJECTALL WHERE SEQ= B.PROJECTSEQ),
+    (SELECT PRICE FROM FUN_OPTION WHERE SEQ = B.OPTIONSEQ),
+    (SELECT PDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ),
+    (SELECT SHIPDATE FROM FUN_PROJECT WHERE SEQ=B.PROJECTSEQ)
+FROM FUN_BUY B;
+ -->
+
+<!-- 구매자 -->  
+<mapper namespace="Buy">
+
+<!-- 내 후원내역 --><!-- 기왕이면 닉네임으로 가져오자 -->
+<!-- <select id="myOrderList" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+		SELECT 
+		B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE   
+		FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M
+		WHERE B.ID=#{id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID
+		ORDER BY B.REGDATE DESC
+</select>  -->
+ 
+<!-- paging -->
+<select id="myOrderPageList" parameterType="donzo.thefun.model.buyParam" resultType="donzo.thefun.model.BuyDto">
+	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
+	FROM 
+		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
+				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
+		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID
+		 ) A
+	WHERE RNUM BETWEEN ${start} AND ${end}
+</select>
+
+<select id="getOrderCount"
+	parameterType="donzo.thefun.model.buyParam"
+	resultType="java.lang.Integer">
+
+	SELECT NVL(COUNT(*), 0) AS CNT
+	FROM FUN_BUY_VIEW
+	WHERE ID=#{o_id}
+</select>
+
+ 
+ 
+<!-- add Order -->
+<insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
+	INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, POSTCODE, ROADADDRESS, DETAILADDRESS, OPTIONSEQ, PRICE)
+	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},
+	SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
+	<choose>
+	<when test="postcode == null"> <!-- 기부인 경우 주소랑 옵션이 없음 -->
+        null,null,null,null,#{price}
+    </when>
+    <otherwise> <!-- 리워드인 경우 가격을 직접 넣지 않음(대신 뷰에서 계산) -->
+       #{postcode},#{roadaddress},#{detailaddress},#{optionseq},null
+    </otherwise>
+    </choose>
+	)
+</insert>
+
+<!-- 후기, 별점 등록 -->
+<insert id="addReview" parameterType="donzo.thefun.model.BuyDto">
+	UPDATE FUN_BUY
+	SET SCORE = ${score}
+	<if test="bcomment != null">
+		, BCOMMENT = #{bcomment}
+	</if>
+	WHERE SEQ = ${seq}
+</insert>
+<!-- replace(B.OCONTENT,CHR(13)||CHR(10),'/') -->
+<!-- 특정 프로젝트의 후기 목록 불러오기 -->
+<select id="selectReviewList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.BuyDto">
+	SELECT SEQ, ID, REGDATE, OTITLE, OCONTENT, SCORE, BCOMMENT
+	FROM FUN_BUY_VIEW
+	WHERE PROJECTSEQ = #{seq} AND SCORE IS NOT NULL	
+</select>
+
+<!-- 내 후원 상세내역   -->
+<select id="myOrderDetail" parameterType="donzo.thefun.model.BuyDto" resultType="donzo.thefun.model.BuyDto">
+ SELECT * FROM FUN_BUY_VIEW WHERE PROJECTSEQ=#{projectseq} AND ID=#{id} AND REGDATE=TO_DATE(#{regdate},'yyyy-mm-dd hh24:mi:ss')
+</select>
+
+
+</mapper>
