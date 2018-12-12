@@ -40,7 +40,7 @@ public class BuyController {
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
-		logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
+		//logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
@@ -57,12 +57,12 @@ public class BuyController {
 		List<BuyDto> orderlist = buyService.myOrderPageList(param);
 		int totalRecordCount = buyService.getOrderCount(param);
 		
-		//리스트 확인용
+/*		//리스트 확인용
 		for (int i = 0; i < orderlist.size(); i++) {
 			BuyDto dto = orderlist.get(i);
 			logger.info("후원내역 리스트 확인 : " + dto.toString());
 		}
-		
+		*/
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
@@ -84,7 +84,6 @@ public class BuyController {
 		BuyDto buy = new BuyDto(user.getId(), projectSeq, 1, regiDate.substring(0, 19));		
 		List<BuyDto> buydto = buyService.myOrderDetail(buy);
 		model.addAttribute("buydto",buydto);
-		
 		return "myOrderDetail.tiles";
 	}
 	
@@ -93,16 +92,8 @@ public class BuyController {
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
-		System.out.println("buy 컨트롤러 dto : "+newbuy);
-		for(int i=0; i<opSeq.length;i++) {
-			System.out.println("옵션시퀀스 : "+opSeq[i]);
-			System.out.println("옵션시퀀스 : "+opPrice[i]);
-			System.out.println("옵션시퀀스 : "+opCount[i]);
-		}
-				
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
-		
 		return "redirect:/myOrderList.do";
 	}	
 	

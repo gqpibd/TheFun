@@ -34,14 +34,7 @@ public class BasketController {
 	public String addBasket(int projectSeq, int[] selectOpSeq, int[] optionCount, HttpServletRequest req) {
 		logger.info(" BuyController addBasket" + new Date());	
 		String id = ((MemberDto)req.getSession().getAttribute("login")).getId();
-		
-		System.out.println("플젝시퀀스 : "+projectSeq);
-		System.out.println("id : "+id);
-		for(int i=0; i<optionCount.length;i++) {
-			System.out.println("옵션시퀀스 : "+selectOpSeq[i]);
-			System.out.println("옵션카운트 : "+optionCount[i]);			
-		}
-		
+
 		//장바구니 insert
 		basketService.insertBasket(id, projectSeq, selectOpSeq, optionCount);
 		return "YES";

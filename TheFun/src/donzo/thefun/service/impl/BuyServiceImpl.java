@@ -25,6 +25,10 @@ public class BuyServiceImpl implements BuyService {
 	@Override 
 	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
+		if(buy.getBankName()==null || buy.getBankName()=="") {
+			buy.setBankName("간편결제");
+		}
+		
 		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
 			BuyDto buydto=new BuyDto(
 						buy.getId(), buy.getProjectseq(), opSeq[0], 1, opPrice[0], 

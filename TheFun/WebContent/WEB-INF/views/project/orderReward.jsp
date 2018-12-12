@@ -346,17 +346,17 @@
 	<tr>
 		<td>
 		<select name="bankName" id="bankName">
-			<option selected="selected">은행을 선택하세요</option>
-		    <option>IBK기업은행</option>
-		    <option>KB국민은행</option>
+			<option selected="selected">카드사를 선택하세요</option>
+			<option>롯데카드</option>
+			<option>비씨카드</option>
+		    <option>삼성카드</option>
+		    <option>씨티카드</option>
+		    <option>신한카드</option>
+		    <option>우리카드</option>
+		    <option>하나카드</option>
+		    <option>현대카드</option>
+		    <option>KB국민</option>
 		    <option>NH농협</option>
-		    <option>KEB하나은행</option>
-		    <option>신한은행</option>
-		    <option>씨티은행</option>
-		    <option>카카오뱅크</option>
-		    <option>새마을금고</option>
-		    <option>우리은행</option>
-		    <option>우체국</option>
 		</select>
 		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
@@ -430,7 +430,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			alert("이름을 입력하여주십시오");
 		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 			alert("연락처를 입력하여 주십시오");
-		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
+		}else if(document.getElementById("bankName").value=="카드사를 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
 			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
@@ -457,14 +457,13 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("이름을 입력하여주십시오");
 			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
-			}else if(document.getElementById("postcode").value=""){
+			}else if( document.getElementById("postcode").value==""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
 			}else{
-
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
@@ -787,6 +786,7 @@ IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코�
 
 
 function requestPay() {
+	
 	var goodstitle="${projectdtoList[0].title}";
 	var usertel="${login.phone}";
 	IMP.request_pay({
@@ -795,15 +795,15 @@ function requestPay() {
 	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
 	    name : goodstitle,	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
 	    amount : 100,	//가격
-	    buyer_tel : usertel,	//누락시에러발생가능성있음
+	    buyer_tel : usertel,	//누락시 에러발생 가능성 있음
 	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	        var msg = '결제가 완료되었습니다.';
-	        msg += '고유ID : ' + rsp.imp_uid;
+	      /*   msg += '고유ID : ' + rsp.imp_uid;
 	        msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num;
+	        msg += '카드 승인번호 : ' + rsp.apply_num; */
 		
 	        $("#orderfrm").attr("action","addOrder.do").submit();
 	        

@@ -44,6 +44,7 @@
 	        <mvc:mapping path="/projectUpdate.do"/>
 	        <mvc:mapping path="/projectUpdateAf.do"/>
 	        <mvc:mapping path="/projectDelete.do"/>
+	        <mvc:mapping path="/addBasket.do"/>
 	        <mvc:mapping path="/myBasket.do"/>		<!-- 장바구니 -->
 	        <mvc:mapping path="/updateBasket.do"/>
 	        <mvc:mapping path="/deleteBasket.do"/>

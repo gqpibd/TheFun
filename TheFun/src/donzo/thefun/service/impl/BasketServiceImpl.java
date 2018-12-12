@@ -37,7 +37,6 @@ public class BasketServiceImpl implements BasketService{
 
 		for(int i=0 ; i<optionSeq.length ; i++) {
 			BasketDto basket = new BasketDto(id, projectSeq, optionSeq[i], optionCount[i]);
-			System.out.println("●BASKET : "+basket);
 			basketDao.insertBasket(basket);
 		}
 	}
