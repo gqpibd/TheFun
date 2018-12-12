@@ -81,7 +81,7 @@
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
-		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
+		<p class="strongGray" style="font-size:large;">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#818181">
       	<table style="width: 70%">
@@ -194,7 +194,7 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -680,7 +680,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		});
 		$("#usePoint").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usePoint").val());	//보유 포인트
+			var havePoint=Number($("#usablePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);

@@ -75,10 +75,9 @@
 <br><br>
 <h3>결제상세정보</h3>
 
-
-	<c:set var="totalprice" value="0"/>
-
-<c:forEach items="${buydto}" var="buy"> <!-- 총주문금액 설정 -->
+<!-- 총주문금액 설정 -->
+<c:set var="totalprice" value="0"/>
+<c:forEach items="${buydto}" var="buy">
 	<c:set var="process" value="${buy.price * buy.count }"/>
 	<c:set var="totalprice" value="${totalprice + process}"/>
 </c:forEach>
@@ -89,19 +88,20 @@
 	<c:if test="${buydto[0].optionseq ne 0}">상품금액</c:if>
 	<c:if test="${buydto[0].optionseq eq 0}">기부금액</c:if>
 	</td>
-	<td style="text-align: left; padding: 10px;"> <input class="Fee" type="text" id="productPrice" size="5px;" readonly="readonly"> 원</td> </tr>
+	<td style="text-align: left; padding: 10px;"><fmt:formatNumber value="${totalprice}" type="number"/>원</td> 
+</tr>
 
 <c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드일때 -->
 <tr style="border-bottom: 1px solid gray;">	
 	<td style="padding: 10px;">할인금액</td> <!-- 포인트사용 내역 -->
-	<td style="text-align: left;padding: 10px; ">n원</td>
+	<td style="text-align: left;padding: 10px; ">${buydto[0].usePoint} 원</td>
 </tr>
 </c:if>
 
 <tr style="border-bottom: 1px solid gray;">
 	<td style="padding: 10px;padding: 10px; ">결제예정금액</td>
 	<td style="text-align: left;padding: 10px; ">	<!-- 포인트 db생기면 - 포인트 추가 -->
-	<b style="color: #8152f0;"><fmt:formatNumber value="${totalprice }" type="number"/>원</b>
+	<b style="color: #8152f0;"><fmt:formatNumber value="${totalprice-buydto[0].usePoint}" type="number"/>원</b>
 	</td>
 </tr>
 <tr style="border-bottom: 1px solid gray;">
@@ -135,7 +135,7 @@
 <!-- 본문출력 묶는 태그 -->
 	
 <!-- //본문출력 묶는 태그 -->
-
+<!-- 
 <script>
 
 
@@ -145,10 +145,7 @@ $(document).ready(function (){
 	
 	if(len==1){	//기부일때
 		var finalPrice = "${buydto[0].price}";
-		
-		//글자수 비교 size 
-		$("#productPrice").val(finalPrice);
-		
+		$("#productPrice").text(addComma(finalPrice)+"원");	
 		
 	}else if(len>1){	//리워드일때
 		
@@ -164,12 +161,16 @@ $(document).ready(function (){
 			var count = parseInt(buylist[i+1]);
 			finalPrice+= price*count;
 			i++;
+			console.log("price : "+price+" count : "+count);
 		}
-		
-		$("#productPrice").val(finalPrice);		
+		$("#productPrice").text(addComma(finalPrice)+"원");		
 	}
 	
 });
 
-
-</script>
+function addComma(num) {
+	  var regexp = /\B(?=(\d{3})+(?!\d))/g;
+	  return num.toString().replace(regexp, ',');
+}
+	
+</script> -->

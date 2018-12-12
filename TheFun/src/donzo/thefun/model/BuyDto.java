@@ -98,6 +98,7 @@ public class BuyDto implements Serializable {
 	//카드결제정보
 	String cardNumber;
 	String bankName;
+	int usePoint;
 	
 	public BuyDto() {}
 	
@@ -105,7 +106,7 @@ public class BuyDto implements Serializable {
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
 			String bcomment, String ptitle, String otitle, String ocontent, String status, String pdate,
 			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress,
-			String cardNumber, String bankName) {
+			String cardNumber, String bankName, int usePoint) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -129,6 +130,7 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 		this.cardNumber = cardNumber;
 		this.bankName = bankName;
+		this.usePoint=usePoint;
 	}
 	
 	// 새 구매 또는 새 장바구니
@@ -361,6 +363,14 @@ public class BuyDto implements Serializable {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
+	
+	public int getUsePoint() {
+		return usePoint;
+	}
+
+	public void setUsePoint(int usePoint) {
+		this.usePoint = usePoint;
+	}
 
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ProjectDto.ONGOING)) {
@@ -388,8 +398,7 @@ public class BuyDto implements Serializable {
 		}else
 			return false;
 	}
-			
-	
+
 	@Override
 	public String toString() {
 		return "BuyDto [seq=" + seq + ", id=" + id + ", projectseq=" + projectseq + ", optionseq=" + optionseq
@@ -397,6 +406,7 @@ public class BuyDto implements Serializable {
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
 				+ status + ", pdate=" + pdate + ", shipdate=" + shipdate + ", name=" + name + ", phone=" + phone
 				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
-				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + "]";
+				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + ", usePoint=" + usePoint + "]";
 	}
+	
 }
