@@ -175,8 +175,8 @@ function changeAmountPlus( index ) {
 	console.log("변화 index = " + index);
 	// 기존수량에 +1
 	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
-	
-	var stock = $("#stock"+index).val();
+	console.log("선택수량 = " + selectedAmount);
+	var stock = Number($("#stock"+index).val());
 	console.log("재고 = " + stock);
 	if(stock < 0){	// 재고 무제한(리워드 옵션 재고 무제한일시 0으로 잘못 넣었었는데 -1로 바꿈.)
 		setPlusAmount(index);
