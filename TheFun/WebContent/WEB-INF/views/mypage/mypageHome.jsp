@@ -32,8 +32,8 @@
 			<!-- <td></td> -->
 			<td><a href="myInfo.do?id=${login.id}"><button class="btn_MyPage">나의 정보</button></a></td>
 			<td><a href="myOrderList.do?id=${login.id}"><button class="btn_MyPage">나의 후원내역</button></a></td>
-			<td><a href="mySchedule.do?id=${login.id}"><button class="btn_MyPage">나의 프로젝트</button></a></td>
-			<td><a href="myChart.do?id=${login.id}"><button class="btn_MyPage">나의 통계보기</button></a></td>
+			<td><a href="mySchedule.do"><button class="btn_MyPage">나의 프로젝트</button></a></td>
+			<td><a href="myChart.do"><button class="btn_MyPage">나의 통계보기</button></a></td>
 			<!-- <td><a href="myCalendar.do"><button class="btn_MyPage">일정보기</button></a></td> -->
 		</tr>
 	</table>				

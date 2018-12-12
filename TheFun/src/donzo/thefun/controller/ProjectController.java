@@ -150,29 +150,22 @@ public class ProjectController {
 
 	}
 	
-	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
+	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 ==> (승지 => 다슬이에게 값 넘겨주기 완료)
 	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderFromBasket(String projectSeq[], String optionSeq[], String count[], String id, Model model) {
+	public String goOrderFromBasket(HttpServletRequest req, String projectSeq[], String optionSeq[], String count[]) {
 		logger.info("ProjectController goOrderFromBasket 메소드 " + new Date());	
-		logger.info("내 아이디 " + id);	
-		logger.info("체크한 옵션 갯수 = " + optionSeq.length);
-		logger.info("프로젝트 갯수 = " + projectSeq.length);
-		logger.info("구매희망 갯수 count = " + count.length);
+		
+		MemberDto user = (MemberDto) req.getSession().getAttribute("login");
+		logger.info("장바구니의 주인 id = " + user.getId());
+		
 		for (int i = 0; i < optionSeq.length; i++) {
-			logger.info("체크한 리워드 프로젝트 seq = " + projectSeq[i]);
-			logger.info("체크한 리워드 옵션 seq = " + optionSeq[i]);
-			logger.info("선택한 구매개수 count = " + count[i]);
-			//현재 선택한 프로젝트 정보
-			//model.addAttribute("projectdto",projectService.getProject(optionSeq[i]));
+			logger.info("구매희망 프로젝트 seq = " + projectSeq[i]);
+			logger.info("구매희망 리워드 seq = " + optionSeq[i]);
+			logger.info("희망 구매수량 = " + count[i]);
 		}
 		
-/*
-		//선택한 옵션정보
-		List<OptionDto> optionList = projectService.getSelectOptions(check);
-		model.addAttribute("selectOptions",optionList);
-*/
-		return "redirect:/myBasket.do?id="+id;	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
-
+		return "redirect:/myBasket.do";	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
+		
 	}
 		
 	// 프로젝트 검색
@@ -398,10 +391,10 @@ public class ProjectController {
 		
 		// 리워드 입력값 배열 모두 list로 변환.
 		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
-		logger.info(option_total+"");
-		logger.info(Arrays.toString(op_stock));
-		logger.info(Arrays.toString(op_content));
-		logger.info(Arrays.toString(op_price));
+		//logger.info(option_total+"");
+		//logger.info(Arrays.toString(op_stock));
+		//logger.info(Arrays.toString(op_content));
+		//logger.info(Arrays.toString(op_price));
 		if(newProjectDto.getFundtype().equals("reward")) {
 			for (int i = 0; i < option_total; i++) {
 				//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");

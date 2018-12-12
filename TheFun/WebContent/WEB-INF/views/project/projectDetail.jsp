@@ -533,9 +533,14 @@ $(document).ready(function () {
 	
 	//기부하기 클릭
 	$(document).on("click","#donaBtn",function (){
+<<<<<<< HEAD
 		$("#goAnywhere").attr("action","goOrderReward.do").submit();
 	});
 
+=======
+	   $("#goAnywhere").attr("action","goOrderReward.do").submit();
+	});
+>>>>>>> refs/remotes/origin/seungji
 	
 	//펀딩하기 클릭
 	$(document).on("click","#fundBtn",function (){
@@ -546,6 +551,15 @@ $(document).ready(function () {
 		}
 	});
 	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+	   if($("input[name='selectOpSeq']").length<=0){
+	      alert ("옵션을 선택하여주십시오");
+	   }else{
+	      $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+	   }
+	});
+
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
 		if('${login.id eq null}' == 'true'){

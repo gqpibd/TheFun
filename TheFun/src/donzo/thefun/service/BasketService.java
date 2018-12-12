@@ -14,7 +14,7 @@ public interface BasketService {
 	public int deleteBasket(int seq);
 	
 	// 장바구니 목록 업데이트
-	public void updateBasket(List<BasketDto> basketDto);
+	public void updateBasket(BasketDto basketDto);
 	
 	//장바구니 insert 
 	public void insertBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount);

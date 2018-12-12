@@ -14,7 +14,7 @@
   </div>
 </header>
 
-<p id="yoyak" style="text-align: center;">승인대기중: ${waitCount}건&nbsp;&nbsp;승인거절:${rejCount}건&nbsp;&nbsp;준비중 : ${preCount}건&nbsp;&nbsp;진행중 : ${onCount}건&nbsp;&nbsp;성공 : ${sucCount}건&nbsp;&nbsp;실패 : ${failCount}건</p>
+<p id="yoyak" style="text-align: center;">승인대기중 : ${waitCount}건&nbsp;&nbsp;승인거절 : ${rejCount}건&nbsp;&nbsp;준비중 : ${preCount}건&nbsp;&nbsp;진행중 : ${onCount}건&nbsp;&nbsp;성공 : ${sucCount}건&nbsp;&nbsp;실패 : ${failCount}건</p>
 
 <!-- 등록한 프로젝트가 없을때 -->
 <c:if test="${schedule.size() eq 0}">

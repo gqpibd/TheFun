@@ -2,7 +2,6 @@ package donzo.thefun.controller;
 
 import java.io.File;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,10 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.MyChartDto;
-import donzo.thefun.model.ProjectDto;
 import donzo.thefun.service.MemberService;
-import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.FUpUtil;
 
 
@@ -34,9 +30,6 @@ public class MemberController {
 	
 	@Autowired
 	MemberService memberService;
-	
-	@Autowired
-	ProjectService projectService; 
 	
 	
 	// 로그인 처리 --> 간편 로그인
@@ -223,50 +216,8 @@ public class MemberController {
 		logger.info("MemberController myInfo " + new Date());
 		
 		return "myInfo.tiles";	
-	}
-	
-	@RequestMapping(value="myChart.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String myChart(String id, Model model) throws Exception{
-		// 유저 정보 가져오기
-		logger.info("유저 id = " + id);
-		MemberDto user = memberService.getUserInfo(id);
-		logger.info("유저 정보 = " + user.toString());
-		model.addAttribute("user", user);
+	} 
 		
-		// 내 모든 프로젝트 가져오기
-		List<ProjectDto> myProject = projectService.getMemberProjectList(id);
-		logger.info("내 프로젝트 리스트 길이 = " + myProject.size());
-		// 가져온 프로젝트로 기부/리워드 퍼센트 평균내기
-		int length = 0;
-		double reward = 0;
-		double donation = 0;
-		if(myProject.size()>0) {
-			length = myProject.size();
-			for (int i = 0; i < myProject.size(); i++) {
-				logger.info((i+1) + "번째 프로젝트 내용 = " + myProject.toString());
-				if(myProject.get(i).getFundtype().equals("reward")) {
-					reward +=1;
-				}else if(myProject.get(i).getFundtype().equals("donation")) {
-					donation +=1;
-				}
-			}
-			logger.info("reward 프로젝트의 갯수 = " + reward);
-			logger.info("donation 프로젝트의 갯수 = " + donation);
-			
-			reward = (reward/length)*100;
-			donation = (donation/length)*100;
-			
-			logger.info("reward 프로젝트의 퍼센트 = " + reward);
-			logger.info("donation 프로젝트의 퍼센트 = " + donation);
-			
-			MyChartDto myproject = new MyChartDto(length+"", Math.round(reward)+"", Math.round(donation)+"");
-			
-			model.addAttribute("myProject", myproject);
-		}
-		
-		return "myChart.tiles";
-	}
-	
 	private String getCallbackUrl(String callback) {		
 		return callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌 
 	}
