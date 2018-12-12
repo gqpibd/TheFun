@@ -83,7 +83,7 @@ FROM FUN_BASKET B;
 	SET COUNT = #{count}
 	WHERE SEQ=#{seq}
 </update>
-
+ 
 <!-- 장바구니 담은 물건 수 가져오기 -->
 <select id="getBasketCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 	SELECT COUNT(*)
