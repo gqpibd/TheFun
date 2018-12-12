@@ -524,8 +524,21 @@ $(document).ready(function () {
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
 	
+	//기부하기 클릭
+	$(document).on("click","#donaBtn",function (){
+	   $("#goAnywhere").attr("action","goOrderReward.do").submit();
+	});
 	
 	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+	   if($("input[name='selectOpSeq']").length<=0){
+	      alert ("옵션을 선택하여주십시오");
+	   }else{
+	      $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+	   }
+	});
+
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
 		if('${login.id eq null}' == 'true'){

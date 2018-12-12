@@ -82,51 +82,17 @@ public class BasketController {
 	
 	// 장바구니 업데이트
 	@RequestMapping(value="updateBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String updateBasket(HttpServletRequest req, String seq[], String count[]/* BasketDto basketDto*/) throws Exception{
+	public String updateBasket(HttpServletRequest req, BasketDto basketDto) throws Exception{
 		logger.info("BuyController updateBasket 들어옴 " + new Date());
 		//seq랑 count만 알면됨
-		
-		List<BasketDto> list = new ArrayList<BasketDto>();
-		for (int i = 0; i < seq.length; i++) {
-			logger.info("업뎃에 들어온 "+i+"번째 seq = " + seq[i]);
-			logger.info("업뎃에 들어온 "+i+"번째  count = " + count[i]);
-			BasketDto updateDto = new BasketDto();
-			updateDto.setSeq(Integer.parseInt(seq[i]));
-			updateDto.setCount(Integer.parseInt(count[i]));
-			list.add(updateDto);
-		}
+		logger.info("업뎃에 들어온  seq = " + basketDto.getSeq());
+		logger.info("업뎃에 들어온  count = " + basketDto.getCount());
 		
 		// DB 장바구니 업데이트
-		basketService.updateBasket(list);
+		basketService.updateBasket(basketDto);
 		
 		return "redirect:/myBasket.do";
 	}
 	
-	// 즉시결제 : 장바구니 업데이트 후 바로 주문하기 페이지로
-	@RequestMapping(value="updateAndBuy.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String updateAndBuy(HttpServletRequest req, String seq, String count/* BasketDto basketDto*/) throws Exception{
-		logger.info("BuyController updateAndBuy 들어옴 " + new Date());
-		//seq랑 count만 알면됨
-
-		MemberDto user = (MemberDto) req.getSession().getAttribute("login");
-		logger.info("장바구니의 주인 id = " + user.getId());
-		logger.info("seq = " + seq);
-		logger.info("count = " + count);
-		
-		//List<BasketDto> list = new ArrayList<BasketDto>();
-		/*for (int i = 0; i < seq.length; i++) {
-			logger.info("업뎃에 들어온 "+i+"번째 seq = " + seq[i]);
-			logger.info("업뎃에 들어온 "+i+"번째  count = " + count[i]);
-			BasketDto updateDto = new BasketDto();
-			updateDto.setSeq(Integer.parseInt(seq[i]));
-			updateDto.setCount(Integer.parseInt(count[i]));
-			list.add(updateDto);
-		}*/
-		
-		// DB 장바구니 업데이트
-		//basketService.updateBasket(list);
-		
-		return "redirect:myBasket.do";
-	}
 	
 }
