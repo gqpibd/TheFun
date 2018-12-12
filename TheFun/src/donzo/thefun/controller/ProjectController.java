@@ -593,19 +593,23 @@ public class ProjectController {
 		MemberDto user = (MemberDto)req.getSession().getAttribute("login");
 		sParam.setId(user.getId());
 		
-		sParam.setStatus("preparing");
+		sParam.setStatus(ProjectDto.WAITING);
+		int waitCount = projectService.getStatusCount(sParam);
+		model.addAttribute("preCount", waitCount);
+		
+		sParam.setStatus(ProjectDto.PREPARING);
 		int preCount = projectService.getStatusCount(sParam);
 		model.addAttribute("preCount", preCount);
 		
-		sParam.setStatus("ongoing");
+		sParam.setStatus(ProjectDto.ONGOING);
 		int onCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("onCount", onCount);
 		
-		sParam.setStatus("complete_success");
+		sParam.setStatus(ProjectDto.COMPLETE_SUCCESS);
 		int sucCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("sucCount", sucCount);
 		
-		sParam.setStatus("complete_fail");
+		sParam.setStatus(ProjectDto.COMPLETE_FAIL);
 		int failCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("failCount", failCount);
 		
@@ -616,8 +620,7 @@ public class ProjectController {
 			ProjectDto dto = myschedule.get(i);
 			logger.info("Schedule list : " + dto.toString());
 		}
-		model.addAttribute("schedule", myschedule);
-		
+		model.addAttribute("schedule", myschedule);		
 		return "mySchedule.tiles";
 	}
 	
@@ -794,14 +797,7 @@ public class ProjectController {
 		
 		List<ProjectDto> pList = projectService.getProjectList(id);
 		String listData = "{\"projects\":[";		
-		for(int i=0;i<pList.size();i++) {		
-			/*listData += "{\"seq\":\"" + pList.get(i).getSeq() +"\",";*/
-			//listData += "\"otitle\":\"" + pList.get(i).getOtitle() +"\","; // 옵션 제목
-			//listData += "\"ocontent\":\"" + pList.get(i).getOcontent().replaceAll("\r\n", "/") +"\","; // 옵션 내용
-			/*listData += "\"nickname\":\"" + member.getNickname() +"\",";*/ // 아이디 대신 닉네임으로 가져왔음
-			/*listData += "\"profile\":\"" + member.getProfile() +"\",";*/ // 프로필 사진 출력용
-			/*listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(pList.get(i).getRegdate()) +"\",";*/
-			/*listData += "\"score\":\"" + pList.get(i).getScore() +"\",";*/			
+		for(int i=0;i<pList.size();i++) {
 			listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
 			if(i < pList.size()-1) {
 				listData += ",";

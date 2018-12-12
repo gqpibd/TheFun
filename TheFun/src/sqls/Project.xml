@@ -245,8 +245,14 @@ FROM FUN_PROJECT P;
 <select id="getStatusCount" parameterType="donzo.thefun.model.StatCountParam" resultType="java.lang.Integer">
 	SELECT COUNT(*)
 	FROM FUN_PROJECTALL
-	WHERE	ID=#{id}
+	WHERE ID=#{id}
+	<choose>
+	<when test="status == 'waiting'">
+	</when>
+	<otherwise>
 		AND LOWER(STATUS)=LOWER(#{status})
+	</otherwise>
+	</choose>
 </select>
 
 </mapper>

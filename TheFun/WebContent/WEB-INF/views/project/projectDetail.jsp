@@ -434,6 +434,21 @@
 var alreadySeq = new Array(); //기존에 출력된 옵션시퀀스 보관
 
 $(document).ready(function () {
+	//기부하기 클릭
+   $(document).on("click","#donaBtn",function (){
+      $("#goAnywhere").attr("action","goOrderReward.do").submit();
+   });
+
+   
+   //펀딩하기 클릭
+   $(document).on("click","#fundBtn",function (){
+      if($("input[name='selectOpSeq']").length<=0){
+         alert ("옵션을 선택하여주십시오");
+      }else{
+         $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+      }
+   });
+	   
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
