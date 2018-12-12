@@ -531,7 +531,7 @@ $(document).ready(function () {
 		if('${login.id eq null}' == 'true'){
 			return;
 			//인터셉트
-		}else if($("input[name='selectOpSeq']").length<=0){
+		}else if(alreadySeq.length==0){
 			alert ("옵션을 선택하여주십시오");			
 			return;
 		}else{
@@ -544,7 +544,7 @@ $(document).ready(function () {
 		    $("input[name='optionCount']").each(function(i) {
 		    	OpCountArr.push($(this).val());
 		    });
-
+			alert("옵션시퀀스 : "+OpSeqArr.toString()+" 옵션카운트 : "+OpCountArr.toString());
 		    $.ajax({
 		    	url:"addBasket.do",
 		    	type:"post",
@@ -623,7 +623,6 @@ function delOption(opSeq){
 	
 	//선택한 옵션금액 - 총금액 변경
 	var opPrice = $("#price"+opId).val();
-	
 	var finalPrice=$("#finalPrice").val();
 	$("#finalPrice").val(finalPrice-opPrice);
 	
