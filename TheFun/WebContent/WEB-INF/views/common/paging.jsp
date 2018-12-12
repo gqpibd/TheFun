@@ -163,6 +163,8 @@
 /* 페이지 번호를 클릭했을 때 */
 function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);
+	$("#_projectseq_participant").val($("#_projectseq_participant").val());
+	$("#_fundtype").val($("#_fundtype").val());
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());
 	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
 	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();

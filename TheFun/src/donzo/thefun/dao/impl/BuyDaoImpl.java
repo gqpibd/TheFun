@@ -10,6 +10,7 @@ import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.buyParam;
+import donzo.thefun.model.participantParam;
 
 @Repository
 public class BuyDaoImpl implements BuyDao {
@@ -62,8 +63,13 @@ public class BuyDaoImpl implements BuyDao {
 
 	// 참여 현황
 	@Override
-	public List<BuyDto> getParticipantList(BuyDto buyDto) {
-		return sqlSession.selectList(ns + "participant_List", buyDto);
+	public List<BuyDto> getParticipantList(participantParam partiParam) {
+		return sqlSession.selectList(ns + "participant_List", partiParam);
+	}
+
+	@Override
+	public int getParticipantCount(participantParam partiParam) {
+		return sqlSession.selectOne(ns + "getParticipantCount", partiParam);
 	}
 
 	@Override

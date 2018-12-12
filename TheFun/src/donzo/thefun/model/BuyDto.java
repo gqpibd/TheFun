@@ -73,7 +73,7 @@ FROM FUN_BUY B;
 
 public class BuyDto implements Serializable {		
 	
-	public static final String FINISH = "finish";
+	public static final String FINISH = "finish";// status 배송 완료, 기부 완료
 	
 	int seq;
 	String id;
