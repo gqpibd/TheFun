@@ -37,6 +37,7 @@ import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.UtilFunctions;
+import donzo.thefun.util.myCal;
 
 @Controller
 public class ProjectController {
@@ -55,13 +56,27 @@ public class ProjectController {
 
 	// 프로젝트 상세보기로 이동	
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectDetail(int seq, Model model, HttpServletRequest req) {
+	public String projectDetail(int seq, Model model, HttpServletRequest req, myCal jcal) throws Exception{
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		
 		//현재 선택한 프로젝트 정보
 		ProjectDto projectdto = projectService.getProject(seq);
 		
 		model.addAttribute("projectdto",projectdto);
+		
+		//달력
+		logger.info("ProjectController calendar" + new Date());
+		
+		//달력에서 필요한 것들 모아놓은 유틸리티야.
+		jcal.calculate();
+		
+		//xml실행하고 결과값을 여따가 저장해
+		List<ProjectDto> flist = projectService.getCalendarList(seq);	
+		//저장 한거를 여기다가 짐싸
+		model.addAttribute("flist", flist);	
+		//그 유틸리티도 짐싸
+		model.addAttribute("jcal", jcal);
+		
 		
 		//회사 정보
 		model.addAttribute("writer",projectService.getWriter(seq));
@@ -810,4 +825,25 @@ public class ProjectController {
 	private String getLoginId(HttpServletRequest req) {
 		return ((MemberDto) req.getSession().getAttribute("login")).getId();		
 	}	
+	/*	
+	@RequestMapping(value="calendar.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String calendar(Model model, myCal jcal, ProjectDto pro) throws Exception {
+		logger.info("ProjectController calendar" + new Date());
+		
+		jcal.calculate();
+		
+		String yyyymm = CalendarUtil.yyyymm(jcal.getYear(), jcal.getMonth());
+		
+		ProjectDto fcal = new ProjectDto();
+		fcal.setSeq(pro.getSeq());
+		fcal.setRegdate(yyyymm);
+		
+		List<ProjectDto> flist = projectService.getCalendarList(pro);
+		
+		model.addAttribute("flist", flist);
+		model.addAttribute("jcal", jcal);
+		
+		return null;		
+	}
+	*/
 }

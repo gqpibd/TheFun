@@ -216,6 +216,7 @@ FROM FUN_PROJECT P;
 	SELECT * 
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id} AND LOWER(STATUS) != 'delete'
+	ORDER BY SDATE ASC
 	
 </select>
 
@@ -241,4 +242,13 @@ FROM FUN_PROJECT P;
 	</choose>
 </select>
 
+<!-- 프로젝트 일정 보여줄 달력 -->
+<select id="getCalendarList" parameterType="donzo.thefun.model.ProjectDto" resultType="donzo.thefun.model.ProjectDto">
+	SELECT SEQ, SUBSTR(SDATE, 1, 8) AS SDATE, SUBSTR(EDATE, 1, 8) AS EDATE, SUBSTR(PDATE, 1, 8) AS PDATE, SUBSTR(SHIPDATE, 1, 8) AS SHIPDATE
+	FROM (SELECT ROW_NUMBER() OVER(PARTITION BY SUBSTR(SDATE, 1, 8) ORDER BY SDATE ASC) RN,
+			 SEQ, SDATE, EDATE, PDATE, SHIPDATE
+		  FROM FUN_PROJECTALL
+		  WHERE SEQ=#{seq})
+	WHERE RN BETWEEN 1 AND 5
+</select>
 </mapper>

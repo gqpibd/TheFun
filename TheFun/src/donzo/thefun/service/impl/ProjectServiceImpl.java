@@ -231,6 +231,12 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectDto> getMemberProjectList(String id) {		
 		return projectDao.getMemberProjectList(id);
 	}
+
+	//일정 달력
+	@Override
+	public List<ProjectDto> getCalendarList(int seq) throws Exception {
+		return projectDao.getCalendarList(seq);
+	}
 	
 	//판매자의 프로젝트리스트
 	@Override

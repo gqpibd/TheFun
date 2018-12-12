@@ -33,4 +33,8 @@ public interface ProjectDao {
 	
 	public List<ProjectDto> getSellerProjectList(String id);
 	
+	//프로젝트 날짜 보여줄 달력
+	public List<ProjectDto> getCalendarList(int seq) throws Exception;
+	
+	
 }

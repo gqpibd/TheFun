@@ -80,5 +80,7 @@ public interface ProjectService {
 
 	// 판매자의 성공 또는 진행중 프로젝트 리스트
 	public List<ProjectDto> getSellerProjectList(String id);
+	//일정 달력
+	public List<ProjectDto> getCalendarList(int seq) throws Exception;
 	
 }
