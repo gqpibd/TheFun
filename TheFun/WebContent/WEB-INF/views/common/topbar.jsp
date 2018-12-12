@@ -151,7 +151,7 @@ window.fbAsyncInit = function() {
 
 .drop-down__button{
   /* background: linear-gradient(to right,#3d6def, #8FADFE); */
-  background: linear-gradient(to right,#3a2525, #4c1010);
+  background: linear-gradient(to right,#8152f0, #F7EEF8);
   display: inline-block;
   padding: 0 15px;
   text-align: left;
@@ -289,10 +289,6 @@ transform: translateY(-50%);
 	.drop-down__item{			
 		padding: 8px 0;
 	}
-	.drop-down__icon{
-		margin: 0;
-		margin-left: 14px;
-	}
 	.topprofile{
 		width: 40px;
 		height: 40px;
@@ -300,6 +296,9 @@ transform: translateY(-50%);
 	.drop-down__button{
 		background: #fff;
 		box-shadow: 0;
+	}
+	.drop-down__icon{
+		margin: auto
 	}
 }
 @media screen and (max-width: 36em) { 
@@ -353,22 +352,22 @@ $(document).ready(function () {
 					<div class="cbp-hrsub-inner"> 
 						<div>
 							<h4>더 펀 메이커</h4>
-							<ul>
-								<li><a href="searchProjectList.do?doc_title=all">진행 중인 프로젝트</a></li>
+							<ul class="">
+								<li><a href="searchProjectList.do?doc_title=all">진행 중인 모든 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC">마감 앞둔 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=sdateDESC">최신 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=regdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 모든 프로젝트</a></li>
 							</ul>
 						</div>
 						
 						<div>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</h4>
+							<h4><span onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&doc_title=${ProjectDto.TYPE_DONATION}'" style="cursor: pointer;">기부</span></h4>
 							<ul>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_HUMAN}&doc_title=donationHuman">인권</a></li>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_DONATION}&s_category=${ProjectDto.CATEGORY_ANIMAL}&doc_title=donationAnimal">동물</a></li>
 							</ul>
-							<h4 onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</h4>
+							<h4><span onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</span></h4>
 							<ul>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}&doc_title=rewardFood">음식</a></li>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}&doc_title=rewardIt">IT / 전자</a></li>
@@ -377,7 +376,7 @@ $(document).ready(function () {
 						</div>
 						<div>
 							<h4>검색</h4>
-							<form id="_frmFormSearch" name="frmForm1">
+							<form id="_frmFormSearch" name="frmForm1" > <!-- method="post" -->
 								<div class="box">
 									<div class="container-4">
 										<input class="field" type="text" placeholder=" Search..."
@@ -396,6 +395,7 @@ $(document).ready(function () {
 								<input type="hidden" name="s_sort" value="${s_sort }">
 								<input type="hidden" name="s_asc_desc" value="${s_asc_desc }">
 								<input type="hidden" name="s_complete" value="${s_complete }">
+								<input type="hidden" name="s_condition" value="${s_condition }">
 								<input type="hidden" name="doc_title" value="${doc_title }">
 							</form>
 							<h4>더 펀 소개</h4>
@@ -625,7 +625,6 @@ function setBasketCount(){ // 대기중인 프로젝트 갯수
 $('#dropDown').click(function(){
     $('.drop-down').toggleClass('drop-down--active');
 });
-
 
 /* 메가메뉴 */
 var cbpHorizontalMenu=(function(){

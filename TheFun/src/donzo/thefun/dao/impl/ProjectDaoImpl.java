@@ -11,7 +11,7 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {
@@ -77,7 +77,7 @@ public class ProjectDaoImpl implements ProjectDao {
 //	}
 
 	@Override
-	public List<ProjectDto> getWaitingPagingList(adminParam aParam) {
+	public List<ProjectDto> getWaitingPagingList(pageParam aParam) {
 		return sqlSession.selectList(ns+"getWaitingPagingList", aParam);
 	}
 	

@@ -251,6 +251,7 @@
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
 				<button class="fun_btn" onclick="viewStatus()">상태확인</button>
+ 	    	<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
 			</c:if>
 		</c:if>
 	</div>
@@ -451,20 +452,21 @@ $(document).ready(function () {
 		   $.each(opArr,function(i,item){
 				
 				if(item.seq==selectedSeq){
-					str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
-					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
 					"</td>"+
 					"<td class='selOpCount opTd'align='right;'>"+
 					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
 					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 					"</td>"+
 					"<td class='selOpPrice opTd'>"+
-					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
-					 "<tr><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
 					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
@@ -489,7 +491,7 @@ $(document).ready(function () {
 				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
 				   $.each(opArr,function(i,item){
 						if(item.seq==selectedSeq){
-							str = "<tr><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+							str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 							"<td class='imgTd'></td>"+
 							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 							"</td>"+
@@ -500,6 +502,7 @@ $(document).ready(function () {
 							"</td>"+
 							"<td class='selOpPrice opTd'>"+
 							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
 							 
@@ -520,22 +523,8 @@ $(document).ready(function () {
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
-	/* 옵션 select 선택구문 끝*/
 	
-	//기부하기 클릭
-	$(document).on("click","#donaBtn",function (){
-		$("#goAnywhere").attr("action","goOrderReward.do").submit();
-	});
-
 	
-	//펀딩하기 클릭
-	$(document).on("click","#fundBtn",function (){
-		if($("input[name='selectOpSeq']").length<=0){
-			alert ("옵션을 선택하여주십시오");
-		}else{
-			$("#goAnywhere").attr("action","goOrderReward.do").submit();	
-		}
-	});
 	
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
@@ -628,6 +617,24 @@ $(function () {
 	});
 });
 
+function delOption(opSeq){
+	//선택한 옵션 tr 제거 
+	$("#tr_"+opSeq).remove();	
+	
+	//선택한 옵션금액 - 총금액 변경
+	var opPrice = $("#price"+opId).val();
+	
+	var finalPrice=$("#finalPrice").val();
+	$("#finalPrice").val(finalPrice-opPrice);
+	
+	if(finalPrice==0){ //모든옵션삭제하면 최종금액도 없어짐
+		$("#trFinal").remove();	
+	}
+	
+	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
+	
+}
+
 function heartClick(selector){	
 	if ('${login.id}' == ''){
 		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
@@ -654,16 +661,16 @@ function heartClick(selector){
 
 /* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 function plusVal(seqNum) {
-   	var count = Number(document.getElementById(seqNum).value);
-   	var stockCount = document.getElementById("stock_"+seqNum).value;
+   	var count = Number(document.getElementById(seqNum).value);	//수량찍혀있는 input text
+   	var stockCount = document.getElementById("stock_"+seqNum).value;	//현재존재하는 재고 
    	
    	if(stockCount<0){	//재고가 무제한이라면
    		
    		count+=1;
      	document.getElementById(seqNum).value =count;
        	//가격변환
-       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-       	var priceField =Number(document.getElementById("price_"+seqNum).value);
+       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//단가
+       	var priceField =Number(document.getElementById("price_"+seqNum).value);	//현재 찍혀있는 금액
        	var totalPrice = priceField+realPrice;
        	document.getElementById("price_"+seqNum).value =totalPrice;
        	
@@ -837,15 +844,15 @@ function minusVal(seqNum) {
 				<!--content //-->
 				<p class="ctxt mb20">
 					Thank you.<br> <span style="font-weight: bold;">${projectdto.title }</span>
-					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> ${writer.info } <br>
+					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
+					${writer.info } <br>
 					<c:forEach items="${projectdto.tags }" var="tags">
    		 			   #${tags }
    	  </c:forEach>
 					<br>
 					<br>
-					<c:forEach items="${projectlist.id }" var="ptitle">
-   		 			   #${ptitle}			
-   	  </c:forEach>
+					<span style="font-weight: bold;">판매자의 인기 프로젝트 목록</span><br>
+					<span id="title"></span>
 
 
 				</p>
@@ -894,26 +901,26 @@ function layer_popup(el){
 //판매자의 다른 프로젝트 리스트 출력
 function getMakerInfo() {
 	 $.ajax({
-		url:"", // 접근대상
+		url:"sellerPList.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
-		data:"", 
-		success:function(data, status, xhr){
-			var id = data.trim();
-			console.log(id);
+		data:"id=${writer.id }", 
+		dataType :"json",
+		success:function(data){		
+			$("#title").empty();
 			
+			var items = data['projects']; 
+			if(items.length>0){
+				for(i = 0; i<items.length; i++){
+					var title = items[i].title;	
+					$("#title").append(title + "<br>");
+				}
+			}
 		},
 		error:function(){ // 또는					 
 			console.log("통신실패!");
 		}
 	});	 
 }
-
-
-
-
-
-
-
 
 </script>
 <!-- 판매자 정보 팝업창 스크립트 코드 -->

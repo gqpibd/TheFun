@@ -1,4 +1,5 @@
-﻿// update : 12/07 08:41 -- FUN_PROJECTALL 변경 -- 달성금액 다시 계산 
+﻿// update : 12/10 17:34 -- FUN_PROJECTALL 변경 -- 달성금액 다시 계산2 
+// update : 12/07 08:41 -- FUN_PROJECTALL 변경 -- 달성금액 다시 계산 
 // update : 12/06 02:33 -- FUN_PROJECTALL 변경 -- REVIEWCOUNT 추가
 // update : 12/04 20:11 -- FUN_BUY에 PRICE추가(기부시 필요) FUN_BUY_VIEW 테이블 수정
 ﻿// update : 12/04 19:31 -- FUN_PROJECTALL 테이블에서 해당 펀딩 프로젝트의 총 리워드 갯수를 가져올 수 있는 OPTIONTOTAL 칼럼을 추가.

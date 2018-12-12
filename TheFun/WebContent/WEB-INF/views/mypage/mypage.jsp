@@ -111,6 +111,8 @@ a.mpa {
 .white_logo {
 	display: inline-flex;
 	float: right;
+	height: 40px;
+    margin-top: 3%;
 }
 
 /* 프로필 사진 */
@@ -214,7 +216,7 @@ a.mpa {
   
   <a class="s-sidebar__trigger mpa" href="#0">
      <i class="fa fa-bars"></i>
-     <img src="image/main/banner_white.png" class="white_logo" style="height:100%">
+     <img src="image/main/banner_white.png" class="white_logo">
   </a>
 
   <nav class="s-sidebar__nav"> 	

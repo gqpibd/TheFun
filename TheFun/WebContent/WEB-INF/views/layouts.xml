@@ -106,8 +106,14 @@
 		<put-attribute name="main" value="/WEB-INF/views/project/searchProject.jsp"/>
 	</definition>
 	
+	<!-- 분야별 인기 프로젝트 -->
 	<definition name="hotProject.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/hotProject.jsp"/>
+	</definition>
+	
+	<!-- 참여 현황 -->
+	<definition name="project_participant.tiles" extends="home.tiles"> 
+		<put-attribute name="main" value="/WEB-INF/views/project/project_participant.jsp"/>
 	</definition>
  
 </tiles-definitions>

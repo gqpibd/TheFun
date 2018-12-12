@@ -11,12 +11,12 @@ import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
     
 public interface ProjectService {
 	
 	//프로젝트 디테일 select (프로젝트 seq)
-	public ProjectDto getProject(int seq);
+	public List<ProjectDto> getProject(int[] seq);
 	
 	//프로젝트 작성자 select (프로젝트 seq)
 	public MemberDto getWriter(int seq);
@@ -45,7 +45,7 @@ public interface ProjectService {
 	
 	// 승인 대기중인 프로젝트 목록(관리자)
 //	public List<ProjectDto> getWaitingList();
-	public List<ProjectDto> getWaitingPagingList(adminParam aParam);
+	public List<ProjectDto> getWaitingPagingList(pageParam aParam);
 	// Qna목록
 	public List<QnaDto> getQna(int seq);
 

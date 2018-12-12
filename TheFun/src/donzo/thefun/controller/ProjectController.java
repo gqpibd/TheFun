@@ -30,7 +30,7 @@ import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
@@ -55,9 +55,13 @@ public class ProjectController {
 	@RequestMapping(value="projectDetail.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDetail(int seq, Model model, HttpServletRequest req) {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
-		logger.info("projectDetail project : " + projectService.getProject(seq) );
+		
 		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(seq));
+		int[] seqArr = new int[1];
+		seqArr[0]=seq;
+		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
+		ProjectDto projectdto = myProjectlist.get(0);
+		model.addAttribute("projectdto",projectdto);
 		
 		//회사 정보
 		model.addAttribute("writer",projectService.getWriter(seq));
@@ -84,7 +88,7 @@ public class ProjectController {
 	
 	// 프로젝트 관리 창으로 이동	
 	@RequestMapping(value="projectManage.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String projectManage(Model model, adminParam aParam) {
+	public String projectManage(Model model, pageParam aParam) {
 		logger.info("ProjectController projectManage 메소드 " + new Date());
 		
 		// paging 처리
@@ -94,7 +98,7 @@ public class ProjectController {
 		
 		aParam.setStart(start);
 		aParam.setEnd(end);
-		aParam.setStatus("wating");
+		aParam.setStatus("waiting");
 		
 		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
 		int totalRecordCount = projectService.getWaitCount();
@@ -109,46 +113,25 @@ public class ProjectController {
 		return "projectManage.tiles";
 	}
 		
-	// 옵션선택창으로 이동
-	@RequestMapping(value="goSelectReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goSelectReward(int seq, String type ,Model model) {
-		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
-		String returnStr="";
-		//현재 선택한 프로젝트 정보
-		model.addAttribute("projectdto",projectService.getProject(seq));
-	
-		if(type.equals(ProjectDto.TYPE_REWARD)) {//리워드일 경우
-			
-			//옵션들
-			model.addAttribute("optionList",projectService.getOptions(seq));
-			returnStr= "selectReward.tiles";
-		
-		}else if(type.equals(ProjectDto.TYPE_DONATION)) {//기부일 경우
-			
-			returnStr= "orderReward.tiles";
-		}
-		return returnStr;
-	}
-
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
+	public String goOrderReward(int[] projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
-		//현재 선택한 프로젝트 정보
-		ProjectDto projectdto = projectService.getProject(projectSeq);
-		model.addAttribute("projectdto",projectdto);
+		//현재 선택한 프로젝트 정보 복수
+		List<ProjectDto> projectdtolist = projectService.getProject(projectSeq);
+		model.addAttribute("projectdtoList",projectdtolist);
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
 		
-		if(projectdto.getFundtype().equals(projectdto.TYPE_REWARD)) {//리워드일경우
+		if(projectdtolist.get(0).getFundtype().equals(projectdtolist.get(0).TYPE_REWARD)) {//리워드일경우
 			
-			//선택한 옵션정보
+			//선택한 옵션정보 
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
 			
-			//선택한 옵션 갯수 
+			//선택한 옵션 갯수, 해시맵 옵션seq : 갯수 value 으로 바꿀것
 			model.addAttribute("optionCount",optionCount);
 		}
 		
@@ -193,12 +176,13 @@ public class ProjectController {
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
+		if(pParam.getS_condition() == null) { pParam.setS_condition(""); }
 		
 		model.addAttribute("s_sort", pParam.getS_sort());	// 우선 원래값 보냄
 		
 		// doc_title 설정 (들어온 대로 보낸다)
-		if(doc_title == null) {
-			doc_title = "";
+		if(doc_title == null || doc_title.equals("")) {
+			doc_title = "all";
 		}
 		
 		model.addAttribute("doc_title", doc_title);
@@ -219,9 +203,12 @@ public class ProjectController {
 		} else if(pParam.getS_sort().equals("edateASC")) {
 			pParam.setS_sort("EDATE");
 			pParam.setS_asc_desc("ASC");
+		} else if(pParam.getS_sort().equals("regdateDESC")) {
+			pParam.setS_sort("REGDATE");
+			pParam.setS_asc_desc("DESC");
 		}
 		
-		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
+//		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
 		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
@@ -255,6 +242,7 @@ public class ProjectController {
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
 		model.addAttribute("s_complete", pParam.getS_complete());
+		model.addAttribute("s_condition", pParam.getS_condition());
 		
 //		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
 //		model.addAttribute("s_asc_desc", pParam.getS_asc_desc());	// 내림 오름 차순 기준
@@ -371,7 +359,10 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		
 		// 수정할 펀딩
-		ProjectDto myProject = projectService.getProject(seq);
+		int[] seqArr = new int[1];
+		seqArr[0]=seq;
+		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
+		ProjectDto myProject = myProjectlist.get(0);
 		model.addAttribute("myProject", myProject);
 		
 		List<OptionDto> myOption = null;
@@ -568,8 +559,18 @@ public class ProjectController {
 		mainParam.setS_sort("EDATE");
 		mainParam.setS_asc_desc("ASC");
 		
-		List<ProjectDto> edateList = projectService.searchProjectList(mainParam);
-		model.addAttribute("edate_list", edateList);
+		List<ProjectDto> edate_list = projectService.searchProjectList(mainParam);
+		model.addAttribute("edate_list", edate_list);
+		
+		///////////////////////////////////
+		// 메인 이미지 올린 4개 프로젝트
+		// 성공한 프로젝트 중 모금액순
+		mainParam.setS_sort("BUYCOUNT");
+		mainParam.setS_asc_desc("DESC");
+		mainParam.setS_complete("complete");
+		
+		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
+		model.addAttribute("success_list", success_list);
 				
 		return "home.tiles";
 	}
@@ -755,7 +756,7 @@ public class ProjectController {
 		
 		// null 들어오면 xml 에서 오류 발생. 오류방지위함
 		if(reward_animal_Param.getS_type() == null) { reward_animal_Param.setS_type(ProjectDto.TYPE_REWARD); }
-		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_IT); }
+		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_ANIMAL); }
 		if(reward_animal_Param.getS_keyword() == null) { reward_animal_Param.setS_keyword(""); }
 		if(reward_animal_Param.getS_summary() == null) { reward_animal_Param.setS_summary(""); }
 		if(reward_animal_Param.getS_complete() == null) { reward_animal_Param.setS_complete("");}
@@ -787,7 +788,7 @@ public class ProjectController {
 	
 	//판매자의 프로젝트리스트
 	@ResponseBody
-	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	public String sellerPList(String id) {
 		logger.info("ProjectController sellerPList " + new Date());
 		

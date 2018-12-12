@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.UtilFunctions;
 
 
@@ -65,7 +67,6 @@ public class BuyController {
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
-
 		model.addAttribute("orderlist", orderlist);
 		
 		return "myOrder.tiles";
@@ -93,7 +94,12 @@ public class BuyController {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
 		System.out.println("buy 컨트롤러 dto : "+newbuy);
-		
+		for(int i=0; i<opSeq.length;i++) {
+			System.out.println("옵션시퀀스 : "+opSeq[i]);
+			System.out.println("옵션시퀀스 : "+opPrice[i]);
+			System.out.println("옵션시퀀스 : "+opCount[i]);
+		}
+				
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		
@@ -144,4 +150,23 @@ public class BuyController {
 		
 		return listData; 
 	}
+	
+	/*내가 진행 중인 프로젝트 참여 현황*/
+	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String participant(BuyDto buyDto, Model model, String title) throws Exception {
+		logger.info("ProjectController participant.do 들어옴 " + new Date());
+		
+//		ProjectDto participant_Dto = projectService.getProject(seq); // 프로젝트 정보가 필요해서... 생성 일단 보류
+		List<BuyDto> participant_List = buyService.getParticipantList(buyDto); // 참여자 정보가 필요해서
+		
+		/*model.addAttribute("participant_Dto", participant_Dto);*/
+		model.addAttribute("participant_List", participant_List);
+		
+		model.addAttribute("title", title);
+		model.addAttribute("seq", buyDto.getSeq());
+		
+		return "project_participant.tiles";
+	}
+	
+	
 }  

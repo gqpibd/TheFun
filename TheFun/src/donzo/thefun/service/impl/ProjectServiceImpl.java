@@ -25,7 +25,7 @@ import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.adminParam;
+import donzo.thefun.model.pageParam;
 import donzo.thefun.service.ProjectService;
 
 @Service
@@ -55,8 +55,14 @@ public class ProjectServiceImpl implements ProjectService {
 	AlarmDao alarmDao;
 
 	@Override
-	public ProjectDto getProject(int seq) {
-		return projectDao.getProject(seq);
+	public List<ProjectDto> getProject(int[] seq) {
+		
+		List<ProjectDto> dtolist= new ArrayList<>();
+		for(int i=0; i<seq.length;i++) {
+			ProjectDto dto= projectDao.getProject(seq[i]);
+			dtolist.add(dto);
+		}
+		return dtolist;
 	}
 
 	@Override
@@ -156,7 +162,7 @@ public class ProjectServiceImpl implements ProjectService {
 //	}
 
 	@Override
-	public List<ProjectDto> getWaitingPagingList(adminParam aParam) {
+	public List<ProjectDto> getWaitingPagingList(pageParam aParam) {
 		return projectDao.getWaitingPagingList(aParam);
 	}
 
