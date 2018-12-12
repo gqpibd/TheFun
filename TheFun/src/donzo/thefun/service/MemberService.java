@@ -1,7 +1,5 @@
 package donzo.thefun.service;
 
-import javax.servlet.http.HttpServletResponse;
-
 import donzo.thefun.model.MemberDto;
 
 public interface MemberService {

@@ -529,8 +529,7 @@ $(document).ready(function () {
 
 <!-- 페이징 처리 -->     
 <div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
-	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
-	
+	<jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">	
 		<jsp:param value="${s_keyword }" name="s_keyword"/>	
 		<jsp:param value="${pageNumber }" name="pageNumber"/>
 		<jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>

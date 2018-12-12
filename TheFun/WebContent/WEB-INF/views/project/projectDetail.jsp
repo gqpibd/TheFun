@@ -1012,13 +1012,49 @@ function viewStatus(){
 	});	
 }
 
-function deleteProject(){
-	var del=confirm("정말 프로젝트를 삭제하시겠습니까? 이 작업은 돌이킬 수 없습니다.");
-	if(del){
-		location.href="deleteProject.do?seq=${projectdto.seq}"
-	}
+function deleteProject(){ // 프로젝트 삭제
+	modalConfirm(function(confirm){
+		if(confirm){
+			location.href="projectDelete.do?seq=${projectdto.seq}";
+		}
+	});
 }
+
+/* confirm창 콜백 처리 */
+var modalConfirm = function(callback) {
+	$("#confirmModal").modal('show');
+	$("#delete").on("click", function() {
+		callback(true);
+		$("#confirmModal").modal('hide');
+	});
+
+	$("#cancel").on("click", function() {
+		callback(false);
+		$("#confirmModal").modal('hide');
+	});
+};
 </script>
+
+<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">프로젝트 삭제</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	정말 프로젝트를 삭제하시겠습니까? 이 작업은 돌이킬 수 없습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">취소</button>
+        <button type="button" class="btn btn-primary" id="delete">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog"

@@ -234,7 +234,7 @@ public class MemberController {
 		model.addAttribute("user", user);
 		
 		// 내 모든 프로젝트 가져오기
-		List<ProjectDto> myProject = projectService.getProjectList(id);
+		List<ProjectDto> myProject = projectService.getMemberProjectList(id);
 		logger.info("내 프로젝트 리스트 길이 = " + myProject.size());
 		// 가져온 프로젝트로 기부/리워드 퍼센트 평균내기
 		int length = 0;

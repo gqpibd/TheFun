@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mysql.cj.fabric.xmlrpc.base.Array;
-
-import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -60,10 +59,8 @@ public class ProjectController {
 		logger.info("ProjectController projectDetail 메소드 " + new Date());	
 		
 		//현재 선택한 프로젝트 정보
-		int[] seqArr = new int[1];
-		seqArr[0]=seq;
-		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
-		ProjectDto projectdto = myProjectlist.get(0);
+		ProjectDto projectdto = projectService.getProject(seq);
+		
 		model.addAttribute("projectdto",projectdto);
 		
 		//회사 정보
@@ -79,9 +76,9 @@ public class ProjectController {
 		model.addAttribute("qnaList",projectService.getQna(seq));
 		
 		//좋아요 했는지 여부
-		MemberDto login = (MemberDto)req.getSession().getAttribute("login");
-		if(login != null) {			
-			model.addAttribute("isLike",likeService.isLike(new LikeDto(login.getId(),seq)));
+		String loginId = getLoginId(req);
+		if(loginId != null) {			
+			model.addAttribute("isLike",likeService.isLike(new LikeDto(loginId,seq)));
 		}else {
 			model.addAttribute("isLike",false);
 		}
@@ -122,13 +119,13 @@ public class ProjectController {
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
 		//현재 선택한 프로젝트 정보 복수
-		List<ProjectDto> projectdtolist = projectService.getProject(projectSeq);
+		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
 		
-		if(projectdtolist.get(0).getFundtype().equals(projectdtolist.get(0).TYPE_REWARD)) {//리워드일경우
+		if(projectdtolist.get(0).isReward()) {//리워드일경우
 			
 			//선택한 옵션정보 
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
@@ -328,7 +325,7 @@ public class ProjectController {
 					method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String summernotePhotoUpload(HttpServletRequest request, HttpServletResponse response,
 				@RequestParam("summerFile") MultipartFile summerFile) throws IOException {
-		logger.info("오오오 왠열 어허허허허허헠ㅋㅋ summernotePhotoUpload 들어옴 " + new Date());
+		logger.info("summernotePhotoUpload 들어옴 " + new Date());
 		logger.info("파일 원래 이름 = " + summerFile.getOriginalFilename());
 		
 
@@ -362,10 +359,7 @@ public class ProjectController {
 		logger.info("ProjectController projectUpdate 들어옴 " + new Date());
 		
 		// 수정할 펀딩
-		int[] seqArr = new int[1];
-		seqArr[0]=seq;
-		List<ProjectDto> myProjectlist = projectService.getProject(seqArr);
-		ProjectDto myProject = myProjectlist.get(0);
+		ProjectDto myProject = projectService.getProject(seq);
 		model.addAttribute("myProject", myProject);
 		
 		List<OptionDto> myOption = null;
@@ -379,72 +373,73 @@ public class ProjectController {
 	}
 	
 	// 실제로 수정하는 메소드(승지)
-		@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-		public String projectUpdateAf(ProjectDto newProjectDto,/* String proSeq,*/
-								int option_total,
-								String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
-								HttpServletRequest req,
-								@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
-			//logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
-			// 업데이트 값 확인
-			//logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
-			/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
-			//logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
-			
-			// 리워드 입력값 배열 모두 list로 변환.
-			List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
-			logger.info(option_total+"");
-			logger.info(Arrays.toString(op_stock));
-			logger.info(Arrays.toString(op_content));
-			logger.info(Arrays.toString(op_price));
-			if(newProjectDto.getFundtype().equals("reward")) {
-				for (int i = 0; i < option_total; i++) {
-					//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
-					if(op_stock[i] != null && op_stock[i].trim().length()>0) {
-						logger.info("재고 있음");
-						newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
-					}else {
-						logger.info("재고가 없어!!!무제한");
-						newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], Integer.parseInt(op_price[i]), 0));
-					}
-				}
-				// 확인용
-				for (int i = 0; i < newPotionlist.size(); i++) {
-					logger.info(i + "번째 리워드 리스트 : " + newPotionlist.get(i).toString());
+	@RequestMapping(value="projectUpdateAf.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectUpdateAf(ProjectDto newProjectDto,/* String proSeq,*/
+							int option_total,
+							String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
+							HttpServletRequest req,
+							@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
+		//logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
+		// 업데이트 값 확인
+		//logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
+		/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
+		//logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
+		
+		// 리워드 입력값 배열 모두 list로 변환.
+		List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
+		logger.info(option_total+"");
+		logger.info(Arrays.toString(op_stock));
+		logger.info(Arrays.toString(op_content));
+		logger.info(Arrays.toString(op_price));
+		if(newProjectDto.getFundtype().equals("reward")) {
+			for (int i = 0; i < option_total; i++) {
+				//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
+				if(op_stock[i] != null && op_stock[i].trim().length()>0) {
+					logger.info("재고 있음");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
+							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
+				}else {
+					logger.info("재고가 없어!!!무제한");
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], Integer.parseInt(op_price[i]), 0));
 				}
 			}
-			
-			// DB 수정
-			projectService.updateProject(newProjectDto, newPotionlist, message);
-			
-			
-			if(!newImage.isEmpty()) {	// 파일이 있을때		
-				// 파일 수정
-				String uploadPath = req.getServletContext().getRealPath("/upload");
-				
-				try {
-					File file = new File(uploadPath + "/" + newProjectDto.getSeq());
-					// 실제 업로드
-					FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
-				} catch(Exception e) {
-					logger.info("수정 이미지 파일 업로드에 실패했습니다");
-				}
-				
-			}else {
-				System.out.println("들어온 이미지 파일이 없습니다");
+			// 확인용
+			for (int i = 0; i < newPotionlist.size(); i++) {
+				logger.info(i + "번째 리워드 리스트 : " + newPotionlist.get(i).toString());
 			}
-			return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
 		}
 		
-		// 내 등록 프로젝트 삭제하는 메소드(승지)
-		@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-		public String projectDelete(int seq) throws Exception {
-			logger.info("ProjectController projectDelete 들어옴 " + new Date());
-			projectService.deleteProject(seq);
+		// DB 수정
+		projectService.updateProject(newProjectDto, newPotionlist, message);
+		
+		
+		if(!newImage.isEmpty()) {	// 파일이 있을때		
+			// 파일 수정
+			String uploadPath = req.getServletContext().getRealPath("/upload");
 			
-			return "redirect:/mySchedule.do";
+			try {
+				File file = new File(uploadPath + "/" + newProjectDto.getSeq());
+				// 실제 업로드
+				FileUtils.writeByteArrayToFile(file, newImage.getBytes());	// 해당 경로에 동일한 이름의 이미지 파일이 있으면 자동 덮어씌워질것.
+			} catch(Exception e) {
+				logger.info("수정 이미지 파일 업로드에 실패했습니다");
+			}
+			
+		}else {
+			System.out.println("들어온 이미지 파일이 없습니다");
 		}
+		return "redirect:/projectDetail.do?seq="+newProjectDto.getSeq();
+	}
+	
+	// 내 등록 프로젝트 삭제하는 메소드(승지)
+	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
+	public String projectDelete(HttpServletRequest req, int seq) throws Exception {
+		logger.info("ProjectController projectDelete 들어옴 " + new Date());
+		if(getLoginId(req) == projectService.getProject(seq).getId()) { // 혹시 모르니 삭제 전에 로그인 정보를 확인
+			projectService.deleteProject(seq);
+		}
+		return "redirect:/mySchedule.do";
+	}
 	
 	// 프로젝트 승인
 	@RequestMapping(value="approve.do", method= {RequestMethod.GET, RequestMethod.POST})
@@ -590,34 +585,41 @@ public class ProjectController {
 		logger.info("ProjectController mySchedule " + new Date());
 		logger.info("ProjectController getStatusCount " + new Date());
 		
-		MemberDto user = (MemberDto)req.getSession().getAttribute("login");
-		sParam.setId(user.getId());
+		String loginId =getLoginId(req); 
+		sParam.setId(loginId);
 		
-		sParam.setStatus("preparing");
+		sParam.setStatus(ProjectDto.WAITING); // 이건 revise를 포함해서 가져올 거임 
+		int waitCount = projectService.getStatusCount(sParam);
+		model.addAttribute("waitCount", waitCount);
+
+		sParam.setStatus(ProjectDto.REJECT);
+		int rejCount = projectService.getStatusCount(sParam);
+		model.addAttribute("rejCount", rejCount);
+		
+		sParam.setStatus(ProjectDto.PREPARING);
 		int preCount = projectService.getStatusCount(sParam);
 		model.addAttribute("preCount", preCount);
 		
-		sParam.setStatus("ongoing");
+		sParam.setStatus(ProjectDto.ONGOING);
 		int onCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("onCount", onCount);
 		
-		sParam.setStatus("complete_success");
+		sParam.setStatus(ProjectDto.COMPLETE_SUCCESS);
 		int sucCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("sucCount", sucCount);
 		
-		sParam.setStatus("complete_fail");
+		sParam.setStatus(ProjectDto.COMPLETE_FAIL);
 		int failCount =  projectService.getStatusCount(sParam);
 		model.addAttribute("failCount", failCount);
 		
 		// Intercepter 통해서 로그인 확인한 뒤에 오므로 세션 바로 사용해도 무방
-		List<ProjectDto> myschedule = projectService.mySchedule(user.getId());
+		List<ProjectDto> myschedule = projectService.getMemberProjectList(loginId);
 		
-		for (int i = 0; i < myschedule.size(); i++) {
+		/*for (int i = 0; i < myschedule.size(); i++) {
 			ProjectDto dto = myschedule.get(i);
 			logger.info("Schedule list : " + dto.toString());
-		}
-		model.addAttribute("schedule", myschedule);
-		
+		}*/
+		model.addAttribute("schedule", myschedule);		
 		return "mySchedule.tiles";
 	}
 	
@@ -792,16 +794,9 @@ public class ProjectController {
 	public String sellerPList(String id) {
 		logger.info("ProjectController sellerPList " + new Date());
 		
-		List<ProjectDto> pList = projectService.getProjectList(id);
+		List<ProjectDto> pList = projectService.getSellerProjectList(id);
 		String listData = "{\"projects\":[";		
-		for(int i=0;i<pList.size();i++) {		
-			/*listData += "{\"seq\":\"" + pList.get(i).getSeq() +"\",";*/
-			//listData += "\"otitle\":\"" + pList.get(i).getOtitle() +"\","; // 옵션 제목
-			//listData += "\"ocontent\":\"" + pList.get(i).getOcontent().replaceAll("\r\n", "/") +"\","; // 옵션 내용
-			/*listData += "\"nickname\":\"" + member.getNickname() +"\",";*/ // 아이디 대신 닉네임으로 가져왔음
-			/*listData += "\"profile\":\"" + member.getProfile() +"\",";*/ // 프로필 사진 출력용
-			/*listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(pList.get(i).getRegdate()) +"\",";*/
-			/*listData += "\"score\":\"" + pList.get(i).getScore() +"\",";*/			
+		for(int i=0;i<pList.size();i++) {
 			listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
 			if(i < pList.size()-1) {
 				listData += ",";
@@ -812,5 +807,7 @@ public class ProjectController {
 		return listData;
 	}
 	
-	
+	private String getLoginId(HttpServletRequest req) {
+		return ((MemberDto) req.getSession().getAttribute("login")).getId();		
+	}	
 }

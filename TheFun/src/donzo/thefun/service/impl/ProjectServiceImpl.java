@@ -55,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
 	AlarmDao alarmDao;
 
 	@Override
-	public List<ProjectDto> getProject(int[] seq) {
+	public List<ProjectDto> getProjectList(int[] seq) {
 		
 		List<ProjectDto> dtolist= new ArrayList<>();
 		for(int i=0; i<seq.length;i++) {
@@ -63,6 +63,11 @@ public class ProjectServiceImpl implements ProjectService {
 			dtolist.add(dto);
 		}
 		return dtolist;
+	}
+	
+	@Override
+	public ProjectDto getProject(int seq) {		
+		return projectDao.getProject(seq);
 	}
 
 	@Override
@@ -170,13 +175,7 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<QnaDto> getQna(int seq) {
 		return qnaDao.getQnaList(seq);
 	}
-	
-	//schedule
-	@Override
-	public List<ProjectDto> mySchedule(String id) throws Exception {
-		return projectDao.mySchedule(id);
-	}
-	
+		
 	//내 프로젝트 요약 건 수
 	@Override
 	public int getStatusCount(StatCountParam sParam) throws Exception {
@@ -188,8 +187,11 @@ public class ProjectServiceImpl implements ProjectService {
 	public boolean approveProject(int projectseq) {
 		String message = "관리자가 프로젝트 게시를 승인하였습니다.";
 		alarmDao.addSubmitStatusAlarm(new AlarmDto(projectseq, "에디터", null , AlarmDto.ATYPE_SUBMISSION, AlarmDto.BTYPE_MYPROJECT, message));
-		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,message));		
-		return projectDao.approveProject(projectseq);		
+		projectmsgDao.insertProjectMsg(new ProjectmsgDto(projectseq,ProjectmsgDto.APPROVE,message));
+		ProjectDto statusParam = new ProjectDto();
+		statusParam.setSeq(projectseq);
+		statusParam.setStatus(ProjectDto.PREPARING);
+		return projectDao.changeProjectStatus(statusParam);		
 	}
 	
 	// 프로젝트 승인
@@ -200,10 +202,10 @@ public class ProjectServiceImpl implements ProjectService {
 		ProjectDto pdto = new ProjectDto();
 		pdto.setSeq(msgdto.getProjectseq());
 		pdto.setStatus(msgdto.getStatus());
-		return projectDao.rejectProject(pdto);		
+		return projectDao.changeProjectStatus(pdto);		
 	}
 
-	// 대기중이 프로젝트 갯수
+	// 대기중인 프로젝트 갯수
 	@Override
 	public int getWaitCount() {		
 		return projectDao.getWaitCount();
@@ -226,14 +228,14 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	//판매자의 프로젝트리스트
 	@Override
-	public List<ProjectDto> getProjectList(String id) {		
-		return projectDao.getProjectList(id);
+	public List<ProjectDto> getMemberProjectList(String id) {		
+		return projectDao.getMemberProjectList(id);
 	}
 	
-	
-	
-	
-	
-	
+	//판매자의 프로젝트리스트
+	@Override
+	public List<ProjectDto> getSellerProjectList(String id) {		
+		return projectDao.getSellerProjectList(id);
+	}
 	
 }

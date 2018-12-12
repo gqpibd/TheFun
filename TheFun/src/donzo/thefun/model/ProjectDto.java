@@ -410,6 +410,27 @@ public class ProjectDto implements Serializable {
 		return optiontotal;
 	}
 	
+	public String getStatusKr() {
+		switch(status.toLowerCase()) {
+			case PREPARING:
+				return"준비 중";
+			case ONGOING:
+				return "진행 중";
+			case COMPLETE_SUCCESS:
+				return "완료됨(성공)";
+			case COMPLETE_FAIL:
+				return "완료됨(실패)";
+			case DELETE:
+				return "삭제된 게시글";
+			case REVISE:
+				return "보완 요청";
+			case REJECT:
+				return "승인 거절";
+			default:
+				return "이상하다 고쳐라";					
+		}		
+	}
+	
 	public String getFundTypeKr() {		
 		switch(fundtype.toLowerCase()) {
 		case TYPE_DONATION:

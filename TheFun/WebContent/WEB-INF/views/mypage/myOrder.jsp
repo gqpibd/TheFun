@@ -189,11 +189,11 @@ input.star:checked ~ .rev-box {
 			<th class="column2 c">후원 내역이 없습니다</th>
 		</c:when>
 		<c:otherwise>
-			<th class="column1">후원일자</th>
-			<th class="column2">후원 프로젝트 정보</th>
-			<th class="column3">후원금액(수량)</th>
-			<th class="column4">작성자</th>
-			<th class="column5">상태</th>
+			<th class="column1 c">후원일자</th>
+			<th class="column2 c">후원 프로젝트 정보</th>
+			<th class="column3 c">후원금액(수량)</th>
+			<th class="column4 c">작성자</th>
+			<th class="column5 c">상태</th>
 		</c:otherwise>
 		</c:choose>
 		</tr>	
