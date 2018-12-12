@@ -75,18 +75,14 @@ public class ProjectController {
 		//저장 한거를 여기다가 짐싸
 		model.addAttribute("flist", flist);	
 		//그 유틸리티도 짐싸
-		model.addAttribute("jcal", jcal);
-		
+		model.addAttribute("jcal", jcal);		
 		
 		//회사 정보
 		model.addAttribute("writer",projectService.getWriter(seq));
 		
 		//옵션들
 		model.addAttribute("optionList",projectService.getOptions(seq));
-		
-		//새소식 가져오기 
-		model.addAttribute("noticeInfo",projectService.getNotice(seq));
-		
+				
 		//댓글 가져오기 
 		model.addAttribute("qnaList",projectService.getQna(seq));
 		

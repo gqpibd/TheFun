@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import donzo.thefun.dao.AlarmDao;
 import donzo.thefun.dao.LikeDao;
-import donzo.thefun.dao.NoticeDao;
 import donzo.thefun.dao.OptionDao;
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.dao.ProjectmsgDao;
@@ -18,7 +17,6 @@ import donzo.thefun.dao.QnaDao;
 import donzo.thefun.model.AlarmDto;
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.ProjectParam;
@@ -39,9 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	OptionDao optionDao;	
 	
-	@Autowired
-	NoticeDao noticeDao;
-
 	@Autowired
 	QnaDao qnaDao;
 
@@ -78,11 +73,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<OptionDto> getOptions(int seq) {
 		return optionDao.getOptions(seq);
-	}
-
-	@Override
-	public List<NoticeDto> getNotice(int seq) {
-		return noticeDao.getNotice(seq);
 	}
 
 	@Override

@@ -27,9 +27,6 @@ public interface ProjectService {
 	//프로젝트에 해당하는 옵션들 select (프로젝트 seq)
 	public List<OptionDto> getOptions(int seq);
 	
-	//프로젝트별 공지사항 (프로젝트 seq)
-	public List<NoticeDto> getNotice(int seq);
-
 	//주문하고싶은 옵션 select (옵션 seq [])
 	public List<OptionDto> getSelectOptions(int[] seq);
 	
