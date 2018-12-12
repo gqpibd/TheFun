@@ -250,8 +250,14 @@
 					data-target="#messageModal">프로젝트 승인 거절</button>
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
-				<button class="fun_btn" onclick="viewStatus()">상태확인</button>
- 	    	<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
+				<button class="fun_btn" onclick="viewStatus()">상태확인</button> 	    	
+			</c:if>
+			<c:if test="${login.id.equals(projectdto.id)}">
+				<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
+				<c:if test="${projectdto.isOnsubmission() or projectdto.isPreparing()}">
+					<button class="fun_btn" onclick="location.href='projectUpdate.do?seq=${projectdto.seq}'">프로젝트 수정</button>
+					<button class="fun_btn" onclick="deleteProject()">프로젝트 삭제</button>
+				</c:if>
 			</c:if>
 		</c:if>
 	</div>
@@ -335,7 +341,7 @@
 
 						<tr height="50" id="beginTr">
 							<td class="strongGray imgTd">${projectdto.summary }&nbsp;&nbsp;</td>
-							<td colspan="3"><select style="width: 80%; height: 30px;"
+							<td colspan="3"><select style="width: 98%; height: 30px;"
 								id="optionSelect">
 									<option selected="selected" id="beginS" value="beginS">옵션을
 										선택해주세요</option>
@@ -347,7 +353,7 @@
 
 						<tr>
 							<td></td>
-							<td colspan="3">
+							<td colspan="3" align="center">
 								<img class="pnt" height="50" src="image/detail/addcart3.jpg" id="basketBtn" /> <!-- 장바구니 버튼 -->
 								<img class="pnt" src="image/detail/fundBtn.jpg" height="40px" id="fundBtn"> <!-- 펀딩하기 버튼 -->
 							</td>
@@ -454,20 +460,20 @@ $(document).ready(function () {
 				if(item.seq==selectedSeq){
 					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
 					"<td class='imgTd'></td>"+
-					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
 					"</td>"+
 					"<td class='selOpCount opTd'align='right;'>"+
 					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' id='"+item.seq+"'>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
 					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 					"</td>"+
-					"<td class='selOpPrice opTd'>"+
-					"<input type='text' readonly='readonly' value='"+item.price+"' name='priceName' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+					"<td class='selOpPrice opTd' style='text-align: right;'>"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
 					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 					"</td></tr>"+
 					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
-					 "<td class='pupple'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'>원</td></tr>";	
+					 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
 					 
 					 alreadySeq[alreadySeq.length]=item.seq;
 					 $('#beginTr').after(str);	//tr 생성
@@ -500,8 +506,8 @@ $(document).ready(function () {
 							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
 							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
 							"</td>"+
-							"<td class='selOpPrice opTd'>"+
-							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='5px;' id='price_"+item.seq+"'>원"+
+							"<td class='selOpPrice opTd' style='text-align: right;'>"+
+							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
 							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
 							"</td></tr>";
@@ -523,14 +529,37 @@ $(document).ready(function () {
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
+	/* 옵션 select 선택구문 끝*/
 	
+	//기부하기 클릭
+	$(document).on("click","#donaBtn",function (){
+	   $("#goAnywhere").attr("action","goOrderReward.do").submit();
+	});
 	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+		if($("input[name='selectOpSeq']").length<=0){
+			alert ("옵션을 선택하여주십시오");
+		}else{
+			$("#goAnywhere").attr("action","goOrderReward.do").submit();	
+		}
+	});
 	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+	   if($("input[name='selectOpSeq']").length<=0){
+	      alert ("옵션을 선택하여주십시오");
+	   }else{
+	      $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+	   }
+	});
+
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
 		if('${login.id eq null}' == 'true'){
+			alert("로그인하여주십시오");
+			//location.href="addBasket.do";
 			return;
-			//인터셉트
 		}else if($("input[name='selectOpSeq']").length<=0){
 			alert ("옵션을 선택하여주십시오");			
 			return;
@@ -582,6 +611,8 @@ $(function () {
 		$("#review").removeClass("tabSelect");	
 	});
 	$("#notice").click(function () {
+		setNoticeList();
+		
 		$("#storyContent").hide();
 		$("#noticeContent").show();
 		$("#qnaContent").hide();
@@ -618,20 +649,26 @@ $(function () {
 });
 
 function delOption(opSeq){
-	//선택한 옵션 tr 제거 
-	$("#tr_"+opSeq).remove();	
 	
 	//선택한 옵션금액 - 총금액 변경
-	var opPrice = $("#price"+opId).val();
-	
-	var finalPrice=$("#finalPrice").val();
+	var opPrice = $("#price_"+opSeq).val();
+	var finalPrice = $("#finalPrice").val();
 	$("#finalPrice").val(finalPrice-opPrice);
-	
-	if(finalPrice==0){ //모든옵션삭제하면 최종금액도 없어짐
-		$("#trFinal").remove();	
+
+	if((finalPrice-opPrice)==0){
+		$("#trFinal").remove();	//모든옵션삭제하면 최종금액출력 ㄴㄴ
+		alreadySeq=[];	//출력한옵션 보관했던 배열 초기화
 	}
 	
 	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
+	for(var i=0; i<alreadySeq.length;i++){
+		if(opSeq==alreadySeq[i]){
+			alreadySeq.splice(i,1);
+		}
+	}
+	
+	//선택한 옵션 tr 제거 
+	$("#tr_"+opSeq).remove();
 	
 }
 
@@ -758,6 +795,7 @@ function minusVal(seqNum) {
 			<p class="strongGray">
 				<b>메이커정보</b>
 			</p>
+			
 			<div class="card my-4">
 				<div class="card-body">
 					<table style="width: 100%">
@@ -990,7 +1028,50 @@ function viewStatus(){
 		}
 	});	
 }
+
+function deleteProject(){ // 프로젝트 삭제
+	modalConfirm(function(confirm){
+		if(confirm){
+			location.href="projectDelete.do?seq=${projectdto.seq}";
+		}
+	});
+}
+
+/* confirm창 콜백 처리 */
+var modalConfirm = function(callback) {
+	$("#confirmModal").modal('show');
+	$("#delete").on("click", function() {
+		callback(true);
+		$("#confirmModal").modal('hide');
+	});
+
+	$("#cancel").on("click", function() {
+		callback(false);
+		$("#confirmModal").modal('hide');
+	});
+};
 </script>
+
+<!-- 삭제 확인 모달 -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">프로젝트 삭제</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       	정말 프로젝트를 삭제하시겠습니까? 이 작업은 돌이킬 수 없습니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancel">취소</button>
+        <button type="button" class="btn btn-primary" id="delete">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 프로젝트 승인 거절, 보완요청시 메시지 작성 부분 -->
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog"

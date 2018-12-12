@@ -302,7 +302,7 @@ $(document).ready(function() {
 									<!-- DB에는 프로젝트 테이블의 seq 값으로 파일이름 설정해줄것. -->
 						</td>
 						<td>
-							<img src="" id="imgPreview" class="card-img-top" width="20px" style="object-fit: cover;">
+							<img src="" id="imgPreview" class="card-img-top" style="object-fit: cover; max-width: 400px; max-height: 400px;">
 						</td>
 					</tr>
 				</table>

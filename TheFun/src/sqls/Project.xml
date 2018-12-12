@@ -140,17 +140,10 @@ FROM FUN_PROJECT P;
 	WHERE LOWER(STATUS)='waiting'	
 </select>
 
-<!-- 새 프로젝트 승인 -->
-<update id="approveProject" parameterType="int"> 
+<!-- 새 프로젝트 승인 상태 변경 -->
+<update id="changeProjectStatus" parameterType="donzo.thefun.model.ProjectDto"> 
 	UPDATE FUN_PROJECT
-	SET STATUS='approve' <!-- 의미 없지만 승인되었다는 의미로, preparing과 구분하는 의미로 넣어놓음 -->
-	WHERE SEQ = #{projectseq}
-</update>
- 
-<!-- 새 프로젝트 승인 거절 -->
-<update id="rejectProject" parameterType="donzo.thefun.model.ProjectDto"> 
-	UPDATE FUN_PROJECT
-	SET STATUS= #{status}
+	SET STATUS= #{status} 
 	WHERE SEQ = #{seq}
 </update> 
 
@@ -218,35 +211,44 @@ FROM FUN_PROJECT P;
 	</if>
 </select>
 
-<!-- 내 일정 찾기 : 등록한 프로젝트 -->
-<select id="mySchedule" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
-	SELECT SEQ, ID, FUNDTYPE, CATEGORY, TITLE, CONTENT, SUMMARY, TAGS, BANK, GOALFUND, 
-				SDATE, EDATE, PDATE, SHIPDATE, REGDATE, QNACOUNT, BUYCOUNT, NOTICECOUNT, LIKECOUNT, 
-				FUNDACHIVED, STATUS, NICKNAME
-	FROM FUN_PROJECTALL
-	WHERE ID=#{id}	
-	ORDER BY REGDATE DESC, SDATE ASC
-</select>
-
-<!-- 내 프로젝트 정보 전부 가져오기(승지 : 통계구현) -->
-<select id="myAllProject" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
-	SELECT * FROM FUN_PROJECTALL WHERE ID=#{id}
-</select>
-
-<!-- 판매자의 프로젝트리스트 -->
-<select id="getProjectList" resultType="donzo.thefun.model.ProjectDto">
+<!-- 특정 사용자의 프로젝트리스트 -->
+<select id="getMemberProjectList" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
 	SELECT * 
 	FROM FUN_PROJECTALL
-	WHERE ID=#{id}
+	WHERE ID=#{id} AND LOWER(STATUS) != 'delete'
+	ORDER BY SDATE ASC
+	
 </select>
 
+<!-- 특정 판매자의 진행중이거나 성공한 프로젝트 목록 -->
+<select id="getSellerProjectList" parameterType="java.lang.String" resultType="donzo.thefun.model.ProjectDto">
+	SELECT * 
+	FROM FUN_PROJECTALL
+	WHERE ID=#{id} AND LOWER(STATUS) IN ('complete_success','ongoing')
+</select>
 
 <!-- 상태에 따른 요약 건 수 -->
 <select id="getStatusCount" parameterType="donzo.thefun.model.StatCountParam" resultType="java.lang.Integer">
 	SELECT COUNT(*)
 	FROM FUN_PROJECTALL
-	WHERE	ID=#{id}
+	WHERE ID=#{id}
+	<choose>
+	<when test="status == 'waiting'">
+		AND LOWER(STATUS) IN ('waiting','revise')
+	</when>
+	<otherwise>
 		AND LOWER(STATUS)=LOWER(#{status})
+	</otherwise>
+	</choose>
 </select>
 
+<!-- 프로젝트 일정 보여줄 달력 -->
+<select id="getCalendarList" parameterType="donzo.thefun.model.ProjectDto" resultType="donzo.thefun.model.ProjectDto">
+	SELECT SEQ, SUBSTR(SDATE, 1, 8) AS SDATE, SUBSTR(EDATE, 1, 8) AS EDATE, SUBSTR(PDATE, 1, 8) AS PDATE, SUBSTR(SHIPDATE, 1, 8) AS SHIPDATE
+	FROM (SELECT ROW_NUMBER() OVER(PARTITION BY SUBSTR(SDATE, 1, 8) ORDER BY SDATE ASC) RN,
+			 SEQ, SDATE, EDATE, PDATE, SHIPDATE
+		  FROM FUN_PROJECTALL
+		  WHERE SEQ=#{seq})
+	WHERE RN BETWEEN 1 AND 5
+</select>
 </mapper>

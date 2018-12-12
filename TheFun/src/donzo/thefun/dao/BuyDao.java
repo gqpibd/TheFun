@@ -4,7 +4,9 @@ import java.util.List;
 
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.buyParam;
+import donzo.thefun.model.participantParam;
 
 public interface BuyDao {
 
@@ -29,5 +31,10 @@ public interface BuyDao {
 	public List<BuyDto> myOrderDetail(BuyDto buy);
 	
 	// 참여 현황
-	public List<BuyDto> getParticipantList(BuyDto buyDto);
+	public List<BuyDto> getParticipantList(participantParam partiParam);
+	
+	// 참여 카운트(for 페이징)
+	public int getParticipantCount(participantParam partiParam);
+
+	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto);
 }

@@ -37,4 +37,10 @@ public class NoticeServiceImpl implements NoticeService {
 		NoticeDto newDto = noticeDao.selectNotice(dto);
 		return newDto;
 	}
+
+	@Override
+	public List<NoticeDto> getNotice(int seq) {
+		return noticeDao.getNotice(seq);
+	}
+
 }

@@ -1,9 +1,6 @@
 package donzo.thefun.dao;
 
-import java.util.List;
-
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.ProjectDto;
 
 public interface MemberDao {
 

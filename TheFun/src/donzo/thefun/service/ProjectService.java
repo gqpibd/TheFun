@@ -16,7 +16,10 @@ import donzo.thefun.model.pageParam;
 public interface ProjectService {
 	
 	//프로젝트 디테일 select (프로젝트 seq)
-	public List<ProjectDto> getProject(int[] seq);
+	public List<ProjectDto> getProjectList(int[] seq);
+
+	//프로젝트 디테일 select (프로젝트 seq)
+	public ProjectDto getProject(int seq);
 	
 	//프로젝트 작성자 select (프로젝트 seq)
 	public MemberDto getWriter(int seq);
@@ -24,9 +27,6 @@ public interface ProjectService {
 	//프로젝트에 해당하는 옵션들 select (프로젝트 seq)
 	public List<OptionDto> getOptions(int seq);
 	
-	//프로젝트별 공지사항 (프로젝트 seq)
-	public List<NoticeDto> getNotice(int seq);
-
 	//주문하고싶은 옵션 select (옵션 seq [])
 	public List<OptionDto> getSelectOptions(int[] seq);
 	
@@ -39,13 +39,15 @@ public interface ProjectService {
 	// 내 프로젝트 삭제( 삭제할 프로젝트 seq ) 
 	public void deleteProject(int seq) throws Exception;
 	
+	// 프로젝트 검색
 	public List<ProjectDto> searchProjectList(ProjectParam pParm) throws Exception;
 	
+	// 프로젝트의 갯수
 	public int getProjectCount(ProjectParam pParam) throws Exception;
 	
 	// 승인 대기중인 프로젝트 목록(관리자)
-//	public List<ProjectDto> getWaitingList();
 	public List<ProjectDto> getWaitingPagingList(pageParam aParam);
+	
 	// Qna목록
 	public List<QnaDto> getQna(int seq);
 
@@ -58,20 +60,24 @@ public interface ProjectService {
 	// 승인대기중인 프로젝트의 수	
 	public int getWaitCount();
 	
-	//schedule
-	public List<ProjectDto> mySchedule(String id) throws Exception;
-
 	//내 프로젝트 요약 건 수
 	public int getStatusCount(StatCountParam sParam) throws Exception;
 	
+	// 좋아요 변경
 	public boolean changeLike(LikeDto like);
 
+	// 특정 프로젝트의 좋아요 구
 	public int getLikeCount(int projectseq);
 
+	// 특정 프로젝트의 메시지 목록
 	public List<ProjectmsgDto> getMsgList(int projectseq);
 
-	//판매자의 프로젝트 리스트
-	public List<ProjectDto> getProjectList(String id);
-	
+	// 내가 올린 프로젝트 리스트
+	public List<ProjectDto> getMemberProjectList(String id);
+
+	// 판매자의 성공 또는 진행중 프로젝트 리스트
+	public List<ProjectDto> getSellerProjectList(String id);
+	//일정 달력
+	public List<ProjectDto> getCalendarList(int seq) throws Exception;
 	
 }

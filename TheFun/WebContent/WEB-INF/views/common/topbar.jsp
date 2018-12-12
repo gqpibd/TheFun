@@ -397,6 +397,11 @@ $(document).ready(function () {
 								<input type="hidden" name="s_complete" value="${s_complete }">
 								<input type="hidden" name="s_condition" value="${s_condition }">
 								<input type="hidden" name="doc_title" value="${doc_title }">
+								
+								<!-- 참가현황 페이징시 project seq 필요 -->
+								<input type="hidden" name="projectseq_participant" value="${projectseq_participant }" id="_projectseq_participant">
+								<!-- 참가현황 페이징에 펀드 타입 필요 -->
+								<input type="hidden" name="fundtype" value="${fundtype }" id="_fundtype">
 							</form>
 							<h4>더 펀 소개</h4>
 							<ul>

@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
+import donzo.thefun.model.participantParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
-import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.UtilFunctions;
 
 
@@ -40,10 +40,14 @@ public class BuyController {
 	@RequestMapping(value="myOrderList.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String myOrderList(HttpServletRequest req, Model model, buyParam param) {
 		logger.info("BuyController myOrderList 메소드 " + new Date());
-		logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
+		//logger.info("myOrderList.do 로 들어온 param : " + param.toString());		
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
-		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+
+		param.setO_id(UtilFunctions.getLoginId(req));
+		
+		int totalRecordCount = buyService.getOrderCount(param);
 
 		// paging 처리
 		int sn = param.getPageNumber();
@@ -52,17 +56,25 @@ public class BuyController {
 		
 		param.setStart(start);
 		param.setEnd(end);
-		param.setO_id(user.getId());
 		
 		List<BuyDto> orderlist = buyService.myOrderPageList(param);
-		int totalRecordCount = buyService.getOrderCount(param);
-		
-		//리스트 확인용
+		for(int i=0;i<orderlist.size();i++) {
+			BuyDto b = orderlist.get(i);
+			logger.info(b.toString());
+			BuyGroupParam gparam = buyService.getBuyGroupInfo(b);
+			//logger.info(gparam.toString());
+			if(gparam.getGroupCount()>1) {
+				b.setCount(gparam.getTotalcount());
+				b.setOtitle(b.getOtitle() + "외 " + (gparam.getGroupCount()-1));
+				b.setPrice(gparam.getTotalprice());
+			}
+		}
+/*		//리스트 확인용
 		for (int i = 0; i < orderlist.size(); i++) {
 			BuyDto dto = orderlist.get(i);
 			logger.info("후원내역 리스트 확인 : " + dto.toString());
 		}
-		
+		*/
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
@@ -84,7 +96,6 @@ public class BuyController {
 		BuyDto buy = new BuyDto(user.getId(), projectSeq, 1, regiDate.substring(0, 19));		
 		List<BuyDto> buydto = buyService.myOrderDetail(buy);
 		model.addAttribute("buydto",buydto);
-		
 		return "myOrderDetail.tiles";
 	}
 	
@@ -93,16 +104,8 @@ public class BuyController {
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
-		System.out.println("buy 컨트롤러 dto : "+newbuy);
-		for(int i=0; i<opSeq.length;i++) {
-			System.out.println("옵션시퀀스 : "+opSeq[i]);
-			System.out.println("옵션시퀀스 : "+opPrice[i]);
-			System.out.println("옵션시퀀스 : "+opCount[i]);
-		}
-				
 		//주문 insert
 		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
-		
 		return "redirect:/myOrderList.do";
 	}	
 	
@@ -153,17 +156,36 @@ public class BuyController {
 	
 	/*내가 진행 중인 프로젝트 참여 현황*/
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String participant(BuyDto buyDto, Model model, String title) throws Exception {
+	public String participant(Model model, String title, participantParam partiParam) throws Exception {
 		logger.info("ProjectController participant.do 들어옴 " + new Date());
+//		logger.info("들어온 projectSeq_for_participant : " + projectSeq_for_participant);
+		logger.info("partiParam : " + partiParam.toString());
 		
-//		ProjectDto participant_Dto = projectService.getProject(seq); // 프로젝트 정보가 필요해서... 생성 일단 보류
-		List<BuyDto> participant_List = buyService.getParticipantList(buyDto); // 참여자 정보가 필요해서
+//		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
+		partiParam.setRecordCountPerPage(10);
 		
-		/*model.addAttribute("participant_Dto", participant_Dto);*/
+		// paging 처리 
+		int sn = partiParam.getPageNumber();
+		int start = (sn) * partiParam.getRecordCountPerPage() + 1;	// 0으로 들어온
+		int end = (sn + 1) * partiParam.getRecordCountPerPage();		// 1 ~ 10
+		
+		partiParam.setStart(start);
+		partiParam.setEnd(end);
+		
+		List<BuyDto> participant_List = buyService.getParticipantList(partiParam); // 참여자 정보가 필요해서
+		
 		model.addAttribute("participant_List", participant_List);
 		
+		int totalRecordCount = buyService.getParticipantCount(partiParam);
+		
+		model.addAttribute("pageNumber", sn);
+		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
+		model.addAttribute("recordCountPerPage", partiParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		
 		model.addAttribute("title", title);
-		model.addAttribute("seq", buyDto.getSeq());
+		model.addAttribute("fundtype", partiParam.getFundtype());
+		model.addAttribute("projectseq_participant", partiParam.getProjectseq_participant());
 		
 		return "project_participant.tiles";
 	}

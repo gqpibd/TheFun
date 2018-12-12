@@ -1,14 +1,5 @@
 @charset "UTF-8";
 
-/* 없어도 상관없는것 같은데 혹시 모르니까 일단 ... */
-@import url(https://fonts.googleapis.com/css?family=Fjalla+One:400|Roboto:400,400italic,700);
-
-/* 바디. 클래스 만들어서 쓰고 */
-body {
-  background-color:#282423;
-}
-
-/* 달력 크기 지정하는 것 */
 .jzdbox1 {
   width:315px; 
   background:#332f2e; 
@@ -21,7 +12,6 @@ body {
   margin-top:100px;
 }
 
-/* 달력 배경색을 정하는 곳 */
 .jzdcal {
   padding:0 10px 10px 10px; 
   box-sizing:border-box!important; 
@@ -32,7 +22,6 @@ body {
   background: linear-gradient(#749d9e, #b3a68b)!important;
 }
 
-/* 제목 폰트 */
 .jzdcalt {
   font:18px 'Roboto'; 
   font-weight:700; 
@@ -44,7 +33,6 @@ body {
   letter-spacing:1px;
 }
 
-/* 전체 스판 태그 */
 .jzdcal span {
   font:11px 'Roboto'; 
   font-weight:400; 
@@ -58,20 +46,17 @@ body {
   line-height:40px;
 }
 
-/* 그 달의 날짜가 없을 때 표현 */
 .jzdcal .jzdb:before {
   opacity:0.3; 
   content:'o';
 }
 
-/* 뭔가 일정이 있는 날에 동그라미로 표현 해주는 것 */
 .circle {
   border:1px solid #f7f3eb; 
   box-sizing:border-box!important; 
   border-radius:200px!important;
 }
 
-/* 위에 원에 마우스를 올렸을때 띄워줄 내용 */
 span[data-title]:hover:after, 
 div[data-title]:hover:after {
   font:11px 'Roboto'; 

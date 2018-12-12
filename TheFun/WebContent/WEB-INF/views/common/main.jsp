@@ -106,6 +106,7 @@
 	    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+	    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
 	  </ol>
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
@@ -122,6 +123,9 @@
 	    </div>
 	    <div class="carousel-item">
 	      <img class="d-block w-100" src="image/banner/메인5.png" alt="다섯번째 슬라이드">
+	    </div>
+	    <div class="carousel-item">
+	      <img class="d-block w-100" src="image/banner/메인6.png" alt="여섯번째 슬라이드">
 	    </div>
 	  </div>
 	  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

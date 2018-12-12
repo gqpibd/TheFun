@@ -7,24 +7,20 @@
 
 <style type="text/css">
 .pupple {
-	font-family: "Nanum Gothic", sans-serif;
 	color: #8152f0;
 	font-weight: bold;
 }
 
 .strongGray {
-	font-family: "Nanum Gothic", sans-serif;
 	color: #5c5c5c;
 	font-weight: bold;
 }
 
 .liteGray {
-	font-family: "Nanum Gothic", sans-serif;
 	color: #818181;
 }
 
 .mtextarea {
-	/* margin-left: 20px; */
 	margin-top: 10px;
 	width: 100%;
 	resize: none;
@@ -34,6 +30,11 @@
 	border-radius: 3px;
 	outline: none; /* 포커스 되었을 때 아웃라인 없앰 */
 	height: 100%;
+}
+
+.noticetr{
+	height: 50px; 
+	vertical-align: bottom;
 }
 </style>
 <table style="width: 100%">
@@ -50,33 +51,53 @@
 <hr>
  <!-- main content -->
 
-<br><br>
-
-<table id="noticeTable">
-<c:forEach items="${noticeInfo }" var="notice" varStatus="status">
-	<fmt:parseDate value="${notice.regdate}" var="dateFmt" pattern="yyyy-MM-dd HH:mm:ss"/>
-	
-	<tr style='height: 50px; vertical-align: bottom;'>
-		<td class="strongGray">
-			<font class="pupple" style="font-weight: bold;">#${noticeInfo.size() - status.count +1}</font>&nbsp;${notice.title }
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<font class="liteGray" size="2px">
-				작성일 : <fmt:formatDate value="${dateFmt}" pattern="yyyy년MM월dd일 HH시mm분"/>
-			</font>
-		</td>
-	</tr>
-	<tr>
-		<td class="liteGray">${notice.content }<br></td>
-	</tr>
-	
-</c:forEach>
-
-</table>
+<div id="noticeTable">
+</div>
 
 <script type="text/javascript">
+
+function setNoticeList(){
+	$.ajax({
+		url:"selectNotice.do", // 접근대상
+		type:"get",		// 데이터 전송 방식
+		data:"seq=${projectdto.seq}", // 전송할 데이터
+		dataType :"json",
+		success:function(data){
+			
+			var table = document.createElement("table");
+			
+			var items = data['notices'];
+			$("#feedbackCnt").text(items.length);
+			if(items.length>0){
+				for (i = 0; i < items.length; i++) {					
+				  
+			      var tr1 = document.createElement('tr');
+			      tr1.setAttribute("class", "noticetr");
+			      var tr1Content = "<td class='strongGray'><span class='pupple' style='font-weight: bold;'>#" + (items.length - i) +
+			      				  "</span>&nbsp;" + items[i].title + "</td>";
+			      tr1.innerHTML += tr1Content;
+			      
+			      var tr2 = document.createElement('tr');	
+			      var td = document.createElement('td');
+			      td.innerHTML = "<span class='liteGray' size='2px'>작성일 : "  + items[i].date + "</span>";
+			      tr2.appendChild(td);
+			      
+			      var tr3 = document.createElement('tr');	
+			      tr3.innerHTML = "<td class='liteGray'>" + items[i].content +"<br></td>";
+			      
+			      table.appendChild(tr1);
+			      table.appendChild(tr2);
+			      table.appendChild(tr3);
+			    }			
+				var noticebody = document.getElementById("noticeTable");
+				noticebody.replaceChild(table, noticebody.childNodes[0]);
+			}			
+		},
+		error:function(){ // 또는					 
+			console.log("통신실패!");
+		}
+	});		
+}
 function checkAndSubmitNotice(){
 	var ntitle = $("#noticeTitle").val().trim();
 	var ncontent = $("#newNoticeContent").val().trim();
@@ -97,7 +118,6 @@ function checkAndSubmitNotice(){
 			dataType:'json',
 			type:"post",
 			url:"addNotice.do",
-			//data:"projectseq=${projectdto.seq}&title=" + title + "&content=" + content,
 			data:newNoticeData,
 			async:true, // 비동기
 			success:function(data){ // 번호를 받자			

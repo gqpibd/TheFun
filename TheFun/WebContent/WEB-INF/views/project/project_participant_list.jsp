@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page import="donzo.thefun.model.ProjectDto"%>
 <fmt:requestEncoding value="utf-8"/>   
 
 <style>
@@ -21,7 +22,9 @@
 }
 
 .parti_table tr {
-	border-bottom: 1px solid #8152f0;
+	/* border-bottom: 1px solid #8152f0;
+	border-right: 1px solid #8152f0;
+	border-left: 1px solid #8152f0; */
 }
 
 
@@ -31,15 +34,15 @@ div.table-users {
    /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
    max-width: calc(100% - 2em);
    margin: 1em auto;
-   overflow-y: scroll;
-   max-height: 500px;
+   /* overflow-y: scroll;
+   max-height: 500px; */
    height: 500px;
    width: 90%;
 }
 
 table.parti_table {
    width: 100%;
-   border:1px solid #8152f0;
+   /* border:1px solid #8152f0; */
    
    table.parti_table td, table.parti_table th { 
       color: #8152f0;
@@ -130,6 +133,8 @@ table.parti_table {
       &:first-child { 
          background-color: #8152f0; 
          border-bottom: 1px solid #8152f0;
+         border-right: 1px solid #8152f0;
+         border-left: 1px solid #8152f0;
          border-radius: 10px 10px 0 0;
          position: relative;   
          top: 0;
@@ -162,7 +167,7 @@ table.parti_table {
    }
    
    .table-users { 
-      border: none; 
+      /* border: none;  */
       box-shadow: none;
       overflow: visible;
    }
@@ -178,7 +183,7 @@ table.parti_table {
 
 todolist
 - 바이뷰 고쳐서 닉네임 가져오고, 배송 현황 스테이터스 추가? deliveried?
-- projectService 바이 컨트롤러에?
+- projectService 바이 컨트롤러에?	
 -->
          
 <c:forEach items="${part_List }" var="part_Dto" varStatus="i">
@@ -186,22 +191,30 @@ todolist
 <!-- regdate -->
 <fmt:parseDate value="${part_Dto.regdate }" var="rdate" pattern="yyyy-MM-dd HH:mm:ss"/>
 
-<tr>
-   <td>${i.count }</td><!-- 번호  -->
-   <td>${part_Dto.id}</td><!-- 참여자 -->
-   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
-   <td>${part_Dto.otitle} : <span class="card-text"><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li class="liteGray list-group-item" style="float: right;width: 50%;padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
-   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
-   <td>
-   	<c:choose>
-   		<c:when test="${part_Dto.status eq 'deliveried'}">
-   			<a href="#none" class="btn btn-outline-warning">배송 현황</a>
-   		</c:when>
-   		<c:when test="${part_Dto.status ne 'deliveried'}">
-   			<a href="#none" class="btn btn-outline-danger">배송 하기</a>
-   		</c:when>
-	</c:choose>
-   </td><!-- 상태 -->
-</tr>
+<%-- <c:choose>
+<c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 --> --%>
+	<tr>
+	   <td><input type="checkbox"></td>
+	   <td>${part_Dto.id}</td><!-- 참여자 -->
+	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
+	   <td>${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li class="liteGray list-group-item" style="float: right;width: 50%;padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
+	   
+	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
+	   <td>
+   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">
+  				<!-- <a href="#none" class="btn btn-outline-warning"> -->배송 완료<!-- </a> -->
+ 			</c:when>
+ 			
+	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">
+   			<!-- <a href="#none" class="btn btn-outline-danger"> -->배송 전<!-- </a> -->
+   			</c:when>
+		</td>
+	</tr>
+<%-- </c:when> --%>
+
+<%-- <c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  -->
+
+</c:when>
+</c:choose> --%>
 	
 </c:forEach>
