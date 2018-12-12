@@ -250,8 +250,14 @@
 					data-target="#messageModal">프로젝트 승인 거절</button>
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
-				<button class="fun_btn" onclick="viewStatus()">상태확인</button>
- 	    	<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
+				<button class="fun_btn" onclick="viewStatus()">상태확인</button> 	    	
+			</c:if>
+			<c:if test="${login.id.equals(projectdto.id)}">
+				<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
+				<c:if test="${projectdto.isOnsubmission() or projectdto.isPreparing}">
+					<button class="fun_btn" onclick="location.href='projectUpdate.do?seq=${projectdto.seq}'">프로젝트 수정</button>
+					<button class="fun_btn" onclick="deleteProject()">프로젝트 삭제</button>
+				</c:if>
 			</c:if>
 		</c:if>
 	</div>
@@ -434,6 +440,21 @@
 var alreadySeq = new Array(); //기존에 출력된 옵션시퀀스 보관
 
 $(document).ready(function () {
+	//기부하기 클릭
+	$(document).on("click","#donaBtn",function (){
+	   $("#goAnywhere").attr("action","goOrderReward.do").submit();
+	});
+	
+	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+	   if($("input[name='selectOpSeq']").length<=0){
+	      alert ("옵션을 선택하여주십시오");
+	   }else{
+	      $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+	   }
+	});
+	   
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
@@ -989,6 +1010,13 @@ function viewStatus(){
 			console.log("통신실패!");
 		}
 	});	
+}
+
+function deleteProject(){
+	var del=confirm("정말 프로젝트를 삭제하시겠습니까? 이 작업은 돌이킬 수 없습니다.");
+	if(del){
+		location.href="deleteProject.do?seq=${projectdto.seq}"
+	}
 }
 </script>
 

@@ -7,7 +7,7 @@
 
 <fmt:requestEncoding value="utf-8"/>    
 
-<header id="line_header">
+<header class="line_header">
   <div class="container text-center">
     <h1 class="head_title">MY FUNDING DETAIL</h1>
     <p>후원 상세 내역</p>

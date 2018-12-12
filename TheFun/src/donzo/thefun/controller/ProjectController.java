@@ -3,6 +3,7 @@ package donzo.thefun.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mysql.cj.fabric.xmlrpc.base.Array;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.LikeDto;
@@ -382,20 +385,18 @@ public class ProjectController {
 								String[] op_title, String[] op_content, String[] op_price, String[] op_stock,
 								HttpServletRequest req,
 								@RequestParam(value="fileload", required=false) MultipartFile newImage, String message) throws Exception {
-			logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
+			//logger.info("ProjectController projectUpdateAf 들어옴 " + new Date());
 			// 업데이트 값 확인
-			logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
+			//logger.info("컨트롤러에 들어온 펀딩 수정입력 값 = " + newProjectDto.toString() );
 			/*logger.info("수정할 펀딩의 seq = " + proSeq);*/
-			logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
-			
-			// seq값 세팅
-			/*newProjectDto.setSeq(Integer.parseInt(proSeq));*/
-			
-			
+			//logger.info("새 이미지파일 이름 = "+newImage.getOriginalFilename());
 			
 			// 리워드 입력값 배열 모두 list로 변환.
 			List<OptionDto> newPotionlist = new ArrayList<OptionDto>();
-			
+			logger.info(option_total+"");
+			logger.info(Arrays.toString(op_stock));
+			logger.info(Arrays.toString(op_content));
+			logger.info(Arrays.toString(op_price));
 			if(newProjectDto.getFundtype().equals("reward")) {
 				for (int i = 0; i < option_total; i++) {
 					//logger.info(i + "번째 재고 : [" + op_stock[i]+"]");
@@ -405,8 +406,7 @@ public class ProjectController {
 								Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
 					}else {
 						logger.info("재고가 없어!!!무제한");
-						newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], 
-								Integer.parseInt(op_price[i]), 0));
+						newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], Integer.parseInt(op_price[i]), 0));
 					}
 				}
 				// 확인용

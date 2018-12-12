@@ -117,8 +117,4 @@ public class ProjectDaoImpl implements ProjectDao {
 		return list;
 	}
 	
-	
-	
-	
-	
 }

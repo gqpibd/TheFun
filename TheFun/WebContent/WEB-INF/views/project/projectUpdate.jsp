@@ -298,7 +298,7 @@ $(document).ready(function() {
 								accept="image/jpg, image/gif, image/png, image/jpeg, image/bmp">
 					</td>
 					<td>
-						<img alt="#none" src="upload/${myProject.seq}" id="imgPreview" class="card-img-top" width="50%" height="30%">
+						<img alt="#none" src="upload/${myProject.seq}" id="imgPreview" class="card-img-top" style="object-fit: cover; max-width: 400px; max-height: 400px;">
 					</td>
 				</tr>
 			</table>
@@ -704,176 +704,18 @@ $(document).ready(function() {
       </div>
     </div>    
     <!-- [11] 리워드 등록 --> <!-- 하나로 정리하자 -->
-   <%--  <c:forEach varStatus="i" begin="1" end="10" step="1">
-   		<div id="_option${i.count}">
-		    <div class="card">
-				    <div class="panel panel-default">
-					    <div class="card-header" id="headion${i.count}">
-					        <h5 class="mb-0">
-					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count}" 
-					          		id="option${i.count}" class="changedOption">${i.count}번째 선물</a>
-					          	<span id="optionChecked${i.count}" style="float: right;opacity:0;color:green">✔</span>
-					      	</h5>
-					    </div>
-				    <div id="collapse${i.count}" class="panel-collapse collapse" aria-labelledby="heading${i.count}" data-parent="#accordion2">
-		       			<div class="card-body">
-				        	<table style="width: 100%">
-								<tr>
-									<td colspan="2">
-										<div class="desc projectimg">
-											후원자 분들에게 드릴 선물 내용을 입력해주세요
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<div class="form-group">
-										  <label for="sel1">옵션 제목</label>
-										  <input type="text" class="form-control" id="op_title${i.count}" 
-										  	name="op_title" value="${i.count<optionList.size()?optionList.get(i.count).title:''}" 
-										  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
-										  	style="font-size: 15px" size="100%">
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<div class="form-group">
-										  <label for="sel1">아이템</label>
-										  <textarea class="form-control" rows="5" id="op_content${i.count}" 
-										  	name="op_content" style="font-size: 15px" 
-										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요.">${i.count<optionList.size()?optionList.get(i.count).content:''}</textarea>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-group">
-										  <label for="sel1">후원 금액</label>
-										  <input type="text" class="form-control" id="op_price${i.count}" 
-										  	name="op_price" value="${i.count<optionList.size()?optionList.get(i.count).price:''}"
-										  	placeholder="해당 옵션의 적정가를 책정해주세요" 
-										  	style="font-size: 15px" size="50%" maxlength="8">
-										</div>
-									</td>
-									<td>
-										<div class="form-group">
-										  <label for="sel1">보유 수량</label>
-										  <c:choose>
-										  	<c:when test="${i.count<optionList.size() and optionList.get(i.count).stock ne 0}">
-											  <input type="text" class="form-control" id="op_stock${i.count }" 
-											  	name="op_stock" value="${optionList.get(i.count).stock}" 
-											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-											  	style="font-size: 15px" size="50%" maxlength="8">
-										  	</c:when>
-										  	<c:otherwise>
-										  		<input type="text" class="form-control" id="op_stock${i.count }" 
-											  	name="op_stock"
-											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-											  	style="font-size: 15px" size="50%" maxlength="8">
-										  	</c:otherwise>
-										  </c:choose>
-										</div>
-									</td>
-								</tr>
-							</table>
-				        </div>
-				      </div>
-			    </div>
-		    </div>		    
-		</div>
-	</c:forEach> --%>
-   	<c:forEach items="${optionList}" var="myOption" varStatus="i">
-   		<div id="_option${i.count}">
-		    <div class="card">
-				    <div class="panel panel-default">
-					    <div class="card-header" id="headion${i.count }">
-					        <h5 class="mb-0">
-					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${i.count}" 
-					          		id="option${i.count }" class="changedOption">${i.count }번째 선물</a>
-					          	<span id="optionChecked${i.count}" style="float: right;opacity:1;color:green">✔</span>
-					      	</h5>
-					    </div>
-				    <div id="collapse${i.count}" class="panel-collapse collapse" aria-labelledby="heading${i.count }" data-parent="#accordion2">
-		       			<div class="card-body">
-				        	<table style="width: 100%">
-								<tr>
-									<td colspan="2">
-										<div class="desc projectimg">
-											후원자 분들에게 드릴 선물 내용을 입력해주세요
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<div class="form-group">
-										  <label for="sel1">옵션 제목</label>
-										  <input type="text" class="form-control" id="op_title${i.count }" 
-										  	name="op_title" value="${myOption.title }" 
-										  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
-										  	style="font-size: 15px" size="100%" onblur="optionCheck()">
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<div class="form-group">
-										  <label for="sel1">아이템</label>
-										  <textarea class="form-control" rows="5" id="op_content${i.count }" 
-										  	name="op_content" style="font-size: 15px" 
-										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요." onblur="optionCheck()">${myOption.content }</textarea>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="form-group">
-										  <label for="sel1">후원 금액</label>
-										  <input type="text" class="form-control" id="op_price${i.count }" 
-										  	name="op_price" value="${myOption.price }"
-										  	placeholder="해당 옵션의 적정가를 책정해주세요" 
-										  	style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
-										</div>
-									</td>
-									<td>
-										<div class="form-group">
-										  <label for="sel1">보유 수량</label>
-										  <c:choose>
-										  	<c:when test="${myOption.stock ne 0}">
-											  <input type="text" class="form-control" id="op_stock${i.count }" 
-											  	name="op_stock" value="${myOption.stock}" 
-											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-											  	style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
-										  	</c:when>
-										  	<c:otherwise>
-										  		<input type="text" class="form-control" id="op_stock${i.count }" 
-											  	name="op_stock"
-											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-											  	style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
-										  	</c:otherwise>
-										  </c:choose>
-										</div>
-									</td>
-								</tr>
-							</table>
-				        </div>
-				      </div>
-			    </div>
-		    </div>		    
-		</div>
-	</c:forEach>
-	<c:forEach var="x" begin="${optionList.size()}" end="10" step="1">
-   		<div id="_option${x}" style="display:none;">
+    <c:forEach var="x" begin="1" end="10" step="1">
+   		<div id="_option${x}" style="display:${x<=fn:length(optionList)?'block':'none'};">
 		    <div class="card">
 				    <div class="panel panel-default">
 					    <div class="card-header" id="headion${x}">
 					        <h5 class="mb-0">
 					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${x}" 
 					          		id="option${x}" class="changedOption">${x}번째 선물</a>
-					          	<span id="optionChecked${x}" style="float: right;opacity:0;color:green">✔</span>
+					          	<span id="optionChecked${x}" style="float: right;opacity:${x<=fn:length(optionList)?'1':'0'};color:green">✔</span>
 					      	</h5>
 					    </div>
-				    <div id="collapse${x}" class="panel-collapse collapse" aria-labelledby="heading${x }" data-parent="#accordion2">
+				    <div id="collapse${x}" class="panel-collapse collapse" aria-labelledby="heading${x}" data-parent="#accordion2">
 		       			<div class="card-body">
 				        	<table style="width: 100%">
 								<tr>
@@ -887,8 +729,10 @@ $(document).ready(function() {
 									<td colspan="2">
 										<div class="form-group">
 										  <label for="sel1">옵션 제목</label>
-										  <input type="text" class="form-control" id="op_title${x }" name="op_title" placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
-										  	style="font-size: 15px" size="100%" onblur="optionCheck()">
+										  <input type="text" class="form-control" id="op_title${x}" 
+										  	name="op_title" value="${x<=fn:length(optionList)?optionList.get(x-1).title:''}" 
+										  	placeholder="[얼리버드] 등 대표 제목을 작성해주세요" 
+										  	style="font-size: 15px" size="100%" onkeyup="optionCheck()">
 										</div>
 									</td>
 								</tr>
@@ -896,9 +740,9 @@ $(document).ready(function() {
 									<td colspan="2">
 										<div class="form-group">
 										  <label for="sel1">아이템</label>
-										  <textarea class="form-control" rows="5" id="op_content${x }" 
+										  <textarea class="form-control" rows="5" id="op_content${x}" 
 										  	name="op_content" style="font-size: 15px" 
-										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요." onblur="optionCheck()"></textarea>
+										  	placeholder="아이템은 선물에 포함되는 구성 품목을 말합니다. 각 품목은 줄바꿈으로 구분해주세요." onkeyup="optionCheck()">${x<=fn:length(optionList)?optionList.get(x-1).content:''}</textarea>
 										</div>
 									</td>
 								</tr>
@@ -906,16 +750,29 @@ $(document).ready(function() {
 									<td>
 										<div class="form-group">
 										  <label for="sel1">후원 금액</label>
-										  <input type="text" class="form-control" id="op_price${x }" 
-										  	name="op_price" placeholder="해당 옵션의 적정가를 책정해주세요" 
-										  	style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
+										  <input type="text" class="form-control" id="op_price${x}" 
+										  	name="op_price" value="${x<=fn:length(optionList)?optionList.get(x-1).price:''}"
+										  	placeholder="해당 옵션의 적정가를 책정해주세요" 
+										  	style="font-size: 15px" size="50%" maxlength="8" onkeyup="optionCheck()">
 										</div>
 									</td>
 									<td>
 										<div class="form-group">
 										  <label for="sel1">보유 수량</label>
-										  		<input type="text" class="form-control" id="op_stock${x }" name="op_stock"	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
-											  	style="font-size: 15px" size="50%" maxlength="8" onblur="optionCheck()">
+										  <c:choose>
+										  	<c:when test="${x<=fn:length(optionList) and optionList.get(x-1).stock ne 0}">
+											  <input type="text" class="form-control" id="op_stock${x}" 
+											  	name="op_stock" value="${optionList.get(x-1).stock}" 
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8" onkeyup="optionCheck()">
+										  	</c:when>
+										  	<c:otherwise>
+										  		<input type="text" class="form-control" id="op_stock${x }" 
+											  	name="op_stock"
+											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
+											  	style="font-size: 15px" size="50%" maxlength="8" onkeyup="optionCheck()">
+										  	</c:otherwise>
+										  </c:choose>
 										</div>
 									</td>
 								</tr>
@@ -923,9 +780,10 @@ $(document).ready(function() {
 				        </div>
 				      </div>
 			    </div>
-		    </div>
-		    </div>
-	</c:forEach>
+		    </div>		    
+		</div>
+	</c:forEach> 
+   
 </div>
 
 </div>
@@ -936,7 +794,6 @@ $(document).ready(function() {
 <!-- 전송버튼 -->
 	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
 		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="수정하기">	
-
 </div>
 </div>
 
@@ -949,10 +806,10 @@ $(document).ready(function() {
 // 옵션갯수 다시 선택하면  
 function optionChange( me ) {
 	var num = me.options[me.selectedIndex].value;
-	alert(num + "개");
+	//alert(num + "개");
 	
 	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
-		$("#_option" + i).val("");
+		/* $("#_option" + i).val(""); */
 		$("#_option" + i).hide();
 	}
 	for(i=1; i <= num; i++){	// 갯수만큼만 다시 보여짐
@@ -1021,11 +878,6 @@ $("#btn_submit").click(function () {
 		alert("프로젝트 스토리를 등록해주세요");
 		$("#summernoteTap").click();
 		return;
-	} else if(summernote.length > 4000){
-		alert("프로젝트 스토리가 너무 깁니다. 줄여주세요.");
-		$("#menu-tab1").click();
-		$("#summernoteTap").click();
-		return;
 	} else if(bankname == null || bankname == "" || bankname == "은행을 선택하세요" || accountNumber == null || accountNumber == ""){
 		alert("은행을 선택해주세요");
 		$("#bankTap").click();
@@ -1046,13 +898,14 @@ $("#btn_submit").click(function () {
 			// 적정 목표액 판정용
 			var totalPrice = 0;
 			
-			for(var i=1; i<=optotal; i++){
-				var op_title = $("#op_title" + i).val();
-				var op_content = $("#op_content" + i).val();
-				var _op_price = $("#op_price" + i).val();
+			for(var i=0; i<optotal; i++){
+				var op_title = $("input[name='op_title']").eq(i).val();
+				var op_content = $("textarea[name='op_content']").eq(i).val();
+				var _op_price = $("input[name='op_title']").eq(i).val();
 				var op_price = _op_price.replace(/,/gi, "");
-				var _op_stock = $("#op_stock" + i).val();
+				var _op_stock = $("input[name='op_stock']").eq(i).val();
 				var op_stock = _op_stock.replace(/,/gi, "");
+				
 				console.log(i + "번째 [리워드]~ 제목 = " + op_title + " 내용 = " + op_content + " 가격 = " + op_price + " 재고 = " + op_stock
 						+ " 가격 자리수 = " + op_price.length + " 재고 자리수 = " + op_stock.length);
 				
@@ -1094,13 +947,13 @@ function formSubmit(bankname, accountNumber) {
 	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
 	if(fundtype == "reward"){
 		var optotal = $("#option_total").val();
-		for(var i=1; i<=optotal; i++){
-			var content = $("#op_content" + i).val();
-			var price = $("#op_price" + i).val();
-			var stock = $("#op_stock" + i).val();
-			$("#op_content" + i).val(content.replace(/\n/gi, "/"));
-			$("#op_price" + i).val(price.replace(/,/gi, ""));
-			$("#op_stock" + i).val(stock.replace(/,/gi, ""));
+		for(var i=0; i<optotal; i++){
+			var content = $("textarea[name='op_content']").eq(i).val();
+			var price = $("input[name='op_price']").eq(i).val();
+			var stock = $("input[name='op_stock']").eq(i).val();
+			$("textarea[name='op_content']").eq(i).val(content.replace(/\n/gi, "/"));
+			$("input[name='op_price']").eq(i).val(price.replace(/,/gi, ""));
+			$("input[name='op_stock']").eq(i).val(stock.replace(/,/gi, ""));
 		}
 	}
 	
@@ -1137,7 +990,8 @@ function checkLength (selector,messageSelector,maxlength){
 	}
 }
 //목표금액, 리워드 금액, 리워드 수량 전부 --> 숫자만 입력가능 + 콤마생성
-$("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() {
+/* $("#goalfund, #op_price1, #op_price2, #op_price3, #op_price4, #op_price5, #op_price6, #op_price7, #op_price8, #op_price9, #op_price10,	#op_stock1, #op_stock2, #op_stock3, #op_stock4, #op_stock5, #op_stock6, #op_stock7, #op_stock8, #op_stock9, #op_stock10").on("keyup", function() { */
+$("#goalfund, input[name='op_price'], input[name='op_stock']").on("keyup", function() {
 	$(this).val(addCommas($(this).val().replace(/[^0-9]/g,"")));
 });
 //계좌번호 숫자만 입력가능
@@ -1372,45 +1226,41 @@ function scheduleCheck(){
 	checkStorytelling();
 }
 
-function optionCheck(){	
-	//var optionSelected = $("#optionSelected").val();	// 상품-리워드 갯수 선택했을때 "OK" / 기부or상품-리워드 갯수 선택안했을 때 "NO"
+function optionCheck(){
 	var option_total = $("#option_total").val();
 	var goalfund = parseInt($("#goalfund").val().replace(/,/gi, ""));
-	//console.log(optionSelected + " " + option_total + " " + goalfund);
-	//if(optionSelected == "OK"){	// 상품선택하고, 리워드 갯수 선택안함
-		var totalPrice = 0;
-	    var unlimited = false;
-	    var optionCheckedCount = 0;
+	
+	var totalPrice = 0;
+    var unlimited = false;
+    var optionCheckedCount = 0;
 
-		for(var i=1; i<=option_total; i++){
-			var op_title = $("#op_title" + i).val();
-			var op_content = $("#op_content" + i).val();
-			var op_price = $("#op_price" + i).val().replace(/,/gi, "");
-			var op_stock = $("#op_stock" + i).val().replace(/,/gi, "");
-					
-			// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
-			if(op_stock != ""){
-				totalPrice = totalPrice + (op_price*op_stock);
-			}else{
-				unlimited = true;
-			}
-			
-			if(op_title != "" && op_content != "" && op_price != ""){
-				$("#optionChecked"+i).css("opacity","1");	
-				optionCheckedCount++;
-			}else{
-				$("#optionChecked"+i).css("opacity","0");	
-			}
+	for(var i=0; i<option_total; i++){
+		var op_title = $("input[name='op_title']").eq(i).val();
+		var op_content = $("textarea[name='op_content']").eq(i).val();
+		var op_price = $("input[name='op_price']").eq(i).val().replace(/,/gi, "");
+		var op_stock = $("input[name='op_stock']").eq(i).val().replace(/,/gi, "");		
+		
+		// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+		if(op_stock != ""){
+			totalPrice = totalPrice + (op_price*op_stock);
+		}else{
+			unlimited = true;
 		}
 		
-		if((unlimited || parseInt(totalPrice) >= parseInt(goalfund)) && optionCheckedCount==option_total) {
-			$("#optionAllChecked").css("opacity","1");
-			$("#rewardChecked").css("display","block");
+		if(op_title != "" && op_content != "" && op_price != ""){
+			$("#optionChecked"+(i+1)).css("opacity","1");	
+			optionCheckedCount++;
 		}else{
-			$("#optionAllChecked").css("opacity","0");
-			$("#rewardChecked").css("display","none");
+			$("#optionChecked"+(i+1)).css("opacity","0");	
 		}
-	//}		
+	}
+	if((unlimited || parseInt(totalPrice) >= parseInt(goalfund)) && optionCheckedCount==option_total) {
+		$("#optionAllChecked").css("opacity","1");
+		$("#rewardChecked").css("display","block");
+	}else{
+		$("#optionAllChecked").css("opacity","0");
+		$("#rewardChecked").css("display","none");
+	}	
 }
 </script>
 
