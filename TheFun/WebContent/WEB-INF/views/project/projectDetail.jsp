@@ -524,7 +524,14 @@ $(document).ready(function () {
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
 	});
 	
-	
+	//펀딩하기 클릭
+	$(document).on("click","#fundBtn",function (){
+		if(alreadySeq.length==0){
+			alert ("옵션을 선택하여주십시오");
+		}else{
+			$("#goAnywhere").attr("action","goOrderReward.do").submit();	
+		}
+	});
 	
 	/* 장바구니로 가기 */
 	$(document).on("click","#basketBtn",function (){
@@ -535,6 +542,10 @@ $(document).ready(function () {
 			alert ("옵션을 선택하여주십시오");			
 			return;
 		}else{
+			
+			var p = $("input[name='selectOpSeq']").val();
+			alert("p: "+p);
+			
 			var OpSeqArr = [];	//옵션시퀀스배열
 		    $("input[name='selectOpSeq']").each(function(i) {
 		    	OpSeqArr.push($(this).val());
@@ -847,7 +858,7 @@ function minusVal(seqNum) {
 					${writer.info } <br>
 					<c:forEach items="${projectdto.tags }" var="tags">
    		 			   #${tags }
-   	  </c:forEach>
+   	  				</c:forEach>
 					<br>
 					<br>
 					<span style="font-weight: bold;">판매자의 인기 프로젝트 목록</span><br>
