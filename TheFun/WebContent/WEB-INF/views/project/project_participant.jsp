@@ -1,4 +1,5 @@
 <%@page import="donzo.thefun.model.ProjectDto"%>
+<%@page import="donzo.thefun.model.participantParam"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -44,8 +45,8 @@ div.table-users {
    /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
    max-width: calc(100% - 2em);
    margin: 1em auto;
-   overflow-y: scroll;
-   max-height: 500px;
+   /* overflow-y: scroll;
+   max-height: 500px; */
    height: 500px;
    width: 90%;
 }
@@ -175,10 +176,35 @@ table.parti_table {
    }
    
    .table-users { 
-      border: none; 
+      /* border: none;  */
       box-shadow: none;
       overflow: visible;
    }
+}
+</style>
+
+<link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
+<style type="text/css">
+/* 테이블 화면 작아졌을 때 */
+@media screen and (max-width: 992px) {
+  .parti_table tbody tr td:nth-child(1):before {
+     content: "후원일자";
+  }
+  .parti_table tbody tr td:nth-child(2):before {
+    content: "후원 프로젝트 정보";
+  }
+  .parti_table tbody tr td:nth-child(3):before {
+    content: "후원금액(수량)";
+  }
+  .parti_table tbody tr td:nth-child(4):before {
+    content: "작성자";
+  }
+  .parti_table tbody tr td:nth-child(5):before {
+    content: "상태";
+  }
+  .parti_table td.c {
+    text-align: left;
+  }
 }
 </style>
 
@@ -187,7 +213,7 @@ table.parti_table {
 	<!-- <h1 class="head_title">SEARCH</h1> -->
 	<p>참여 현황</p>
 	<div align="right"  style="margin-top: 5%;margin-bottom: 3%;">
-	<a href="projectDetail.do?seq=${seq }" class="btn btn-primary">프로젝트 보러가기</a>
+	<a href="projectDetail.do?seq=${projectseq_participant }" class="btn btn-primary">프로젝트 보러가기</a>
 	</div>
 	</div>
 	</header>
@@ -206,38 +232,73 @@ table.parti_table {
 	 
 	 	<div class="parti_header">프로젝트 참여 목록</div>
 	   
-	   <table class="parti_table" style="text-align: center;overflow-y: scroll;max-height: 10px;vertical-align: middle;" cellpadding="5px">
-	   <colgroup>
-	   	<col width="5%"><col width="15%"><col width="20%"><col width="40%"><col width="15%"><col width="5%">
-	   </colgroup>
+	   <table class="parti_table" style="text-align: center;vertical-align: middle;" cellpadding="5px">
 	   <c:choose>
 	   <c:when test="${empty participant_List }">
 		<tr>
-			<th colspan="5">참여 내역이 없습니다</th>
+			<th class="column2 c">참여 내역이 없습니다</th>
 		</tr>	
 		</c:when>
 		
 	    <c:when test="${!empty participant_List }">
-	      <tr>
-	         <th>번호</th>
-	         <th>참여자 ID</th>
-	         <th>후원일자</th>
-	         <th>상품 / 옵션 정보</th>
-	         <th>총 결제금액</th>
-	         <th>상태</th>
-	      </tr>
-	
-	      <!-- list jsp:include로 보내려면 이렇게 -->
-		  <c:set var="part_List" value="${participant_List }" scope="request"/>
-		  
-	      <jsp:include page="/WEB-INF/views/project/project_participant_list.jsp" flush="false">
-	      	<jsp:param value="${part_List }" name="part_List"/>
-	      </jsp:include>
-	      
+	    	<%-- <c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 --> --%>
+	    	
+		      <tr>
+		      	 <th class="column1"><input type="checkbox" id="check_All"></th>
+		         <th class="column2">참여자 ID</th>
+		         <th class="column3">후원일자</th>
+		         <th class="column4">상품 / 옵션 정보</th>
+		         <th class="column5">총 결제금액</th>
+		         <th class="column6">상태<th>
+		      </tr>
+		
+		      <!-- list jsp:include로 보내려면 이렇게 -->
+			  <c:set var="part_List" value="${participant_List }" scope="request"/>
+			  
+		      <jsp:include page="/WEB-INF/views/project/project_participant_list.jsp" flush="false">
+		      	<jsp:param value="${part_List }" name="part_List"/>
+		      </jsp:include>
+		      
+		     <%-- </c:when> --%>
+		     
+		     <%-- <c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  --> --%>
+		     
+		     	<tr>
+		      	 <th class="column1"><input type="checkbox" id="check_All"></th>
+		         <th class="column2">참여자 ID</th>
+		         <th class="column3">후원일자</th>
+		         <th class="column4">총 후원금액</th>
+		         <th class="column5">상태<th>
+		      </tr>
+		
+		      <!-- list jsp:include로 보내려면 이렇게 -->
+			  <c:set var="part_List" value="${participant_List }" scope="request"/>
+			  
+		      <jsp:include page="/WEB-INF/views/project/project_participant_list.jsp" flush="false">
+		      	<jsp:param value="${part_List }" name="part_List"/>
+		      </jsp:include>
+		      
+		     <%-- </c:when>     --%>
 	     </c:when>
 		</c:choose>
 	
 	   </table>
+	   
+	   <!-- 페이징 처리 -->     
+		  <div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
+		  	  <jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+		  	  
+		  	  	  <jsp:param value="${fundtype }" name="fundtype"/>	
+		  	  	  <jsp:param value="${s_keyword }" name="s_keyword"/>	
+		  	  	  <jsp:param value="${pageNumber }" name="pageNumber"/>
+		  	  	  <jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+		  	  	  <jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+		  	  	  <jsp:param value="${totalRecordCount }" name="totalRecordCount"/>
+		  	  	  <jsp:param value="${projectseq_participant }" name="projectseq_participant"/>
+		  	  	  <jsp:param value="participant.do" name="actionPath"/>
+		  	  </jsp:include>
+		  </div>
+		  
 	</div>
 	
 	

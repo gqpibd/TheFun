@@ -251,7 +251,7 @@
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id) or login.isManager()}">
 				<button class="fun_btn" onclick="viewStatus()">상태확인</button>
- 	    	<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&title=participant'">참여현황</button>
+ 	    	<button class="fun_btn" onclick="location.href='participant.do?projectseq=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
 			</c:if>
 		</c:if>
 	</div>
@@ -531,7 +531,7 @@ $(document).ready(function () {
 		if('${login.id eq null}' == 'true'){
 			return;
 			//인터셉트
-		}else if($("input[name='selectOpSeq']").length<=0){
+		}else if(alreadySeq.length==0){
 			alert ("옵션을 선택하여주십시오");			
 			return;
 		}else{
@@ -560,6 +560,21 @@ $(document).ready(function () {
 		} 
 	
 	});/* 장바구니로가기 끝 */
+	
+	//기부하기 클릭
+	   $(document).on("click","#donaBtn",function (){
+	      $("#goAnywhere").attr("action","goOrderReward.do").submit();
+	   });
+
+	   
+	   //펀딩하기 클릭
+	   $(document).on("click","#fundBtn",function (){
+	      if($("input[name='selectOpSeq']").length<=0){
+	         alert ("옵션을 선택하여주십시오");
+	      }else{
+	         $("#goAnywhere").attr("action","goOrderReward.do").submit();   
+	      }
+	   });
 	
 });
 

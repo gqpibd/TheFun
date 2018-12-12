@@ -72,6 +72,9 @@ FROM FUN_BUY B;
 */
 
 public class BuyDto implements Serializable {		
+	
+	public static final String FINISH = "finish";	// status 배송 완료, 기부 완료
+	
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -384,6 +387,13 @@ public class BuyDto implements Serializable {
 			
 	public boolean isDeleted() {
 		if(status.equalsIgnoreCase(ProjectDto.DELETE)) {
+			return true;
+		}else
+			return false;
+	}
+	
+	public boolean isfinished() {
+		if(status.equalsIgnoreCase(BuyDto.FINISH)) {
 			return true;
 		}else
 			return false;

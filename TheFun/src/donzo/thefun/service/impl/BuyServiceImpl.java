@@ -9,6 +9,7 @@ import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
+import donzo.thefun.model.participantParam;
 import donzo.thefun.service.BuyService;
 
 @Service
@@ -69,7 +70,7 @@ public class BuyServiceImpl implements BuyService {
 	public int getOrderCount(buyParam param) {
 		return buyDao.getOrderCount(param);
 	}
-/////////
+/////////	
 
 	@Override
 	public List<BuyDto> myOrderDetail(BuyDto buy) {
@@ -78,8 +79,13 @@ public class BuyServiceImpl implements BuyService {
 
 	// 참여 현황
 	@Override
-	public List<BuyDto> getParticipantList(BuyDto buyDto) {
-		return buyDao.getParticipantList(buyDto);
+	public List<BuyDto> getParticipantList(participantParam partiParam) {
+		return buyDao.getParticipantList(partiParam);
+	}
+
+	@Override
+	public int getParticipantCount(participantParam partiParam) {
+		return buyDao.getParticipantCount(partiParam);
 	}
 	
 	

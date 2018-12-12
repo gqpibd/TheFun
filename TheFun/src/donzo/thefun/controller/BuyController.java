@@ -19,6 +19,7 @@ import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.buyParam;
+import donzo.thefun.model.participantParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.service.ProjectService;
@@ -153,17 +154,36 @@ public class BuyController {
 	
 	/*내가 진행 중인 프로젝트 참여 현황*/
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String participant(BuyDto buyDto, Model model, String title) throws Exception {
+	public String participant(Model model, String title, participantParam partiParam) throws Exception {
 		logger.info("ProjectController participant.do 들어옴 " + new Date());
+//		logger.info("들어온 projectSeq_for_participant : " + projectSeq_for_participant);
+		logger.info("partiParam : " + partiParam.toString());
 		
-//		ProjectDto participant_Dto = projectService.getProject(seq); // 프로젝트 정보가 필요해서... 생성 일단 보류
-		List<BuyDto> participant_List = buyService.getParticipantList(buyDto); // 참여자 정보가 필요해서
+//		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
+		partiParam.setRecordCountPerPage(10);
 		
-		/*model.addAttribute("participant_Dto", participant_Dto);*/
+		// paging 처리 
+		int sn = partiParam.getPageNumber();
+		int start = (sn) * partiParam.getRecordCountPerPage() + 1;	// 0으로 들어온
+		int end = (sn + 1) * partiParam.getRecordCountPerPage();		// 1 ~ 10
+		
+		partiParam.setStart(start);
+		partiParam.setEnd(end);
+		
+		List<BuyDto> participant_List = buyService.getParticipantList(partiParam); // 참여자 정보가 필요해서
+		
 		model.addAttribute("participant_List", participant_List);
 		
+		int totalRecordCount = buyService.getParticipantCount(partiParam);
+		
+		model.addAttribute("pageNumber", sn);
+		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
+		model.addAttribute("recordCountPerPage", partiParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
+		model.addAttribute("totalRecordCount", totalRecordCount);
+		
 		model.addAttribute("title", title);
-		model.addAttribute("seq", buyDto.getSeq());
+		model.addAttribute("fundtype", partiParam.getFundtype());
+		model.addAttribute("projectseq_participant", partiParam.getProjectseq_participant());
 		
 		return "project_participant.tiles";
 	}
