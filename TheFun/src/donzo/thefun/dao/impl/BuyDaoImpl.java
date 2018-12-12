@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.buyParam;
 
 @Repository
@@ -64,7 +65,9 @@ public class BuyDaoImpl implements BuyDao {
 	public List<BuyDto> getParticipantList(BuyDto buyDto) {
 		return sqlSession.selectList(ns + "participant_List", buyDto);
 	}
-	
-	
-	
+
+	@Override
+	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto) {
+		return sqlSession.selectOne(ns + "getBuyGroupInfo", buyDto);
+	}
 }

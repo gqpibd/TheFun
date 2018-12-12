@@ -87,7 +87,7 @@ public class ProjectController {
 		model.addAttribute("qnaList",projectService.getQna(seq));
 		
 		//좋아요 했는지 여부
-		String loginId = getLoginId(req);
+		String loginId = UtilFunctions.getLoginId(req);
 		if(loginId != null) {			
 			model.addAttribute("isLike",likeService.isLike(new LikeDto(loginId,seq)));
 		}else {
@@ -446,7 +446,7 @@ public class ProjectController {
 	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDelete(HttpServletRequest req, int seq) throws Exception {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
-		if(getLoginId(req) == projectService.getProject(seq).getId()) { // 혹시 모르니 삭제 전에 로그인 정보를 확인
+		if(UtilFunctions.getLoginId(req) == projectService.getProject(seq).getId()) { // 혹시 모르니 삭제 전에 로그인 정보를 확인
 			projectService.deleteProject(seq);
 		}
 		return "redirect:/mySchedule.do";
@@ -596,7 +596,7 @@ public class ProjectController {
 		logger.info("ProjectController mySchedule " + new Date());
 		logger.info("ProjectController getStatusCount " + new Date());
 		
-		String loginId =getLoginId(req); 
+		String loginId = UtilFunctions.getLoginId(req); 
 		sParam.setId(loginId);
 		
 		sParam.setStatus(ProjectDto.WAITING); // 이건 revise를 포함해서 가져올 거임 
@@ -818,9 +818,7 @@ public class ProjectController {
 		return listData;
 	}
 	
-	private String getLoginId(HttpServletRequest req) {
-		return ((MemberDto) req.getSession().getAttribute("login")).getId();		
-	}	
+		
 	/*	
 	@RequestMapping(value="calendar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String calendar(Model model, myCal jcal, ProjectDto pro) throws Exception {

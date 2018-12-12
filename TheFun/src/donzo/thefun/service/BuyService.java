@@ -3,6 +3,7 @@ package donzo.thefun.service;
 import java.util.List;
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.buyParam;
 
 public interface BuyService {
@@ -28,4 +29,7 @@ public interface BuyService {
 	
 	// 참여 현황
 	public List<BuyDto> getParticipantList(BuyDto buyDto);
+	
+	// 묶음 정보
+	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto);
 }

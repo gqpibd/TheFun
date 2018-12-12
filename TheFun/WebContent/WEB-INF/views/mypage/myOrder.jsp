@@ -226,7 +226,7 @@ input.star:checked ~ .rev-box {
 		
 		<!-- 총 금액 ( 수량 ) -->
 		<td class="column3 c">
-			<div>총 <fmt:formatNumber value="${order.price * order.count}" type="number"/>원</div>
+			<div>총 <fmt:formatNumber value="${order.price}" type="number"/>원</div>
 			 <div>(${order.count }개)</div>
 		</td>
 		

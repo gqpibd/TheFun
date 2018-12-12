@@ -2,6 +2,10 @@ package donzo.thefun.util;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
+import donzo.thefun.model.MemberDto;
+
 public class UtilFunctions implements Serializable{
 	
 	//제목이 길때 뒤에 ... 해주는 거
@@ -45,5 +49,9 @@ public class UtilFunctions implements Serializable{
 		newdate += datetime.substring(8, 10)+"일";
 		
 		return newdate;		
+	}
+	
+	public static String getLoginId(HttpServletRequest req) {
+		return ((MemberDto) req.getSession().getAttribute("login")).getId();		
 	}
 }

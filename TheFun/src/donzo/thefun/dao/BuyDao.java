@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import donzo.thefun.model.BuyDto;
+import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.buyParam;
 
 public interface BuyDao {
@@ -30,4 +31,6 @@ public interface BuyDao {
 	
 	// 참여 현황
 	public List<BuyDto> getParticipantList(BuyDto buyDto);
+
+	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto);
 }
