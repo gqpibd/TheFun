@@ -73,5 +73,7 @@ public interface ProjectService {
 	//판매자의 프로젝트 리스트
 	public List<ProjectDto> getProjectList(String id);
 	
+	//일정 달력
+	public List<ProjectDto> getCalendarList(int seq) throws Exception;
 	
 }

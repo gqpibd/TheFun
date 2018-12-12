@@ -116,6 +116,13 @@ public class ProjectDaoImpl implements ProjectDao {
 		List<ProjectDto> list = sqlSession.selectList(ns + "getProjectList", id);
 		return list;
 	}
+
+	//일정 달력
+	@Override
+	public List<ProjectDto> getCalendarList(int seq) throws Exception {
+		List<ProjectDto> callist = sqlSession.selectList(ns + "getCalendarList", seq);
+		return callist;
+	}
 	
 	
 	

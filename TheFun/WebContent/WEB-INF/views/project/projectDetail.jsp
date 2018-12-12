@@ -758,6 +758,7 @@ function minusVal(seqNum) {
 			<p class="strongGray">
 				<b>메이커정보</b>
 			</p>
+			
 			<div class="card my-4">
 				<div class="card-body">
 					<table style="width: 100%">
