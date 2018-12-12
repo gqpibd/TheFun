@@ -412,6 +412,8 @@ public class ProjectDto implements Serializable {
 	
 	public String getStatusKr() {
 		switch(status.toLowerCase()) {
+			case WAITING:
+				return"승인 대기 중";
 			case PREPARING:
 				return"준비 중";
 			case ONGOING:
@@ -438,7 +440,7 @@ public class ProjectDto implements Serializable {
 		case TYPE_REWARD:
 			return "리워드";
 		}
-		return "";
+		return "너는 뭐냐";
 	}
 
 	public String getCategoryKr() {		
