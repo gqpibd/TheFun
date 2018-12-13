@@ -253,7 +253,7 @@
 				<button class="fun_btn" onclick="viewStatus()">상태확인</button> 	    	
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id)}">
-				<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
+				<button class="fun_btn" onclick="location.href='participant.do?projectseq_participant=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
 				<c:if test="${projectdto.isOnsubmission() or projectdto.isPreparing()}">
 					<button class="fun_btn" onclick="location.href='projectUpdate.do?seq=${projectdto.seq}'">프로젝트 수정</button>
 					<button class="fun_btn" onclick="deleteProject()">프로젝트 삭제</button>

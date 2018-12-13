@@ -31,7 +31,7 @@
 <div style="margin-top: 80px;"></div> <!-- 간격 -->
 
 <!-- 풋터 -->
-<div> <!-- 회사소개문구 -->
+<div style="margin-top: 5%;"> <!-- 회사소개문구 -->
 	<tiles:insertAttribute name="footer" /> 
 </div>
 

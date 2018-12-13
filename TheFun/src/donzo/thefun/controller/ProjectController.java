@@ -234,7 +234,6 @@ public class ProjectController {
 //			ProjectDto dto = list.get(i);
 //			logger.info("list : " + dto.toString());
 //		}
-		
 
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -564,12 +563,12 @@ public class ProjectController {
 		///////////////////////////////////
 		// 메인 이미지 올린 4개 프로젝트
 		// 성공한 프로젝트 중 모금액순
-		mainParam.setS_sort("BUYCOUNT");
-		mainParam.setS_asc_desc("DESC");
-		mainParam.setS_complete("complete");
-		
-		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
-		model.addAttribute("success_list", success_list);
+//		mainParam.setS_sort("BUYCOUNT");
+//		mainParam.setS_asc_desc("DESC");
+//		mainParam.setS_complete("complete");
+//		
+//		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
+//		model.addAttribute("success_list", success_list);
 				
 		return "home.tiles";
 	}

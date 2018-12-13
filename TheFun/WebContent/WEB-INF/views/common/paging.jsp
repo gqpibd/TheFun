@@ -159,15 +159,38 @@
 	</a>
 
 </div> --%>
+<form id="_frmFormSearch" name="frmForm1" > <!-- method="post" -->
+	<!-- controller로 넘겨주기 위한 값 -->
+	<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
+	<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
+	<input type="hidden" name="s_keyword" value="${s_keyword }">
+	<input type="hidden" name="s_type" value="${s_type }">
+	<input type="hidden" name="s_category" value="${s_category }">
+	<input type="hidden" name="s_summary" value="${s_summary }">
+	<input type="hidden" name="s_sort" value="${s_sort }">
+	<input type="hidden" name="s_asc_desc" value="${s_asc_desc }">
+	<input type="hidden" name="s_complete" value="${s_complete }">
+	<input type="hidden" name="s_condition" value="${s_condition }">
+	<input type="hidden" name="doc_title" value="${doc_title }">
+	
+	<!-- 참가현황 페이징시 project seq 필요 -->
+	<input type="hidden" name="projectseq_participant" value="${projectseq_participant }" id="_projectseq_participant">
+	<!-- 참가현황 페이징에 펀드 타입 필요 -->
+	<input type="hidden" name="fundtype" value="${fundtype }" id="_fundtype">
+</form>
+
 <script>
 /* 페이지 번호를 클릭했을 때 */
 function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);
+	
 	$("#_projectseq_participant").val($("#_projectseq_participant").val());
 	$("#_fundtype").val($("#_fundtype").val());
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());
+	
 	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
 	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();
 }
+
 </script>
 
