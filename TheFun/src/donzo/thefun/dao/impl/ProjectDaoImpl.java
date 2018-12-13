@@ -113,9 +113,12 @@ public class ProjectDaoImpl implements ProjectDao {
 		return list;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public List<ProjectDto> getWinOrLoseList(String id) throws Exception {
 		return sqlSession.selectList(ns+"getWinOrLoseList", id);
 	}
 	
+=======
+>>>>>>> refs/remotes/origin/dh
 }

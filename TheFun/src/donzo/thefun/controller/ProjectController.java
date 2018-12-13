@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -763,23 +764,53 @@ public class ProjectController {
 	//판매자의 프로젝트리스트
 	@ResponseBody
 	@RequestMapping(value="sellerPList.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
-	public String sellerPList(String id) {
-		logger.info("ProjectController sellerPList " + new Date());
-		
+	public String sellerPList(String id, int currProjectSeq) {
+		logger.info("sellerPList " + new Date());
 		List<ProjectDto> pList = projectService.getSellerProjectList(id);
-		String listData = "{\"projects\":[";		
-		for(int i=0;i<pList.size();i++) {
-			listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
-			if(i < pList.size()-1) {
-				listData += ",";
+		
+		HashMap<String,Integer> tagMap = UtilFunctions.getHashMap(pList); // 전체 게시글의 태그 정보	
+		Iterator<String> it = UtilFunctions.sortByValue(tagMap).iterator(); // 중 갯수가 가장 많은 애들
+		String data = "#";
+		if(it != null){
+			int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자			 
+			
+			while(it.hasNext()) {		
+				data += it.next();
+				if(iter > 10 || !it.hasNext()) {
+					break;
+				}else {
+					data +=  " #";
+				}
+				iter++;
 			}
 		}
-		listData += "]}";
+		
+		if(pList.size()>1) {
+			for(int i=0; i < pList.size();i++) {
+				if(pList.get(i).getSeq() == currProjectSeq) {
+					pList.remove(i);
+					break;
+				}
+			}
+		}
+		String listData = "";
+		if(pList.size()>0) {
+			listData = "{\"projects\":[";
+			for(int i=0;i<pList.size();i++) {
+				listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
+				if(i < pList.size()-1) {
+					listData += ",";
+				}
+			}
+			listData += "],\"tags\":[{\"tags\":\""+data+"\"}]}";
+		}else {
+			listData = "{\"tags\":[{\"tags\":\""+data+"\"}]}";
+		}
+		logger.info(listData);
 		
 		return listData;
 	}
 	
-		
 	/*	
 	@RequestMapping(value="calendar.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String calendar(Model model, myCal jcal, ProjectDto pro) throws Exception {

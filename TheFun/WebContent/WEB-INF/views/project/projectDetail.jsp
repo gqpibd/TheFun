@@ -275,6 +275,7 @@
 
 		<!-- 프로젝트 타이틀 -->
 		<form id="goAnywhere" action="goOrderReward.do">
+			<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img
@@ -328,7 +329,6 @@
 							<td class="strongGray imgTd">${projectdto.summary }
 								&nbsp;&nbsp;</td>
 							<td colspan="3">
-								<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 								<input type="hidden" name="selectOpSeq"value="1">
 								<input type="hidden" name="optionCount" value="1"> 
 								<img class="pnt" src="image/detail/donationBtn.jpg"	width="120px" id="donaBtn"> <!-- 기부하기 버튼 -->
@@ -422,9 +422,7 @@
 			<!-- </div> -->
 		</div>
 	</div>
-
-
-	<script type="text/javascript">
+<script type="text/javascript">
 
 /* 옵션select 생성관련 코드 */
  var opArr = new Array();
@@ -757,7 +755,6 @@ function minusVal(seqNum) {
 	}
 }
 </script>
-
 	<div class="row">
 
 		<!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
@@ -865,46 +862,14 @@ function minusVal(seqNum) {
 				</div>
 			</c:forEach>
 			<!-- side옵션 끝 -->
-
 		</div>
 		<!-- sidebar 끝 -->
-
 	</div>
 	<!-- /.row -->
-
 </div>
 <!-- /.container -->
 
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
-<div class="dim-layer">
-	<div class="dimBg"></div>
-	<div id="layer_2" class="pop-layer">
-		<div class="pop-container">
-			<div class="pop-conts">
-				<!--content //-->
-				<p class="ctxt mb20">
-					Thank you.<br> <span style="font-weight: bold;">${projectdto.title }</span>
-					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
-					${writer.info } <br>
-					<c:forEach items="${projectdto.tags }" var="tags">
-   		 			   #${tags }
-   	  </c:forEach>
-					<br>
-					<br>
-					<span style="font-weight: bold;">판매자의 인기 프로젝트 목록</span><br>
-					<span id="title"></span>
 
-
-				</p>
-				<div class="btn-r">
-					<a href="#" class="btn-layerClose">Close</a>
-				</div>
-				<!--// content-->
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
 <!-- 판매자 정보 팝업창 스크립트 코드 -->
 <script type="text/javascript">
 $('.btn-example').click(function(){
@@ -943,7 +908,7 @@ function getMakerInfo() {
 	 $.ajax({
 		url:"sellerPList.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
-		data:"id=${writer.id }", 
+		data:"id=${writer.id}&currProjectSeq=${projectdto.seq}", 
 		dataType :"json",
 		success:function(data){		
 			$("#title").empty();
@@ -954,7 +919,13 @@ function getMakerInfo() {
 					var title = items[i].title;	
 					$("#title").append(title + "<br>");
 				}
+			}else{
+				$("#title").append("이 판매자의 다른 프로젝트가 없습니다");
 			}
+			
+			$("#sellerTags").empty();
+			var tagList = data['tags'];
+			$("#sellerTags").append(tagList[0].tags);
 		},
 		error:function(){ // 또는					 
 			console.log("통신실패!");
@@ -963,10 +934,9 @@ function getMakerInfo() {
 }
 
 </script>
-<!-- 판매자 정보 팝업창 스크립트 코드 -->
 
 <script type="text/javascript">
-function checkAndSendMessage(){
+function checkAndSendMessage(){ /* 승인 거절 메시지 작성 */
 	if($("#rejectMessage").val().trim() == ''){
 		alert("내용을 입력해 주세요");
 		return;

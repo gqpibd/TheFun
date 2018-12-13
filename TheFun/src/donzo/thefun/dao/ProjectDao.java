@@ -30,11 +30,11 @@ public interface ProjectDao {
 	
 	////특정 사용자의 프로젝트리스트
 	public List<ProjectDto> getMemberProjectList(String id);
-	
-	public List<ProjectDto> getSellerProjectList(String id);
-	
+		
 	//프로젝트 날짜 보여줄 달력
 	public List<ProjectDto> getCalendarList(int seq) throws Exception;
+	
+	public List<ProjectDto> getSellerProjectList(String id);
 	
 	// 특정 판매자의 성공 or 실패한 프로젝트 리스트
 	public List<ProjectDto> getWinOrLoseList(String id) throws Exception;

@@ -5,23 +5,105 @@
 <%-- <%@taglib  prefix="form" uri="http://www.springframework.org/tags/form" %> --%>
 <fmt:requestEncoding value="UTF-8"/>
 
+<style type="text/css">
+.table-sm td,.table-sm th{
+	vertical-align: middle;
+	text-align: center;
+}
+.table{
+	margin-bottom: 0;
+}
+.imgDiv{
+	width:100%;
+	text-align: center;
+}
+.table td{
+	border-top: none;
+	border-bottom: 1px solid #dee2e6;
+}
+
+@media screen and (max-width: 800px) {
+  .table {
+    display: block;
+  }
+  .table > *, .table tr, .table td, .table th {
+    display: block;
+  }
+  .table thead {
+    display: none;
+  }
+  .table tbody tr {
+    height: auto;
+    padding: 37px 0;
+  }
+  .table tbody tr td {
+    padding-left: 40% !important;
+    margin-bottom: 24px;
+  }
+  .table tbody tr td:last-child {
+    margin-bottom: 0;
+  }
+  .table tbody tr td:before {
+    font-size: 14px;
+    color: #999999;
+    line-height: 1.2;
+    font-weight: unset;
+    position: absolute;
+    width: 40%;
+    left: 30px;
+  }
+  
+  .table td, .table th {
+    text-align:left;
+  }  
+
+  .table td, .table th  {
+    width: 100%;
+  }
+  .table tr {
+    font-size: 14px;
+  }
+  .table tbody tr td:nth-child(1):before {
+     content: "이미지";
+  }
+  .table tbody tr td:nth-child(2):before {
+    content: "리워드 정보";
+  }
+  .table tbody tr td:nth-child(3):before {
+    content: "판매가";
+  }
+  .table tbody tr td:nth-child(4):before {
+    content: "수량";
+  }
+  .table tbody tr td:nth-child(5):before {
+    content: "적립금";
+  }
+  .table tbody tr td:nth-child(6):before {
+    content: "합계";
+  }
+  .table td {
+    text-align: left;
+  }
+  .imgDiv{
+	text-align: left;
+  }
+}
+</style>
 
 
 <script type="text/javascript">
 $(document).ready(function () {
-	
 	// 장바구니 리스트 길이가 0보다 크면(즉, 장바구니 추가된 상품이 하나라도 있을 때)
 	if("${fn:length(myBasket)}" > 0){
-		console.log("리스트 길이 = ${fn:length(myBasket)}");
+		//console.log("리스트 길이 = ${fn:length(myBasket)}");
 		// 총액 계산 및 세팅
 		var totalPrice = 0;
 		<c:forEach var="ba" items="${myBasket}" varStatus="status">
 		   totalPrice += ${ba.count * ba.price};
 		</c:forEach>
-		console.log("총액 = " + totalPrice);
-		$("#totalPrice").val(totalPrice + " 원");
+		//console.log("총액 = " + totalPrice);
+		$("#totalPrice").text(totalPrice);
 	}
-	
 });
 </script>
 
@@ -47,13 +129,13 @@ $(document).ready(function () {
 		</c:when>
 		<c:otherwise>
 		<form action="goOrderReward.do" method="post" id="updateForm">
-			<c:forEach items="${myBasket }" var="basket" varStatus="status">
+			<c:forEach items="${myBasket}" var="basket" varStatus="status">
 			<c:if test="${basket.isOngoing() or basket.isPreparing()}">	<!-- 정상 진행중이거나 준비중인 프로젝트의 경우에만 출력해라 -->
 				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
 				<input type="hidden" name="projectSeq" id="projectSeq${status.count }" value="${basket.projectseq }">
-				<input type="hidden" id="originPrice${status.count }" value="${basket.price }">	<!-- 상품 당 개당가를 저장해줄 변수 -->
+				<input type="hidden" id="originPrice${status.count}" value="${basket.price}">	<!-- 상품 당 개당가를 저장해줄 변수 -->
 			<div class="card" >
-				<!-- 상단바 -->
+			<!-- 상단바 -->
 			  <div class="card-header" style="max-height: 45px">
 				  	<div class="custom-control custom-checkbox">
 					  	<input type="checkbox"  value="${basket.optionseq }" 
@@ -63,57 +145,59 @@ $(document).ready(function () {
 			  				onclick="deleteBasket(${basket.seq})" onmouseover="this.style.cursor='pointer'">
 			  		</div>
 			  </div>
-			  	<!-- 하단 내용 -->
+			  <!-- 하단 내용 -->
 			  <!-- <div class="card-body"> -->
 			  	<table class="table table-sm">
-			  		<tr>
-			  			<td width="40%" rowspan="3">
-			  				<!-- 이미지 안나올때를 대비한 대체 이미지는 onerror에 넣어줘야 한다. 앞에 this.onerror=null; 이 없으면 무한로딩 오류가 난다고,,, -->
-			  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" 
-			  					src="upload/${basket.projectseq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
-			  					onmouseover="this.style.cursor='pointer'" style="max-height: 120px; max-width: 300px">
-			  			</td>
-			  			<td width="60%" colspan="2">
-			  				<h5 class="card-title">선택 리워드 : ${basket.otitle }</h5>	<!-- 리워드 제목 -->
-			  			</td>
-			  		</tr>
-			  		<tr>
-			  			<td colspan="2">
-			  				<span class="card-text">
-			  					<!-- 토큰 /으로 잘라서 출력 -->	<!-- 리워드 내용/구성 -->
-			  					<c:forTokens items="${basket.ocontent}" delims="/" var="content">
-								    <li  style="font-size: 12px">${content}</li>
-								    <!-- class="liteGray list-group-item" -->
-								</c:forTokens>
-			  				</span>
-			  			</td>
-			  		</tr>
-			  		<tr>
-			  			<td width="40%">
-							<!-- 구매수량 선택 -->
-							<button type='button' size='2px;' onclick="changeAmountPlus(${status.count})">+</button>
-								<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='optionCount' id="amountSelect${status.count }">
-								<input type="hidden" id="stock${status.count }" value="${basket.stock }">
-							<button type='button'size='2px;'onclick='changeAmountMinus(${status.count})'>-</button>
-						</td>
-			  			<td style="text-align: right; vertical-align: bottom;">
-			  				<h3>
-			  					<!-- 개별 리워드 당 총액 출력. (개당가*선택한 갯수)한 값. -->
-			  					<input type="text" id="price${status.count }" value="${basket.price * basket.count } 원" style="background-color:transparent; border: none; text-align: right;"  readonly>
-			  				</h3>
-			  			</td>
-			  		</tr>
-			    </table>
-			    <%-- <select class="custom-select" name="count" id="amountSelect${status.count }" onchange="changeAmount(${status.count })" style="width: 40%">
-			    	<!-- 수량 일단 10개까지 선택할 수 있게함 -->	<!-- JSTL을 사용해 특정(내가 담아놓은) select option값(선택한 갯수)을 기본선택되게 함. -->
-			    	<c:forEach var="x" begin="1" end="10" step="1">
-					    <option value="${x }" <c:if test="${basket.count eq x}">selected</c:if>>${x }</option>
-				    </c:forEach>
-				 </select>
-			 	<div align="right" style="float: right; ">
-		    		<button type="button" onclick="buyNow(${status.count})" class="btn btn-outline-secondary">즉시구매</button>	<!-- 해당 상품만(전체x) 바로 구매하고 싶을때 -->
-		    	</div> --%>
-			  <!-- </div> -->
+			  		<thead>
+				  		<tr>
+				  			<th style="width:18%;">이미지</th>
+				  			<th style="width:25%;">리워드 정보</th>
+				  			<th style="width:12%;">판매가</th>
+				  			<th style="width:12%;">수량</th>
+				  			<th style="width:12%;">적립금</th>
+				  			<th style="width:21%;">합계</th>
+				  		</tr>
+			  		</thead>
+			  		<tbody>
+				  		<tr>
+				  			<td>
+				  				<!-- 이미지 안나올때를 대비한 대체 이미지는 onerror에 넣어줘야 한다. 앞에 this.onerror=null; 이 없으면 무한로딩 오류가 난다고,,, -->
+				  				<div class="imgDiv">
+				  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" 
+				  					src="upload/${basket.projectseq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
+				  					onmouseover="this.style.cursor='pointer'" style="max-height: 100px; max-width: 100%">
+				  				</div>
+				  			</td>
+				  			<td style="text-align: left;">
+				  				<h5 class="card-title">${basket.ptitle}</h5>	<!-- 리워드 제목 -->			  			
+				  				<span class="card-text">
+				  					<!-- 토큰 /으로 잘라서 출력 -->	<!-- 리워드 내용/구성 -->
+				  					${basket.otitle }
+				  					<c:forTokens items="${basket.ocontent}" delims="/" var="content">
+									    <li  style="font-size: 12px">${content}</li>
+									    <!-- class="liteGray list-group-item" -->
+									</c:forTokens>
+				  				</span>
+				  			</td>
+				  			<td> ${basket.price}원 </td> <!-- 판매가격 -->
+				  			<td> <!-- 구매수량 선택 -->
+								<img src="image/detail/plusBtn.jpg" onclick="changeAmountPlus(${status.count})">
+									<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='count' id="amountSelect${status.count }">
+									<input type="hidden" id="stock${status.count }" value="${basket.stock }">
+								<img src="image/detail/minusBtn.jpg" onclick='changeAmountMinus(${status.count})'>
+							</td>
+				  			<td> <!-- 적립금 -->
+				  				<fmt:parseNumber var = "point" integerOnly = "true" type = "number" value = "${basket.price * basket.count * 0.01}" />
+					      		<span id="point"><c:out value = "${point}" /></span>점
+	      					</td> 
+				  			<td>
+				  				<h3><!-- 개별 리워드 당 총액 출력. (개당가*선택한 갯수)한 값. -->
+				  					<span id="price${status.count}" style="background-color:transparent; border: none; text-align: right;">${basket.price * basket.count }</span>원
+				  				</h3>
+				  			</td>
+				  		</tr>
+			  		</tbody>
+			    </table>	    
 			</div><br>
 			</c:if>
 			</c:forEach>
@@ -125,24 +209,18 @@ $(document).ready(function () {
 	
 	<!-- 최종결제칸 -->
 	<div class="card">
-		<div class="card-body">
-			<table>
-				<colgroup>
-			  			<col width="700"><col width="700">
-			  	</colgroup>
+		<div class="card-body">		
+			<table>				
 				<tr>
-					<th>
+					<th style="width:100%">
 						<p class="h3">결제 예정 금액</p>
 					</th>
 				</tr>
 				<tr>
 					<td>
-						<h1>
-							<!-- input 필드에 바깥 줄 없앰 -->
-							<input class="display-4" id="totalPrice" type="text" value="0 원" style="background-color:transparent; border: none;"  readonly>
-						</h1>
+						<h1><span id="totalPrice" ></span>원</h1>
 					</td>
-					<td>
+					<td style="width: 100%;">
 						<div align="right">
 			    			<button type="button" class="btn btn-outline-secondary" id="finalOrderBtn">주문하기</button>
 			    		</div>
@@ -183,34 +261,8 @@ function changeAmountPlus( index ) {
 function setPlusAmount(index) {
 	// 기존수량에 +1
 	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
-	// 증가한 수량으로 세팅
-	$("#amountSelect"+index).val(selectedAmount);
 	
-	// 해당 리워드 seq값
-	var seq = $("#seq"+index).val();
-	
-	// DB값 바꿔주기
-	$.ajax({
-		type: "POST",
-		url: 'updateBasket.do',
-		data : 'seq='+seq+"&optionCount="+selectedAmount,
-		success: function(data) {
-			//console.log("받은 데이터 = " + data);
-		},
-		error: function () {
-			console.log("수량변동 사항을 DB에 저장하는데 실패했습니다");
-		}
-	});
-	
-	// 개당가격 바뀌게
-	var originPrice = $("#originPrice"+index).val();
-	console.log("원가 = " + originPrice);
-	var changedPrice = selectedAmount*originPrice;
-	console.log("원가*수량 = " + changedPrice);
-	$("#price"+index).val(changedPrice + " 원");
-	
-	// 총액 바뀌게
-	changePrice();
+	setCountAndPriceChange(index, selectedAmount);
 }
 
 // [2] 수량선택 - 감소버튼 눌렀을 때
@@ -221,8 +273,11 @@ function changeAmountMinus( index ) {
 	if(selectedAmount==0){
 		alert("수량은 최소 1개 이상을 선택해야 합니다");
 		return false;
-	}
-	// 감소한 수량으로 세팅
+	}	
+	setCountAndPriceChange(index, selectedAmount);
+}
+function setCountAndPriceChange(index, selectedAmount){	// 변화된 수량을 반영해서 금액, 적립금 변경
+	// 변화된 수량으로 세팅
 	$("#amountSelect"+index).val(selectedAmount);
 	
 	// 해당 리워드 seq값
@@ -243,10 +298,13 @@ function changeAmountMinus( index ) {
 	
 	// 개당가격 바뀌게
 	var originPrice = $("#originPrice"+index).val();
-	console.log("원가 = " + originPrice);
+	//console.log("원가 = " + originPrice);
 	var changedPrice = selectedAmount*originPrice;
-	console.log("원가*수량 = " + changedPrice);
-	$("#price"+index).val(changedPrice + " 원");
+	//console.log("원가*수량 = " + changedPrice);
+	$("#price"+index).text(changedPrice);
+	
+	// 적립금 바뀌게
+	$("#point").text(parseInt(changedPrice*0.01));
 	
 	// 총액 바뀌게
 	changePrice();
@@ -279,12 +337,12 @@ function changePrice() {
 	var totalPrice = 0;
 	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
 		if( $("#customCheck"+i).is(":checked")){	/* 체크된 상품만 총액바뀌게 */
-			var eachPrice = $("#price"+i).val().replace(" 원", "");
-			console.log(i + "번째 리워드 총액 = " + eachPrice);
+			var eachPrice = parseInt($("#price"+i).text());
+			//console.log(i + "번째 리워드 총액 = " + eachPrice);
 			totalPrice += + eachPrice;
 		}
 	}
-	$("#totalPrice").val(totalPrice + " 원");
+	$("#totalPrice").text(totalPrice);
 }
 // 삭제(상단 우측 x 이미지) 클릭했을때
 function deleteBasket(seq) {
