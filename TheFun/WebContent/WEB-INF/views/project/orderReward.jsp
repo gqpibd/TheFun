@@ -138,42 +138,39 @@
 		
 		<!-- 옵션테이블 -->
       <table style="width: 70%">
-      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
-     <%--  <input type="hidden" name="projectseq" value="${projectdtoList[vs].seq }"> --%>
+      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->      
       <tr>
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
       </tr>
-      <c:forEach items="${selectOptions }" var="options" varStatus="status"> <!-- 프로젝트seq에따른 옵션 loop -->
-       <c:if test="${options.projectseq eq projectdto.seq }">
-	  <tr id="tr_${options.seq}">
+	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" value="${options.seq}">
-				<p><input type="checkbox" value="${options.seq}" name="checkboxs"> 
-				${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font>
-				</p><input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
+				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
+				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs"> 
+				${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
+				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
 			</td>
 		</tr>
-		<tr id="tr2_${options.seq}">
+		<tr id="tr2_${selectOptions[vs.index].seq}">
 			<td class="liteGray td1">
-				<ul>
-			 	<c:forEach items="${options.content}" var="item">
-		  			<li class="liteGray">${item}</li>
-		 	 	</c:forEach>
+				<ul>		 	 	
+		 	 	<c:forEach items="${fn:split(selectOptions[vs.index].content,'/')}" var="item">
+					<li class="liteGray">${item}</li>
+				</c:forEach>
+		 	 	
 		 	 	</ul>
 			</td>
 			<td class="td2 liteGray">
-				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
-				<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
-				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
+				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
+				<input type="text" id="${selectOptions[vs.index].seq}" name="opCount" value="${optionCount[vs.index]}" size="3" readonly="readonly" style="text-align: center;">
+				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
 			</td>
 			<td class="liteGray td3">
-				<input type="text" readonly="readonly" value="<fmt:formatNumber value="${buy.price}" type="number"/>" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">
-				원<br>
-				<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
+				<input type="text" readonly="readonly" value="${selectOptions[vs.index].price*optionCount[vs.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${selectOptions[vs.index].seq}">원<br>
+				<input type="hidden" name="opPrice" id="realPrice_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].price}">
 			</td>
 		</tr>
-		</c:if>
-		</c:forEach>
+		
+
 	</c:forEach>
 	<tr>
 		<td align="right" style="padding-top: 20px;" colspan="3">
