@@ -112,5 +112,10 @@ public class ProjectDaoImpl implements ProjectDao {
 		List<ProjectDto> list = sqlSession.selectList(ns + "getSellerProjectList", id);
 		return list;
 	}
+
+	@Override
+	public List<ProjectDto> getWinOrLoseList(String id) throws Exception {
+		return sqlSession.selectList(ns+"getWinOrLoseList", id);
+	}
 	
 }

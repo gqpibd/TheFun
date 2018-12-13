@@ -390,7 +390,7 @@
 							id="mainBtn">이 페이지에 머무르기</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal"
 							id="mypageBtn"
-							onclick="location.href='myBasket.do?id=${login.id}'">장바구니
+							onclick="location.href='myBasket.do'">장바구니
 							확인하기</button>
 					</div>
 				</div>
