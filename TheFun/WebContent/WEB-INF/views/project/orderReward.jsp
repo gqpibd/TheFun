@@ -139,9 +139,10 @@
 		<!-- 옵션테이블 -->
       <table style="width: 70%">
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
-           <input type="hidden" name="projectseq" value="${projectdto.seq}">
-      <tr>
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
+      <tr>      
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
+      	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
+      	</td>
       </tr>
 	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
@@ -433,17 +434,17 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
+			if(document.getElementById("postcode").value==null || document.getElementById("postcode").value==""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
-			}else{		
+			}else{	
+				alert("d");
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			alert("플젝시퀀스 : "+$("#projectseq").val());
 			$("#orderfrm").attr("action","addOrder.do").submit();
 		} 
 		
@@ -465,7 +466,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
 			}else{
-
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
@@ -823,4 +823,10 @@ function requestPay() {
 
 
 }
+
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 </script>
