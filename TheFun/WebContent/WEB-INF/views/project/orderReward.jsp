@@ -105,7 +105,7 @@
      	</tr>
      	<tr>
      		<td class="profile">
-     			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
+     			<input type="text" name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" >
      			<input type="hidden" name="opSeq" value="0">
 				<input type="hidden" name="opCount" value="1">
 				<input type="hidden"  id="projectseq" name="projectseq" value="${projectdtoList[0].seq }">
@@ -261,7 +261,7 @@
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)"></td>
+     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
