@@ -112,5 +112,5 @@ public class ProjectDaoImpl implements ProjectDao {
 		List<ProjectDto> list = sqlSession.selectList(ns + "getSellerProjectList", id);
 		return list;
 	}
-	
+
 }

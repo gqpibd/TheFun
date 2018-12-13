@@ -73,16 +73,16 @@ FROM FUN_BUY B;
 		ORDER BY B.REGDATE DESC
 </select>  -->
  
-<!-- 내 주문내역 목록 paging -->
+<!-- 내 주문내역 목록 paging --> <!-- ORDER BY B.REGDATE DESC B.SEQ DESC: 나중에 주문한게 위에 오게 하려고 -->
 <select id="myOrderPageList" parameterType="donzo.thefun.model.buyParam" resultType="donzo.thefun.model.BuyDto">
 	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
 	FROM 
-		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
+		(SELECT RANK() OVER(ORDER BY B.REGDATE DESC) AS RANK, 
 				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
-		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete'
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete' 
 		 ) A
-	WHERE RNUM BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
+	WHERE RANK BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
 </select>
 
 <select id="getOrderCount"	parameterType="donzo.thefun.model.buyParam"	resultType="java.lang.Integer">

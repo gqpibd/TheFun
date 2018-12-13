@@ -8,7 +8,6 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> <!-- 결제api -->
 <style type="text/css">
-
 .underline { /* 포인트 */
 	border-color:#999999; background-color:#FFFFFF; border-style:solid;
     border-top-width:0px; border-bottom-width:1px; border-left-width:0px; border-right-width:0px;
@@ -81,7 +80,7 @@
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
-		<p class="strongGray" style="font-size:large;">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
+		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#818181">
       	<table style="width: 70%">
@@ -194,7 +193,7 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -340,23 +339,23 @@
 		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
 	</tr>
 	<tr>
-		<td class="cardInfo" align="left" style="padding-top: 10px;">카드사 선택</td>
+		<td class="cardInfo" align="left" style="padding-top: 10px;">사용은행</td>
 		<td class="cardInfo" align="left" style="padding-top: 10px;">생년월일(주민번호 앞 6자리)</td>
 	</tr>
 	<tr>
 		<td>
 		<select name="bankName" id="bankName">
-			<option selected="selected">카드사를 선택하세요</option>
-			<option>롯데카드</option>
-			<option>비씨카드</option>
-		    <option>삼성카드</option>
-		    <option>씨티카드</option>
-		    <option>신한카드</option>
-		    <option>우리카드</option>
-		    <option>하나카드</option>
-		    <option>현대카드</option>
-		    <option>KB국민</option>
+			<option selected="selected">은행을 선택하세요</option>
+		    <option>IBK기업은행</option>
+		    <option>KB국민은행</option>
 		    <option>NH농협</option>
+		    <option>KEB하나은행</option>
+		    <option>신한은행</option>
+		    <option>씨티은행</option>
+		    <option>카카오뱅크</option>
+		    <option>새마을금고</option>
+		    <option>우리은행</option>
+		    <option>우체국</option>
 		</select>
 		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
@@ -430,10 +429,10 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			alert("이름을 입력하여주십시오");
 		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 			alert("연락처를 입력하여 주십시오");
-		}else if(document.getElementById("bankName").value=="카드사를 선택하세요"){
+		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
+			if(document.getElementById("postcode").value==null || document.getElementById("postcode").value==""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
@@ -443,12 +442,8 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if($("#amount").val()<100){
-				alert("최소 기부 금액은 100원 입니다.");
-				return;
-			}
 			$("#orderfrm").attr("action","addOrder.do").submit();
-		}
+		} 
 		
 	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
 		
@@ -461,7 +456,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("이름을 입력하여주십시오");
 			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
-			}else if( document.getElementById("postcode").value==""){
+			}else if(document.getElementById("postcode").value=""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
@@ -533,13 +528,11 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 		}
 	}
-
 	$(document).ready(function (){
 		$("#autopayDiv").hide();
 		var size = $("input[name='priceName']").length;
 		var priceArr = new Array(size);
 		var tPrice=0;
-
 		//  총금액 첫 출력 설정
 		$("input[name='priceName']").each(function (i) {
             priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
@@ -549,7 +542,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		
 		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
-
 			//체크된 갯수
 			var arrlen =$("input[name=checkboxs]:checked").length;
 			
@@ -572,7 +564,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
 					var opPrice = $("#"+priceId).val();  				//현재적힌가격
 					var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
-
 					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
 					
 					/* 테이블 remove */
@@ -680,35 +671,34 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		});
 		$("#amount").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-
 		});
 		$("#usePoint").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usablePoint").val());	//보유 포인트
+			var havePoint=Number($("#usePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);
 			}
 			
 		});
+		
+		
+		
 	});
 	
 </script>
 
 
 <script type="text/javascript">
-
 /* 주소검색 */
 function sample4_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
             // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
             var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
@@ -726,7 +716,6 @@ function sample4_execDaumPostcode() {
             if(fullRoadAddr !== ''){
                 fullRoadAddr += extraRoadAddr;
             }
-
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
             document.getElementById('roadAddress').value = fullRoadAddr;
@@ -742,7 +731,6 @@ function detailAddressCheck() {
 	$("#detailAddress").val(text);	
 }
 	
-
 function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  str = str.replace(/[^0-9]/g, '');
 	  var tmp = '';
@@ -771,23 +759,16 @@ function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  return str;
 	}
 	
-
 function autoHyphen(phoneField){
 	var _val = $(phoneField).val().trim();
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
-
-
-
 /* 결제 api */
  // 사용 가이드 : https://docs.iamport.kr/implementation/payment
  //아이엠포트 식별코드 등 확인하는곳 : https://admin.iamport.kr , ID : fnvlektmf@naver.com, PW : k3216261 
 var IMP = window.IMP; // 생략가능
 IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-
-
 function requestPay() {
-	
 	var goodstitle="${projectdtoList[0].title}";
 	var usertel="${login.phone}";
 	IMP.request_pay({
@@ -796,15 +777,15 @@ function requestPay() {
 	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
 	    name : goodstitle,	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
 	    amount : 100,	//가격
-	    buyer_tel : usertel,	//누락시 에러발생 가능성 있음
+	    buyer_tel : usertel,	//누락시에러발생가능성있음
 	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	        var msg = '결제가 완료되었습니다.';
-	      /*   msg += '고유ID : ' + rsp.imp_uid;
+	        msg += '고유ID : ' + rsp.imp_uid;
 	        msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num; */
+	        msg += '카드 승인번호 : ' + rsp.apply_num;
 		
 	        $("#orderfrm").attr("action","addOrder.do").submit();
 	        
@@ -814,7 +795,5 @@ function requestPay() {
 	    }
 	    alert(msg);
 	});
-
-
 }
 </script>

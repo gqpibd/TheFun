@@ -422,9 +422,7 @@
 			<!-- </div> -->
 		</div>
 	</div>
-
-
-	<script type="text/javascript">
+<script type="text/javascript">
 
 /* 옵션select 생성관련 코드 */
  var opArr = new Array();
@@ -455,31 +453,31 @@ $(document).ready(function () {
 	   if(alreadySeq.length==0){
 		   
 		/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
-		   $.each(opArr,function(i,item){
-				
-				if(item.seq==selectedSeq){
-					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
-					"<td class='imgTd'></td>"+
-					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
-					"</td>"+
-					"<td class='selOpCount opTd'align='right;'>"+
-					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
-					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
-					"</td>"+
-					"<td class='selOpPrice opTd' style='text-align: right;'>"+
-					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
-					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
-					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
-					"</td></tr>"+
-					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
-					 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
-					 
-					 alreadySeq[alreadySeq.length]=item.seq;
-					 $('#beginTr').after(str);	//tr 생성
-					 return false;
-				}
-			});	
+	   $.each(opArr,function(i,item){
+			
+			if(item.seq==selectedSeq){
+				str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+				"<td class='imgTd'></td>"+
+				"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
+				"</td>"+
+				"<td class='selOpCount opTd'align='right;'>"+
+				"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+				"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
+				"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+				"</td>"+
+				"<td class='selOpPrice opTd' style='text-align: right;'>"+
+				"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
+				"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
+				"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+				"</td></tr>"+
+				 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+				 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
+				 
+				 alreadySeq[alreadySeq.length]=item.seq;
+				 $('#beginTr').after(str);	//tr 생성
+				 return false;
+			}
+		});	
 		   
 		//테이블 n번째 생성시
 	   }else if(alreadySeq.length>0){
@@ -755,7 +753,6 @@ function minusVal(seqNum) {
 	}
 }
 </script>
-
 	<div class="row">
 
 		<!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
@@ -863,46 +860,14 @@ function minusVal(seqNum) {
 				</div>
 			</c:forEach>
 			<!-- side옵션 끝 -->
-
 		</div>
 		<!-- sidebar 끝 -->
-
 	</div>
 	<!-- /.row -->
-
 </div>
 <!-- /.container -->
 
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
-<div class="dim-layer">
-	<div class="dimBg"></div>
-	<div id="layer_2" class="pop-layer">
-		<div class="pop-container">
-			<div class="pop-conts">
-				<!--content //-->
-				<p class="ctxt mb20">
-					Thank you.<br> <span style="font-weight: bold;">${projectdto.title }</span>
-					프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
-					${writer.info } <br>
-					<c:forEach items="${projectdto.tags }" var="tags">
-   		 			   #${tags }
-   	  </c:forEach>
-					<br>
-					<br>
-					<span style="font-weight: bold;">판매자의 인기 프로젝트 목록</span><br>
-					<span id="title"></span>
 
-
-				</p>
-				<div class="btn-r">
-					<a href="#" class="btn-layerClose">Close</a>
-				</div>
-				<!--// content-->
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
 <!-- 판매자 정보 팝업창 스크립트 코드 -->
 <script type="text/javascript">
 $('.btn-example').click(function(){
@@ -941,7 +906,7 @@ function getMakerInfo() {
 	 $.ajax({
 		url:"sellerPList.do", // 접근대상
 		type:"get",		// 데이터 전송 방식
-		data:"id=${writer.id }", 
+		data:"id=${writer.id}&currProjectSeq=${projectdto.seq}", 
 		dataType :"json",
 		success:function(data){		
 			$("#title").empty();
@@ -952,7 +917,13 @@ function getMakerInfo() {
 					var title = items[i].title;	
 					$("#title").append(title + "<br>");
 				}
+			}else{
+				$("#title").append("이 판매자의 다른 프로젝트가 없습니다");
 			}
+			
+			$("#sellerTags").empty();
+			var tagList = data['tags'];
+			$("#sellerTags").append(tagList[0].tags);
 		},
 		error:function(){ // 또는					 
 			console.log("통신실패!");
@@ -961,10 +932,9 @@ function getMakerInfo() {
 }
 
 </script>
-<!-- 판매자 정보 팝업창 스크립트 코드 -->
 
 <script type="text/javascript">
-function checkAndSendMessage(){
+function checkAndSendMessage(){ /* 승인 거절 메시지 작성 */
 	if($("#rejectMessage").val().trim() == ''){
 		alert("내용을 입력해 주세요");
 		return;
@@ -1130,3 +1100,29 @@ var modalConfirm = function(callback) {
 		</div>
 	</div>
 </div>
+
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
+<div class="dim-layer">
+	<div class="dimBg"></div>
+	<div id="layer_2" class="pop-layer">
+		<div class="pop-container">
+			<div class="pop-conts">
+				<!--content //-->
+				<div class="ctxt mb20">
+					Thank you.<br> <span style="font-weight: bold;">${projectdto.title}</span>프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
+					${writer.info } <br><br>
+					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 관심 태그</div>
+					<span id="sellerTags"></span>
+					<br><br>
+					<div style="width: 100%; text-align: center;font-weight: bold;">판매자의 인기 프로젝트 목록</div>
+					<span id="title"></span>
+				</div>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->

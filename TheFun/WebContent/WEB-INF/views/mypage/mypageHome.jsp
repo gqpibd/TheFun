@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- 본문출력 묶는 태그 -->
-	<main class="s-layout__content">  		
-<!-- //본문출력 묶는 태그 -->
-
 
 <div>
 	<table border="0px" width="50%">
