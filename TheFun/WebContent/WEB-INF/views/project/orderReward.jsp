@@ -81,7 +81,7 @@
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
-		<p class="strongGray" style="font-size:large;">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
+		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#818181">
       	<table style="width: 70%">
@@ -194,7 +194,7 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -340,23 +340,23 @@
 		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
 	</tr>
 	<tr>
-		<td class="cardInfo" align="left" style="padding-top: 10px;">카드사 선택</td>
+		<td class="cardInfo" align="left" style="padding-top: 10px;">사용은행</td>
 		<td class="cardInfo" align="left" style="padding-top: 10px;">생년월일(주민번호 앞 6자리)</td>
 	</tr>
 	<tr>
 		<td>
 		<select name="bankName" id="bankName">
-			<option selected="selected">카드사를 선택하세요</option>
-			<option>롯데카드</option>
-			<option>비씨카드</option>
-		    <option>삼성카드</option>
-		    <option>씨티카드</option>
-		    <option>신한카드</option>
-		    <option>우리카드</option>
-		    <option>하나카드</option>
-		    <option>현대카드</option>
-		    <option>KB국민</option>
+			<option selected="selected">은행을 선택하세요</option>
+		    <option>IBK기업은행</option>
+		    <option>KB국민은행</option>
 		    <option>NH농협</option>
+		    <option>KEB하나은행</option>
+		    <option>신한은행</option>
+		    <option>씨티은행</option>
+		    <option>카카오뱅크</option>
+		    <option>새마을금고</option>
+		    <option>우리은행</option>
+		    <option>우체국</option>
 		</select>
 		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
@@ -430,7 +430,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			alert("이름을 입력하여주십시오");
 		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 			alert("연락처를 입력하여 주십시오");
-		}else if(document.getElementById("bankName").value=="카드사를 선택하세요"){
+		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
 			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
@@ -443,12 +443,8 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if($("#amount").val()<100){
-				alert("최소 기부 금액은 100원 입니다.");
-				return;
-			}
 			$("#orderfrm").attr("action","addOrder.do").submit();
-		}
+		} 
 		
 	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
 		
@@ -461,13 +457,14 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("이름을 입력하여주십시오");
 			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
-			}else if( document.getElementById("postcode").value==""){
+			}else if(document.getElementById("postcode").value=""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
 			}else{
+
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
@@ -684,13 +681,16 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		});
 		$("#usePoint").on("keyup",function(){
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usablePoint").val());	//보유 포인트
+			var havePoint=Number($("#usePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);
 			}
 			
 		});
+		
+		
+		
 	});
 	
 </script>
@@ -787,7 +787,6 @@ IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코�
 
 
 function requestPay() {
-	
 	var goodstitle="${projectdtoList[0].title}";
 	var usertel="${login.phone}";
 	IMP.request_pay({
@@ -796,15 +795,15 @@ function requestPay() {
 	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
 	    name : goodstitle,	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
 	    amount : 100,	//가격
-	    buyer_tel : usertel,	//누락시 에러발생 가능성 있음
+	    buyer_tel : usertel,	//누락시에러발생가능성있음
 	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	        var msg = '결제가 완료되었습니다.';
-	      /*   msg += '고유ID : ' + rsp.imp_uid;
+	        msg += '고유ID : ' + rsp.imp_uid;
 	        msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num; */
+	        msg += '카드 승인번호 : ' + rsp.apply_num;
 		
 	        $("#orderfrm").attr("action","addOrder.do").submit();
 	        
