@@ -109,6 +109,16 @@ public class BuyController {
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
+		logger.info("펀드타입 "+fundtype);
+		logger.info("dto :  "+newbuy.toString());
+		
+		for(int i=0; i<opSeq.length;i++) {
+			logger.info("옵션시퀀스 : "+opSeq[i]);
+			logger.info("옵션가격 : "+opPrice[i]);
+			logger.info("옵션카운트 : "+opCount[i]);
+			logger.info("프로젝트시퀀스 : "+projectseq[i]);
+		}
+		
 		//주문 insert
 		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
 		return "redirect:/myOrderList.do";

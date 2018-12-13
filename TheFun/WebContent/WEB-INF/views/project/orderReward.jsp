@@ -78,6 +78,7 @@
     
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">    
+
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
@@ -93,8 +94,6 @@
       		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
       	</table>
-
-				
 	<br><br>
 	
 	<table style="width: 70%; padding: 20px;" class="td1">
@@ -109,6 +108,7 @@
      			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
      			<input type="hidden" name="opSeq" value="0">
 				<input type="hidden" name="opCount" value="1">
+				<input type="hidden"  id="projectseq" name="projectseq" value="${projectdtoList[0].seq }">
      		</td>
      	</tr>
      	<tr>
@@ -135,10 +135,11 @@
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
-		
+
 		<!-- 옵션테이블 -->
       <table style="width: 70%">
-      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->      
+      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
+           <input type="hidden" name="projectseq" value="${projectdto.seq}">
       <tr>
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
       </tr>
@@ -388,7 +389,6 @@
 
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">
-	<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder(1)" width="120px;">  <!-- 기부하기 버튼 -->
 </c:if>
 
@@ -443,6 +443,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
+			alert("플젝시퀀스 : "+$("#projectseq").val());
 			$("#orderfrm").attr("action","addOrder.do").submit();
 		} 
 		
