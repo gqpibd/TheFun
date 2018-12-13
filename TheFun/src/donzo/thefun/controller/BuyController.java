@@ -44,7 +44,7 @@ public class BuyController {
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-
+		if(param.getO_id() == null) { param.setO_id(""); }
 		param.setO_id(UtilFunctions.getLoginId(req));
 		
 		int totalRecordCount = buyService.getOrderCount(param);
