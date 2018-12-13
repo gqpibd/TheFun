@@ -21,37 +21,37 @@ public class BuyServiceImpl implements BuyService {
 	public List<BuyDto> orderList(String id) {
 		return buyDao.orderList(id);
 	}
-
+	
 	@Override 
-	public void addOrders(BuyDto buy ,int[] projectseq,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
-		
-		if(buy.getBankName()==null || buy.getBankName()=="") {
-			buy.setBankName("간편결제");
-		}
-		
-		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
-			//System.out.println("buy 서비스 임플리 here============= ");
-			BuyDto buydto=new BuyDto(
-						buy.getId(), projectseq[0], opSeq[0], 1, opPrice[0], 
-						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
-						buy.getCardNumber(), buy.getBankName());
-			//System.out.println("addorders의 dto : "+buydto);
-			buyDao.addOrders(buydto);
-			
-		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
-			for(int i=0; i<opSeq.length; i++) {		
-				BuyDto buydto = new BuyDto(
-						buy.getId(),projectseq[i], opSeq[i], opCount[i], opPrice[i], 
-						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
-						buy.getCardNumber(), buy.getBankName());
-				//System.out.println("addorders의 dto : "+buydto);
-				buyDao.addOrders(buydto);			
-			}
-		}else {
-			System.out.println("너는 무슨 타입이냐:" + fundtype);
-		}
-		
-	}
+	   public void addOrders(BuyDto buy ,int[] projectseq,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {            
+	      
+	      if(buy.getBankName()==null || buy.getBankName()=="") {
+	         buy.setBankName("간편결제");
+	      }
+	      
+	      if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
+	         //System.out.println("buy 서비스 임플리 here============= ");
+	         BuyDto buydto=new BuyDto(
+	                  buy.getId(), projectseq[0], opSeq[0], 1, opPrice[0], 
+	                  buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
+	                  buy.getCardNumber(), buy.getBankName());
+	         //System.out.println("addorders의 dto : "+buydto);
+	         buyDao.addOrders(buydto);
+	         
+	      }else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
+	         for(int i=0; i<opSeq.length; i++) {      
+	            BuyDto buydto = new BuyDto(
+	                  buy.getId(),projectseq[i], opSeq[i], opCount[i], opPrice[i], 
+	                  buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
+	                  buy.getCardNumber(), buy.getBankName());
+	            //System.out.println("addorders의 dto : "+buydto);
+	            buyDao.addOrders(buydto);         
+	         }
+	      }else {
+	         System.out.println("너는 무슨 타입이냐:" + fundtype);
+	      }
+	      
+	   }
 
 	@Override
 	public boolean addReview(BuyDto buydto) {
