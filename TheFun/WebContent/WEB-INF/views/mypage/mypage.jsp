@@ -210,7 +210,7 @@ a.mpa {
 }
 </style>
  
-<div class="s-layout">
+<!-- <div class="s-layout"> -->
 <!-- Sidebar -->
 <div class="s-layout__sidebar">
   
@@ -225,10 +225,7 @@ a.mpa {
 			<div class="avatar">
 			<img class="profile_img_side" src="${login.profile}"><span class="username">${login.nickname}</span>
 			<span class="userInfo">${login.info}</span>
-			</div>		
-			<%-- <a class="s-sidebar__nav-link mpa" href="myPage.do">
-              <i><img class="profile_img_side" src="${login.profile}"></i><em><b>${login.nickname} 님</b></em>
-           </a> --%>
+			</div>
         </li>
         <li>
            <a class="s-sidebar__nav-link mpa" href="myInfo.do">
@@ -251,9 +248,21 @@ a.mpa {
            </a>
         </li>
      </ul>
+     
   </nav>
+
 </div>
 
+
+
+
+
+
+
+
+
+
+<!-- </div> -->
 <!-- Content -->
 <!-- <main class="s-layout__content">  		
 </main>
