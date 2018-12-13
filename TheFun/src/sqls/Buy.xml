@@ -160,4 +160,8 @@ FROM FUN_BUY B;
 	AND STATUS != 'delete'
 </select>
 
+<delete id="deleteBuy" parameterType="java.lang.Integer">
+	DELETE FROM FUN_BUY WHERE SEQ=#{seq}
+</delete>
+
 </mapper>

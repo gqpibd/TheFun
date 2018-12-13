@@ -78,10 +78,11 @@
     
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">    
+
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
-		<p class="strongGray" style="font-size:large;">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
+		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#818181">
       	<table style="width: 70%">
@@ -93,8 +94,6 @@
       		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
       	</table>
-
-				
 	<br><br>
 	
 	<table style="width: 70%; padding: 20px;" class="td1">
@@ -109,6 +108,7 @@
      			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
      			<input type="hidden" name="opSeq" value="0">
 				<input type="hidden" name="opCount" value="1">
+				<input type="hidden"  id="projectseq" name="projectseq" value="${projectdtoList[0].seq }">
      		</td>
      	</tr>
      	<tr>
@@ -135,43 +135,44 @@
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
-		
+
 		<!-- 옵션테이블 -->
       <table style="width: 70%">
-      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
-      <tr>
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
+      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
+      <tr>      
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
+      	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
+      	</td>
       </tr>
-      <c:forEach items="${selectOptions }" var="options" varStatus="status"> <!-- 프로젝트seq에따른 옵션 loop -->
-       <c:if test="${options.projectseq eq projectdto.seq }">
-	  <tr id="tr_${options.seq}">
+	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" value="${options.seq}">
-				<p><input type="checkbox" value="${options.seq}" name="checkboxs"> 
-				${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font>
-				</p><input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
+				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
+				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs"> 
+				${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
+				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
 			</td>
 		</tr>
-		<tr id="tr2_${options.seq}">
+		<tr id="tr2_${selectOptions[vs.index].seq}">
 			<td class="liteGray td1">
-				<ul>
-			 	<c:forEach items="${options.content}" var="item">
-		  			<li class="liteGray">${item}</li>
-		 	 	</c:forEach>
+				<ul>		 	 	
+		 	 	<c:forEach items="${fn:split(selectOptions[vs.index].content,'/')}" var="item">
+					<li class="liteGray">${item}</li>
+				</c:forEach>
+		 	 	
 		 	 	</ul>
 			</td>
 			<td class="td2 liteGray">
-				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
-				<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
-				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
+				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
+				<input type="text" id="${selectOptions[vs.index].seq}" name="opCount" value="${optionCount[vs.index]}" size="3" readonly="readonly" style="text-align: center;">
+				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
 			</td>
 			<td class="liteGray td3">
-				<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-				<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
+				<input type="text" readonly="readonly" value="${selectOptions[vs.index].price*optionCount[vs.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${selectOptions[vs.index].seq}">원<br>
+				<input type="hidden" name="opPrice" id="realPrice_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].price}">
 			</td>
 		</tr>
-		</c:if>
-		</c:forEach>
+		
+
 	</c:forEach>
 	<tr>
 		<td align="right" style="padding-top: 20px;" colspan="3">
@@ -195,6 +196,7 @@
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
 			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -340,23 +342,23 @@
 		<td><input type="password" class="liteGray numberCheck" name="cardPwd" id="cardPwd"></td>
 	</tr>
 	<tr>
-		<td class="cardInfo" align="left" style="padding-top: 10px;">카드사 선택</td>
+		<td class="cardInfo" align="left" style="padding-top: 10px;">사용은행</td>
 		<td class="cardInfo" align="left" style="padding-top: 10px;">생년월일(주민번호 앞 6자리)</td>
 	</tr>
 	<tr>
 		<td>
 		<select name="bankName" id="bankName">
-			<option selected="selected">카드사를 선택하세요</option>
-			<option>롯데카드</option>
-			<option>비씨카드</option>
-		    <option>삼성카드</option>
-		    <option>씨티카드</option>
-		    <option>신한카드</option>
-		    <option>우리카드</option>
-		    <option>하나카드</option>
-		    <option>현대카드</option>
-		    <option>KB국민</option>
+			<option selected="selected">은행을 선택하세요</option>
+		    <option>IBK기업은행</option>
+		    <option>KB국민은행</option>
 		    <option>NH농협</option>
+		    <option>KEB하나은행</option>
+		    <option>신한은행</option>
+		    <option>씨티은행</option>
+		    <option>카카오뱅크</option>
+		    <option>새마을금고</option>
+		    <option>우리은행</option>
+		    <option>우체국</option>
 		</select>
 		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
@@ -377,7 +379,6 @@
 </c:if>
 	<br><br>
 <input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
-<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 <input type="hidden" name="id" value="${login.id }">
 
 </form>
@@ -430,25 +431,21 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			alert("이름을 입력하여주십시오");
 		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 			alert("연락처를 입력하여 주십시오");
-		}else if(document.getElementById("bankName").value=="카드사를 선택하세요"){
+		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
 			alert("은행을 선택하여 주십시오");
 		}else if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("postcode").value=null || document.getElementById("postcode").value==""){
+			if(document.getElementById("postcode").value==null || document.getElementById("postcode").value==""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
-			}else{		
+			}else{	
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if($("#amount").val()<100){
-				alert("최소 기부 금액은 100원 입니다.");
-				return;
-			}
 			$("#orderfrm").attr("action","addOrder.do").submit();
-		}
+		} 
 		
 	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
 		
@@ -461,7 +458,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("이름을 입력하여주십시오");
 			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
-			}else if( document.getElementById("postcode").value==""){
+			}else if(document.getElementById("postcode").value=""){
 				alert("우편번호를 입력하여 주십시오");
 			}else if(document.getElementById("roadAddress").value==""){
 				alert("주소를 입력하여 주십시오");
@@ -546,6 +543,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
             tPrice = tPrice+priceArr[i];
        	});
 		$("#finalPrice").val(tPrice);
+		
 		
 		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
@@ -672,25 +670,33 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#birth").focus();
 			}
 		});
-		$("#birth").on("keyup",function(){
+		$("#birth").on("keyup",function(){	//생년월일 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>6){
 				$(this).val($(this).val().substring(0,6));
 			}
 		});
-		$("#amount").on("keyup",function(){
+		$("#amount").on("keyup",function(){	//숫자만
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 
 		});
-		$("#usePoint").on("keyup",function(){
+		$("#usePoint").on("keyup",function(){	//포인트입력 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			var havePoint=Number($("#usablePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			
+			//보유포인트보다 크게 입력할수없음
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);
 			}
+		});
+		$("#pointBtn").on("click",function(){	//포인트사용버튼
+			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			$("#finalPrice").val(tPrice-usePoint);
 			
 		});
+		
+		
 	});
 	
 </script>
@@ -787,7 +793,6 @@ IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코�
 
 
 function requestPay() {
-	
 	var goodstitle="${projectdtoList[0].title}";
 	var usertel="${login.phone}";
 	IMP.request_pay({
@@ -796,15 +801,15 @@ function requestPay() {
 	    merchant_uid : 'merchant_' + new Date().getTime(),	//결제된적있는 merchant_uid로는 재결재불가설정
 	    name : goodstitle,	//주문명, 복수주문시 projectList[0].title 외 n건 표시예정
 	    amount : 100,	//가격
-	    buyer_tel : usertel,	//누락시 에러발생 가능성 있음
+	    buyer_tel : usertel,	//누락시에러발생가능성있음
 	    m_redirect_url : 'https://www.naver.com'	//모바일 결제완료시 갈 곳 임시로 네이버
 	}, function(rsp) {
 	    if ( rsp.success ) {
 	        var msg = '결제가 완료되었습니다.';
-	      /*   msg += '고유ID : ' + rsp.imp_uid;
+	        msg += '고유ID : ' + rsp.imp_uid;
 	        msg += '상점 거래ID : ' + rsp.merchant_uid;
 	        msg += '결제 금액 : ' + rsp.paid_amount;
-	        msg += '카드 승인번호 : ' + rsp.apply_num; */
+	        msg += '카드 승인번호 : ' + rsp.apply_num;
 		
 	        $("#orderfrm").attr("action","addOrder.do").submit();
 	        
@@ -817,4 +822,10 @@ function requestPay() {
 
 
 }
+
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 </script>

@@ -265,17 +265,16 @@
 	<div align="center">
 		<p>
 			<b class="pupple">${projectdto.getCategoryKr()} </b>&nbsp;&nbsp;&nbsp;
-			<font class="strongGray"> <c:forEach
-					items="${projectdto.tags }" var="tags">
-   		 	#${tags }
-   		 </c:forEach>
+			<font class="strongGray"> 
+			<c:forEach items="${projectdto.tags }" var="tags">
+   		 		#${tags }
+   			 </c:forEach>
 			</font>
 		</p>
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 		<!-- 프로젝트 타이틀 -->
 		<form id="goAnywhere" action="goOrderReward.do">
-			<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img
@@ -329,6 +328,7 @@
 							<td class="strongGray imgTd">${projectdto.summary }
 								&nbsp;&nbsp;</td>
 							<td colspan="3">
+								<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 								<input type="hidden" name="selectOpSeq"value="1">
 								<input type="hidden" name="optionCount" value="1"> 
 								<img class="pnt" src="image/detail/donationBtn.jpg"	width="120px" id="donaBtn"> <!-- 기부하기 버튼 -->
@@ -471,6 +471,7 @@ $(document).ready(function () {
 					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
 					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+					"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
 					"</td></tr>"+
 					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
 					 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
@@ -510,6 +511,7 @@ $(document).ready(function () {
 							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
 							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+							"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
 							"</td></tr>";
 							 
 							 alreadySeq[alreadySeq.length]=item.seq;

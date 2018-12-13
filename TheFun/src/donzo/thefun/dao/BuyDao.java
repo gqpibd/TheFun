@@ -37,4 +37,7 @@ public interface BuyDao {
 	public int getParticipantCount(participantParam partiParam);
 
 	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto);
+	
+	//주문삭제
+	public void deleteOrder(int seq);
 }

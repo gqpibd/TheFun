@@ -3,16 +3,13 @@ package donzo.thefun.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -126,12 +122,14 @@ public class ProjectController {
 		
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int[] projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
+	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
-		//현재 선택한 프로젝트 정보 복수
+		//프로젝트정보
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
+		
+		//장바구니 시퀀스 정보 -->디테일에서 가라로 넣어줘야함. 오더에서는 기부에 가라로 넣기 리워드에서는 히든으로 옵션증가에 따라 넣기
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
@@ -148,24 +146,6 @@ public class ProjectController {
 		
 		return "orderReward.tiles";
 
-	}
-	
-	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 ==> (승지 => 다슬이에게 값 넘겨주기 완료)
-	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderFromBasket(HttpServletRequest req, String projectSeq[], String optionSeq[], String count[]) {
-		logger.info("ProjectController goOrderFromBasket 메소드 " + new Date());	
-		
-		MemberDto user = (MemberDto) req.getSession().getAttribute("login");
-		logger.info("장바구니의 주인 id = " + user.getId());
-		
-		for (int i = 0; i < optionSeq.length; i++) {
-			logger.info("구매희망 프로젝트 seq = " + projectSeq[i]);
-			logger.info("구매희망 리워드 seq = " + optionSeq[i]);
-			logger.info("희망 구매수량 = " + count[i]);
-		}
-		
-		return "redirect:/myBasket.do";	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
-		
 	}
 		
 	// 프로젝트 검색
@@ -211,15 +191,12 @@ public class ProjectController {
 			pParam.setS_sort("REGDATE");
 			pParam.setS_asc_desc("DESC");
 		}
-		
-//		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
-		
+	
 		// paging 처리 
 		int sn = pParam.getPageNumber();
 		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
 		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
-		
-//		logger.info("sn : " + sn + " start : " + start + " end : " + end);
+
 		
 		// 8 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
@@ -228,13 +205,7 @@ public class ProjectController {
 		
 		List<ProjectDto> list = projectService.searchProjectList(pParam);
 		int totalRecordCount = projectService.getProjectCount(pParam);
-		
-		// 확인용
-//		for (int i = 0; i < list.size(); i++) {
-//			ProjectDto dto = list.get(i);
-//			logger.info("list : " + dto.toString());
-//		}
-		
+			
 
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -247,9 +218,6 @@ public class ProjectController {
 		model.addAttribute("s_keyword", pParam.getS_keyword());
 		model.addAttribute("s_complete", pParam.getS_complete());
 		model.addAttribute("s_condition", pParam.getS_condition());
-		
-//		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
-//		model.addAttribute("s_asc_desc", pParam.getS_asc_desc());	// 내림 오름 차순 기준
 		
 		model.addAttribute("list", list);
 

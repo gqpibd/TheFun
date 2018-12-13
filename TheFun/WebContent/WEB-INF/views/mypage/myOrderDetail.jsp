@@ -57,7 +57,8 @@
 	</td>
 	<td style="padding: 10px;">
 		<c:if test="${buy.status eq ProjectDto.ONGOING}">
-			결제대기
+			결제대기 <br>
+			<button type="button" onclick="deleteBuy(${buy.seq})">예약취소</button>
 		</c:if>
 		<c:if test="${buy.status eq ProjectDto.COMPLETE_SUCCESS}">
 			결제완료
@@ -130,3 +131,10 @@
 </c:if>
 
 </div>
+
+<script>
+function deleteBuy(seq) {
+	location.href="deleteBuy.do?seq="+seq;
+}
+
+</script>
