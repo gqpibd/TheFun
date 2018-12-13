@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
@@ -45,11 +44,7 @@ public class BuyController {
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-		
-		if(param.getO_id() == null) { 
-			param.setO_id(""); 
-		}
-		
+		if(param.getO_id() == null) { param.setO_id(""); }
 		param.setO_id(UtilFunctions.getLoginId(req));
 		
 		int totalRecordCount = buyService.getOrderCount(param);
@@ -106,26 +101,11 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
-/*		//출력 test
-		logger.info("펀드타입 "+fundtype);
-		logger.info("dto :  "+newbuy.toString());
-		
-		for(int i=0; i<opSeq.length;i++) {
-			logger.info("옵션시퀀스 : "+opSeq[i]);
-			logger.info("옵션가격 : "+opPrice[i]);
-			logger.info("옵션카운트 : "+opCount[i]);
-			logger.info("프로젝트시퀀스 : "+projectseq[i]);
-		}
-		*/
-		
 		//주문 insert
-		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
-		
-		//장바구니 delete
-		
+		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
 		return "redirect:/myOrderList.do";
 	}	
 	

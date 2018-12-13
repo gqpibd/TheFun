@@ -69,6 +69,7 @@ public class ProjectController {
 		
 		//xml실행하고 결과값을 여따가 저장해
 		List<ProjectDto> flist = projectService.getCalendarList(seq);	
+		
 		//저장 한거를 여기다가 짐싸
 		model.addAttribute("flist", flist);	
 		//그 유틸리티도 짐싸
