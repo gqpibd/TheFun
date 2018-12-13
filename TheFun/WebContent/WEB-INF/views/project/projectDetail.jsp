@@ -265,10 +265,10 @@
 	<div align="center">
 		<p>
 			<b class="pupple">${projectdto.getCategoryKr()} </b>&nbsp;&nbsp;&nbsp;
-			<font class="strongGray"> <c:forEach
-					items="${projectdto.tags }" var="tags">
-   		 	#${tags }
-   		 </c:forEach>
+			<font class="strongGray"> 
+			<c:forEach items="${projectdto.tags }" var="tags">
+   		 		#${tags }
+   			 </c:forEach>
 			</font>
 		</p>
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>

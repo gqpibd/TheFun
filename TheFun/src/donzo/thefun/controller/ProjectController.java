@@ -126,10 +126,11 @@ public class ProjectController {
 		
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String goOrderReward(int[] projectSeq, int[] selectOpSeq,int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
+	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
-		//현재 선택한 프로젝트 정보 복수
+		//같은프로젝트일때 시퀀스 겹치면 없애주되 count,옵션도 같이 없애야함
+
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
 		
@@ -150,7 +151,7 @@ public class ProjectController {
 
 	}
 	
-	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 ==> (승지 => 다슬이에게 값 넘겨주기 완료)
+/*	// 장바구니에서 주문하기 창(결제 및 배송지 정보 입력)으로 이동 ==> (승지 => 다슬이에게 값 넘겨주기 완료)
 	@RequestMapping(value="goOrderFromBasket.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderFromBasket(HttpServletRequest req, String projectSeq[], String optionSeq[], String count[]) {
 		logger.info("ProjectController goOrderFromBasket 메소드 " + new Date());	
@@ -166,7 +167,7 @@ public class ProjectController {
 		
 		return "redirect:/myBasket.do";	// 일단 장바구니 창으로 가도록 임시설정해놈. 나중에 주문창으로 가도록 변경하기. 
 		
-	}
+	}*/
 		
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})

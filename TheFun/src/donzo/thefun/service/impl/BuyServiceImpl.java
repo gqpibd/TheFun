@@ -1,5 +1,6 @@
 package donzo.thefun.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class BuyServiceImpl implements BuyService {
 	}
 
 	@Override 
-	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
+	public void addOrders(BuyDto buy ,int[] projectseq,int[] opSeq, int[] opPrice ,int[] opCount,String fundtype) {				
 		
 		if(buy.getBankName()==null || buy.getBankName()=="") {
 			buy.setBankName("간편결제");
@@ -33,7 +34,7 @@ public class BuyServiceImpl implements BuyService {
 		
 		if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
 			BuyDto buydto=new BuyDto(
-						buy.getId(), buy.getProjectseq(), opSeq[0], 1, opPrice[0], 
+						buy.getId(), projectseq[0], opSeq[0], 1, opPrice[0], 
 						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
 			System.out.println("addorders의 dto : "+buydto);
@@ -42,7 +43,7 @@ public class BuyServiceImpl implements BuyService {
 		}else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {
 			for(int i=0; i<opSeq.length; i++) {		
 				BuyDto buydto = new BuyDto(
-						buy.getId(), buy.getProjectseq(), opSeq[i], opCount[i], opPrice[i], 
+						buy.getId(),projectseq[i], opSeq[i], opCount[i], opPrice[i], 
 						buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 						buy.getCardNumber(), buy.getBankName());
 				System.out.println("addorders의 dto : "+buydto);
@@ -96,6 +97,11 @@ public class BuyServiceImpl implements BuyService {
 	@Override
 	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto) {
 		return buyDao.getBuyGroupInfo(buyDto);
+	}
+
+	@Override
+	public void deleteOrder(int seq) {
+		buyDao.deleteOrder(seq);
 	}
 	
 	

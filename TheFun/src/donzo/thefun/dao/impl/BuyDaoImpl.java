@@ -76,4 +76,10 @@ public class BuyDaoImpl implements BuyDao {
 	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto) {
 		return sqlSession.selectOne(ns + "getBuyGroupInfo", buyDto);
 	}
+
+	@Override
+	public void deleteOrder(int seq) {
+		sqlSession.delete(ns+"deleteBuy", seq);
+	}
+	
 }

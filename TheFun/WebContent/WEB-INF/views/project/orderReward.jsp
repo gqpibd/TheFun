@@ -139,6 +139,7 @@
 		<!-- 옵션테이블 -->
       <table style="width: 70%">
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
+     <%--  <input type="hidden" name="projectseq" value="${projectdtoList[vs].seq }"> --%>
       <tr>
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
       </tr>
@@ -166,7 +167,8 @@
 				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
 			</td>
 			<td class="liteGray td3">
-				<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
+				<input type="text" readonly="readonly" value="<fmt:formatNumber value="${buy.price}" type="number"/>" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">
+				원<br>
 				<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
 			</td>
 		</tr>
@@ -194,7 +196,8 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -377,7 +380,6 @@
 </c:if>
 	<br><br>
 <input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
-<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 <input type="hidden" name="id" value="${login.id }">
 
 </form>
@@ -389,6 +391,7 @@
 
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">
+	<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 	<input type="image" class="pnt" src="image/detail/donationBtn.jpg" onclick="goAddOrder(1)" width="120px;">  <!-- 기부하기 버튼 -->
 </c:if>
 
@@ -544,6 +547,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
        	});
 		$("#finalPrice").val(tPrice);
 		
+		
 		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
 
@@ -669,26 +673,31 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#birth").focus();
 			}
 		});
-		$("#birth").on("keyup",function(){
+		$("#birth").on("keyup",function(){	//생년월일 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>6){
 				$(this).val($(this).val().substring(0,6));
 			}
 		});
-		$("#amount").on("keyup",function(){
+		$("#amount").on("keyup",function(){	//숫자만
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 
 		});
-		$("#usePoint").on("keyup",function(){
+		$("#usePoint").on("keyup",function(){	//포인트입력 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usePoint").val());	//보유 포인트
+			var havePoint=Number($("#usablePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			
+			//보유포인트보다 크게 입력할수없음
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);
 			}
+		});
+		$("#pointBtn").on("click",function(){	//포인트사용버튼
+			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			$("#finalPrice").val(tPrice-usePoint);
 			
 		});
-		
 		
 		
 	});

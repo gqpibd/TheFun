@@ -12,7 +12,7 @@ public interface BuyService {
 	public List<BuyDto> orderList(String id);
 	
 	//add order
-	public void addOrders(BuyDto buy ,int[] opSeq, int[] opPrice, int[] opCount, String fundtype);
+	public void addOrders(BuyDto buy ,int[] projectseq,int[] opSeq, int[] opPrice, int[] opCount, String fundtype);
 
 	//후기 등록
 	public boolean addReview(BuyDto buydto);
@@ -36,4 +36,7 @@ public interface BuyService {
 	
 	// 묶음 정보
 	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto);
+	
+	//주문삭제
+	public void deleteOrder(int seq);
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
@@ -44,7 +45,11 @@ public class BuyController {
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-
+		
+		if(param.getO_id() == null) { 
+			param.setO_id(""); 
+		}
+		
 		param.setO_id(UtilFunctions.getLoginId(req));
 		
 		int totalRecordCount = buyService.getOrderCount(param);
@@ -101,11 +106,11 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
 		//주문 insert
-		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
+		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
 		return "redirect:/myOrderList.do";
 	}	
 	
@@ -188,6 +193,15 @@ public class BuyController {
 		model.addAttribute("projectseq_participant", partiParam.getProjectseq_participant());
 		
 		return "project_participant.tiles";
+	}
+	
+	//주문삭제
+	@RequestMapping(value="deleteBuy.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String deleteBuy(int seq) throws Exception {
+		logger.info("ProjectController deleteBuy" + new Date());
+		buyService.deleteOrder(seq);
+		
+		return "redirect:/myOrderList.do";
 	}
 	
 	
