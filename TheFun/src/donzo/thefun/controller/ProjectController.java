@@ -3,14 +3,16 @@ package donzo.thefun.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
@@ -69,7 +72,6 @@ public class ProjectController {
 		
 		//xml실행하고 결과값을 여따가 저장해
 		List<ProjectDto> flist = projectService.getCalendarList(seq);	
-		
 		//저장 한거를 여기다가 짐싸
 		model.addAttribute("flist", flist);	
 		//그 유틸리티도 짐싸
@@ -193,12 +195,15 @@ public class ProjectController {
 			pParam.setS_sort("REGDATE");
 			pParam.setS_asc_desc("DESC");
 		}
-	
+		
+//		logger.info("S_category" + pParam.getS_category() + "getS_complete" + pParam.getS_complete());
+		
 		// paging 처리 
 		int sn = pParam.getPageNumber();
 		int start = (sn) * pParam.getRecordCountPerPage() + 1;	// 0으로 들어온
 		int end = (sn + 1) * pParam.getRecordCountPerPage();		// 1 ~ 10
-
+		
+//		logger.info("sn : " + sn + " start : " + start + " end : " + end);
 		
 		// 8 프로젝트씩 보여주려고
 		pParam.setStart(start); // <- 여기 이상하다
@@ -208,6 +213,12 @@ public class ProjectController {
 		List<ProjectDto> list = projectService.searchProjectList(pParam);
 		int totalRecordCount = projectService.getProjectCount(pParam);
 			
+		
+		// 확인용
+//		for (int i = 0; i < list.size(); i++) {
+//			ProjectDto dto = list.get(i);
+//			logger.info("list : " + dto.toString());
+//		}
 
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
@@ -220,6 +231,9 @@ public class ProjectController {
 		model.addAttribute("s_keyword", pParam.getS_keyword());
 		model.addAttribute("s_complete", pParam.getS_complete());
 		model.addAttribute("s_condition", pParam.getS_condition());
+		
+//		model.addAttribute("s_sort", pParam.getS_sort());	// 정렬기준
+//		model.addAttribute("s_asc_desc", pParam.getS_asc_desc());	// 내림 오름 차순 기준
 		
 		model.addAttribute("list", list);
 
@@ -534,12 +548,12 @@ public class ProjectController {
 		///////////////////////////////////
 		// 메인 이미지 올린 4개 프로젝트
 		// 성공한 프로젝트 중 모금액순
-		mainParam.setS_sort("BUYCOUNT");
-		mainParam.setS_asc_desc("DESC");
-		mainParam.setS_complete("complete");
-		
-		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
-		model.addAttribute("success_list", success_list);
+//		mainParam.setS_sort("BUYCOUNT");
+//		mainParam.setS_asc_desc("DESC");
+//		mainParam.setS_complete("complete");
+//		
+//		List<ProjectDto> success_list = projectService.searchProjectList(mainParam);
+//		model.addAttribute("success_list", success_list);
 				
 		return "home.tiles";
 	}
