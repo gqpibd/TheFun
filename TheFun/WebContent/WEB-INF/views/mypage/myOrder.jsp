@@ -152,7 +152,7 @@ input.star:checked ~ .rev-box {
      content: "후원일자";
   }
   .funTable tbody tr td:nth-child(2):before {
-    content: "후원 프로젝트 정보";
+    content: "프로젝트 정보";
   }
   .funTable tbody tr td:nth-child(3):before {
     content: "후원금액(수량)";
@@ -179,7 +179,6 @@ input.star:checked ~ .rev-box {
 <br><br>
 <div align="center">
 <div class="container-table100">
-<div class="wrap-table100">
 <div class="table100">
 <table class="funTable" id="myOrderlist">
 	<thead>
@@ -260,7 +259,6 @@ input.star:checked ~ .rev-box {
 	<tbody>
 
 </table>
-</div>
 </div>
 </div>
 

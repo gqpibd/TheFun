@@ -142,6 +142,10 @@ window.fbAsyncInit = function() {
 	font-weight: 300;
 }
 
+.loginbtn{
+	float:right;
+	margin-right: 10px;
+}
 /* 드랍다운 메뉴 */
 .drop-down{
     display: inline-block;
@@ -300,6 +304,10 @@ transform: translateY(-50%);
 	.drop-down__icon{
 		margin: auto
 	}
+	
+	.cbp-hrmenu > ul, .cbp-hrmenu .cbp-hrsub-inner {
+    	padding: unset;
+    }
 }
 @media screen and (max-width: 36em) { 
 	.cbp-hrmenu .cbp-hrsub-inner > div {
@@ -314,6 +322,16 @@ transform: translateY(-50%);
 	.drop-down__icon{
 		margin: auto
 	}
+	
+	.cbp-hrmenu > ul, .cbp-hrmenu .cbp-hrsub-inner {
+    	padding: unset;
+    }
+    .nonMemberProfile{
+    	display: none;
+    }
+    .loginbtn{
+    	margin-right: 5px;
+    }
 	
 } 
 
@@ -427,14 +445,14 @@ $(document).ready(function () {
 		      <span class="fas fa-bars" style="color:#8152f0"></span>
 		    </button> -->
 		        
-		    <div id="navbarResponsive" style="width:20%;position:absolute;right:0;margin: auto;">		      
+		    <div id="navbarResponsive" style="width:40%;position:absolute;right:0;margin: auto;">		      
 		    <c:if test="${login eq null}">
-					    <button class="loginbtn" onclick="location.href='login.do'" style="width:85%">
-					    	<img class="topprofile" src="image/profile/default.jpg">로그인/회원가입
-					    </button> <!-- 로그인 -->				
+			    <button class="loginbtn" onclick="location.href='login.do'">
+			    	<img class="topprofile nonMemberProfile" src="image/profile/default.jpg">로그인/회원가입
+			    </button> <!-- 로그인 -->				
 			</c:if>
 			<c:if test="${login ne null}">
-		      	<div class="drop-down">
+		      	<div class="drop-down" style="float:right;margin-right: 10px">
   				<div id="dropDown" class="drop-down__button" align="center">
    				 <span class="drop-down__name hideWhenSmall">${login.nickname} 님</span> 
    				 <span class="drop-down__icon">

@@ -13,7 +13,7 @@
   text-align: center;
   box-sizing: content-box;
 }
-.form input {
+.form input, .form textarea {
   outline: 0;
   background: #f2f2f2;
   width: 100%;
@@ -27,6 +27,7 @@
   box-sizing: border-box;
   font-size: 14px;
 }
+
 .form button {
   outline: 0;
   background: #8152f0;
@@ -52,23 +53,11 @@
   text-decoration: none;
 }
 body {
-   background: #F7EEF8; 
-
-   font-family: "Roboto", sans-serif;
+	font-family: "Nanum Gothic", sans-serif;
+    background: #F7EEF8; 
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
-} /*
-body:before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  background: rgba(255, 255, 255, 0.8);
-  width: 100%;
-  height: 100%;
-}  */
-
+} 
 h6.background {
   font: 26px;
   margin-top: 10px;

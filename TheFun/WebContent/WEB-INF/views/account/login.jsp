@@ -15,17 +15,27 @@
 
 <!-- 로그인폼 css -->
 <link href="CSS/logincss/login.css" rel="stylesheet">
- 
+
+<style type="text/css">
+.g-signin2>div{
+	max-width: 100%;
+}
+div#naverIdLogin>a>img {
+    width: 100%;
+    height: 100%;
+}
+</style> 
 <!-- 아이디 쿠키 저장 jquery코드 -->
 <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery.cookie.js"></script>
 
-<!-- 페이스북 로그인에 필요하 스크립트 -->
+
 <script type="text/javascript">
 function optionToggle(){
 	$('#option').slideToggle();
 	$( ".fas" ).toggleClass( "fa-angle-down" );
 	$( ".fas" ).toggleClass( "fa-angle-up" );	
 }
+/* 페이스북 로그인에 필요한 스크립트 */
 function checkLoginState(){
 	FB.getLoginStatus(function(response) {
 		statusChangeCallback(response);
@@ -99,7 +109,7 @@ function saveId(){ // 아이디를 쿠키에 저장하거나 삭제하는 함수
 			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소">
 			
 			<span id="infoCheckMessage" style="color:red; font-size:11px;"></span>		
-			<input type="text" id="newInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글"/>
+			<textarea class="input" id="newInfo" name="info" maxlength="200" onkeyup="infoCheck()" placeholder="소개글"/></textarea>
 		</div>		
 		<button id="regiBtn" disabled="disabled" style="background: #E2E2E2; cursor: default;">회원가입</button>
 		<!-- <h6 class="background"><span>또는</span></h6> -->
@@ -125,22 +135,24 @@ function saveId(){ // 아이디를 쿠키에 저장하거나 삭제하는 함수
 		</div>
 		<button type="button" style="background: #E2E2E2; cursor: default;" id="loginBtn" disabled="disabled">로그인</button>
 		<h6 class="background"><span>또는</span></h6>
-		<div style="margin: auto; display: table-cell;">
-			
+		<div style="margin: auto;">
+			<!-- 네이버 아이디로 로그인 -->
+			<div class="mb-1"id="naverIdLogin"></div>
 			<!-- 카카오 아이디로 로그인 -->
 			<a id="custom-login-btn" href="javascript:loginWithKakao()" style="text-decoration: none;" > 
-				<img class="mb-2" src="image/login/kakao_account_login_btn_medium_wide.png"
+				<img class="mb-1" src="image/login/kakao_account_login_btn_medium_wide.png"
 				onmouseover="this.src='image/login/kakao_account_login_btn_medium_wide_ov.png'"
-				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_wide.png'"/><!-- width="217.31px" -->
-			</a>
-			<!-- 페이스북아이디로로그인 -->
-			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false" >페이스북 계정으로 로그인
-			</fb:login-button>
-			<!-- 구글 아이디로 로그인 -->
-			<div class="g-signin2" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn" style="margin-top: 5px"></div> 
+				onmouseleave="this.src='image/login/kakao_account_login_btn_medium_wide.png'" style="max-width: 100%"/><!-- width="217.31px" -->
+			</a>		
 			
-			<!-- 네이버 아이디로 로그인 -->
-			<div class="mt-2"id="naverIdLogin"></div>
+			<!-- 구글 아이디로 로그인 -->
+			<div class="g-signin2 mb-1" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn"></div> 
+			
+			<!-- 페이스북아이디로로그인 --> 
+			<div id="fbbtn" style="visibility: none;"class="fb-login-button" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>			
+			<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-width="100%" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="true" data-auto-logout-link="true" data-use-continue-as="true">페이스북 계정으로 로그인
+			</fb:login-button> -->
+			
 		</div>
 		<div>
 			<p class="message">
@@ -232,7 +244,7 @@ $('.message a').click(function(){
 	var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "vb6UHNxUFoBsi487fDmI",
-			callbackUrl: "http://localhost:8090/TheFun/login.do",
+			callbackUrl: "http://183.99.33.240:8090/TheFun/login.do",
 			//callbackUrl: "https://localhost:8443/TheFun/login.do",
 			//isPopup: false, // 팝업을 통한 연동처리 여부 
 			//callbackHandle: true,
@@ -424,10 +436,10 @@ function nicknameCheck() { // 15글자 이내
 	}
 }
 
-function infoCheck() { // 30글자 이내
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+function infoCheck() { // 200글자 이내
+	var regExp = /[\{\}\[\]\/.,;:|\)*~`\-_+<>@\#$%&\\\=\(\'\"]/gi;
 	if(regExp.test($("#newInfo").val()) && $("#newInfo").val().length != 0){	    
-		$("#infoCheckMessage").text("한글 또는 영어로만 30자 이내로 적어주세요");
+		$("#infoCheckMessage").text("한글 또는 영어로만 200자 이내로 적어주세요");
 		$("#newInfo").focus();
 		infoOk = false;
 		checkSubmitActivation();
@@ -465,7 +477,6 @@ function emailCheck() {
 		data:"email=" + $("#newEmail").val(),	
 		success:function(data){			
 			if(data != "OK") { // 중복된 이메일
-				$("#newEmail").val("");
 			    $("#newEmail").focus();  
 			    $("#emailCheckMessage").text("이미 사용중인 이메일 입니다");
 			    emailOk = false;

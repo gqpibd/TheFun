@@ -901,7 +901,7 @@ $("#btn_submit").click(function () {
 			for(var i=0; i<optotal; i++){
 				var op_title = $("input[name='op_title']").eq(i).val();
 				var op_content = $("textarea[name='op_content']").eq(i).val();
-				var _op_price = $("input[name='op_title']").eq(i).val();
+				var _op_price = $("input[name='op_price']").eq(i).val();
 				var op_price = _op_price.replace(/,/gi, "");
 				var _op_stock = $("input[name='op_stock']").eq(i).val();
 				var op_stock = _op_stock.replace(/,/gi, "");
@@ -911,7 +911,7 @@ $("#btn_submit").click(function () {
 				
 				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
 				if(op_stock != null || op_stock != ""){
-					totalPrice = totalPrice + (op_price*op_stock);
+					totalPrice = totalPrice + (parseInt(op_price)*parseInt(op_stock));
 				}
 				
 				if(op_title == null || op_title == "" || op_content == null || op_content == "" || op_price == null || op_price == ""){

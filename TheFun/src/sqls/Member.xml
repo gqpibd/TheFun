@@ -29,11 +29,11 @@ CREATE TABLE FUN_MEMBER(
 	WHERE ID = #{id}
 </select>
 
-<!-- 이메일 중복 검사 -->
+<!-- 이메일 중복 검사 --><!-- 일반 회원중에서만 중복검사 -->
 <select id="emailCheck" parameterType="String" resultType="int">
 	SELECT COUNT(*) 
 	FROM FUN_MEMBER 
-	WHERE EMAIL = #{email}
+	WHERE EMAIL = #{email} AND PWD IS NOT NULL
 </select>
  
 <!-- 회원가입 -->

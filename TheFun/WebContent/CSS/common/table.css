@@ -10,12 +10,7 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 33px 30px;
-}
-
-.wrap-table100 {
-  width: 1170px;
-  margin: 30px auto 60px;
+  /* padding: 33px 30px; */
 }
 
 .funTable {
@@ -63,7 +58,6 @@
 }
 
 .table100-head th{
-  font-family: OpenSans-Regular;
   font-size: 18px;
   color: #fff;
   line-height: 1.2;
@@ -75,7 +69,6 @@
 }
 
 .funTbody tr {
-  font-family: OpenSans-Regular;
   font-size: 15px;
   color: #808080;
   line-height: 1.2;
@@ -104,20 +97,19 @@
   }
   .funTable tbody tr td {
     padding-left: 40% !important;
-    margin-bottom: 24px;
+    margin-bottom: 15px;
   }
   .funTable tbody tr td:last-child {
     margin-bottom: 0;
   }
   .funTable tbody tr td:before {
-    font-family: OpenSans-Regular;
     font-size: 14px;
     color: #999999;
     line-height: 1.2;
     font-weight: unset;
     position: absolute;
     width: 40%;
-    left: 30px;
+    left: 5px;
     top: 0;
   }
   

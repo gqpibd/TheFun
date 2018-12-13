@@ -14,11 +14,12 @@ window.fbAsyncInit = function() {
 		cookie : true,
 		xfbml : true,
 		version : 'v3.2'
+		
 	});	
 	
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
-			//console.log("페이스북 로그인 되어있음")
+			//statusChangeCallback(response);
 		} else {
 			//console.log("페이스북 로그인 되어있지 않음")
 		}
@@ -31,7 +32,8 @@ window.fbAsyncInit = function() {
 	}
 	js = d.createElement(s);
 	js.id = id;
-	js.src = "https://connect.facebook.net/en_US/sdk.js";
+	js.src = "https://connect.facebook.net/ko_KR/sdk.js";
+	//js.src = "https://connect.facebook.net/en_US/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));		
 </script>

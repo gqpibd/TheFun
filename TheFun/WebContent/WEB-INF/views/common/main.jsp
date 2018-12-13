@@ -78,11 +78,17 @@
 	-khtml-user-select: none;
 	user-select:none;
 }
+
+@media screen and (max-width: 36em) { 
+	.w-100{
+		width: unset !important;
+	}
+}
  </style>
  
 <!-- <div class="container" style="margin-top: 3%;">	  -->
 	<!-- 메인 배너 슬라이드 -->
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
+	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;object-fit: cover;overflow:hidden; user-select: none;">
 	  <ol class="carousel-indicators">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -92,7 +98,7 @@
 	    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
 	  </ol>
 	  <div class="carousel-inner">
-	    <div class="carousel-item active">
+	    <div class="carousel-item active"> 
 	      <img class="d-block w-100" src="image/banner/메인1.png" alt="첫번째 슬라이드">
 	    </div>
 	    <div class="carousel-item">

@@ -420,7 +420,7 @@ public class ProjectController {
 		if(!newImage.isEmpty()) {	// 파일이 있을때		
 			// 파일 수정
 			String uploadPath = req.getServletContext().getRealPath("/upload");
-			
+			logger.info(uploadPath);
 			try {
 				File file = new File(uploadPath + "/" + newProjectDto.getSeq());
 				// 실제 업로드

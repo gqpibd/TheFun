@@ -5,15 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8"/> 
 
-
-
 <link rel="stylesheet" href="CSS/mainCss/myInfo.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
-
-<!-- <link href="CSS/detailcss/blog-post.css" rel="stylesheet"> -->
-<style type="text/css">
-
-</style>
  
 <style type="text/css">
 .input {
@@ -31,8 +24,9 @@
   font-size: 14px;
 }
 .tb{
-   min-width: 420px;
    max-width: 600px;
+   width: 90%;
+   margin: 10px;
 }
 
 /* 미디어 쿼리 */
@@ -143,7 +137,7 @@
 <input type="hidden" name="profile" value="${login.profile}">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <div class="group" style="width: 100%;" align="center">	
-	<table border="0">
+	<table style="border: 0">
 	<tr>
 		<td>
 			<div class="imgbox" align="center">
@@ -205,13 +199,13 @@
 				</td>
 			</tr>
 			
-			<tr>
+			<%-- <tr>
 				<td style="text-align: left;">별명</td>
 				<td colspan="2">
 					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
 				</td>
 			</tr>
-			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
+			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr>  --%>
 				
 			<tr>
 				<td style="text-align: left;">이메일</td>
@@ -219,7 +213,14 @@
 					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="15" onkeyup="emailCheck()" value="${login.email }" />
 				</td>
 			</tr>
-			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
+			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr>
+			<tr>
+				<td style="text-align: left;">전화번호</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)" value="${login.phone }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:when>
 		
@@ -252,36 +253,32 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="text-align: left;">별명</td>
-				<td colspan="2">
-					<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
-				</td>
-			</tr>
-			<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-				
-			<tr>
 				<td style="text-align: left;">이메일</td>
 				<td colspan="2">
 					<input class="input" type="text" id="myEmail" name="email" placeholder="이메일 주소" maxlength="30" onkeyup="emailCheck()" value="${login.email }" />
 				</td>
 			</tr>
-			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 			 		
+			<tr><td></td><td colspan="2" id="emailCheckMessage" style="color:red; font-size:11px;" ></td></tr> 	
+			<tr>
+				<td style="text-align: left;">전화번호</td>
+				<td colspan="2">
+					<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)" value="${login.phone }" />
+				</td>
+			</tr>
+			<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 		
 		</table>
 	</c:otherwise>
 </c:choose>	
 </div>
-	<!-- 여기부터는 옵션 -->
 	<div class="right" align="center"> 
-	<table class="tb">			
-		<!-- 전화번호 -->
+	<table class="tb">
 		<tr>
-			<td style="text-align: left;">전화번호</td>
+			<td style="text-align: left;">별명</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myPhone" name="phone" placeholder="전화번호" maxlength="13" onkeyup="autoHyphen(this)" value="${login.phone }" />
+				<input class="input" type="text" id="myNickname" name="nickname" placeholder="이름" onkeyup="nicknameCheck()" maxlength="15" value="${login.nickname }" />
 			</td>
 		</tr>
-		<tr><td></td><td colspan="2" id="phoneCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
-		
+		<tr><td></td><td colspan="2" id="nicknameCheckMessage" style="color:red; font-size:11px;" ></td></tr> 	
 		<!-- 주소 -->
 		<tr>
 			<td style="text-align: left;">주소</td>
@@ -307,17 +304,17 @@
 		<tr>
 			<td style="text-align: left;">소개</td>
 			<td colspan="2">
-				<input class="input" type="text" id="myInfo" name="info" maxlength="30" onkeyup="infoCheck()" placeholder="소개글" value="${login.info}"/>			
+				<textarea class="input" id="myInfo" name="info" maxlength="200" onkeyup="infoCheck()" placeholder="소개글" style="height:115px"/>${login.info}</textarea>			
 			</td>
 		</tr>
 		<tr><td></td><td colspan="2" id="infoCheckMessage" style="color:red; font-size:11px;" ></td></tr> 
 		
-		<tr>
+		<%-- <tr>
 			<td style="text-align: left;">포인트</td>
 			<td colspan="2">			
 				<input class="input" type="text" id="myPoint" name="point" value="${login.point}" readonly="readonly"/>
 			</td>
-		</tr>	
+		</tr>	 --%>
 	</table>
 	</div>
 		
@@ -410,9 +407,9 @@ function nicknameCheck() { // 15글자 이내
 }
 
 function infoCheck() { // 30글자 이내
-	var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
+	var regExp = /[\{\}\[\]\/.,;:|\)*~`\-_+<>@\#$%&\\\=\(\'\"]/gi;
 	if(regExp.test($("#myInfo").val()) && $("#myInfo").val().length != 0){	    
-		$("#infoCheckMessage").text("한글 또는 영어로만 30자 이내로 적어주세요");
+		$("#infoCheckMessage").text("한글 또는 영어로만 200자 이내로 적어주세요");
 		$("#myInfo").focus();
 		infoOk = false;
 		checkSubmitActivation();

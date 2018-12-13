@@ -222,6 +222,12 @@
 	line-height: 1.9rem;
 	text-align: center;
 }
+
+@media (min-width: 1200px){
+	.container {
+	    max-width: 1340px;
+	}
+}
 </style>
 
 <!-- 남은날짜계산 -->
