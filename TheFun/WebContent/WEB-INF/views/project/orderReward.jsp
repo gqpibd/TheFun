@@ -441,7 +441,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
 			}else{	
-				alert("d");
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때

@@ -109,7 +109,7 @@ public class BuyController {
 	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
-		//출력 test
+/*		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
 		
@@ -119,6 +119,7 @@ public class BuyController {
 			logger.info("옵션카운트 : "+opCount[i]);
 			logger.info("프로젝트시퀀스 : "+projectseq[i]);
 		}
+		*/
 		
 		//주문 insert
 		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);

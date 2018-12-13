@@ -125,9 +125,11 @@ public class ProjectController {
 	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
 		
-
+		//프로젝트정보
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
+		
+		//장바구니 시퀀스 정보 -->디테일에서 가라로 넣어줘야함. 오더에서는 기부에 가라로 넣기 리워드에서는 히든으로 옵션증가에 따라 넣기
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
