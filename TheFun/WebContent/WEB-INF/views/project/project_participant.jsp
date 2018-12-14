@@ -212,13 +212,13 @@ table tr:nth-child(2n+1) {
     content: "후원일자";
   }
   .parti_table tbody tr td:nth-child(4):before {
-    content: "옵션";
+    content: "후원금액";
   }
   .parti_table tbody tr td:nth-child(5):before {
-    content: "결제 금액";
+    content: "상태";
   }
   .parti_table tbody tr td:nth-child(6):before {
-    content: "상태";
+    content: "옵션";
   }
   .parti_table td.c {
     text-align: center;
@@ -231,6 +231,7 @@ table tr:nth-child(2n+1) {
 	<!-- <h1 class="head_title">SEARCH</h1> -->
 	<p>참여 현황</p>
 	<div align="right"  style="margin-top: 5%;margin-bottom: 3%;">
+	<a href="#none" class="btn btn-primary" style="float: left;">선택한 항목 배송처리</a>
 	<a href="projectDetail.do?seq=${projectseq_participant }" class="btn btn-primary">프로젝트 보러가기</a>
 	</div>
 	</div>
@@ -255,35 +256,21 @@ table tr:nth-child(2n+1) {
 		</c:choose>
 	 " 프로젝트 참여 목록</div> --%>
 	 
-	 	<div class="parti_header">프로젝트 참여내역 (${totalRecordCount }건)</div>
+	 	<div class="parti_header"><span style="float: left;margin-right: 2%;margin-left: 2%;"><input type="checkbox" id="check_All"> 전체 선택 |</span>프로젝트 참여내역 (${totalRecordCount }건)</div>
 	   
 	   <table class="parti_table" style="text-align: center;vertical-align: middle;" cellpadding="5px">
-	   <!-- <thead>
-	   	<tr>
-	   		<th colspan="5"><input type="checkbox" id="check_All"></th>
-	   	</tr>
-	   </thead> -->
+	   <thead>
+	   </thead>
 	   <tbody>
+		   	<!--
+		   	<tr> 전체 선택 칸
+		   		<td></td>
+		   	</tr>
+		   	-->
 		    <c:if test="${empty participant_List }">
-			<!--
-			<tr>
-				<td colspan="6">참여 내역이 없습니다</td>
-			</tr>
-			-->	
 		</c:if>
 		
 	    <c:if test="${!empty participant_List }">
-	    
-		      <!-- 
-		      <tr>
-		      	 <td class="column1"><input type="checkbox" id="check_All"></td>
-		         <td class="column2">참여자</td>
-		         <td class="column3">참여일자</td>
-		         <td class="column4">상품 / 옵션 정보</td>
-		         <td class="column5">총 결제금액</td>
-		         <td class="column6">상태</td>
-		      </tr>
-		 		-->
 		 		
 		      <!-- list jsp:include로 보내려면 이렇게 -->
 			  <c:set var="part_List" value="${participant_List }" scope="request"/>

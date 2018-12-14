@@ -46,10 +46,10 @@
     content: '후원일자:';
   }
   td:nth-child(4):before {
-    content: '후원금액';
+    content: '후원금액:';
   }
   td:nth-child(5):before {
-    content: '상태';
+    content: '상태:';
   }
   td:nth-child(6):before {
     content: '옵션:';
@@ -155,9 +155,9 @@ td:nth-child(2):before {
 <c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 -->
 	<tr class="check_tr" style=" display:inline-block;">
 	   <td><input type="checkbox" name="check_row"></td>
-	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 후원자 -->
+	   <td>${part_Dto.id}</td><!-- 후원자 -->
 	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 후원일자 -->
-	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td> <!-- 후원금액 -->
+	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/>원 * ${part_Dto.count } 건)</td>
 	   <td>
 	   <c:choose>
    			<c:when test="${part_Dto.status eq BuyDto.FINISH}">배송 완료</c:when>
