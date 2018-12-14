@@ -82,7 +82,7 @@
       <br>
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
-      	<hr width="70%" color="#818181">
+      	<hr width="70%" color="#424242">
       	<table style="width: 70%">
       	<tr height="50px;">
       		<td align="center" width="70%">
@@ -138,6 +138,24 @@
 
 		<!-- 옵션, 프로젝트 테이블 -->
       <table style="width: 70%">
+      	<tr>
+      		<td colspan="3" bgcolor="gray" style="padding-left: 2%; padding-top: 1%">
+      			<input class="form-group" type="checkbox" id="checkAll" checked><label for="checkAll"> 전체 선택</label>
+      			<script type="text/javascript">
+      			// 전체선택 체크박스 체크시
+      			$("#checkAll").click(function () {
+					// 전체선택이 체크된 경우 해당 화면에 checkbox들을 모두 체크해준다
+					if($("#checkAll").prop("checked")){
+						$("input[type=checkbox]").prop("checked", true);
+					}else{
+						// 전체선택 체크박스가 해제된 경우 해당화면에 모든 checkbox의 체크를 해제시킨다
+						$("input[type=checkbox]").prop("checked", false);
+					}
+					
+				});
+      			</script>
+      		</td>
+      	</tr>
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
       <tr id="trpro_${selectOptions[vs.index].seq}">      
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
@@ -147,13 +165,19 @@
 	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
 				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
-				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs"> 
-				${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
+				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked> 
+					<!-- 체크박스 옆 리워드 이름,재고 부분 클릭해도 체크되게 디버깅. -->
+					<label for="checkboxs${vs.count }">${selectOptions[vs.index].title}
+						<font size="2px;" color="#656565">
+							<!-- -1이 아닐 경우만 재고 출력되게 디버깅. -1은 재고 무제한 -->
+							<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne -1}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
+						</font>
+					</label>
 				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
 			</td>
 		</tr>
-		<tr id="tr2_${selectOptions[vs.index].seq}">
-			<td class="liteGray td1">
+		<tr id="tr2_${selectOptions[vs.index].seq}" <c:if test="${!vs.last }">style='border-bottom:1pt solid #D8D8D8'</c:if>>	<!-- 리워드별 구분선 추가. 마지막은 선 없음. -->
+			<td class="liteGray td1" >
 				<ul>		 	 	
 		 	 	<c:forEach items="${fn:split(selectOptions[vs.index].content,'/')}" var="item">
 					<li class="liteGray">${item}</li>
@@ -161,12 +185,12 @@
 		 	 	
 		 	 	</ul>
 			</td>
-			<td class="td2 liteGray">
+			<td class="td2 liteGray" >
 				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
 				<input type="text" id="${selectOptions[vs.index].seq}" name="opCount" value="${optionCount[vs.index]}" size="3" readonly="readonly" style="text-align: center;">
 				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
 			</td>
-			<td class="liteGray td3">
+			<td class="liteGray td3" >
 				<input type="text" readonly="readonly" value="${selectOptions[vs.index].price*optionCount[vs.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${selectOptions[vs.index].seq}">원<br>
 				<input type="hidden" name="opPrice" id="realPrice_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].price}">
 			</td>
@@ -180,13 +204,13 @@
 		</td>
 	</tr>
 	<tr>
-	<td colspan="3"> <hr> </td>
+	<td colspan="3" style="border-bottom:1pt dashed #424242; "></td>
 	</tr>
 	<tr style="padding: 20px;" >
 		<td class='liteGray' align="left" width="10%" style="padding-top: 20px;">
 			보유 포인트 
 		</td>
-		<td class='liteGray'align="right" width="60%" colspan="2" style="padding-top: 20px;">
+		<td class='liteGray'align="left" width="60%" colspan="2" style="padding-top: 20px;">
 			<input type="text" readonly="readonly" value="${login.point }" class="underline liteGray" size="10" id="usablePoint"> point
 		</td>
 	</tr>
@@ -194,7 +218,7 @@
 		<td class='liteGray' align="left"  width="10%">
 			사용할 포인트
 		</td>
-		<td class='liteGray'align="right"  width="60%" colspan="2">
+		<td class='liteGray'align="left"  width="60%" colspan="2">
 			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
 			<button type="button" id="pointBtn">적용</button>
 		</td>
@@ -207,6 +231,9 @@
 		<td class="pupple"align="right" colspan="2" style="padding-top: 20px;">
 			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원 
 		</td>
+	</tr>
+	<tr>
+	<td colspan="3"> <hr color="#424242"> </td>
 	</tr>
 	</table>
 	<br>
