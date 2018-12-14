@@ -655,7 +655,7 @@ $(document).ready(function() {
 					<tr>
 						<td>
 							<div class="desc projectimg">
-								후원자 분들에게 어떤 선물을 드릴까요?
+								후원자 분들에게 어떤 상품을 드릴까요?
 							</div>
 						</td>
 						<td>
@@ -686,7 +686,7 @@ $(document).ready(function() {
 			    	<!-- 위 -->
 				    <div class="card-header" id="headion<%=(i + "") %>">
 				        <h5 class="mb-0">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 선물</a>			
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTen" class="notChangedOption"><%=(i + "") %>번째 상품</a>			
 				          		<a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=(i+10 + "")%>" id="option<%=i %>" class="changedOption"><%=(i + "") %>번째 선물</a>
 				          		<span id="optionChecked<%=i%>" style="float: right;opacity:0;color:green">✔</span>
 				      	</h5>

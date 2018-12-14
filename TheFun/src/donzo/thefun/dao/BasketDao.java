@@ -23,7 +23,7 @@ public interface BasketDao {
 	public int getBasketCount(String id);
 	
 	//장바구니에 이미 있는 물건인지
-	public int getBasketExist(int optionseq);
+	public int getBasketExist(BasketDto basketDto);
 	
 	//이미 있는거면 갯수 update
 	public void updateCountBasket(BasketDto basketDto);

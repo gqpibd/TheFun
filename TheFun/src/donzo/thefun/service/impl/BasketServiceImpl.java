@@ -34,18 +34,26 @@ public class BasketServiceImpl implements BasketService{
 	
 	@Override
 	public void insertBasket(String id, int projectSeq, int[] optionSeq, int[] optionCount) {
-
+		int exist = 1;
+		
 		for(int i=0 ; i<optionSeq.length ; i++) {
 			
-			// 이미 장바구니에 있는 물건인지
-			int exist = basketDao.getBasketExist(optionSeq[i]);
+			// 이미 장바구니에 있는 물건인지(id, optionseq만 필요)
+			System.out.println(i + "번째 옵션시퀀스 = "+optionSeq[i]);
+			BasketDto dto = new BasketDto();
+			dto.setId(id);
+			dto.setOptionseq(optionSeq[i]);
+			exist = basketDao.getBasketExist(dto);
+			System.out.println("장바구니 있는지 " + exist);
 			
-			if(exist == 1) {	// 있음(select 결과로 찾아온 row가 1개 있음)
+			if(exist == 1) {	// 있음(1)
 				// 갯수만 update 처리
+				System.out.println("장바구니 있음 ");
 				BasketDto basket = new BasketDto(id, projectSeq, optionSeq[i], optionCount[i]);
 				basketDao.updateCountBasket(basket);
-			}else {				// 없음
+			}else {				// 없음(0)
 				// 새로 insert 처리
+				System.out.println("장바구니 없음");
 				BasketDto basket = new BasketDto(id, projectSeq, optionSeq[i], optionCount[i]);
 				basketDao.insertBasket(basket);
 			}

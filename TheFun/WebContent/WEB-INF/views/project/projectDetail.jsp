@@ -274,11 +274,8 @@
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 		<!-- 프로젝트 타이틀 -->
-<<<<<<< HEAD
 		<form id="goAnywhere" action="goOrderReward.do" method="post">
-=======
 		<form id="goAnywhere" action="goOrderReward.do">
->>>>>>> refs/remotes/origin/ds
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img
@@ -838,12 +835,6 @@ function minusVal(seqNum) {
 								<li class="liteGray">${item}</li>
 							</c:forEach>
 						</ul>
-						<fmt:parseDate value="${projectdto.shipdate}"
-							pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
-						<p class="liteGray" style="font-size: 15px">
-							예상전달일 :
-							<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일" />
-						</p>
 						<c:if test="${option.stock == option.buycount}">
 							<p class="pupple">
 								<font style="background-color: #ebe2ff">&nbsp;매진되었습니다&nbsp;&nbsp;</font>

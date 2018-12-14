@@ -77,7 +77,7 @@ FROM FUN_BASKET B;
 	WHERE SEQ=#{seq}
 </delete>
  
-<!-- 장바구니 업데이트 -->
+<!-- 장바구니 업데이트(장바구니 페이지에서 수량 + - 할때마다 ajax로 수시로 반영.) -->
 <update id="updateBasket" parameterType="donzo.thefun.model.BasketDto">
 	UPDATE FUN_BASKET
 	SET COUNT = #{count}
@@ -92,13 +92,14 @@ FROM FUN_BASKET B;
 </select>
 
 <!-- 장바구니에 이미 해당 옵션의 물건이 있는지 가져오기 -->
-<select id="getBasketExist" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+<select id="getBasketExist" parameterType="donzo.thefun.model.BasketDto" resultType="java.lang.Integer">
 	SELECT COUNT(*)
 	FROM FUN_BASKET
-	WHERE OPTIONSEQ=#{optionseq}
+	WHERE ID=#{id}
+	AND OPTIONSEQ=#{optionseq}
 </select>
 
-<!-- 이미 있는 상품의 경우  기존 갯수 + 새 갯수 update -->
+<!-- 이미 있는 상품의 경우  기존 갯수 + 새 갯수 update(디테일 페이지에서 장바구니 추가눌렀을 때) -->
 <update id="updateCountBasket" parameterType="donzo.thefun.model.BasketDto">
 	UPDATE FUN_BASKET
 	SET COUNT = COUNT + #{count}
