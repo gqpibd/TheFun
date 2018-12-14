@@ -57,6 +57,14 @@
   border-radius:200px!important;
 }
 
+.circle_today {
+/*   border:1px solid #ff0000; */
+  background:#ff0000;
+  padding:2px; 
+  box-sizing:border-box!important; 
+  border-radius:200px!important;
+}
+
 span[data-title]:hover:after, 
 div[data-title]:hover:after {
   font:11px 'Roboto'; 

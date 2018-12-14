@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@page import="donzo.thefun.model.ProjectDto"%>
+<%@page import="donzo.thefun.model.BuyDto"%>
 <fmt:requestEncoding value="utf-8"/>   
 
 <style>
@@ -42,7 +43,7 @@ div.table-users {
 
 table.parti_table {
    width: 100%;
-   /* border:1px solid #8152f0; */
+   border:1px solid #8152f0;
    
    table.parti_table td, table.parti_table th { 
       color: #8152f0;
@@ -181,9 +182,7 @@ table.parti_table {
 <th>총 결제금액</th>
 <th>상태</th>
 
-todolist
-- 바이뷰 고쳐서 닉네임 가져오고, 배송 현황 스테이터스 추가? deliveried?
-- projectService 바이 컨트롤러에?	
+- 바이뷰 고쳐서 닉네임 가져오고
 -->
          
 <c:forEach items="${part_List }" var="part_Dto" varStatus="i">
@@ -191,30 +190,42 @@ todolist
 <!-- regdate -->
 <fmt:parseDate value="${part_Dto.regdate }" var="rdate" pattern="yyyy-MM-dd HH:mm:ss"/>
 
-<%-- <c:choose>
-<c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 --> --%>
-	<tr>
-	   <td><input type="checkbox"></td>
-	   <td>${part_Dto.id}</td><!-- 참여자 -->
+<c:choose>
+<c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 -->
+	<tr class="check_tr">
+	   <td><input type="checkbox" name="check_row"></td>
+	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 참여자 -->
 	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
-	   <td>${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li class="liteGray list-group-item" style="float: right;width: 50%;padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
-	   
+	   <td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
+	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
 	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
 	   <td>
-   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">
-  				<!-- <a href="#none" class="btn btn-outline-warning"> -->배송 완료<!-- </a> -->
- 			</c:when>
+	   <c:choose>
+   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">배송 완료</c:when>
  			
-	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">
-   			<!-- <a href="#none" class="btn btn-outline-danger"> -->배송 전<!-- </a> -->
-   			</c:when>
+	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">배송 전</c:when>
+ 		</c:choose>
 		</td>
 	</tr>
-<%-- </c:when> --%>
-
-<%-- <c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  -->
-
 </c:when>
-</c:choose> --%>
+
+<c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  -->
+	<tr class="check_tr">
+	   <td><input type="checkbox" name="check_row"></td>
+	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 참여자 -->
+	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
+	   <%-- <td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
+	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
+	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
+	   <td>
+	   <c:choose>
+   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">결제 완료</c:when>
+ 			
+	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">결제 전</c:when>
+ 		</c:choose>
+		</td>
+	</tr>
+</c:when>
+</c:choose>
 	
 </c:forEach>

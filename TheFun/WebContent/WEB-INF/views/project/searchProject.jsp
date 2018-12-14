@@ -265,9 +265,10 @@ ul.tab li.selected{
 </div>
 <%-- 
 <div align="right" style="margin-right: 15%;">
-	<input type="search" placeholder=" 결과 내 검색" name="s_keyword" value="${s_keyword }" id="s_keywordTextField" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}">
-</div> 
- --%>
+	<input type="search" placeholder=" 결과 내 검색" name="s_keyword" value="${s_keyword }" id="more_search" onkeypress="if(event.keyCode==13) {more_search_Enter(); return false;}">
+</div>
+--%>
+
 
 <%-- 
 MyBatis에 foreach 써서 list가 들어가는 줄을 몰랐네 바보다
@@ -494,10 +495,10 @@ $(document).ready(function () {
 <div class="row">
 <div class="tab">
     <ul class="tab">
-     <li data-tab="tab1" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=buycountDESC&doc_title=${doc_title}">참여 많은 순</a></li>
-     <li data-tab="tab2" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=fundachivedDESC&doc_title=${doc_title}">모금액 많은 순</a></li>
-     <li data-tab="tab3" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=edateASC&doc_title=${doc_title}">곧 종료되는 순</a></li>
-     <li data-tab="tab4" ><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=regdateDESC&doc_title=${doc_title}">최근 등록된 순</a></li>
+     <li data-tab="tab1" id="tab1"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=buycountDESC&doc_title=${doc_title}">참여 많은 순</a></li>
+     <li data-tab="tab2" id="tab2"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=fundachivedDESC&doc_title=${doc_title}">모금액 많은 순</a></li>
+     <li data-tab="tab3" id="tab3"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=edateASC&doc_title=${doc_title}">곧 종료되는 순</a></li>
+     <li data-tab="tab4" id="tab4"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&s_sort=regdateDESC&doc_title=${doc_title}">최근 등록된 순</a></li>
     </ul>
 </div>
 </div>
@@ -539,6 +540,7 @@ $(document).ready(function () {
 	</jsp:include>
 </div>
 
+
 <script>
 // 탭 누를 시 클래스 적용
 $(function() {
@@ -550,4 +552,11 @@ $(function() {
 		$('#' + activeTab).addClass('current');
 	});
 });
+
+	/* 상세 검색 */
+/* function more_search_Enter() {
+	$("#_pageNumber").val(0);
+	$("#more_search").val($("#more_search").val());
+	$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
+} */
 </script>

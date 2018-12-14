@@ -6,15 +6,28 @@ public class pageParam implements Serializable{
 
 	private String status;
 	
+	
 	// --------- paging
-	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
+//	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
+//	private int pageNumber = 0;				// 페이지 넘버
+//	
+//	private int start = 1;
+//	private int end = 8;
+	
+	private int recordCountPerPage; 	// 한 페이지에 표현할 글 수
 	private int pageNumber = 0;				// 페이지 넘버
 	
+
 	private int start = 1;
-	private int end = 8;
+	private int end;
 		
 	public pageParam() {}
 
+	public  pageParam(int recordCountPerPage, int end) {
+		this.recordCountPerPage = recordCountPerPage;
+		this.end = end;
+	}
+	
 	public int getRecordCountPerPage() {
 		return recordCountPerPage;
 	}

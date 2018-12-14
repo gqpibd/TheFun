@@ -8,7 +8,6 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> <!-- 주소검색 -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script> <!-- 결제api -->
 <style type="text/css">
-
 .underline { /* 포인트 */
 	border-color:#999999; background-color:#FFFFFF; border-style:solid;
     border-top-width:0px; border-bottom-width:1px; border-left-width:0px; border-right-width:0px;
@@ -78,7 +77,6 @@
     
 <!-- 기부일 경우 -->
 <c:if test="${projectdtoList[0].isDonation()}">    
-
     <!-- 메인 -->
       <p class="strongGray">${projectdtoList[0].title } </p>
       <br>
@@ -94,6 +92,8 @@
       		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
       	</tr>
       	</table>
+
+				
 	<br><br>
 	
 	<table style="width: 70%; padding: 20px;" class="td1">

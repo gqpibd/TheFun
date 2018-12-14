@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
@@ -45,11 +44,7 @@ public class BuyController {
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-		
-		if(param.getO_id() == null) { 
-			param.setO_id(""); 
-		}
-		
+		if(param.getO_id() == null) { param.setO_id(""); }
 		param.setO_id(UtilFunctions.getLoginId(req));
 		
 		int totalRecordCount = buyService.getOrderCount(param);
@@ -178,11 +173,12 @@ public class BuyController {
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String participant(Model model, String title, participantParam partiParam) throws Exception {
 		logger.info("ProjectController participant.do 들어옴 " + new Date());
-//		logger.info("들어온 projectSeq_for_participant : " + projectSeq_for_participant);
+//		logger.info("들어온 projectSeq_for_participant : " + partiParam.getProjectseq_participant());
 		logger.info("partiParam : " + partiParam.toString());
 		
-//		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
 		partiParam.setRecordCountPerPage(10);
+		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
+		partiParam.setFundtype(partiParam.getFundtype());
 		
 		// paging 처리 
 		int sn = partiParam.getPageNumber();
@@ -195,6 +191,11 @@ public class BuyController {
 		List<BuyDto> participant_List = buyService.getParticipantList(partiParam); // 참여자 정보가 필요해서
 		
 		model.addAttribute("participant_List", participant_List);
+		
+		for (int i = 0; i < participant_List.size(); i++) {
+			BuyDto dto = participant_List.get(i);
+			logger.info(" 찾아진 list : " + dto.toString());
+		}
 		
 		int totalRecordCount = buyService.getParticipantCount(partiParam);
 		

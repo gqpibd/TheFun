@@ -15,7 +15,9 @@ public class ProjectParam extends pageParam implements Serializable {
 	private String s_condition;	// 조건 : reg_seven_date(최근 7일 내 작성), end_seven_date(7일 내 종료)
 
 	
-	public ProjectParam() {	}
+	public ProjectParam() {
+		super(8,8);
+	}
 
 
 	public String getS_type() {

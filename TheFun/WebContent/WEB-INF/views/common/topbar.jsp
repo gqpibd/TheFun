@@ -376,32 +376,15 @@ $(document).ready(function () {
 						</div>
 						<div>
 							<h4>검색</h4>
-							<form id="_frmFormSearch" name="frmForm1" > <!-- method="post" -->
+							<form id="_FormSearch" name="frmForm1" > <!-- method="post"  -->
 								<div class="box">
 									<div class="container-4">
 										<input class="field" type="text" placeholder=" Search..."
 										style="width: 230px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
 										name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
-										<a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a>
+										<!-- <a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a> -->
 									</div>
 								</div>
-							 	
-								<!-- controller로 넘겨주기 위한 값 -->
-								<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
-								<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
-								<input type="hidden" name="s_type" value="${s_type }">
-								<input type="hidden" name="s_category" value="${s_category }">
-								<input type="hidden" name="s_summary" value="${s_summary }">
-								<input type="hidden" name="s_sort" value="${s_sort }">
-								<input type="hidden" name="s_asc_desc" value="${s_asc_desc }">
-								<input type="hidden" name="s_complete" value="${s_complete }">
-								<input type="hidden" name="s_condition" value="${s_condition }">
-								<input type="hidden" name="doc_title" value="${doc_title }">
-								
-								<!-- 참가현황 페이징시 project seq 필요 -->
-								<input type="hidden" name="projectseq_participant" value="${projectseq_participant }" id="_projectseq_participant">
-								<!-- 참가현황 페이징에 펀드 타입 필요 -->
-								<input type="hidden" name="fundtype" value="${fundtype }" id="_fundtype">
 							</form>
 							<h4>더 펀 소개</h4>
 							<ul>
@@ -616,14 +599,14 @@ function setBasketCount(){ // 대기중인 프로젝트 갯수
     	$("#search_Btn").click(function () {
 			$("#_pageNumber").val(0);
 			$("#s_keywordTextField").val($("#s_keywordTextField").val());
-			$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
+			$("#_FormSearch").attr("action","searchProjectList.do").submit();
 		});
 	});
     
      function search_Enter() {	// 엔터 쳤을 때 검색
      	$("#_pageNumber").val(0);
      	$("#s_keywordTextField").val($("#s_keywordTextField").val());
- 		$("#_frmFormSearch").attr("action","searchProjectList.do").submit();
+ 		$("#_FormSearch").attr("action","searchProjectList.do").submit();
  	}
     
 /* dropdown 메뉴 설정 */

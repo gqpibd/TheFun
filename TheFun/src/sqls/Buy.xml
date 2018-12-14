@@ -73,20 +73,19 @@ FROM FUN_BUY B;
 		ORDER BY B.REGDATE DESC
 </select>  -->
  
-<!-- 내 주문내역 목록 paging -->
+<!-- 내 주문내역 목록 paging --> <!-- ORDER BY B.REGDATE DESC B.SEQ DESC: 나중에 주문한게 위에 오게 하려고 -->
 <select id="myOrderPageList" parameterType="donzo.thefun.model.buyParam" resultType="donzo.thefun.model.BuyDto">
 	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
 	FROM 
-		(SELECT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
+		(SELECT RANK() OVER(ORDER BY B.REGDATE DESC) AS RANK, 
 				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
-		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete'
+		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete' 
 		 ) A
-	WHERE RNUM BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
+	WHERE RANK BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
 </select>
 
 <select id="getOrderCount"	parameterType="donzo.thefun.model.buyParam"	resultType="java.lang.Integer">
-
 	SELECT NVL(COUNT(*), 0) AS CNT
 	FROM FUN_BUY_VIEW
 	WHERE ID=#{o_id} AND STATUS != 'delete' AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
@@ -100,21 +99,21 @@ FROM FUN_BUY B;
 	GROUP BY REGDATE
 	HAVING TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') = SUBSTR(#{regdate},0,19) 
 </select>
- 
+
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
-	INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, POSTCODE, ROADADDRESS, DETAILADDRESS, OPTIONSEQ, PRICE)
-	VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},
-	SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
-	<choose>
-	<when test="postcode == null"> <!-- 기부인 경우 주소랑 옵션이 없음 -->
+   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, POSTCODE, ROADADDRESS, DETAILADDRESS, OPTIONSEQ, PRICE)
+   VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},
+   SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
+   <choose>
+   <when test="postcode == null"> <!-- 기부인 경우 주소랑 옵션이 없음 -->
         null,null,null,null,#{price}
     </when>
     <otherwise> <!-- 리워드인 경우 가격을 직접 넣지 않음(대신 뷰에서 계산) -->
        #{postcode},#{roadaddress},#{detailaddress},#{optionseq},null
     </otherwise>
     </choose>
-	)
+   )
 </insert>
 
 <!-- 후기, 별점 등록 -->
@@ -141,23 +140,29 @@ FROM FUN_BUY B;
 	WHERE PROJECTSEQ=#{projectseq} AND ID=#{id} AND REGDATE=TO_DATE(#{regdate},'yyyy-mm-dd hh24:mi:ss')
 </select>
 
-<!-- 참여현황 -->
-<select id="participant_List" parameterType="donzo.thefun.model.participantParam" resultType="donzo.thefun.model.BuyDto">
-	SELECT SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PDATE, SHIPDATE
-	FROM (SELECT ROW_NUMBER() OVER(ORDER BY REGDATE DESC) AS RNUM, SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PDATE, SHIPDATE 
+<!-- SELECT ROW_NUMBER() OVER(ORDER BY REGDATE DESC) AS RNUM, SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PDATE, SHIPDATE, POINT 
 		FROM FUN_BUY_VIEW
 		WHERE PROJECTSEQ = #{projectseq_participant}
-		AND STATUS != 'delete'
-		) A		 
-	WHERE RNUM BETWEEN #{start} AND #{end}
+		AND STATUS != 'delete' -->
+		
+<!-- 참여현황 -->
+<select id="participant_List" parameterType="donzo.thefun.model.participantParam" resultType="donzo.thefun.model.BuyDto">
+	SELECT SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PDATE, SHIPDATE, POINT
+	FROM (SELECT DISTINCT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
+				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.PRICE, B.REGDATE, B.SCORE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.OCONTENT, B.STATUS, B.NAME, B.PHONE, B.POSTCODE, B.ROADADDRESS, B.DETAILADDRESS, B.CARDNUMBER, B.BANKNAME, B.PDATE, B.SHIPDATE, B.POINT
+		 FROM FUN_BUY_VIEW B, FUN_MEMBER M	
+		 WHERE B.PROJECTSEQ=#{projectseq_participant} AND M.ID=B.ID
+		 AND B.STATUS != 'delete'
+		) A
+	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
 
 <!-- 참여 카운트 -->
 <select id="getParticipantCount" parameterType="donzo.thefun.model.participantParam" resultType="java.lang.Integer">
 	SELECT NVL(COUNT(*), 0) AS CNT
-	FROM FUN_BUY_VIEW
-	WHERE PROJECTSEQ = #{projectseq_participant}
-	AND STATUS != 'delete'
+	FROM FUN_BUY_VIEW B, FUN_MEMBER M
+	WHERE B.PROJECTSEQ=#{projectseq_participant} AND M.ID=B.ID
+	AND B.STATUS != 'delete'
 </select>
 
 <delete id="deleteBuy" parameterType="java.lang.Integer">
