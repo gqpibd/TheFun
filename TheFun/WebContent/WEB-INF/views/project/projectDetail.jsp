@@ -341,12 +341,15 @@
 
 						<tr height="50" id="beginTr">
 							<td class="strongGray imgTd">${projectdto.summary }&nbsp;&nbsp;</td>
-							<td colspan="3"><select style="width: 98%; height: 30px;"
-								id="optionSelect">
-									<option selected="selected" id="beginS" value="beginS">옵션을
-										선택해주세요</option>
+							<td colspan="3"><select style="width: 98%; height: 30px;" id="optionSelect">
+									<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 									<c:forEach items="${optionList }" var="opselect">
-										<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+										<c:if test="${option.stock <= option.buycount}">
+											<option id="select_${opselect.seq}" value="${opselect.seq}" disabled="disabled">${opselect.title }</option>
+										</c:if>
+										<c:if test="${option.stock > option.buycount}">
+											<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+										</c:if>									
 									</c:forEach>
 							</select></td>
 						</tr>
