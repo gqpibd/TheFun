@@ -19,168 +19,181 @@
   font-size: 40px;
 }
 
-/* 테이블 CSS */
+
 .parti_header {
-   background-color: #8152f0;
-   color: white;
-   font-size: 1.5em;
-   padding: 1rem;
-   text-align: center;
+  background-color: #8152f0;
+  color: white;
+  font-size: 1.5em;
+  padding: 0.3rem;
+  text-align: center;
 }
 
-.parti_table img {
-   border-radius: 50%;
-   height: 60px;
-   width: 60px;
+/* ////// */
+.table_img {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
 }
 
-.parti_table tr {
-	border-bottom: 1px solid #8152f0;
+.table-users {
+  border: 1px solid #8152f0;
+  border-radius: 10px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  max-width: calc(100% - 2em);
+  margin: 1em auto;
+  overflow: hidden;
+  width: 800px;
 }
 
-
-div.table-users {
-   /* border: 1px solid #8152f0; */
-   /* border-radius: 10px; */
-   /* box-shadow: 3px 3px 0 rgba(0,0,0,0.1); */
-   max-width: calc(100% - 2em);
-   margin: 1em auto;
-   /* overflow-y: scroll;
-   max-height: 500px; */
-   height: 500px;
-   width: 90%;
+table {
+  width: 100%;
 }
 
-table.parti_table {
-   width: 100%;
-   border:1px solid #8152f0;
-   
-   table.parti_table td, table.parti_table th { 
-      color: #8152f0;
-      padding: 10px; 
-   }
-   
-   td {
-      text-align: center;
-      vertical-align: middle;
-      
-      &:last-child {
-         font-size: 0.95em;
-         line-height: 1.4;
-         text-align: left;
-      }
-   }
-   
-   th { 
-      background-color: #8152f0;
-      font-weight: 300;
-   }
-   
-   tr {     
-      &:nth-child(2n) { background-color: white; }
-      &:nth-child(2n+1) { background-color: #8152f0 }
-   }
+table td, table th {
+  color: #000;
+  padding: 10px;
+  text-align: center;
 }
 
-@media screen and (max-width: 700px) {   
-   table.parti_header, table.parti_header tr, table.parti_header td { display: block; }
-   
-   table.parti_header td {
-      &:first-child {
-         position: absolute;
-         top: 50%;
-         transform: translateY(-50%);
-         width: 100px;
-      }
-
-      &:not(:first-child) {
-         clear: both;
-         margin-left: 100px;
-         padding: 4px 20px 4px 90px;
-         position: relative;
-         text-align: left;
-
-         &:before {
-            color: #8152f0;
-            content: '';
-            display: block;
-            left: 0;
-            position: absolute;
-         }
-      }
-
-      &:nth-child(2):before { content: 'Name:'; }
-      &:nth-child(3):before { content: 'Email:'; }
-      &:nth-child(4):before { content: 'Phone:'; }
-      &:nth-child(5):before { content: 'Comments:'; }
-   }
-   
-   table.parti_header tr {
-      padding: 10px 0;
-      position: relative;
-      &:first-child { display: none; }
-   }
+table td {
+  text-align: center;
+  vertical-align: middle;
 }
 
-@media screen and (max-width: 500px) {
-   .parti_header {
-      /* background-color: transparent; */
-      color: #fff;
-      /* font-size: 2em;
-      font-weight: 700; */
-      padding: 0;
-      text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-   }
-   
-   .parti_header img {
-      border: 3px solid;
-      border-color: #8152f0;
-      height: 100px;
-      margin: 0.5rem 0;
-      width: 100px;
-   }
-   
-   .parti_header td {
-      &:first-child { 
-         background-color: #8152f0; 
-         border-bottom: 1px solid #8152f0;
-         border-radius: 10px 10px 0 0;
-         position: relative;   
-         top: 0;
-         transform: translateY(0);
-         width: 100%;
-      }
-      
-      &:not(:first-child) {
-         margin: 0;
-         padding: 5px 1em;
-         width: 100%;
-         
-         &:before {
-            font-size: .8em;
-            padding-top: 0.3em;
-            position: relative;
-         }
-      }
-      
-      &:last-child  { padding-bottom: 1rem !important; }
-   }
-   
-   .parti_header tr {
-      background-color: white !important;
-      border: 1px solid #8152f0;
-      border-radius: 10px;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-      margin: 0.5rem 0;
-      padding: 0;
-   }
-   
-   .table-users { 
-      /* border: none;  */
-      box-shadow: none;
-      overflow: visible;
-   }
+table td:last-child {
+  font-size: 0.95em;
+  line-height: 1.4;
+  text-align: left;
 }
+
+table th {
+  background-color: #8152f0;
+  font-weight: 300;
+  color: #fff;
+  width:100%;
+}
+table tr:nth-child(2n) {
+	width:130%;
+  background-color: white;
+}
+table tr:nth-child(2n+1) {
+	width:130%;
+  background-color: #edf7f8;
+}
+
+@media screen and (max-width: 2000px) {
+  
+  
+  table, tr, td {
+    display: block;
+  }
+
+  td:first-child {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+    width: 100px;
+  }
+  td:not(:first-child) {
+    clear: both;
+    margin-left: 100px;
+    padding: 4px 20px 4px 90px;	
+    position: relative;
+    text-align: left;
+  }
+  td:not(:first-child):before {
+    color: #8152f0;
+    content: '';
+    display: block;
+    left: 0;
+    position: absolute;
+  }
+  td:nth-child(2):before {
+    content: '후원자:';
+  }
+  td:nth-child(3):before {
+    content: '후원일자:';
+  }
+  td:nth-child(4):before {
+    content: '옵션:';
+  }
+  td:nth-child(5):before {
+    content: '후원금액';
+  }
+  td:nth-child(6):before {
+    content: '상태';
+  }
+  
+  tr {
+    padding: 10px 0;
+    position: relative;
+  }
+  tr:first-child {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 687px) {
+  .header {
+    background-color: transparent;
+    color: #8152f0;
+    font-size: 2em;
+    font-weight: 700;
+    padding: 0;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+ 
+ 
+  table_img {
+    border: 3px solid;
+    border-color: #daeff1;
+    height: 100px;
+    margin: 0.5rem 0;
+    width: 100px;
+  }
+
+  td:first-child {
+    background-color: #8152f0;
+    border-bottom: 1px solid #91ced4;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    top: 0;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    width: 100%;
+  }
+  td:not(:first-child) {
+    margin: 0;
+    padding: 5px 1em;
+    width: 100%;
+  }
+  td:not(:first-child):before {
+    font-size: .8em;
+    padding-top: 0.3em;
+    position: relative;
+  }
+  td:last-child {
+    padding-bottom: 1rem !important;
+  }
+
+  tr {
+    background-color: white !important;
+    border: 1px solid #8152f0;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    margin: 0.5rem 0;
+    padding: 0;
+    
+  }
+
+  .table-users {
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+}
+
 </style>
 
 <link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
@@ -188,22 +201,25 @@ table.parti_table {
 /* 테이블 화면 작아졌을 때 */
 @media screen and (max-width: 992px) {
   .parti_table tbody tr td:nth-child(1):before {
-     content: "후원일자";
+     content: "";
   }
   .parti_table tbody tr td:nth-child(2):before {
-    content: "후원 프로젝트 정보";
+    content: "후원자";
   }
   .parti_table tbody tr td:nth-child(3):before {
-    content: "후원금액(수량)";
+    content: "후원일자";
   }
   .parti_table tbody tr td:nth-child(4):before {
-    content: "작성자";
+    content: "옵션";
   }
   .parti_table tbody tr td:nth-child(5):before {
+    content: "결제 금액";
+  }
+  .parti_table tbody tr td:nth-child(6):before {
     content: "상태";
   }
   .parti_table td.c {
-    text-align: left;
+    text-align: center;
   }
 }
 </style>
@@ -237,13 +253,13 @@ table.parti_table {
 		</c:choose>
 	 " 프로젝트 참여 목록</div> --%>
 	 
-	 	<div class="parti_header">프로젝트 참여 목록 : 총 ${totalRecordCount } 건</div>
+	 	<div class="parti_header">프로젝트 참여내역 (${totalRecordCount }건)</div>
 	   
-	   <table class="parti_table" style="text-align: center;vertical-align: middle;border:1px solid #8152f0;" cellpadding="5px">
+	   <table class="parti_table" style="text-align: center;vertical-align: middle;" cellpadding="5px">
 	    <c:if test="${empty participant_List }">
-		<tr>
-			<th class="column2 c">참여 내역이 없습니다</th>
-		</tr>	
+			<tr>
+				<th colspan="6">참여 내역이 없습니다</th>
+			</tr>	
 		</c:if>
 		
 	    <c:if test="${!empty participant_List }">
@@ -284,7 +300,7 @@ table.parti_table {
 	   </table>
 	   
 	   <!-- 페이징 처리 -->     
-	  <div id="pagination__wrapper" align="center" style="margin-bottom: 10%;"><!-- flush 는 갱신의 의미 -->
+	  <div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
 	  	  <jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
 	  	  
 	  	  	  <jsp:param value="${pageNumber }" name="pageNumber"/>
@@ -337,6 +353,5 @@ $(document).ready(function () {
 	*/
 });
 
-check_tr
 </script>
 

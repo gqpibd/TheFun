@@ -26,7 +26,7 @@
   max-width: calc(100% - 2em);
   margin: 1em auto;
   overflow: hidden;
-  width: 800px;
+  /* width: 800px; */
 }
 
 table {
@@ -74,7 +74,7 @@ table tr:nth-child(2n+1) {
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
-    width: 100px;
+    /* width: 100px; */
   }
   td:not(:first-child) {
     clear: both;
