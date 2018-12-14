@@ -114,6 +114,7 @@
 	<!-- 참여 현황 -->
 	<definition name="project_participant.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/project_participant.jsp"/>
+		<put-attribute name="footer" value=""/>
 	</definition>
  
 </tiles-definitions>

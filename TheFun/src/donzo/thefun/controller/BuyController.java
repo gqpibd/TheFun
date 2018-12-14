@@ -44,7 +44,7 @@ public class BuyController {
 		
 		//로그인정보 (login 세션에서 로그인유저정보 가져옴)
 		//MemberDto user=(MemberDto) req.getSession().getAttribute("login");
-
+		if(param.getO_id() == null) { param.setO_id(""); }
 		param.setO_id(UtilFunctions.getLoginId(req));
 		
 		int totalRecordCount = buyService.getOrderCount(param);
@@ -101,11 +101,26 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		
+/*		//출력 test
+		logger.info("펀드타입 "+fundtype);
+		logger.info("dto :  "+newbuy.toString());
+		
+		for(int i=0; i<opSeq.length;i++) {
+			logger.info("옵션시퀀스 : "+opSeq[i]);
+			logger.info("옵션가격 : "+opPrice[i]);
+			logger.info("옵션카운트 : "+opCount[i]);
+			logger.info("프로젝트시퀀스 : "+projectseq[i]);
+		}
+		*/
+		
 		//주문 insert
-		buyService.addOrders(newbuy, opSeq, opPrice,opCount, fundtype);
+		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
+		
+		//장바구니 delete
+		
 		return "redirect:/myOrderList.do";
 	}	
 	
@@ -158,11 +173,12 @@ public class BuyController {
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String participant(Model model, String title, participantParam partiParam) throws Exception {
 		logger.info("ProjectController participant.do 들어옴 " + new Date());
-//		logger.info("들어온 projectSeq_for_participant : " + projectSeq_for_participant);
+//		logger.info("들어온 projectSeq_for_participant : " + partiParam.getProjectseq_participant());
 		logger.info("partiParam : " + partiParam.toString());
 		
-//		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
 		partiParam.setRecordCountPerPage(10);
+		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
+		partiParam.setFundtype(partiParam.getFundtype());
 		
 		// paging 처리 
 		int sn = partiParam.getPageNumber();
@@ -176,6 +192,11 @@ public class BuyController {
 		
 		model.addAttribute("participant_List", participant_List);
 		
+		for (int i = 0; i < participant_List.size(); i++) {
+			BuyDto dto = participant_List.get(i);
+			logger.info(" 찾아진 list : " + dto.toString());
+		}
+		
 		int totalRecordCount = buyService.getParticipantCount(partiParam);
 		
 		model.addAttribute("pageNumber", sn);
@@ -188,6 +209,15 @@ public class BuyController {
 		model.addAttribute("projectseq_participant", partiParam.getProjectseq_participant());
 		
 		return "project_participant.tiles";
+	}
+	
+	//주문삭제
+	@RequestMapping(value="deleteBuy.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String deleteBuy(int seq) throws Exception {
+		logger.info("ProjectController deleteBuy" + new Date());
+		buyService.deleteOrder(seq);
+		
+		return "redirect:/myOrderList.do";
 	}
 	
 	

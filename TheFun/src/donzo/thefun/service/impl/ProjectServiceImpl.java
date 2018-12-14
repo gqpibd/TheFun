@@ -233,5 +233,10 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<ProjectDto> getSellerProjectList(String id) {		
 		return projectDao.getSellerProjectList(id);
 	}
+
+	@Override
+	public List<ProjectDto> getWinOrLoseList(String id) throws Exception {
+		return projectDao.getWinOrLoseList(id);
+	}
 	
 }

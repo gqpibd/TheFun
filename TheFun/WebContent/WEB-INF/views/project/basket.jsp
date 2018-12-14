@@ -128,7 +128,7 @@ $(document).ready(function () {
 			</div><br>
 		</c:when>
 		<c:otherwise>
-		<form action="goOrderFromBasket.do" method="post" id="updateForm">
+		<form action="goOrderReward.do" method="post" id="updateForm">
 			<c:forEach items="${myBasket}" var="basket" varStatus="status">
 			<c:if test="${basket.isOngoing() or basket.isPreparing()}">	<!-- 정상 진행중이거나 준비중인 프로젝트의 경우에만 출력해라 -->
 				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
@@ -139,7 +139,7 @@ $(document).ready(function () {
 			  <div class="card-header" style="max-height: 45px">
 				  	<div class="custom-control custom-checkbox">
 					  	<input type="checkbox"  value="${basket.optionseq }" 
-					  		id="customCheck${status.count }" checked="checked" name="optionSeq" onclick="changePrice()">	<!-- 상품별 체크박스 -->
+					  		id="customCheck${status.count }" checked="checked" name="selectOpSeq" onclick="changePrice()">	<!-- 상품별 체크박스 -->
 					  	<label for="customCheck${status.count }">${basket.ptitle }</label>	<!-- 리워드 제목 -->
 			  			<img alt="삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" style="max-height: 20px; max-width: 20px"
 			  				onclick="deleteBasket(${basket.seq})" onmouseover="this.style.cursor='pointer'">
@@ -317,7 +317,7 @@ $("#finalOrderBtn").click(function () {
 	var f = $("#updateForm");
 	
 	// 체크된 옵션의 projcetSeq와 optionSeq 배열 컨트롤러에 같이 보내주기
-	if($("input:checkbox[name='optionSeq']:checked").length > 0){
+	if($("input:checkbox[name='selectOpSeq']:checked").length > 0){
 		for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
 			if( $("#customCheck"+i).is(":checked") == false){	/* 체크 해제된 리워드의 input값은 모두 disabled 설정 */
 				$("#projectSeq"+i).attr("disabled", true);
@@ -329,7 +329,7 @@ $("#finalOrderBtn").click(function () {
 		return false;
 	}
 	
-	$("#updateForm").attr("action", "goOrderFromBasket.do").submit();
+	$("#updateForm").attr("action", "goOrderReward.do").submit();
 });
 // 체크박스 클릭했을때
 function changePrice() {

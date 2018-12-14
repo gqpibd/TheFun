@@ -7,7 +7,6 @@
 <style type="text/css">
 /* 머릿글css */
 .h1 {
-	font-size: 250%; 
 	font-weight: bold; 
 	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); 
 	color: #666; 
@@ -85,8 +84,8 @@
 <link rel="stylesheet" href="CSS/common/table.css">
 
 <div align="center">
-	<div class="h1">
-		<h1>관리자 페이지</h1>
+	<div class="h1" >
+		<h1 style="font-size: 2rem">프로젝트 관리</h1>
 	</div>
 	<span>승인을 기다리는 프로젝트가 <span id="waitcount1"></span>개 있습니다.</span>
 	<div class="container-table100">

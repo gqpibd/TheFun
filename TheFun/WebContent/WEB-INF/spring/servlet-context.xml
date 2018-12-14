@@ -56,7 +56,8 @@
 	        <mvc:mapping path="/projectUpdate.do"/>
 	        <mvc:mapping path="/viewAlarms.do"/>		<!-- 알람보기 -->
 	        <mvc:mapping path="/writeReview.do"/>		<!-- 알람보기 -->	    
-	        <mvc:mapping path="/participant.do"/>		<!-- 참여현황 -->	    
+	        <mvc:mapping path="/participant.do"/>		<!-- 참여현황 -->	
+	        <mvc:mapping path="/projectManage.do"/>		<!-- 프로젝트 관리 -->	        
 	        <ref bean="authenticationInterceptor"/>
 	    </mvc:interceptor>
 	</mvc:interceptors>

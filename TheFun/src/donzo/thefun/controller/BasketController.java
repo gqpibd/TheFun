@@ -56,7 +56,7 @@ public class BasketController {
 		List<BasketDto> myBasketList = basketService.selectMyBasket(user.getId());
 		logger.info("찾아온 장바구니 목록 개수 = " + myBasketList.size());
 		for (int i = 0; i < myBasketList.size(); i++) {
-			logger.info("찾아온 장바구니 = " + myBasketList.toString());
+			logger.info("찾아온 장바구니 = " + myBasketList.get(i).toString());
 		}
 		model.addAttribute("myBasket", myBasketList);
 		

@@ -64,6 +64,7 @@ public class BuyDaoImpl implements BuyDao {
 	// 참여 현황
 	@Override
 	public List<BuyDto> getParticipantList(participantParam partiParam) {
+		System.out.println("getParticipantList로 들어가는 participantParam : " + partiParam.toString());
 		return sqlSession.selectList(ns + "participant_List", partiParam);
 	}
 
@@ -76,4 +77,10 @@ public class BuyDaoImpl implements BuyDao {
 	public BuyGroupParam getBuyGroupInfo(BuyDto buyDto) {
 		return sqlSession.selectOne(ns + "getBuyGroupInfo", buyDto);
 	}
+
+	@Override
+	public void deleteOrder(int seq) {
+		sqlSession.delete(ns+"deleteBuy", seq);
+	}
+	
 }

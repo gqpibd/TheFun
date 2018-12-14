@@ -218,6 +218,13 @@ table.parti_table {
 	</div>
 	</header>
 	
+	<%-- 
+	<!-- 참가현황 페이징시 project seq 필요 -->
+	<input type="hidden" name="projectseq_participant" value="${projectseq_participant }" id="_projectseq_participant">
+	<!-- 참가현황 페이징에 펀드 타입 필요 -->
+	<input type="hidden" name="fundtype" value="${fundtype }" id="_fundtype">
+	 --%>
+								
 <div class="container">
 	<div class="table-users">
 		<!-- 테이블 헤더 부분 -->
@@ -230,26 +237,23 @@ table.parti_table {
 		</c:choose>
 	 " 프로젝트 참여 목록</div> --%>
 	 
-	 	<div class="parti_header">프로젝트 참여 목록</div>
+	 	<div class="parti_header">프로젝트 참여 목록 : 총 ${totalRecordCount } 건</div>
 	   
-	   <table class="parti_table" style="text-align: center;vertical-align: middle;" cellpadding="5px">
-	   <c:choose>
-	   <c:when test="${empty participant_List }">
+	   <table class="parti_table" style="text-align: center;vertical-align: middle;border:1px solid #8152f0;" cellpadding="5px">
+	    <c:if test="${empty participant_List }">
 		<tr>
 			<th class="column2 c">참여 내역이 없습니다</th>
 		</tr>	
-		</c:when>
+		</c:if>
 		
-	    <c:when test="${!empty participant_List }">
-	    	<%-- <c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 --> --%>
-	    	
+	    <c:if test="${!empty participant_List }">
 		      <tr>
 		      	 <th class="column1"><input type="checkbox" id="check_All"></th>
-		         <th class="column2">참여자 ID</th>
-		         <th class="column3">후원일자</th>
+		         <th class="column2">참여자</th>
+		         <th class="column3">참여일자</th>
 		         <th class="column4">상품 / 옵션 정보</th>
 		         <th class="column5">총 결제금액</th>
-		         <th class="column6">상태<th>
+		         <th class="column6">상태</th>
 		      </tr>
 		
 		      <!-- list jsp:include로 보내려면 이렇게 -->
@@ -259,45 +263,41 @@ table.parti_table {
 		      	<jsp:param value="${part_List }" name="part_List"/>
 		      </jsp:include>
 		      
-		     <%-- </c:when> --%>
-		     
-		     <%-- <c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  --> --%>
-		     
-		     	<tr>
+		     	<!-- <tr>
 		      	 <th class="column1"><input type="checkbox" id="check_All"></th>
 		         <th class="column2">참여자 ID</th>
 		         <th class="column3">후원일자</th>
 		         <th class="column4">총 후원금액</th>
 		         <th class="column5">상태<th>
-		      </tr>
+		      </tr> -->
 		
 		      <!-- list jsp:include로 보내려면 이렇게 -->
-			  <c:set var="part_List" value="${participant_List }" scope="request"/>
+			  <%-- <c:set var="part_List" value="${participant_List }" scope="request"/>
 			  
 		      <jsp:include page="/WEB-INF/views/project/project_participant_list.jsp" flush="false">
 		      	<jsp:param value="${part_List }" name="part_List"/>
-		      </jsp:include>
+		      </jsp:include> --%>
 		      
-		     <%-- </c:when>     --%>
-	     </c:when>
-		</c:choose>
+	     </c:if>
+	     
 	
 	   </table>
 	   
 	   <!-- 페이징 처리 -->     
-		  <div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
-		  	  <jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
-		  	  
-		  	  	  <jsp:param value="${fundtype }" name="fundtype"/>	
-		  	  	  <jsp:param value="${s_keyword }" name="s_keyword"/>	
-		  	  	  <jsp:param value="${pageNumber }" name="pageNumber"/>
-		  	  	  <jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
-		  	  	  <jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
-		  	  	  <jsp:param value="${totalRecordCount }" name="totalRecordCount"/>
-		  	  	  <jsp:param value="${projectseq_participant }" name="projectseq_participant"/>
-		  	  	  <jsp:param value="participant.do" name="actionPath"/>
-		  	  </jsp:include>
-		  </div>
+	  <div id="pagination__wrapper" align="center" style="margin-bottom: 10%;"><!-- flush 는 갱신의 의미 -->
+	  	  <jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
+	  	  
+	  	  	  <jsp:param value="${pageNumber }" name="pageNumber"/>
+	  	  	  <jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
+	  	  	  <jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
+	  	  	  <jsp:param value="${totalRecordCount }" name="totalRecordCount"/>
+	  	  	  
+	  	  	  <jsp:param value="${projectseq_participant }" name="projectseq_participant"/>
+	  	  	  <jsp:param value="${fundtype }" name="fundtype"/>
+	  	  	  
+	  	  	  <jsp:param value="participant.do" name="actionPath"/>
+	  	  </jsp:include>
+	  </div>
 		  
 	</div>
 	
@@ -305,4 +305,38 @@ table.parti_table {
 	</div>
 <!-- </div> -->
 <!-- </div> -->
+
+<script>
+//전체선택 체크박스 클릭
+$(document).ready(function () {
+	$("#check_All").click(function(){
+		//만약 전체 선택 체크박스가 체크된상태일경우
+		if($("#check_All").prop("checked")) {
+			//해당화면에 전체 checkbox들을 체크해준다
+			$("input[type=checkbox]").prop("checked",true);
+			
+		}
+		// 전체선택 체크박스가 해제된 경우
+		else {
+			//해당화면에 모든 checkbox들의 체크를해제시킨다.
+			$("input[type=checkbox]").prop("checked",false);
+		}
+	});
+	
+	
+	// 그 줄 선택시 체크박스 되게 하려고.... 잠시 보류
+	/*
+	$(document).on("click", ".check_tr", function () {
+		alert("야    호");
+		if($(this).child("input[type=checkbox]").prop("checked")){
+			$(this).child("input[type=checkbox]").prop("checked",false);
+		}else{
+			$(this).child("input[type=checkbox]").prop("checked",true);
+		}
+	});
+	*/
+});
+
+check_tr
+</script>
 

@@ -259,7 +259,7 @@
 				<button class="fun_btn" onclick="viewStatus()">상태확인</button> 	    	
 			</c:if>
 			<c:if test="${login.id.equals(projectdto.id)}">
-				<button class="fun_btn" onclick="location.href='participant.do?seq=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
+				<button class="fun_btn" onclick="location.href='participant.do?projectseq_participant=${projectdto.seq}&fundtype=${projectdto.fundtype }&title=participant'">참여현황</button>
 				<c:if test="${projectdto.isOnsubmission() or projectdto.isPreparing()}">
 					<button class="fun_btn" onclick="location.href='projectUpdate.do?seq=${projectdto.seq}'">프로젝트 수정</button>
 					<button class="fun_btn" onclick="deleteProject()">프로젝트 삭제</button>
@@ -271,10 +271,10 @@
 	<div align="center">
 		<p>
 			<b class="pupple">${projectdto.getCategoryKr()} </b>&nbsp;&nbsp;&nbsp;
-			<font class="strongGray"> <c:forEach
-					items="${projectdto.tags }" var="tags">
-   		 	#${tags }
-   		 </c:forEach>
+			<font class="strongGray"> 
+			<c:forEach items="${projectdto.tags }" var="tags">
+   		 		#${tags }
+   			 </c:forEach>
 			</font>
 		</p>
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
@@ -320,11 +320,10 @@
 						style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 				</tr>
 				<tr height="50">
-					<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%>
-					<!-- 하트 버튼 -->
 					<td><i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}"
 						onclick="heartClick(this)"></i> 	<!-- 하트 버튼 -->
-						<span id="likeCount">${projectdto.likecount}</span> 명이 좋아합니다</td>
+						<span id="likeCount">${projectdto.likecount}</span> 명이 좋아합니다
+					</td>
 				</tr>
 
 				<c:if test="${projectdto.isOngoing()}">
@@ -347,12 +346,15 @@
 
 						<tr height="50" id="beginTr">
 							<td class="strongGray imgTd">${projectdto.summary }&nbsp;&nbsp;</td>
-							<td colspan="3"><select style="width: 98%; height: 30px;"
-								id="optionSelect">
-									<option selected="selected" id="beginS" value="beginS">옵션을
-										선택해주세요</option>
+							<td colspan="3"><select style="width: 98%; height: 30px;" id="optionSelect">
+									<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 									<c:forEach items="${optionList }" var="opselect">
-										<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+										<%-- <c:if test="${option.stock <= option.buycount}">
+											<option id="select_${opselect.seq}" value="${opselect.seq}" disabled="disabled">${opselect.title }</option>
+										</c:if>
+										<c:if test="${option.stock > option.buycount}"> --%>
+											<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
+										<%-- </c:if>	 --%>								
 									</c:forEach>
 							</select></td>
 						</tr>
@@ -396,7 +398,7 @@
 							id="mainBtn">이 페이지에 머무르기</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal"
 							id="mypageBtn"
-							onclick="location.href='myBasket.do?id=${login.id}'">장바구니
+							onclick="location.href='myBasket.do'">장바구니
 							확인하기</button>
 					</div>
 				</div>
@@ -459,31 +461,32 @@ $(document).ready(function () {
 	   if(alreadySeq.length==0){
 		   
 		/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
-	   $.each(opArr,function(i,item){
-			
-			if(item.seq==selectedSeq){
-				str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
-				"<td class='imgTd'></td>"+
-				"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
-				"</td>"+
-				"<td class='selOpCount opTd'align='right;'>"+
-				"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-				"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
-				"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
-				"</td>"+
-				"<td class='selOpPrice opTd' style='text-align: right;'>"+
-				"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
-				"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
-				"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
-				"</td></tr>"+
-				 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
-				 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
-				 
-				 alreadySeq[alreadySeq.length]=item.seq;
-				 $('#beginTr').after(str);	//tr 생성
-				 return false;
-			}
-		});	
+		   $.each(opArr,function(i,item){
+				
+				if(item.seq==selectedSeq){
+					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
+					"<td class='imgTd'></td>"+
+					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
+					"</td>"+
+					"<td class='selOpCount opTd'align='right;'>"+
+					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
+					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
+					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
+					"</td>"+
+					"<td class='selOpPrice opTd' style='text-align: right;'>"+
+					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
+					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
+					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+					"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
+					"</td></tr>"+
+					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
+					 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
+					 
+					 alreadySeq[alreadySeq.length]=item.seq;
+					 $('#beginTr').after(str);	//tr 생성
+					 return false;
+				}
+			});	
 		   
 		//테이블 n번째 생성시
 	   }else if(alreadySeq.length>0){
@@ -514,6 +517,7 @@ $(document).ready(function () {
 							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
 							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
 							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
+							"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
 							"</td></tr>";
 							 
 							 alreadySeq[alreadySeq.length]=item.seq;
@@ -1106,29 +1110,3 @@ var modalConfirm = function(callback) {
 		</div>
 	</div>
 </div>
-
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
-<div class="dim-layer">
-	<div class="dimBg"></div>
-	<div id="layer_2" class="pop-layer">
-		<div class="pop-container">
-			<div class="pop-conts">
-				<!--content //-->
-				<div class="ctxt mb20">
-					Thank you.<br> <span style="font-weight: bold;">${projectdto.title}</span>프로젝트에<br> 참여해주셔서 감사합니다! <br> <br> 
-					${writer.info } <br><br>
-					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 관심 태그</div>
-					<span id="sellerTags"></span>
-					<br><br>
-					<div style="width: 100%; text-align: center;font-weight: bold;">판매자의 인기 프로젝트 목록</div>
-					<span id="title"></span>
-				</div>
-				<div class="btn-r">
-					<a href="#" class="btn-layerClose">Close</a>
-				</div>
-				<!--// content-->
-			</div>
-		</div>
-	</div>
-</div>
-<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->

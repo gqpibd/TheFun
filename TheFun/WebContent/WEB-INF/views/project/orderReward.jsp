@@ -105,9 +105,10 @@
      	</tr>
      	<tr>
      		<td class="profile">
-     			<input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)">
+     			<input type="text" name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" >
      			<input type="hidden" name="opSeq" value="0">
 				<input type="hidden" name="opCount" value="1">
+				<input type="hidden"  id="projectseq" name="projectseq" value="${projectdtoList[0].seq }">
      		</td>
      	</tr>
      	<tr>
@@ -134,43 +135,44 @@
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
-		
-		<!-- 옵션테이블 -->
+
+		<!-- 옵션, 프로젝트 테이블 -->
       <table style="width: 70%">
-      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
-      <tr>
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p></td>
+      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
+      <tr id="trpro_${selectOptions[vs.index].seq}">      
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
+      	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
+      	</td>
       </tr>
-      <c:forEach items="${selectOptions }" var="options" varStatus="status"> <!-- 프로젝트seq에따른 옵션 loop -->
-       <c:if test="${options.projectseq eq projectdto.seq }">
-	  <tr id="tr_${options.seq}">
+	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" value="${options.seq}">
-				<p><input type="checkbox" value="${options.seq}" name="checkboxs"> 
-				${options.title} <font size="2px;" color="#656565">(${options.stock-options.buycount }개 남음)</font>
-				</p><input type="hidden" id="stock_${options.seq}" value="${options.stock-options.buycount }">
+				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
+				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs"> 
+				${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
+				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
 			</td>
 		</tr>
-		<tr id="tr2_${options.seq}">
+		<tr id="tr2_${selectOptions[vs.index].seq}">
 			<td class="liteGray td1">
-				<ul>
-			 	<c:forEach items="${options.content}" var="item">
-		  			<li class="liteGray">${item}</li>
-		 	 	</c:forEach>
+				<ul>		 	 	
+		 	 	<c:forEach items="${fn:split(selectOptions[vs.index].content,'/')}" var="item">
+					<li class="liteGray">${item}</li>
+				</c:forEach>
+		 	 	
 		 	 	</ul>
 			</td>
 			<td class="td2 liteGray">
-				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${options.seq})"> 	<!-- +  버튼 -->
-				<input type="text" id="${options.seq}" name="opCount" value="${optionCount[status.index]}" size="3" readonly="readonly" style="text-align: center;">
-				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${options.seq})"><!-- -  버튼 -->
+				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
+				<input type="text" id="${selectOptions[vs.index].seq}" name="opCount" value="${optionCount[vs.index]}" size="3" readonly="readonly" style="text-align: center;">
+				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
 			</td>
 			<td class="liteGray td3">
-				<input type="text" readonly="readonly" value="${options.price*optionCount[status.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${options.seq}">원<br>
-				<input type="hidden" name="opPrice" id="realPrice_${options.seq}" value="${options.price}">
+				<input type="text" readonly="readonly" value="${selectOptions[vs.index].price*optionCount[vs.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${selectOptions[vs.index].seq}">원<br>
+				<input type="hidden" name="opPrice" id="realPrice_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].price}">
 			</td>
 		</tr>
-		</c:if>
-		</c:forEach>
+		
+
 	</c:forEach>
 	<tr>
 		<td align="right" style="padding-top: 20px;" colspan="3">
@@ -193,7 +195,8 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
 	<tr><td colspan="3"></td></tr>
@@ -258,7 +261,7 @@
      		<td class="profiletitle">이름</td>
      	</tr>
      	<tr>
-     		<td class="profile"><input name="name" class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName" onkeyup="nameCheck(this)"></td>
+     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}"style="padding: 5px;" id="deliName"></td>
      	</tr>
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>
@@ -376,7 +379,6 @@
 </c:if>
 	<br><br>
 <input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
-<input type="hidden" name="projectseq" value="${projectdtoList[0].seq }">
 <input type="hidden" name="id" value="${login.id }">
 
 </form>
@@ -438,7 +440,22 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
-			}else{		
+			}else{	
+				$("input[name='projectseq']".val()).each(function (i,a) {
+		            alert("플젝시퀀스 : "+a);
+		       	});
+				$("input[name='opSeq']".val()).each(function (i,a) {
+		            alert("옵션시퀀스 : "+a);
+		       	});
+				$("input[name='opCount']".val()).each(function (i,a) {
+		            alert("카운트 : "+a);
+		       	});
+				$("input[name='opPrice']".val()).each(function (i,a) {
+		            alert("가격 : "+a);
+		       	});
+				var po = $("#usePoint");
+				alert("usePoint : "+po);
+				
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
@@ -528,11 +545,13 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
 		}
 	}
+
 	$(document).ready(function (){
 		$("#autopayDiv").hide();
 		var size = $("input[name='priceName']").length;
 		var priceArr = new Array(size);
 		var tPrice=0;
+
 		//  총금액 첫 출력 설정
 		$("input[name='priceName']").each(function (i) {
             priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
@@ -540,8 +559,10 @@ function goAddOrder( is ) {	//최종결제 유효성검사
        	});
 		$("#finalPrice").val(tPrice);
 		
+		
 		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
+
 			//체크된 갯수
 			var arrlen =$("input[name=checkboxs]:checked").length;
 			
@@ -564,9 +585,11 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
 					var opPrice = $("#"+priceId).val();  				//현재적힌가격
 					var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
+
 					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
 					
 					/* 테이블 remove */
+					$("#trpro_"+opSeqNum).remove();
 					ids[i]="tr_"+opSeqNum;	//옵션타이틀 
 					$("#"+ids[i]).remove();		
 					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
@@ -663,25 +686,31 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#birth").focus();
 			}
 		});
-		$("#birth").on("keyup",function(){
+		$("#birth").on("keyup",function(){	//생년월일 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 			if($(this).val().length>6){
 				$(this).val($(this).val().substring(0,6));
 			}
 		});
-		$("#amount").on("keyup",function(){
+		$("#amount").on("keyup",function(){	//숫자만
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
+
 		});
-		$("#usePoint").on("keyup",function(){
+		$("#usePoint").on("keyup",function(){	//포인트입력 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usePoint").val());	//보유 포인트
+			var havePoint=Number($("#usablePoint").val());	//보유 포인트
 			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			
+			//보유포인트보다 크게 입력할수없음
 			if(havePoint<=usePoint){
 				$("#usePoint").val(havePoint);
 			}
+		});
+		$("#pointBtn").on("click",function(){	//포인트사용버튼
+			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			$("#finalPrice").val(tPrice-usePoint);
 			
 		});
-		
 		
 		
 	});
@@ -690,15 +719,18 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 
 
 <script type="text/javascript">
+
 /* 주소검색 */
 function sample4_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
             // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
             var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
             if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
@@ -716,6 +748,7 @@ function sample4_execDaumPostcode() {
             if(fullRoadAddr !== ''){
                 fullRoadAddr += extraRoadAddr;
             }
+
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
             document.getElementById('roadAddress').value = fullRoadAddr;
@@ -731,6 +764,7 @@ function detailAddressCheck() {
 	$("#detailAddress").val(text);	
 }
 	
+
 function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  str = str.replace(/[^0-9]/g, '');
 	  var tmp = '';
@@ -759,15 +793,21 @@ function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  return str;
 	}
 	
+
 function autoHyphen(phoneField){
 	var _val = $(phoneField).val().trim();
 	$(phoneField).val(autoHypenPhone(_val)) ;
 }
+
+
+
 /* 결제 api */
  // 사용 가이드 : https://docs.iamport.kr/implementation/payment
  //아이엠포트 식별코드 등 확인하는곳 : https://admin.iamport.kr , ID : fnvlektmf@naver.com, PW : k3216261 
 var IMP = window.IMP; // 생략가능
 IMP.init('imp13592330'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+
+
 function requestPay() {
 	var goodstitle="${projectdtoList[0].title}";
 	var usertel="${login.phone}";
@@ -795,5 +835,13 @@ function requestPay() {
 	    }
 	    alert(msg);
 	});
+
+
 }
+
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 </script>
