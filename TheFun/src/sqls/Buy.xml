@@ -82,7 +82,7 @@ FROM FUN_BUY B;
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
 		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete' 
 		 ) A
-	WHERE RANK BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY SUBSTR(TO_CHAR(REGDATE,'YYYYMMDDHHMISS'),12))
+	WHERE RANK BETWEEN ${start} AND ${end} AND ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY REGDATE)
 </select>
 
 <select id="getOrderCount"	parameterType="donzo.thefun.model.buyParam"	resultType="java.lang.Integer">

@@ -399,7 +399,7 @@ $(document).ready(function () {
 							<h4><span onclick="location.href='searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&doc_title=${ProjectDto.TYPE_REWARD}'" style="cursor: pointer;">리워드</span></h4>
 							<ul>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_FOOD}&doc_title=rewardFood">음식</a></li>
-								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}&doc_title=rewardIt">IT / 전자</a></li>
+								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_IT}&doc_title=rewardIt">IT / 생활</a></li>
 								<li><a href="searchProjectList.do?s_type=${ProjectDto.TYPE_REWARD}&s_category=${ProjectDto.CATEGORY_ANIMAL}&doc_title=rewardAnimal">동물</a></li>
 							</ul>
 						</div>

@@ -805,7 +805,7 @@ public class ProjectController {
 			}
 		}
 		
-		if(pList.size()>1) {
+		if(pList.size()>0) {
 			for(int i=0; i < pList.size();i++) {
 				if(pList.get(i).getSeq() == currProjectSeq) {
 					pList.remove(i);
@@ -817,7 +817,8 @@ public class ProjectController {
 		if(pList.size()>0) {
 			listData = "{\"projects\":[";
 			for(int i=0;i<pList.size();i++) {
-				listData += "{\"title\":\"" + pList.get(i).getTitle() +"\"}";
+				listData += "{\"title\":\"" + pList.get(i).getTitle() +"\","+
+							"\"seq\":\""+ pList.get(i).getSeq() +"\"}";
 				if(i < pList.size()-1) {
 					listData += ",";
 				}
@@ -830,26 +831,4 @@ public class ProjectController {
 		
 		return listData;
 	}
-	
-	/*	
-	@RequestMapping(value="calendar.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String calendar(Model model, myCal jcal, ProjectDto pro) throws Exception {
-		logger.info("ProjectController calendar" + new Date());
-		
-		jcal.calculate();
-		
-		String yyyymm = CalendarUtil.yyyymm(jcal.getYear(), jcal.getMonth());
-		
-		ProjectDto fcal = new ProjectDto();
-		fcal.setSeq(pro.getSeq());
-		fcal.setRegdate(yyyymm);
-		
-		List<ProjectDto> flist = projectService.getCalendarList(pro);
-		
-		model.addAttribute("flist", flist);
-		model.addAttribute("jcal", jcal);
-		
-		return null;		
-	}
-	*/
 }

@@ -34,11 +34,11 @@
   }
   .table tbody tr {
     height: auto;
-    padding: 37px 0;
+    
   }
   .table tbody tr td {
     padding-left: 40% !important;
-    margin-bottom: 24px;
+    margin-bottom: 5px;
   }
   .table tbody tr td:last-child {
     margin-bottom: 0;
@@ -135,7 +135,7 @@ $(document).ready(function () {
 				  	<div class="custom-control custom-checkbox">
 					  	<input type="checkbox"  value="${basket.optionseq }" 
 					  		id="customCheck${status.count }" checked="checked" name="selectOpSeq" onclick="changePrice()">	<!-- 상품별 체크박스 -->
-					  	<label for="customCheck${status.count }">${basket.ptitle }</label>	<!-- 리워드 제목 -->
+					  	<label for="customCheck${status.count }" style="font-weight: bold; font-size: 17px; margin-left: 10px;">${basket.ptitle }</label>	<!-- 리워드 제목 -->
 			  			<img alt="삭제버튼이미지" src="./image/icons/deleteBtn.jpg" width="3%" align="right" style="max-height: 20px; max-width: 20px"
 			  				onclick="deleteBasket(${basket.seq})" onmouseover="this.style.cursor='pointer'">
 			  		</div>
@@ -164,7 +164,7 @@ $(document).ready(function () {
 				  				</div>
 				  			</td>
 				  			<td style="text-align: left;">
-				  				<h5 class="card-title">${basket.ptitle}</h5>	<!-- 리워드 제목 -->			  			
+				  				<%-- <h5 class="card-title">${basket.ptitle}</h5> --%>	<!-- 리워드 제목 -->			  			
 				  				<span class="card-text">
 				  					<!-- 토큰 /으로 잘라서 출력 -->	<!-- 리워드 내용/구성 -->
 				  					${basket.otitle }

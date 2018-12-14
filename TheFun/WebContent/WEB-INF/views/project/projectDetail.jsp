@@ -954,10 +954,13 @@ function getMakerInfo() {
 			
 			var items = data['projects']; 
 			if(items !=null && items.length>0){
+				$("#title").append("<ul>");
 				for(i = 0; i<items.length; i++){
 					var title = items[i].title;	
-					$("#title").append(title + "<br>");
+					//$("#title").append("<li style='cursor:pointer' onclick=\"location.href='projectDetail.do?seq=" + items[i].seq + "'\">" + title + "</li>");
+					$("#title").append("<li><a style='color:black;' href='projectDetail.do?seq=" + items[i].seq + "'>" + title + "</a></li>");
 				}
+				$("#title").append("</ul>");
 			}else{
 				$("#title").append("이 판매자의 다른 프로젝트가 없습니다");
 			}
@@ -1201,7 +1204,7 @@ $(function () {
 					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 관심 태그</div>
 					<span id="sellerTags"></span>
 					<br><br>
-					<div style="width: 100%; text-align: center;font-weight: bold;">판매자의 인기 프로젝트 목록</div>
+					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 다른 프로젝트도 살펴보세요</div>
 					<span id="title"></span>
 				</div>
 				<div class="btn-r">

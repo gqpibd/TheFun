@@ -1139,11 +1139,11 @@ function checkSummary(){
 } 
 
 
-var storyOk = false;
-var tagOk = false;
-var goalfundOk = false;
-var accountOk = false;
-var scheduleOk = false;
+var storyOk = true;
+var tagOk = true;
+var goalfundOk = true;
+var accountOk = true;
+var scheduleOk = true;
 
 // 스토리텔링 체크
 function checkStorytelling(){

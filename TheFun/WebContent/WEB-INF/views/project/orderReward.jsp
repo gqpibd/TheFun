@@ -471,9 +471,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value=cardNum;
 		
 		//결제 유효성검사
-		if($("input[name='checkboxs']:checked").length<1){
-			alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-		}else if(document.getElementById("card1").value.length<4){
+		if(document.getElementById("card1").value.length<4){
 			alert("첫번째 카드번호가 4자리수 이하입니다");
 		}else if(document.getElementById("card2").value.length<4){
 			alert("두번째 카드번호가 4자리수 이하입니다");
@@ -506,10 +504,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if($("input[name='checkboxs']:checked").length<1){
-				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-				return false;
-			}
 			$("#orderfrm").attr("action","addOrder.do").submit();
 		} 
 		
@@ -536,9 +530,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if($("input[name='checkboxs']:checked").length<1){
-				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-			}else if(document.getElementById("deliPhone").value==""){
+			if(document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
 			}else{
 				requestPay();
