@@ -16,6 +16,9 @@
 <link rel="stylesheet" href="CSS/project/projectDetail.css">
 <!-- Custom styles for this template -->
 <style type="text/css">
+.menubar{
+	cursor: pointer;
+}
 /* 탭부분 css */
 .tabSelect {
 	background: #8152f038;
@@ -154,7 +157,7 @@
 }
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
 .selOpContent {
-	width: 20%;
+	width: 30%;
 }
 
 .selOpPrice {
@@ -228,6 +231,115 @@
 	    max-width: 1340px;
 	}
 }
+
+/* 삭제 */
+.close {
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  overflow: hidden;
+  border: 1px solid black;
+}
+.close:hover::before, .close:hover::after {
+	background: red;
+	transition: unset;
+}
+.close::before, .close::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  margin-top: -1px;
+  background: #5d21ec;
+}
+.close::before {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.close::after {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.close.black::before, .close.black::after {
+  height: 8px;
+  margin-top: -4px;
+}
+.close.fat::before, .close.fat::after {
+  border-radius: 100%;
+}
+
+
+/* +-입력 */
+/* -- quantity box -- */
+
+.quantity {
+ display: inline-block; }
+
+.quantity .input-text.qty {
+ width: 35px;
+ height: 35px;
+ padding: 0 5px;
+ text-align: center;
+ background-color: transparent;
+ border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+ text-align: left;
+ position: relative;
+ white-space: nowrap;
+ vertical-align: top; }
+
+.quantity.buttons_added input {
+ display: inline-block;
+ margin: 0;
+ vertical-align: top;
+ box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+ 	height: 35px;
+    background-color: #7e7d7d;
+    border: 1px solid #ffffff;
+    cursor: pointer;
+    color: white;
+    font-weight: 900;
+    font-size: larger;
+    width: 28px;
+    transition: unset;
+}
+
+.quantity.buttons_added .minus {
+ border-right: 0; 
+ }
+
+.quantity.buttons_added .plus {
+ border-left: 0; }
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+ background: #230404;
+}
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ margin: 0; }
+ 
+ .quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+ outline: none; }
 </style>
 
 <!-- 남은날짜계산 -->
@@ -444,6 +556,30 @@
 
 var alreadySeq = new Array(); //기존에 출력된 옵션시퀀스 보관
 
+function makeOptionStr(seq,title,content,price,stock,leftCount){
+	var str = "<tr name='tr_"+seq+"'><input type='hidden' id='stockOrigin_"+seq+"' value='"+stock+"'><input type='hidden' id='stock_"+seq+"' value='"+leftCount+"'>"+
+	"<td></td>"+ 
+	"<td colspan='2' class='selOpContent opTd'><b>"+title+"</b><br>"+content+"<input type='hidden' name='selectOpSeq' value='"+seq+"'>"+
+	"</td>"+	
+	"<td rowspan='2' width='1%'><span class='close fat heavy' size='2px;'onclick='delOption("+seq+")'></span></td>"+
+	"</tr><tr name='tr_"+seq+"'> <td class='imgTd'></td>"+
+	"<td><div class='quantity buttons_added'>"+
+	"<input type='button' value='+' class='plus' onclick='plusVal("+seq+")'>"+
+	"<input type='number' step='1' min='1' value='1' name='quantity' class='input-text qty text' size='4' readOnly='readOnly'style='text-align:center;' name='optionCount' id='"+seq+"' >"+
+	"<input type='button' value='-' class='minus' onclick='minusVal("+seq+")'></div></td>"+
+	"</td>"+
+	"<td class='selOpPrice opTd' style='text-align: right;'>"+
+	"<span class='Fee' id='price_"+seq+"'>"+numberWithCommas(price)+"</span>원"+
+	
+	"<input type='hidden' name='opPrice' id='realPrice_"+seq+"' value='"+numberWithCommas(price)+"'>"+
+	"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
+	"</td></tr><tr name='tr_"+seq+"'><td></td><td colspan='3'><hr></td></tr>";
+	 
+	 return str;
+}
+
+
+
 $(document).ready(function () {
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
@@ -463,33 +599,19 @@ $(document).ready(function () {
 		   $.each(opArr,function(i,item){
 				
 				if(item.seq==selectedSeq){
-					str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
-					"<td class='imgTd'></td>"+
-					"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
-					"</td>"+
-					"<td class='selOpCount opTd'align='right;'>"+
-					"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-					"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
-					"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
-					"</td>"+
-					"<td class='selOpPrice opTd' style='text-align: right;'>"+
-					"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
-					"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
-					"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
-					"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
-					"</td></tr>"+
-					 "<tr id='trFinal'><td></td><td class='pupple' colspan='2' style='text-align: left;'>총 금액</td>"+
-					 "<td class='pupple'style='text-align: right;'><input type='text' readonly='readonly'value='"+item.price+"' class='Fee pupple' size='6px;' id='finalPrice'style='text-align: right;'>원</td></tr>";	
-					 
-					 alreadySeq[alreadySeq.length]=item.seq;
-					 $('#beginTr').after(str);	//tr 생성
-					 return false;
+					str = makeOptionStr(item.seq,item.title,item.content,item.price,(item.stock-item.buycount));
+					str += "<tr id='trFinal'><td></td><td class='pupple' style='text-align: left;'>총 금액</td>"+
+					 "<td class='pupple'style='text-align: right;' colspan='2' >"+
+					 "<span id='finalPrice' class='Fee pupple' style='text-align: right;'>"+numberWithCommas(item.price)+"</span>원</td></tr>";
+					//console.log(str);
+					alreadySeq[alreadySeq.length]=item.seq;
+					$('#beginTr').after(str);	//tr 생성
+					return false;
 				}
 			});	
 		   
 		//테이블 n번째 생성시
 	   }else if(alreadySeq.length>0){
-
 		   /* 이미 생성된 옵션seq, 선택한 옵션을 비교 라여 isFirst에  저장 */
 			$.each(alreadySeq,function(j,alSeq){	
 				if (selectedSeq==alSeq){
@@ -503,35 +625,21 @@ $(document).ready(function () {
 				/*  고른 seq, 모든 seq 비교해서 맞는거 출력  */
 				   $.each(opArr,function(i,item){
 						if(item.seq==selectedSeq){
-							str = "<tr id='tr_"+item.seq+"'><input type='hidden' id='stock_"+item.seq+"' value='"+(item.stock-item.buycount)+"'>"+
-							"<td class='imgTd'></td>"+
-							"<td class='selOpContent opTd'><b>"+item.title+"</b><br>"+item.content+"<input type='hidden' name='selectOpSeq' value='"+item.seq+"'>"+
-							"</td>"+
-							"<td class='selOpCount opTd'align='right;'>"+
-							"<button type='button'size='2px;'onclick='plusVal("+item.seq+")'>+</button>"+
-							"<input type='text' readOnly='readOnly' value='1' size='2' style='text-align:center;' name='optionCount' id='"+item.seq+"'>"+
-							"<button type='button'size='2px;'onclick='minusVal("+item.seq+")'>-</button>"+
-							"</td>"+
-							"<td class='selOpPrice opTd' style='text-align: right;'>"+
-							"<input type='text' readonly='readonly' value='"+item.price+"' class='Fee' size='6px;' id='price_"+item.seq+"' style='text-align: right;'>원"+
-							"<button type='button'size='2px;'onclick='delOption("+item.seq+")'>x</button>"+
-							"<input type='hidden' name='opPrice' id='realPrice_"+item.seq+"' value='"+item.price+"'>"+
-							"<input type='hidden' name='projectSeq' value='${projectdto.seq }'>"+
-							"</td></tr>";
-							 
-							 alreadySeq[alreadySeq.length]=item.seq;
-							 //최종가격설정
-							 var pVal = Number($("#finalPrice").val());
-							 pVal= pVal+Number(item.price);
-							 $("#finalPrice").val(pVal);
-							 $('#beginTr').after(str);	//tr 생성
-							 return false;
+							str = makeOptionStr(item.seq,item.title,item.content,item.price,item.stock,(item.stock-item.buycount));
+							
+							alreadySeq[alreadySeq.length]=item.seq;
+							//최종가격설정
+							var pVal = Number(removeCommas($("#finalPrice").text()));
+							pVal= pVal+Number(item.price);
+							$("#finalPrice").text(pVal);
+							$('#beginTr').after(str);	//tr 생성
+							return false;
 						}
 						
 					});	
 				   
 			}else if(isFirst=="already"){
-				alert("중복된 옵션 선택은 불가능합니다!");
+				alert("이미 선택된 옵션입니다. 수량을 조절해 주세요");
 			}
 	   }
 		 $('#optionSelect').val('beginS');	//select 기본값으로 되돌림
@@ -599,11 +707,6 @@ $(document).ready(function () {
 	
 });
 
-//마우스커서 모양변환
-$(".menubar").mouseover(function () {	
-	$(this).css("cursor","pointer");
-}); 
-
 //show and hide
 $(function () {
 	$("#story").click(function () {
@@ -655,30 +758,6 @@ $(function () {
 	});
 });
 
-function delOption(opSeq){
-	
-	//선택한 옵션금액 - 총금액 변경
-	var opPrice = $("#price_"+opSeq).val();
-	var finalPrice = $("#finalPrice").val();
-	$("#finalPrice").val(finalPrice-opPrice);
-
-	if((finalPrice-opPrice)==0){
-		$("#trFinal").remove();	//모든옵션삭제하면 최종금액출력 ㄴㄴ
-		alreadySeq=[];	//출력한옵션 보관했던 배열 초기화
-	}
-	
-	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
-	for(var i=0; i<alreadySeq.length;i++){
-		if(opSeq==alreadySeq[i]){
-			alreadySeq.splice(i,1);
-		}
-	}
-	
-	//선택한 옵션 tr 제거 
-	$("#tr_"+opSeq).remove();
-	
-}
-
 function heartClick(selector){	
 	if ('${login.id}' == ''){
 		location.href="login.do?callback=projectDetail.do?seq=${projectdto.seq}";
@@ -702,24 +781,67 @@ function heartClick(selector){
 		});				
 	}
 }
+/* 옵션 선택과 수량 변동 부분 */
+
+//1000단위 , 찍기
+ function numberWithCommas(x) {
+     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+ }
+ // 계산을 위해 , 삭제
+ function removeCommas(x){
+ 	return x.replace(/,/gi, "");
+ }
+function ChangePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
+	document.getElementById(seqNum).value =count;
+	var realPrice = Number(removeCommas(document.getElementById("realPrice_"+seqNum).value));	//단가
+   	var priceField = Number(removeCommas($("#price_"+seqNum).text()));	//현재 찍혀있는 금액
+   	var finalP = Number(removeCommas($("#finalPrice").text()));			//총금액 GET
+   	
+   	var totalPrice = 0;
+   	
+   	if(type == 'plus'){
+   		totalPrice = priceField+realPrice;
+   	    $("#finalPrice").text(numberWithCommas(finalP+realPrice));	//총금액 SET
+   	}else if(type == 'minus'){
+   		totalPrice = priceField-realPrice;
+   	   	$("#finalPrice").text(numberWithCommas(finalP-realPrice));	//총금액 SET
+   	}   	
+
+   	document.getElementById("price_"+seqNum).innerHTML =numberWithCommas(totalPrice); // 총금액
+	//document.getElementById("finalPrice").text(finalP+realPrice);		//총금액 SET
+}
+
+
+function delOption(opSeq){	
+	//선택한 옵션금액 - 총금액 변경
+	var opPrice = removeCommas($("#price_"+opSeq).text());
+	var finalPrice = removeCommas($("#finalPrice").text());
+	$("#finalPrice").text(finalPrice-opPrice);
+
+	if((finalPrice-opPrice)==0){
+		$("#trFinal").remove();	//모든옵션삭제하면 최종금액출력 ㄴㄴ
+		alreadySeq=[];	//출력한옵션 보관했던 배열 초기화
+	}	
+	//배열 초기화  alreadySeq에서 opSeq랑 같은거 제거
+	for(var i=0; i<alreadySeq.length;i++){
+		if(opSeq==alreadySeq[i]){
+			alreadySeq.splice(i,1);
+		}
+	}	
+	//선택한 옵션 tr 제거 
+	//$("#tr_"+opSeq).remove();
+	$("tr[name='tr_"+opSeq+"']").remove();	
+}
 
 /* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 function plusVal(seqNum) {
+	var originalStock = Number(document.getElementById("stockOrigin_"+seqNum).value); // 원래 재고
    	var count = Number(document.getElementById(seqNum).value);	//수량찍혀있는 input text
-   	var stockCount = document.getElementById("stock_"+seqNum).value;	//현재존재하는 재고 
+   	var stockCount = Number(document.getElementById("stock_"+seqNum).value);	//남은 재고 
    	
-   	if(stockCount<0){	//재고가 무제한이라면
-   		
+   	if(originalStock <= 0){	//재고가 무제한이라면
    		count+=1;
-     	document.getElementById(seqNum).value =count;
-       	//가격변환
-       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//단가
-       	var priceField =Number(document.getElementById("price_"+seqNum).value);	//현재 찍혀있는 금액
-       	var totalPrice = priceField+realPrice;
-       	document.getElementById("price_"+seqNum).value =totalPrice;
-       	
-       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
-    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+   		ChangePrice(count,seqNum,'plus');
    		
    	}else{		//재고가 무제한이 아니라면
  
@@ -727,40 +849,24 @@ function plusVal(seqNum) {
 			alert("구매가능한 수량보다 많습니다.");
 		}else{
 			count+=1;
-	     	document.getElementById(seqNum).value =count;
-	       	//가격변환
-	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
-	       	var totalPrice = priceField+realPrice;
-	       	document.getElementById("price_"+seqNum).value =totalPrice;
-	       	
-	       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
-	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+	   		ChangePrice(count,seqNum,'plus');
 		}
    	}
 }
 
 /* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( - ) */
 function minusVal(seqNum) {
-
 	var count = Number(document.getElementById(seqNum).value);
 	
 	if(count==1){
 		document.getElementById(seqNum).value ="1";
 	}else{
 		count-=1;
-       	document.getElementById(seqNum).value =count;
-       	
-       	//가격변환 
-       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
-       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
-       	var resultPrice = priceField-realPrice;								//셋팅할 가격
-       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
-       	
-       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
-    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
+   		ChangePrice(count,seqNum,'minus');
 	}
 }
+
+/*/.옵션 선택과 수량 변동 부분 */
 </script>
 	<div class="row">
 
@@ -778,7 +884,7 @@ function minusVal(seqNum) {
 			</p>
 			<b style="font-size: 15 px;">100%이상 모이면 펀딩이 성공되는 프로젝트</b><br> <font
 				size="2px;">이 프로젝트는 펀딩 마감일까지 목표금액이 100%모이지 않으면 결제가 진행되지 않습니다.</font>
-			<jsp:include page="detailStory.jsp" />
+			<p>${projectdto.content }</p>
 		</div>
 
 		<div class="col-lg-8" id="qnaContent">
@@ -831,7 +937,7 @@ function minusVal(seqNum) {
 				<div class="card my-4">
 					<div class="card-body">
 						<p class="strongGray">
-							<strong style="font-weight: bold; font-size: 20px">${option.price }원</strong>
+							<strong style="font-weight: bold; font-size: 20px"><fmt:formatNumber value="${option.price}" type="number"/>원</strong>
 							<font class="liteGray" style="font-size: 15px">(배송비 포함)</font>
 						</p>
 						<p class="strongGray">${option.title }</p>
@@ -846,29 +952,28 @@ function minusVal(seqNum) {
 							예상전달일 :
 							<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일" />
 						</p>
-						<c:if test="${option.stock == option.buycount}">
-							<p class="pupple">
-								<font style="background-color: #ebe2ff">&nbsp;매진되었습니다&nbsp;&nbsp;</font>
-							</p>
-						</c:if>
-						<c:if test="${option.stock != option.buycount}">
-							<p class="pupple">
-								제한수량 ${option.stock } 개&nbsp;&nbsp;
-								<c:if test="${option.stock==0}">
-									<b>제한수량 없음</b>
-								</c:if>
-								<c:if test="${option.stock>0}">
-									<b>현재 ${option.stock-option.buycount }개 남음!</b>
-								</c:if>
-							</p>
-						</c:if>
+						<p class="pupple">
+						<c:choose>
+							<c:when test="${option.stock <= 0}">
+								<b>제한수량 없음</b>
+							</c:when>
+							<c:when test="${option.stock != option.buycount}">								
+								제한수량 ${option.stock } 개&nbsp;&nbsp;	
+								<b>현재 ${option.stock-option.buycount }개 남음!</b>				
+							</c:when>
+							<c:otherwise> <!-- option.stock == option.buycount -->								
+								<font style="background-color: #ebe2ff">&nbsp;매진되었습니다&nbsp;&nbsp;</font>								
+							</c:otherwise>
+						</c:choose>
+						</p>
 						<p class="strongGray">
 							<b>총 ${option.buycount }개 펀딩완료</b>
 						</p>
 					</div>
 				</div>
 			</c:forEach>
-			<!-- side옵션 끝 -->
+			<!-- side옵션 끝 -->	
+			<jsp:include page="calendar.jsp" />
 		</div>
 		<!-- sidebar 끝 -->
 	</div>

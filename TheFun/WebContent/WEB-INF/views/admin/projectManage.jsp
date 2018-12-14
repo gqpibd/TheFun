@@ -56,7 +56,11 @@
   text-align: left;
   /* padding-right: 62px; */
 }
+</style>
 
+<link rel="stylesheet" href="CSS/common/table.css">
+
+<style type="text/css">
 @media screen and (max-width: 992px) {
   .funTable tbody tr td:nth-child(1):before {
      content: "펀드 타입";
@@ -81,7 +85,6 @@
   }
 }
 </style>
-<link rel="stylesheet" href="CSS/common/table.css">
 
 <div align="center">
 	<div class="h1" >
@@ -94,13 +97,13 @@
 		<table class="funTable">
 			<thead>
 				<tr class="table100-head">					
-					<th class="column1">펀드 타입</th>
-					<th class="column2">카테고리</th>
-					<th class="column3">제목</th>
-					<th class="column4">목표금액</th>
-					<th class="column5">등록일</th>
-					<th class="column6">시작일</th>
-					<th class="column7">작성자</th>
+					<th class="column1 c">펀드 타입</th>
+					<th class="column2 c">카테고리</th>
+					<th class="column3 c">제목</th>
+					<th class="column4 c">목표금액(원)</th>
+					<th class="column5 c">등록일</th>
+					<th class="column6 c">시작일</th>
+					<th class="column7 c">작성자</th>
 				</tr>
 			</thead>
 			<tbody class="funTbody">
@@ -113,13 +116,13 @@
 				<c:otherwise>
 				<c:forEach items="${pList}" var="project" varStatus="i">			
 				<tr style="cursor:pointer" onclick="location.href='projectDetail.do?seq=${project.seq}'">					
-					<td class="column1">${project.getFundTypeKr()}</td>
-					<td class="column2">${project.getCategoryKr()}</td>
+					<td class="column1 c">${project.getFundTypeKr()}</td>
+					<td class="column2 c">${project.getCategoryKr()}</td>
 					<td class="column3">${project.title}</td>
-					<td class="column4" onload="numberWithCommas(this)">${project.goalfund}</td>
-					<td class="column5">${project.getDateForm(project.regdate)}</td>				
-					<td class="column6">${project.getDateForm(project.sdate)}</td>
-					<td class="column7">${project.nickname}</td>
+					<td class="column4 c">${project.getMoneyFormat(project.goalfund)}</td>
+					<td class="column5 c">${project.getDateForm(project.regdate)}</td>				
+					<td class="column6 c">${project.getDateForm(project.sdate)}</td>
+					<td class="column7 c">${project.nickname}</td>
 				</tr>
 				</c:forEach>
 	
@@ -146,9 +149,4 @@ $(".hover_tr").mouseover(function () {
 }).mouseout(function () {
 	$(this).children().css("background-color","#ffffff");		
 });
-
-function numberWithCommas(selector) {
-    var nums= $("selector").text().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    $("selector").text(nums);
-}
 </script>

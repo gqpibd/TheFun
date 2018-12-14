@@ -166,6 +166,9 @@ input.star:checked ~ .rev-box {
   .funTable td.c {
     text-align: left;
   }
+  .table100 {
+  	width: 100%;
+  }
 }
 </style>
 

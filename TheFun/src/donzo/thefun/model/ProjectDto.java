@@ -278,11 +278,12 @@ public class ProjectDto implements Serializable {
 	
 	// 태그 띄어쓰기칸을 전부 #로 치환
 	public void setTag(String tag) {
-		String temp = tag.replaceAll(" ", "#"); // 한 칸 공백은 #으로 만든다
-		if(!temp.startsWith("#")) { // #으로 시작하지 않으면 맨 처음에도 #를 넣어준다
-			temp = "#" + temp;
-		}
-		this.tag = temp;
+		//String temp = tag.replaceAll(" ", "#"); // 한 칸 공백은 #으로 만든다
+		//if(!temp.startsWith("#")) { // #으로 시작하지 않으면 맨 처음에도 #를 넣어준다
+		//	temp = "#" + temp;
+		//}
+		setTags(tag);
+		this.tag = tag;
 	}
 
 	public String getBank() {
@@ -450,7 +451,7 @@ public class ProjectDto implements Serializable {
 		case CATEGORY_ANIMAL:
 			return "동물";
 		case CATEGORY_IT:
-			return "IT";
+			return "IT/생활";
 		case CATEGORY_HUMAN:
 			return "인권";		
 		}
@@ -556,6 +557,11 @@ public class ProjectDto implements Serializable {
 			s=msg.trim();
 		}
 		return s;
+	}
+	
+	public String getMoneyFormat(int intMoney) {
+		String str = String.format("%,d", intMoney);
+		return str;
 	}
 
 	@Override

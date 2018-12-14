@@ -5,15 +5,14 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+	
 <link rel="stylesheet" href="CSS/project/projectCalendar.css">
- 
+
 <style type="text/css">
 h1 {
 	font-family: "Nanum Gothic", sans-serif;
 }
 </style>
-
 
 <%!
 public String callist(int year,int month, int day){	
@@ -92,10 +91,7 @@ int year = jcal.getYear();
 int month = jcal.getMonth();
 
 %>
-	<!-- jzdbox1, jzdasf, jzdcal : 달력 전체 박스 크기 -->
-	<!-- jzdcalt : 연 월 폰트 설정 -->
-	<!-- jzdb : 달력에 날짜 없는 날 -->
-	<!-- circle : 일정 있는날 원으로 표시 해줌 -->
+
 <div class="jzdbox1 jzdbasf jzdcal">
 	
 	<div class="jzdcalt"><%=String.format("%d년&nbsp;&nbsp;%d월", year, month) %></div>
@@ -107,6 +103,11 @@ int month = jcal.getMonth();
 	<span>목</span>
 	<span>금</span>
 	<span>토</span>
+	<!-- jzdbox1, jzdasf, jzdcal : 달력 전체 박스 크기 -->
+	<!-- jzdcalt : 연 월 폰트 설정 -->
+	<!-- jzdb : 달력에 날짜 없는 날 -->
+	<!-- circle : 일정 있는날 원으로 표시 해줌 -->
+	
 <%
 	for(int i = 1;i < dayOfWeek; i++){
 		out.println("<span class='jzdb'>&nbsp;</span>");
@@ -157,5 +158,3 @@ int month = jcal.getMonth();
 %>
 
 </div>
-
-<p>${projectdto.content }</p>
