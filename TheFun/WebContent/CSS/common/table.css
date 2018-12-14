@@ -13,6 +13,10 @@
   /* padding: 33px 30px; */
 }
 
+.table100{
+	width: 100%;
+}
+
 .funTable {
   border-spacing: 1;
   border-collapse: collapse;

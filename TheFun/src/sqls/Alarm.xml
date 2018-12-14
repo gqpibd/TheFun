@@ -85,14 +85,14 @@ FROM FUN_ALARM A;
 	<select id="getRelatedUserList" parameterType="java.lang.Integer" resultType="donzo.thefun.model.AlarmDto">
 		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'like','like') BUYTYPE
 		FROM FUN_LIKE
-		WHERE PROJECTSEQ = #{seq}
+		WHERE PROJECTSEQ = #{seq} AND ID != (SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 		UNION ALL
 		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'basket','basket') BUYTYPE
 		FROM FUN_BASKET 
-		WHERE PROJECTSEQ = #{seq}
+		WHERE PROJECTSEQ = #{seq} AND ID != (SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 		UNION ALL
 		SELECT DISTINCT ID, NVL2((SELECT 1 FROM DUAL),'buy','buy') BUYTYPE
 		FROM FUN_BUY 
-		WHERE PROJECTSEQ = #{seq}
+		WHERE PROJECTSEQ = #{seq} AND ID != (SELECT ID FROM FUN_PROJECT WHERE SEQ=#{seq})
 	</select>
 </mapper>

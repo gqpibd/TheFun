@@ -808,8 +808,8 @@ function minusVal(seqNum) {
 					<table style="width: 100%">
 						<tr>
 							<td rowspan="2" align="left" class="strongGray"><a
-								href="#layer_2" class="btn-example" onclick="getMakerInfo()"><img
-									class="profile_img" src="${writer.profile}"></a></td>
+								href="#layer_2" class="btn-example" onclick="getMakerInfo()">
+								<img class="profile_img" src="${writer.profile}"></a></td>
 							<td align="right" class="strongGray">${writer.nickname }</td>
 						</tr>
 						<tr>
@@ -922,7 +922,7 @@ function getMakerInfo() {
 			$("#title").empty();
 			
 			var items = data['projects']; 
-			if(items.length>0){
+			if(items !=null && items.length>0){
 				for(i = 0; i<items.length; i++){
 					var title = items[i].title;	
 					$("#title").append(title + "<br>");
@@ -992,9 +992,6 @@ function viewStatus(){
 			      msgContainer.appendChild(author);
 			      msgContainer.appendChild(body);
 			      msgContainer.appendChild(footer);
-			      
-			      
-			      
 			      msgBox.appendChild(msgContainer);
 			    }			
 				
@@ -1110,3 +1107,29 @@ var modalConfirm = function(callback) {
 		</div>
 	</div>
 </div>
+
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->
+<div class="dim-layer">
+	<div class="dimBg"></div>
+	<div id="layer_2" class="pop-layer">
+		<div class="pop-container">
+			<div class="pop-conts">
+				<!--content //-->
+				<div class="ctxt mb20">
+					Thank you.<br> <span style="font-weight: bold;">${projectdto.title}</span>프로젝트에 참여해주셔서 감사합니다! <br> <br> 
+					${writer.info } <br><br>
+					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 관심 태그</div>
+					<span id="sellerTags"></span>
+					<br><br>
+					<div style="width: 100%; text-align: center;font-weight: bold;">판매자의 인기 프로젝트 목록</div>
+					<span id="title"></span>
+				</div>
+				<div class="btn-r">
+					<a href="#" class="btn-layerClose">Close</a>
+				</div>
+				<!--// content-->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 판매자 프로필 사진 클릭시 레이어 팝업창 뷰 코드 -->

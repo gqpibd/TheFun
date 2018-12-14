@@ -45,7 +45,7 @@
   color: rgba(255, 255, 255, 0.2);
   margin-bottom: 0;
   font-size: 50px;
-  margin-top: -30px;
+  margin-top: -20px;
 }
 @media screen and (max-width: 500px) {
 	.line_header p {

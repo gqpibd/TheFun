@@ -116,7 +116,7 @@
 					<td class="column1">${project.getFundTypeKr()}</td>
 					<td class="column2">${project.getCategoryKr()}</td>
 					<td class="column3">${project.title}</td>
-					<td class="column4">${project.goalfund}</td>
+					<td class="column4" onload="numberWithCommas(this)">${project.goalfund}</td>
 					<td class="column5">${project.getDateForm(project.regdate)}</td>				
 					<td class="column6">${project.getDateForm(project.sdate)}</td>
 					<td class="column7">${project.nickname}</td>
@@ -146,4 +146,9 @@ $(".hover_tr").mouseover(function () {
 }).mouseout(function () {
 	$(this).children().css("background-color","#ffffff");		
 });
+
+function numberWithCommas(selector) {
+    var nums= $("selector").text().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $("selector").text(nums);
+}
 </script>
