@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
     
-<style rel="stylesheet">
-
+<style type="text/css">
 .header {
   background-color: #8152f0;
   color: white;
@@ -12,11 +10,11 @@
   text-align: center;
 }
 
-
 .table_img {
   border-radius: 50%;
   height: 60px;
   width: 60px;
+  background: white;
 }
 
 .table-users {
@@ -62,9 +60,7 @@ table tr:nth-child(2n+1) {
   background-color: #edf7f8;
 }
 
-@media screen and (max-width: 2000px) {
-  
-  
+@media screen and (max-width: 1000px) {  
   table, tr, td {
     display: block;
   }
@@ -226,6 +222,7 @@ table tr:nth-child(2n+1) {
 
 
 <!-- 본문출력 묶는 태그 -->
-</main>
-</div> 
+	<jsp:include page="../common/footer.jsp"/>
+	</main>
+	</div> 
 <!-- //본문출력 묶는 태그 -->

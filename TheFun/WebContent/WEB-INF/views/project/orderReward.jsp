@@ -84,14 +84,36 @@
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<hr width="70%" color="#424242">
       	<table style="width: 70%">
-      	<tr height="50px;">
-      		<td align="center" width="70%">
-      			 기부금액  <input class="pupple" type="text" id="amount" name="opPrice" size="10" style="text-align: right;" placeholder="0">원 
-      		</td>
-      		<td width="30%"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
-      		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
-      	</tr>
-      	</table>
+	      	<tr height="50px;">
+	      		<td align="center" width="70%">
+	      			 기부금액  <input class="pupple" type="text" id="amount" name="opPrice" size="10" style="text-align: right;" placeholder="0">원 
+	      		</td>
+	      		<td width="30%"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
+	      		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
+	    	</tr>
+			<tr>
+				<td colspan="3" style="border-bottom: 1pt dashed #424242;"></td>
+			</tr>
+			<tr style="padding: 20px;">
+				<td class='liteGray' align="left" width="10%"
+					style="padding-top: 20px;">보유 포인트</td>				
+				<td class='liteGray' align="left" width="60%"
+					style="padding-top: 20px;"><input type="text"
+					readonly="readonly" value="${login.point }"
+					class="underline liteGray" size="10" id="usablePoint">
+					point</td>
+			</tr>
+			<tr>
+				<td class='liteGray' align="left" width="10%">사용할 포인트</td>				
+				<td class='liteGray' align="left" width="60%"><input
+					type="text" class="liteGray underline" size="10" placeholder="0"
+					id="usePoint" name="usePoint" value="0"> point
+					<button type="button" id="pointBtn">적용</button></td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
+			</tr>
+		</table>
 
 				
 	<br><br>
@@ -135,15 +157,15 @@
 
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
-
-		<!-- 옵션, 프로젝트 테이블 -->
-      <table style="width: 70%">
-      	<tr>
-      		<td colspan="3" bgcolor="gray" style="padding-left: 2%; padding-top: 1%">
-      			<input class="form-group" type="checkbox" id="checkAll" checked><label for="checkAll"> 전체 선택</label>
-      			<script type="text/javascript">
-      			// 전체선택 체크박스 체크시
-      			$("#checkAll").click(function () {
+	<!-- 옵션, 프로젝트 테이블 -->
+   	<table style="width: 70%">
+	<tr>
+		<td colspan="3" bgcolor="gray" style="padding-left: 2%; padding-top: 1%">
+			<input class="form-group" type="checkbox" id="checkAll" checked>
+			<label for="checkAll"> 전체 선택</label>
+			<script type="text/javascript">
+	  			// 전체선택 체크박스 체크시
+	  			$("#checkAll").click(function () {
 					// 전체선택이 체크된 경우 해당 화면에 checkbox들을 모두 체크해준다
 					if($("#checkAll").prop("checked")){
 						$("input[type=checkbox]").prop("checked", true);
@@ -153,29 +175,29 @@
 					}
 					
 				});
-      			</script>
-      		</td>
-      	</tr>
-      <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
-      <tr id="trpro_${selectOptions[vs.index].seq}"> 
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>	<!-- 프로젝트제목 -->
-      	 <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
-      	</td>
-      </tr>
-	  <tr id="tr_${selectOptions[vs.index].seq}">
-			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}">
-				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked> 
-					<!-- 체크박스 옆 리워드 이름,재고 부분 클릭해도 체크되게 디버깅. -->
-					<label for="checkboxs${vs.count }">${selectOptions[vs.index].title}
-						<font size="2px;" color="#656565">
-							<!-- -1이 아닐 경우만 재고 출력되게 디버깅. -1은 재고 무제한 -->
-							<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne -1}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
-						</font>
-					</label>
-				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
-			</td>
-		</tr>
+	  		</script>
+		</td>
+	</tr>
+    <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
+    <tr id="trpro_${selectOptions[vs.index].seq}"> 
+    	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>	<!-- 프로젝트제목 -->
+    	 <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
+    	</td>
+    </tr>
+	<tr id="tr_${selectOptions[vs.index].seq}">
+	<td class="pupple"align="left" colspan="3">
+		<input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}">
+		<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked> 
+			<!-- 체크박스 옆 리워드 이름,재고 부분 클릭해도 체크되게 디버깅. -->
+			<label for="checkboxs${vs.count }">${selectOptions[vs.index].title}
+				<font size="2px;" color="#656565">
+					<!-- -1이 아닐 경우만 재고 출력되게 디버깅. -1은 재고 무제한 -->
+					<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne -1}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
+				</font>
+			</label>
+		</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
+		</td>
+	</tr>					
 		<tr id="tr2_${selectOptions[vs.index].seq}" <c:if test="${!vs.last }">style='border-bottom:1pt solid #D8D8D8'</c:if>>	<!-- 리워드별 구분선 추가. 마지막은 선 없음. -->
 			<td class="liteGray td1" >
 				<ul>		 	 	
@@ -186,12 +208,13 @@
 		 	 	</ul>
 			</td>
 			<td class="td2 liteGray">
-				<img src="image/detail/plusBtn.jpg" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
+				<img src="image/detail/plusBtn.jpg" style="cursor:pointer;" onclick="plusVal(${selectOptions[vs.index].seq})"> 	<!-- +  버튼 -->
 				<input type="text" id="${selectOptions[vs.index].seq}" name="opCount" value="${optionCount[vs.index]}" size="3" readonly="readonly" style="text-align: center;">
-				<img src="image/detail/minusBtn.jpg" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
+				<img src="image/detail/minusBtn.jpg" style="cursor:pointer;" onclick="minusVal(${selectOptions[vs.index].seq})"><!-- -  버튼 -->
 			</td>
 			<td class="liteGray td3">
-				<input type="text" readonly="readonly" value="${selectOptions[vs.index].price*optionCount[vs.index]}" name="priceName" class="Fee liteGray" size="10" id="price_${selectOptions[vs.index].seq}">원<br>
+				<span class="Fee liteGray" name='priceName' id="price_${selectOptions[vs.index].seq}"><fmt:formatNumber value="${selectOptions[vs.index].price*optionCount[vs.index]}"
+						type="number" /></span> 원<br>
 				<input type="hidden" name="opPrice" id="realPrice_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].price}">
 			</td>
 		</tr>
@@ -203,13 +226,14 @@
 			<img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;">
 		</td>
 	</tr>
-	<tr>
+	
+	<%-- <tr>
 	<td colspan="3" style="border-bottom:1pt dashed #424242; "></td>
 	</tr>
 	<tr style="padding: 20px;" >
 		<td class='liteGray' align="left" width="10%" style="padding-top: 20px;">
 			보유 포인트 
-		</td><td></td>
+		</td><td class="liteGray"></td>
 		<td class='liteGray'align="left" width="60%" style="padding-top: 20px;">
 			<input type="text" readonly="readonly" value="${login.point }" class="underline liteGray" size="10" id="usablePoint"> point
 		</td>
@@ -223,13 +247,13 @@
 			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
-	<tr><td colspan="3"></td></tr>
+	<tr><td colspan="3"></td></tr> --%>
 	<tr>
 		<td class="pupple"align="left" style="padding-top: 20px;">
 			총 결제 금액
 		</td>
 		<td class="pupple"align="right" colspan="2" style="padding-top: 20px;">
-			<input type="text" readonly="readonly" value="" class="Fee pupple" size="10" id="finalPrice">원 
+			<span id='finalPrice' class='Fee pupple' style='text-align: right;'></span>원			 
 		</td>
 	</tr>
 	<tr>
@@ -240,38 +264,38 @@
 	<br><br>
 
 	
-     <!-- 사용자정보 -->
-     	<table style="width: 70%; padding: 20px;" class="td1">
-     	<tr>
-     		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
-     	</tr>
-     	<tr>
-     		<td class="profiletitle"><b>이름</b></td>
-     	</tr>
-     	<tr>
-     		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
-     	</tr>
-     	<tr>
-     		<td class="profiletitle"><b>이메일</b></td>
-     	</tr>
-     	<tr>
-     		<td class="profile"><input  class="liteGray" size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
-     	</tr>
-     	<tr>
-     		<td class="profiletitle"><b>휴대폰 번호</b></td>
-     	</tr>
-     	<tr>
-     		<td class="profile">
-     		<c:if test="${empty login.phone}">
-     			<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
-     		</c:if>
-     		<c:if test="${not empty login.phone}">
-     			<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
-     		</c:if>
-     		</td>
-     	</tr>
-     	</table>
-		<br><br>		
+	<!-- 사용자정보 -->
+	<table style="width: 70%; padding: 20px;" class="td1">
+	<tr>
+		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
+	</tr>
+	<tr>
+		<td class="profiletitle"><b>이름</b></td>
+	</tr>
+	<tr>
+		<td class="profile"><input class="liteGray" size="50px;"value="${login.nickname}" readonly="readonly"style="padding: 5px;"></td>
+	</tr>
+	<tr>
+		<td class="profiletitle"><b>이메일</b></td>
+	</tr>
+	<tr>
+		<td class="profile"><input  class="liteGray" size="50px;"value="${login.email}" readonly="readonly"style="padding: 5px;"></td>
+	</tr>
+	<tr>
+		<td class="profiletitle"><b>휴대폰 번호</b></td>
+	</tr>
+	<tr>
+		<td class="profile">
+		<c:if test="${empty login.phone}">
+		<input size="50px;"  class="liteGray" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
+	</c:if>
+	<c:if test="${not empty login.phone}">
+		<input size="50px;" class="liteGray" value="${login.phone}" readonly="readonly"style="padding: 5px;">
+	</c:if>
+		</td>
+	</tr>
+	</table>
+	<br><br>		
 		
 		<!-- 배송지정보 -->
      	<table style="width: 70%; padding: 20px;" class="td1">
@@ -308,13 +332,13 @@
      	</tr>
      	<tr>
      		<td class="profile">
+     		<input style="width:100px" type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode }"> 
      		<input type="button" onclick="sample4_execDaumPostcode()" style="background: #8152f0; cursor: pointer; color: white" value="우편번호 찾기">
      		</td>
      	</tr>
      	<tr>
      		<td>
-     		<input type="text" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode }">
-			<input type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
+			<input style="width: 300px" type="text" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
 			<input type="text" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
      		</td>
      	</tr>
@@ -350,10 +374,10 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-		<input class="numberCheck" width="50px" type="text" name="card1" id="card1"> 
-		<input  class="numberCheck" width="50px" type="password" name="card2" id="card2">
-		<input class="numberCheck"  width="50px" type="password" name="card3" id="card3"> 
-		<input  class="numberCheck" width="50px" type="text" name="card4" id="card4"> 
+		<input class="numberCheck" style="width:100px" type="text" name="card1" id="card1"> 
+		<input  class="numberCheck" style="width:100px" type="password" name="card2" id="card2">
+		<input class="numberCheck"  style="width:100px" type="password" name="card3" id="card3"> 
+		<input  class="numberCheck" style="width:100px" type="text" name="card4" id="card4"> 
 		<input type="hidden" name="cardNumber" id="cardNumber">
 		</td>
 	</tr>
@@ -521,9 +545,28 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			}
 				
 		} //기부일때 끝
-	}//간편결제 끝
-	
+	}//간편결제 끝	
 }
+function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
+	document.getElementById(seqNum).value =count;	
+	var realPrice = Number(removeCommas(document.getElementById("realPrice_"+seqNum).value));	//단가
+   	var priceField = Number(removeCommas($("#price_"+seqNum).text()));	//현재 찍혀있는 금액
+   	var finalP = Number(removeCommas($("#finalPrice").text()));			//총금액 GET
+   	
+   	var totalPrice = 0;
+   	
+   	if(type == 'plus'){
+   		totalPrice = priceField+realPrice;
+   	    $("#finalPrice").text(addCommas(finalP+realPrice));	//총금액 SET
+   	}else if(type == 'minus'){
+   		totalPrice = priceField-realPrice;
+   	   	$("#finalPrice").text(addCommas(finalP-realPrice));	//총금액 SET
+   	}   	
+
+   	document.getElementById("price_"+seqNum).innerHTML =addCommas(totalPrice); // 총금액
+	//document.getElementById("finalPrice").text(finalP+realPrice);		//총금액 SET
+}
+
 	/* 수량선택 에 따른 총금액 밑 개별 금액 변화 ( + ) */
 	function plusVal(seqNum) {
 	   	var count = Number(document.getElementById(seqNum).value);
@@ -531,30 +574,13 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 	   	
 	   	if(stockCount<0){	//재고가 무제한이라면
 	   		count+=1;
-	     	document.getElementById(seqNum).value =count;
-	       	//가격변환
-	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-	       	var priceField =Number(document.getElementById("price_"+seqNum).value);
-	       	var totalPrice = priceField+realPrice;
-	       	document.getElementById("price_"+seqNum).value =totalPrice;
-	       	
-	       	var finalP = document.getElementById("finalPrice").value;			//총금액 GET
-	    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
-	   		
+	   		changePrice(count,seqNum,'plus');	   		
 	   	}else{		//재고가 무제한이 아니라면 
 			if(count==stockCount){
 				alert("구매가능한 수량보다 많습니다.");
 			}else{
 				count+=1;
-		     	document.getElementById(seqNum).value =count;
-		       	//가격변환
-		       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);
-		       	var priceField =Number(document.getElementById("price_"+seqNum).value);
-		       	var totalPrice = priceField+realPrice;
-		       	document.getElementById("price_"+seqNum).value =totalPrice;
-		       	
-		       	var finalP = Number(document.getElementById("finalPrice").value);			//총금액 GET
-		    	document.getElementById("finalPrice").value =finalP+realPrice;		//총금액 SET
+		   		changePrice(count,seqNum,'plus');
 			}
 	   	}
 	}
@@ -565,31 +591,19 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			document.getElementById(seqNum).value ="1";
 		}else{
 			count-=1;
-	       	document.getElementById(seqNum).value =count;
-	       	//가격변환 
-	       	var realPrice = Number(document.getElementById("realPrice_"+seqNum).value);	//진짜가격
-	       	var priceField = Number(document.getElementById("price_"+seqNum).value);	//현재가격
-	       	var resultPrice = priceField-realPrice;								//셋팅할 가격
-	       	document.getElementById("price_"+seqNum).value =resultPrice;		//출력
-	       	
-	       	var finalP = Number(document.getElementById("finalPrice").value);	//총금액 GET
-	    	document.getElementById("finalPrice").value =finalP-realPrice;		//총금액 SET
+	   		changePrice(count,seqNum,'minus');
 		}
 	}
 
 	$(document).ready(function (){
 		$("#autopayDiv").hide();
-		var size = $("input[name='priceName']").length;
-		var priceArr = new Array(size);
 		var tPrice=0;
 
 		//  총금액 첫 출력 설정
-		$("input[name='priceName']").each(function (i) {
-            priceArr[i]=Number($("input[name='priceName']").eq(i).attr("value"));
-            tPrice = tPrice+priceArr[i];
+		$("span[name='priceName']").each(function (i) {
+           tPrice += Number(removeCommas($(this).text()));
        	});
-		$("#finalPrice").val(tPrice);
-		
+		$("#finalPrice").text(addCommas(tPrice) );		
 		
 		// 삭제버튼 클릭시 테이블 변화 
 		$(document).on("click","#deleteBtn",function (){
@@ -742,8 +756,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			$("#finalPrice").val(tPrice-usePoint);
 			
 		});
-		
-		
 	});
 	
 </script>
@@ -794,7 +806,6 @@ function detailAddressCheck() {
 	text = text.replace(/[<(+>]/g, '');
 	$("#detailAddress").val(text);	
 }
-	
 
 function autoHypenPhone(str){ // 휴대폰 번호 자동 하이픈(-)
 	  str = str.replace(/[^0-9]/g, '');
@@ -874,5 +885,8 @@ function requestPay() {
 function addCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-
+//계산을 위해 , 삭제
+function removeCommas(x){
+ 	return x.replace(/,/gi, "");
+}
 </script>

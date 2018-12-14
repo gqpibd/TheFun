@@ -102,7 +102,7 @@ $(document).ready(function () {
 		   totalPrice += ${ba.count * ba.price};
 		</c:forEach>
 		//console.log("총액 = " + totalPrice);
-		$("#totalPrice").text(totalPrice);
+		$("#totalPrice").text(addCommas(totalPrice));
 	}
 });
 </script>
@@ -116,16 +116,11 @@ $(document).ready(function () {
 	<c:choose>
 		<c:when test="${empty myBasket}">
 			<div class="card">
-				 <div class="card-header">
-				   장바구니에 담긴 물건이 없습니다
-				 </div>
-				 <div class="card-body">
-				   <h5 class="card-title"><strong>ㅠㅠ조금 더 분발해주세요!ㅠㅠ</strong></h5>
-				   	<div align="right">
-				   <a href="main.do" class="btn btn-outline-danger">상품 보러가기</a>
-				   </div>
+				<div class="card-header" style="text-align: center;">
+					<h3 class="mb-3">장바구니에 담긴 물건이 없습니다</h3>				
+					<a href="main.do" class="btn btn-outline-danger">상품 보러가기</a>
 				</div>
-			</div><br>
+			</div>
 		</c:when>
 		<c:otherwise>
 		<form action="goOrderReward.do" method="post" id="updateForm">
@@ -179,20 +174,20 @@ $(document).ready(function () {
 									</c:forTokens>
 				  				</span>
 				  			</td>
-				  			<td> ${basket.price}원 </td> <!-- 판매가격 -->
+				  			<td> <fmt:formatNumber value="${basket.price}" type="number" />원 </td> <!-- 판매가격 -->
 				  			<td> <!-- 구매수량 선택 -->
-								<img src="image/detail/plusBtn.jpg" onclick="changeAmountPlus(${status.count})">
+								<img src="image/detail/plusBtn.jpg" style="cursor:pointer" onclick="changeAmountPlus(${status.count})">
 									<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='optionCount' id="amountSelect${status.count }">
 									<input type="hidden" id="stock${status.count }" value="${basket.stock }">
-								<img src="image/detail/minusBtn.jpg" onclick='changeAmountMinus(${status.count})'>
+								<img src="image/detail/minusBtn.jpg" style="cursor:pointer" onclick='changeAmountMinus(${status.count})'>
 							</td>
 				  			<td> <!-- 적립금 -->
 				  				<fmt:parseNumber var = "point" integerOnly = "true" type = "number" value = "${basket.price * basket.count * 0.01}" />
-					      		<span id="point"><c:out value = "${point}" /></span>점
+					      		<span id="point"><fmt:formatNumber value="${point}" type="number" /></span>점
 	      					</td> 
 				  			<td>
 				  				<h3><!-- 개별 리워드 당 총액 출력. (개당가*선택한 갯수)한 값. -->
-				  					<span id="price${status.count}" style="background-color:transparent; border: none; text-align: right;">${basket.price * basket.count }</span>원
+				  					<span id="price${status.count}" style="background-color:transparent; border: none; text-align: right;"><fmt:formatNumber value="${basket.price * basket.count }" type="number" /></span>원
 				  				</h3>
 				  			</td>
 				  		</tr>
@@ -202,52 +197,46 @@ $(document).ready(function () {
 			</c:if>
 			</c:forEach>
 			</form>
+			<!-- 최종결제칸 -->
+			<hr style="border: solid 2px #3A01DF;">
+			<div class="card">
+				<div class="card-body">		
+					<table>				
+						<tr>
+							<th style="width:100%">
+								<p class="h3">결제 예정 금액</p>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<h1><span id="totalPrice" ></span>원</h1>
+							</td>
+							<td style="width: 100%;">
+								<div align="right">
+					    			<button type="button" class="btn btn-outline-secondary" id="finalOrderBtn">주문하기</button>
+					    		</div>
+							</td>
+						</tr>
+			    	</table>
+				</div>
+			</div>
 		</c:otherwise>
-	</c:choose>
-	
-	<hr style="border: solid 2px #3A01DF;">
-	
-	<!-- 최종결제칸 -->
-	<div class="card">
-		<div class="card-body">		
-			<table>				
-				<tr>
-					<th style="width:100%">
-						<p class="h3">결제 예정 금액</p>
-					</th>
-				</tr>
-				<tr>
-					<td>
-						<h1><span id="totalPrice" ></span>원</h1>
-					</td>
-					<td style="width: 100%;">
-						<div align="right">
-			    			<button type="button" class="btn btn-outline-secondary" id="finalOrderBtn">주문하기</button>
-			    		</div>
-					</td>
-				</tr>
-	    	</table>
-		</div>
-	</div>
-  
-  
-  
+	</c:choose>  
 </div>
 
 <script>
 // [1] 수량선택 + 증가버튼 눌렀을 때
 function changeAmountPlus( index ) {
-	console.log("변화 index = " + index);
+	//console.log("변화 index = " + index);
 	// 기존수량에 +1
-	var selectedAmount = Number($("#amountSelect"+index).val())+Number(1);
-	console.log("선택수량 = " + selectedAmount);
+	var selectedAmount = Number($("#amountSelect"+index).val())+1;
+	//console.log("선택수량 = " + selectedAmount);
 	var stock = Number($("#stock"+index).val());
-	console.log("재고 = " + stock);
+	//console.log("재고 = " + stock);
 	if(stock < 0){	// 재고 무제한(리워드 옵션 재고 무제한일시 0으로 잘못 넣었었는데 -1로 바꿈.)
 		setPlusAmount(index);
 		return false;
-	}else {	// 재고 제한이 있음
-		
+	}else {	// 재고 제한이 있음		
 		if(stock >= selectedAmount){	// 재고 충분
 			setPlusAmount(index);
 		}else{	// 재고 모자름
@@ -255,7 +244,6 @@ function changeAmountPlus( index ) {
 			return false;
 		}
 	}
-	
 }
 // [1]-1. 증가된 수량으로 세팅해주는 함수 + ajax로 새 수량값 DB에 저장
 function setPlusAmount(index) {
@@ -267,11 +255,11 @@ function setPlusAmount(index) {
 
 // [2] 수량선택 - 감소버튼 눌렀을 때
 function changeAmountMinus( index ) {
-	console.log("변화 index = " + index);
+	//console.log("변화 index = " + index);
 	// 기존수량에 -1
 	var selectedAmount = Number($("#amountSelect"+index).val())-Number(1);
 	if(selectedAmount==0){
-		alert("수량은 최소 1개 이상을 선택해야 합니다");
+		//alert("수량은 최소 1개 이상을 선택해야 합니다");
 		return false;
 	}	
 	setCountAndPriceChange(index, selectedAmount);
@@ -297,14 +285,14 @@ function setCountAndPriceChange(index, selectedAmount){	// 변화된 수량을 �
 	});
 	
 	// 개당가격 바뀌게
-	var originPrice = $("#originPrice"+index).val();
+	var originPrice = Number(removeCommas($("#originPrice"+index).val()));
 	//console.log("원가 = " + originPrice);
 	var changedPrice = selectedAmount*originPrice;
 	//console.log("원가*수량 = " + changedPrice);
-	$("#price"+index).text(changedPrice);
+	$("#price"+index).text(addCommas(changedPrice));
 	
 	// 적립금 바뀌게
-	$("#point").text(parseInt(changedPrice*0.01));
+	$("#point").text(addCommas(parseInt(changedPrice*0.01)));
 	
 	// 총액 바뀌게
 	changePrice();
@@ -333,22 +321,30 @@ $("#finalOrderBtn").click(function () {
 });
 // 체크박스 클릭했을때
 function changePrice() {
-	console.log("체크박스 클릭");
+	//console.log("체크박스 클릭");
 	var totalPrice = 0;
 	for (var i = 1; i <= '${fn:length(myBasket)}'; i++) {
 		if( $("#customCheck"+i).is(":checked")){	/* 체크된 상품만 총액바뀌게 */
-			var eachPrice = parseInt($("#price"+i).text());
+			var eachPrice = parseInt(removeCommas($("#price"+i).text()));
 			//console.log(i + "번째 리워드 총액 = " + eachPrice);
-			totalPrice += + eachPrice;
+			totalPrice += eachPrice;
 		}
 	}
-	$("#totalPrice").text(totalPrice);
+	$("#totalPrice").text(addCommas(totalPrice));
 }
 // 삭제(상단 우측 x 이미지) 클릭했을때
 function deleteBasket(seq) {
 	location.href="deleteBasket.do?seq="+seq+"&id=${login.id}";
 }
 
+//3자리 단위마다 콤마 생성하는 함수
+function addCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+//계산을 위해 , 삭제
+function removeCommas(x){
+	return x.replace(/,/gi, "");
+}
 
 </script>
 

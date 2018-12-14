@@ -81,12 +81,13 @@ function deleteAlarm(seq,selector){ // 알람을 읽지 않고 삭제하는 경�
 	})
 }
 </script> 
-<div class="mdl-grid" id="alarmContainer">
+
 <c:choose>
 	<c:when test="${alarmList ne null and alarmList.size() == 0}">
-		새로운 소식이 없습니다.
+		<div style="margin:auto; text-align: center;">새로운 소식이 없습니다.</div>
 	</c:when>
 	<c:otherwise>
+		<div class="mdl-grid" id="alarmContainer">
 			<c:forEach items="${alarmList}" var="item">									
 				<div name="alarmCard" class="mdl-card mdl-cell mdl-cell--4-col-tablet mdl-shadow--2dp">
 					<figure class="mdl-card__media">
@@ -111,8 +112,7 @@ function deleteAlarm(seq,selector){ // 알람을 읽지 않고 삭제하는 경�
 					</div>
 				</div>
 			</c:forEach>	
-		
+		</div>
 	</c:otherwise>
 </c:choose>
-</div>
  

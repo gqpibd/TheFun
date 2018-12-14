@@ -107,6 +107,7 @@ var modalConfirm = function(callback) {
 </div>
 
 <!-- 본문출력 묶는 태그 -->
-</main>
-</div> 
+	<jsp:include page="../common/footer.jsp"/>
+	</main>
+	</div> 
 <!-- //본문출력 묶는 태그 -->
