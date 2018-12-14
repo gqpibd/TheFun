@@ -164,7 +164,7 @@ $(document).ready(function () {
 				  				<!-- 이미지 안나올때를 대비한 대체 이미지는 onerror에 넣어줘야 한다. 앞에 this.onerror=null; 이 없으면 무한로딩 오류가 난다고,,, -->
 				  				<div class="imgDiv">
 				  				<img onerror="this.onerror=null;this.src='./image/thumbnail/1.jpg'" alt="등록된 이미지가 없습니다" 
-				  					src="upload/${basket.projectseq}" onclick="location.href='projectDetail.do?seq=${basket.seq}'" 
+				  					src="upload/${basket.projectseq}" onclick="location.href='projectDetail.do?seq=${basket.projectseq}'" 
 				  					onmouseover="this.style.cursor='pointer'" style="max-height: 100px; max-width: 100%">
 				  				</div>
 				  			</td>

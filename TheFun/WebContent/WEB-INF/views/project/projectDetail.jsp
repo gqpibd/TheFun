@@ -274,7 +274,7 @@
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 		<!-- 프로젝트 타이틀 -->
-		<form id="goAnywhere" action="goOrderReward.do">
+		<form id="goAnywhere" action="goOrderReward.do" method="post">
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img
