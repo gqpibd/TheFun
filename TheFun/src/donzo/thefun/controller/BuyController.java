@@ -108,7 +108,7 @@ public class BuyController {
 		newbuy.setName(user.getNickname());
 		newbuy.setId(user.getId());
 		
-		//출력 test
+/*		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
 		
@@ -118,7 +118,7 @@ public class BuyController {
 			logger.info("옵션카운트 : "+opCount[i]);
 			logger.info("프로젝트시퀀스 : "+projectseq[i]);
 		}
-		
+		*/
 		
 		//주문 insert
 		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);

@@ -441,22 +441,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
-			}else{	
-				$("input[name='projectseq']").each(function (i) {
-					alert( i + "번째 플젝시퀀스 : " + $("input[name='projectseq']").eq(i).attr("value") );
-		       	});
-			 	$("input[name='opSeq']").each(function (i) {
-			 		alert( i + "번째 옵션시퀀스 : " + $("input[name='opSeq']").eq(i).attr("value") );
-		       	});
-				$("input[name='opCount']").each(function (i) {
-					alert( i + "번째 옵션카운트 : " + $("input[name='opCount']").eq(i).attr("value") );
-		       	});
-				$("input[name='opPrice']").each(function (i) {
-					alert( i + "번째 옵션가격 : " + $("input[name='opPrice']").eq(i).attr("value") );
-		       	}); 
-				
-				alert("내가쓴 포인트 : " + $("#usePoint").val() );
-				
+			}else{			
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때

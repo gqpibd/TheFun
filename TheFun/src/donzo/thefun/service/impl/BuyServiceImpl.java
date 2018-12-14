@@ -30,13 +30,10 @@ public class BuyServiceImpl implements BuyService {
 	      }
 	      
 	      if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_DONATION)) {
-	         //System.out.println("buy 서비스 임플리 here============= ");
-	    	     	  
 	         BuyDto buydto=new BuyDto(
 	                  buy.getId(), projectseq[0], opSeq[0], 1,opPrice[0], 
 	                  buy.getName(), buy.getPhone(), buy.getPostcode(), buy.getRoadaddress(), buy.getDetailaddress(),
 	                  buy.getCardNumber(), buy.getBankName(),0);
-	         //System.out.println("addorders의 dto : "+buydto);
 	         buyDao.addOrders(buydto);
 	         
 	      }else if(fundtype.equalsIgnoreCase(ProjectDto.TYPE_REWARD)) {

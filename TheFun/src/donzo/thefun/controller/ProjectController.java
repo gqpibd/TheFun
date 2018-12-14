@@ -129,7 +129,14 @@ public class ProjectController {
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+		//출력 test
 		
+		for(int i=0; i<selectOpSeq.length;i++) {
+			logger.info("옵션시퀀스 : "+selectOpSeq[i]);
+			logger.info("옵션카운트 : "+optionCount[i]);
+			logger.info("프로젝트시퀀스 : "+projectSeq[i]);
+		}
+
 		//프로젝트정보
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
@@ -143,7 +150,7 @@ public class ProjectController {
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
 			
-			//선택한 옵션 갯수, 해시맵 옵션seq : 갯수 value 으로 바꿀것
+			//선택한 옵션 갯수
 			model.addAttribute("optionCount",optionCount);
 		}		
 		return "orderReward.tiles";
