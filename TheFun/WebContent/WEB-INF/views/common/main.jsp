@@ -160,7 +160,7 @@
 <div class="container">
 	<!-- 리스트 -->
 	
-	<h3 class="my-4">곧 마감되는 프로젝트</h3>
+	<h3 class="my-4">곧 끝나는 프로젝트</h3>
 	<div align="right"><a href="searchProjectList.do?s_sort=edateASC">see all</a></div>
 
 <!-- list jsp:include로 보내려면 이렇게 -->

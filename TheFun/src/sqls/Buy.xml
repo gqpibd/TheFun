@@ -152,6 +152,7 @@ FROM FUN_BUY B;
 		 FROM FUN_BUY_VIEW B, FUN_MEMBER M	
 		 WHERE B.PROJECTSEQ=#{projectseq_participant} AND M.ID=B.ID
 		 AND B.STATUS != 'delete'
+		 ORDER BY REGDATE DESC
 		) A
 	WHERE RNUM BETWEEN ${start} AND ${end}
 </select>
