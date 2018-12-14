@@ -947,12 +947,7 @@ function minusVal(seqNum) {
 								<li class="liteGray">${item}</li>
 							</c:forEach>
 						</ul>
-						<fmt:parseDate value="${projectdto.shipdate}"
-							pattern="yyyy-MM-dd HH:mm:ss" var="shipdate" />
-						<p class="liteGray" style="font-size: 15px">
-							예상전달일 :
-							<fmt:formatDate value="${shipdate}" pattern="yyyy년MM월dd일" />
-						</p>
+						
 						<p class="pupple">
 						<c:choose>
 							<c:when test="${option.stock <= 0}">

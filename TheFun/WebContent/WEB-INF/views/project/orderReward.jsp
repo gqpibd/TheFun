@@ -53,15 +53,15 @@
 .td1{
 	text-align:left;
 	padding: 10px;
-	width: 55%;
+	width: 50%;
 }
 .td2{
 	text-align:right;
-	width: 25%;
+	width: 26%;
 }
 .td3{
 	text-align:right;
-	width: 20%;
+	width: 24%;
 }
 .Fee{
 	background-color:transparent;
@@ -159,12 +159,12 @@
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
       <tr id="trpro_${selectOptions[vs.index].seq}"> 
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>	<!-- 프로젝트제목 -->
-      	 <input type="hidden" name="projectseq" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
+      	 <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
       	</td>
       </tr>
 	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
+				<input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}">
 				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked> 
 					<!-- 체크박스 옆 리워드 이름,재고 부분 클릭해도 체크되게 디버깅. -->
 					<label for="checkboxs${vs.count }">${selectOptions[vs.index].title}
@@ -209,16 +209,16 @@
 	<tr style="padding: 20px;" >
 		<td class='liteGray' align="left" width="10%" style="padding-top: 20px;">
 			보유 포인트 
-		</td>
-		<td class='liteGray'align="left" width="60%" colspan="2" style="padding-top: 20px;">
+		</td><td></td>
+		<td class='liteGray'align="left" width="60%" style="padding-top: 20px;">
 			<input type="text" readonly="readonly" value="${login.point }" class="underline liteGray" size="10" id="usablePoint"> point
 		</td>
 	</tr>
 	<tr>
 		<td class='liteGray' align="left"  width="10%">
 			사용할 포인트
-		</td>
-		<td class='liteGray'align="left"  width="60%" colspan="2">
+		</td><td></td>
+		<td class='liteGray'align="left"  width="60%">
 			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint" value="0"> point
 			<button type="button" id="pointBtn">적용</button>
 		</td>
@@ -427,6 +427,15 @@
 </div>  
 
 <script type="text/javascript">
+/* function checkedReward() {
+	for (var i = 1; i <= '${fn:length(projectdtoList)}'; i++) {
+		if( $("#customCheck"+i).is(":checked") == false){	
+			$("#projectSeq"+i).attr("disabled", true);
+			$("#amountSelect"+i).attr("disabled", true);
+		}
+	}
+} */
+
 function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
 	
@@ -438,7 +447,9 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value=cardNum;
 		
 		//결제 유효성검사
-		if(document.getElementById("card1").value.length<4){
+		if($("input[name='checkboxs']:checked").length<1){
+			alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
+		}else if(document.getElementById("card1").value.length<4){
 			alert("첫번째 카드번호가 4자리수 이하입니다");
 		}else if(document.getElementById("card2").value.length<4){
 			alert("두번째 카드번호가 4자리수 이하입니다");
@@ -471,6 +482,10 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
+			if($("input[name='checkboxs']:checked").length<1){
+				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
+				return false;
+			}
 			$("#orderfrm").attr("action","addOrder.do").submit();
 		} 
 		
@@ -481,7 +496,9 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value="****************";
 		
 		if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
+			if($("input[name='checkboxs']:checked").length<1){
+				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
+			}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
 				alert("이름을 입력하여주십시오");
 			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
@@ -495,7 +512,9 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if(document.getElementById("deliPhone").value==""){
+			if($("input[name='checkboxs']:checked").length<1){
+				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
+			}else if(document.getElementById("deliPhone").value==""){
 				alert("연락처를 입력하여 주십시오");
 			}else{
 				requestPay();
