@@ -14,7 +14,6 @@
 
 @media screen and (max-width: 2000px) {
   
-  
   table, tr, td {
     display: block;
   }
@@ -47,6 +46,12 @@
     content: '후원일자:';
   }
   td:nth-child(4):before {
+    content: '후원금액';
+  }
+  td:nth-child(5):before {
+    content: '상태';
+  }
+  td:nth-child(6):before {
     content: '옵션:';
   }
   
@@ -55,9 +60,9 @@
     padding: 10px 0;
     position: relative;
   }
-  tr:first-child {
+  /* tr:first-child {
     display: none;
-  }
+  } */
 }
 
 @media screen and (max-width: 687px) {
@@ -121,13 +126,23 @@
 }
 </style>
 <!--
-<th>번호</th>
-<th>참여자</th>
-<th>후원일자</th>
-<th>상품 / 옵션 정보</th>
-<th>총 결제금액</th>
-<th>상태</th>
 
+td:nth-child(2):before {
+    content: '후원자:';
+  }
+  td:nth-child(3):before {
+    content: '후원일자:';
+  }
+  td:nth-child(4):before {
+    content: '후원금액';
+  }
+  td:nth-child(5):before {
+    content: '상태';
+  }
+  td:nth-child(6):before {
+    content: '옵션:';
+  }
+  
 - 바이뷰 고쳐서 닉네임 가져오고
 -->
          
@@ -138,13 +153,11 @@
 
 <c:choose>
 <c:when test="${fundtype eq ProjectDto.TYPE_REWARD}"><!-- 리워드일 때 -->
-	<tr class="check_tr">
+	<tr class="check_tr" style=" display:inline-block;">
 	   <td><input type="checkbox" name="check_row"></td>
-	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 참여자 -->
-	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
-	   <td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
-	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
-	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
+	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 후원자 -->
+	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 후원일자 -->
+	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td> <!-- 후원금액 -->
 	   <td>
 	   <c:choose>
    			<c:when test="${part_Dto.status eq BuyDto.FINISH}">배송 완료</c:when>
@@ -152,16 +165,16 @@
 	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">배송 전</c:when>
  		</c:choose>
 		</td>
+		<td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
+	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
 	</tr>
 </c:when>
 
 <c:when test="${fundtype eq ProjectDto.TYPE_DONATION}"><!-- 기부일 때  -->
-	<tr class="check_tr">
+	<tr class="check_tr" style=" display:inline-block;">
 	   <td><input type="checkbox" name="check_row"></td>
-	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 참여자 -->
-	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 참여일자 -->
-	   <%-- <td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
-	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
+	   <td>${part_Dto.id} : ${part_Dto.seq }</td><!-- 후원자 -->
+	   <td><fmt:formatDate value="${rdate}" pattern="yyyy.MM.dd. HH:mm"/></td><!-- 후원일자 -->
 	   <td><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원</td>
 	   <td>
 	   <c:choose>
@@ -170,6 +183,8 @@
 	   		<c:when test="${part_Dto.status ne BuyDto.FINISH}">결제 전</c:when>
  		</c:choose>
 		</td>
+	   <%-- <td style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
+	   <%-- <li class="list-group-item" style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 --> --%>
 	</tr>
 </c:when>
 </c:choose>
