@@ -101,8 +101,12 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
+		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
+		
+		newbuy.setName(user.getNickname());
+		newbuy.setId(user.getId());
 		
 /*		//출력 test
 		logger.info("펀드타입 "+fundtype);

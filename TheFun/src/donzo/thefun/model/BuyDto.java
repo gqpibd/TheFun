@@ -74,7 +74,7 @@ FROM FUN_BUY B;
 public class BuyDto implements Serializable {		
 	
 	public static final String FINISH = "finish";// status 배송 완료, 기부 완료
-	
+	  
 	int seq;
 	String id;
 	int projectseq; // 프로젝트 번호
@@ -145,9 +145,10 @@ public class BuyDto implements Serializable {
 	}		
 
 	//새 구매
-
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
-			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName) {
+			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName,
+			int usePoint) {
+		super();
 		this.id = id;
 		this.projectseq = projectseq;
 		this.optionseq = optionseq;
@@ -160,6 +161,7 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 		this.cardNumber = cardNumber;
 		this.bankName = bankName;
+		this.usePoint = usePoint;
 	}
 
 	//내 후원 상세보기 쿼리문에 넣기위함
@@ -170,7 +172,8 @@ public class BuyDto implements Serializable {
 		this.optionseq = optionseq;
 		this.regdate = regdate;
 	}
-	
+
+
 	public String getPdate() {
 		return pdate;
 	}
