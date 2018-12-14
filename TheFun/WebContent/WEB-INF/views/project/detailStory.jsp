@@ -46,9 +46,9 @@ public String Dday(int year, int month, int day, List<ProjectDto> mylist){
 	//System.out.println("dates 확인 : " + dates);
 	
 	
-	for(ProjectDto lcd:mylist){	
-		//System.out.println("내가찾아온놈들 : "+ mylist);
-		if(lcd != null){
+	if(mylist != null){
+		for(ProjectDto lcd:mylist){	
+			//System.out.println("내가찾아온놈들 : "+ mylist);
 			if(lcd.getSdate().substring(0,10).equals(dates)){
 				s="sday";
 			}
@@ -58,14 +58,17 @@ public String Dday(int year, int month, int day, List<ProjectDto> mylist){
 			else if(lcd.getPdate().substring(0,10).equals(dates)){
 				s="pday";			
 			}
-			else if((lcd.getShipdate() != null || !lcd.getShipdate().equals("")) && lcd.getShipdate().substring(0,10).equals(dates)){
-				s="shipday";
+			else if(lcd.getShipdate() != null && !lcd.getShipdate().equals("")) {
+				if( lcd.getShipdate().substring(0,10).equals(dates)){
+					s="shipday";
+					//System.out.println("배송일 출력 확인" + lcd.getShipdate().substring(0,10));
+				}
 			}else {
 				s="";
 			}
-			/* if(today.equals(dates)){
-				s="today";
-			} */
+				/* if(today.equals(dates)){
+					s="today";
+				} */
 		}
 	}
 	
@@ -89,9 +92,6 @@ int year = jcal.getYear();
 int month = jcal.getMonth();
 
 %>
-
-<p>${projectdto.content }</p> 
-
 	<!-- jzdbox1, jzdasf, jzdcal : 달력 전체 박스 크기 -->
 	<!-- jzdcalt : 연 월 폰트 설정 -->
 	<!-- jzdb : 달력에 날짜 없는 날 -->
@@ -107,10 +107,7 @@ int month = jcal.getMonth();
 	<span>목</span>
 	<span>금</span>
 	<span>토</span>
-	
-	
 <%
-
 	for(int i = 1;i < dayOfWeek; i++){
 		out.println("<span class='jzdb'>&nbsp;</span>");
 	}
@@ -160,3 +157,5 @@ int month = jcal.getMonth();
 %>
 
 </div>
+
+<p>${projectdto.content }</p>
