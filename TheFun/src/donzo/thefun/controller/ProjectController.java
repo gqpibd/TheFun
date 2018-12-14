@@ -129,12 +129,17 @@ public class ProjectController {
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
 		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+		//출력 test
 		
+		for(int i=0; i<selectOpSeq.length;i++) {
+			logger.info("옵션시퀀스 : "+selectOpSeq[i]);
+			logger.info("옵션카운트 : "+optionCount[i]);
+			logger.info("프로젝트시퀀스 : "+projectSeq[i]);
+		}
+
 		//프로젝트정보
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);
 		model.addAttribute("projectdtoList",projectdtolist);
-		
-		//장바구니 시퀀스 정보 -->디테일에서 가라로 넣어줘야함. 오더에서는 기부에 가라로 넣기 리워드에서는 히든으로 옵션증가에 따라 넣기
 		
 		//로그인정보
 		model.addAttribute("login",(MemberDto)req.getSession().getAttribute("login"));
@@ -145,10 +150,9 @@ public class ProjectController {
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
 			
-			//선택한 옵션 갯수, 해시맵 옵션seq : 갯수 value 으로 바꿀것
+			//선택한 옵션 갯수
 			model.addAttribute("optionCount",optionCount);
-		}
-		
+		}		
 		return "orderReward.tiles";
 
 	}

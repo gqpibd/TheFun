@@ -182,7 +182,7 @@ $(document).ready(function () {
 				  			<td> ${basket.price}원 </td> <!-- 판매가격 -->
 				  			<td> <!-- 구매수량 선택 -->
 								<img src="image/detail/plusBtn.jpg" onclick="changeAmountPlus(${status.count})">
-									<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='count' id="amountSelect${status.count }">
+									<input type='text' readOnly='readOnly' value='${basket.count }' size='2' style='text-align:center;' name='optionCount' id="amountSelect${status.count }">
 									<input type="hidden" id="stock${status.count }" value="${basket.stock }">
 								<img src="image/detail/minusBtn.jpg" onclick='changeAmountMinus(${status.count})'>
 							</td>

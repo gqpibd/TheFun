@@ -274,7 +274,11 @@
 		<p class="strongGray" style="font-size: 27px">${projectdto.title }</p>
 
 		<!-- 프로젝트 타이틀 -->
+<<<<<<< HEAD
 		<form id="goAnywhere" action="goOrderReward.do" method="post">
+=======
+		<form id="goAnywhere" action="goOrderReward.do">
+>>>>>>> refs/remotes/origin/ds
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img

@@ -102,15 +102,14 @@ FROM FUN_BUY B;
 
 <!-- add Order -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
-   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, POSTCODE, ROADADDRESS, DETAILADDRESS, OPTIONSEQ, PRICE)
-   VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},
-   SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
+   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, PRICE, OPTIONSEQ, POSTCODE, ROADADDRESS, DETAILADDRESS, POINT)
+   VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
    <choose>
    <when test="postcode == null"> <!-- 기부인 경우 주소랑 옵션이 없음 -->
-        null,null,null,null,#{price}
+        #{price},null,null,null,null,0
     </when>
     <otherwise> <!-- 리워드인 경우 가격을 직접 넣지 않음(대신 뷰에서 계산) -->
-       #{postcode},#{roadaddress},#{detailaddress},#{optionseq},null
+       #{price},#{optionseq},#{postcode},#{roadaddress},#{detailaddress},#{usePoint}
     </otherwise>
     </choose>
    )

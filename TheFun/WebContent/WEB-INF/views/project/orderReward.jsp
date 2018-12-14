@@ -157,9 +157,9 @@
       		</td>
       	</tr>
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
-      <tr id="trpro_${selectOptions[vs.index].seq}">      
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
-      	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
+      <tr id="trpro_${selectOptions[vs.index].seq}"> 
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>	<!-- 프로젝트제목 -->
+      	 <input type="hidden" name="projectseq" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
       	</td>
       </tr>
 	  <tr id="tr_${selectOptions[vs.index].seq}">
@@ -219,7 +219,7 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="left"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint" value="0"> point
 			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
@@ -467,22 +467,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("주소를 입력하여 주십시오");
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
-			}else{	
-				$("input[name='projectseq']".val()).each(function (i,a) {
-		            alert("플젝시퀀스 : "+a);
-		       	});
-				$("input[name='opSeq']".val()).each(function (i,a) {
-		            alert("옵션시퀀스 : "+a);
-		       	});
-				$("input[name='opCount']".val()).each(function (i,a) {
-		            alert("카운트 : "+a);
-		       	});
-				$("input[name='opPrice']".val()).each(function (i,a) {
-		            alert("가격 : "+a);
-		       	});
-				var po = $("#usePoint");
-				alert("usePoint : "+po);
-				
+			}else{			
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}else if(iswhat=="1"){	//기부일때
