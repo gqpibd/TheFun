@@ -223,8 +223,8 @@ a.mpa {
      <ul>     
         <li>
 			<div class="avatar">
-			<img class="profile_img_side" src="${login.profile}"><span class="username">${login.nickname}</span>
-			<span class="userInfo">${login.info}</span>
+			<img class="profile_img_side" src="${login.profile}" onclick="location.href='myPage.do'"><span class="username">${login.nickname}</span>
+			<%-- <span class="userInfo">${login.info}</span> --%>
 			</div>
         </li>
         <li>

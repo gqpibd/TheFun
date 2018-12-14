@@ -388,7 +388,7 @@ $(document).ready(function () {
 							</form>
 							<h4>더 펀 소개</h4>
 							<ul>
-								<li><a href="#">더 펀 이야기</a></li>
+								<li><a href="funStory.do">더 펀 이야기</a></li>
 								<li><a href="#">더 펀 파트너</a></li>
 							</ul>
 						</div>

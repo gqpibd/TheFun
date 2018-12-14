@@ -83,7 +83,7 @@
 <!-- <div class="container" style="margin-top: 3%;">	  -->
 	<!-- 메인 배너 슬라이드 -->
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;height:400px;object-fit: cover;overflow:hidden; user-select: none;">
-	  <ol class="carousel-indicators">
+	  <ol class="carousel-indicators" style="z-index: 4;">
 	    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
 	    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
@@ -93,22 +93,22 @@
 	  </ol>
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
-	      <img class="d-block w-100" src="image/banner/메인1.png" alt="첫번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인1.png" alt="첫번째 슬라이드" onclick="location.href='projectDetail.do?seq=161'">
 	    </div>
 	    <div class="carousel-item">
-	      <img class="d-block w-100" src="image/banner/메인2.png" alt="두번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인2.png" alt="두번째 슬라이드" onclick="location.href='projectDetail.do?seq=162'">
 	    </div>
 	    <div class="carousel-item">
-	      <img class="d-block w-100" src="image/banner/메인3.png" alt="세번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인3.png" alt="세번째 슬라이드" onclick="location.href='projectDetail.do?seq=163'">
 	    </div>
 	     <div class="carousel-item">
-	      <img class="d-block w-100" src="image/banner/메인4.png" alt="네번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인4.png" alt="네번째 슬라이드" onclick="location.href='projectDetail.do?seq=165'">
 	    </div>
 	    <div class="carousel-item">
-	      <img class="d-block w-100" src="image/banner/메인5.png" alt="다섯번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인5.png" alt="다섯번째 슬라이드" onclick="location.href='projectDetail.do?seq=166'">
 	    </div>
 	    <div class="carousel-item">
-	      <img class="d-block w-100" src="image/banner/메인6.png" alt="여섯번째 슬라이드">
+	      <img class="d-block w-100" src="image/banner/메인6.png" alt="여섯번째 슬라이드" onclick="location.href='projectDetail.do?seq=167'">
 	    </div>
 	  </div>
 	  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

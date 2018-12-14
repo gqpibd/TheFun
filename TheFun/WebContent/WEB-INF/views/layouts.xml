@@ -34,6 +34,12 @@
  		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>
 	</definition>
 	
+	<!-- 더펀스토리 -->
+	<definition name="funStory.tiles" extends="home.tiles">
+		<put-attribute name="main" value="/WEB-INF/views/story/funStory.html"/>	
+		<put-attribute name="topbar" value=""/>
+	</definition>
+	
 	<!-- 개인정보수정 -->
 	<definition name="myInfo.tiles" extends="MyPage.tiles">
 		<put-attribute name="main" value="/WEB-INF/views/mypage/myInfo.jsp"/>		

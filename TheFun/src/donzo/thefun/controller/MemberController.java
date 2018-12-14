@@ -129,9 +129,12 @@ public class MemberController {
 		logger.info("find_idpw" + new Date());
 		
 		MemberDto find_idpw = memberService.find_idpw(dto);
-		logger.info(find_idpw.toString());
-		
-		return find_idpw.getId();
+		String id = "";
+		if(find_idpw != null) {
+			logger.info(find_idpw.toString());
+			id= find_idpw.getId();
+		}
+		return id;
 	}
 	
 	//pw변경 처리
@@ -221,4 +224,13 @@ public class MemberController {
 	private String getCallbackUrl(String callback) {		
 		return callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌 
 	}
+	
+	// 더펀스토리 이동
+	@RequestMapping(value="funStory.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getfunStory() throws Exception{
+		logger.info("MemberController getfunStory " + new Date());		
+		
+		return "funStory.tiles";
+	}
+	
 }
