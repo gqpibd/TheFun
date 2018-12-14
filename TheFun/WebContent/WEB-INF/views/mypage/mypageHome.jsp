@@ -101,7 +101,7 @@ table tr:nth-child(2n+1) {
   }
   
   tr {
-    padding: 10px 0;
+    padding: 20px 0;
     position: relative;
   }
   tr:first-child {

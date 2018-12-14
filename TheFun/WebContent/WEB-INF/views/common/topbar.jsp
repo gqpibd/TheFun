@@ -13,17 +13,28 @@ window.fbAsyncInit = function() {
       xfbml : true,
       version : 'v3.2'
    });   
-   window.fbApiInit = true; //init flag
+   //window.fbApiInit = true; //init flag
 }; 
 //Load the SDK Asynchronously
- (function(d){
+ /* (function(d){
      var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
      js = d.createElement('script'); js.id = id; js.async = true;
      js.src = "//connect.facebook.net/" + 
      "en_US" +
      "/all.js";
      d.getElementsByTagName('head')[0].appendChild(js);
- }(document));
+ }(document)); */
+ (function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "https://connect.facebook.net/ko_KR/sdk.js";
+		//js.src = "https://connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));	
 </script>
 
 <!-- topbar css파일 링크 -->
@@ -406,7 +417,7 @@ $(document).ready(function () {
 							</form>
 							<h4>더 펀 소개</h4>
 							<ul>
-								<li><a href="#">더 펀 이야기</a></li>
+								<li><a href="funStory.do">더 펀 이야기</a></li>
 								<li><a href="#">더 펀 파트너</a></li>
 							</ul>
 						</div>

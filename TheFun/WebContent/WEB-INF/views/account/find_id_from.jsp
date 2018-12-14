@@ -56,11 +56,11 @@ function openChangePwdModal(){
 <body>
 
 <div>
-<div class="form">
+<div class="form" style="margin-top:30px">
 	<!-- 로고 -->
 	<a href="main.do"><img src="image/main/banner.jpg" width="100%"><br></a>
 	
-	<br><br>
+	<br>
 	
 	<!-- id찾기 폼 -->
 	<!-- <form class="login-form" action="find_idpw.do" method="post" id="find"> -->
@@ -72,13 +72,13 @@ function openChangePwdModal(){
 			<p>
 				<label></label>
 				<input type="text" id="findIdEmail" name="email" 
-				maxlength="30" placeholder="email" />
+				maxlength="30" placeholder="email" required="required"/>
 				<input type="text" id="findIdPhone" name="phone" 
-				maxlength="30" placeholder="phone" />	
+				maxlength="30" placeholder="phone" required="required" onkeyup="myNewFindCheck()"/>	
 			</p>
 			<p>
-				<button type="button" style="background: #8152f0; cursor: ;" 
-				id="forpassword" name="forpassword" onclick="submit()">찾기</button>
+				<button type="button" style="background: #E2E2E2; cursor: ;" 
+				id="forpassword" name="forpassword" onclick="submit()" disabled="disabled">찾기</button>
 			</p>
 			<p>
 				<button type="button" style="background: #8152f0; cursor: ;"  
@@ -190,7 +190,30 @@ function checkSubmitActivation(){
 	}
 }
 
-
+/* id찾기 */
+var newFindOk = false;
+function myNewFindCheck() {		
+	if($("#findIdPhone").val() ==""){ // 비밀번호 확인 필드 비어있는경우
+		newFindOk = false;
+		checkSubmitActivation_find();
+	}else{		
+		newFindOk = true;
+		checkSubmitActivation_find();
+		/* $("#change_pw").submit(); */
+	}
+}
+function checkSubmitActivation_find(){
+	if(newFindOk){
+	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
+		document.getElementById("forpassword").disabled = false;
+		document.getElementById("forpassword").style.background = "#8152f0";
+		document.getElementById("forpassword").style.cursor =  "pointer";
+	}else{
+		document.getElementById("forpassword").disabled = true;
+		document.getElementById("forpassword").style.background = "#E2E2E2";
+		document.getElementById("forpassword").style.cursor =  "default";
+	}
+}
 
 </script>
 

@@ -35,9 +35,10 @@ public class MemberController {
 	// 로그인 처리 --> 간편 로그인
 	@RequestMapping(value="simpleLogin.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String simpleLogin(HttpServletRequest req,MemberDto dto, String loginType, String callback) throws Exception {
+		
 		logger.info("simpleLogin.do " + new Date());
 		MemberDto loginUser = memberService.tryLogin(dto);
-		loginUser.setAccount(loginType);
+		loginUser.setAccount(loginType); // loginType은 DB에 없으므로 로그인 한 뒤 따로 지정해줘야 한다.
 		req.getSession().setAttribute("login", loginUser);
 		if(callback!=null && callback.trim().length()>0) {			
 			return "redirect:/" + getCallbackUrl(callback);
@@ -51,15 +52,14 @@ public class MemberController {
 	public String loginAf(HttpServletRequest req, MemberDto dto, String loginType, String callback) throws Exception {
 		logger.info("loginAf " + new Date());
 		MemberDto loginUser=null;
-		logger.info(loginType);				
-		logger.info(dto+"");				
+		logger.info(loginType);	
 		loginUser = memberService.tryLogin(dto);
 		if(loginUser == null) { // 로그인 실패
 			return "{\"message\":\"retry\",\"callback\":\""+ callback + "\"}";
 		}
-		loginUser.setAccount(loginType);
-		
-		req.getSession().setAttribute("login", loginUser);
+		loginUser.setAccount(loginType); // loginType은 DB에 없으므로 로그인 한 뒤 따로 지정해줘야 한다.
+		logger.info(loginUser.toString());
+		req.getSession().setAttribute("login", loginUser); 
 		
 		if(callback!=null && callback.trim().length()>0) {			
 			return "{\"message\":\"signedin\",\"callback\":\""+ getCallbackUrl(callback) + "\"}";
@@ -129,9 +129,12 @@ public class MemberController {
 		logger.info("find_idpw" + new Date());
 		
 		MemberDto find_idpw = memberService.find_idpw(dto);
-		logger.info(find_idpw.toString());
-		
-		return find_idpw.getId();
+		String id = "";
+		if(find_idpw != null) {
+			logger.info(find_idpw.toString());
+			id= find_idpw.getId();
+		}
+		return id;
 	}
 	
 	//pw변경 처리
@@ -221,4 +224,13 @@ public class MemberController {
 	private String getCallbackUrl(String callback) {		
 		return callback.replaceAll("_/_", "&"); //&로 바로 보내면 잘리니까 /로 보내고 받은 다음에 바꿔서 보여줌 
 	}
+	
+	// 더펀스토리 이동
+	@RequestMapping(value="funStory.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String getfunStory() throws Exception{
+		logger.info("MemberController getfunStory " + new Date());		
+		
+		return "funStory.tiles";
+	}
+	
 }

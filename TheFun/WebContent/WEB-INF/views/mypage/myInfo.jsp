@@ -337,7 +337,7 @@ $(document).ready(function(){
 	checkSubmitActivation();
 });
 function checkSubmitActivation(){
-	if('${login.account}' != ''){                                                     
+	if('${login.account}' != 'normal'){                                                     
 		pwdOk=true;
 		newPwdOk = true;
 	}
@@ -353,7 +353,10 @@ function checkSubmitActivation(){
 	}
 }
 
-function myPwdCheck() {			
+function myPwdCheck() {		
+	if($('#myPwd').val() == ""){
+		return;
+	}
 	$.ajax({
 		type:"post",
 		url:"pwdCheck.do",

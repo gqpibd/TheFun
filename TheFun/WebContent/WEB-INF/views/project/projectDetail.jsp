@@ -179,7 +179,8 @@
 	background: #f6f6f6;
 	border-radius: 5px;
 	box-shadow: rgba(0, 0, 0, 0.2) 0 4px 2px -2px;
-	padding: 20px 0 20px 0;
+	padding: 10px 0 5px 0;
+	margin-bottom: 10px;
 }
 
 .author {

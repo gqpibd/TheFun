@@ -218,10 +218,15 @@ public class MemberDto implements Serializable {
 		}
 		return "더펀";
 	}
+
+
+
 	@Override
 	public String toString() {
 		return "MemberDto [id=" + id + ", pwd=" + pwd + ", nickname=" + nickname + ", phone=" + phone + ", email="
 				+ email + ", profile=" + profile + ", info=" + info + ", point=" + point + ", auth=" + auth
-				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress + "]";
+				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
+				+ ", account=" + account + "]";
 	}
+	
 }
