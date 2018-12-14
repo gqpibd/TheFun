@@ -139,17 +139,18 @@
 		<!-- 옵션, 프로젝트 테이블 -->
       <table style="width: 70%">
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
-      <tr id="trpro_${selectOptions[vs.index].seq}">      
-      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
-      	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
+      <tr id="trpro_${selectOptions[vs.index].seq}"> 
+      	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>	<!-- 프로젝트제목 -->
+      	 <input type="hidden" name="projectseq" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
       	</td>
       </tr>
 	  <tr id="tr_${selectOptions[vs.index].seq}">
 			<td class="pupple"align="left" colspan="3">
-				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">
-				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs"> 
-				${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
-				</p><input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
+				<input type="hidden" name="opSeq" value="${selectOptions[vs.index].seq}">  <!-- 옵션시퀀스 hidden -->
+				<input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }">
+				<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs">
+					${selectOptions[vs.index].title} <font size="2px;" color="#656565">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</font>
+				</p>
 			</td>
 		</tr>
 		<tr id="tr2_${selectOptions[vs.index].seq}">
@@ -195,7 +196,7 @@
 			사용할 포인트
 		</td>
 		<td class='liteGray'align="right"  width="60%" colspan="2">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint" value="0"> point
 			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
@@ -441,20 +442,20 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 			}else if(document.getElementById("detailAddress").value==""){
 				alert("상세주소를 입력하여 주십시오");
 			}else{	
-				$("input[name='projectseq']".val()).each(function (i,a) {
-		            alert("플젝시퀀스 : "+a);
+				$("input[name='projectseq']").each(function (i) {
+					alert( i + "번째 플젝시퀀스 : " + $("input[name='projectseq']").eq(i).attr("value") );
 		       	});
-				$("input[name='opSeq']".val()).each(function (i,a) {
-		            alert("옵션시퀀스 : "+a);
+			 	$("input[name='opSeq']").each(function (i) {
+			 		alert( i + "번째 옵션시퀀스 : " + $("input[name='opSeq']").eq(i).attr("value") );
 		       	});
-				$("input[name='opCount']".val()).each(function (i,a) {
-		            alert("카운트 : "+a);
+				$("input[name='opCount']").each(function (i) {
+					alert( i + "번째 옵션카운트 : " + $("input[name='opCount']").eq(i).attr("value") );
 		       	});
-				$("input[name='opPrice']".val()).each(function (i,a) {
-		            alert("가격 : "+a);
-		       	});
-				var po = $("#usePoint");
-				alert("usePoint : "+po);
+				$("input[name='opPrice']").each(function (i) {
+					alert( i + "번째 옵션가격 : " + $("input[name='opPrice']").eq(i).attr("value") );
+		       	}); 
+				
+				alert("내가쓴 포인트 : " + $("#usePoint").val() );
 				
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}

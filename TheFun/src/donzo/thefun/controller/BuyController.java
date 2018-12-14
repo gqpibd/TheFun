@@ -101,10 +101,14 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) {
 		logger.info("BuyController addOrder 메소드 " + new Date());
+		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
 		
-/*		//출력 test
+		newbuy.setName(user.getNickname());
+		newbuy.setId(user.getId());
+		
+		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
 		
@@ -114,7 +118,7 @@ public class BuyController {
 			logger.info("옵션카운트 : "+opCount[i]);
 			logger.info("프로젝트시퀀스 : "+projectseq[i]);
 		}
-		*/
+		
 		
 		//주문 insert
 		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);

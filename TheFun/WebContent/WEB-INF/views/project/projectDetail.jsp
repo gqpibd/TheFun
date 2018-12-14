@@ -275,7 +275,6 @@
 
 		<!-- 프로젝트 타이틀 -->
 		<form id="goAnywhere" action="goOrderReward.do">
-			<input type="hidden" name="projectSeq" value="${projectdto.seq }">
 			<table style="width: 100%;" id="sTable">
 				<tr height="50">
 					<td class="strongGray imgTd" rowspan="5" align="center"><img
