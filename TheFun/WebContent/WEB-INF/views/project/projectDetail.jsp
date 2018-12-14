@@ -314,11 +314,10 @@
 						style="font-size: 20px">${projectdto.buycount}</b>명의 서포터
 				</tr>
 				<tr height="50">
-					<%-- <td> <img class="pnt" id="hartBtn" height="50" src="image/detail/hart_${isLike=='true'?'red':'gray'}.jpg"onclick="heartClick(this)"/><span id="likeCount">${projectdto.likecount}</span> --%>
-					<!-- 하트 버튼 -->
 					<td><i class="fas fa-heart" id="hartBtn" style="transition: auto; font-size: 25px; cursor:pointer; vertical-align: middle; margin-right: 5px; color:${isLike=='true'?'red':'gray'}"
 						onclick="heartClick(this)"></i> 	<!-- 하트 버튼 -->
-						<span id="likeCount">${projectdto.likecount}</span> 명이 좋아합니다</td>
+						<span id="likeCount">${projectdto.likecount}</span> 명이 좋아합니다
+					</td>
 				</tr>
 
 				<c:if test="${projectdto.isOngoing()}">
@@ -344,12 +343,12 @@
 							<td colspan="3"><select style="width: 98%; height: 30px;" id="optionSelect">
 									<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 									<c:forEach items="${optionList }" var="opselect">
-										<c:if test="${option.stock <= option.buycount}">
+										<%-- <c:if test="${option.stock <= option.buycount}">
 											<option id="select_${opselect.seq}" value="${opselect.seq}" disabled="disabled">${opselect.title }</option>
 										</c:if>
-										<c:if test="${option.stock > option.buycount}">
+										<c:if test="${option.stock > option.buycount}"> --%>
 											<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title }</option>
-										</c:if>									
+										<%-- </c:if>	 --%>								
 									</c:forEach>
 							</select></td>
 						</tr>
