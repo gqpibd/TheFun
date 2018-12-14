@@ -136,10 +136,10 @@
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
 
-		<!-- 옵션테이블 -->
+		<!-- 옵션, 프로젝트 테이블 -->
       <table style="width: 70%">
       <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 --> 
-      <tr>      
+      <tr id="trpro_${selectOptions[vs.index].seq}">      
       	<td class="strongGray" colspan="3"><p>${projectdto.title }</p>
       	 <input type="hidden" name="projectseq" value="${projectdto.seq}">
       	</td>
@@ -574,6 +574,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
 					
 					/* 테이블 remove */
+					$("#trpro_"+opSeqNum).remove();
 					ids[i]="tr_"+opSeqNum;	//옵션타이틀 
 					$("#"+ids[i]).remove();		
 					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
