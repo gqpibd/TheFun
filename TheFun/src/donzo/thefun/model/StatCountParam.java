@@ -1,6 +1,8 @@
 package donzo.thefun.model;
 
-public class StatCountParam {
+import java.io.Serializable;
+
+public class StatCountParam implements Serializable {
 
 	private String id;
 	private String status;

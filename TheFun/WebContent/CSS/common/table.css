@@ -85,7 +85,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 900px) {
   .funTable {
     display: block;
   }

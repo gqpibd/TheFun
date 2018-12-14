@@ -143,6 +143,7 @@ input.star:checked ~ .rev-box {
 .funTable tbody tr {
     height: 80px;
 }
+
 </style>
 <link rel="stylesheet" href="CSS/common/table.css"><!-- 위치 바뀌면 제대로 안 들음! -->
 <style type="text/css">
@@ -166,9 +167,15 @@ input.star:checked ~ .rev-box {
   .funTable td.c {
     text-align: left;
   }
-  .table100 {
-  	width: 100%;
-  }
+
+}
+@media screen and (max-width: 700px) {
+	.funTable tbody tr td {
+		padding-left: 40% !important;
+	} 
+	.table100 {
+		width: 100%;
+	}
 }
 </style>
 
@@ -259,7 +266,7 @@ input.star:checked ~ .rev-box {
 	</tr>
 	
 	</c:forEach>
-	<tbody>
+	</tbody>
 
 </table>
 </div>

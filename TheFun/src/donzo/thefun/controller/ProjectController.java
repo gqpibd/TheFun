@@ -30,10 +30,10 @@ import donzo.thefun.model.LikeDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
-import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.pageParam;
+import donzo.thefun.model.pageparam.ProjectParam;
+import donzo.thefun.model.pageparam.pageParam;
 import donzo.thefun.service.AlarmService;
 import donzo.thefun.service.LikeService;
 import donzo.thefun.service.ProjectService;
@@ -110,7 +110,6 @@ public class ProjectController {
 		
 		aParam.setStart(start);
 		aParam.setEnd(end);
-		aParam.setStatus("waiting");
 		
 		List<ProjectDto> pList = projectService.getWaitingPagingList(aParam);
 		int totalRecordCount = projectService.getWaitCount();
@@ -128,14 +127,14 @@ public class ProjectController {
 	// 주문하기 창(결제 및 배송지 정보 입력)으로 이동 
 	@RequestMapping(value="goOrderReward.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String goOrderReward(int[] projectSeq, int[] selectOpSeq, int[] optionCount, Model model, HttpServletRequest req) { //선택된 옵션seq selectOptions 카운트optionCount
-		logger.info("ProjectController goOrderReward 메소드 " + new Date());	
+		logger.info("goOrderReward 메소드 " + new Date());	
 		//출력 test
 		
-		for(int i=0; i<selectOpSeq.length;i++) {
+		/*for(int i=0; i<selectOpSeq.length;i++) {
 			logger.info("옵션시퀀스 : "+selectOpSeq[i]);
 			logger.info("옵션카운트 : "+optionCount[i]);
 			logger.info("프로젝트시퀀스 : "+projectSeq[i]);
-		}
+		}*/
 
 		//프로젝트정보
 		List<ProjectDto> projectdtolist = projectService.getProjectList(projectSeq);

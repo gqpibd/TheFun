@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import donzo.thefun.dao.BuyDao;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
-import donzo.thefun.model.buyParam;
-import donzo.thefun.model.participantParam;
+import donzo.thefun.model.pageparam.buyParam;
+import donzo.thefun.model.pageparam.participantParam;
 
 @Repository
 public class BuyDaoImpl implements BuyDao {

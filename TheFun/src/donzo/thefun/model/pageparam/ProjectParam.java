@@ -1,8 +1,6 @@
-package donzo.thefun.model;
+package donzo.thefun.model.pageparam;
 
-import java.io.Serializable;
-
-public class ProjectParam extends pageParam implements Serializable {
+public class ProjectParam extends pageParam {
 	
 	// --------- search
 	private String s_type;		// reward, donation

@@ -80,85 +80,26 @@
 %>
 
 <!-- <div class="pagination__wrapper"> -->
-  <ul class="pagination">
-
-    <li><button class="prev" title="이전 페이지" onclick="goPage('<%= pageNumber>0?pageNumber-1:0 %>');">&#10094;</button></li>
-
-	<%	for (int i = screenStartPageIndex; i < screenEndPageIndex; i++) {
-			if(i == pageNumber){ // 현재페이지
-			%>
-				<li><button class="active" ><%= i + 1 %></button></li>
-			<%
-			}else{
-				%>
-				<li>
-			      <button onclick="goPage(<%=i%>)"><%= i + 1 %></button>
-			    </li>				
-				<%
-			}
-		}
-		int end_page = 0;
-		
-		if(totalPageCount > 0){
-			end_page = totalPageCount - 1;
-		}
+<ul class="pagination">
+	<li><button class="prev" title="이전 페이지" onclick="goPage('<%= pageNumber>0?pageNumber-1:0 %>');">&#10094;</button></li>
+	<% for (int i = screenStartPageIndex; i < screenEndPageIndex; i++) {
+		if(i == pageNumber){ // 현재페이지
+	%>
+		<li><button class="active" ><%= i + 1 %></button></li>
+	<%}else{%>
+		<li>
+	      <button onclick="goPage(<%=i%>)"><%= i + 1 %></button>
+	    </li>				
+	<%}}%>
+	<%
+	int end_page = 0;
+	if(totalPageCount > 0){
+		end_page = totalPageCount - 1;
+	}
 	%>	
-    <li><button class="next" title="next page" onclick="goPage(<%=pageNumber<end_page?pageNumber+1:end_page%>)">&#10095;</button></li>
-  </ul>
-<!-- </div> -->
-
-<!-- float: left -->
-<%-- <div style="width: 96%; text-align: center;" align="center">
-	<a href="#none" title="처음 페이지" onclick="goPage('0');">
-		<img alt="처음 페이지" src="image/common/angle-double-left-solid.svg" style="width: 11px; height: 11px;">
-	</a>&nbsp;
-		<%
-		// 
-		if(screenStartPageIndex > 1){	// 글의 수가 100개가 넘었을 때 보인다.
-			%>
-			<a href="#none" title="이전 페이지" onclick="goPage('<%= screenStartPageIndex - 1 %>')">
-				<img alt="이전 페이지" src="image/common/angle-left-solid.svg" style="width: 11px; height: 11px;">
-			</a>&nbsp;
-			<%
-		}
-		
-		// 1 [2] 3
-		for (int i = screenStartPageIndex; i < screenEndPageIndex; i++) {
-			if(i == pageNumber){
-				%>
-				<span style="font-size: 14pt; color: #000000; font-weight: bold;">
-					<%= i + 1 %>  <!-- 현재 페이지 -->
-				</span>&nbsp;
-				<%
-			}else{
-				%>
-				<a href="#none" title="<%=i+1%> 페이지" onclick="goPage(<%=i%>);" style="font-size: 14pt; color: #000000; font-weight: normal;">
-					[<%=i+1%>]
-				</a>&nbsp;
-				<%
-			}
-		}
-		if(screenEndPageIndex < totalPageCount){	//[1][2] ~ 9[10] 
-			%>
-			<a href="#none" title="다음 페이지" onclick="goPage(<%=screenEndPageIndex%>)">
-				<img alt="다음 페이지" src="image/common/angle-right-solid.svg" style="width: 11px; height: 11px;">
-			</a>&nbsp;
-			<%
-		}
-		
-		int end_page = 0;
-		
-		if(totalPageCount > 0){
-			end_page = totalPageCount - 1;
-		}
-
-		%>
-		
-	<a href="#none" title="마지막 페이지" onclick="goPage(<%=end_page%>)">
-		<img alt="마지막 페이지" src="image/common/angle-double-right-solid.svg" style="width: 11px; height: 11px;">
-	</a>
-
-</div> --%>
+  <li><button class="next" title="next page" onclick="goPage(<%=pageNumber<end_page?pageNumber+1:end_page%>)">&#10095;</button></li>
+</ul>
+  
 <form id="_frmFormSearch" name="frmForm1" > <!-- method="post" -->
 	<!-- controller로 넘겨주기 위한 값 -->
 	<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
@@ -174,20 +115,14 @@
 	<input type="hidden" name="doc_title" value="${doc_title }">
 	
 	<!-- 참가현황 페이징시 project seq 필요 -->
-	<input type="hidden" name="projectseq_participant" value="${projectseq_participant }" id="_projectseq_participant">
-	<!-- 참가현황 페이징에 펀드 타입 필요 -->
-	<input type="hidden" name="fundtype" value="${fundtype }" id="_fundtype">
+	<input type="hidden" name="projectseq" value="${projectseq}">
 </form>
 
 <script>
 /* 페이지 번호를 클릭했을 때 */
 function goPage(pageNumber) {
-	$("#_pageNumber").val(pageNumber);
-	
-	$("#_projectseq_participant").val($("#_projectseq_participant").val());
-	$("#_fundtype").val($("#_fundtype").val());
-	$("#s_keywordTextField").val($("#s_keywordTextField").val());
-	
+	$("#_pageNumber").val(pageNumber);	
+	$("#s_keywordTextField").val($("#s_keywordTextField").val());	
 	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
 	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();
 }

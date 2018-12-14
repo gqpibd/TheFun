@@ -7,11 +7,11 @@ import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.NoticeDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.model.ProjectDto;
-import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.ProjectmsgDto;
 import donzo.thefun.model.QnaDto;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.pageParam;
+import donzo.thefun.model.pageparam.ProjectParam;
+import donzo.thefun.model.pageparam.pageParam;
     
 public interface ProjectService {
 	

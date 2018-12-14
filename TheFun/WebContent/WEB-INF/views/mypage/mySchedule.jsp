@@ -43,15 +43,18 @@
         	</c:when>
         </c:choose>
         
-        <a class="btnSche btn-more" href="projectDetail.do?seq=${sche.seq}">More</a>    
+        <a class="btnSche btn-more" href="projectDetail.do?seq=${sche.seq}">더보기</a>    
         <!-- 준비 중일 때만 업데이트 버튼 활성화 혹은 보이기? -->
         <c:choose>
         	<c:when test="${sche.isWaiting() or sche.isPreparing() or sche.isRevise()}">
-        		<a class="btnSche btn-update" href="projectUpdate.do?seq=${sche.seq }">Update</a>
-        		<a class="btnSche btn-delete" href="javascript:deleteProject(${sche.seq })">Delete</a>		        	
+        		<a class="btnSche btn-update" href="projectUpdate.do?seq=${sche.seq }">수정</a>
+        		<a class="btnSche btn-delete" href="javascript:deleteProject(${sche.seq })">삭제</a>		        	
         	</c:when>
         	<c:when test="${sche.isReject()}">
-        		<a class="btnSche btn-delete" href="javascript:deleteProject(${sche.seq })">Delete</a>		        	 
+        		<a class="btnSche btn-delete" href="javascript:deleteProject(${sche.seq })">삭제</a>		        	 
+        	</c:when>
+        	<c:when test="${sche.isOngoing() or sche.isDone() }">
+        		<a class="btnSche btn-more" href="participant.do?projectseq=${sche.seq}">참여현황</a>
         	</c:when>
         </c:choose>  
       </div>

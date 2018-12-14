@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.buyParam;
-import donzo.thefun.model.participantParam;
+import donzo.thefun.model.ProjectDto;
+import donzo.thefun.model.pageparam.buyParam;
+import donzo.thefun.model.pageparam.participantParam;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.util.UtilFunctions;
@@ -175,14 +176,11 @@ public class BuyController {
 	
 	/*내가 진행 중인 프로젝트 참여 현황*/
 	@RequestMapping(value="participant.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String participant(Model model, String title, participantParam partiParam) throws Exception {
-		logger.info("ProjectController participant.do 들어옴 " + new Date());
-//		logger.info("들어온 projectSeq_for_participant : " + partiParam.getProjectseq_participant());
+	public String participant(Model model, participantParam partiParam) throws Exception {
+		logger.info("participant.do 들어옴 " + new Date());
 		logger.info("partiParam : " + partiParam.toString());
 		
 		partiParam.setRecordCountPerPage(10);
-		partiParam.setProjectseq_participant(partiParam.getProjectseq_participant());
-		partiParam.setFundtype(partiParam.getFundtype());
 		
 		// paging 처리 
 		int sn = partiParam.getPageNumber();
@@ -207,12 +205,17 @@ public class BuyController {
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", partiParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
+		String fundtype=null;
+		if(participant_List != null && participant_List.get(0).getOtitle() == null) { // 옵션이 없으면 기부
+			fundtype = ProjectDto.TYPE_DONATION;
+		}else {
+			fundtype = ProjectDto.TYPE_REWARD;
+		}
+		model.addAttribute("fundtype", fundtype);
+		model.addAttribute("projectseq", partiParam.getProjectseq());
 		
-		model.addAttribute("title", title);
-		model.addAttribute("fundtype", partiParam.getFundtype());
-		model.addAttribute("projectseq_participant", partiParam.getProjectseq_participant());
-		
-		return "project_participant.tiles";
+		//return "project_participant.tiles";
+		return "participants.tiles";
 	}
 	
 	//주문삭제

@@ -1,8 +1,8 @@
-package donzo.thefun.model;
+package donzo.thefun.model.pageparam;
 
 import java.io.Serializable;
 
-public class buyParam extends pageParam implements Serializable {
+public class buyParam extends pageParam{
 
 	// --------- orderlist
 	private String o_id;				// 프로젝트 작성자 아이디
@@ -23,8 +23,4 @@ public class buyParam extends pageParam implements Serializable {
 	public String toString() {
 		return "buyParam [o_id=" + o_id + "]";
 	}
-
-		
-		
-	
 }

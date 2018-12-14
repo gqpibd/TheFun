@@ -61,7 +61,7 @@
 <link rel="stylesheet" href="CSS/common/table.css">
 
 <style type="text/css">
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 900px) {
   .funTable tbody tr td:nth-child(1):before {
      content: "펀드 타입";
   }

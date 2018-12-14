@@ -71,6 +71,8 @@ SELECT B.SEQ, B.ID, B.PROJECTSEQ, B.OPTIONSEQ, B.COUNT, B.REGDATE, B.SCORE, B.BC
 FROM FUN_BUY B;
 */
 
+import donzo.thefun.util.UtilFunctions;
+
 public class BuyDto implements Serializable {		
 	
 	public static final String FINISH = "finish";// status 배송 완료, 기부 완료
@@ -300,6 +302,10 @@ public class BuyDto implements Serializable {
 			date = datetime.substring(0, datetime.lastIndexOf(' '));
 		}
 		return date;
+	}
+	
+	public String getDateKr() {
+		return UtilFunctions.getDateFormKorean(regdate);
 	}
 	
 	//제목이 길때 뒤에 ... 해주는 거

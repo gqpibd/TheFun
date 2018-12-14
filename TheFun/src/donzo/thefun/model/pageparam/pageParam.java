@@ -1,23 +1,14 @@
-package donzo.thefun.model;
+package donzo.thefun.model.pageparam;
 
 import java.io.Serializable;
 
 public class pageParam implements Serializable{
 
-	private String status;
-	
-	
-	// --------- paging
-//	private int recordCountPerPage = 8; 	// 한 페이지에 표현할 글 수
-//	private int pageNumber = 0;				// 페이지 넘버
-//	
-//	private int start = 1;
-//	private int end = 8;
+	//private String status;
 	
 	private int recordCountPerPage; 	// 한 페이지에 표현할 글 수
-	private int pageNumber = 0;				// 페이지 넘버
+	private int pageNumber = 0;			// 페이지 넘버
 	
-
 	private int start = 1;
 	private int end;
 		
@@ -62,20 +53,19 @@ public class pageParam implements Serializable{
 	public void setEnd(int end) {
 		this.end = end;
 	}
+
+	@Override
+	public String toString() {
+		return "pageParam [recordCountPerPage=" + recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start
+				+ ", end=" + end + "]";
+	}
 	
-	public String getStatus() {
+	/*public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		return "pageParam [" + (status != null ? "status=" + status + ", " : "") + "recordCountPerPage="
-				+ recordCountPerPage + ", pageNumber=" + pageNumber + ", start=" + start + ", end=" + end + "]";
-	}
-	
+	}*/
 	
 }

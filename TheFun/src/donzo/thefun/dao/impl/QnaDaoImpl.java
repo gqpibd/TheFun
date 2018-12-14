@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.QnaDao;
 import donzo.thefun.model.ProjectDto;
-import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.QnaDto;
+import donzo.thefun.model.pageparam.ProjectParam;
 
 @Repository
 public class QnaDaoImpl implements QnaDao {

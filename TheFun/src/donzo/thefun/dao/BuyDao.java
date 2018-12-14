@@ -5,8 +5,8 @@ import java.util.List;
 
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
-import donzo.thefun.model.buyParam;
-import donzo.thefun.model.participantParam;
+import donzo.thefun.model.pageparam.buyParam;
+import donzo.thefun.model.pageparam.participantParam;
 
 public interface BuyDao {
 

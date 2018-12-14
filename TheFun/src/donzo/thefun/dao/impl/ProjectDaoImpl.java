@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import donzo.thefun.dao.ProjectDao;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
-import donzo.thefun.model.ProjectParam;
 import donzo.thefun.model.StatCountParam;
-import donzo.thefun.model.pageParam;
+import donzo.thefun.model.pageparam.ProjectParam;
+import donzo.thefun.model.pageparam.pageParam;
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {

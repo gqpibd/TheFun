@@ -534,6 +534,14 @@ public class ProjectDto implements Serializable {
 			return false;
 	}
 	
+	public boolean isDone() {
+		if(status.equalsIgnoreCase(COMPLETE_FAIL) || status.equalsIgnoreCase(COMPLETE_SUCCESS)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	
 	public int getReviewcount() {
 		return reviewcount;
