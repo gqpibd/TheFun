@@ -82,41 +82,65 @@
       <br>
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
-      	<hr width="70%" color="#424242">
-      	<table style="width: 70%">
+      	<!-- <hr width="70%" color="#424242"> -->
+      	<table style="width: 70%; margin-bottom: 20px;">
 	      	<tr height="50px;">
-	      		<td align="center" width="70%">
-	      			 기부금액  <input class="pupple" type="text" id="amount" name="opPrice" size="10" style="text-align: right;" placeholder="0">원 
+	      		<td rowspan="2" align="center" width="70%"  style="border-width: 1px 1px 1px 0; border-style: solid; border-color: #8152f0;">
+	      			 기부금액  <input class="pupple" type="text" id="amount" name="price" style="text-align: right;width: 120px; margin:5px; " placeholder="0">원 
 	      		</td>
-	      		<td width="30%"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
+	      		<td class='liteGray' align="center" width="40%" style="border-top: 1px solid #8152f0; background: #8152f02b; color: mediumblue;">
+	      			<span style="font-weight: bold;"id="usablePoint">${login.point }</span>&nbsp;포인트 사용 가능
+	      		</td>	
+	    	</tr>
+	    	<tr>
+	    		<td class='liteGray' align="center" style="padding-top: 20px;padding-bottom: 20px;border-bottom: 1px solid #8152f0;">포인트 사용
+					<input type="text" class="underline liteGray" size="8" name="usepoint" id="usepoint" placeholder="0">&nbsp;
+					point
+				</td>
+	    	</tr>
+	    	<tr>
+	    		<td colspan="2"><strong style="color: #5c5c5c; size: 5px;" >결제수수료 없이 100% 기부</strong> <br> 
 	      		<font class="liteGray" size="2px;">결제하신 금액은 기부시 별도 수수료 없이 <strong style="color: #8152f0">단체로 100% 기부</strong>됩니다.</font></td>
 	    	</tr>
 			<tr>
-				<td colspan="3" style="border-bottom: 1pt dashed #424242;"></td>
+				<td colspan="2" style="border-bottom: 1pt dashed #424242;"></td>
 			</tr>
-			<tr style="padding: 20px;">
-				<td class='liteGray' align="left" width="10%"
-					style="padding-top: 20px;">보유 포인트</td>				
-				<td class='liteGray' align="left" width="60%"
-					style="padding-top: 20px;"><input type="text"
-					readonly="readonly" value="${login.point }"
-					class="underline liteGray" size="10" id="usablePoint">
-					point</td>
+			<tr><td colspan="2" align="right"><button type="button" class="fun_btn" id="pointBtn">적용</button></td></tr>
+			<tr>
+				<td class="pupple" align="left" style="padding-top: 20px;">총 금액</td>
+				<td class="pupple" align="right" style="padding-top: 20px;">
+					<span id='totalPrice' class='Fee pupple' style='text-align: right;'>0</span>원
+				</td>
 			</tr>
 			<tr>
-				<td class='liteGray' align="left" width="10%">사용할 포인트</td>				
-				<td class='liteGray' align="left" width="60%"><input
-					type="text" class="liteGray underline" size="10" placeholder="0"
-					id="usePoint" name="usePoint" value="0"> point
-					<button type="button" id="pointBtn">적용</button></td>
+				<td class="pupple" align="left" style="padding-top: 20px;">포인트 사용</td>
+				<td class="pupple" align="right" style="padding-top: 20px;"> 
+					<span id='appliedPoint' class='Fee pupple' style='text-align: right;'>0</span>원
+				</td>
 			</tr>
 			<tr>
-				<td colspan="3"></td>
+				<td class="pupple" align="left" style="padding-top: 20px;">결제 금액</td>
+				<td class="pupple" align="right" style="padding-top: 20px;">
+					<span id='finalPrice' class='Fee pupple' style='text-align: right;'>0</span>원
+				</td>
 			</tr>
 		</table>
-
-				
-	<br><br>
+	<script type="text/javascript">
+	$("#pointBtn").click(function(){
+		var usepoint = Number($("#usepoint").val());
+		var donAmount = Number($("#amount").val());
+		
+		if(donAmount < usepoint){
+			alert("기부금액보다 많은 포인트를 사용할 수 없습니다.");
+			return;
+		}else{
+			$("#totalPrice").text(addCommas(donAmount));
+			$("#appliedPoint").text(addCommas(usepoint));
+			$("#finalPrice").text(addCommas(donAmount-usepoint));
+		}
+		
+	})
+	</script>
 	
 	<table style="width: 70%; padding: 20px;" class="td1">
      	<tr>
@@ -151,8 +175,9 @@
      			<input name="phone" id="deliPhone" size="50px;" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
      		</c:if>
      		</td>
-     	</tr>
-     	</table>
+    	</tr>
+		
+     </table>
 </c:if> <!-- 기부 끝 -->
 
 <!-- 리워드일 경우 -->
@@ -243,7 +268,7 @@
 			사용할 포인트
 		</td><td></td>
 		<td class='liteGray'align="left"  width="60%">
-			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usePoint" name="usePoint" value="0"> point
+			<input type="text" class="liteGray underline" size="10" placeholder="0" id="usepoint" name="usepoint" value="0"> point
 			<button type="button" id="pointBtn">적용</button>
 		</td>
 	</tr>
@@ -459,10 +484,59 @@
 		}
 	}
 } */
+function checkPaymentMethod(){
+	if(document.getElementById("card1").value.length<4){
+		alert("첫번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card2").value.length<4){
+		alert("두번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card3").value.length<4){
+		alert("세번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("card4").value.length<4){
+		alert("네번째 카드번호가 4자리수 이하입니다");
+	}else if(document.getElementById("cardPwd").value.length<4){
+		alert("카드 비밀번호 4자리를 입력해 주세요");
+	}else if(document.getElementById("birth").value.length<6){
+		alert("생년월일이 6자리 이하입니다");
+	}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
+		alert("월의 유효기간이 맞지 않습니다");
+	}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
+		alert("년도 유효기간이 맞지 않습니다");
+	}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
+		alert("은행을 선택하여 주십시오");
+	}else{
+		return true;
+	}
+	return false;
+}
 
+function checkSupporterInfo(){
+	if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
+		alert("이름을 입력하여주십시오");
+	}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
+		alert("연락처를 입력하여 주십시오");
+	}else{
+		return true;
+	}
+	return false;
+}
+function checkDeliveryInfo(){
+	if(document.getElementById("postcode").value==null || document.getElementById("postcode").value==""){
+		alert("우편번호를 입력하여 주십시오");
+	}else if(document.getElementById("roadAddress").value==""){
+		alert("주소를 입력하여 주십시오");
+	}else if(document.getElementById("detailAddress").value==""){
+		alert("상세주소를 입력하여 주십시오");
+	}else{
+		return true;
+	}
+	return false;
+}
 function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
-	
+	// 먼저 사용자의 기본 정보 확인
+	if(checkSupporterInfo() == false){
+		return;
+	}
 	//라디오버튼확인 
 	if($('input:radio[id=handPay]').is(':checked')){	//수동결제
 		
@@ -471,42 +545,26 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value=cardNum;
 		
 		//결제 유효성검사
-		if(document.getElementById("card1").value.length<4){
-			alert("첫번째 카드번호가 4자리수 이하입니다");
-		}else if(document.getElementById("card2").value.length<4){
-			alert("두번째 카드번호가 4자리수 이하입니다");
-		}else if(document.getElementById("card3").value.length<4){
-			alert("세번째 카드번호가 4자리수 이하입니다");
-		}else if(document.getElementById("card4").value.length<4){
-			alert("네번째 카드번호가 4자리수 이하입니다");
-		}else if(document.getElementById("cardPwd").value.length<4){
-			alert("카드번호가 4자리 이하입니다");
-		}else if(document.getElementById("birth").value.length<6){
-			alert("생년월일이 6자리 이하입니다");
-		}else if(document.getElementById("validDate1").value>12 || document.getElementById("validDate1").value<1){
-			alert("월의 유효기간이 맞지 않습니다");
-		}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
-			alert("년도 유효기간이 맞지 않습니다");
-		}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
-			alert("이름을 입력하여주십시오");
-		}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
-			alert("연락처를 입력하여 주십시오");
-		}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
-			alert("은행을 선택하여 주십시오");
-		}else if(iswhat=="2"){	//리워드일때
-			if(document.getElementById("postcode").value==null || document.getElementById("postcode").value==""){
-				alert("우편번호를 입력하여 주십시오");
-			}else if(document.getElementById("roadAddress").value==""){
-				alert("주소를 입력하여 주십시오");
-			}else if(document.getElementById("detailAddress").value==""){
-				alert("상세주소를 입력하여 주십시오");
-			}else{			
+		if(iswhat=="1" ){	//기부일때
+			if(Number(removeCommas($("#totalPrice").text()))<100){ // 100원 이하 기부하려고 하는 경우
+				alert("최소 기부금액은 100원 입니다.");
+				return;
+			}else if(Number(removeCommas($("#finalPrice").text()))==0){ // 포인트를 사용해서 실제 결제 금액이 0원인 경우 결제 체크 안 함
+				$("#orderfrm").attr("action","addOrder.do").submit();
+			}else{
+				if(checkPaymentMethod()){
+					$("#orderfrm").attr("action","addOrder.do").submit();
+				}
+			}
+		}else{ // 리워드일 때
+			if($("input[name='checkboxs']:checked").length<1){
+				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
+				return;
+			}
+			if(checkDeliveryInfo() && checkPaymentMethod()){						
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
-		}else if(iswhat=="1"){	//기부일때
-			$("#orderfrm").attr("action","addOrder.do").submit();
-		} 
-		
+		}		
 	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
 		
 		//bankName cardNumber 셋팅
@@ -516,26 +574,13 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		if(iswhat=="2"){	//리워드일때
 			if($("input[name='checkboxs']:checked").length<1){
 				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-			}else if(document.getElementById("deliName").value==null ||document.getElementById("deliName").value==""){
-				alert("이름을 입력하여주십시오");
-			}else if(document.getElementById("deliPhone").value==null ||document.getElementById("deliPhone").value==""){
-				alert("연락처를 입력하여 주십시오");
-			}else if(document.getElementById("postcode").value=""){
-				alert("우편번호를 입력하여 주십시오");
-			}else if(document.getElementById("roadAddress").value==""){
-				alert("주소를 입력하여 주십시오");
-			}else if(document.getElementById("detailAddress").value==""){
-				alert("상세주소를 입력하여 주십시오");
-			}else{
+				return;
+			}
+			if(checkDeliveryInfo()){						
 				requestPay();
 			}
 		}else if(iswhat=="1"){	//기부일때
-			if(document.getElementById("deliPhone").value==""){
-				alert("연락처를 입력하여 주십시오");
-			}else{
-				requestPay();
-			}
-				
+			requestPay();
 		} //기부일때 끝
 	}//간편결제 끝	
 }
@@ -733,19 +778,19 @@ function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
 
 		});
-		$("#usePoint").on("keyup",function(){	//포인트입력 유효성
+		$("#usepoint").on("keyup",function(){	//포인트입력 유효성
 			$(this).val($(this).val().replace(/[^0-9]/g,""));
-			var havePoint=Number($("#usablePoint").val());	//보유 포인트
-			var usePoint = Number($("#usePoint").val());	//입력 포인트
+			var havePoint=Number($("#usablePoint").text());	//보유 포인트
+			var usepoint = Number($("#usepoint").val());	//입력 포인트
 			
 			//보유포인트보다 크게 입력할수없음
-			if(havePoint<=usePoint){
-				$("#usePoint").val(havePoint);
+			if(havePoint<=usepoint){
+				$("#usepoint").val(havePoint);
 			}
 		});
 		$("#pointBtn").on("click",function(){	//포인트사용버튼
-			var usePoint = Number($("#usePoint").val());	//입력 포인트
-			$("#finalPrice").val(tPrice-usePoint);
+			var usepoint = Number($("#usepoint").val());	//입력 포인트
+			$("#finalPrice").val(tPrice-usepoint);
 			
 		});
 	});

@@ -109,19 +109,18 @@ FROM FUN_BUY B;
 	HAVING TO_CHAR(REGDATE,'YYYY-MM-DD HH24:MI:SS') = SUBSTR(#{regdate},0,19) 
 </select>
 
-<!-- add Order -->
+<!-- 리워드 주문 추가 -->
 <insert id="addOrders" parameterType="donzo.thefun.model.BuyDto">
-   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, PRICE, OPTIONSEQ, POSTCODE, ROADADDRESS, DETAILADDRESS, USEPOINT)
+   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, NAME, PHONE, CARDNUMBER, BANKNAME, OPTIONSEQ, POSTCODE, ROADADDRESS, DETAILADDRESS)
    VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},#{count},SYSDATE,#{name},#{phone},#{cardNumber},#{bankName},
-   <choose>
-   <when test="postcode == null"> <!-- 기부인 경우 주소랑 옵션이 없음 -->
-        #{price},null,null,null,null,0
-    </when>
-    <otherwise> <!-- 리워드인 경우 가격을 직접 넣지 않음(대신 뷰에서 계산) -->
-       #{price},#{optionseq},#{postcode},#{roadaddress},#{detailaddress},#{usePoint}
-    </otherwise>
-    </choose>
+          #{optionseq},#{postcode},#{roadaddress},#{detailaddress}
    )
+</insert>
+
+<!-- 기부하기 -->
+<insert id="addDonation" parameterType="donzo.thefun.model.BuyDto">
+   INSERT INTO FUN_BUY (SEQ, ID, PROJECTSEQ, COUNT, REGDATE, PHONE, CARDNUMBER, BANKNAME, PRICE, USEPOINT)
+   VALUES(SEQ_BUY.NEXTVAL,#{id},#{projectseq},1,SYSDATE,#{phone},#{cardNumber},#{bankName},#{price},#{usepoint})
 </insert>
 
 <!-- 후기, 별점 등록 -->

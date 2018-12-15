@@ -132,7 +132,7 @@
 		<div class="container-table100">
 			<table class="funTable" style="border-radius: 0;width: 100%">
 			<c:choose>
-			<c:when test="${fn:length(participant_List) > 0}">
+			<c:when test="${fn:length(participant_List) == 0}">
 		   		<thead>
 					<tr class="table100-head"><th class="column2 c">아직 프로젝트에 참여한 회원이 없습니다</th></tr>
 				</thead>

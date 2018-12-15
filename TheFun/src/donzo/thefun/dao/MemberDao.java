@@ -16,11 +16,14 @@ public interface MemberDao {
 
 	public boolean updateMember(MemberDto mem);
 
-	public boolean addPoint(MemberDto mem);
+	/*public boolean addPoint(MemberDto mem);*/
 
 	//idpw찾기
 	public MemberDto find_idpw(MemberDto dto);
 	
 	//pw변경
 	public boolean change_pw(MemberDto mem);
+
+	// 포인트 사용
+	public void usePoint(MemberDto param);
 } 

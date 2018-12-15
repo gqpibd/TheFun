@@ -1,9 +1,5 @@
 package donzo.thefun.service.impl;
 
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +43,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updateMember(mem);
 	}
 
-	@Override
+	/*@Override
 	public boolean addPoint(MemberDto mem) {
 		return memberDao.addPoint(mem);		
-	}
+	}*/
 
 	@Override
 	public MemberDto find_idpw(MemberDto dto) {
@@ -60,6 +56,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean change_pw(MemberDto mem) {
 		return memberDao.change_pw(mem);
+	}
+
+	@Override
+	public void usePoint(MemberDto user) {
+		memberDao.usePoint(user);
 	}
 
 	

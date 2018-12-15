@@ -106,29 +106,37 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) throws Exception {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
 		
 		newbuy.setName(user.getNickname());
 		newbuy.setId(user.getId());
 		
-/*		//출력 test
+		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
-		
-		for(int i=0; i<opSeq.length;i++) {
-			logger.info("옵션시퀀스 : "+opSeq[i]);
-			logger.info("옵션가격 : "+opPrice[i]);
-			logger.info("옵션카운트 : "+opCount[i]);
-			logger.info("프로젝트시퀀스 : "+projectseq[i]);
-		}
-		*/
-		
 		//주문 insert
-		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
-		
-		//장바구니 delete
+		if(fundtype.equals(ProjectDto.TYPE_DONATION)) { // 기부
+			newbuy.setProjectseq(projectseq[0]);
+			buyService.addDonation(newbuy);
+			if(newbuy.getUsepoint()>0) { // 포인트를 사용한 경우 차감
+				user.setPoint(newbuy.getUsepoint());
+				memberService.usePoint(user);
+				req.getSession().invalidate(); // 변경된 포인트 정보를 세션에 다시 저장
+				req.getSession().setAttribute("login", memberService.getUserInfo(user.getId()));
+			}
+			//logger.info(newbuy.toString());
+		}else { // 리워드		
+			/*for(int i=0; i<opSeq.length;i++) {
+				logger.info("옵션시퀀스 : "+opSeq[i]);
+				logger.info("옵션가격 : "+opPrice[i]);
+				logger.info("옵션카운트 : "+opCount[i]);
+				logger.info("프로젝트시퀀스 : "+projectseq[i]);
+			}*/
+			buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
+			//장바구니 delete
+		}
 		
 		return "redirect:/myOrderList.do";
 	}	

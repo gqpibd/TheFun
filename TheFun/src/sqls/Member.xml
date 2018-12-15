@@ -86,10 +86,10 @@ CREATE TABLE FUN_MEMBER(
 	WHERE ID = #{id}	
 </update>
 
-<!-- 포인트 적립 -->
-<update id="addPoint" parameterType="donzo.thefun.model.MemberDto" >	
+<!-- 포인트 사용 -->
+<update id="usePoint" parameterType="donzo.thefun.model.MemberDto" >	
 	UPDATE FUN_MEMBER
-	SET POINT = NVL(POINT,0) + ${point}
+	SET POINT = NVL(POINT,0) - ${point}
 	WHERE ID = #{id}	
 </update>
 
