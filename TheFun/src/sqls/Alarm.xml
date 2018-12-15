@@ -43,6 +43,14 @@ FROM FUN_ALARM A;
 		</choose>	
 	</insert>
 	
+	<!-- 배송완료, 포인트지급 알람 생성 -->
+	<insert id="addFinishAlarm" parameterType="donzo.thefun.model.AlarmDto">
+		INSERT INTO FUN_ALARM (SEQ, PROJECTSEQ, ID, ATYPE, BUYTYPE, REGDATE, FROMNICKNAME, ACONTENT)
+		VALUES((SELECT NVL(MAX(SEQ),0)+1 FROM FUN_ALARM), ${projectseq}, #{id}, #{atype}, #{buytype}, SYSDATE, 
+			   (SELECT NICKNAME FROM FUN_PROJECTALL WHERE SEQ = ${projectseq}), #{acontent})
+		
+	</insert>
+	
 	<!-- 승인 상태 변화 알람 생성 -->
 	<!-- 관리자 계정은 admin만 있다고 가정함.... -->
 	<insert id="addSubmitStatusAlarm" parameterType="donzo.thefun.model.AlarmDto">

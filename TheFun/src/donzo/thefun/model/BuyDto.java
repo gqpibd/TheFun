@@ -384,6 +384,28 @@ public class BuyDto implements Serializable {
 		this.usePoint = usePoint;
 	}
 
+	public String getStatusKr() {
+		switch (status.toLowerCase()) {
+		case ProjectDto.ONGOING:
+			return "프로젝트 진행중";
+		case ProjectDto.COMPLETE_SUCCESS:
+			if(optionseq == 0) { // 기부
+				return "완료 대기";
+			}else { // 리워드
+				return "배송 대기";
+			}
+		case ProjectDto.COMPLETE_FAIL:
+			return "목표 미달성(결제 취소)";
+		case FINISH:
+			if(optionseq == 0) { // 기부
+				return "기부 완료";
+			}else { // 리워드
+				return "배송 완료";
+			}
+		}
+		return "";
+	}
+	
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ProjectDto.ONGOING)) {
 			return true;

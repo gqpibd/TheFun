@@ -24,7 +24,7 @@
   max-width: calc(100% - 2em);
   margin: 1em auto;
   overflow: hidden;
-  /* width: 800px; */
+  width: 800px;
 }
 
 table {
@@ -105,7 +105,7 @@ table tr:nth-child(2n+1) {
   }
 }
 
-@media screen and (max-width: 687px) {
+@media screen and (max-width: 375px) {
   .header {
     background-color: transparent;
     color: #8152f0;
@@ -163,6 +163,10 @@ table tr:nth-child(2n+1) {
     box-shadow: none;
     overflow: visible;
   }
+  
+  .user_tbody{
+  	display: block;
+  }
 }
 
 </style>
@@ -175,12 +179,14 @@ table tr:nth-child(2n+1) {
 <div class="table-users">
 	<div class="header">MyPage</div>
 	<table border="0px">
-		 <tr>
+	  <tbody class="user_tbody">
+	  <tr>
 	        <th>Picture</th>
 	        <th>Name</th>
 	        <th>Point</th>
          	<th width="230">Comments</th>
       </tr>
+     
       <tr>
          <td><img class="table_img" alt="프로필" src="${login.profile }"></td>
          <td>${login.nickname }</td>
@@ -217,6 +223,7 @@ table tr:nth-child(2n+1) {
 			<td><a href="myChart.do"><button class="btn_MyPage">나의 통계보기</button></a></td>
 			<!-- <td><a href="myCalendar.do"><button class="btn_MyPage">일정보기</button></a></td> -->
 		</tr> --%>
+		</tbody>
 	</table>				
 </div>
 

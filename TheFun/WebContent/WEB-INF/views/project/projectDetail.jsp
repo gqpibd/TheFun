@@ -399,7 +399,7 @@
 					<td class="strongGray sTd" colspan="3">
 						<c:if test="${projectdto.isPreparing()}">
 							<!-- 프로젝트 준비중 -->
-							<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
+							<b style="font-size: 25px">${startDate-nowDate}일후 시작</b>
 						</c:if> 
 						<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
 							<!-- 프로젝트 종료 -->
@@ -411,7 +411,7 @@
 								<b style="font-size: 25px">오늘마감</b>
 							</c:if>
 							<c:if test="${(endDate - nowDate)>0}">
-								<b style="font-size: 25px">${endDate-nowDate+1}일 남음</b>
+								<b style="font-size: 25px">${endDate-nowDate}일 남음</b>
 							</c:if>
 						</c:if>
 					</td>

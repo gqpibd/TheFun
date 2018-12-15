@@ -45,8 +45,8 @@ public class BuyDaoImpl implements BuyDao {
 
 ////////페이징
 	@Override
-	public List<BuyDto> myOrderPageList(buyParam param) {
-		List<BuyDto> blist = sqlSession.selectList(ns + "myOrderPageList", param);
+	public List<BuyDto> orderPageList(buyParam param) {
+		List<BuyDto> blist = sqlSession.selectList(ns + "orderPageList", param);
 		return blist;
 	}
 
@@ -57,8 +57,8 @@ public class BuyDaoImpl implements BuyDao {
 ///////////////	
 
 	@Override
-	public List<BuyDto> myOrderDetail(BuyDto buy) {
-		return sqlSession.selectList(ns+"myOrderDetail",buy);
+	public List<BuyDto> orderDetailList(BuyDto buy) {
+		return sqlSession.selectList(ns+"orderDetailList",buy);
 	}
 
 	// 참여 현황
@@ -81,6 +81,23 @@ public class BuyDaoImpl implements BuyDao {
 	@Override
 	public void deleteOrder(int seq) {
 		sqlSession.delete(ns+"deleteBuy", seq);
+	}
+
+	@Override
+	public boolean finishFunding(int seq) {
+		int n = sqlSession.update(ns+"finishFunding",seq);
+		return (n>0)?true:false;
+	}
+
+	@Override
+	public boolean givePoint(BuyDto buydto) {
+		int n =  sqlSession.update(ns+"givePoint",buydto);
+		return (n>0)?true:false;
+	}
+
+	@Override
+	public BuyDto getBuyDetail(int seq) {
+		return sqlSession.selectOne(ns+"getBuyDetail",seq);
 	}
 	
 }

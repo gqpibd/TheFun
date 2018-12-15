@@ -620,10 +620,10 @@ function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
 					
 					/* 총가격 변환 */
 					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
-					var opPrice = $("#"+priceId).val();  				//현재적힌가격
-					var fiPrice = parseInt($("#finalPrice").val());		//현재 총액
+					var opPrice = parseInt(removeCommas($("#"+priceId).text()));  				//현재적힌가격
+					var fiPrice = parseInt(removeCommas($("#finalPrice").text()));		//현재 총액
 
-					$("#finalPrice").val(fiPrice-opPrice );			//총액재설정
+					$("#finalPrice").text(addCommas(fiPrice-opPrice));			//총액재설정
 					
 					/* 테이블 remove */
 					$("#trpro_"+opSeqNum).remove();

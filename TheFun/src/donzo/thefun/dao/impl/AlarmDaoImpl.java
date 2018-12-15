@@ -47,4 +47,9 @@ public class AlarmDaoImpl implements AlarmDao {
 		int n = sqlSession.insert(ns + "addSubmitStatusAlarm", alarmDto);
 		return n > 0 ? true : false;
 	}
+
+	@Override
+	public void addFinishAlarm(AlarmDto alarmDto) {
+		sqlSession.insert(ns + "addFinishAlarm", alarmDto);		
+	}
 }

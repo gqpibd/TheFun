@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <fmt:requestEncoding value="UTF-8"/>
 
 <style type="text/css">
@@ -101,13 +102,19 @@
 }
 </style>
 
-	<header class="line_header">
+	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
+	${projectDto.title}
 	<p>참여 현황</p>
 	<div align="right"  style="margin-top: 5%;margin-bottom: 3%;">
-	<a href="#none" class="btn btn-primary" style="float: left;">선택한 항목 배송처리</a>
-	<a href="projectDetail.do?seq=${projectseq}" class="btn btn-primary">프로젝트 보러가기</a>
+	<c:if test="${projectDto.isReward()}">
+		<button onclick="finishFunding()" class="btn btn-primary" style="float: left;">선택한 항목 배송처리</button>
+	</c:if>	
+	<c:if test="${projectDto.isReward() eq false}">
+		<button onclick="finishFunding()" class="btn btn-primary" style="float: left;">선택한 항목 완료 처리</button>
+	</c:if>
+	<a href="projectDetail.do?seq=${projectDto.seq}" class="btn btn-primary">프로젝트 보러가기</a>
 	</div>
 	</div>
 	</header>
@@ -118,16 +125,19 @@
 			<span style="float: left;margin-right: 2%;margin-left: 2%;"><input type="checkbox" id="check_All"> 전체 선택 |</span>프로젝트 참여내역 (${totalRecordCount }건)
 		</div>
 	
+   <form id = "finishFunding">
+   <%-- <input type="hidden" name="projectseq" value="${projectDto.seq}"> <!-- 알람생성을 위해 프로젝트 정보전달 -->
+   <input type="hidden" name="isReward" value="${projectDto.isReward()}"> --%>
 	<div align="center">
 		<div class="container-table100">
-		    
 			<table class="funTable" style="border-radius: 0;width: 100%">
-			<c:if test="${empty participant_List }">
+			<c:choose>
+			<c:when test="${fn:length(participant_List) > 0}">
 		   		<thead>
 					<tr class="table100-head"><th class="column2 c">아직 프로젝트에 참여한 회원이 없습니다</th></tr>
 				</thead>
-			</c:if>		
-		    <c:if test="${!empty participant_List }">
+			</c:when>		
+		    <c:otherwise>
 			    <thead>
 					<tr class="table100-head" style="font-weight:bold;background: #343a40">			
 						<th class="column1 c"></th>		
@@ -135,7 +145,7 @@
 						<th class="column3 c">후원일자</th>
 						<th class="column4 c">후원금액(원)</th>
 						<th class="column5 c">상태</th>
-						<c:if test="${fundtype.equals(ProjectDto.TYPE_REWARD)}"><!-- 리워드일 때 -->
+						<c:if test="${projectDto.isReward()}"><!-- 리워드일 때 -->
 							<th class="column6 c">옵션</th>
 						</c:if>
 					</tr>
@@ -143,36 +153,27 @@
 				<tbody class="funTbody">
 			 	<c:forEach items="${participant_List }" var="part_Dto" varStatus="i">
 					<tr>
-						<td class="column1 c"><input type="checkbox" name="check_row"></td>
+						<td class="column1 c">
+							<c:if test="${part_Dto.isComplete_success()}">
+								<input type="checkbox" name="check_finish" value="${part_Dto.seq}">
+							</c:if>
+						</td>
 						<td class="column2 c">${part_Dto.id}</td><!-- 후원자 -->
 						<td class="column3 c">${part_Dto.getDateKr()}</td><!-- 후원일자 -->
 						<td class="column4 c"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/>원 * ${part_Dto.count } 건)</td>
-						<c:choose>
-						<c:when test="${fundtype.equals(ProjectDto.TYPE_REWARD)}"><!-- 리워드일 때 -->
-							<td class="column5 c">
-							<c:choose>
-					   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">배송 완료</c:when>
-						   		<c:otherwise>배송 전</c:otherwise>
-					 		</c:choose>
-							</td>
+						<td class="column5 c">${part_Dto.getStatusKr()}</td> <!-- 상태 -->
+						<c:if test="${projectDto.isReward()}"><!-- 리워드일 때 -->							
 							<td  class="column6 c" style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
-						</c:when>
-						<c:otherwise>
-							<td class="column5 c">
-							<c:choose>
-					   			<c:when test="${part_Dto.status eq BuyDto.FINISH}">결제 완료</c:when>
-						   		<c:otherwise>결제 전</c:otherwise>
-					 		</c:choose>
-					 		</td>
-				 		</c:otherwise>
-				 		</c:choose>
+						</c:if>							
 					</tr>
 				</c:forEach>
 				</tbody>
-		     </c:if>
+		     </c:otherwise>
+		     </c:choose>
 		   </table>
 		</div>
 	</div>
+   </form>
 	<!-- 페이징 처리 -->     
 	<div id="pagination__wrapper" align="center"><!-- flush 는 갱신의 의미 -->
 	  <jsp:include page="/WEB-INF/views/common/paging.jsp" flush="false">
@@ -180,7 +181,7 @@
 	  	  <jsp:param value="${pageCountPerScreen }" name="pageCountPerScreen"/>
 	  	  <jsp:param value="${recordCountPerPage }" name="recordCountPerPage"/>
 	  	  <jsp:param value="${totalRecordCount }" name="totalRecordCount"/>
-	  	  <jsp:param value="${projectseq}" name="projectseq_participant"/>
+	  	  <jsp:param value="${projectDto.seq}" name="projectseq"/>
 	  	  <jsp:param value="participant.do" name="actionPath"/>
 	  </jsp:include>
 	</div>
@@ -194,7 +195,6 @@ $(document).ready(function () {
 		if($("#check_All").prop("checked")) {
 			//해당화면에 전체 checkbox들을 체크해준다
 			$("input[type=checkbox]").prop("checked",true);
-			
 		}
 		// 전체선택 체크박스가 해제된 경우
 		else {
@@ -216,5 +216,32 @@ $(document).ready(function () {
 	});
 	*/
 });
-
+function finishFunding(){
+	var len = $("input:checkbox[name='check_finish']:checked").length;
+	if(len == 0){
+		return;
+	}
+	
+	var formData = $("#finishFunding").serialize(); // 이렇게 하면 폼 데이터를 ajax로 전송 
+	$.ajax({
+		type : "post",
+		url : "finishFunding.do",
+		cache : false,
+		data : formData,
+		success:function(data){	
+			var msg = "기부 완료";
+			if('${isReward}' == 'true'){
+				msg = "배송 완료";
+			}
+			for(i=0;i<len;i++){
+				$("input:checkbox[name='check_finish']:checked").eq(i).css("display","none");
+				//console.log($("input:checkbox[name='check_finish']:checked").eq(i).parents().eq(1).children().eq(4));
+				$("input:checkbox[name='check_finish']:checked").eq(i).parents().eq(1).children().eq(4).text(msg);
+			}
+		},
+		error:function(req, stu, err){
+			alert("통신실패");
+		}
+	}); 	
+}
 </script>
