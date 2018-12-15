@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.pageparam.buyParam;
 import donzo.thefun.model.pageparam.participantParam;
+import donzo.thefun.service.BasketService;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
+import donzo.thefun.service.ProjectService;
 import donzo.thefun.util.UtilFunctions;
 
 
@@ -33,6 +36,13 @@ public class BuyController {
 	 
 	@Autowired
 	BuyService buyService;
+	
+	@Autowired
+	BasketService basketService;
+	
+	
+	@Autowired
+	ProjectService projectService;
 	 
 	@Autowired
 	MemberService memberService;
@@ -61,7 +71,7 @@ public class BuyController {
 		List<BuyDto> orderlist = buyService.myOrderPageList(param);
 		for(int i=0;i<orderlist.size();i++) {
 			BuyDto b = orderlist.get(i);
-			logger.info(b.toString());
+			//logger.info(b.toString());
 			BuyGroupParam gparam = buyService.getBuyGroupInfo(b);
 			//logger.info(gparam.toString());
 			if(gparam.getGroupCount()>1) {
@@ -70,12 +80,12 @@ public class BuyController {
 				b.setPrice(gparam.getTotalprice());
 			}
 		}
-/*		//리스트 확인용
-		for (int i = 0; i < orderlist.size(); i++) {
+		//리스트 확인용
+		/*for (int i = 0; i < orderlist.size(); i++) {
 			BuyDto dto = orderlist.get(i);
 			logger.info("후원내역 리스트 확인 : " + dto.toString());
-		}
-		*/
+		}*/
+		
 		model.addAttribute("pageNumber", sn);
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", param.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
@@ -102,29 +112,51 @@ public class BuyController {
 	
 	//주문완료
 	@RequestMapping(value="addOrder.do", method= {RequestMethod.GET, RequestMethod.POST}) 
-	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) {
+	public String addOrder(String fundtype, BuyDto newbuy, int[] opSeq, int[] opPrice, int[] opCount,int[] projectseq, Model model, HttpServletRequest req) throws Exception {
 		logger.info("BuyController addOrder 메소드 " + new Date());
 		MemberDto user=(MemberDto) req.getSession().getAttribute("login");
 		
 		newbuy.setName(user.getNickname());
 		newbuy.setId(user.getId());
 		
-/*		//출력 test
+		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
-		
-		for(int i=0; i<opSeq.length;i++) {
-			logger.info("옵션시퀀스 : "+opSeq[i]);
-			logger.info("옵션가격 : "+opPrice[i]);
-			logger.info("옵션카운트 : "+opCount[i]);
-			logger.info("프로젝트시퀀스 : "+projectseq[i]);
-		}
-		*/
-		
 		//주문 insert
-		buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
-		
-		//장바구니 delete
+		if(fundtype.equals(ProjectDto.TYPE_DONATION)) { // 기부
+			newbuy.setProjectseq(projectseq[0]);
+			buyService.addDonation(newbuy);
+			if(newbuy.getUsepoint()>0) { // 포인트를 사용한 경우 차감
+				user.setPoint(newbuy.getUsepoint());
+				memberService.usePoint(user);
+				req.getSession().invalidate(); // 변경된 포인트 정보를 세션에 다시 저장
+				req.getSession().setAttribute("login", memberService.getUserInfo(user.getId()));
+			}
+			//logger.info(newbuy.toString());
+		}else { // 리워드		
+			/*for(int i=0; i<opSeq.length;i++) {
+				logger.info("옵션시퀀스 : "+opSeq[i]);
+				logger.info("옵션가격 : "+opPrice[i]);
+				logger.info("옵션카운트 : "+opCount[i]);
+				logger.info("프로젝트시퀀스 : "+projectseq[i]);
+			}*/
+			buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
+			
+			//장바구니 delete
+			List<BasketDto> bList = basketService.selectMyBasket(user.getId());
+			
+			for(int i=0;i<opSeq.length;i++) {
+				for(int j=0;j<bList.size();j++) {
+					int oSeq = bList.get(j).getOptionseq();
+					if(oSeq == opSeq[i]) {
+						basketService.deleteBasket(bList.get(j).getSeq());
+						break;
+					}
+				}
+			}
+			
+			
+		}
 		
 		return "redirect:/myOrderList.do";
 	}	
@@ -135,14 +167,14 @@ public class BuyController {
 		logger.info("writeReview" + new Date());
 		
 		buyService.addReview(buydto);
-		MemberDto mem = new MemberDto();
-		mem.setId(buydto.getId());
-		mem.setPoint(point);
-		memberService.addPoint(mem); 
+		//MemberDto mem = new MemberDto();
+		//mem.setId(buydto.getId());
+		//mem.setPoint(point);
+		//memberService.addPoint(mem); 
 		
 		// 변경된 포인트를 바로 확인할 수 있도록 현재 세션에 저장된 로그인 정보를 업데이트 해준다
 		req.getSession().invalidate();
-		req.getSession().setAttribute("login", memberService.getUserInfo(mem.getId()));
+		req.getSession().setAttribute("login", memberService.getUserInfo(buydto.getId()));
 		
 		return "redirect:/myOrderList.do";
 	}
@@ -191,13 +223,17 @@ public class BuyController {
 		partiParam.setEnd(end);
 		
 		List<BuyDto> participant_List = buyService.getParticipantList(partiParam); // 참여자 정보가 필요해서
+		ProjectDto pDto = projectService.getProject(partiParam.getProjectseq()); // 프로젝트에 대한 정보(제목, 타입 필요)
 		
 		model.addAttribute("participant_List", participant_List);
 		
-		for (int i = 0; i < participant_List.size(); i++) {
-			BuyDto dto = participant_List.get(i);
-			logger.info(" 찾아진 list : " + dto.toString());
+		if(participant_List !=null) {
+			for (int i = 0; i < participant_List.size(); i++) {
+				BuyDto dto = participant_List.get(i);
+				logger.info(" 찾아진 list : " + dto.toString());
+			}
 		}
+		
 		
 		int totalRecordCount = buyService.getParticipantCount(partiParam);
 		
@@ -205,23 +241,33 @@ public class BuyController {
 		model.addAttribute("pageCountPerScreen", 10);	// 10개씩 표현한다. 페이지에서 표현할 총 페이지
 		model.addAttribute("recordCountPerPage", partiParam.getRecordCountPerPage());	// 맨끝 페이지의 개수 표현
 		model.addAttribute("totalRecordCount", totalRecordCount);
-		String fundtype=null;
-		if(participant_List != null && participant_List.get(0).getOtitle() == null) { // 옵션이 없으면 기부
-			fundtype = ProjectDto.TYPE_DONATION;
-		}else {
-			fundtype = ProjectDto.TYPE_REWARD;
-		}
-		model.addAttribute("fundtype", fundtype);
-		model.addAttribute("projectseq", partiParam.getProjectseq());
+		
+		model.addAttribute("projectDto", pDto);
+		
+		/*logger.info(participant_List.toString());
+		logger.info(totalRecordCount+"");
+		logger.info(partiParam.getRecordCountPerPage()+"");
+		logger.info(totalRecordCount+"");
+		logger.info(pDto.toString());*/
 		
 		//return "project_participant.tiles";
 		return "participants.tiles";
 	}
 	
+	// 배송처리, 기부완료 처리
+	@ResponseBody
+	@RequestMapping(value="finishFunding.do", method= {RequestMethod.GET, RequestMethod.POST})
+	public String finishFunding(int projectseq, int[] check_finish, boolean isReward) {
+		logger.info("finishFunding " + new Date());
+		//logger.info(Arrays.toString(check_finish));
+		buyService.finishFunding(projectseq,check_finish,isReward);
+		return "success";
+	}
+	
 	//주문삭제
 	@RequestMapping(value="deleteBuy.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String deleteBuy(int seq) throws Exception {
-		logger.info("ProjectController deleteBuy" + new Date());
+		logger.info("deleteBuy" + new Date());
 		buyService.deleteOrder(seq);
 		
 		return "redirect:/myOrderList.do";

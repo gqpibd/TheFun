@@ -87,7 +87,7 @@ FROM FUN_BASKET B;
 <!-- 장바구니 담은 물건 수 가져오기 -->
 <select id="getBasketCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 	SELECT COUNT(*)
-	FROM FUN_BASKET
+	FROM FUN_BASKET 
 	WHERE ID=#{ID}
 </select>
 

@@ -209,7 +209,7 @@ input.star:checked ~ .rev-box {
 	</thead><!-- head -->
 	
 	<tbody class="funTbody">
-	<c:forEach items="${orderlist}" var="order" varStatus="vs">
+	<c:forEach items="${orderlist}" var="order">
 	<tr>
 		<!-- 후원 일자 : 펀딩일 결제일 -->
 		<td class="column1 c">		
@@ -235,7 +235,7 @@ input.star:checked ~ .rev-box {
 		
 		<!-- 총 금액 ( 수량 ) -->
 		<td class="column3 c">
-			<div>총 <fmt:formatNumber value="${order.price}" type="number"/>원</div>
+			<div>총 <fmt:formatNumber value="${order.price*order.count}" type="number"/>원</div>
 			 <div>(${order.count }개)</div>
 		</td>
 		
@@ -245,29 +245,16 @@ input.star:checked ~ .rev-box {
 		<!-- 프로젝트 상태 -->
 		<td class="column5 c">
 			<div>
-				<c:choose>										
-					<c:when test="${order.isOngoing()}">진행 중</c:when>
-					<c:when test="${order.isComplete_success()}">
-						<c:choose>
-							<c:when test="${order.otitle eq null || order.score ne null}">구매 확정</c:when>
-							<c:otherwise>
-								<button type="button" id="latter" onclick="addReview(${order.seq},${order.price * order.count})">후기작성</button>					
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:when test="${order.isComplete_fail()}">목표 미달성</c:when>
-					<c:otherwise> 
-						${order.status} 
-					</c:otherwise>
-				</c:choose>
+				${order.getStatusKr()}
+				<c:if test="${order.otitle ne null and order.isFinished() and order.score == 0}">
+					<button type="button" id="latter" onclick="addReview(${order.seq},${order.price},${order.count},${order.projectseq})">후기작성</button>					
+				</c:if>	
 			 </div>					 	
 		</td>
-		<!-- 뭔가 더 추가할 어떤것 -->
 	</tr>
 	
 	</c:forEach>
 	</tbody>
-
 </table>
 </div>
 </div>
@@ -285,12 +272,16 @@ input.star:checked ~ .rev-box {
 
 
 <script type="text/javascript">
-function addReview(seq,buytotal) { // 후기 작성
+function addReview(seq,price,count,projectseq) { // 후기 작성
 	$("input[name='seq']").val(seq);
-	console.log($("input[name='seq']").val());
-	$("input[name='point']").val(buytotal*0.01);
-	$("#newPoint").text(buytotal*0.01);
-	console.log($("input[name='point']").val());	
+	//console.log($("input[name='seq']").val());
+	
+	$("input[name='price']").val(price);
+	$("input[name='count']").val(count);
+	$("input[name='projectseq']").val(projectseq);
+	
+	$("#newPoint").text(price*count*0.01);
+	//console.log($("input[name='point']").val());	
 	$("#feedbackModal").modal('show');
 }
 
@@ -336,7 +327,10 @@ function checkAndSendReview(){
 	    </div>
 		<div class="cont">
 		<form id="reviewForm" action="writeReview.do" method="post">
-			<input type="hidden" name="point" />
+			<!-- <input type="hidden" name="point" /> -->
+			<input type="hidden" name="price"/> <!-- 가격 (포인트 적립용)-->
+			<input type="hidden" name="count"/> <!-- 수량 (포인트 적립용) -->
+			<input type="hidden" name="projectseq"/> <!-- 알람 생성용 -->
 			<input type="hidden" name="id" value="${login.id}" />
 			<div class="stars">
 			  <input type="hidden" name="seq"> <!-- buydto에 저장을 위한 임시 값 -->

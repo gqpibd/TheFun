@@ -80,6 +80,7 @@ body{
 	padding: 6px 24px;
 	text-decoration: none;
 	text-shadow: 0px 1px 0px #7754d1;
+	outline: none;
 }
 
 .fun_btn:hover {

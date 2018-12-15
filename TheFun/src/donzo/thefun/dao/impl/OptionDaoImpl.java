@@ -40,7 +40,7 @@ public class OptionDaoImpl implements OptionDao {
 	}
 	
 	@Override
-	public OptionDto getSelectOptions(int seq) {	//옵션 seq
+	public OptionDto getOptionDetail(int seq) {	//옵션 seq
 		return sqlSession.selectOne(ns+"selectOptions",seq);
 	}
 	
@@ -56,5 +56,4 @@ public class OptionDaoImpl implements OptionDao {
 	public boolean updateStock(OptionDto opdto) {
 		return sqlSession.update(ns+"updateStock",opdto)>0?true:false;
 	}
-
 }

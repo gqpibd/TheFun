@@ -43,6 +43,7 @@ public class AlarmDto implements Serializable{
 	public static final String ATYPE_END = "end";
 	public static final String ATYPE_PAY = "pay";
 	public static final String ATYPE_DELIVERY = "delivery";
+	public static final String ATYPE_POINT = "point";
 	public static final String ATYPE_NOTICE = "notice";
 	public static final String ATYPE_QNA = "qna";
 	public static final String ATYPE_SUBMISSION = "sumission";
@@ -109,7 +110,10 @@ public class AlarmDto implements Serializable{
 				break;
 			case BTYPE_BUY:
 				message = "내가 펀딩한 ";
-				break;				
+				break;
+			default:
+				break;
+					
 			}
 			switch(atype) {
 			case ATYPE_START:
@@ -126,6 +130,17 @@ public class AlarmDto implements Serializable{
 				break;
 			case ATYPE_DELIVERY:
 				message = "프로젝트의 리워드 배송이 시작되었어요";
+				break;
+			case ATYPE_POINT:
+				message = "프로젝트에 대해 포인트가 지급되었어요<hr><b>";				
+				if(acontent.length() >= 20) {
+					message +=  acontent.substring(0,20) + "...";
+				}else {
+					message +=  acontent;
+				}
+				message += "</b>";
+				break;
+			default:
 				break;
 			}
 		}

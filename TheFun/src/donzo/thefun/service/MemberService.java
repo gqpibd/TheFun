@@ -16,13 +16,15 @@ public interface MemberService {
 
 	public boolean updateMember(MemberDto mem);
 
-	public boolean addPoint(MemberDto mem);
+	/*public boolean addPoint(MemberDto mem);*/
 	
 	//idpw 찾기
 	public MemberDto find_idpw(MemberDto dto);
 	
 	//pw변경
 	public boolean change_pw(MemberDto mem);
+
+	public void usePoint(MemberDto user);
 	
 }
  

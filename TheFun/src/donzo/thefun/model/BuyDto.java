@@ -103,7 +103,7 @@ public class BuyDto implements Serializable {
 	//카드결제정보
 	String cardNumber;
 	String bankName;
-	int usePoint;
+	int usepoint;
 	
 	public BuyDto() {}
 	
@@ -111,7 +111,7 @@ public class BuyDto implements Serializable {
 	public BuyDto(int seq, String id, int projectseq, int optionseq, int count, int price, String regdate, int score,
 			String bcomment, String ptitle, String otitle, String ocontent, String status, String pdate,
 			String shipdate, String name, String phone, String postcode, String roadaddress, String detailaddress,
-			String cardNumber, String bankName, int usePoint) {
+			String cardNumber, String bankName, int usepoint) {
 		super();
 		this.seq = seq;
 		this.id = id;
@@ -135,7 +135,7 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 		this.cardNumber = cardNumber;
 		this.bankName = bankName;
-		this.usePoint=usePoint;
+		this.usepoint=usepoint;
 	}
 	
 	// 새 구매 또는 새 장바구니
@@ -149,7 +149,7 @@ public class BuyDto implements Serializable {
 	//새 구매
 	public BuyDto(String id, int projectseq, int optionseq, int count, int price, String name, String phone,
 			String postcode, String roadaddress, String detailaddress, String cardNumber, String bankName,
-			int usePoint) {
+			int usepoint) {
 		super();
 		this.id = id;
 		this.projectseq = projectseq;
@@ -163,7 +163,7 @@ public class BuyDto implements Serializable {
 		this.detailaddress = detailaddress;
 		this.cardNumber = cardNumber;
 		this.bankName = bankName;
-		this.usePoint = usePoint;
+		this.usepoint = usepoint;
 	}
 
 	//내 후원 상세보기 쿼리문에 넣기위함
@@ -376,14 +376,36 @@ public class BuyDto implements Serializable {
 		this.bankName = bankName;
 	}
 	
-	public int getUsePoint() {
-		return usePoint;
+	public int getUsepoint() {
+		return usepoint;
 	}
 
-	public void setUsePoint(int usePoint) {
-		this.usePoint = usePoint;
+	public void setUsepoint(int usepoint) {
+		this.usepoint = usepoint;
 	}
 
+	public String getStatusKr() {
+		switch (status.toLowerCase()) {
+		case ProjectDto.ONGOING:
+			return "프로젝트 진행중";
+		case ProjectDto.COMPLETE_SUCCESS:
+			if(otitle == null) { // 기부
+				return "완료 대기";
+			}else { // 리워드
+				return "배송 중";
+			}
+		case ProjectDto.COMPLETE_FAIL:
+			return "목표 미달성(결제 취소)";
+		case FINISH:
+			if(otitle == null) { // 기부
+				return "기부 완료";
+			}else { // 리워드
+				return "배송 완료";
+			}
+		}
+		return "";
+	}
+	
 	public boolean isOngoing() {
 		if(status.equalsIgnoreCase(ProjectDto.ONGOING)) {
 			return true;
@@ -425,7 +447,7 @@ public class BuyDto implements Serializable {
 				+ bcomment + ", ptitle=" + ptitle + ", otitle=" + otitle + ", ocontent=" + ocontent + ", status="
 				+ status + ", pdate=" + pdate + ", shipdate=" + shipdate + ", name=" + name + ", phone=" + phone
 				+ ", postcode=" + postcode + ", roadaddress=" + roadaddress + ", detailaddress=" + detailaddress
-				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + ", usePoint=" + usePoint + "]";
+				+ ", cardNumber=" + cardNumber + ", bankName=" + bankName + ", usepoint=" + usepoint + "]";
 	}
 	
 }

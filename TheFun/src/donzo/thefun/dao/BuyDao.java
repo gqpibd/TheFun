@@ -22,13 +22,13 @@ public interface BuyDao {
 	
 		
 ///////페이징		
-	public List<BuyDto> myOrderPageList(buyParam param);
+	public List<BuyDto> orderPageList(buyParam param);
 	
 	public int getOrderCount(buyParam param);
 /////////////	
 	
 	//내가 주문한 건의 디테일
-	public List<BuyDto> myOrderDetail(BuyDto buy);
+	public List<BuyDto> orderDetailList(BuyDto buy);
 	
 	// 참여 현황
 	public List<BuyDto> getParticipantList(participantParam partiParam);
@@ -40,4 +40,14 @@ public interface BuyDao {
 	
 	//주문삭제
 	public void deleteOrder(int seq);
+
+	public boolean finishFunding(int i);
+
+	public boolean givePoint(BuyDto buydto);
+
+	public BuyDto getBuyDetail(int i);
+
+	public void addDonation(BuyDto donation);
+
+	
 }

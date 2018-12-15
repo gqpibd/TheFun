@@ -39,4 +39,10 @@ public interface BuyService {
 	
 	//주문삭제
 	public void deleteOrder(int seq);
+	
+	// 배송완료, 기부완료 처리
+	public void finishFunding(int projectseq, int[] check_finish, boolean isReward);
+
+	// 기부내역 추가
+	public void addDonation(BuyDto newbuy);
 }

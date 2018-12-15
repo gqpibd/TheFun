@@ -10,12 +10,13 @@ public interface OptionDao {
 	//project detail에 쓰일 option들 ( 프로젝트 seq )
 	public List<OptionDto> getOptions(int seq);
 	
-	//주문시 내가 선택한 option들 ( 옵션 seq )
-	public OptionDto getSelectOptions(int seq); 
+	//특정 option에 대한 정보 ( 옵션 seq )
+	public OptionDto getOptionDetail(int seq); 
 	
 	public boolean optionWrite(List<OptionDto> newPotionlist, int projectSeq) throws Exception;
 	
 	public boolean deleteOptions(int seq) throws Exception;
 
 	public boolean updateStock(OptionDto opdto);
+
 }

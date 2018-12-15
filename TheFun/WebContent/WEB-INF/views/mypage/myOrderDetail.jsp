@@ -23,9 +23,7 @@
 
 <div style="padding-left: 10%; padding-top: 20px;">
 <h2>주문상세정보</h2>
-<p>주문일자 : 
-	<fmt:parseDate value="${buydto[0].regdate}" pattern="yyyy-MM-dd HH:mm:ss" var="rDate" />
-	<fmt:formatDate value="${rDate}" pattern="yyyy년MM월dd일"/>
+<p>주문일자 : 	${buydto[0].getDateKr()}
 </p>
 <table style="width: 70%">
 <tr style="border-bottom: 1px solid gray;">
@@ -90,24 +88,26 @@
 	<td style="text-align: left; padding: 10px;"><fmt:formatNumber value="${totalprice}" type="number"/>원</td> 
 </tr>
 
-<c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드일때 -->
+<c:if test="${empty buydto[0].ocontent}">	<!-- 기부일때 -->
 <tr style="border-bottom: 1px solid gray;">	
 	<td style="padding: 10px;">할인금액</td> <!-- 포인트사용 내역 -->
-	<td style="text-align: left;padding: 10px; ">${buydto[0].usePoint} 원</td>
+	<td style="text-align: left;padding: 10px; ">${buydto[0].usepoint} 원</td>
 </tr>
 </c:if>
 
 <tr style="border-bottom: 1px solid gray;">
 	<td style="padding: 10px;padding: 10px; ">결제예정금액</td>
 	<td style="text-align: left;padding: 10px; ">	<!-- 포인트 db생기면 - 포인트 추가 -->
-	<b style="color: #8152f0;"><fmt:formatNumber value="${totalprice-buydto[0].usePoint}" type="number"/>원</b>
+	<b style="color: #8152f0;"><fmt:formatNumber value="${totalprice-buydto[0].usepoint}" type="number"/>원</b>
 	</td>
 </tr>
+<c:if test="${totalprice-buydto[0].usepoint ne 0}">
 <tr style="border-bottom: 1px solid gray;">
 	<td style="padding: 10px;padding: 10px; ">결제예정수단</td>
 	<td  style="padding: 10px;padding: 10px; ">${buydto[0].bankName} 
 	(${fn:substring(buydto[0].cardNumber,0,4) } - ${fn:substring(buydto[0].cardNumber,4,6)}** - **** - **** )</td>
 </tr>
+</c:if>
 </table>
 
 <c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드라면 배송지 표시 -->

@@ -65,7 +65,7 @@ $(document).ready(function () {
 		        $("#table > tbody:last").append(
 						'<tr>'
 						+	'<td>'
-						+	'<h5>회원님이 올리신 펀딩이 하나도 없습니다.</h5>'
+						+	"<h5 style='text-align: center;'>분석 가능한 펀딩 데이터가 없습니다.</h5>"
 						+	'</td>'
 						+ '</tr>');
 		        return;
@@ -276,7 +276,7 @@ $(document).ready(function () {
 		        $("#table > tbody:last").append(
 						'<tr>'
 						+	'<td>'
-						+	'<h5>회원님이 올리신 펀딩이 하나도 없습니다.</h5>'
+						+	"<h5 style='text-align: center;'>분석 가능한 펀딩 데이터가 없습니다.</h5>"
 						+	'</td>'
 						+ '</tr>');
 		        return;
@@ -633,7 +633,7 @@ $(document).ready(function () {
 		        $("#table > tbody:last").append(
 						'<tr>'
 						+	'<td>'
-						+	'<h5>회원님이 올리신 펀딩이 하나도 없습니다.</h5>'
+						+	"<h5 style='text-align: center;'>분석 가능한 펀딩 데이터가 없습니다.</h5>"
 						+	'</td>'
 						+ '</tr>');
 		        return;

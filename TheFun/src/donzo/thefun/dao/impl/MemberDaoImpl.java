@@ -1,14 +1,11 @@
 package donzo.thefun.dao.impl;
 
-import java.util.List;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.MemberDao;
 import donzo.thefun.model.MemberDto;
-import donzo.thefun.model.ProjectDto;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -52,13 +49,13 @@ public class MemberDaoImpl implements MemberDao {
 		return  (n>0)?true:false;
 	}
 
-	@Override
+	/*@Override
 	public boolean addPoint(MemberDto mem) {
 		System.out.println("MemberDaoImpl" + mem.toString());
 		int n = sqlSession.update(ns+"addPoint",mem);
 		System.out.println(n);
 		return  (n>0)?true:false;
-	}
+	}*/
 
 	@Override
 	public MemberDto find_idpw(MemberDto dto) {
@@ -69,6 +66,11 @@ public class MemberDaoImpl implements MemberDao {
 	public boolean change_pw(MemberDto mem) {
 		int n = sqlSession.update(ns+"change_pw",mem);
 		return (n>0)?true:false;
+	}
+
+	@Override
+	public void usePoint(MemberDto param) {
+		sqlSession.update(ns+"usePoint",param);
 	}
 	
 	

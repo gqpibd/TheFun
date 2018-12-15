@@ -18,4 +18,6 @@ public interface AlarmDao {
 
 	public boolean addSubmitStatusAlarm(AlarmDto alarmDto);
 
+	public void addFinishAlarm(AlarmDto alarmDto);
+
 }
