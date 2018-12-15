@@ -148,6 +148,15 @@ public class ProjectController {
 			//선택한 옵션정보 
 			List<OptionDto> optionList = projectService.getSelectOptions(selectOpSeq);
 			model.addAttribute("selectOptions",optionList);
+			// 장바구니에 매진된 물건이나 구매 가능 수량 보다 많게 되어 있는 경우 oprionCount 변경
+			for(int i=0;i<optionList.size();i++) {
+				int leftCount = optionList.get(i).getStock() - optionList.get(i).getBuycount();
+				if(optionList.get(i).getStock() <=0 ) { // 재고 무제한이므로 패스
+					continue;
+				}else if(leftCount < optionCount[i] ) { // if(남은수량<장바구니수량)
+					optionCount[i] = leftCount;
+				}
+			}
 			
 			//선택한 옵션 갯수
 			model.addAttribute("optionCount",optionCount);

@@ -459,7 +459,17 @@
 							<td colspan="3"><select style="width: 98%; height: 30px;" id="optionSelect">
 									<option selected="selected" id="beginS" value="beginS">옵션을 선택해주세요</option>
 									<c:forEach items="${optionList }" var="opselect">
-										<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title}</option>
+										<c:choose>
+										<c:when test="${opselect.stock gt 0 and (opselect.stock-opselect.buycount) le 0}">
+											<option disabled="disabled">${opselect.title} [매진]</option>
+										</c:when>
+										<c:when test="${opselect.stock gt 0 and (opselect.stock-opselect.buycount) gt 0}">
+											<option id="select_${opselect.seq}" value="${opselect.seq}" >${opselect.title} [${opselect.stock-opselect.buycount}개 남음]</option>
+										</c:when>
+										<c:otherwise>
+											<option id="select_${opselect.seq}" value="${opselect.seq}">${opselect.title} [수량 제한 없음]</option>
+										</c:otherwise>										
+										</c:choose>
 									</c:forEach>
 							</select></td>
 						</tr>

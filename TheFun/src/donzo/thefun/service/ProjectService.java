@@ -82,5 +82,7 @@ public interface ProjectService {
 	
 	// 특정 판매자의 성공 or 실패한 프로젝트 리스트
 	public List<ProjectDto> getWinOrLoseList(String id) throws Exception;
+
+	public OptionDto getOptionDetail(int optionseq);
 	
 }

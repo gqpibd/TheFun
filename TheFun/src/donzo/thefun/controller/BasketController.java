@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
+import donzo.thefun.model.OptionDto;
 import donzo.thefun.service.BasketService;
+import donzo.thefun.service.ProjectService;
 
 @Controller
 public class BasketController {
@@ -27,6 +29,9 @@ public class BasketController {
 	 
 	@Autowired
 	BasketService basketService;
+	
+	@Autowired
+	ProjectService projectService; 
 	
 	//장바구니 넣기 addBasket.do
 	@ResponseBody
@@ -55,9 +60,22 @@ public class BasketController {
 		// 내 장바구니 목록(view) 찾아오기(SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, REGDATE, PTITLE, OTITLE, OCONTENT, STATUS, PRICE)
 		List<BasketDto> myBasketList = basketService.selectMyBasket(user.getId());
 		logger.info("찾아온 장바구니 목록 개수 = " + myBasketList.size());
+		
 		for (int i = 0; i < myBasketList.size(); i++) {
 			logger.info("찾아온 장바구니 = " + myBasketList.get(i).toString());
+			OptionDto option = projectService.getOptionDetail(myBasketList.get(i).getOptionseq());
+			int leftCount = option.getStock() - option.getBuycount();
+			if(option.getStock() <= 0 ) { // 제한 수량 무제한인 경우
+				continue;
+			}else if(leftCount <= 0) { // 남은 재고가 없으면 장바구니에서 삭제
+				basketService.deleteBasket(myBasketList.get(i).getSeq());
+				myBasketList.remove(i); // 리스트에서 삭제하고
+				i--; // 이 자리 비니까 다시 체크
+			}else if(leftCount < myBasketList.get(i).getCount() ) { // if(남은수량<장바구니수량)
+				myBasketList.get(i).setCount(leftCount);
+			}
 		}
+		
 		model.addAttribute("myBasket", myBasketList);
 		
 		return "basket.tiles";

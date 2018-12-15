@@ -83,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		//입력된 seq 배열의 길이만큼 loop
 		for(int i=0; i<seq.length;i++) {
-			optionList.add(optionDao.getSelectOptions(seq[i]));
+			optionList.add(optionDao.getOptionDetail(seq[i]));
 		}
 		
 		return optionList;
@@ -237,6 +237,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<ProjectDto> getWinOrLoseList(String id) throws Exception {
 		return projectDao.getWinOrLoseList(id);
+	}
+
+	@Override
+	public OptionDto getOptionDetail(int optionseq) {
+		return optionDao.getOptionDetail(optionseq);
 	}
 	
 }

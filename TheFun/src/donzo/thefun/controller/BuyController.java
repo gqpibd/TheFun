@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import donzo.thefun.model.BasketDto;
 import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.BuyGroupParam;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.ProjectDto;
 import donzo.thefun.model.pageparam.buyParam;
 import donzo.thefun.model.pageparam.participantParam;
+import donzo.thefun.service.BasketService;
 import donzo.thefun.service.BuyService;
 import donzo.thefun.service.MemberService;
 import donzo.thefun.service.ProjectService;
@@ -34,6 +36,10 @@ public class BuyController {
 	 
 	@Autowired
 	BuyService buyService;
+	
+	@Autowired
+	BasketService basketService;
+	
 	
 	@Autowired
 	ProjectService projectService;
@@ -135,7 +141,21 @@ public class BuyController {
 				logger.info("프로젝트시퀀스 : "+projectseq[i]);
 			}*/
 			buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
+			
 			//장바구니 delete
+			List<BasketDto> bList = basketService.selectMyBasket(user.getId());
+			
+			for(int i=0;i<opSeq.length;i++) {
+				for(int j=0;j<bList.size();j++) {
+					int oSeq = bList.get(j).getOptionseq();
+					if(oSeq == opSeq[i]) {
+						basketService.deleteBasket(bList.get(j).getSeq());
+						break;
+					}
+				}
+			}
+			
+			
 		}
 		
 		return "redirect:/myOrderList.do";
