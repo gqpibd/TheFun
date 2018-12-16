@@ -98,7 +98,7 @@ FROM FUN_PROJECT P;
 		PDATE=TO_DATE(#{pdate}, 'yyyy-mm-dd'),
 		SHIPDATE=TO_DATE(#{shipdate}, 'yyyy-mm-dd'),
 		FUNDTYPE=#{fundtype}, CATEGORY=#{category}, TITLE=#{title}, SUMMARY=#{summary}, TAGS=#{tag}, Bank=#{bank}, GOALFUND=#{goalfund},
-		STATUS='waiting'		
+		STATUS='waiting', CONTENT=#{content}		
 	WHERE SEQ=#{seq}
 </update>
 

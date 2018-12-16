@@ -401,7 +401,7 @@ public class ProjectController {
 							Integer.parseInt(op_price[i]), Integer.parseInt(op_stock[i])));
 				}else {
 					logger.info("재고가 없어!!!무제한");
-					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], Integer.parseInt(op_price[i]), 0));
+					newPotionlist.add(new OptionDto(0, op_title[i], op_content[i], Integer.parseInt(op_price[i]), -1));
 				}
 			}
 			// 확인용
@@ -436,8 +436,12 @@ public class ProjectController {
 	@RequestMapping(value="projectDelete.do", method= {RequestMethod.GET, RequestMethod.POST}) 
 	public String projectDelete(HttpServletRequest req, int seq) throws Exception {
 		logger.info("ProjectController projectDelete 들어옴 " + new Date());
-		if(UtilFunctions.getLoginId(req) == projectService.getProject(seq).getId()) { // 혹시 모르니 삭제 전에 로그인 정보를 확인
+		if(UtilFunctions.getLoginId(req).equals(projectService.getProject(seq).getId())) { // 혹시 모르니 삭제 전에 로그인 정보를 확인
+			logger.info("삭제합니다");
 			projectService.deleteProject(seq);
+		}else {
+			logger.info("삭제가 거절됐습니다");
+			logger.info("로그인id 확인 = " +UtilFunctions.getLoginId(req)+ " 디비id 확인 = " + projectService.getProject(seq).getId());
 		}
 		return "redirect:/mySchedule.do";
 	}
