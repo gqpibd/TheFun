@@ -710,7 +710,7 @@ $(document).ready(function() {
 					<tr>
 						<td>
 							<div class="desc projectimg">
-								후원자 분들에게 어떤 선물을 드릴까요?
+								후원자 분들에게 어떤 상품을 드릴까요?
 							</div>
 						</td>
 						<td>
@@ -737,7 +737,7 @@ $(document).ready(function() {
 					    <div class="card-header" id="headion${x}">
 					        <h5 class="mb-0">
 					          	<a data-toggle="collapse" data-parent="#accordion" href="#collapse${x}" 
-					          		id="option${x}" class="changedOption">${x}번째 선물</a>
+					          		id="option${x}" class="changedOption">${x}번째 상품</a>
 					          	<span id="optionChecked${x}" style="float: right;opacity:${x<=fn:length(optionList)?'1':'0'};color:green">✔</span>
 					      	</h5>
 					    </div>
@@ -747,7 +747,7 @@ $(document).ready(function() {
 								<tr>
 									<td colspan="2">
 										<div class="desc projectimg">
-											후원자 분들에게 드릴 선물 내용을 입력해주세요
+											후원자 분들에게 드릴 상품 내용을 입력해주세요
 										</div>
 									</td>
 								</tr>
@@ -786,7 +786,7 @@ $(document).ready(function() {
 										<div class="form-group">
 										  <label for="sel1">보유 수량</label>
 										  <c:choose>
-										  	<c:when test="${x<=fn:length(optionList) and optionList.get(x-1).stock ne 0}">
+										  	<c:when test="${x<=fn:length(optionList) and optionList.get(x-1).stock ne -1}">
 											  <input type="text" class="form-control" id="op_stock${x}" 
 											  	name="op_stock" value="${optionList.get(x-1).stock}" 
 											  	placeholder="재고 제한이 없는 경우 공란으로 비워두세요" 
@@ -925,7 +925,7 @@ $("#btn_submit").click(function () {
 		} else if(fundtype == "reward"){
 			// 적정 목표액 판정용
 			var totalPrice = 0;
-			
+			var unLimited = false;
 			for(var i=0; i<optotal; i++){
 				var op_title = $("input[name='op_title']").eq(i).val();
 				var op_content = $("textarea[name='op_content']").eq(i).val();
@@ -937,21 +937,25 @@ $("#btn_submit").click(function () {
 				console.log(i + "번째 [리워드]~ 제목 = " + op_title + " 내용 = " + op_content + " 가격 = " + op_price + " 재고 = " + op_stock
 						+ " 가격 자리수 = " + op_price.length + " 재고 자리수 = " + op_stock.length);
 				
-				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
-				if(op_stock != null || op_stock != ""){
-					totalPrice = totalPrice + (parseInt(op_price)*parseInt(op_stock));
-				}
 				
 				if(op_title == null || op_title == "" || op_content == null || op_content == "" || op_price == null || op_price == ""){
 					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
 					$("#menu-tab2").click();
-					$("#option"+i).click();
+					$("#option"+(i+1)).click();
 					return;
+				}
+				
+				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+				if(op_stock != null && op_stock != ""){
+					totalPrice += (Number(op_price)*Number(op_stock));
+				}else{
+					unLimited = true;
 				}
 			}
 			console.log("총액 = " +  totalPrice);
+			console.log("unLimited = " +  unLimited);
 			
-			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
+			if(unLimited == true || totalPrice >= goalfund){
 				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
 				formSubmit(bankname, accountNumber);	// form에 submit 실행~
 			} else{

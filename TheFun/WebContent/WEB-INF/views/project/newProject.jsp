@@ -916,7 +916,7 @@ $("#btn_submit").click(function () {
 		
 			// 적정 목표액 판정용
 			var totalPrice = 0;
-		
+			var unLimited = false;
 			for(var i=1; i<=option_total; i++){
 				var op_title = $("#op_title" + i).val();
 				var op_content = $("#op_content" + i).val();
@@ -927,22 +927,24 @@ $("#btn_submit").click(function () {
 			//	alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock
 			//			+ " 가격 자리수 = " + op_price.length + " 수량 자리수 = " + op_stock.length);
 				
-				
-				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
-				if(op_stock != null || op_stock != ""){
-					totalPrice = totalPrice + (op_price*op_stock);
-				}
-				
 				if(op_title == null || op_title == "" || op_content == null || op_content == "" || op_price == null || op_price == ""){
 					alert("미완성 리워드가 남아있습니다. 모든 칸을 기입해주세요.");
 					$("#menu-tab2").click();
 					$("#option"+i).click();
 					return;
 				}
+				
+				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
+				if(op_stock != null && op_stock != ""){
+					totalPrice += (Number(op_price)*Number(op_stock));
+				}else{
+					unLimited = true;
+				}
 			}
 			console.log("총액 = " +  totalPrice);
+			console.log("unLimited = " +  unLimited);
 			
-			if(op_stock == null || op_stock == "" || totalPrice >= goalfund){
+			if(unLimited == true || totalPrice >= goalfund){
 				// 재고가 무제한으로 설정됐거나, 리워드 재고*수량이 목표금액을 넘었을 때(금액 달성에 적합한 리워드 조건을 입력함)
 				formSubmit();	// form에 submit 실행~
 			}else{
