@@ -135,6 +135,7 @@
 <input type="hidden" name="id" value="${login.id}"/>
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <input type="hidden" name="profile" value="${login.profile}">
+<input type="hidden" name="profile" value="${login.account}">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <div class="group" style="width: 100%;" align="center">	
 	<table style="border: 0">
@@ -337,16 +338,19 @@ $(document).ready(function(){
 	checkSubmitActivation();
 });
 function checkSubmitActivation(){
-	if('${login.account}' != 'normal'){                                                     
+	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
+	if('${login.account}' != '' && '${login.account}' != 'normal'){                                                     
 		pwdOk=true;
 		newPwdOk = true;
 	}
 	if(newPwdOk && pwdOk && emailOk && nicknameOk && infoOk && phoneOk){
-	//console.log(newPwdOk + " " + pwdOk + " " + emailOk + " " + nicknameOk + " " + infoOk + " " + phoneOk)
+		//console.log(pwdOk);
+		//console.log("수정 돼!");
 		document.getElementById("submitBtn").disabled = false;
 		document.getElementById("submitBtn").style.background = "#8152f0";
 		document.getElementById("submitBtn").style.cursor =  "pointer";
 	}else{
+		//console.log("수정 안 돼!");
 		document.getElementById("submitBtn").disabled = true;
 		document.getElementById("submitBtn").style.background = "#E2E2E2";
 		document.getElementById("submitBtn").style.cursor =  "default";
@@ -355,6 +359,7 @@ function checkSubmitActivation(){
 
 function myPwdCheck() {		
 	if($('#myPwd').val() == ""){
+		pwdOk = false;
 		return;
 	}
 	$.ajax({
@@ -429,21 +434,6 @@ function detailAddressCheck() {
 	text = text.replace(/[<(+>]/g, '');
 	$("#myDetailAddress").val(text);	
 }
-/* function phoneCheck(){
-	var text = $("#myPhone").val();
-	var regExp = /^\d{3}-\d{3,4}-\d{4}$/;
-	//text = text.replace(/[^0-9]/g, '');
-	//$("#newPhone").val(text);
-	if (!text.match(regExp) && $("#myPhone").val().length != 0) {
-		$("#phoneCheckMessage").text("전화번호 형식:XXX-XXXX-XXXX");
-		phoneOk = false;
-		checkSubmitActivation();
-	}else{
-		$("#phoneCheckMessage").text("");
-		phoneOk = true;
-		checkSubmitActivation();
-	}
-} */
 
 function emailCheck() {
 	var emailVal = $("#myEmail").val();

@@ -153,9 +153,9 @@
 	line-height: 40px;
 }
 /* 옵션 셀렉트 수량 컨텐츠 길이*/
-.selOpContent {
+/* .selOpContent {
 	width: 30%;
-}
+} */
 
 .selOpPrice {
 	width: 10%
@@ -411,7 +411,7 @@
 								<b style="font-size: 25px">오늘마감</b>
 							</c:if>
 							<c:if test="${(endDate - nowDate)>0}">
-								<b style="font-size: 25px">${endDate-nowDate}일 남음</b>
+								<b style="font-size: 25px">${endDate-nowDate+1}일 남음</b>
 							</c:if>
 						</c:if>
 					</td>

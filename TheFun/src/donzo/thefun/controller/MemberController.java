@@ -77,18 +77,15 @@ public class MemberController {
 		//pdsdto.setFilename(fileload.getOriginalFilename());
 		String fname = fileload.getOriginalFilename(); 
 		String fupload = req.getServletContext().getRealPath("/image/profile");
-		
+		mem.setProfile("image/profile/" + mem.getId());
 		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
-			String f = fname;
-			String newFile = FUpUtil.getNewFile(f,mem.getId()); // 파일 이름을 사용자의 아이디로 바꿈
-			//pdsdto.setFilename(newFile);
 			//파일 업로드
 			try {
-				File file = new File(fupload + "/" + newFile);
+				File file = new File(fupload + "/" + mem.getId());
 				logger.info(file.getPath());
 				// 파일 업로드 작업
 				FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
-				mem.setProfile("image/profile/"+newFile);
+				//mem.setProfile("image/profile/"+mem.getId());
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

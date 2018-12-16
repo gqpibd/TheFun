@@ -24,6 +24,24 @@ h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOpt
 tr, td, input{
 	font-size: 17px;
 }
+.fundingBox{
+	box-shadow: 5px 5px 10px 0px #c3c3c380;
+	padding: 0;
+	margin-top: 10px;
+}
+.cardLabel{
+	margin:0;
+}
+
+.accordion{
+	border-top: 5px solid #8152f0;
+	border-radius: 0;
+}
+
+.card{
+	border:0;
+	border-bottom: 1px solid rgba(0,0,0,.125);
+}
 </style>
 
 <script>
@@ -358,30 +376,31 @@ $(document).ready(function() {
 					<td>
 						<div class="desc projectimg">
 								프로젝트의 성격에 맞는 카테고리를 선택해 주세요.<br>
-								Reward는 후원자분들께 드릴 선물 구성을 등록해야 합니다.<br>
-								Donation은 목표금액이 달성되면 후원금 전액을 목표한 곳에 기부해야 합니다.<br>
+								<span style="color:#8152f0">리워드</span>는 후원자분들께 드릴 선물 구성을 등록해야 합니다.<br>
+								<span style="color:#8152f0">기부는</span>은 목표금액이 달성되면 후원금 전액을 목표한 곳에 기부해야 합니다.<br>
 								(프로젝트 성격과 맞지 않는 카테고리를 선택하실 시 후원자가 해당 프로젝트를 찾기 어려워지기에 에디터에 의해 조정권고를 받을 수 있습니다)<br>
 						</div>
 					</td>
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
+						<span>프로젝트 타입</span>      
 						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
-						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked="checked"> Reward (상품)
+						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked="checked"> 리워드
 						</label>
 						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
-						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
+						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> 기부
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-						  <span for="sel1">Project Category(택 1):</span>
+						  <span for="sel1">프로젝트 카테고리(택 1):</span>
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
-						    <option>Food</option>
-							<option>Animal</option>
-							<option>IT</option>
+						    <option value="food">음식</option>
+							<option value="animal">동물</option>
+							<option value="it">IT / 생활</option>
 						  </select>
 						</div>
 					</td>
@@ -429,7 +448,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>
-						<textarea id="summernote" name="content" oninput="summernoteCheck()"></textarea>
+						<textarea id="summernote" name="content"></textarea>
 					</td>
 				</tr>
 			</table>
@@ -749,9 +768,10 @@ $(document).ready(function() {
 
 </div>
 <!-- 전송버튼 -->
+	<div align="center">
 	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
-		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="전송">	
-
+		style="width: 20%; font-family: 'Noto Sans KR', sans-serif; margin-top: 10px;" value="프로젝트 등록">	
+	</div>
 </div>
 </div>
 </form>
@@ -810,10 +830,10 @@ $("#btn_submit").click(function () {
 	var option_total = $("#option_total").val();
 		
 		// 확인용
-	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
-			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
-			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
-			" optionSelected = " + optionSelected + " option_total = " + option_total);
+//	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
+//			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
+//			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 +
+//			" optionSelected = " + optionSelected + " option_total = " + option_total);
 		
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
@@ -904,8 +924,8 @@ $("#btn_submit").click(function () {
 				var op_price = _op_price.replace(/,/gi, "");
 				var _op_stock = $("#op_stock" + i).val();
 				var op_stock = _op_stock.replace(/,/gi, "");
-				alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock
-						+ " 가격 자리수 = " + op_price.length + " 수량 자리수 = " + op_stock.length);
+			//	alert("op_title = " + op_title + " op_content = " + op_content + " op_price = " + op_price + " op_stock = " + op_stock
+			//			+ " 가격 자리수 = " + op_price.length + " 수량 자리수 = " + op_stock.length);
 				
 				
 				// 모든 리워드의 재고와 수량을 곱한 총액을 누적.
@@ -1022,10 +1042,10 @@ $("#fundtype1").click(function () {
 $(":radio").click(function (e) {
 	$("#category option").remove();
 	if($(this).attr("id")== "fundtype1"){	// Food, Animal, IT
-		$("#category").append("<option>Food</option>").append("<option>Animal</option>").append("<option>IT</option>");
+		$("#category").append("<option value='food'>음식</option>").append("<option value='animal'>동물</option>").append("<option value='it'>IT / 생활</option>");
 	}
 	if($(this).attr("id")== "fundtype2"){	// Human, Animal
-		$("#category").append("<option>Human</option>").append("<option>Animal</option>");
+		$("#category").append("<option value='human'>인권</option>").append("<option value='animal'>동물</option>");
 	}
 });
 

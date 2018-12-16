@@ -28,7 +28,7 @@ tr, td, input{
 .fundingBox{
 	box-shadow: 5px 5px 10px 0px #c3c3c380;
 	padding: 0;
-	margin: 30px 0 30px 0;
+	margin-top:10px;
 }
 
 .cardLabel{
@@ -108,12 +108,40 @@ $(document).ready(function() {
 			maxHeight: null,	// 최대 높이값(null은 제한 없음)
 			focus: false,		// 페이지가 열릴때 포커스를 지정함
 			lang : 'ko-KR',
+			onImageUpload: function(files, editor) {
+	       	  	console.log("onImageUpload 업로드 이벤트 발생");
+	           	//for (var i = files.length - 1; i >= 0; i--) {
+	             sendFile(files[0], this);
+	           	//}
+         	},
 			callbacks: {
 				onChange: function() { 
 			 		summernoteCheck(); 
 			 	}
 			}
 		});
+		
+		// 썸머노트 이미지 컨트롤러에 실시간 업로드할 AJAX 함수
+		function sendFile(file, editor) {
+			var form_data = new FormData();
+			form_data.append('summerFile', file);
+			$.ajax({
+				data: form_data,
+				type: "POST",
+				url: 'summernotePhotoUpload.do',
+				enctype: 'multipart/form-data',
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					console.log("받은 데이터 = " + data);
+					$(editor).summernote('editor.insertImage', data);
+					//$('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+					//$(editor).summernote('editor.insertImage', data);
+					$('#summernote').append('<img src="'+data+'" width="480" height="auto"/>');
+				}
+			});
+		}
 		
 		// 이상하게 이 페이지 들어오자마자 프로젝트 스토리가 열려서, 걍 닫아주는용.
 		$("#summernoteTap").click();
@@ -226,7 +254,6 @@ $(document).ready(function() {
 
 <!-- (1) 첫번째 탭 눌렀을 때 -->
 <div id="home" class="tab-pane fade show active" role="tabpanel" aria-labelledby="home-tab">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container fundingBox">
@@ -360,28 +387,29 @@ $(document).ready(function() {
 				</tr>
 				<tr style="margin-top: 10%">
 					<td>
+						<span>프로젝트 타입</span>
 						<label for="fundtype1" class="btn btn-primary btn-block" style="font-size: 1em">
-						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> Reward (상품)
+						  <input type="radio" name="fundtype" id="fundtype1" autocomplete="off" value="reward" checked> 리워드
 						</label>
 						<label for="fundtype2" class="btn btn-primary btn-block" style="font-size: 1em">
-						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> Donation (기부)
+						  <input type="radio" name="fundtype" id="fundtype2" autocomplete="off" value="donation"> 기부
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<div class="form-group">
-						  <span for="sel1">Project Category(택 1):</span>
+						  <span for="sel1">프로젝트 카테고리(택 1):</span>
 						  <select class="form-control" id="category" name="category" style="font-size: 1em; height: 10%">
 						  <c:choose>
 					    	<c:when test="${myProject.fundtype eq 'reward' }">
-					    		<option value="Food">Food</option>
-							    <option value="Animal">Animal</option>
-							    <option value="IT">IT</option>
+					    		<option value="food">음식</option>
+							    <option value="animal">동물</option>
+							    <option value="it">IT / 생활</option>
 					    	</c:when>
 					    	<c:when test="${myProject.fundtype eq 'donation' }">
-							    <option value="Animal">Animal</option>
-							    <option value="Human">Human</option>
+							    <option value="human">인권</option>
+							    <option value="animal">동물</option>
 					    	</c:when>
 						  </c:choose>
 						  </select>
@@ -406,7 +434,6 @@ $(document).ready(function() {
 
 <!-- (2) 두번째 탭 눌렀을 때 -->
 <div id="menu1" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab1">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container fundingBox">
@@ -659,7 +686,6 @@ $(document).ready(function() {
 
 <!-- (3) 세번째 탭 눌렀을 때 -->
 <div id="menu2" class="tab-pane fade" role="tabpanel" aria-labelledby="menu-tab2">
-<br><br><br><br>
 
 <!-- 큰 테두리 -->
 <div class="container fundingBox">
@@ -792,8 +818,10 @@ $(document).ready(function() {
 
 </div>
 <!-- 전송버튼 -->
+<div align="center">
 	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
-		style="font-family: 'Noto Sans KR', sans-serif; margin-left: 1.5%;" value="수정하기">	
+		style="width: 20%; font-family: 'Noto Sans KR', sans-serif; margin-top: 10px;" value="프로젝트 수정">
+</div>	
 </div>
 </div>
 
@@ -851,9 +879,9 @@ $("#btn_submit").click(function () {
 	var date4 = $("#date4").val();
 	var optotal = $("#option_total").val();
 	
-	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
-			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
-			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 + " option_total = " + optotal);
+//	alert("title = " + title + " mainImage = " + mainImage + " fundtype = "+ fundtype + " summary = " + summary + " summernote = " + summernote +
+//			" tag = " + tag + " goalfund = " + goalfund + " bankname = " + bankname + " accountNumber = " + accountNumber +
+//			" date1 = " + date1 + " date2 = " + date2 + " date3 = " + date3 + " date4 = " + date4 + " option_total = " + optotal);
 	
 	// 1. 공통입력사항 공란 판정
 	if(title == null || title == ""){
@@ -939,7 +967,7 @@ $("#btn_submit").click(function () {
 // form에 submit 최종실행 함수!
 function formSubmit(bankname, accountNumber) {
 	// 선택한 은행+계좌번호 가져와
-	alert(bankname + accountNumber);
+//	alert(bankname + accountNumber);
 	// hidden에 bank값 세팅
 	$("#bank").val(bankname + "/" + accountNumber);
 	
@@ -1025,14 +1053,14 @@ $("#fundtype1").click(function () {
 })
 
 // fundtype(기부/리워드) 라디오버튼 클릭 시 category에 select option값도 각각맞게 세팅
-var options = $("#category option");
+//var options = $("#category option");
 $(":radio").click(function (e) {
 	$("#category option").remove();
 	if($(this).attr("id")== "fundtype1"){	// Food, Animal, IT
-		$("#category").append(options[0]).append(options[1]).append(options[2]);
+		$("#category").append("<option value='food'>음식</option>").append("<option value='animal'>동물</option>").append("<option value='it'>IT / 생활</option>");
 	}
 	if($(this).attr("id")== "fundtype2"){	// Human, Animal
-		$("#category").append(options[1]).append(options[3]);
+		$("#category").append("<option value='human'>인권</option>").append("<option value='animal'>동물</option>");
 	}
 });
 // 대표이미지 미리보기
