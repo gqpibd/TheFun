@@ -92,7 +92,7 @@ int month = jcal.getMonth();
 
 %>
 
-<div class="jzdbox1 jzdbasf jzdcal">
+<div class="jzdbox1 jzdbasf jzdcal" style="background: #a78af2 !important;">
 	
 	<div class="jzdcalt"><%=String.format("%d년&nbsp;&nbsp;%d월", year, month) %></div>
 	

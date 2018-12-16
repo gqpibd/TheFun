@@ -6,6 +6,7 @@ public class ProjectParam extends pageParam {
 	private String s_type;		// reward, donation
 	private String s_category; 	// food, it, animal, human
 	private String s_keyword;	// 검색어
+	private String more_s_keyword;	// 상세 검색
 	private String s_summary;	// 요약설명
 	private String s_sort;		// 정렬 구분 1순위 정렬은
 	private String s_asc_desc;	// 오름차순 내림차순
@@ -96,6 +97,16 @@ public class ProjectParam extends pageParam {
 	public void setS_condition(String s_condition) {
 		this.s_condition = s_condition;
 	}
+	
+
+	public String getMore_s_keyword() {
+		return more_s_keyword;
+	}
+
+
+	public void setMore_s_keyword(String more_s_keyword) {
+		this.more_s_keyword = more_s_keyword;
+	}
 
 
 	@Override
@@ -103,11 +114,12 @@ public class ProjectParam extends pageParam {
 		return "ProjectParam [" + (s_type != null ? "s_type=" + s_type + ", " : "")
 				+ (s_category != null ? "s_category=" + s_category + ", " : "")
 				+ (s_keyword != null ? "s_keyword=" + s_keyword + ", " : "")
+				+ (more_s_keyword != null ? "more_s_keyword=" + more_s_keyword + ", " : "")
 				+ (s_summary != null ? "s_summary=" + s_summary + ", " : "")
 				+ (s_sort != null ? "s_sort=" + s_sort + ", " : "")
 				+ (s_asc_desc != null ? "s_asc_desc=" + s_asc_desc + ", " : "")
 				+ (s_complete != null ? "s_complete=" + s_complete + ", " : "")
-				+ (s_condition != null ? "s_condition=" + s_condition + ", " : "") +  "]";
+				+ (s_condition != null ? "s_condition=" + s_condition : "") + "]";
 	}
-	
+
 }

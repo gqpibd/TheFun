@@ -155,10 +155,17 @@ td{
 	
 	<span title="프로젝트 남은 기간">
 	<c:choose>
+<<<<<<< HEAD
 		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate+1}일</strong> 후 시작</c:when>
 		<c:when test="${(endDate - toDayDate)==0}"><font color="red">&nbsp;오늘 마감</font></c:when>
 		<c:when test="${(endDate - toDayDate)>0}"><strong>&nbsp;${endDate-toDayDate+1}일</strong> 남음</c:when>
 		<c:otherwise><strong>&nbsp;종료</strong></c:otherwise>
+=======
+		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate}일</strong> 후 시작</c:when>
+		<c:when test="${(endDate - toDayDate)>1}"><strong>&nbsp;${endDate - toDayDate}일</strong> 남음</c:when>
+		<c:when test="${(endDate - toDayDate)<=1}"><font color="red">&nbsp;오늘 마감</font></c:when>
+		<c:when test="${(endDate - toDayDate)<1}"><strong>&nbsp;종료</strong></c:when>
+>>>>>>> refs/remotes/origin/KSJ_1205
 	</c:choose>
 	</span>
 	</td>

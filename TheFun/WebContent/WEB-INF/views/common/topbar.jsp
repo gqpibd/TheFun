@@ -381,7 +381,7 @@ $(document).ready(function () {
 								<li><a href="searchProjectList.do?doc_title=all">진행 중인 모든 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=regdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=regdateDESC&doc_title=sdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 모든 프로젝트</a></li>
 							</ul>
 						</div>
@@ -405,7 +405,7 @@ $(document).ready(function () {
 								<div class="box">
 									<div class="container-4">
 										<input class="field" type="text" placeholder=" Search..."
-										style="width: 230px" onkeypress="if(event.keyCode==13) {search_Enter(); return false;}"
+										style="width: 230px" onkeypress="var iffocus = $(this).is(':focus');if(iffocus){if(event.keyCode==13) {search_Enter(); return false;}} else{}"
 										name="s_keyword" value="${s_keyword }" id="s_keywordTextField">
 										<!-- <a href="#none" id="search_Btn"><button type="submit" class="icon"><i class="fa fa-search"></i></button></a> -->
 									</div>
@@ -624,14 +624,15 @@ function setBasketCount(){ // 대기중인 프로젝트 갯수
     	$("#search_Btn").click(function () {
 			$("#_pageNumber").val(0);
 			$("#s_keywordTextField").val($("#s_keywordTextField").val());
-			$("#_FormSearch").attr("action","searchProjectList.do").submit();
+			$("#_FormSearch").attr({"action":"searchProjectList.do", "method":"post"}).submit();
 		});
 	});
     
      function search_Enter() {	// 엔터 쳤을 때 검색
+    	 /* alert("search_Enter"); */
      	$("#_pageNumber").val(0);
      	$("#s_keywordTextField").val($("#s_keywordTextField").val());
- 		$("#_FormSearch").attr("action","searchProjectList.do").submit();
+ 		$("#_FormSearch").attr({"action":"searchProjectList.do", "method":"post"}).submit();
  	}
     
 /* dropdown 메뉴 설정 */
