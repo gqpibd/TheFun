@@ -109,7 +109,7 @@
 	<p>참여 현황</p>
 	<div align="right"  style="margin-top: 5%;margin-bottom: 3%;">
 	<c:if test="${projectDto.isReward()}">
-		<button onclick="finishFunding()" class="btn btn-primary" style="float: left;">선택한 항목 배송처리</button>
+		<button onclick="finishFunding()" class="btn btn-primary" style="float: left;">선택한 항목 배송 처리</button>
 	</c:if>	
 	<c:if test="${projectDto.isReward() eq false}">
 		<button onclick="finishFunding()" class="btn btn-primary" style="float: left;">선택한 항목 완료 처리</button>
@@ -160,7 +160,7 @@
 						</td>
 						<td class="column2 c">${part_Dto.id}</td><!-- 후원자 -->
 						<td class="column3 c">${part_Dto.getDateKr()}</td><!-- 후원일자 -->
-						<td class="column4 c"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/> 원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/>원 * ${part_Dto.count } 건)</td>
+						<td class="column4 c"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/>원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/> * ${part_Dto.count })</td>
 						<td class="column5 c">${part_Dto.getStatusKr()}</td> <!-- 상태 -->
 						<c:if test="${projectDto.isReward()}"><!-- 리워드일 때 -->							
 							<td  class="column6 c" style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->

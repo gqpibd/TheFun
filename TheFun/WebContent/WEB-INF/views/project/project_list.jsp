@@ -157,7 +157,7 @@ td{
 	<c:choose>
 		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate}일</strong> 후 시작</c:when>
 		<c:when test="${(endDate - toDayDate)>1}"><strong>&nbsp;${endDate - toDayDate}일</strong> 남음</c:when>
-		<c:when test="${(endDate - toDayDate)==1}"><font color="red">&nbsp;오늘 마감</font></c:when>
+		<c:when test="${(endDate - toDayDate)<=1}"><font color="red">&nbsp;오늘 마감</font></c:when>
 		<c:when test="${(endDate - toDayDate)<1}"><strong>&nbsp;종료</strong></c:when>
 	</c:choose>
 	</span>

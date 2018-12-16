@@ -107,6 +107,7 @@
 	<input type="hidden" name="pageNumber" id="_pageNumber" value="${(empty pageNumber)?0:pageNumber}">
 	<input type="hidden" name="recordCountPerPage" id="_recordCountPerPage" value="${(empty recordCountPerPage) ? 8 : recordCountPerPage}">
 	<input type="hidden" name="s_keyword" value="${s_keyword }">
+	<input type="hidden" name="more_s_keyword" value="${more_s_keyword }" id="_more_s_keyword">
 	<input type="hidden" name="s_type" value="${s_type }">
 	<input type="hidden" name="s_category" value="${s_category }">
 	<input type="hidden" name="s_summary" value="${s_summary }">
@@ -126,7 +127,7 @@ function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);	
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());	
 	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
-	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();
+	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"get"}).submit();
 }
 
 </script>

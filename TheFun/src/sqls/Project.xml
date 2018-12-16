@@ -167,7 +167,10 @@ FROM FUN_PROJECT P;
 		  AND (LOWER(CATEGORY)=LOWER(#{s_category}))
 		  </if>
 		  <if test="s_keyword != ''">
-		  AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+		  AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+	   	  </if>
+	   	  <if test="more_s_keyword != ''">
+	   	  AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{more_s_keyword})||'%')
 	   	  </if>
 	   	  <if test="s_condition != ''">
 		 	 <if test="s_condition == 'reg_seven_date'">
@@ -199,7 +202,10 @@ FROM FUN_PROJECT P;
 	AND (LOWER(CATEGORY)=LOWER(#{s_category}))
 	</if>
 	<if test="s_keyword != ''">
-	AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR CONTENT LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+	AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{s_keyword})||'%')
+   	</if>
+   	<if test="more_s_keyword != ''">
+   	AND (LOWER(NICKNAME) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(FUNDTYPE) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(TITLE) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(TAGS) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(CATEGORY) LIKE '%'||LOWER(#{more_s_keyword})||'%' OR LOWER(SUMMARY) LIKE '%'||LOWER(#{more_s_keyword})||'%')
    	</if>
    	<if test="s_condition != ''">
 		<if test="s_condition == 'reg_seven_date'">

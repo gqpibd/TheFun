@@ -175,6 +175,7 @@ public class ProjectController {
 		if(pParam.getS_type() == null) { pParam.setS_type(""); }
 		if(pParam.getS_category() == null) { pParam.setS_category(""); }
 		if(pParam.getS_keyword() == null) { pParam.setS_keyword(""); }
+		if(pParam.getMore_s_keyword() == null) { pParam.setMore_s_keyword(""); }
 		if(pParam.getS_summary() == null) { pParam.setS_summary(""); }
 		if(pParam.getS_complete() == null) { pParam.setS_complete(""); }
 		if(pParam.getS_condition() == null) { pParam.setS_condition(""); }
@@ -242,6 +243,7 @@ public class ProjectController {
 		model.addAttribute("s_type", pParam.getS_type());
 		model.addAttribute("s_category", pParam.getS_category());
 		model.addAttribute("s_keyword", pParam.getS_keyword());
+		model.addAttribute("more_s_keyword", pParam.getMore_s_keyword());	// 상세 검색
 		model.addAttribute("s_complete", pParam.getS_complete());
 		model.addAttribute("s_condition", pParam.getS_condition());
 		
@@ -510,6 +512,7 @@ public class ProjectController {
 		if(mainParam.getS_type() == null) { mainParam.setS_type(""); }
 		if(mainParam.getS_category() == null) { mainParam.setS_category(""); }
 		if(mainParam.getS_keyword() == null) { mainParam.setS_keyword(""); }
+		if(mainParam.getMore_s_keyword() == null) { mainParam.setMore_s_keyword(""); }
 		if(mainParam.getS_summary() == null) { mainParam.setS_summary(""); }
 		if(mainParam.getS_complete() == null) { mainParam.setS_complete("");}
 		
@@ -653,6 +656,7 @@ public class ProjectController {
 		if(human_Param.getS_type() == null) { human_Param.setS_type(ProjectDto.TYPE_DONATION); }
 		if(human_Param.getS_category() == null) { human_Param.setS_category(ProjectDto.CATEGORY_HUMAN); }
 		if(human_Param.getS_keyword() == null) { human_Param.setS_keyword(""); }
+		if(human_Param.getMore_s_keyword() == null) { human_Param.setMore_s_keyword(""); }
 		if(human_Param.getS_summary() == null) { human_Param.setS_summary(""); }
 		if(human_Param.getS_complete() == null) { human_Param.setS_complete("");}
 		
@@ -680,6 +684,7 @@ public class ProjectController {
 		if(dona_Animal_Param.getS_type() == null) { dona_Animal_Param.setS_type(ProjectDto.TYPE_DONATION); }
 		if(dona_Animal_Param.getS_category() == null) { dona_Animal_Param.setS_category(ProjectDto.CATEGORY_ANIMAL); }
 		if(dona_Animal_Param.getS_keyword() == null) { dona_Animal_Param.setS_keyword(""); }
+		if(dona_Animal_Param.getMore_s_keyword() == null) { dona_Animal_Param.setMore_s_keyword(""); }
 		if(dona_Animal_Param.getS_summary() == null) { dona_Animal_Param.setS_summary(""); }
 		if(dona_Animal_Param.getS_complete() == null) { dona_Animal_Param.setS_complete("");}
 		
@@ -707,6 +712,7 @@ public class ProjectController {
 		if(food_Param.getS_type() == null) { food_Param.setS_type(ProjectDto.TYPE_REWARD); }
 		if(food_Param.getS_category() == null) { food_Param.setS_category(ProjectDto.CATEGORY_FOOD); }
 		if(food_Param.getS_keyword() == null) { food_Param.setS_keyword(""); }
+		if(food_Param.getMore_s_keyword() == null) { food_Param.setMore_s_keyword(""); }
 		if(food_Param.getS_summary() == null) { food_Param.setS_summary(""); }
 		if(food_Param.getS_complete() == null) { food_Param.setS_complete("");}
 		
@@ -734,6 +740,7 @@ public class ProjectController {
 		if(it_Param.getS_type() == null) { it_Param.setS_type(ProjectDto.TYPE_REWARD); }
 		if(it_Param.getS_category() == null) { it_Param.setS_category(ProjectDto.CATEGORY_IT); }
 		if(it_Param.getS_keyword() == null) { it_Param.setS_keyword(""); }
+		if(it_Param.getMore_s_keyword() == null) { it_Param.setMore_s_keyword(""); }
 		if(it_Param.getS_summary() == null) { it_Param.setS_summary(""); }
 		if(it_Param.getS_complete() == null) { it_Param.setS_complete("");}
 		
@@ -761,6 +768,7 @@ public class ProjectController {
 		if(reward_animal_Param.getS_type() == null) { reward_animal_Param.setS_type(ProjectDto.TYPE_REWARD); }
 		if(reward_animal_Param.getS_category() == null) { reward_animal_Param.setS_category(ProjectDto.CATEGORY_ANIMAL); }
 		if(reward_animal_Param.getS_keyword() == null) { reward_animal_Param.setS_keyword(""); }
+		if(reward_animal_Param.getMore_s_keyword() == null) { reward_animal_Param.setMore_s_keyword(""); }
 		if(reward_animal_Param.getS_summary() == null) { reward_animal_Param.setS_summary(""); }
 		if(reward_animal_Param.getS_complete() == null) { reward_animal_Param.setS_complete("");}
 		
