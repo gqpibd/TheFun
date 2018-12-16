@@ -83,7 +83,7 @@
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<!-- <hr width="70%" color="#424242"> -->
-      	<table style="width: 70%; margin-bottom: 20px;">
+      	<table style="width: 80%; margin-bottom: 20px;">
 	      	<tr height="50px;">
 	      		<td rowspan="2" align="center" width="70%"  style="border-width: 1px 1px 1px 0; border-style: solid; border-color: #8152f0;">
 	      			 기부금액  <input class="pupple" type="text" id="amount" name="price" style="text-align: right;width: 120px; margin:5px; " placeholder="0">원 
@@ -138,11 +138,21 @@
 			$("#appliedPoint").text(addCommas(usepoint));
 			$("#finalPrice").text(addCommas(donAmount-usepoint));
 		}
+		if(donAmount > 0 && donAmount == usepoint){
+			$("div[dGroup='divPayInfo']").hide();
+			$("#noPaymentMessage").show();
+		}else{
+			$("div[dGroup='divPayInfo']").show();
+			$("#noPaymentMessage").hide();
+		}
 		
 	})
 	</script>
-	
-	<table style="width: 70%; padding: 20px;" class="td1">
+	<div id="noPaymentMessage" style="display: none; width: 80%; background: #eae2fc; border-top: 1px solid #4500e8; border-bottom: 1px solid #4500e8; padding: 10px; margin-bottom: 10px;">
+		<span>포인트만으로 기부하는 경우 결제정보를 수집하지 않습니다.</span>
+	</div>
+	<div dGroup="divPayInfo">
+	<table style="width: 80%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
      	</tr>
@@ -178,6 +188,7 @@
     	</tr>
 		
      </table>
+     </div>
 </c:if> <!-- 기부 끝 -->
 
 <!-- 리워드일 경우 -->
@@ -379,6 +390,8 @@
 		</ul>
 		</div>
 </c:if>
+
+<div dGroup="divPayInfo">
   <div align="left" style="padding-top:20px; padding-bottom:20px; width: 80%">
 	<img src="image/detail/payinfo.jpg" width="120px;" style="text-align: left;"><br><br>
     <label for="handPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">수동결제</label> 
@@ -453,7 +466,7 @@
 	<br><br>
 <input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
 <input type="hidden" name="id" value="${login.id }">
-
+</div><!-- // dGroup="divPayInfo" -->
 </form>
 
 <!-- 리워드일 경우 -->

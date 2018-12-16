@@ -7,6 +7,7 @@ public class BuyGroupParam implements Serializable{
 	private int groupCount; // 한 번에 구매한 옵션 종류의 수
 	private int totalprice;
 	private int totalcount;
+	private int score; // 후기 등록 한 경우 점수
 	
 	public int getGroupCount() {
 		return groupCount;
@@ -26,9 +27,19 @@ public class BuyGroupParam implements Serializable{
 	public void setTotalcount(int totalcount) {
 		this.totalcount = totalcount;
 	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 	@Override
 	public String toString() {
 		return "BuyGroupParam [groupCount=" + groupCount + ", totalprice=" + totalprice + ", totalcount=" + totalcount
-				+ "]";
+				+ ", score=" + score + "]";
 	}
+
 }

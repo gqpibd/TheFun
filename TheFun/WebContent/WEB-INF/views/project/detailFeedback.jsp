@@ -55,8 +55,8 @@ function setReviewList(){
 				for (i = 0; i < items.length; i++) {
 				  
 			      var tr1 = document.createElement('tr');
-			      var tr1Content = "<td align='left' class='strongGray'><span style='margin-right:10px'> <img src='"+items[i].profile+"' width='10' class='profile re-img' align='middle'>" + 
-			      				  "<b style='font-size:1.5em'>"+ items[i].nickname +"</b></span>";
+			      var tr1Content = "<td align='left' class='strongGray'><span style='margin-right:10px'> <img src='"+items[i].profile+"' class='profile re-img' align='middle'>" + 
+			      				  "<b style='font-size:1.2em'>"+ items[i].nickname +"</b></span>";
 			      for(j=1;j<=5;j++){
 			    	  if(items[i].score >= j){
 			    		  tr1Content+= "<span class='fas fa-star' style='color:#8152f0;font-size:1.2em;'></span>";
@@ -68,10 +68,10 @@ function setReviewList(){
 			      tr1.innerHTML += tr1Content;
 			      
 			      var tr2 = document.createElement('tr');	
-				  tr2.innerHTML = "<td colspan='2' align='left' class='liteGray'><b>"+ items[i].otitle +"</b>&nbsp;"+ items[i].ocontent +"</td>";
+				  tr2.innerHTML = "<td colspan='2' align='left' class='liteGray' style='font-size:small;'><b>"+ items[i].otitle +"</b>&nbsp;"+ items[i].ocontent +"</td>";
 				  
 			      var tr3 = document.createElement('tr');
-			      tr3.innerHTML = "<td colspan='2' align='left' class='strongGray'>"+ items[i].comment + "</td>";
+			      tr3.innerHTML = "<td colspan='2' align='left' class='strongGray' style='padding-top:5px'>"+ items[i].comment + "</td>";
 			      var tr4 = document.createElement('tr');
 			      tr4.innerHTML = "<td colspan='2' align='left' class='liteGray'><font style='font-size:13px'>"+ items[i].date + "</font></td>";
 			      var tr5 = document.createElement('tr');

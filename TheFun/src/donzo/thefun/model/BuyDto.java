@@ -383,6 +383,14 @@ public class BuyDto implements Serializable {
 	public void setUsepoint(int usepoint) {
 		this.usepoint = usepoint;
 	}
+	
+	public boolean isReward() {
+		if(otitle == null) { // 기부
+			return false;
+		}else { // 리워드
+			return true;
+		}
+	}
 
 	public String getStatusKr() {
 		switch (status.toLowerCase()) {

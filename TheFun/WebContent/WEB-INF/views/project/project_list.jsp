@@ -147,17 +147,17 @@ td{
 
 	<!-- 남은날짜계산 -->
 	<jsp:useBean id="toDay" class="java.util.Date"/>
-	<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" var="toDayDate"></fmt:parseNumber>
+	<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}" integerOnly = "true" var="toDayDate"></fmt:parseNumber>
 	<fmt:parseDate value="${dto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
-	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" var="endDate"></fmt:parseNumber>
+	<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly = "true" var="endDate"></fmt:parseNumber>
 	<fmt:parseDate value="${dto.sdate }" var="startDate" pattern="yyyy-MM-dd HH:mm:ss"/>
-	<fmt:parseNumber value="${startDate.time / (1000*60*60*24)}"  var="startDate"></fmt:parseNumber>
-	<fmt:parseNumber value="${endDate - toDayDate+1}" var="dayLeft" integerOnly = "true"  type="number"/><!-- 남은 날짜 -->
+	<fmt:parseNumber value="${startDate.time / (1000*60*60*24)}" integerOnly = "true" var="startDate"></fmt:parseNumber>
+	
 	<span title="프로젝트 남은 기간">
 	<c:choose>
-		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate}일</strong> 후 시작</c:when>
-		<c:when test="${(endDate - toDayDate)<=1}"><font color="red">&nbsp;오늘 마감</font></c:when>
-		<c:when test="${(endDate - toDayDate)>1}"><strong>&nbsp;${dayLeft}일</strong> 남음</c:when>
+		<c:when test="${dto.isPreparing()}"><strong>&nbsp;${startDate - toDayDate+1}일</strong> 후 시작</c:when>
+		<c:when test="${(endDate - toDayDate)==0}"><font color="red">&nbsp;오늘 마감</font></c:when>
+		<c:when test="${(endDate - toDayDate)>0}"><strong>&nbsp;${endDate-toDayDate+1}일</strong> 남음</c:when>
 		<c:otherwise><strong>&nbsp;종료</strong></c:otherwise>
 	</c:choose>
 	</span>

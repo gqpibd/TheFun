@@ -30,10 +30,12 @@
 		<div class="timeline-img"></div>
 
 		<div class="timeline-content">
-        <br><br><h2>${sche.dot3(sche.title) }</h2>
+        <br><br><h2>${sche.dot3(sche.title)} </h2>
         <div class="date"> ${sche.getDateForm(sche.sdate) } ~ ${sche.getDateForm(sche.edate) }</div>
         <div style="text-align: right;">${sche.getStatusKr()}</div>
-        
+	        <c:if test="${!sche.isOnsubmission()}">
+	        	 <div style="text-align: right;"><fmt:formatNumber value="${(sche.fundachived div sche.goalfund * 100) }" type="number" pattern="0.0"/>% 달성</div>
+	        </c:if>
         <div style="text-align: right;">${sche.getFundTypeKr()} : ${sche.getCategoryKr()}</div> 
         <div style="text-align: right;">결제일 : ${sche.getDateForm(sche.pdate)}</div>
         

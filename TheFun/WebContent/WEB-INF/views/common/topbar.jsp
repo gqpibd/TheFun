@@ -65,11 +65,7 @@ window.fbAsyncInit = function() {
 
 .cbp-hrmenu {
 	width: 100%;
-	/* margin-top: 2em; */
 	border-bottom: 4px solid #8152f0;
-	/* padding: 0px; */
-    /* display: inline-flex; */
-    /* background: #8152f0; */
 }
 
 /* general ul style */
@@ -373,7 +369,7 @@ $(document).ready(function () {
 <!-- Navigation 헤더 -->
 
 <div class="main_menu" style="margin-bottom:30px">
-	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;padding: 0px; display: inline-flex;">
+	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;display: inline-flex;">
 		<ul class="navbar-nav" style="margin:0;">
 			<li>
 				<a href="#none">프로젝트 둘러보기</a>

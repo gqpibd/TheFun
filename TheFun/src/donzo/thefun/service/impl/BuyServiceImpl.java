@@ -52,6 +52,7 @@ public class BuyServiceImpl implements BuyService {
 		if(success) {
 			buyDao.givePoint(buydto);
 			int point = (int) Math.round((buydto.getPrice()*buydto.getCount())*0.01);
+			//알람은 포인트 적립됐다고 알려줌
 			alarmDao.addFinishAlarm(new AlarmDto(buydto.getProjectseq(), null, buydto.getId(), AlarmDto.ATYPE_POINT, AlarmDto.BTYPE_BUY, point + "점이 지급되었습니다.") );
 		}
 		return success;

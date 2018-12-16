@@ -54,16 +54,29 @@
 		<c:if test="${buydto[0].optionseq ne 0}">(${buy.count}개)</c:if> 
 	</td>
 	<td style="padding: 10px;">
-		<c:if test="${buy.status eq ProjectDto.ONGOING}">
+		<c:choose>
+		
+		<c:when test="${buy.isOngoing()}">
 			결제대기 <br>
-			<button type="button" onclick="deleteBuy(${buy.seq})">예약취소</button>
-		</c:if>
-		<c:if test="${buy.status eq ProjectDto.COMPLETE_SUCCESS}">
+			<button type="button" class="cancel_btn" onclick="deleteBuy(${buy.seq})">예약취소</button>
+		</c:when>
+		<c:when test="${buy.isComplete_success()}">
 			결제완료
-		</c:if>
-		<c:if test="${buy.status eq ProjectDto.COMPLETE_FAIL}">
+		</c:when>
+		<c:when test="${buy.isComplete_fail()}">
 			결제취소
-		</c:if>
+		</c:when>
+		<c:when test="${buy.isFinished()}">
+			<c:choose>
+			<c:when test="${buy.isReward()}">
+				배송완료	
+			</c:when>
+			<c:otherwise>
+				기부완료
+			</c:otherwise>
+			</c:choose>
+		</c:when>
+		</c:choose>
 	</td>
 </tr>
 </c:forEach>

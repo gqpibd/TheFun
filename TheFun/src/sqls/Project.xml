@@ -217,8 +217,7 @@ FROM FUN_PROJECT P;
 	SELECT * 
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id} AND LOWER(STATUS) != 'delete'
-	ORDER BY SDATE ASC
-	
+	ORDER BY SDATE DESC
 </select>
 
 <!-- 특정 판매자의 진행중,준비중,성공 프로젝트 목록 -->

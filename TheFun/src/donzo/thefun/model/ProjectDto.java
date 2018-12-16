@@ -558,8 +558,8 @@ public class ProjectDto implements Serializable {
 	//제목이 길때 뒤에 ... 해주는 거
 	public String dot3(String msg){
 		String s="";
-		if(msg.length()>=18){
-			s=msg.substring(0,18); 
+		if(msg.length()>=30){
+			s=msg.substring(0,30); 
 			s+="...";
 		}else{
 			s=msg.trim();

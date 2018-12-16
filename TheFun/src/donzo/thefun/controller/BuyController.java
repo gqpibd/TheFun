@@ -74,10 +74,13 @@ public class BuyController {
 			//logger.info(b.toString());
 			BuyGroupParam gparam = buyService.getBuyGroupInfo(b);
 			//logger.info(gparam.toString());
+			b.setCount(gparam.getTotalcount());
+			b.setPrice(gparam.getTotalprice());
 			if(gparam.getGroupCount()>1) {
 				b.setCount(gparam.getTotalcount());
 				b.setOtitle(b.getOtitle() + "외 " + (gparam.getGroupCount()-1));
 				b.setPrice(gparam.getTotalprice());
+				b.setScore(gparam.getScore());
 			}
 		}
 		//리스트 확인용
@@ -163,7 +166,7 @@ public class BuyController {
 	
 	// 후기 등록
 	@RequestMapping(value="writeReview.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String writeReview(BuyDto buydto, int point, HttpServletRequest req) throws Exception {
+	public String writeReview(BuyDto buydto, HttpServletRequest req) throws Exception {
 		logger.info("writeReview" + new Date());
 		
 		buyService.addReview(buydto);

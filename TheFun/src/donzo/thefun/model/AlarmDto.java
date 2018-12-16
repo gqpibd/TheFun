@@ -129,7 +129,7 @@ public class AlarmDto implements Serializable{
 				message += "프로젝트가 성공적으로 끝나 결제되었어요";
 				break;
 			case ATYPE_DELIVERY:
-				message = "프로젝트의 리워드 배송이 시작되었어요";
+				message = "프로젝트의 리워드 배송이 완료되었어요";
 				break;
 			case ATYPE_POINT:
 				message = "프로젝트에 대해 포인트가 지급되었어요<hr><b>";				

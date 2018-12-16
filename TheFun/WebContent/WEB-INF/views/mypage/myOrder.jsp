@@ -89,7 +89,7 @@ input.star:checked ~ .rev-box {
 	height: 125px;
 	overflow: visible;
 }
-
+/* 
 .cancel_btn {
     box-shadow: inset 0px 1px 0px 0px #a9a9a9;
     background: linear-gradient(to bottom, #888888, #6c757d 100%);
@@ -117,7 +117,7 @@ input.star:checked ~ .rev-box {
     font-weight: bold;
     padding: 6px 24px;
     text-decoration: none;
-}
+} */
 
 .column1 {
   width: 200px;
@@ -235,7 +235,7 @@ input.star:checked ~ .rev-box {
 		
 		<!-- 총 금액 ( 수량 ) -->
 		<td class="column3 c">
-			<div>총 <fmt:formatNumber value="${order.price*order.count}" type="number"/>원</div>
+			<div>총 <fmt:formatNumber value="${order.price}" type="number"/>원</div>
 			 <div>(${order.count }개)</div>
 		</td>
 		
@@ -245,9 +245,23 @@ input.star:checked ~ .rev-box {
 		<!-- 프로젝트 상태 -->
 		<td class="column5 c">
 			<div>
-				${order.getStatusKr()}
-				<c:if test="${order.otitle ne null and order.isFinished() and order.score == 0}">
-					<button type="button" id="latter" onclick="addReview(${order.seq},${order.price},${order.count},${order.projectseq})">후기작성</button>					
+				${order.getStatusKr()}<br>
+				<c:if test="${order.otitle ne null and order.isFinished()}">
+					<c:choose>
+					<c:when test="${order.score == 0}">
+						<button type="button" class="fun_btn" id="latter" onclick="addReview(${order.seq},${order.price},${order.count},${order.projectseq})">후기작성</button>
+					</c:when>
+					<c:otherwise>
+					<c:forEach begin="1" end="5" step="1" var="i">
+			    		<c:if test="${order.score >= i}">
+			    			<span class='fas fa-star' style='color:#8152f0;font-size:0.8em;'></span>
+			    		</c:if>
+			    		<c:if test="${order.score < i}">
+							<span class='far fa-star' style='color:#8152f0;font-size:0.8em;'></span>
+			    		</c:if>
+			      	</c:forEach>      
+					</c:otherwise>	
+					</c:choose>				
 				</c:if>	
 			 </div>					 	
 		</td>
@@ -272,7 +286,7 @@ input.star:checked ~ .rev-box {
 
 
 <script type="text/javascript">
-function addReview(seq,price,count,projectseq) { // 후기 작성
+function addReview(seq,price,projectseq) { // 후기 작성
 	$("input[name='seq']").val(seq);
 	//console.log($("input[name='seq']").val());
 	
@@ -280,7 +294,7 @@ function addReview(seq,price,count,projectseq) { // 후기 작성
 	$("input[name='count']").val(count);
 	$("input[name='projectseq']").val(projectseq);
 	
-	$("#newPoint").text(price*count*0.01);
+	$("#newPoint").text(price*0.01);
 	//console.log($("input[name='point']").val());	
 	$("#feedbackModal").modal('show');
 }
@@ -329,7 +343,7 @@ function checkAndSendReview(){
 		<form id="reviewForm" action="writeReview.do" method="post">
 			<!-- <input type="hidden" name="point" /> -->
 			<input type="hidden" name="price"/> <!-- 가격 (포인트 적립용)-->
-			<input type="hidden" name="count"/> <!-- 수량 (포인트 적립용) -->
+			<input type="hidden" name="count" value='1'/> <!-- 수량 (포인트 적립용) -- 총액으로 나오므로 수량은 무조건 1 -->
 			<input type="hidden" name="projectseq"/> <!-- 알람 생성용 -->
 			<input type="hidden" name="id" value="${login.id}" />
 			<div class="stars">
@@ -352,7 +366,7 @@ function checkAndSendReview(){
 		</div>
 		<div style="text-align: center; margin-bottom: 20px;">구매 확정시 적립 포인트: <span id="newPoint" style="font-weight: bold"></span> 점</div> 
 		<div class="modal-footer">
-	        <button type="button" class="cancel_btn" data-dismiss="modal" id="quit">취소</button>
+	        <button type="button" class="cancel_btn" data-dismiss="modal" id="quit">취소</button><br>
 	        <button type="button" class="fun_btn" onclick="checkAndSendReview()">후기 전송</button>	       
 	    </div>
 		</div>

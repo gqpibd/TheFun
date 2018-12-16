@@ -102,7 +102,7 @@ FROM FUN_BUY B;
 
 <!-- 우선은 아이디가 안 맞아서 빼놓음. 수정할 것 -->
 <select id="getBuyGroupInfo"	parameterType="donzo.thefun.model.BuyDto"	resultType="donzo.thefun.model.BuyGroupParam">
-	SELECT COUNT(*) GROUPCOUNT, SUM(PRICE*COUNT) TOTALPRICE, SUM(COUNT) TOTALCOUNT
+	SELECT COUNT(*) GROUPCOUNT, SUM(PRICE*COUNT) TOTALPRICE, SUM(COUNT) TOTALCOUNT, MAX(SCORE) SCORE
 	FROM FUN_BUY_VIEW
 	WHERE STATUS != 'delete'AND PROJECTSEQ = #{projectseq}
 	GROUP BY REGDATE

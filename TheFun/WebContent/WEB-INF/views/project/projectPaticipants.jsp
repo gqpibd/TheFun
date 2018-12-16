@@ -126,8 +126,8 @@
 		</div>
 	
    <form id = "finishFunding">
-   <%-- <input type="hidden" name="projectseq" value="${projectDto.seq}"> <!-- 알람생성을 위해 프로젝트 정보전달 -->
-   <input type="hidden" name="isReward" value="${projectDto.isReward()}"> --%>
+   <input type="hidden" name="projectseq" value="${projectDto.seq}"> <!-- 알람생성을 위해 프로젝트 정보전달 -->
+   <input type="hidden" name="isReward" value="${projectDto.isReward()}">
 	<div align="center">
 		<div class="container-table100">
 			<table class="funTable" style="border-radius: 0;width: 100%">
