@@ -92,6 +92,7 @@ int month = jcal.getMonth();
 
 %>
 
+<div align="center" style="font-weight: bold; font-size: 18px;">프로젝트 진행 일정을 확인해 보세요</div>
 <div class="jzdbox1 jzdbasf jzdcal" style="background: #a78af2 !important;">
 	
 	<div class="jzdcalt"><%=String.format("%d년&nbsp;&nbsp;%d월", year, month) %></div>

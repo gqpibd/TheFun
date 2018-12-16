@@ -86,7 +86,8 @@
       	<table style="width: 80%; margin-bottom: 20px;">
 	      	<tr height="50px;">
 	      		<td rowspan="2" align="center" width="70%"  style="border-width: 1px 1px 1px 0; border-style: solid; border-color: #8152f0;">
-	      			 기부금액  <input class="pupple" type="text" id="amount" name="price" style="text-align: right;width: 120px; margin:5px; " placeholder="0">원 
+	      			 기부금액  <input class="pupple" type="text" id="amount" style="text-align: right;width: 120px; margin:5px; " placeholder="0">원
+	      			 <input type="hidden" name="price"> <!-- 적용 버튼을 누른 뒤의 금액만 전송하도록 하자 -->
 	      		</td>
 	      		<td class='liteGray' align="center" width="40%" style="border-top: 1px solid #8152f0; background: #8152f02b; color: mediumblue;">
 	      			<span style="font-weight: bold;"id="usablePoint">${login.point }</span>&nbsp;포인트 사용 가능
@@ -94,7 +95,8 @@
 	    	</tr>
 	    	<tr>
 	    		<td class='liteGray' align="center" style="padding-top: 20px;padding-bottom: 20px;border-bottom: 1px solid #8152f0;">포인트 사용
-					<input type="text" class="underline liteGray" style="text-align: center;"size="8" name="usepoint" id="usepoint" placeholder="0">&nbsp;
+					<input type="text" class="underline liteGray" style="text-align: center;"size="8" id="usepoint" placeholder="0">&nbsp;
+					<input type="hidden" name="usepoint" > <!-- 적용 버튼을 누른 뒤의 포인트만 전송하도록 하자 -->
 					point
 				</td>
 	    	</tr>
@@ -137,6 +139,9 @@
 			$("#totalPrice").text(addCommas(donAmount));
 			$("#appliedPoint").text(addCommas(usepoint));
 			$("#finalPrice").text(addCommas(donAmount-usepoint));
+			
+			$("input:hidden[name='price']").val(donAmount);
+			$("input:hidden[name='usepoint']").val(usepoint);
 		}
 		if(donAmount > 0 && donAmount == usepoint){
 			$("div[dGroup='divPayInfo']").hide();
@@ -217,11 +222,12 @@
 		</td>
 	</tr>
     <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
-    <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
-    <input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}"> <!-- 옵션 시퀀스 hidden -->
-    <input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }"><!-- 재고(남은수량) -->
     <tr oGroup="tr_${selectOptions[vs.index].seq}"> 
     	<td class="strongGray" colspan="4">
+    		<!-- oGroup밖으로 나가면 삭제할 때 안 지워져서 문제 발생 -->
+		    <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
+		    <input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}"> <!-- 옵션 시퀀스 hidden -->
+		    <input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }"><!-- 재고(남은수량) -->
 	    	<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked>
 				<label for="checkboxs${vs.count}">${projectdto.title}</label>
 			</p>	<!-- 프로젝트제목 -->
@@ -277,11 +283,6 @@
 		
 
 	</c:forEach>
-	<!-- <tr>
-		<td align="right" style="padding-top: 20px;" colspan="4">
-			<img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;">
-		</td>
-	</tr> -->
 	<tr>
 		<td class="pupple"align="left" style="padding-top: 20px;">
 			총 결제 금액
@@ -453,20 +454,20 @@
 	</div>
 	<br><br>
 	<!-- 리워드일경우 -->
-<c:if test="${projectdtoList[0].isReward()}">
-	<div style="width: 80%" align="left">
-		<p class="strongGray" align="left">결제 예약시 유의사항</p>
-		<ul class="liteGray" >
-			<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
-			<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
-			<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
-		</ul>
-	</div>
-</c:if>
+	<c:if test="${projectdtoList[0].isReward()}">
+		<div style="width: 80%" align="left">
+			<p class="strongGray" align="left">결제 예약시 유의사항</p>
+			<ul class="liteGray" >
+				<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
+				<li>1차 결제 실패시 실패일로부터 3 영업일동안 결제를 실행합니다.결제 실패 알림을 받으면 카드사와  카드결제 불가 사유 (한도초과 또는 카드 재발급 등)를 확인하여 주세요</li>
+				<li>1차 결제 실패 이후 3영업일동안 재 결제를 시도합니다. 결제가 정상적으로 실행되지 않으면 펀딩 참여가 취소됩니다.</li>
+			</ul>
+		</div>
+	</c:if>
 	<br><br>
+</div><!-- // dGroup="divPayInfo" -->
 <input type="hidden" name="fundtype" value="${projectdtoList[0].fundtype }">
 <input type="hidden" name="id" value="${login.id }">
-</div><!-- // dGroup="divPayInfo" -->
 </form>
 
 <!-- 리워드일 경우 -->
@@ -549,7 +550,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 	}
 	//라디오버튼확인 
 	if($('input:radio[id=handPay]').is(':checked')){	//수동결제
-		
 		//카드번호 설정
 		var cardNum = document.getElementById("card1").value+document.getElementById("card2").value+document.getElementById("card3").value+document.getElementById("card4").value;
 		document.getElementById("cardNumber").value=cardNum;
@@ -563,6 +563,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}else{
 				if(checkPaymentMethod()){
+					console.log("checked");
 					$("#orderfrm").attr("action","addOrder.do").submit();
 				}
 			}

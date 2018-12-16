@@ -137,12 +137,12 @@ public class BuyController {
 			}
 			//logger.info(newbuy.toString());
 		}else { // 리워드		
-			/*for(int i=0; i<opSeq.length;i++) {
+			for(int i=0; i<opSeq.length;i++) {
 				logger.info("옵션시퀀스 : "+opSeq[i]);
 				logger.info("옵션가격 : "+opPrice[i]);
 				logger.info("옵션카운트 : "+opCount[i]);
 				logger.info("프로젝트시퀀스 : "+projectseq[i]);
-			}*/
+			}
 			buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
 			
 			//장바구니 delete
