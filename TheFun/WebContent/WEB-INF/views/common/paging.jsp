@@ -127,7 +127,7 @@ function goPage(pageNumber) {
 	$("#_pageNumber").val(pageNumber);	
 	$("#s_keywordTextField").val($("#s_keywordTextField").val());	
 	//$("#_frmFormSearch").attr({"target":"_self", "action":"searchProjectList.do", "method":"post"}).submit();
-	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"get"}).submit();
+	$("#_frmFormSearch").attr({"target":"_self", "action":"<%=actionPath%>", "method":"post"}).submit();
 }
 
 </script>

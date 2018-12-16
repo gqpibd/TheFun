@@ -139,7 +139,7 @@
 			</c:when>		
 		    <c:otherwise>
 			    <thead>
-					<tr class="table100-head" style="font-weight:bold;background: #343a40">			
+					<tr class="table100-head" style="font-weight:bold;background: #8152f0">			
 						<th class="column1 c"></th>		
 						<th class="column2 c">후원자</th>
 						<th class="column3 c">후원일자</th>

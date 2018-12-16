@@ -2,7 +2,7 @@
 
 .jzdbox1 {
   width:315px; 
-  background:#332f2e; 
+  /* background:#332f2e; */ 
   border-radius:5px; 
   overflow:hidden; 
   display:block; 
@@ -15,11 +15,11 @@
 .jzdcal {
   padding:0 10px 10px 10px; 
   box-sizing:border-box!important; 
-  background:#749d9e; 
-  background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
+  background:#a78af2 !important; 
+  /* background: -webkit-linear-gradient(#749d9e, #b3a68b)!important; 
   background: -o-linear-gradient(#749d9e, #b3a68b)!important; 
   background: -moz-linear-gradient(#749d9e, #b3a68b)!important; 
-  background: linear-gradient(#749d9e, #b3a68b)!important;
+  background: linear-gradient(#749d9e, #b3a68b)!important; */
 }
 
 .jzdcalt {

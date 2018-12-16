@@ -811,6 +811,6 @@ function more_search_Enter() {
 	$("#_pageNumber").val(0);
 	$("#more_search").val($("#more_search").val());
 	$("#_more_s_keyword").val($("#more_search").val());
-	$("#_frmFormSearch").attr({"action":"searchProjectList.do", "method":"get"}).submit();
+	$("#_frmFormSearch").attr({"action":"searchProjectList.do", "method":"post"}).submit();
 }
 </script>
