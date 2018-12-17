@@ -528,6 +528,19 @@ function checkDeliveryInfo(){
 	}
 	return false;
 }
+function checkedListOnly() {
+	// 체크된 리워드만 컨트롤러에 값 보내주기
+	for(var i=1; i<= input[name=checkboxs].length; i++){
+		var opSeqNum = $(this).val();
+		if("input[name=checkboxs]:checked"==false){
+			$("#projectseq"+i).attr("disabled", true);
+			$("#opSeq"+i).attr("disabled", true);
+			$("#realPrice_"+opSeqNum).attr("disabled", true);
+			$("#"+opSeqNum).attr("disabled", true);
+		}
+	}
+	
+}
 function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
 	// 먼저 사용자의 기본 정보 확인
@@ -547,9 +560,11 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("최소 기부금액은 100원 입니다.");
 				return;
 			}else if(Number(removeCommas($("#finalPrice").text()))==0){ // 포인트를 사용해서 실제 결제 금액이 0원인 경우 결제 체크 안 함
+				// 선택상품만 넘어가게 하는 함수 추가 하기!!!
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}else{
 				if(checkPaymentMethod()){
+					// 선택상품만 넘어가게 하는 함수 추가 하기!!!
 					$("#orderfrm").attr("action","addOrder.do").submit();
 				}
 			}
@@ -559,6 +574,7 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				return;
 			}
 			if(checkDeliveryInfo() && checkPaymentMethod()){						
+				// 선택상품만 넘어가게 하는 함수 추가 하기!!!
 				$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}		
