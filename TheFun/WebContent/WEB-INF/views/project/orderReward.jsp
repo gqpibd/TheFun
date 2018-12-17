@@ -261,7 +261,7 @@
      		<td class="profiletitle">휴대폰 번호</td>     	
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray disabledInput" readonly placeholder="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     			<input name="phone" id="deliPhone" class="liteGray disabledInput" readonly placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
      		</c:if>
      		<c:if test="${not empty login.phone}">
      			<input name="phone" id="deliPhone" class="liteGray disabledInput" readonly value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
@@ -380,7 +380,7 @@
 	<tr> -->
 		<td class="profile">
 		<c:if test="${empty login.phone}">
-		<input class="liteGray disabledInput" value="등록된 고객정보가 없습니다.마이페이지에서 수정해주세요." readonly="readonly"style="padding: 5px;">
+		<input class="liteGray disabledInput" value="등록된 번호가 없습니다." readonly="readonly"style="padding: 5px;">
 	</c:if>
 	<c:if test="${not empty login.phone}">
 		<input class="liteGray disabledInput" value="${login.phone}" readonly="readonly"style="padding: 5px;">
@@ -398,7 +398,7 @@
      	<!-- </tr>
      	<tr> -->
 	     	<td style="text-align: center; padding-bottom: 30px;">
-	     	<label for="infoDeli" class="pnt"><input type="radio" name="delivery" id="infoDeli" value="infoDeli" checked="checked">기본정보 배송지</label>  
+	     	<label for="infoDeli" class="pnt"><input type="radio" name="delivery" id="infoDeli" value="infoDeli" checked="checked">기본정보 배송지</label>&nbsp;
 	     	<label for="newDeli" class="pnt"><input  type="radio" name="delivery" id="newDeli" value="newDeli">새로운 배송지</label> 
 	     	</td>
      	</tr>
@@ -414,7 +414,7 @@
      	<tr> -->
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray" placeholder="등록된 고객정보가 없습니다. 입력해주세요." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     			<input name="phone" id="deliPhone" class="liteGray" placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
      		</c:if>
      		<c:if test="${not empty login.phone}">
      			<input name="phone" id="deliPhone" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
@@ -433,14 +433,14 @@
      	<tr>
      		<td></td>
      		<td class="profile">
-			<input type="text" style="width:80%; padding:5px" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
+			<input type="text" style="width:95%; padding:5px" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
 			
      		</td>
      	</tr>
      	<tr>
      		<td></td>
      		<td class="profile">
-     			<input type="text" style="width:80%; padding:5px" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
+     			<input type="text" style="width:95%; padding:5px" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
      		</td>
      	</tr>
      	</table>
