@@ -167,7 +167,7 @@ public class ProjectController {
 		
 	// 프로젝트 검색
 	@RequestMapping(value="searchProjectList.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String searchProjectList(Model model, ProjectParam pParam, String doc_title) throws Exception{
+	public String searchProjectList(Model model, ProjectParam pParam) throws Exception{
 		logger.info("ProjectController searchProjectList.do " + new Date());
 		logger.info("searchProjectList.do 로 들어온 pParam : " + pParam.toString());
 		
@@ -183,11 +183,11 @@ public class ProjectController {
 		model.addAttribute("s_sort", pParam.getS_sort());	// 우선 원래값 보냄
 		
 		// doc_title 설정 (들어온 대로 보낸다)
-		if(doc_title == null || doc_title.equals("")) {
-			doc_title = "all";
+		if(pParam.getDoc_title() == null || pParam.getDoc_title().equals("")) {
+			pParam.setDoc_title("all"); 
 		}
 		
-		model.addAttribute("doc_title", doc_title);
+		model.addAttribute("doc_title", pParam.getDoc_title());
 		
 		// split 으로 DESC 구분하면 좋을 것 같긴한데
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {

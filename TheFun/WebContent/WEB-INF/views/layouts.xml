@@ -118,9 +118,9 @@
 	</definition>
 	
 	<!-- 참여 현황 -->
-	<definition name="project_participant.tiles" extends="home.tiles"> 
+	<!-- <definition name="project_participant.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/project_participant.jsp"/>
-	</definition>
+	</definition> -->
 	
 	<definition name="participants.tiles" extends="home.tiles"> 
 		<put-attribute name="main" value="/WEB-INF/views/project/projectPaticipants.jsp"/>

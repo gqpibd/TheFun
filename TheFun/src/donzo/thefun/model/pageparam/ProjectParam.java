@@ -12,7 +12,7 @@ public class ProjectParam extends pageParam {
 	private String s_asc_desc;	// 오름차순 내림차순
 	private String s_complete;	// 성공여부 	
 	private String s_condition;	// 조건 : reg_seven_date(최근 7일 내 작성), end_seven_date(7일 내 종료)
-
+	private String doc_title; 	// 제목
 	
 	public ProjectParam() {
 		super(8,8);
@@ -108,6 +108,17 @@ public class ProjectParam extends pageParam {
 		this.more_s_keyword = more_s_keyword;
 	}
 
+	
+
+	public String getDoc_title() {
+		return doc_title;
+	}
+
+
+	public void setDoc_title(String doc_title) {
+		this.doc_title = doc_title;
+	}
+
 
 	@Override
 	public String toString() {
@@ -119,7 +130,9 @@ public class ProjectParam extends pageParam {
 				+ (s_sort != null ? "s_sort=" + s_sort + ", " : "")
 				+ (s_asc_desc != null ? "s_asc_desc=" + s_asc_desc + ", " : "")
 				+ (s_complete != null ? "s_complete=" + s_complete + ", " : "")
-				+ (s_condition != null ? "s_condition=" + s_condition : "") + "]";
+				+ (s_condition != null ? "s_condition=" + s_condition + ", " : "")
+				+ (doc_title != null ? "doc_title=" + doc_title : "") + "]";
 	}
+
 
 }

@@ -118,11 +118,12 @@
 	</div>
 	</div>
 	</header>
-								
-<div class="container">
+
+<!-- container 칸이 좁아보여서 넓힘 -->					
+<div class="" style="margin-left: 10%;margin-right: 10%;">
 	<div class="table-users">
 		<div class="parti_header">
-			<span style="float: left;margin-right: 2%;margin-left: 2%;"><input type="checkbox" id="check_All"> 전체 선택 |</span>프로젝트 참여내역 (${totalRecordCount }건)
+			<span style="float: left;margin-right: 2%;margin-left: 2%;"></span>프로젝트 참여내역 (${totalRecordCount }건)
 		</div>
 	
    <form id = "finishFunding">
@@ -140,7 +141,7 @@
 		    <c:otherwise>
 			    <thead>
 					<tr class="table100-head" style="font-weight:bold;background: #8152f0">			
-						<th class="column1 c"></th>		
+						<th class="column1 c"><input type="checkbox" id="check_All"></th>		
 						<th class="column2 c">후원자</th>
 						<th class="column3 c">후원일자</th>
 						<th class="column4 c">후원금액(원)</th>
@@ -152,7 +153,7 @@
 				</thead>
 				<tbody class="funTbody">
 			 	<c:forEach items="${participant_List }" var="part_Dto" varStatus="i">
-					<tr>
+					<tr class="check_tr">
 						<td class="column1 c">
 							<c:if test="${part_Dto.isComplete_success()}">
 								<input type="checkbox" name="check_finish" value="${part_Dto.seq}">
@@ -218,16 +219,15 @@ $(document).ready(function () {
 	
 	
 	// 그 줄 선택시 체크박스 되게 하려고.... 잠시 보류
-	/*
 	$(document).on("click", ".check_tr", function () {
-		alert("야    호");
-		if($(this).child("input[type=checkbox]").prop("checked")){
-			$(this).child("input[type=checkbox]").prop("checked",false);
+		//alert("야    호" + $(this).children().children("input[name='check_finish']").val());
+		if($(this).children().children("input[name='check_finish']").prop("checked")){
+			$(this).children().children("input[name='check_finish']").prop("checked",false);
 		}else{
-			$(this).child("input[type=checkbox]").prop("checked",true);
+			$(this).children().children("input[name='check_finish']").prop("checked",true);
 		}
 	});
-	*/
+	
 });
 function finishFunding(){
 	var len = $("input:checkbox[name='check_finish']:checked").length;
