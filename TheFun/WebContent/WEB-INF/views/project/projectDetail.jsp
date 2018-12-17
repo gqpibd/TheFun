@@ -403,7 +403,7 @@
 						</c:if> 
 						<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
 							<!-- 프로젝트 종료 -->
-							<b style="font-size: 25px">종료된 리워드</b>
+							<b style="font-size: 25px">종료된 프로젝트</b>
 						</c:if> 
 						<c:if test="${projectdto.isOngoing()}">
 							<!-- 프로젝트 실행중 -->
@@ -516,19 +516,24 @@
 			<!-- <div class="jbMenu"> -->
 			<table class="tabTable" style="width: 100%; background-color: white;">
 				<tr>
-					<td align="center" class="strongGray tabSelect" id="story" style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer">
+					<td align="center" class="strongGray tabSelect" id="story" style="width: 25%; cursor:pointer">
 						<font class="menubar">스토리</font>
 					</td>
-					<td align="center" class="strongGray" id="notice" style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer">
+					<td align="center" class="strongGray" id="notice" style="width: 25%; cursor:pointer">
 						<font class="menubar">판매자 공지<sup class="pupple"
 							id="noticecounttab"><b>${projectdto.noticecount}</b></sup></font></td>
 					<td align="center" class="strongGray" id="qna"
-						style="width: ${projectdto.isReward()?'25%':'33.3%'}; cursor:pointer"><font
+						style="width: 25%; cursor:pointer"><font
 						class="menubar">QnA<sup class="pupple"><b>${projectdto.qnacount}</b></sup></font></td>
 					<c:if test="${projectdto.isReward()}">
 						<td align="center" class="strongGray" id="review"
 							style="width: 25%; cursor: pointer"><font class="menubar">후기<sup
 								class="pupple"><b>${projectdto.reviewcount}</b></sup></font></td>
+					</c:if>
+					<c:if test="${projectdto.isDonation()}">
+						<td align="center" class="strongGray" id="review"
+							style="width: 25%; cursor: pointer"><font class="menubar">후원내역<sup
+								class="pupple"><b>${projectdto.buycount}</b></sup></font></td>
 					</c:if>
 				</tr>
 			</table>
@@ -577,6 +582,7 @@ $(document).ready(function () {
 	$("#qnaContent").hide();
 	$("#noticeContent").hide();
 	$("#reviewContent").hide();
+	
 	
 	/* 옵션 select 선택구문 */
 	$("#optionSelect").change(function(){
@@ -837,7 +843,12 @@ function minusVal(seqNum) {
 
 		<div class="col-lg-8" id="reviewContent">
 			<!-- 후기  -->
-			<jsp:include page="detailFeedback.jsp" />
+			<c:if test="${projectdto.isReward() }">
+				<jsp:include page="detailFeedback.jsp" />
+			</c:if>
+			<c:if test="${projectdto.isDonation() }">
+				<jsp:include page="supporters.jsp" />
+			</c:if>
 		</div>
 		<!-- Sidebar 전체-->
 		<div class="col-lg-4">

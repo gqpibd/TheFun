@@ -135,7 +135,7 @@
 <input type="hidden" name="id" value="${login.id}"/>
 <input type="hidden" id="imgPath" name="imgPath" value="${login.profile}">
 <input type="hidden" name="profile" value="${login.profile}">
-<input type="hidden" name="profile" value="${login.account}">
+<input type="hidden" name="account" value="${login.account}">
 <c:if test="${login.pwd ne null}"> <!-- 일반 로그인 -->
 <div class="group" style="width: 100%;" align="center">	
 	<table style="border: 0">

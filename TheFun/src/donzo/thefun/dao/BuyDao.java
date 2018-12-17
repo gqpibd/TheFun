@@ -49,5 +49,7 @@ public interface BuyDao {
 
 	public void addDonation(BuyDto donation);
 
+	public List<BuyDto> getParticipantList(int seq);
+
 	
 }

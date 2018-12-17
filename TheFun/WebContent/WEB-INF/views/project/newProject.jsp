@@ -247,7 +247,7 @@ $(document).ready(function() {
 				<tr>
 					<td>
 						<span style="color: #4B088A; margin-left: 2%;">
-							<span id="titleLen">30자 남았습니다.</span>
+							<span id="titleLen">40자 남았습니다.</span>
 						</span>
 					</td>
 				</tr>
@@ -770,7 +770,7 @@ $(document).ready(function() {
 <!-- 전송버튼 -->
 	<div align="center">
 	<input type="button" class="btn btn-lg btn-primary" id="btn_submit"
-		style="width: 20%; font-family: 'Noto Sans KR', sans-serif; margin-top: 10px;" value="프로젝트 등록">	
+		style="font-family: 'Noto Sans KR', sans-serif; margin-top: 10px;" value="프로젝트 등록">	
 	</div>
 </div>
 </div>
@@ -841,7 +841,7 @@ $("#btn_submit").click(function () {
 		$("#home-tab").click();
 		$("#titleTap").click();
 		return;
-	} else if(title.length > 30){
+	} else if(title.length > 40){
 		alert("제목이 너무 깁니다. 줄여주세요.");
 		$("#home-tab").click();
 		$("#titleTap").click();
@@ -1090,7 +1090,7 @@ function checkIntro(){
 
 function checkTitle(){	
 	var title = $("#title").val();
-	if(title != "" && title.length <= 30){		
+	if(title != "" && title.length <= 40){		
 		$("#titleChecked").css("opacity","1");
 		titleOk = true;
 	}else{

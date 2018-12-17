@@ -104,5 +104,10 @@ public class BuyDaoImpl implements BuyDao {
 	public void addDonation(BuyDto donation) {
 		sqlSession.insert(ns+"addDonation",donation);	
 	}
+
+	@Override
+	public List<BuyDto> getParticipantList(int seq) {
+		return sqlSession.selectList(ns+"getBuyList",seq);
+	}
 	
 }

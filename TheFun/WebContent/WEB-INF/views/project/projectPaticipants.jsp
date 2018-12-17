@@ -161,9 +161,22 @@
 						<td class="column2 c">${part_Dto.id}</td><!-- 후원자 -->
 						<td class="column3 c">${part_Dto.getDateKr()}</td><!-- 후원일자 -->
 						<td class="column4 c"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/>원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/> * ${part_Dto.count })</td>
-						<td class="column5 c">${part_Dto.getStatusKr()}</td> <!-- 상태 -->
+						<td class="column5 c">${part_Dto.getStatusKr()} <!-- 상태 -->
+						<c:if test="${part_Dto.score ne 0}">
+							<br>
+							<c:forEach begin="1" end="5" step="1" var="i">
+					    		<c:if test="${part_Dto.score >= i}">
+					    			<span class='fas fa-star' style='color:#8152f0;font-size:0.8em;'></span>
+					    		</c:if>
+					    		<c:if test="${part_Dto.score < i}">
+									<span class='far fa-star' style='color:#8152f0;font-size:0.8em;'></span>
+					    		</c:if>
+					      	</c:forEach>    
+				      	</c:if>
+						</td> <!-- 옵션 -->
 						<c:if test="${projectDto.isReward()}"><!-- 리워드일 때 -->							
-							<td  class="column6 c" style="text-align: left;">${part_Dto.otitle} : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content} (${part_Dto.count} 건)</li></c:forTokens></span></td><!-- 상품 / 옵션 정보 -->
+							<td  class="column6 c" style="text-align: left;">${part_Dto.otitle} <%-- : <span><c:forTokens items="${part_Dto.ocontent}" delims="/" var="content"><li style="padding: 0;">${content}  --%>(${part_Dto.count} 건)<%-- </c:forTokens></span> --%></td><!-- 상품 / 옵션 정보 -->
+							
 						</c:if>							
 					</tr>
 				</c:forEach>
@@ -230,7 +243,7 @@ function finishFunding(){
 		data : formData,
 		success:function(data){	
 			var msg = "기부 완료";
-			if('${isReward}' == 'true'){
+			if('${projectDto.isReward()}' == 'true'){
 				msg = "배송 완료";
 			}
 			for(i=0;i<len;i++){

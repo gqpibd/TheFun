@@ -149,7 +149,8 @@ function saveId(){ // 아이디를 쿠키에 저장하거나 삭제하는 함수
 			<div class="g-signin2 mb-1" data-width="300" data-height="49" data-longtitle="true" data-onsuccess="onSignIn"></div> 
 			
 			<!-- 페이스북아이디로로그인 --> 
-			<div id="fbbtn" style="visibility: none;"class="fb-login-button" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>			
+			<!-- <div id="fbbtn" style="visibility: none;"class="fb-login-button" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> -->			
+			<div id="fbbtn" style="visibility: none;"class="fb-login-button" onlogin="checkLoginState();" data-width="300" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div>
 			<!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" data-width="100%" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="true" data-auto-logout-link="true" data-use-continue-as="true">페이스북 계정으로 로그인
 			</fb:login-button> -->
 			

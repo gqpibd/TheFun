@@ -90,8 +90,8 @@ function deleteAlarm(seq,selector){ // 알람을 읽지 않고 삭제하는 경�
 		<div class="mdl-grid" id="alarmContainer">
 			<c:forEach items="${alarmList}" var="item">									
 				<div name="alarmCard" class="mdl-card mdl-cell mdl-cell--4-col-tablet mdl-shadow--2dp">
-					<figure class="mdl-card__media">
-						<img src="upload/${item.projectseq}" alt="" />
+					<figure class="mdl-card__media" style="text-align: center">
+						<img src="upload/${item.projectseq}" alt="" style="max-height: 300px; object-fit: cover;" />
 					</figure>
 					<div class="mdl-card__title">
 						<h1 class="mdl-card__title-text">${item.ptitle}</h1>

@@ -125,10 +125,14 @@ public class BuyController {
 		//출력 test
 		logger.info("펀드타입 "+fundtype);
 		logger.info("dto :  "+newbuy.toString());
+		if(newbuy.getBankName()==null || newbuy.getBankName()=="") {
+            newbuy.setBankName("간편결제");
+        }
 		//주문 insert
 		if(fundtype.equals(ProjectDto.TYPE_DONATION)) { // 기부
 			newbuy.setProjectseq(projectseq[0]);
 			buyService.addDonation(newbuy);
+			
 			if(newbuy.getUsepoint()>0) { // 포인트를 사용한 경우 차감
 				user.setPoint(newbuy.getUsepoint());
 				memberService.usePoint(user);
@@ -199,6 +203,30 @@ public class BuyController {
 			listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(reviewList.get(i).getRegdate()) +"\",";
 			listData += "\"score\":\"" + reviewList.get(i).getScore() +"\",";			
 			listData += "\"comment\":\"" + reviewList.get(i).getBcomment() +"\"}";
+			if(i < reviewList.size()-1) {
+				listData += ",";
+			}
+		}
+		listData += "]}";
+		logger.info(listData);
+		
+		return listData; 
+	}
+	
+	// 후원자 목록 가져오기	
+	@ResponseBody
+	@RequestMapping(value="selectDonationList.do", method= {RequestMethod.GET, RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String selectDonationList(int seq) throws Exception {		
+		logger.info("selectReviewList" + new Date());
+		List<BuyDto> reviewList = buyService.getParticipantList(seq);
+		String listData = "{\"supporters\":[";		
+		for(int i=0;i<reviewList.size();i++) {		
+			MemberDto member = memberService.getUserInfo(reviewList.get(i).getId());
+			listData += "{\"seq\":\"" + reviewList.get(i).getSeq() +"\",";
+			listData += "\"nickname\":\"" + member.getNickname() +"\","; // 아이디 대신 닉네임으로 가져왔음
+			listData += "\"profile\":\"" + member.getProfile() +"\","; // 프로필 사진 출력용
+			listData += "\"date\":\"" + UtilFunctions.getDateFormKorean2(reviewList.get(i).getRegdate()) +"\",";
+			listData += "\"price\":\"" + reviewList.get(i).getPrice() +"\"}";
 			if(i < reviewList.size()-1) {
 				listData += ",";
 			}

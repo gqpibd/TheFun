@@ -125,4 +125,9 @@ public class BuyServiceImpl implements BuyService {
 		
 	}
 
+	@Override
+	public List<BuyDto> getParticipantList(int seq) {
+		return buyDao.getParticipantList(seq);
+	}
+
 }

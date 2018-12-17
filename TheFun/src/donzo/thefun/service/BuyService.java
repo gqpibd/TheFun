@@ -45,4 +45,6 @@ public interface BuyService {
 
 	// 기부내역 추가
 	public void addDonation(BuyDto newbuy);
+
+	public List<BuyDto> getParticipantList(int seq);
 }

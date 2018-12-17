@@ -11,21 +11,30 @@
 	border:none;
 	text-align:left;
 }
+.mainContainer{
+	width : 80%;
+	margin: auto;
+}
+@media ( max-width : 43em) { /* 중간크기 화면 */
+	.mainContainer{
+		width: 100%;
+	}
+}
 </style>
 
 <header class="line_header">
-  <div class="container text-center" style="padding-top: 50px;">
+  <div class="container text-center">
     <h1 class="head_title">MY FUNDING DETAIL</h1>
     <p>후원 상세 내역</p>
   </div>
 </header>
 
 
-<div style="padding-left: 10%; padding-top: 20px;">
+<div class="mainContainer">
 <h2>주문상세정보</h2>
 <p>주문일자 : 	${buydto[0].getDateKr()}
 </p>
-<table style="width: 70%">
+<table>
 <tr style="border-bottom: 1px solid gray;">
 	<td colspan="2" style="padding: 10px;">
 	<c:if test="${buydto[0].optionseq ne 0}">리워드정보</c:if>
@@ -53,7 +62,7 @@
 		<font><fmt:formatNumber value="${buy.price}" type="number"/></font>원
 		<c:if test="${buydto[0].optionseq ne 0}">(${buy.count}개)</c:if> 
 	</td>
-	<td style="padding: 10px;">
+	<td style="padding: 10px;" align="center">
 		<c:choose>
 		
 		<c:when test="${buy.isOngoing()}">
@@ -92,7 +101,7 @@
 	<c:set var="totalprice" value="${totalprice + process}"/>
 </c:forEach>
 
-<table style="width: 70%;">
+<table>
 <tr style="border-bottom: 1px solid gray;">
 	<td width="20%" style="padding: 10px; ">
 	<c:if test="${buydto[0].optionseq ne 0}">상품금액</c:if>
@@ -126,7 +135,7 @@
 <c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드라면 배송지 표시 -->
 <br><br>
 <h3>배송지 정보</h3>
-<table style="width: 70%">
+<table>
 <tr style="border-bottom: 1px solid gray;">
 	<td style="width: 15%; padding: 10px;">수령인 </td>
 	<td style="padding: 10px;">${buydto[0].name} </td>

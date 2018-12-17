@@ -82,10 +82,10 @@ FROM FUN_BUY B;
  
 <!-- 내 주문내역 목록 paging --> <!-- ORDER BY B.REGDATE DESC B.SEQ DESC: 나중에 주문한게 위에 오게 하려고 -->
 <select id="orderPageList" parameterType="donzo.thefun.model.pageparam.buyParam" resultType="donzo.thefun.model.BuyDto">
-	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE
+	SELECT SEQ, ID, PROJECTSEQ, COUNT, REGDATE, BCOMMENT, PTITLE, OTITLE, STATUS, PRICE, PDATE, SCORE
 	FROM 
 		(SELECT RANK() OVER(ORDER BY B.REGDATE DESC, B.SEQ DESC) AS RANK, 
-				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE
+				B.SEQ, M.NICKNAME AS ID, B.PROJECTSEQ, B.COUNT, B.REGDATE, B.BCOMMENT, B.PTITLE, B.OTITLE, B.STATUS, B.PRICE, B.PDATE, B.SCORE
 		 FROM FUN_BUY_VIEW B, FUN_PROJECT P, FUN_MEMBER M	
 		 WHERE B.ID=#{o_id} AND B.PROJECTSEQ=P.SEQ AND M.ID=P.ID AND B.STATUS != 'delete' AND B.ROWID IN (SELECT MAX(ROWID) FROM FUN_BUY GROUP BY PROJECTSEQ, REGDATE)
 		 ) A
@@ -152,7 +152,7 @@ FROM FUN_BUY B;
 		WHERE PROJECTSEQ = #{projectseq_participant}
 		AND STATUS != 'delete' -->
 		
-<!-- 참여현황 -->
+<!-- 참여현황 페이징 -->
 <select id="participant_List" parameterType="donzo.thefun.model.pageparam.participantParam" resultType="donzo.thefun.model.BuyDto">
 	SELECT SEQ, ID, PROJECTSEQ, OPTIONSEQ, COUNT, PRICE, REGDATE, SCORE, BCOMMENT, PTITLE, OTITLE, OCONTENT, STATUS, NAME, PHONE, POSTCODE, ROADADDRESS, DETAILADDRESS, CARDNUMBER, BANKNAME, PDATE, SHIPDATE, USEPOINT
 	FROM (SELECT DISTINCT ROW_NUMBER() OVER(ORDER BY B.REGDATE DESC) AS RNUM, 
@@ -163,6 +163,13 @@ FROM FUN_BUY B;
 		 ORDER BY REGDATE DESC
 		) A
 	WHERE RNUM BETWEEN ${start} AND ${end}
+</select>
+
+<!-- 구매자 전체 목록 -->
+<select id="getBuyList" parameterType="int" resultType="donzo.thefun.model.BuyDto">
+	SELECT *
+	FROM FUN_BUY_VIEW
+	WHERE PROJECTSEQ=#{seq} AND STATUS != 'delete' ORDER BY REGDATE DESC
 </select>
 
 <!-- 참여 카운트 -->

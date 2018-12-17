@@ -248,8 +248,8 @@ input.star:checked ~ .rev-box {
 				${order.getStatusKr()}<br>
 				<c:if test="${order.otitle ne null and order.isFinished()}">
 					<c:choose>
-					<c:when test="${order.score == 0}">
-						<button type="button" class="fun_btn" id="latter" onclick="addReview(${order.seq},${order.price},${order.count},${order.projectseq})">후기작성</button>
+					<c:when test="${order.score eq 0}">
+						<button type="button" class="fun_btn" id="latter" onclick="addReview(${order.seq},${order.price},${order.projectseq})">후기작성</button>
 					</c:when>
 					<c:otherwise>
 					<c:forEach begin="1" end="5" step="1" var="i">
@@ -291,7 +291,6 @@ function addReview(seq,price,projectseq) { // 후기 작성
 	//console.log($("input[name='seq']").val());
 	
 	$("input[name='price']").val(price);
-	$("input[name='count']").val(count);
 	$("input[name='projectseq']").val(projectseq);
 	
 	$("#newPoint").text(price*0.01);

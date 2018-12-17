@@ -73,11 +73,11 @@ public class MemberController {
 			  @RequestParam(value="fileload", required=false)MultipartFile fileload) throws Exception{
 		logger.info("updateInfo " + new Date());
 		logger.info("updateInfo mem : " + mem.toString());
+		//mem.setProfile(""); // 기본적으로 수정 안 함 상태에서,
 		
-		//pdsdto.setFilename(fileload.getOriginalFilename());
 		String fname = fileload.getOriginalFilename(); 
 		String fupload = req.getServletContext().getRealPath("/image/profile");
-		mem.setProfile("image/profile/" + mem.getId());
+		
 		if(fname!=null && !fname.equals("")) {// 프로필 사진이 변경된 경우
 			//파일 업로드
 			try {
@@ -86,6 +86,7 @@ public class MemberController {
 				// 파일 업로드 작업
 				FileUtils.writeByteArrayToFile(file, fileload.getBytes());	
 				//mem.setProfile("image/profile/"+mem.getId());
+				mem.setProfile("image/profile/" + mem.getId());
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

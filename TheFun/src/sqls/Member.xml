@@ -78,11 +78,14 @@ CREATE TABLE FUN_MEMBER(
 <!-- 개인정보 수정 -->
 <update id="updateMember" parameterType="donzo.thefun.model.MemberDto" >	
 	UPDATE FUN_MEMBER
-	SET NICKNAME = #{nickname}, PHONE = #{phone}, EMAIL = #{email}, INFO = #{info}, POSTCODE = #{postcode}, ROADADDRESS=#{roadaddress},DETAILADDRESS=#{detailaddress}, PROFILE = #{profile}	
+	SET NICKNAME = #{nickname}, PHONE = #{phone}, EMAIL = #{email}, INFO = #{info}, POSTCODE = #{postcode}, ROADADDRESS=#{roadaddress},DETAILADDRESS=#{detailaddress}	
 	<if test="pwd != null and pwd != ''">  <!-- 계정 연동 로그인 -->
 		<!-- 일반 로그인 -->
 		, PWD = #{pwd}
 	</if>	
+	<if test="profile != null and profile != ''">  <!-- 이미지 사진 변경 -->
+		, PROFILE = #{profile}
+	</if>
 	WHERE ID = #{id}	
 </update>
 
