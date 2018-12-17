@@ -25,6 +25,7 @@
 		width: 100%;
 	}
 }
+
 </style>
 
 <header class="line_header">

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <!-- Footer -->
-<footer style="margin-top: 20%;">
+<footer style="margin-top: 20%; margin-bottom:1%">
   <div class="container" align="center" >
     <p class="m-0 text-center">더펀(주) | 서울특별시 뿅뿅구 뿅뿅동 123-88</p>
 	    더펀(주) | 대표이사 김뿅뿅
