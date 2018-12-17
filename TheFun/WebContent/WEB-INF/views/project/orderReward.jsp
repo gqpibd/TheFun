@@ -435,17 +435,17 @@
 	<tr>
 		<td>
 		<select name="bankName" id="bankName">
-			<option selected="selected">은행을 선택하세요</option>
-		    <option>IBK기업은행</option>
-		    <option>KB국민은행</option>
+			<option selected="selected">카드사를 선택하여 주십시오</option>
+			<option>롯데카드</option>
+			<option>비씨카드</option>
+			<option>삼성카드</option>
+		    <option>신한카드</option>
+			<option>씨티카드</option>
+			<option>우리카드</option>
+			<option>하나카드</option>
+		    <option>현대카드</option>
+		    <option>KB국민</option>
 		    <option>NH농협</option>
-		    <option>KEB하나은행</option>
-		    <option>신한은행</option>
-		    <option>씨티은행</option>
-		    <option>카카오뱅크</option>
-		    <option>새마을금고</option>
-		    <option>우리은행</option>
-		    <option>우체국</option>
 		</select>
 		</td>
 		<td colspan="2"><input class="numberCheck" type="text" id="birth"></td>
@@ -513,7 +513,7 @@ function checkPaymentMethod(){
 	}else if(document.getElementById("validDate2").value<=18 || document.getElementById("validDate2").value>50){
 		alert("년도 유효기간이 맞지 않습니다");
 	}else if(document.getElementById("bankName").value=="은행을 선택하세요"){
-		alert("은행을 선택하여 주십시오");
+		alert("카드사를 선택하여 주십시오");
 	}else{
 		return true;
 	}
