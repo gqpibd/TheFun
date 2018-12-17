@@ -137,6 +137,7 @@
 	<div align="right"><a href="searchProjectList.do">see all</a></div>
 </div>
 
+<div class="container">
 <!-- list jsp:include로 보내려면 이렇게 -->
 <c:set var="list" value="${list }" scope="request"/>
 
@@ -154,6 +155,7 @@
 	<jsp:param value="${list }" name="list"/>
 	<jsp:param value="main.do" name="actionPath"/>
 </jsp:include>
+</div>
 
 <br>
 

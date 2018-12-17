@@ -158,8 +158,11 @@ FROM FUN_PROJECT P;
 		  AND LOWER(STATUS) IN ('complete_success', 'complete_fail')
 		  </if>
 		  <if test="s_complete == ''">
-		  AND LOWER(STATUS) IN ('preparing', 'ongoing')
-		  </if>
+	      AND LOWER(STATUS) IN ('preparing', 'ongoing')
+	      	<if test="doc_title == 'ing'">
+	      	AND LOWER(STATUS) IN ('ongoing')
+	      	</if>
+	      </if>
 		  <if test="s_type != ''">
 		  AND (LOWER(FUNDTYPE)=LOWER(#{s_type}))
 		  </if>
@@ -194,6 +197,9 @@ FROM FUN_PROJECT P;
 	</if>
 	<if test="s_complete == ''">
 	AND LOWER(STATUS) IN ('preparing', 'ongoing')
+		<if test="doc_title == 'ing'">
+		AND LOWER(STATUS) IN ('ongoing')
+		</if>
 	</if>
 	<if test="s_type != ''">
 	AND (LOWER(FUNDTYPE)=LOWER(#{s_type}))
@@ -263,4 +269,5 @@ FROM FUN_PROJECT P;
 		  WHERE SEQ=#{seq})
 	WHERE RN BETWEEN 1 AND 5
 </select>
+
 </mapper>

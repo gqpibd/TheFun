@@ -342,6 +342,7 @@ transform: translateY(-50%);
 	
 } 
 
+/* 탑버튼 */
 </style>
 
 <script type="text/javascript">
@@ -368,7 +369,7 @@ $(document).ready(function () {
 <!-- <div class="top-menu"> --> 
 <!-- Navigation 헤더 -->
 
-<div class="main_menu" style="margin-bottom:30px">
+<div class="main_menu" style="margin-bottom:30px;">
 	<nav id="cbp-hrmenu" class="cbp-hrmenu navbar navbar-expand-lg navbar-dark top-menu" style="margin: 0px;display: inline-flex;">
 		<ul class="navbar-nav" style="margin:0;">
 			<li>
@@ -378,11 +379,11 @@ $(document).ready(function () {
 						<div>
 							<h4>더 펀 메이커</h4>
 							<ul class="">
-								<li><a href="searchProjectList.do?doc_title=all">진행 중인 모든 프로젝트</a></li>
+								<li><a href="searchProjectList.do?doc_title=ing">진행 중인 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=regdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">종료된 모든 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">끝난 프로젝트</a></li>
 							</ul>
 						</div>
 						
@@ -502,6 +503,14 @@ $(document).ready(function () {
 		</c:if>
 		    </div>
 	</nav>
+</div>
+<!-- 탑 버튼 -->
+<div class="move"  style="position:fixed;display:none;right:7%;bottom:7%;z-index: 5;">
+	<span id="top_move" style="float:right;">
+		<img alt="" src="image/icons/up-color.png" style="width:40px;"
+		onmouseover="this.src='image/icons/up-defalut.png'"
+		onmouseout="this.src='image/icons/up-color.png'">
+	</span>
 </div>
 
 <script type="text/javascript">
@@ -662,6 +671,30 @@ var cbpHorizontalMenu=(function(){
 
 $(function() {
 	cbpHorizontalMenu.init();
+});
+
+// 탑버튼
+$(document).ready(function(){
+    var speed = 700; // 스크롤되는 속도
+    $("#top_move").css("cursor", "pointer").click(function()
+    {
+        $('body, html').animate({scrollTop:0}, speed);
+    });
+    
+    $(window).scroll(function() {  //탑 메뉴 보이고 사라지게 하기
+
+    if($(this).scrollTop() > 50) {
+
+     $('.move').fadeIn();
+
+    } else {
+
+     $('.move').fadeOut();
+
+    }
+
+   });
+    
 });
 
 </script> 
