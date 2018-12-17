@@ -132,8 +132,41 @@
 
 </div>
 
+
+<!-- 결제취소 최종확인 모달창 -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>결제취소</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">정말 결제를 취소하시겠습니까?</label>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">아니오</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">네</button>
+        <input type="hidden" id="deleteSeq">
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
 function deleteBuy(seq) {
+	// 정말 삭제할지 물어보는 모달창
+	$("#messageModal").modal('show');
+	$("#deleteSeq").val(seq);
+}
+// 실제 삭제
+function checkAndResubmitProject(){
+	var seq = $("#deleteSeq").val();
 	location.href="deleteBuy.do?seq="+seq;
 }
 

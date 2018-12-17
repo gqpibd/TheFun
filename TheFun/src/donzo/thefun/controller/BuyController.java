@@ -124,6 +124,9 @@ public class BuyController {
 		logger.info("dto :  "+newbuy.toString());
 		//주문 insert
 		if(fundtype.equals(ProjectDto.TYPE_DONATION)) { // 기부
+			if(newbuy.getBankName()==null || newbuy.getBankName()=="") {
+				newbuy.setBankName("간편결제");
+			}
 			newbuy.setProjectseq(projectseq[0]);
 			buyService.addDonation(newbuy);
 			if(newbuy.getUsepoint()>0) { // 포인트를 사용한 경우 차감
@@ -140,6 +143,9 @@ public class BuyController {
 				logger.info("옵션카운트 : "+opCount[i]);
 				logger.info("프로젝트시퀀스 : "+projectseq[i]);
 			}*/
+			if(newbuy.getBankName()==null || newbuy.getBankName()=="") {
+				newbuy.setBankName("간편결제");
+			}
 			buyService.addOrders(newbuy, projectseq, opSeq, opPrice,opCount, fundtype);
 			
 			//장바구니 delete

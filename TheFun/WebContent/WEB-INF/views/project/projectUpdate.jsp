@@ -947,17 +947,24 @@ function formSubmit(bankname, accountNumber) {
 	// hidden에 bank값 세팅
 	$("#bank").val(bankname + "/" + accountNumber);
 	
-	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 리워드금액, 리워드 수량에 들어간콤마 전부 없애기
+	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 
+	// 리워드금액, 리워드 수량에 들어간콤마 전부 없애기 & 
+	// 제목,요약,태그,옵션제목과내용에 사용자가 임의로 작성한 태그 '<'문자 없애기
 	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
+	$("#title").val($("#title").val().replace(/</g,""));
+	$("#summary").val($("#summary").val().replace(/</g,""));
+	$("#tag").val($("#tag").val().replace(/</g,""));
 	if(fundtype == "reward"){
 		var optotal = $("#option_total").val();
 		for(var i=0; i<optotal; i++){
 			var content = $("textarea[name='op_content']").eq(i).val();
 			var price = $("input[name='op_price']").eq(i).val();
 			var stock = $("input[name='op_stock']").eq(i).val();
-			$("textarea[name='op_content']").eq(i).val(content.replace(/\n/gi, "/"));
+			var title = $("input[name='op_title']").eq(i).val();
+			$("textarea[name='op_content']").eq(i).val(content.replace(/\n/gi, "/").replace(/</gi, ""));
 			$("input[name='op_price']").eq(i).val(price.replace(/,/gi, ""));
 			$("input[name='op_stock']").eq(i).val(stock.replace(/,/gi, ""));
+			$("input[name='op_title']").eq(i).val(title.replace(/</gi, ""));
 		}
 	}
 	
