@@ -12,10 +12,15 @@
 	text-align:left;
 }
 .mainContainer{
-	width : 80%;
+	width : 60%;
 	margin: auto;
 }
-@media ( max-width : 43em) { /* 중간크기 화면 */
+@media ( max-width : 65em) { /* 중간크기 화면 */
+	.mainContainer{
+		width: 90%;
+	}
+}
+@media ( max-width : 36em) { /* 중간크기 화면 */
 	.mainContainer{
 		width: 100%;
 	}
@@ -30,21 +35,21 @@
 </header>
 
 
-<div class="mainContainer">
-<h2>주문상세정보</h2>
+<div class="mainContainer" style="background: #c5b9ff21; margin-top: 30px; padding: 20px;">
+<h3>주문상세정보</h3>
 <p>주문일자 : 	${buydto[0].getDateKr()}
 </p>
-<table>
+<table style="width:100%">
 <tr style="border-bottom: 1px solid gray;">
-	<td colspan="2" style="padding: 10px;">
+	<td colspan="2" style="padding: 10px; width:45%; text-align: center">
 	<c:if test="${buydto[0].optionseq ne 0}">리워드정보</c:if>
-	<c:if test="${buydto[0].optionseq eq 0}">기부</c:if>
+	<c:if test="${buydto[0].optionseq eq 0}">기부 정보</c:if>
 	</td>
-	<td style="padding: 10px;">
-		<c:if test="${buydto[0].optionseq ne 0}">리워드금액 (수량)</c:if>
+	<td style="padding: 10px;width:15%;text-align: center">
+		<c:if test="${buydto[0].optionseq ne 0}">리워드금액<br>(수량)</c:if>
 		<c:if test="${buydto[0].optionseq eq 0}">기부금액</c:if>
 	</td>
-	<td style="padding: 10px;">진행상태</td>
+	<td style="padding: 10px;width:20%; text-align:center">진행상태</td>
 </tr>
 <c:forEach items="${buydto}" var="buy">
 <tr style="border-bottom: 1px solid gray;">
@@ -58,9 +63,9 @@
 		</c:forEach>
 		</c:if>
 	</td>
-	<td style="padding: 10px;">
+	<td style="padding: 10px; text-align: center">
 		<font><fmt:formatNumber value="${buy.price}" type="number"/></font>원
-		<c:if test="${buydto[0].optionseq ne 0}">(${buy.count}개)</c:if> 
+		<c:if test="${buydto[0].optionseq ne 0}"><br>(${buy.count}개)</c:if> 
 	</td>
 	<td style="padding: 10px;" align="center">
 		<c:choose>
@@ -101,7 +106,7 @@
 	<c:set var="totalprice" value="${totalprice + process}"/>
 </c:forEach>
 
-<table>
+<table style="width:100%">
 <tr style="border-bottom: 1px solid gray;">
 	<td width="20%" style="padding: 10px; ">
 	<c:if test="${buydto[0].optionseq ne 0}">상품금액</c:if>
@@ -135,7 +140,7 @@
 <c:if test="${not empty buydto[0].ocontent}">	<!-- 리워드라면 배송지 표시 -->
 <br><br>
 <h3>배송지 정보</h3>
-<table>
+<table style="width:100%">
 <tr style="border-bottom: 1px solid gray;">
 	<td style="width: 15%; padding: 10px;">수령인 </td>
 	<td style="padding: 10px;">${buydto[0].name} </td>
@@ -154,8 +159,41 @@
 
 </div>
 
+
+<!-- 결제취소 최종확인 모달창 -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>결제취소</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">정말 결제를 취소하시겠습니까?</label>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">아니오</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">네</button>
+        <input type="hidden" id="deleteSeq">
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <script>
 function deleteBuy(seq) {
+	// 정말 삭제할지 물어보는 모달창
+	$("#messageModal").modal('show');
+	$("#deleteSeq").val(seq);
+}
+// 실제 삭제
+function checkAndResubmitProject(){
+	var seq = $("#deleteSeq").val();
 	location.href="deleteBuy.do?seq="+seq;
 }
 

@@ -28,10 +28,10 @@
 	<tiles:insertAttribute name="main"/>		
 </div>
 
-<div style="margin-top: 80px;"></div> <!-- 간격 -->
+<!-- <div style="margin-top: 80px;"></div> --> <!-- 간격 -->
 
 <!-- 풋터 -->
-<div style="margin-top: 5%;"> <!-- 회사소개문구 -->
+<div> <!-- 회사소개문구 -->
 	<tiles:insertAttribute name="footer" /> 
 </div>
 

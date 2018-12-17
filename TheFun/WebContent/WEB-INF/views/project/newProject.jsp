@@ -717,7 +717,7 @@ $(document).ready(function() {
 							<tr>
 								<td colspan="2">
 									<div class="desc projectimg">
-										후원자 분들에게 드릴 선물 내용을 입력해주세요
+										후원자 분들에게 드릴 상품 내용을 입력해주세요
 									</div>
 								</td>
 							</tr>
@@ -775,6 +775,29 @@ $(document).ready(function() {
 </div>
 </div>
 </form>
+
+<!-- 프로젝트 등록 최종확인 모달창 -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>프로젝트 등록</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">이대로 등록하시겠습니까?</label>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">제출</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // 리워드옵션 갯수 선택한만큼 리워드 row 보여주기
@@ -960,34 +983,54 @@ $("#btn_submit").click(function () {
 			 
 		  
 });
+
+function replaceTag(option_total) {
+	$("#title").val($(this).val().replace(/</g,""));
+	$("#summary").val($(this).val().replace(/</g,""));
+	$("#tag").val($(this).val().replace(/</g,""));
+	$(".op_title").val($(this).val().replace(/</g,""));
+	$(".op_content").val($(this).val().replace(/</g,""));
+}
 	
-// form에 submit 최종실행 함수!
+// 등록버튼 눌렀을 때
 function formSubmit() {
+	// 모달창에서 확인/취소 누르는것으로 바꿈
+	$("#messageModal").modal('show');
+	//$("#createProjectFrom").submit();
+}
+
+//최종 서브밋은 여기서
+function checkAndResubmitProject(){
 	// 선택한 은행+계좌번호 가져와
 	var bankname = $("#bankname").val();
 	var accountNumber = $("#accountNumber").val();
-	
 	// hidden에 bank값 세팅(컨트롤러에서 projectDto중 bank로 받아줄 값)
 	$("#bank").val(bankname + "/" + accountNumber);
 	
-	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 리워드금액, 리워드 수량에 들어간콤마 전부 없애기
+	// 리워드 내용에 들어간 개행문자를 '/'으로 치환하기 & 
+	// 리워드금액, 리워드 수량에 들어간콤마 전부 없애기 & 
+	// 제목,요약,태그,옵션제목과내용에 사용자가 임의로 작성한 태그 '<'문자 없애기
 	var fundtype = $("input[name='fundtype']:checked").val();	// reward / donation 라디오버튼 선택 값 가져오기
 	var option_total = $("#option_total").val();
+	$("#title").val($("#title").val().replace(/</g,""));
+	$("#summary").val($("#summary").val().replace(/</g,""));
+	$("#tag").val($("#tag").val().replace(/</g,""));
 	if(fundtype == "reward"){
 		for(var i=1; i<=option_total; i++){
 			var content = $("#op_content" + i).val();
 			var price = $("#op_price" + i).val();
 			var stock = $("#op_stock" + i).val();
-			$("#op_content" + i).val(content.replace(/\n/gi, "/"));
+			var title = $("#op_title" + i).val();
+			$("#op_content" + i).val(content.replace(/\n/gi, "/").replace(/</g,""));
 			$("#op_price" + i).val(price.replace(/,/gi, ""));
 			$("#op_stock" + i).val(stock.replace(/,/gi, ""));
+			$("#op_title"+ i).val(title.replace(/</g,""));
 		}
 	}
 	
 	// 목표금액에 들어간 콤마 전부 없애기
 	var _goalfund = $("#goalfund").val();
 	$("#goalfund").val(_goalfund.replace(/,/gi, ""));
-	
 	
 	// form 실행! 컨트롤러로~
 	$("#createProjectFrom").submit();

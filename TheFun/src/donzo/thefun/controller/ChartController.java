@@ -118,15 +118,15 @@ public class ChartController {
 			length = myProject.size();
 			for (int i = 0; i < myProject.size(); i++) {
 				logger.info((i+1) + "번째 프로젝트 내용 = " + myProject.get(i).toString());
-				if(myProject.get(i).getFundtype().equals("reward") && myProject.get(i).getCategory().equals("Food")) {
+				if(myProject.get(i).getFundtype().toLowerCase().equals("reward") && myProject.get(i).getCategory().toLowerCase().equals("food")) {
 					food +=1;
-				} else if(myProject.get(i).getFundtype().equals("reward") && myProject.get(i).getCategory().equals("Animal")) {
+				} else if(myProject.get(i).getFundtype().toLowerCase().equals("reward") && myProject.get(i).getCategory().toLowerCase().equals("animal")) {
 					r_animal +=1;
-				} else if(myProject.get(i).getFundtype().equals("reward") && myProject.get(i).getCategory().equals("IT")) {
+				} else if(myProject.get(i).getFundtype().toLowerCase().equals("reward") && myProject.get(i).getCategory().toLowerCase().equals("it")) {
 					it +=1;
-				} else if(myProject.get(i).getFundtype().equals("donation") && myProject.get(i).getCategory().equals("Human")) {
+				} else if(myProject.get(i).getFundtype().toLowerCase().equals("donation") && myProject.get(i).getCategory().toLowerCase().equals("human")) {
 					human +=1;
-				} else if(myProject.get(i).getFundtype().equals("donation") && myProject.get(i).getCategory().equals("Animal")) {
+				} else if(myProject.get(i).getFundtype().toLowerCase().equals("donation") && myProject.get(i).getCategory().toLowerCase().equals("animal")) {
 					d_animal +=1;
 				}
 			}

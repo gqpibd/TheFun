@@ -200,7 +200,7 @@
 <c:if test="${projectdtoList[0].isReward()}">
 	<!-- 옵션, 프로젝트 테이블 -->
    	<table style="width: 80%" >
-	<tr>
+	<!-- <tr>
 		<td colspan="4" bgcolor="gray" style="padding: 5px 5px 5px 10px;">
 			<input class="form-group" type="checkbox" id="checkAll" checked>
 			<label for="checkAll" style="color: white; font-weight: bold; padding-top: 5px;"> 전체 선택</label>
@@ -220,7 +220,7 @@
 			<img class="pnt" src="image/detail/deleteBtn1.jpg" id="deleteBtn" width="120px;" style="float: right;">
 	
 		</td>
-	</tr>
+	</tr> -->
     <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
     <tr oGroup="tr_${selectOptions[vs.index].seq}"> 
     	<td class="strongGray" colspan="4">
@@ -230,6 +230,7 @@
 		    <input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }"><!-- 재고(남은수량) -->
 	    	<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked>
 				<label for="checkboxs${vs.count}">${projectdto.title}</label>
+				<img class="pnt" src="image/icons/deleteBtn.jpg" width="5%" style="float: right; margin-top: 2px;" onclick="deleteReward(${selectOptions[vs.index].seq})" name="deleteBoxs">
 			</p>	<!-- 프로젝트제목 -->
     	</td>
     </tr>
@@ -486,6 +487,33 @@
 
 </div>  
 
+
+
+<!-- 결제하기 최종확인 모달창 -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>결제하기</b></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>     
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">이대로 결제하시겠습니까?</label>
+          </div>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel_btn" data-dismiss="modal" id="exit">취소</button>
+        <button type="button" class="btn fun_btn" onclick="checkAndResubmitProject()">확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script type="text/javascript">
 /* function checkedReward() {
 	for (var i = 1; i <= '${fn:length(projectdtoList)}'; i++) {
@@ -560,20 +588,22 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				alert("최소 기부금액은 100원 입니다.");
 				return;
 			}else if(Number(removeCommas($("#finalPrice").text()))==0){ // 포인트를 사용해서 실제 결제 금액이 0원인 경우 결제 체크 안 함
-				$("#orderfrm").attr("action","addOrder.do").submit();
+				// 모달창에서 확인/취소 누르는것으로 바꿈
+				$("#messageModal").modal('show');
+				//$("#orderfrm").attr("action","addOrder.do").submit();
 			}else{
 				if(checkPaymentMethod()){
 					console.log("checked");
-					$("#orderfrm").attr("action","addOrder.do").submit();
+					// 모달창에서 확인/취소 누르는것으로 바꿈
+					$("#messageModal").modal('show');
+					//$("#orderfrm").attr("action","addOrder.do").submit();
 				}
 			}
 		}else{ // 리워드일 때
-			if($("input[name='checkboxs']:checked").length<1){
-				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-				return;
-			}
-			if(checkDeliveryInfo() && checkPaymentMethod()){						
-				$("#orderfrm").attr("action","addOrder.do").submit();
+			if(checkDeliveryInfo() && checkPaymentMethod()){	
+				// 모달창에서 확인/취소 누르는것으로 바꿈
+				$("#messageModal").modal('show');
+				//$("#orderfrm").attr("action","addOrder.do").submit();
 			}
 		}		
 	}else if($('input:radio[id=autoPay]').is(':checked')){	//간편결제
@@ -583,10 +613,6 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value="****************";
 		
 		if(iswhat=="2"){	//리워드일때
-			if($("input[name='checkboxs']:checked").length<1){
-				alert("주문 상품을 반드시 하나 이상 선택해야 합니다.");
-				return;
-			}
 			if(checkDeliveryInfo()){						
 				requestPay();
 			}
@@ -595,6 +621,12 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		} //기부일때 끝
 	}//간편결제 끝	
 }
+
+function checkAndResubmitProject(){
+	// form 실행! 컨트롤러로~
+	$("#orderfrm").attr("action","addOrder.do").submit();
+}
+
 function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
 	document.getElementById(seqNum).value =count;	
 	var realPrice = Number(removeCommas(document.getElementById("realPrice_"+seqNum).value));	//단가
@@ -642,6 +674,25 @@ function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
 	   		changePrice(count,seqNum,'minus');
 		}
 	}
+	
+	// 각 리워드의 삭제버튼 클릭시
+	function deleteReward(opSeqNum) {
+		
+		// 옵션의 전체갯수
+		var allOptionlen = $("[name=deleteBoxs]").length;
+		
+		if(allOptionlen<2){	// 옵션이 2개 미만 즉, 하나만 남았다면 
+			alert("전체삭제는 불가능합니다.");
+		}else{	// 주문가능 수량이 2개 이상 남아있음. 즉, 하나 삭제해도 무방
+			/* 총가격 변환 */
+			var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
+			var opPrice = parseInt(removeCommas($("#"+priceId).text()));  				//현재적힌가격
+			var fiPrice = parseInt(removeCommas($("#finalPrice").text()));		//현재 총액
+
+			$("#finalPrice").text(addCommas(fiPrice-opPrice));			//총액재설정
+			$("tr[oGroup='tr_"+opSeqNum+"']").remove();	// 해당 row 삭제
+		}
+	}
 
 	$(document).ready(function (){
 		$("#autopayDiv").hide();
@@ -653,46 +704,7 @@ function changePrice(count,seqNum,type){ // 번호, 더하기빼기삭제
        	});
 		$("#finalPrice").text(addCommas(tPrice) );		
 		
-		// 삭제버튼 클릭시 테이블 변화 
-		$(document).on("click","#deleteBtn",function (){
-
-			//체크된 갯수
-			var arrlen =$("input[name=checkboxs]:checked").length;
-			
-			//옵션의 전체갯수
-			var allOptionlen = $("input[name=checkboxs]").length;
-			
-			if(arrlen==0){
-				alert("삭제할 리워드를 선택해주세요");
-			}else if(arrlen==allOptionlen){
-				alert("전체삭제는 불가능합니다. 다시선택해 주십시오");
-			}else{
-				//선택한 체크박스 id를 담을 배열
-				var ids = new Array(arrlen);
-				var i=0;
-				
-				$("input[name=checkboxs]:checked").each(function() {
-					var opSeqNum = $(this).val();	//옵션시퀀스
-					
-					/* 총가격 변환 */
-					var priceId = "price_"+opSeqNum;	//각 옵션 가격 input의 id화
-					var opPrice = parseInt(removeCommas($("#"+priceId).text()));  				//현재적힌가격
-					var fiPrice = parseInt(removeCommas($("#finalPrice").text()));		//현재 총액
-
-					$("#finalPrice").text(addCommas(fiPrice-opPrice));			//총액재설정
-					
-					/* 테이블 remove */
-					/* $("#trpro_"+opSeqNum).remove();
-					ids[i]="tr_"+opSeqNum;	//옵션타이틀 
-					$("#"+ids[i]).remove();		
-					ids[i+1]="tr2_"+opSeqNum;//옵션 컨텐츠
-					$("#"+ids[i+1]).remove(); */
-					//i+=2;
-					$("tr[oGroup='tr_"+opSeqNum+"']").remove();
-				}); 
-			}
-	
-		});	//onclick 끝
+		
 		
 		$("input:radio[name=delivery]").click(function(){
 			var deliId =$(':radio[name="delivery"]:checked').val();

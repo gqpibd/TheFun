@@ -245,7 +245,7 @@ $('.message a').click(function(){
 	var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "vb6UHNxUFoBsi487fDmI",
-			callbackUrl: "http://183.99.33.240:8090/TheFun/login.do",
+			callbackUrl: "http://ziharndwjs.dlinkddns.com/TheFun/login.do",
 			//callbackUrl: "https://localhost:8443/TheFun/login.do",
 			//isPopup: false, // 팝업을 통한 연동처리 여부 
 			//callbackHandle: true,

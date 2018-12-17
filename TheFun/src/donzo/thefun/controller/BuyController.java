@@ -284,7 +284,7 @@ public class BuyController {
 		//return "project_participant.tiles";
 		return "participants.tiles";
 	}
-	
+	 
 	// 배송처리, 기부완료 처리
 	@ResponseBody
 	@RequestMapping(value="finishFunding.do", method= {RequestMethod.GET, RequestMethod.POST})
