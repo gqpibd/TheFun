@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -812,8 +815,7 @@ public class ProjectController {
 		Iterator<String> it = UtilFunctions.sortByValue(tagMap).iterator(); // 중 갯수가 가장 많은 애들
 		String data = "#";
 		if(it != null){
-			int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자			 
-			
+			int iter = 0; // 지금 위치가 몇 번째인지 갯수를 세자	
 			while(it.hasNext()) {		
 				data += it.next();
 				if(iter > 10 || !it.hasNext()) {
@@ -824,6 +826,19 @@ public class ProjectController {
 				iter++;
 			}
 		}
+		
+		/*Collections.sort(pList, new Comparator<ProjectDto>() {
+			@Override
+			public int compare(ProjectDto o1, ProjectDto o2) {
+				if(o1.getBuycount() == o2.getBuycount()) return 0;
+				else if(o1.getBuycount() < o2.getBuycount()) return 1;
+				else return -1;
+			}
+			
+		});*/
+		/*for(ProjectDto dto : pList) {
+			logger.info(dto.getSeq() + " : " + dto.getBuycount());
+		}*/
 		
 		if(pList.size()>0) {
 			for(int i=0; i < pList.size();i++) {
@@ -839,8 +854,10 @@ public class ProjectController {
 			for(int i=0;i<pList.size();i++) {
 				listData += "{\"title\":\"" + pList.get(i).getTitle() +"\","+
 							"\"seq\":\""+ pList.get(i).getSeq() +"\"}";
-				if(i < pList.size()-1) {
+				if(i < pList.size()-1 && i < 4) {
 					listData += ",";
+				}else if(i>=4) {
+					break;
 				}
 			}
 			listData += "],\"tags\":[{\"tags\":\""+data+"\"}]}";

@@ -29,80 +29,80 @@
   /* margin-bottom: 10%; */
 }
 
-table {
+.mhtable {
   width: 100%;
 }
 
-table td, table th {
+.mhtable td, table th {
   color: #000;
   padding: 10px;
   text-align: center;
 }
 
-table td {
+.mhtable td {
   text-align: center;
   vertical-align: middle;
 }
 
-table td:last-child {
+.mhtable td:last-child {
   font-size: 0.95em;
   line-height: 1.4;
   text-align: left;
 }
 
-table th {
+.mhtable th {
   background-color: #8152f0;
   font-weight: 300;
   color: #fff;
 }
-table tr:nth-child(2n) {
+.mhtable tr:nth-child(2n) {
   background-color: white;
 }
-table tr:nth-child(2n+1) {
+.mhtable tr:nth-child(2n+1) {
   background-color: #edf7f8;
 }
 
 @media screen and (max-width: 1000px) {  
-  table, tr, td {
+  .mhtable, .mhtr, .mhtd {
     display: block;
   }
 
-  td:first-child {
+  .mhtd:first-child {
     position: absolute;
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
     /* width: 100px; */
   }
-  td:not(:first-child) {
+  .mhtd:not(:first-child) {
     clear: both;
     margin-left: 100px;
     padding: 4px 20px 4px 90px;	
     position: relative;
     text-align: left;
   }
-  td:not(:first-child):before {
+  .mhtd:not(:first-child):before {
     color: #8152f0;
     content: '';
     display: block;
     left: 0;
     position: absolute;
   }
-  td:nth-child(2):before {
+  .mhtd:nth-child(2):before {
     content: 'Name:';
   }
-  td:nth-child(3):before {
+  .mhtd:nth-child(3):before {
     content: 'Point:';
   }
-  td:nth-child(4):before {
+  .mhtd:nth-child(4):before {
     content: 'Comments:';
   }
   
-  tr {
+  .mhtr {
     padding: 20px 0;
     position: relative;
   }
-  tr:first-child {
+  .mhtr:first-child {
     display: none;
   }
 }
@@ -126,7 +126,7 @@ table tr:nth-child(2n+1) {
     width: 100px;
   }
 
-  td:first-child {
+  .mhtd:first-child {
     background-color: #8152f0;
     border-bottom: 1px solid #91ced4;
     border-radius: 10px 10px 0 0;
@@ -136,21 +136,21 @@ table tr:nth-child(2n+1) {
             transform: translateY(0);
     width: 100%;
   }
-  td:not(:first-child) {
+  .mhtd:not(:first-child) {
     margin: 0;
     padding: 5px 1em;
     width: 100%;
   }
-  td:not(:first-child):before {
+  .mhtd:not(:first-child):before {
     font-size: .8em;
     padding-top: 0.3em;
     position: relative;
   }
-  td:last-child {
+  .mhtd:last-child {
     padding-bottom: 1rem !important;
   }
 
-  tr {
+  .mhtr {
     background-color: white !important;
     border: 1px solid #8152f0;
     border-radius: 10px;
@@ -172,59 +172,25 @@ table tr:nth-child(2n+1) {
 }
 
 </style>
-    
-    
-    
-
 
 
 <div class="table-users">
 	<div class="header">MyPage</div>
-	<table border="0px">
+	<table class="mhtable" border="0px">
 	  <tbody class="user_tbody">
-	  <tr>
-	        <th>Picture</th>
-	        <th>Name</th>
-	        <th>Point</th>
-         	<th width="230">Comments</th>
+	  <tr class="mhtr" >
+	        <th class="mhtd">Picture</th>
+	        <th class="mhtd">Name</th>
+	        <th class="mhtd">Point</th>
+         	<th class="mhtd" width="230">Comments</th>
       </tr>
      
-      <tr>
-         <td><img class="table_img" alt="프로필" src="${login.profile }"></td>
-         <td>${login.nickname }</td>
-         <td>${login.point }점</td>
-         <td>${login.info }</td>
+      <tr class="mhtr">
+         <td class="mhtd"><img class="table_img" alt="프로필" src="${login.profile }"></td>
+         <td class="mhtd">${login.nickname }</td>
+         <td class="mhtd">${login.point }점</td>
+         <td class="mhtd">${login.info }</td>
       </tr>
-      
-		<%-- <tr>
-			<td rowspan="3" style="padding: 30px;">
-				<div class="" align="center">
-					<img class="profile_img" alt="프로필" src="${login.profile}">					
-				</div>
-				<div align="center">
-					<p style="font-weight: bold;">보유 포인트: ${login.point}점</p>
-				</div>
-			</td>
-			<td colspan="4" style="width: 100%; height: 100%;text-align: center"><h1>${login.nickname} 님</h1></td>
-			<!-- <td></td> -->
-			<!-- <td></td> -->
-			<!-- <td></td> -->
-		</tr>		 --%>
-		<%-- <tr>
-			<!-- <td></td> -->
-			<td colspan="4" style="padding-bottom: 40px; padding-left: 10px;">${login.info}</td>
-			<!-- <td></td> -->
-			<!-- <td></td> -->
-			<!-- <td></td> -->
-		</tr>		 --%>
-		<%-- <tr>
-			<!-- <td></td> -->
-			<td><a href="myInfo.do?id=${login.id}"><button class="btn_MyPage">나의 정보</button></a></td>
-			<td><a href="myOrderList.do?id=${login.id}"><button class="btn_MyPage">나의 후원내역</button></a></td>
-			<td><a href="mySchedule.do"><button class="btn_MyPage">나의 프로젝트</button></a></td>
-			<td><a href="myChart.do"><button class="btn_MyPage">나의 통계보기</button></a></td>
-			<!-- <td><a href="myCalendar.do"><button class="btn_MyPage">일정보기</button></a></td> -->
-		</tr> --%>
 		</tbody>
 	</table>				
 </div>

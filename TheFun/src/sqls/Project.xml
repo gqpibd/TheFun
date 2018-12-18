@@ -236,6 +236,7 @@ FROM FUN_PROJECT P;
 	SELECT * 
 	FROM FUN_PROJECTALL
 	WHERE ID=#{id} AND LOWER(STATUS) IN ('complete_success','ongoing','preparing')
+	ORDER BY BUYCOUNT DESC
 </select>
 
 <!-- 특정 판매자의 성공하거나 실패한 프로젝트 목록 -->

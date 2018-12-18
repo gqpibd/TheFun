@@ -99,14 +99,13 @@
 
 .main {
   position: relative;
-  /* left: 0;
-  right: 0; */
   border-radius: 0;
-  max-width: 900px;   
+  /* max-width: 900px; */   
   width: 100%;   
   margin: auto;
   display: inline-block;
-  /* overflow:hidden;   */
+  border-top: 1px solid #bcbac1;
+  border-bottom: 1px solid #bcbac1;
 }
 .left {
   width: 100%;
@@ -129,19 +128,23 @@
 
 
 @media screen and (min-width: 55em) {
-  /* .main {
-    max-width: 1000px;   
+  .main {
+    max-width: 85%;   
     overflow: visible;
-  } */
+  }
   .left {
     width: 65%;
     float: left;
  	border-right: 1px dashed #8152f0;
+ 	padding-top: 20px;
+ 	padding-bottom: 20px;
   }
   .right {
     width: 35%;
     float: right;
     padding-left: 20px;
+    padding-top: 20px;
+ 	padding-bottom: 20px;
   }  
   .priceBottom{
 	position: absolute;
@@ -165,7 +168,7 @@
 		<p class="strongGray">"기부자님의 소중한 마음으로 놀라운 변화가 일어납니다!"</p>
       	<p class="liteGray" style="size: 3px;">투명한 기부 후기로 그 변화를 소개하고 보답하겠습니다!</p>
       	<!-- <hr width="70%" color="#424242"> -->
-      	<table style="width: 80%; margin-bottom: 20px;">
+      	<table style="width: 85%; margin-bottom: 20px;">
 	      	<tr height="50px;">
 	      		<td rowspan="2" align="center" width="70%"  style="border-width: 1px 1px 1px 0; border-style: solid; border-color: #8152f0;">
 	      			 기부금액  <input class="pupple" type="text" id="amount" style="text-align: right;width: 120px; margin:5px; " placeholder="0">원
@@ -236,11 +239,11 @@
 		
 	})
 	</script>
-	<div id="noPaymentMessage" style="display: none; width: 80%; background: #eae2fc; border-top: 1px solid #4500e8; border-bottom: 1px solid #4500e8; padding: 10px; margin-bottom: 10px;">
+	<div id="noPaymentMessage" style="display: none; width: 85%; background: #eae2fc; border-top: 1px solid #4500e8; border-bottom: 1px solid #4500e8; padding: 10px; margin-bottom: 10px;">
 		<span>포인트만으로 기부하는 경우 결제정보를 수집하지 않습니다.</span>
 	</div>
-	<div dGroup="divPayInfo" >
-	<table style="width: 80%; padding: 20px;" class="td1">
+	<div dGroup="divPayInfo" style="padding-top: 20px;  border-top: 1px solid #bcbac1; width: 85%;">
+	<table style="width: 100%; padding: 20px;" class="td1">
      	<tr>
      		<td style="padding-bottom: 30px;"><img src="image/detail/info.jpg" width="120px;"></td>
      	</tr>
@@ -260,12 +263,7 @@
      	<tr>
      		<td class="profiletitle">휴대폰 번호</td>     	
      		<td class="profile">
-     		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray disabledInput" readonly placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
-     		</c:if>
-     		<c:if test="${not empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray disabledInput" readonly value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
-     		</c:if>
+     			<input name="phone" id="deliPhone" class="liteGray" value="${login.phone}" maxlength="13" style="padding: 5px;" onkeyup="autoHyphen(this)" placeholder="등록된 번호가 없습니다." >
      		</td>
     	</tr>
 		
@@ -276,7 +274,7 @@
 <!-- 리워드일 경우 -->
 <c:if test="${projectdtoList[0].isReward()}">
 	<!-- 옵션, 프로젝트 테이블 -->
-   	<table style="width: 80%" >
+   	<table style="width: 85%" >
     <c:forEach items="${projectdtoList}" var="projectdto" varStatus="vs"> <!-- 프로젝트foreach시작 -->
     <tr oGroup="tr_${selectOptions[vs.index].seq}"> 
     	<td class="strongGray" colspan="4">
@@ -284,7 +282,8 @@
 		    <input type="hidden" name="projectseq" id="projectseq${vs.count }" value="${projectdto.seq}"> <!-- 프로젝트시퀀스 hidden -->
 		    <input type="hidden" name="opSeq" id="opSeq${vs.count }" value="${selectOptions[vs.index].seq}"> <!-- 옵션 시퀀스 hidden -->
 		    <input type="hidden" id="stock_${selectOptions[vs.index].seq}" value="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }"><!-- 재고(남은수량) -->
-	    	<p><input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked>
+	    	<p>
+	    		<input type="checkbox" value="${selectOptions[vs.index].seq}" name="checkboxs" id="checkboxs${vs.count }" checked>
 				<label for="checkboxs${vs.count}">${projectdto.title}</label>
 				<img class="pnt" src="image/icons/deleteBtn.jpg" width="5%" style="float: right; margin-top: 2px;" onclick="deleteReward(${selectOptions[vs.index].seq})" name="deleteBoxs">
 			</p>	<!-- 프로젝트제목 -->
@@ -296,7 +295,7 @@
 			<p>${selectOptions[vs.index].title}
 				<font size="2px;" color="#656565">
 					<!-- -1이 아닐 경우만 재고 출력. -1은 재고 무제한 -->
-					<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne -1}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
+					<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount gt -1}">${selectOptions[vs.index].stock-selectOptions[vs.index].buycount}개 남음)</c:if>
 				</font>
 			</p>
 		</td>
@@ -314,10 +313,10 @@
 		<td class="liteGray" align="center">
 			개당 가격
 		</td>
-		<td class="liteGray" align="center">
+		<td class="liteGray" align="center" style="width:25%">
 			수량
 		</td>
-		<td class="liteGray" style="text-align: right; padding-right: 10px;" >
+		<td class="liteGray" style="text-align: right; padding-right: 10px; width:25%" >
 			합계 금액
 		</td>
 	</tr>
@@ -379,12 +378,7 @@
 	<!-- </tr>
 	<tr> -->
 		<td class="profile">
-		<c:if test="${empty login.phone}">
-		<input class="liteGray disabledInput" value="등록된 번호가 없습니다." readonly="readonly"style="padding: 5px;">
-	</c:if>
-	<c:if test="${not empty login.phone}">
-		<input class="liteGray disabledInput" value="${login.phone}" readonly="readonly"style="padding: 5px;">
-	</c:if>
+			<input class="liteGray disabledInput" value="${login.phone}" readonly="readonly"style="padding: 5px;" placeholder="등록된 번호가 없습니다.">
 		</td>
 	</tr>
 	</table>
@@ -413,12 +407,7 @@
      	<!-- </tr>
      	<tr> -->
      		<td class="profile">
-     		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray" placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
-     		</c:if>
-     		<c:if test="${not empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
-     		</c:if>
+     	    	<input name="phone" id="deliPhone" class="liteGray" maxlength="13" placeholder="등록된 번호가 없습니다." value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
      		</td>
      	</tr>
      	<tr>
@@ -426,28 +415,28 @@
      	<!-- </tr>
      	<tr> -->
      		<td class="profile">
-     		<input type="text" style="width:100px; padding:5px" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode }"> 
+     		<input class="liteGray" type="text" style="width:100px; padding:5px" id="postcode" name="postcode" placeholder="우편번호" readonly="readonly" value="${login.postcode }"> 
      		<input type="button" onclick="sample4_execDaumPostcode()" class="inputBtn" value="우편번호 찾기">
      		</td>
      	</tr>
      	<tr>
      		<td></td>
      		<td class="profile">
-			<input type="text" style="width:95%; padding:5px" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
+			<input class="liteGray" type="text" style="width:95%; padding:5px" id="roadAddress" name="roadaddress" placeholder="도로명주소" readonly="readonly" value="${login.roadaddress }">
 			
      		</td>
      	</tr>
      	<tr>
      		<td></td>
      		<td class="profile">
-     			<input type="text" style="width:95%; padding:5px" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
+     			<input class="liteGray" type="text" style="width:95%; padding:5px" id="detailAddress" name="detailaddress" maxlength="30" onkeyup="detailAddressCheck()" placeholder="상세주소" value="${login.detailaddress}">
      		</td>
      	</tr>
      	</table>
 </div>
 </div>
      	<br><br>
-     	<div style="width: 80%" align="left">
+     	<div style="width: 85%" align="left">
      	<p class="strongGray" style="">THE FUN 리워드 펀딩은 결제예약 시스템을 이용합니다.</p>
      	<ul class="liteGray" >
 			<li>프로젝트의 성공여부에 따라 결제가 실행되며 자동결제시 결제대기금100원을 지불받습니다.</li>
@@ -462,13 +451,16 @@
 <div dGroup="divPayInfo">
 <div class="main" style="margin-top:15px">
  	<div class="left" style="text-align:left">
-	 	<div style="padding-top:20px; padding-bottom:20px;">
-			<img src="image/detail/payinfo.jpg" width="120px;" style="text-align: left;"><br><br>
-			<label for="handPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">수동결제</label> 
-			<label for="autoPay" class="pnt"><input type="radio" name="purchase" id="autoPay" value="auto">간편결제</label>  
-		</div>
-  
-  		<div id="autopayDiv"> <!-- 자동결제선택시 show --></div>
+ 		<div>
+	 	<span style="padding-top:20px; padding-bottom:20px;">
+			<img src="image/detail/payinfo.jpg" width="120px;" style="text-align: left;">
+		</span>
+		<span style="margin-left:30px">
+			<label for="handPay" class="pnt"><input type="radio" name="purchase" id="handPay" value="hand"checked="checked">일반결제</label> 
+			<label for="autoPay" class="pnt"><input type="radio" name="purchase" id="autoPay" value="auto">간편결제</label>
+  		</span>
+  		</div>
+  		<div id="autopayDiv" style="text-align: center; margin: 20px;"> <!-- 자동결제선택시 show --></div>
   
   		<div id="handpayDiv"><!-- 개인결제 선택시 show 결제정보 입력 테이블 -->
   
@@ -530,7 +522,7 @@
 	<br><br>
 	<!-- 리워드일경우 -->
 	<c:if test="${projectdtoList[0].isReward()}">
-		<div style="width: 80%" align="left">
+		<div style="width: 85%" align="left">
 			<p class="strongGray" align="left">결제 예약시 유의사항</p>
 			<ul class="liteGray" >
 				<li>결제실행일에 결제자 귀책사유(카드 재발급, 한도초과, 이용정지 등)으로 인하여 결제가 실패할 수 있으니 결제수단이 유효한지 다시 한번 확인하세요.</li>
@@ -646,10 +638,7 @@ function checkDeliveryInfo(){
 }
 function goAddOrder( is ) {	//최종결제 유효성검사
 	var iswhat = is;
-	// 먼저 사용자의 기본 정보 확인
-	if(checkSupporterInfo() == false){
-		return;
-	}
+	
 	//라디오버튼확인 
 	if($('input:radio[id=handPay]').is(':checked')){	//수동결제
 		//카드번호 설정
@@ -665,7 +654,11 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				// 모달창에서 확인/취소 누르는것으로 바꿈
 				$("#messageModal").modal('show');
 				//$("#orderfrm").attr("action","addOrder.do").submit();
-			}else{
+			}else{ //  실 결제 금액이 있는 경우
+				// 먼저 사용자의 기본 정보 확인
+				if(checkSupporterInfo() == false){
+					return;
+				}
 				if(checkPaymentMethod()){
 					console.log("checked");
 					// 모달창에서 확인/취소 누르는것으로 바꿈
@@ -674,6 +667,10 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 				}
 			}
 		}else{ // 리워드일 때
+			// 먼저 사용자의 기본 정보 확인
+			if(checkSupporterInfo() == false){
+				return;
+			}
 			if(checkDeliveryInfo() && checkPaymentMethod()){	
 				// 모달창에서 확인/취소 누르는것으로 바꿈
 				$("#messageModal").modal('show');
@@ -687,6 +684,10 @@ function goAddOrder( is ) {	//최종결제 유효성검사
 		document.getElementById("cardNumber").value="****************";
 		
 		if(iswhat=="2"){	//리워드일때
+			// 먼저 사용자의 기본 정보 확인
+			if(checkSupporterInfo() == false){
+				return;
+			}
 			if(checkDeliveryInfo()){						
 				requestPay();
 			}

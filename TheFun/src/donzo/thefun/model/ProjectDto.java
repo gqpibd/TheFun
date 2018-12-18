@@ -541,8 +541,7 @@ public class ProjectDto implements Serializable {
 			return false;
 		}
 	}
-	
-	
+		
 	public int getReviewcount() {
 		return reviewcount;
 	}

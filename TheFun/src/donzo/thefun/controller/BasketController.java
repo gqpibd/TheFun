@@ -65,7 +65,12 @@ public class BasketController {
 			logger.info("찾아온 장바구니 = " + myBasketList.get(i).toString());
 			OptionDto option = projectService.getOptionDetail(myBasketList.get(i).getOptionseq());
 			int leftCount = option.getStock() - option.getBuycount();
-			if(option.getStock() <= 0 ) { // 제한 수량 무제한인 경우
+			if(!myBasketList.get(i).getStatus().toLowerCase().equals("ongoing")) {
+	            // 진행중인 프로젝트가 아니면 장바구니에서 삭제
+	            basketService.deleteBasket(myBasketList.get(i).getSeq());
+	            myBasketList.remove(i); // 리스트에서 삭제하고
+	            i--; // 이 자리 비니까 다시 체크
+	        }else if(option.getStock() <= 0 ) { // 제한 수량 무제한인 경우
 				continue;
 			}else if(leftCount <= 0) { // 남은 재고가 없으면 장바구니에서 삭제
 				basketService.deleteBasket(myBasketList.get(i).getSeq());

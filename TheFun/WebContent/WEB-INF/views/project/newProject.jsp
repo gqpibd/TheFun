@@ -14,7 +14,7 @@
 <script src="./js/summernote-ko-KR.js"></script>	<!-- 스마트 에디터 한글설정(메뉴 설명 등이 영어->한글로 나옴) -->
 
 <style type="text/css">
-h1, .mb-0, tr, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
+h1, .mb-0, #createProjectFrom, #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
 	font-family: 'Jua', sans-serif;
 }
 #home-tab, #menu-tab1, #menu-tab2, .notChangedOption, .changedOption{
@@ -824,8 +824,6 @@ function optionChange( me ) {
 }
 //전송버튼 눌렀을 때
 $("#btn_submit").click(function () {
-	alert("전송");
-	
 	/* 공란 거르기 */
 	
 		// [1] 첫번째 탭 값

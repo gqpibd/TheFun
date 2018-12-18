@@ -99,10 +99,10 @@
 	  </ol>
 	  <div class="carousel-inner">
 	    <div class="carousel-item active"> 
-	      <img class="d-block w-100" style="cursor: pointer;" src="image/banner/메인1.png" alt="첫번째 슬라이드" onclick="location.href='projectDetail.do?seq=161'">
+	      <img class="d-block w-100" style="cursor: pointer;" src="image/banner/메인1.png" alt="첫번째 슬라이드" onclick="location.href='projectDetail.do?seq=162'">
 	    </div>
 	    <div class="carousel-item">
-	      <img class="d-block w-100" style="cursor: pointer;" src="image/banner/메인2.png" alt="두번째 슬라이드" onclick="location.href='projectDetail.do?seq=162'">
+	      <img class="d-block w-100" style="cursor: pointer;" src="image/banner/메인2.png" alt="두번째 슬라이드" onclick="location.href='projectDetail.do?seq=161'">
 	    </div>
 	    <div class="carousel-item">
 	      <img class="d-block w-100" style="cursor: pointer;" src="image/banner/메인3.png" alt="세번째 슬라이드" onclick="location.href='projectDetail.do?seq=163'">

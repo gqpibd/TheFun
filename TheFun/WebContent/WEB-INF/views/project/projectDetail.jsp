@@ -10,7 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:requestEncoding value="utf-8" />
 <!-- 프로젝트디테일 css 링크 -->
-<link rel="stylesheet" href="CSS/project/projectDetail.css">
+<link rel="stylesheet" href="CSS/project/projectDetail.css?ver=2">
 <!-- Custom styles for this template -->
 <style type="text/css">
 .menubar{
@@ -226,7 +226,7 @@
 
 @media (min-width: 1200px){
 	.container {
-	    max-width: 1340px;
+	    max-width: 1350px;
 	}
 }
 
@@ -342,16 +342,13 @@
 
 <!-- 남은날짜계산 -->
 <jsp:useBean id="toDay" class="java.util.Date" />
-<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}"
-	integerOnly="true" var="nowDate"></fmt:parseNumber>
-<fmt:parseDate value="${projectdto.edate }" var="endDate"
-	pattern="yyyy-MM-dd HH:mm:ss" />
-<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}"
-	integerOnly="true" var="endDate"></fmt:parseNumber>
-<fmt:parseDate value="${projectdto.sdate }" var="sDate"
-	pattern="yyyy-MM-dd HH:mm:ss" />
-<fmt:parseNumber value="${sDate.time / (1000*60*60*24)}"
-	integerOnly="true" var="startDate"></fmt:parseNumber>
+<fmt:parseNumber value="${toDay.time / (1000*60*60*24)}"  var="toDayDate"></fmt:parseNumber>
+<fmt:parseDate value="${projectdto.edate }" var="endDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" var="endDate"></fmt:parseNumber>
+<fmt:parseDate value="${projectdto.sdate }" var="startDate" pattern="yyyy-MM-dd HH:mm:ss"/>
+<fmt:parseNumber value="${startDate.time / (1000*60*60*24)}" var="startDate"></fmt:parseNumber>
+<fmt:parseNumber value="${endDate - toDayDate}" integerOnly = "true" var="leftDate"></fmt:parseNumber>
+<fmt:parseNumber value="${startDate - toDayDate}" integerOnly = "true" var="untilStart"></fmt:parseNumber>
 
 <!-- 카테고리 , 태그 -->
 <div class="container">
@@ -399,19 +396,19 @@
 					<td class="strongGray sTd" colspan="3">
 						<c:if test="${projectdto.isPreparing()}">
 							<!-- 프로젝트 준비중 -->
-							<b style="font-size: 25px">${startDate-nowDate+1}일후 시작</b>
+							<b style="font-size: 25px">${untilStart+1}일후 시작</b>
 						</c:if> 
-						<c:if test="${projectdto.isComplete_success() or projectdto.isComplete_fail()}">
+						<c:if test="${projectdto.isDone()}">
 							<!-- 프로젝트 종료 -->
 							<b style="font-size: 25px">종료된 프로젝트</b>
 						</c:if> 
 						<c:if test="${projectdto.isOngoing()}">
 							<!-- 프로젝트 실행중 -->
-							<c:if test="${(endDate - nowDate)==0}">
+							<c:if test="${leftDate==0}">
 								<b style="font-size: 25px">오늘마감</b>
 							</c:if>
-							<c:if test="${(endDate - nowDate)>0}">
-								<b style="font-size: 25px">${endDate-nowDate+1}일 남음</b>
+							<c:if test="${leftDate>0}">
+								<b style="font-size: 25px">${leftDate+1}일 남음</b>
 							</c:if>
 						</c:if>
 					</td>
@@ -816,7 +813,7 @@ function minusVal(seqNum) {
 	<div class="row">
 
 		<!-- Main content 스토리, 댓글, 새소식 ★★★★★-->
-		<div class="col-lg-8" id="storyContent">
+		<div class="col-lg-9" id="storyContent">
 			<p class="pupple" style="font-size: 15px;">
 				목표금액 <b><fmt:formatNumber value="${projectdto.goalfund }"
 						type="number" /></b>원 &nbsp;&nbsp; 펀딩기간 <b> <fmt:parseDate
@@ -832,16 +829,16 @@ function minusVal(seqNum) {
 			<p>${projectdto.content }</p>
 		</div>
 
-		<div class="col-lg-8" id="qnaContent">
+		<div class="col-lg-9" id="qnaContent">
 			<!-- QNA  -->
 			<jsp:include page="qna.jsp" />
 		</div>
 
-		<div class="col-lg-8" id="noticeContent">
+		<div class="col-lg-9" id="noticeContent">
 			<jsp:include page="detailNotice.jsp" />
 		</div>
 
-		<div class="col-lg-8" id="reviewContent">
+		<div class="col-lg-9" id="reviewContent">
 			<!-- 후기  -->
 			<c:if test="${projectdto.isReward() }">
 				<jsp:include page="detailFeedback.jsp" />
@@ -851,7 +848,7 @@ function minusVal(seqNum) {
 			</c:if>
 		</div>
 		<!-- Sidebar 전체-->
-		<div class="col-lg-4">
+		<div class="col-lg-3">
 
 			<!--side 회사정보-->
 			<p class="strongGray">
@@ -937,7 +934,7 @@ function layer_popup(el){
     var $el = $(el);        //레이어의 id를 $el 변수에 저장
     var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
     isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
-    var $elWidth = ~~($el.outerWidth()),
+    /* var $elWidth = ~~($el.outerWidth()),
         $elHeight = ~~($el.outerHeight()),
         docWidth = $(document).width(),
         docHeight = $(document).height();
@@ -949,7 +946,7 @@ function layer_popup(el){
         })
     } else {
         $el.css({top: 0, left: 0});
-    }
+    } */
     $el.find('a.btn-layerClose').click(function(){
         isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
         return false;
@@ -1222,7 +1219,7 @@ $(function () {
 					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 관심 태그</div>
 					<span id="sellerTags"></span>
 					<br><br>
-					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 다른 프로젝트도 살펴보세요</div>
+					<div style="width: 100%; text-align: center;font-weight: bold;">이 판매자의 인기 프로젝트도 살펴보세요</div>
 					<span id="title"></span>
 				</div>
 				<div class="btn-r">
