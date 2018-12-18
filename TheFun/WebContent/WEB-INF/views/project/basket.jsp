@@ -125,7 +125,7 @@ $(document).ready(function () {
 		<c:otherwise>
 		<form action="goOrderReward.do" method="post" id="updateForm">
 			<c:forEach items="${myBasket}" var="basket" varStatus="status">
-			<c:if test="${basket.isOngoing() or basket.isPreparing()}">	<!-- 정상 진행중이거나 준비중인 프로젝트의 경우에만 출력해라 -->
+			<c:if test="${basket.isOngoing()}">	<!-- 정상 진행중인 프로젝트의 경우에만 출력해라 -->
 				<input type="hidden" id="seq${status.count }" value="${basket.seq }">
 				<input type="hidden" name="projectSeq" id="projectSeq${status.count }" value="${basket.projectseq }">
 				<input type="hidden" id="originPrice${status.count}" value="${basket.price}">	<!-- 상품 당 개당가를 저장해줄 변수 -->
