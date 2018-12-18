@@ -382,7 +382,7 @@ $(document).ready(function () {
 								<li><a href="searchProjectList.do?doc_title=ing">진행 중인 프로젝트</a></li>
 								<li><a href="hotProject.do?doc_title=categoryBest">분야별 인기 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_sort=edateASC&doc_title=edateASC&s_condition=end_seven_date">곧 끝나는 프로젝트</a></li>
-								<li><a href="searchProjectList.do?s_sort=sdateDESC&doc_title=sdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
+								<li><a href="searchProjectList.do?s_sort=regdateDESC&doc_title=regdateDESC&s_condition=reg_seven_date">최신 프로젝트</a></li>
 								<li><a href="searchProjectList.do?s_complete=complete&doc_title=complete">끝난 프로젝트</a></li>
 							</ul>
 						</div>

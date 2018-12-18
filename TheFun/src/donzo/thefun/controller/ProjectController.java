@@ -193,6 +193,7 @@ public class ProjectController {
 		if(pParam.getS_sort() == null || pParam.getS_sort().equals("")) {
 			pParam.setS_sort("FUNDACHIVED");
 			pParam.setS_asc_desc("DESC");
+			model.addAttribute("s_sort", "fundachivedDESC");
 		} else if(pParam.getS_sort().equals("buycountDESC")) {
 			pParam.setS_sort("BUYCOUNT");
 			pParam.setS_asc_desc("DESC");

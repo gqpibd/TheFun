@@ -201,7 +201,7 @@ ul.tab li.current a{
 	</header>
 	</c:when>
 	
-	<c:when test="${doc_title eq 'sdateDESC'}">
+	<c:when test="${doc_title eq 'regdateDESC'}">
 	<header id="line_header">
 	<div class="container text-center">
 	<!-- <h1 class="head_title">SEARCH</h1> -->
@@ -542,235 +542,12 @@ ul.tab li.current a{
 	onkeypress="var iffocus = $(this).is(':focus');if(iffocus){if(event.keyCode==13) {more_search_Enter(); return false;}} else{}">
 </div>
 
-
-
-<%-- 
-MyBatis에 foreach 써서 list가 들어가는 줄을 몰랐네 바보다
-<!-- 검색 조건	 -->
-<div align="center" style="margin-bottom: 30px;margin-top: 30px;">
-<form action="searchProjectList.do" > <!-- post로 바꿀 예정 -->
-	<input type="hidden" id="s_keyword_hidden" name="s_keyword" value="${s_keyword }">
-	<table style="width: 50%;" cellpadding="5px" id="search_option">
-	<col width="15%"><col width="10%"><col width="10%;"><col width="10%;">
-	<tr id="type_option">
-	<th>대분류<input type="hidden" id="s_type_hidden" name="s_type" value=""><!-- 정리하기 위한 hidden --></th>
-	<td><input type="checkbox" name="s_type_before" value="${ProjectDto.TYPE_DONATION}"><span>&nbsp;기부</span></td>
-	<td><input type="checkbox" name="s_type_before" value="${ProjectDto.TYPE_REWARD}"><span>&nbsp;리워드</span></td>
-	<td></td> 
-	</tr>
-	
-	<tr id="reward_category">
-	<th>리워드-카테고리<input type="hidden" id="s_category_hidden" name="s_category" value=""><!-- 정리하기 위한 hidden --></th>
-	<td><input type="checkbox" name="s_category_before" value="${ProjectDto.CATEGORY_FOOD}"><span>&nbsp;음식</span></td>
-	<td><input type="checkbox" name="s_category_before" value="${ProjectDto.CATEGORY_IT}"><span>&nbsp;IT/생활</span></td>
-	<td><input type="checkbox" name="s_category_before" value="${ProjectDto.CATEGORY_ANIMAL}"><span>&nbsp;동물</span></td>
-	</tr>
-	
-	<tr id="donation_category">
-	<th>기부-카테고리<input type="hidden" id="s_category_hidden" name="s_category" value=""><!-- 정리하기 위한 hidden --></th>
-	<td><input type="checkbox" name="s_category_before" value="${ProjectDto.CATEGORY_HUMAN}"><span>&nbsp;인권</span></td>
-	<td><input type="checkbox" name="s_category_before" value="${ProjectDto.CATEGORY_ANIMAL}"><span>&nbsp;동물</span></td>
-	<td></td>
-	</tr>
-	
-	<tr>
-	<th>프로젝트 진행 상태<input type="hidden" id="s_complete_hidden" name="s_complete" value=""><!-- 정리하기 위한 hidden --></th>
-	<td>
-		<input type="checkbox" name="s_complete_before" value="${ProjectDto.COMPLETE_SUCCESS}"><span>&nbsp;종료</span>
-		<input type="hidden" name="s_complete_before" value="${ProjectDto.COMPLETE_FAIL}">
-	</td>
-	<td>
-		<input type="checkbox" name="s_complete_before" value="${ProjectDto.ONGOING}"><span>&nbsp;진행 / 준비 중</span>
-		<input type="hidden" name="s_complete_before" value="${ProjectDto.PREPARING}">
-	</td>
-	<td><input type="submit" value="제출"></td>
-	</tr>
-	
-	</table>
-	
-</form>
-</div>
- --%>
- 
- 
-<%-- 
-<script>
-$(document).ready(function () {
-	
-	/* 검색 조건 걸러내서 담을 변수 */
-	/*
-	var s_type_after = "";
-	var s_category_after = "";
-	var s_complete_after = "";
-	*/
-	
-	/* 배열 과 그 사이즈 */
-	var s_type_before = document.getElementsByName("s_type_before");
-	var s_type_before_size = document.getElementsByName("s_type_before").length;
-	
-	var s_category_before = document.getElementsByName("s_category_before");
-	var s_category_before_size = document.getElementsByName("s_category_before").length;
-	
-	var s_complete_before = document.getElementsByName("s_complete_before");
-	var s_complete_before_size = document.getElementsByName("s_complete_before").length;
-	
-	//////////////////////////////////
-	/* 하드 코딩하기 싫은데 생각이 떠오르질 않아요 */
-	/* s_type 정리 */
-	for (i = 0; i < s_type_before_size ; i++) {
-		
-		/* .indexOf(String) : 배열에 값 없으면 -1 반환 /있으면 그 배열의 인덱스 숫자 반환 */
-		/* 리워드가 있을시 */
-		if(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_REWARD%>") != -1){ 
-			alert(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_REWARD%>"));
-			/* 리워드와 기부가 모두 있을 시 */
-			if(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_DONATION%>") != -1){
-				$("#s_type_hidden").val("");	// 공백이 모두 있다는 의미
-			}
-			/* 리워드는 있는데 기부가 없을 때 */
-			else{
-				$("#s_type_hidden").val("<%=ProjectDto.TYPE_REWARD%>");
-			}
-		}
-		/* 기부가 있을 시 */
-		else if(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_DONATION%>") != -1){
-			/* 기부와 리워드 모두 있을 시 */
-			if(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_REWARD%>") != -1){
-				$("#s_type_hidden").val("");	// 공백이 모두 있다는 의미
-			}
-			/* 기부는 있는데 리워드가 없을 때 */
-			else{
-				$("#s_type_hidden").val("<%=ProjectDto.TYPE_DONATION%>");
-			}
-		}
-	}
-	
-	//////////////////////////////////
-	
-	/* 하드 코딩하기 싫은데 생각이 떠오르질 않아요 */
-	/* s_category 정리 */
-	for (i = 0; i < s_cavtegory_before_size ; i++) {
-		
-		/* .indexOf(String) : 배열에 값 없으면 -1 반환 /있으면 그 배열의 인덱스 숫자 반환 */
-		/* 음식이 있을시 */
-		if(s_category_before[i].value.indexOf("<%=ProjectDto.CATEGORY_FOOD%>") != -1){ 
-			alert(s_type_before[i].value.indexOf("<%=ProjectDto.TYPE_REWARD%>"));
-			/* 음식과 it가 있을 시 */
-			if(s_category_before[i].value.indexOf("<%=ProjectDto.CATEGORY_IT%>") != -1){
-				/* 음식과 it와 동물이 모두 있을 시 */
-				if(s_category_before[i].value.indexOf("<%=ProjectDto.CATEGORY_ANIMAL%>") != -1){
-					$("#s_category_hidden").val("");	// 공백이 모두 있다는 의미
-				}
-				/* 음식과 it는 있는데 동물이 없을 시 */
-				else{
-					$("#s_category_hidden").val("only_no_animal");
-				}
-			}
-			/* 는 있는데 가 없을 때 */
-			else{
-				$("#s_type_hidden").val("<%=ProjectDto.TYPE_REWARD%>");
-			}
-		}
-		/* 음식이 없고 it가 있을 시 */
-		else if(s_category_before[i].value.indexOf("<%=ProjectDto.TYPE_DONATION%>") != -1){
-			/* 기부와 리워드 모두 있을 시 */
-			if(s_category_before[i].value.indexOf("<%=ProjectDto.TYPE_REWARD%>") != -1){
-				/* $("#s_type_hidden").val("");	// 공백이 모두 있다는 의미 */
-			}
-			/* 기부는 있는데 리워드가 없을 때 */
-			else{
-				$("#s_category_hidden").val("<%=ProjectDto.TYPE_DONATION%>");
-			}
-		}
-	}
-	
-	
-	var typeVal = '${s_type}';
-	var categoryVal = '${s_category}';
-	var completeVal = '${s_complete}';
-	
-	/* alert("typeVal : " + typeVal + " categoryVal : " + categoryVal + " completeVal : " + completeVal); */
-	
-	/* 체크 초기설정 */
-	/* 타입 */
-	if(typeVal == ""){
-		$("input[name='s_type_before']").prop("checked", true);
-	} else if($("input[value='<%=ProjectDto.TYPE_REWARD%>']").val() == typeVal){
-		$("input[value='<%=ProjectDto.TYPE_REWARD%>']").prop("checked", true);
-		$("#donation_category").css("display", "none");
-	} else if($("input[value='<%=ProjectDto.TYPE_DONATION%>']").val() == typeVal){
-		$("input[value='<%=ProjectDto.TYPE_DONATION%>']").prop("checked", true);
-		$("#reward_category").css("display", "none");
-	}
-	
-	/* 체크 초기설정 */
-	/* 카테고리 */
-	if(categoryVal == ""){
-		$("input[name='s_category_before']").prop("checked", true);
-	} else if($("input[value='<%=ProjectDto.CATEGORY_FOOD%>']").val() == categoryVal){
-		$("input[value='<%=ProjectDto.CATEGORY_FOOD%>']").prop("checked", true);
-	} else if($("input[value='<%=ProjectDto.CATEGORY_IT%>']").val() == categoryVal){
-		$("input[value='<%=ProjectDto.CATEGORY_IT%>']").prop("checked", true);
-	} else if($("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").val() == categoryVal){
-		$("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").prop("checked", true);
-	} else if($("input[value='<%=ProjectDto.CATEGORY_HUMAN%>']").val() == categoryVal){
-		$("input[value='<%=ProjectDto.CATEGORY_HUMAN%>']").prop("checked", true);
-	}
-	
-	/* 체크 초기설정 */
-	/* 완료 여부 */
-	if('complete' == completeVal){
-		$("input[value='s_complete_before']").prop("checked", true);
-	} else {
-		$("input[value='<%=ProjectDto.ONGOING%>']").prop("checked", true);
-	}
-	
-	
-	/* 체크에 따른 기능 */
-	$(document).on("click", "#search_option input:checkbox", function () {
-		/* 체크 시 */
-		if($(this).is(":checked")){
-			if($(this).val() == $("input[value='<%=ProjectDto.TYPE_REWARD%>']").val()){
-				/* 보이게 */
-				$("#reward_category").css("display", "");
-			} else if($(this).val() == $("input[value='<%=ProjectDto.TYPE_DONATION%>']").val()){
-				/* 보이게 */
-				$("#donation_category").css("display", "");
-			}
-			
-			/* 동물끼리는 같은 묶음 - 보이게 */
-			if($(this).val() == $("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").val()) {
-				$("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").prop("checked", true);
-			}
-		}
-		
-		/* 체크 해제 시 */
-		else{ 
-			if($(this).val() == $("input[value='<%=ProjectDto.TYPE_REWARD%>']").val()){
-				/* 안 보이게 */
-				$("#reward_category").css("display", "none");
-			} else if($(this).val() == $("input[value='<%=ProjectDto.TYPE_DONATION%>']").val()){
-				/* 안 보이게 */
-				$("#donation_category").css("display", "none");
-			}
-			
-			/* 동물끼리는 같은 묶음 - 안 보이게 */
-			if($(this).val() == $("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").val()) {
-				$("input[value='<%=ProjectDto.CATEGORY_ANIMAL%>']").prop("checked", false);
-			}
-        }
-	});
-	
-});
-</script>
---%>
-
 <div class="container" style="margin-bottom: 3%;">
 <div class="row">
 <div class="tab">
     <ul class="tab"> <!-- post로 보내고 싶은데.. 이런저런 시도 후 원상복구 -->
-     <li data-tab="tab1" id="tab1"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=buycountDESC">참여 많은 순</a></li>
-     <li data-tab="tab2" id="tab2"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=fundachivedDESC">모금액 많은 순</a></li>
+     <li data-tab="tab1" id="tab1"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=fundachivedDESC">모금액 많은 순</a></li>
+     <li data-tab="tab2" id="tab2"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=buycountDESC">참여 많은 순</a></li>
      <li data-tab="tab3" id="tab3"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=edateASC">곧 끝나는 순</a></li>
      <li data-tab="tab4" id="tab4"><a href="searchProjectList.do?s_type=${s_type}&s_category=${s_category}&s_keyword=${s_keyword}&s_complete=${s_complete}&s_condition=${s_condition}&doc_title=${doc_title}&more_s_keyword=${more_s_keyword}&s_sort=regdateDESC">최신 등록된 순</a></li>
     </ul>
@@ -822,9 +599,9 @@ $(document).ready(function() {
 	
 	if(current_sort == null){
 		
-	} else if(current_sort == 'buycountDESC'){
-		$('#tab1').addClass('current');
 	} else if(current_sort == 'fundachivedDESC'){
+		$('#tab1').addClass('current');
+	} else if(current_sort == 'buycountDESC'){
 		$('#tab2').addClass('current');
 	} else if(current_sort == 'edateASC'){
 		$('#tab3').addClass('current');

@@ -153,16 +153,16 @@
 				</thead>
 				<tbody class="funTbody">
 			 	<c:forEach items="${participant_List }" var="part_Dto" varStatus="i">
-					<tr class="check_tr">
+					<tr>
 						<td class="column1 c">
 							<c:if test="${part_Dto.isComplete_success()}">
 								<input type="checkbox" name="check_finish" value="${part_Dto.seq}">
 							</c:if>
 						</td>
-						<td class="column2 c">${part_Dto.id}</td><!-- 후원자 -->
-						<td class="column3 c">${part_Dto.getDateKr()}</td><!-- 후원일자 -->
-						<td class="column4 c"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/>원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/> * ${part_Dto.count })</td>
-						<td class="column5 c">${part_Dto.getStatusKr()} <!-- 상태 -->
+						<td class="column2 c check_td">${part_Dto.id}</td><!-- 후원자 -->
+						<td class="column3 c check_td">${part_Dto.getDateKr()}</td><!-- 후원일자 -->
+						<td class="column4 c check_td"><fmt:formatNumber value="${part_Dto.price * part_Dto.count}" type="number"/>원 (<fmt:formatNumber value="${part_Dto.price}" type="number"/> * ${part_Dto.count })</td>
+						<td class="column5 c check_td">${part_Dto.getStatusKr()} <!-- 상태 -->
 						<c:if test="${part_Dto.score ne 0}">
 							<br>
 							<c:forEach begin="1" end="5" step="1" var="i">
@@ -204,7 +204,7 @@
 <script>
 //전체선택 체크박스 클릭
 $(document).ready(function () {
-	$("#check_All").click(function(){
+	$(document).on("click","#check_All",function(){
 		//만약 전체 선택 체크박스가 체크된상태일경우
 		if($("#check_All").prop("checked")) {
 			//해당화면에 전체 checkbox들을 체크해준다
@@ -219,12 +219,12 @@ $(document).ready(function () {
 	
 	
 	// 그 줄 선택시 체크박스 되게 하려고.... 잠시 보류
-	$(document).on("click", ".check_tr", function () {
+	$(document).on("click", ".check_td", function () {
 		//alert("야    호" + $(this).children().children("input[name='check_finish']").val());
-		if($(this).children().children("input[name='check_finish']").prop("checked")){
-			$(this).children().children("input[name='check_finish']").prop("checked",false);
+		if($(this).parents().children().children("input[name='check_finish']").prop("checked")){
+			$(this).parents().children().children("input[name='check_finish']").prop("checked",false);
 		}else{
-			$(this).children().children("input[name='check_finish']").prop("checked",true);
+			$(this).parents().children().children("input[name='check_finish']").prop("checked",true);
 		}
 	});
 	

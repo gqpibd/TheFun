@@ -258,12 +258,12 @@ public class BuyController {
 		
 		model.addAttribute("participant_List", participant_List);
 		
-		if(participant_List !=null) {
-			for (int i = 0; i < participant_List.size(); i++) {
-				BuyDto dto = participant_List.get(i);
-				logger.info(" 찾아진 list : " + dto.toString());
-			}
-		}
+//		if(participant_List !=null) {
+//			for (int i = 0; i < participant_List.size(); i++) {
+//				BuyDto dto = participant_List.get(i);
+//				logger.info(" 찾아진 list : " + dto.toString());
+//			}
+//		}
 		
 		
 		int totalRecordCount = buyService.getParticipantCount(partiParam);
