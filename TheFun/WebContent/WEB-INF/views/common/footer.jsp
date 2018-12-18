@@ -8,7 +8,7 @@
 
 .footer:hover{
 	color:black;
-}
+} 
 </style>
     
     <div style="margin-top:5%;">
