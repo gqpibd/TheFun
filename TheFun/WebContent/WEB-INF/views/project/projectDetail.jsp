@@ -541,7 +541,7 @@
 	</div>
 <script type="text/javascript">
 
-/* 옵션select 생성관련 코드 */
+/* 옵션select 생성관련 코드 */ 
  var opArr = new Array();
  <c:forEach items='${optionList}' var = 'op' >
  	var Ojson = new Object ();
