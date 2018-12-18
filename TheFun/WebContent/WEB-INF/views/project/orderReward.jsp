@@ -296,7 +296,7 @@
 			<p>${selectOptions[vs.index].title}
 				<font size="2px;" color="#656565">
 					<!-- -1이 아닐 경우만 재고 출력. -1은 재고 무제한 -->
-					<c:if test="${selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne -1}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
+					<c:if test="${selectOptions[vs.index].stock ne -1 and selectOptions[vs.index].stock-selectOptions[vs.index].buycount ne 0}">(${selectOptions[vs.index].stock-selectOptions[vs.index].buycount }개 남음)</c:if>
 				</font>
 			</p>
 		</td>
@@ -414,10 +414,10 @@
      	<tr> -->
      		<td class="profile">
      		<c:if test="${empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray" placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)">
+     			<input name="phone" id="deliPhone" class="liteGray" placeholder="등록된 번호가 없습니다." style="padding: 5px;" maxlength="13" onkeyup="autoHyphen(this)" maxlength="13">
      		</c:if>
      		<c:if test="${not empty login.phone}">
-     			<input name="phone" id="deliPhone" class="liteGray" value="${login.phone}" style="padding: 5px;"onkeyup="autoHyphen(this)">
+     			<input name="phone" id="deliPhone" class="liteGray" value="${login.phone}" style="padding: 5px;" onkeyup="autoHyphen(this)" maxlength="13">
      		</c:if>
      		</td>
      	</tr>
