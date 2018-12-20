@@ -241,7 +241,7 @@ $(document).ready(function() {
         	<table class="card-text" style="width: 100%">
 				<tr>
 					<td>
-						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',30)" onblur="checkTitle()">
+						<input type="text" class="form-control" placeholder="제목을 입력해 주세요" id="title" name="title" size="100%" onkeyup="checkLength(this,'#titleLen',40)" onblur="checkTitle()">
 					</td>
 				</tr>
 				<tr>
@@ -810,7 +810,7 @@ function optionChange( me ) {
 	$(".changedOption").show();
 	
 	var num = me.options[me.selectedIndex].value;
-	alert(num + "개");
+	//alert(num + "개");
 	
 	for(i=1; i <= 10; i++){		// 초기화(일단 다 숨기고)
 		$("#_option" + (i+10)).val("");
