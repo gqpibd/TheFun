@@ -1,7 +1,5 @@
 package donzo.thefun.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import donzo.thefun.model.BasketDto;
-import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.MemberDto;
 import donzo.thefun.model.OptionDto;
 import donzo.thefun.service.BasketService;
@@ -102,7 +99,7 @@ public class BasketController {
 		return "redirect:/myBasket.do";
 	}
 	
-	// 장바구니 업데이트
+	// 장바구니 업데이트(장바구니 페이지에서 수량 + - 할때마다 ajax로 수시로 반영.)
 	@RequestMapping(value="updateBasket.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateBasket(HttpServletRequest req, BasketDto basketDto) throws Exception{
 		logger.info("BuyController updateBasket 들어옴 " + new Date());

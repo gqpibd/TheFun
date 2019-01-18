@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import donzo.thefun.dao.OptionDao;
-import donzo.thefun.model.BuyDto;
 import donzo.thefun.model.OptionDto;
-import donzo.thefun.model.ProjectDto;
 
 @Repository
 public class OptionDaoImpl implements OptionDao {

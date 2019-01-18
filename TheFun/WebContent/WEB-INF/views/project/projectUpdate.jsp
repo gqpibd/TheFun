@@ -849,7 +849,7 @@ function optionChange( me ) {
 }
 // 취소 버튼 눌렀을 때
 $("#btn_calcel").click(function () {
-	location.href="mySchedule.do?id=${login.id}";
+	location.href="mySchedule.do";
 });
 
 

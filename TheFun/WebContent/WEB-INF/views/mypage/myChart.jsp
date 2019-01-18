@@ -731,7 +731,7 @@ $(document).ready(function () {
 <!-- 콘텐츠를 전부 중간맞춤하기 위한 가장 외부의 div -->
 <div style="width: 80%; margin: 0 auto;">
 
-<!-- 통계종료 선택하는 드랍다운 버튼 -->
+<!-- 통계종류 선택하는 드랍다운 버튼 -->
 <div class="dropdown" align="right" style="margin-top: 5em;">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 16%">
     펀딩타입 분포도
